@@ -1,9 +1,5 @@
 import type { INodePoint } from '@yozora/character'
-import {
-  AsciiCodePoint,
-  VirtualCodePoint,
-  isWhitespaceCharacter,
-} from '@yozora/character'
+import { AsciiCodePoint, VirtualCodePoint, isWhitespaceCharacter } from '@yozora/character'
 
 /**
  * Try to match a footnote label.

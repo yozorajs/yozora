@@ -13,10 +13,7 @@ import type {
   ITokenizerMatchBlockHook,
   ITokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
-import {
-  TokenizerPriority,
-  mergeContentLinesFaithfully,
-} from '@yozora/core-tokenizer'
+import { TokenizerPriority, mergeContentLinesFaithfully } from '@yozora/core-tokenizer'
 import FencedBlockTokenizer from '@yozora/tokenizer-fenced-block'
 import type { INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
@@ -70,9 +67,7 @@ export class MathTokenizer
    * @see FencedBlockTokenizer
    * @returns
    */
-  public override eatOpener(
-    line: Readonly<IPhrasingContentLine>,
-  ): IResultOfEatOpener<T, IToken> {
+  public override eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
     const result = super.eatOpener(line)
     if (result == null) return null
 

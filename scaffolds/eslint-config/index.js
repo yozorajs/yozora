@@ -16,12 +16,7 @@ module.exports = {
     },
     {
       files: ['**/__test__/*.spec.ts'],
-      extends: [
-        '@guanghechen',
-        '@guanghechen/ts',
-        'plugin:jest/recommended',
-        'prettier',
-      ],
+      extends: ['@guanghechen', '@guanghechen/ts', 'plugin:jest/recommended', 'prettier'],
       rules: {
         '@typescript-eslint/consistent-type-assertions': 0,
         'import/no-extraneous-dependencies': 0,

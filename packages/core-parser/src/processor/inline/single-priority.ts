@@ -1,12 +1,5 @@
-import type {
-  IYastInlineToken,
-  IYastTokenDelimiter,
-} from '@yozora/core-tokenizer'
-import type {
-  IDelimiterItem,
-  IDelimiterProcessor,
-  IDelimiterProcessorHook,
-} from './types'
+import type { IYastInlineToken, IYastTokenDelimiter } from '@yozora/core-tokenizer'
+import type { IDelimiterItem, IDelimiterProcessor, IDelimiterProcessorHook } from './types'
 
 /**
  * Create a processor for processing delimiters with same priority.
@@ -22,10 +15,7 @@ export function createSinglePriorityDelimiterProcessor(): IDelimiterProcessor {
    * @param hook
    * @param delimiter
    */
-  const push = (
-    hook: IDelimiterProcessorHook,
-    delimiter: IYastTokenDelimiter,
-  ): void => {
+  const push = (hook: IDelimiterProcessorHook, delimiter: IYastTokenDelimiter): void => {
     delimiterStack.push({
       hook,
       delimiter,
@@ -50,11 +40,7 @@ export function createSinglePriorityDelimiterProcessor(): IDelimiterProcessor {
       item = delimiterStack[i]
       if (item.inactive || item.hook !== hook) continue
       const openerDelimiter = item.delimiter
-      const result = hook.isDelimiterPair(
-        openerDelimiter,
-        closerDelimiter,
-        higherPriorityTokens,
-      )
+      const result = hook.isDelimiterPair(openerDelimiter, closerDelimiter, higherPriorityTokens)
       if (result.paired) return openerDelimiter
       if (!result.closer) return null
     }
@@ -85,9 +71,7 @@ export function createSinglePriorityDelimiterProcessor(): IDelimiterProcessor {
 
       const openerTokenStackIndex = item.tokenStackIndex
       if (openerTokenStackIndex < tokenStack.length) {
-        internalTokens = tokenStack
-          .splice(openerTokenStackIndex)
-          .concat(internalTokens)
+        internalTokens = tokenStack.splice(openerTokenStackIndex).concat(internalTokens)
       }
 
       remainOpenerDelimiter = item.delimiter
@@ -162,10 +146,7 @@ export function createSinglePriorityDelimiterProcessor(): IDelimiterProcessor {
         if (remainOpenerDelimiter != null) push(hook, remainOpenerDelimiter)
       }
 
-      if (
-        remainCloserDelimiter == null ||
-        remainCloserDelimiter.type === 'full'
-      ) {
+      if (remainCloserDelimiter == null || remainCloserDelimiter.type === 'full') {
         break
       }
     }
@@ -175,10 +156,7 @@ export function createSinglePriorityDelimiterProcessor(): IDelimiterProcessor {
     if (remainCloserDelimiter == null) return null
 
     // Resolve 'full' / 'closer' type delimiter.
-    if (
-      remainCloserDelimiter.type === 'full' ||
-      remainCloserDelimiter.type === 'closer'
-    ) {
+    if (remainCloserDelimiter.type === 'full' || remainCloserDelimiter.type === 'closer') {
       const tokens = hook.processSingleDelimiter(remainCloserDelimiter)
       for (const token of tokens) {
         token._tokenizer = hook.name
@@ -189,10 +167,7 @@ export function createSinglePriorityDelimiterProcessor(): IDelimiterProcessor {
     return remainCloserDelimiter
   }
 
-  const process = (
-    hook: IDelimiterProcessorHook,
-    delimiter: IYastTokenDelimiter,
-  ): void => {
+  const process = (hook: IDelimiterProcessorHook, delimiter: IYastTokenDelimiter): void => {
     for (; htIndex < higherPriorityTokens.length; ++htIndex) {
       const token = higherPriorityTokens[htIndex]
       if (token.startIndex >= delimiter.endIndex) break
@@ -225,9 +200,7 @@ export function createSinglePriorityDelimiterProcessor(): IDelimiterProcessor {
         break
       }
       default:
-        throw new TypeError(
-          `Unexpected delimiter type(${delimiter.type}) from ${hook.name}.`,
-        )
+        throw new TypeError(`Unexpected delimiter type(${delimiter.type}) from ${hook.name}.`)
     }
   }
 
@@ -253,9 +226,7 @@ export function createSinglePriorityDelimiterProcessor(): IDelimiterProcessor {
     return result
   }
 
-  const reset = (
-    _higherPriorityTokens: ReadonlyArray<IYastInlineToken>,
-  ): void => {
+  const reset = (_higherPriorityTokens: ReadonlyArray<IYastInlineToken>): void => {
     higherPriorityTokens.length = _higherPriorityTokens.length
     for (let i = 0; i < _higherPriorityTokens.length; ++i) {
       higherPriorityTokens[i] = _higherPriorityTokens[i]
@@ -280,10 +251,7 @@ export function createSinglePriorityDelimiterProcessor(): IDelimiterProcessor {
  * @param delimiterStack
  * @param startStackIndex
  */
-export function cutStaleBranch(
-  delimiterStack: IDelimiterItem[],
-  startStackIndex: number,
-): void {
+export function cutStaleBranch(delimiterStack: IDelimiterItem[], startStackIndex: number): void {
   let top = startStackIndex - 1
   for (; top >= 0; --top) {
     const item = delimiterStack[top]

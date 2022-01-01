@@ -35,20 +35,14 @@ export function eatHtmlInlineClosingDelimiter(
   endIndex: number,
 ): IHtmlInlineClosingDelimiter | null {
   let i = startIndex
-  if (i + 3 >= endIndex || nodePoints[i + 1].codePoint !== AsciiCodePoint.SLASH)
-    return null
+  if (i + 3 >= endIndex || nodePoints[i + 1].codePoint !== AsciiCodePoint.SLASH) return null
 
   const tagNameStartIndex = i + 2
-  const tagNameEndIndex = eatHTMLTagName(
-    nodePoints,
-    tagNameStartIndex,
-    endIndex,
-  )
+  const tagNameEndIndex = eatHTMLTagName(nodePoints, tagNameStartIndex, endIndex)
   if (tagNameEndIndex == null) return null
 
   i = eatOptionalWhitespaces(nodePoints, tagNameEndIndex, endIndex)
-  if (i >= endIndex || nodePoints[i].codePoint !== AsciiCodePoint.CLOSE_ANGLE)
-    return null
+  if (i >= endIndex || nodePoints[i].codePoint !== AsciiCodePoint.CLOSE_ANGLE) return null
 
   const delimiter: IHtmlInlineClosingDelimiter = {
     type: 'full',

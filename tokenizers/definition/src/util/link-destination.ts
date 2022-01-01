@@ -63,13 +63,8 @@ export function eatAndCollectLinkDestination(
    * Although link destination may span multiple lines,
    * they may not contain a blank line.
    */
-  const firstNonWhitespaceIndex = eatOptionalWhitespaces(
-    nodePoints,
-    i,
-    endIndex,
-  )
-  if (firstNonWhitespaceIndex >= endIndex)
-    return { nextIndex: -1, state: state }
+  const firstNonWhitespaceIndex = eatOptionalWhitespaces(nodePoints, i, endIndex)
+  if (firstNonWhitespaceIndex >= endIndex) return { nextIndex: -1, state: state }
 
   if (state.nodePoints.length <= 0) {
     i = firstNonWhitespaceIndex
@@ -149,10 +144,7 @@ export function eatAndCollectLinkDestination(
         }
         break
       default:
-        if (
-          isWhitespaceCharacter(p.codePoint) ||
-          isAsciiControlCharacter(p.codePoint)
-        ) {
+        if (isWhitespaceCharacter(p.codePoint) || isAsciiControlCharacter(p.codePoint)) {
           // eslint-disable-next-line no-param-reassign
           state.saturated = true
           return { nextIndex: i, state: state }

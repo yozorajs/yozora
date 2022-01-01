@@ -93,10 +93,7 @@ export class AutolinkTokenizer
         continue
       }
 
-      if (
-        nextIndex < endIndex &&
-        nodePoints[nextIndex].codePoint === AsciiCodePoint.CLOSE_ANGLE
-      ) {
+      if (nextIndex < endIndex && nodePoints[nextIndex].codePoint === AsciiCodePoint.CLOSE_ANGLE) {
         return {
           type: 'full',
           startIndex: i,
@@ -122,11 +119,7 @@ export class AutolinkTokenizer
       startIndex: delimiter.startIndex,
       endIndex: delimiter.endIndex,
       contentType: delimiter.contentType,
-      children: api.resolveFallbackTokens(
-        [],
-        delimiter.startIndex + 1,
-        delimiter.endIndex - 1,
-      ),
+      children: api.resolveFallbackTokens([], delimiter.startIndex + 1, delimiter.endIndex - 1),
     }
     return [token]
   }
@@ -143,11 +136,7 @@ export class AutolinkTokenizer
     const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
 
     // Backslash-escapes do not work inside autolink.
-    let url = calcStringFromNodePoints(
-      nodePoints,
-      token.startIndex + 1,
-      token.endIndex - 1,
-    )
+    let url = calcStringFromNodePoints(nodePoints, token.startIndex + 1, token.endIndex - 1)
 
     // Add 'mailto:' prefix to email address type autolink.
     if (token.contentType === 'email') {

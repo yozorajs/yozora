@@ -159,11 +159,7 @@ export class LinkReferenceTokenizer
 
           for (i = result1.nextIndex; i < endIndex; ) {
             if (nodePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET) break
-            const { labelAndIdentifier, nextIndex } = eatLinkLabel(
-              nodePoints,
-              i,
-              endIndex,
-            )
+            const { labelAndIdentifier, nextIndex } = eatLinkLabel(nodePoints, i, endIndex)
 
             // It's something like '[identifier][' or '[identifier1][identifier2]...['
             if (nextIndex === -1) {
@@ -190,10 +186,7 @@ export class LinkReferenceTokenizer
           return delimiter
         }
         case AsciiCodePoint.CLOSE_BRACKET: {
-          if (
-            i + 1 >= endIndex ||
-            nodePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_BRACKET
-          ) {
+          if (i + 1 >= endIndex || nodePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_BRACKET) {
             break
           }
 
@@ -232,11 +225,7 @@ export class LinkReferenceTokenizer
 
           for (i = result1.nextIndex; i < endIndex; ) {
             if (nodePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET) break
-            const { labelAndIdentifier, nextIndex } = eatLinkLabel(
-              nodePoints,
-              i,
-              endIndex,
-            )
+            const { labelAndIdentifier, nextIndex } = eatLinkLabel(nodePoints, i, endIndex)
 
             // It's something like '][identifier][' or '][identifier1][identifier2]...['
             if (nextIndex === -1) {
@@ -282,8 +271,7 @@ export class LinkReferenceTokenizer
      * @see https://github.github.com/gfm/#example-540
      * @see https://github.github.com/gfm/#example-541
      */
-    const hasInternalLinkToken: boolean =
-      internalTokens.find(isLinkToken) != null
+    const hasInternalLinkToken: boolean = internalTokens.find(isLinkToken) != null
     if (hasInternalLinkToken) {
       return { paired: false, opener: false, closer: false }
     }
@@ -383,8 +371,7 @@ export class LinkReferenceTokenizer
       let bracket: ILinkReferenceDelimiterBracket | null = null
       for (; bracketIndex < brackets.length; ++bracketIndex) {
         bracket = brackets[bracketIndex]
-        if (bracket.identifier != null && api.hasDefinition(bracket.identifier))
-          break
+        if (bracket.identifier != null && api.hasDefinition(bracket.identifier)) break
       }
 
       if (bracket == null || bracketIndex >= brackets.length) break
@@ -399,11 +386,7 @@ export class LinkReferenceTokenizer
           referenceType: 'full',
           label: bracket.label!,
           identifier: bracket.identifier!,
-          children: api.resolveInternalTokens(
-            [],
-            bracket0.startIndex + 1,
-            bracket0.endIndex - 1,
-          ),
+          children: api.resolveInternalTokens([], bracket0.startIndex + 1, bracket0.endIndex - 1),
         })
         lastBracketIndex = bracketIndex
         continue
@@ -418,20 +401,13 @@ export class LinkReferenceTokenizer
           referenceType: 'shortcut',
           label: bracket.label!,
           identifier: bracket.identifier!,
-          children: api.resolveInternalTokens(
-            [],
-            bracket.startIndex + 1,
-            bracket.endIndex - 1,
-          ),
+          children: api.resolveInternalTokens([], bracket.startIndex + 1, bracket.endIndex - 1),
         })
         break
       }
 
       // collapsed
-      if (
-        bracketIndex + 1 < brackets.length &&
-        brackets[bracketIndex + 1].identifier == null
-      ) {
+      if (bracketIndex + 1 < brackets.length && brackets[bracketIndex + 1].identifier == null) {
         const bracket1 = brackets[bracketIndex + 1]
         tokens.push({
           nodeType: LinkReferenceType,
@@ -440,11 +416,7 @@ export class LinkReferenceTokenizer
           referenceType: 'collapsed',
           label: bracket.label!,
           identifier: bracket.identifier!,
-          children: api.resolveInternalTokens(
-            [],
-            bracket.startIndex + 1,
-            bracket.endIndex - 1,
-          ),
+          children: api.resolveInternalTokens([], bracket.startIndex + 1, bracket.endIndex - 1),
         })
         break
       }

@@ -27,23 +27,13 @@ describe('util', function () {
   })
 
   test('regex3', function () {
-    expect(
-      regex3.test(`import Parser, { a, b as c } from '@yozora/parser'`),
-    ).toBe(true)
-    expect(
-      regex3.test(`import Parser, { a as c, b as d, e } from "@yozora/parser"`),
-    ).toBe(true)
-    expect(
-      regex3.test(`import Parser, { a, b, c } from "@yozora/parser"`),
-    ).toBe(true)
+    expect(regex3.test(`import Parser, { a, b as c } from '@yozora/parser'`)).toBe(true)
+    expect(regex3.test(`import Parser, { a as c, b as d, e } from "@yozora/parser"`)).toBe(true)
+    expect(regex3.test(`import Parser, { a, b, c } from "@yozora/parser"`)).toBe(true)
     expect(regex3.test(`import { a, b as c } from '@yozora/parser'`)).toBe(true)
-    expect(
-      regex3.test(`import { a as c, b as d, e } from "@yozora/parser"`),
-    ).toBe(true)
+    expect(regex3.test(`import { a as c, b as d, e } from "@yozora/parser"`)).toBe(true)
     expect(regex3.test(`import { a, b, c } from "@yozora/parser"`)).toBe(true)
-    expect(
-      regex3.test(`import { a, b, c }, Parser from "@yozora/parser"`),
-    ).toBe(false)
+    expect(regex3.test(`import { a, b, c }, Parser from "@yozora/parser"`)).toBe(false)
     expect(regex3.test(`import Parser from '@yozora/parser"`)).toBe(false)
     expect(regex3.test(`import Parser from "@yozora/parser'`)).toBe(false)
   })

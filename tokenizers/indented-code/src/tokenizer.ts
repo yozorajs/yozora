@@ -1,10 +1,6 @@
 import { CodeType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
-import {
-  AsciiCodePoint,
-  VirtualCodePoint,
-  calcStringFromNodePoints,
-} from '@yozora/character'
+import { AsciiCodePoint, VirtualCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
   IPhrasingContentLine,
   IResultOfEatContinuationText,
@@ -56,9 +52,7 @@ export class IndentedCodeTokenizer
    * @override
    * @see ITokenizerMatchBlockHook
    */
-  public eatOpener(
-    line: Readonly<IPhrasingContentLine>,
-  ): IResultOfEatOpener<T, IToken> {
+  public eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
     if (line.countOfPrecedeSpaces < 4) return null
     const { nodePoints, startIndex, firstNonWhitespaceIndex, endIndex } = line
 
@@ -93,8 +87,7 @@ export class IndentedCodeTokenizer
           startIndex: firstIndex,
           endIndex,
           firstNonWhitespaceIndex,
-          countOfPrecedeSpaces:
-            line.countOfPrecedeSpaces - (firstIndex - startIndex),
+          countOfPrecedeSpaces: line.countOfPrecedeSpaces - (firstIndex - startIndex),
         },
       ],
     }
@@ -109,13 +102,7 @@ export class IndentedCodeTokenizer
     line: Readonly<IPhrasingContentLine>,
     token: IToken,
   ): IResultOfEatContinuationText {
-    const {
-      nodePoints,
-      startIndex,
-      endIndex,
-      firstNonWhitespaceIndex,
-      countOfPrecedeSpaces,
-    } = line
+    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex, countOfPrecedeSpaces } = line
 
     if (countOfPrecedeSpaces < 4 && firstNonWhitespaceIndex < endIndex)
       return { status: 'notMatched' }
@@ -158,11 +145,7 @@ export class IndentedCodeTokenizer
       if (line.firstNonWhitespaceIndex < line.endIndex) break
     }
 
-    const contents: INodePoint[] = mergeContentLinesFaithfully(
-      lines,
-      startLineIndex,
-      endLineIndex,
-    )
+    const contents: INodePoint[] = mergeContentLinesFaithfully(lines, startLineIndex, endLineIndex)
     const node: INode = {
       type: CodeType,
       value: calcStringFromNodePoints(contents),

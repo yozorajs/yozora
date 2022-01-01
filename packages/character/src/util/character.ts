@@ -22,14 +22,13 @@ import { collectCodePointsFromEnum, createCodePointSearcher } from './searcher'
  * line tabulation (U+000B), form feed (U+000C), or carriage return (U+000D)
  * @see https://github.github.com/gfm/#whitespace-character
  */
-export const [isWhitespaceCharacter, whitespaceCharacters] =
-  createCodePointSearcher([
-    AsciiCodePoint.VT,
-    AsciiCodePoint.FF,
-    AsciiCodePoint.SPACE,
-    VirtualCodePoint.SPACE,
-    VirtualCodePoint.LINE_END,
-  ])
+export const [isWhitespaceCharacter, whitespaceCharacters] = createCodePointSearcher([
+  AsciiCodePoint.VT,
+  AsciiCodePoint.FF,
+  AsciiCodePoint.SPACE,
+  VirtualCodePoint.SPACE,
+  VirtualCodePoint.LINE_END,
+])
 
 /**
  * Determine if a character is a space
@@ -39,9 +38,7 @@ export const [isWhitespaceCharacter, whitespaceCharacters] =
  */
 export const spaceCharacters = [AsciiCodePoint.SPACE, VirtualCodePoint.SPACE]
 export const isSpaceCharacter = (codePoint: ICodePoint): boolean => {
-  return (
-    codePoint === AsciiCodePoint.SPACE || codePoint === VirtualCodePoint.SPACE
-  )
+  return codePoint === AsciiCodePoint.SPACE || codePoint === VirtualCodePoint.SPACE
 }
 
 /**
@@ -59,17 +56,16 @@ export const isLineEnding = (codePoint: ICodePoint): boolean => {
  * general Unicode categories Pc, Pd, Pe, Pf, Pi, Po, or Ps.
  * @see https://github.github.com/gfm/#punctuation-character
  */
-export const [isPunctuationCharacter, punctuationCharacters] =
-  createCodePointSearcher([
-    ...asciiPunctuationCharacters,
-    ...collectCodePointsFromEnum(UnicodePcCodePoint),
-    ...collectCodePointsFromEnum(UnicodePdCodePoint),
-    ...collectCodePointsFromEnum(UnicodePeCodePoint),
-    ...collectCodePointsFromEnum(UnicodePfCodePoint),
-    ...collectCodePointsFromEnum(UnicodePiCodePoint),
-    ...collectCodePointsFromEnum(UnicodePoCodePoint),
-    ...collectCodePointsFromEnum(UnicodePsCodePoint),
-  ])
+export const [isPunctuationCharacter, punctuationCharacters] = createCodePointSearcher([
+  ...asciiPunctuationCharacters,
+  ...collectCodePointsFromEnum(UnicodePcCodePoint),
+  ...collectCodePointsFromEnum(UnicodePdCodePoint),
+  ...collectCodePointsFromEnum(UnicodePeCodePoint),
+  ...collectCodePointsFromEnum(UnicodePfCodePoint),
+  ...collectCodePointsFromEnum(UnicodePiCodePoint),
+  ...collectCodePointsFromEnum(UnicodePoCodePoint),
+  ...collectCodePointsFromEnum(UnicodePsCodePoint),
+])
 
 /**
  * Determine if a character is a Control Character
@@ -82,5 +78,4 @@ export const isControlCharacter = isAsciiControlCharacter
  * @see https://github.github.com/gfm/#example-345
  * @see https://github.github.com/gfm/#example-346
  */
-export const isSpaceLike = (c: ICodePoint): boolean =>
-  isSpaceCharacter(c) || isLineEnding(c)
+export const isSpaceLike = (c: ICodePoint): boolean => isSpaceCharacter(c) || isLineEnding(c)

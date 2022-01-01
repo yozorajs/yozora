@@ -23,8 +23,7 @@ export function* createNodePointGenerator(
    * INodePoint and subsequent processing of IPhrasingContentLine to degrade, so
    * preprocessing of input content is necessary.
    */
-  const contents =
-    typeof literalStrings === 'string' ? [literalStrings] : literalStrings
+  const contents = typeof literalStrings === 'string' ? [literalStrings] : literalStrings
 
   for (const content of contents) {
     // Get code points.
@@ -135,11 +134,7 @@ export function calcStringFromNodePoints(
 ): string {
   if (trim) {
     // eslint-disable-next-line no-param-reassign
-    ;[startIndex, endIndex] = calcTrimBoundaryOfCodePoints(
-      nodePoints,
-      startIndex,
-      endIndex,
-    )
+    ;[startIndex, endIndex] = calcTrimBoundaryOfCodePoints(nodePoints, startIndex, endIndex)
   }
 
   let result = ''
@@ -187,11 +182,7 @@ export function calcEscapedStringFromNodePoints(
 ): string {
   if (trim) {
     // eslint-disable-next-line no-param-reassign
-    ;[startIndex, endIndex] = calcTrimBoundaryOfCodePoints(
-      nodePoints,
-      startIndex,
-      endIndex,
-    )
+    ;[startIndex, endIndex] = calcTrimBoundaryOfCodePoints(nodePoints, startIndex, endIndex)
   }
 
   let result = ''

@@ -15,10 +15,7 @@ export const uniqueName = '@yozora/tokenizer-link-reference'
 export type T = LinkReferenceType
 export type INode = ILinkReference
 
-export interface IToken
-  extends IPartialYastInlineToken<T>,
-    IYastAssociation,
-    IYastReference {}
+export interface IToken extends IPartialYastInlineToken<T>, IYastAssociation, IYastReference {}
 
 export interface ILinkReferenceDelimiterBracket {
   /**

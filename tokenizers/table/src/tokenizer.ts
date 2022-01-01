@@ -109,9 +109,7 @@ export class TableTokenizer
      */
     let c = nodePoints[firstNonWhitespaceIndex].codePoint
     let cIndex =
-      c === AsciiCodePoint.VERTICAL_SLASH
-        ? firstNonWhitespaceIndex + 1
-        : firstNonWhitespaceIndex
+      c === AsciiCodePoint.VERTICAL_SLASH ? firstNonWhitespaceIndex + 1 : firstNonWhitespaceIndex
     for (; cIndex < endIndex; ) {
       for (; cIndex < endIndex; ++cIndex) {
         c = nodePoints[cIndex].codePoint
@@ -177,11 +175,7 @@ export class TableTokenizer
     let cellCount = 0,
       hasNonWhitespaceBeforePipe = false
     const previousLine = lines[lines.length - 1]
-    for (
-      let pIndex = previousLine.startIndex;
-      pIndex < previousLine.endIndex;
-      ++pIndex
-    ) {
+    for (let pIndex = previousLine.startIndex; pIndex < previousLine.endIndex; ++pIndex) {
       const p = nodePoints[pIndex]
       if (isWhitespaceCharacter(p.codePoint)) continue
 
@@ -207,10 +201,7 @@ export class TableTokenizer
     const token: IToken = {
       nodeType: TableType,
       position: {
-        start: calcStartYastNodePoint(
-          previousLine.nodePoints,
-          previousLine.startIndex,
-        ),
+        start: calcStartYastNodePoint(previousLine.nodePoints, previousLine.startIndex),
         end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
       },
       columns,
@@ -253,10 +244,7 @@ export class TableTokenizer
    * @override
    * @see ITokenizerParseBlockHook
    */
-  public parseBlock(
-    token: Readonly<IToken>,
-    children: IYastNode[],
-  ): IResultOfParse<T, INode> {
+  public parseBlock(token: Readonly<IToken>, children: IYastNode[]): IResultOfParse<T, INode> {
     let node: INode
     switch (token.nodeType) {
       case TableType: {
@@ -293,8 +281,7 @@ export class TableTokenizer
             const p = phrasingContent.contents[i]
             if (p.codePoint === AsciiCodePoint.BACKSLASH && i + 1 < endIndex) {
               const q = phrasingContent.contents[i + 1]
-              if (q.codePoint !== AsciiCodePoint.VERTICAL_SLASH)
-                nextContents.push(p)
+              if (q.codePoint !== AsciiCodePoint.VERTICAL_SLASH) nextContents.push(p)
               nextContents.push(q)
               i += 1
               continue
@@ -335,8 +322,7 @@ export class TableTokenizer
      * Four spaces is too much
      * @see https://github.github.com/gfm/#example-57
      */
-    if (currentLine.firstNonWhitespaceIndex - currentLine.startIndex >= 4)
-      return null
+    if (currentLine.firstNonWhitespaceIndex - currentLine.startIndex >= 4) return null
 
     const columns: ITableColumn[] = []
 
@@ -375,10 +361,7 @@ export class TableTokenizer
 
       // eat right optional colon
       let rightColon = false
-      if (
-        cIndex < currentLine.endIndex &&
-        p.codePoint === AsciiCodePoint.COLON
-      ) {
+      if (cIndex < currentLine.endIndex && p.codePoint === AsciiCodePoint.COLON) {
         rightColon = true
         cIndex += 1
       }
@@ -413,11 +396,7 @@ export class TableTokenizer
      */
     let cellCount = 0,
       hasNonWhitespaceBeforePipe = false
-    for (
-      let pIndex = previousLine.startIndex;
-      pIndex < previousLine.endIndex;
-      ++pIndex
-    ) {
+    for (let pIndex = previousLine.startIndex; pIndex < previousLine.endIndex; ++pIndex) {
       const p = nodePoints[pIndex]
       if (isWhitespaceCharacter(p.codePoint)) continue
 
@@ -511,8 +490,7 @@ export class TableTokenizer
                 startIndex: cellStartIndex,
                 endIndex: cellEndIndex,
                 firstNonWhitespaceIndex: cellFirstNonWhitespaceIndex,
-                countOfPrecedeSpaces:
-                  cellFirstNonWhitespaceIndex - cellStartIndex,
+                countOfPrecedeSpaces: cellFirstNonWhitespaceIndex - cellStartIndex,
               },
             ])
 
@@ -532,16 +510,10 @@ export class TableTokenizer
     }
 
     // Start point of the table-row
-    const startPoint: IYastNodePoint = calcStartYastNodePoint(
-      nodePoints,
-      startIndex,
-    )
+    const startPoint: IYastNodePoint = calcStartYastNodePoint(nodePoints, startIndex)
 
     // End point of the table-row
-    const endPoint: IYastNodePoint = calcEndYastNodePoint(
-      nodePoints,
-      endIndex - 1,
-    )
+    const endPoint: IYastNodePoint = calcEndYastNodePoint(nodePoints, endIndex - 1)
 
     /**
      * The remainder of the table’s rows may vary in the number of cells.

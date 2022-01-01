@@ -24,8 +24,7 @@ export interface IPhrasingContent extends IYastNode<PhrasingContentType> {
 /**
  * Middle token during the whole match and parse phase.
  */
-export interface IPhrasingContentToken
-  extends IYastBlockToken<PhrasingContentType> {
+export interface IPhrasingContentToken extends IYastBlockToken<PhrasingContentType> {
   /**
    * Lines of a IPhrasingContent.
    */

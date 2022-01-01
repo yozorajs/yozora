@@ -8,10 +8,7 @@ export type DefinitionType = typeof DefinitionType
  * @see https://github.com/syntax-tree/mdast#definition
  * @see https://github.github.com/gfm/#link-reference-definitions
  */
-export interface IDefinition
-  extends IYastNode<DefinitionType>,
-    IYastAssociation,
-    IYastResource {}
+export interface IDefinition extends IYastNode<DefinitionType>, IYastAssociation, IYastResource {}
 
 /**
  * Example:

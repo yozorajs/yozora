@@ -1,9 +1,5 @@
 import type { INodeInterval, INodePoint } from '@yozora/character'
-import {
-  AsciiCodePoint,
-  isAsciiUpperLetter,
-  isWhitespaceCharacter,
-} from '@yozora/character'
+import { AsciiCodePoint, isAsciiUpperLetter, isWhitespaceCharacter } from '@yozora/character'
 import type { IYastTokenDelimiter } from '@yozora/core-tokenizer'
 
 export interface IHtmlInlineDeclarationData {
@@ -37,10 +33,7 @@ export function eatHtmlInlineDeclarationDelimiter(
   endIndex: number,
 ): IHtmlInlineDeclarationDelimiter | null {
   let i = startIndex
-  if (
-    i + 4 >= endIndex ||
-    nodePoints[i + 1].codePoint !== AsciiCodePoint.EXCLAMATION_MARK
-  )
+  if (i + 4 >= endIndex || nodePoints[i + 1].codePoint !== AsciiCodePoint.EXCLAMATION_MARK)
     return null
 
   const tagNameStartIndex = i + 2

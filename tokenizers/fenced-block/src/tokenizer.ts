@@ -1,9 +1,6 @@
 import type { YastNodeType } from '@yozora/ast'
 import type { ICodePoint, INodePoint } from '@yozora/character'
-import {
-  calcTrimBoundaryOfCodePoints,
-  isSpaceCharacter,
-} from '@yozora/character'
+import { calcTrimBoundaryOfCodePoints, isSpaceCharacter } from '@yozora/character'
 import type {
   IPhrasingContentLine,
   IResultOfEatAndInterruptPreviousSibling,
@@ -59,9 +56,7 @@ export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
    * @override
    * @see ITokenizerMatchBlockHook
    */
-  public eatOpener(
-    line: Readonly<IPhrasingContentLine>,
-  ): IResultOfEatOpener<T, IToken<T>> {
+  public eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken<T>> {
     /**
      * Four spaces indentation produces an indented code block
      * @see https://github.github.com/gfm/#example-104
@@ -69,19 +64,13 @@ export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
     if (line.countOfPrecedeSpaces >= 4) return null
 
     const { endIndex, firstNonWhitespaceIndex } = line
-    if (firstNonWhitespaceIndex + this.markersRequired - 1 >= endIndex)
-      return null
+    if (firstNonWhitespaceIndex + this.markersRequired - 1 >= endIndex) return null
 
     const { nodePoints, startIndex } = line
     const marker: number = nodePoints[firstNonWhitespaceIndex].codePoint
     if (this.markers.indexOf(marker) < 0) return null
 
-    const i = eatOptionalCharacters(
-      nodePoints,
-      firstNonWhitespaceIndex + 1,
-      endIndex,
-      marker,
-    )
+    const i = eatOptionalCharacters(nodePoints, firstNonWhitespaceIndex + 1, endIndex, marker)
     const countOfMark = i - firstNonWhitespaceIndex
 
     /**
@@ -109,10 +98,7 @@ export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
      * @see https://github.github.com/gfm/#example-115
      * @see https://github.github.com/gfm/#example-116
      */
-    if (
-      this.checkInfoString != null &&
-      !this.checkInfoString(infoString, marker, countOfMark)
-    ) {
+    if (this.checkInfoString != null && !this.checkInfoString(infoString, marker, countOfMark)) {
       return null
     }
 
@@ -157,13 +143,7 @@ export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
     line: Readonly<IPhrasingContentLine>,
     token: IToken<T>,
   ): IResultOfEatContinuationText {
-    const {
-      nodePoints,
-      startIndex,
-      endIndex,
-      firstNonWhitespaceIndex,
-      countOfPrecedeSpaces,
-    } = line
+    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex, countOfPrecedeSpaces } = line
 
     /**
      * Check closing block fence
@@ -182,12 +162,7 @@ export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
      * @see https://github.github.com/gfm/#example-107
      */
     if (countOfPrecedeSpaces < 4 && firstNonWhitespaceIndex < endIndex) {
-      let i = eatOptionalCharacters(
-        nodePoints,
-        firstNonWhitespaceIndex,
-        endIndex,
-        token.marker,
-      )
+      let i = eatOptionalCharacters(nodePoints, firstNonWhitespaceIndex, endIndex, token.marker)
       const markerCount = i - firstNonWhitespaceIndex
 
       /**
@@ -221,11 +196,7 @@ export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
      * indented less than N spaces, all of the indentation is removed, but the
      * line feed should be preserve.
      */
-    const firstIndex = Math.min(
-      startIndex + token.indent,
-      firstNonWhitespaceIndex,
-      endIndex - 1,
-    )
+    const firstIndex = Math.min(startIndex + token.indent, firstNonWhitespaceIndex, endIndex - 1)
     token.lines.push({
       nodePoints,
       startIndex: firstIndex,

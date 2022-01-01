@@ -14,8 +14,7 @@ function fetchUnicodeCharacter(tbody) {
 
     const name = nameText.trim().split(/[\s-]/g).join('_')
     const value = valueText.trim().toLowerCase().replace(/^u\+/i, '0x0')
-    const item =
-      '  /**\n   ' + '* @see ' + url + '\n   */\n  ' + `${name} = ${value},`
+    const item = '  /**\n   ' + '* @see ' + url + '\n   */\n  ' + `${name} = ${value},`
     items.push(item)
   }
   return items.join('\n')

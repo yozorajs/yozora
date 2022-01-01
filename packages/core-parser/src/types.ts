@@ -90,17 +90,13 @@ export interface IParser {
    * Register / Replace a fallback tokenizer on phase processing block structure.
    * @param fallbackTokenizer
    */
-  useBlockFallbackTokenizer(
-    blockFallbackTokenizer: IBlockFallbackTokenizer,
-  ): this
+  useBlockFallbackTokenizer(blockFallbackTokenizer: IBlockFallbackTokenizer): this
 
   /**
    * Register / Replace a fallback tokenizer on phase processing inline structure.
    * @param fallbackTokenizer
    */
-  useInlineFallbackTokenizer(
-    inlineFallbackTokenizer: IInlineFallbackTokenizer,
-  ): this
+  useInlineFallbackTokenizer(inlineFallbackTokenizer: IInlineFallbackTokenizer): this
 
   /**
    * Set default options for `parser()`

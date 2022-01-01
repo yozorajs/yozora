@@ -23,8 +23,7 @@ export interface IYastNode<T extends YastNodeType = YastNodeType> {
  * Nodes containing other nodes.
  * @see https://github.com/syntax-tree/mdast#parent
  */
-export interface IYastParent<T extends YastNodeType = YastNodeType>
-  extends IYastNode<T> {
+export interface IYastParent<T extends YastNodeType = YastNodeType> extends IYastNode<T> {
   /**
    * List representing the children of a node.
    */
@@ -34,8 +33,7 @@ export interface IYastParent<T extends YastNodeType = YastNodeType>
 /**
  * Nodes containing a value.
  */
-export interface IYastLiteral<T extends YastNodeType = YastNodeType>
-  extends IYastNode<T> {
+export interface IYastLiteral<T extends YastNodeType = YastNodeType> extends IYastNode<T> {
   /**
    * Literal value.
    */

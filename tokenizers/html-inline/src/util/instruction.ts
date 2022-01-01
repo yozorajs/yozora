@@ -35,11 +35,7 @@ export function eatHtmlInlineInstructionDelimiter(
   endIndex: number,
 ): IHtmlInlineInstructionDelimiter | null {
   let i = startIndex
-  if (
-    i + 3 >= endIndex ||
-    nodePoints[i + 1].codePoint !== AsciiCodePoint.QUESTION_MARK
-  )
-    return null
+  if (i + 3 >= endIndex || nodePoints[i + 1].codePoint !== AsciiCodePoint.QUESTION_MARK) return null
 
   const si = i + 2
   for (i = si; i < endIndex; ++i) {

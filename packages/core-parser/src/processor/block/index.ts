@@ -10,11 +10,7 @@ import type {
 } from '@yozora/core-tokenizer'
 import { calcEndYastNodePoint } from '@yozora/core-tokenizer'
 import invariant from '@yozora/invariant'
-import type {
-  IYastBlockTokenTree,
-  IYastMatchBlockState,
-  IYastMatchPhaseHook,
-} from '../../types'
+import type { IYastBlockTokenTree, IYastMatchBlockState, IYastMatchPhaseHook } from '../../types'
 
 /**
  * Raw contents processor for generate YastBlockStateTree.
@@ -89,11 +85,7 @@ export function createBlockContentProcessor(
 
     // Reprocess lines.
     const candidateHooks = hooks.filter(h => h != hook)
-    const processor = createBlockContentProcessor(
-      api,
-      candidateHooks,
-      fallbackHook,
-    )
+    const processor = createBlockContentProcessor(api, candidateHooks, fallbackHook)
 
     for (const line of lines) {
       processor.consume(line)
@@ -120,10 +112,7 @@ export function createBlockContentProcessor(
         if (result != null) {
           switch (result.status) {
             case 'closingAndRollback': {
-              const processor = createRollbackProcessor(
-                topState.hook,
-                result.lines,
-              )
+              const processor = createRollbackProcessor(topState.hook, result.lines)
               if (processor == null) break
               const internalRoot = processor.done()
               parent.token.children!.push(...internalRoot.children)
@@ -131,10 +120,7 @@ export function createBlockContentProcessor(
             }
             case 'failedAndRollback': {
               parent.token.children!.pop()
-              const processor = createRollbackProcessor(
-                topState.hook,
-                result.lines,
-              )
+              const processor = createRollbackProcessor(topState.hook, result.lines)
               if (processor == null) break
               const internalRoot = processor.done()
               parent.token.children!.push(...internalRoot.children)
@@ -221,11 +207,7 @@ export function createBlockContentProcessor(
    * Consume simple line.
    */
   const consume = (line: Readonly<IPhrasingContentLine>): void => {
-    const {
-      nodePoints,
-      startIndex: startIndexOfLine,
-      endIndex: endIndexOfLine,
-    } = line
+    const { nodePoints, startIndex: startIndexOfLine, endIndex: endIndexOfLine } = line
     let { firstNonWhitespaceIndex, countOfPrecedeSpaces, startIndex: i } = line
 
     /**
@@ -244,10 +226,7 @@ export function createBlockContentProcessor(
      * @param nextIndex   the next start index.
      * @param shouldRefreshPosition
      */
-    const moveForward = (
-      nextIndex: number,
-      shouldRefreshPosition: boolean,
-    ): void => {
+    const moveForward = (nextIndex: number, shouldRefreshPosition: boolean): void => {
       invariant(
         i <= nextIndex,
         `[DBTContext#moveForward] nextIndex(${nextIndex}) is behind i(${i}).`,
@@ -262,11 +241,7 @@ export function createBlockContentProcessor(
       i = nextIndex
       countOfPrecedeSpaces = 0
       firstNonWhitespaceIndex = nextIndex
-      for (
-        ;
-        firstNonWhitespaceIndex < endIndexOfLine;
-        ++firstNonWhitespaceIndex
-      ) {
+      for (; firstNonWhitespaceIndex < endIndexOfLine; ++firstNonWhitespaceIndex) {
         const c = nodePoints[firstNonWhitespaceIndex].codePoint
         if (isSpaceCharacter(c)) {
           countOfPrecedeSpaces += 1
@@ -281,10 +256,7 @@ export function createBlockContentProcessor(
      * @param hook
      * @param line
      */
-    const consumeNewOpener = (
-      hook: IYastMatchPhaseHook,
-      line: IPhrasingContentLine,
-    ): boolean => {
+    const consumeNewOpener = (hook: IYastMatchPhaseHook, line: IPhrasingContentLine): boolean => {
       const { token: parentToken } = stateStack[currentStackIndex]
       const result = hook.eatOpener(line, parentToken)
       if (result == null) return false
@@ -311,24 +283,15 @@ export function createBlockContentProcessor(
      * @param line
      * @param stackIndex
      */
-    const interruptSibling = (
-      hook: IYastMatchPhaseHook,
-      line: IPhrasingContentLine,
-    ): boolean => {
+    const interruptSibling = (hook: IYastMatchPhaseHook, line: IPhrasingContentLine): boolean => {
       if (hook.eatAndInterruptPreviousSibling == null) return false
 
-      const { hook: siblingHook, token: siblingToken } =
-        stateStack[currentStackIndex]
+      const { hook: siblingHook, token: siblingToken } = stateStack[currentStackIndex]
       const { token: parentToken } = stateStack[currentStackIndex - 1]
       if (hook.priority <= siblingHook.priority) return false
 
       // try `eatAndInterruptPreviousSibling` first
-      const result = hook.eatAndInterruptPreviousSibling(
-        line,
-        siblingToken,
-        parentToken,
-        api,
-      )
+      const result = hook.eatAndInterruptPreviousSibling(line, siblingToken, parentToken, api)
       if (result == null) return false
 
       // Successfully interrupt the previous node.
@@ -375,23 +338,14 @@ export function createBlockContentProcessor(
         const eatingInfo = getEatingInfo()
 
         // Try to interrupt the current token.
-        if (
-          hooks.some(
-            hook => hook !== currentHook && interruptSibling(hook, eatingInfo),
-          )
-        ) {
+        if (hooks.some(hook => hook !== currentHook && interruptSibling(hook, eatingInfo))) {
           break
         }
 
         const result: IResultOfEatContinuationText =
           currentHook.eatContinuationText == null
             ? { status: 'notMatched' }
-            : currentHook.eatContinuationText(
-                eatingInfo,
-                currentStateItem.token,
-                parentToken,
-                api,
-              )
+            : currentHook.eatContinuationText(eatingInfo, currentStateItem.token, parentToken, api)
 
         let finished = false,
           rolledBack = false
@@ -445,9 +399,7 @@ export function createBlockContentProcessor(
           }
           default:
             throw new TypeError(
-              `[eatContinuationText] unexpected status (${
-                (result as any).status
-              }).`,
+              `[eatContinuationText] unexpected status (${(result as any).status}).`,
             )
         }
 
@@ -492,10 +444,7 @@ export function createBlockContentProcessor(
         currentStackIndex = stateStack.length - 1
       }
 
-      while (
-        i < endIndexOfLine &&
-        stateStack[currentStackIndex].hook.isContainingBlock
-      ) {
+      while (i < endIndexOfLine && stateStack[currentStackIndex].hook.isContainingBlock) {
         // Try to eat a new internal block.
         let hasNewOpener = false
         const eatingInfo = getEatingInfo()
@@ -519,20 +468,14 @@ export function createBlockContentProcessor(
      *        token.
      */
     const step3 = (): boolean => {
-      if (i >= endIndexOfLine || currentStackIndex + 1 >= stateStack.length)
-        return false
+      if (i >= endIndexOfLine || currentStackIndex + 1 >= stateStack.length) return false
 
       const { hook, token } = stateStack[stateStack.length - 1]
       if (hook.eatLazyContinuationText == null) return false
 
       const { token: parentToken } = stateStack[stateStack.length - 2]
       const eatingInfo = getEatingInfo()
-      const result = hook.eatLazyContinuationText(
-        eatingInfo,
-        token,
-        parentToken,
-        api,
-      )
+      const result = hook.eatLazyContinuationText(eatingInfo, token, parentToken, api)
       switch (result.status) {
         case 'notMatched': {
           return false
@@ -549,9 +492,7 @@ export function createBlockContentProcessor(
         }
         default:
           throw new TypeError(
-            `[eatLazyContinuationText] unexpected status (${
-              (result as any).status
-            }).`,
+            `[eatLazyContinuationText] unexpected status (${(result as any).status}).`,
           )
       }
     }

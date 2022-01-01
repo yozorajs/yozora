@@ -11,11 +11,7 @@ import type {
   ITokenizerParseInlineHook,
   IYastInlineToken,
 } from '@yozora/core-tokenizer'
-import {
-  BaseInlineTokenizer,
-  TokenizerPriority,
-  eatLinkLabel,
-} from '@yozora/core-tokenizer'
+import { BaseInlineTokenizer, TokenizerPriority, eatLinkLabel } from '@yozora/core-tokenizer'
 import { calcImageAlt } from '@yozora/tokenizer-image'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import type { IDelimiter, INode, IToken, ITokenizerProps, T } from './types'
@@ -86,10 +82,7 @@ export class ImageReferenceTokenizer
           i += 1
           break
         case AsciiCodePoint.EXCLAMATION_MARK: {
-          if (
-            i + 1 >= endIndex ||
-            nodePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_BRACKET
-          ) {
+          if (i + 1 >= endIndex || nodePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_BRACKET) {
             break
           }
 
@@ -108,10 +101,7 @@ export class ImageReferenceTokenizer
             brackets: [],
           }
 
-          if (
-            i + 1 >= endIndex ||
-            nodePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_BRACKET
-          ) {
+          if (i + 1 >= endIndex || nodePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_BRACKET) {
             return delimiter
           }
 

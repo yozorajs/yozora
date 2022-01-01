@@ -45,8 +45,7 @@ export function eatStartCondition7(
     i = eatOptionalWhitespaces(nodePoints, startIndex, endIndex)
   }
 
-  if (i >= endIndex || nodePoints[i].codePoint !== AsciiCodePoint.CLOSE_ANGLE)
-    return null
+  if (i >= endIndex || nodePoints[i].codePoint !== AsciiCodePoint.CLOSE_ANGLE) return null
 
   for (i += 1; i < endIndex; ++i) {
     if (!isWhitespaceCharacter(nodePoints[i].codePoint)) return null

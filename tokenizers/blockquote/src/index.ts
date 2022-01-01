@@ -1,7 +1,4 @@
-export {
-  BlockquoteTokenizer,
-  BlockquoteTokenizer as default,
-} from './tokenizer'
+export { BlockquoteTokenizer, BlockquoteTokenizer as default } from './tokenizer'
 export { uniqueName as BlockquoteTokenizerName } from './types'
 export type {
   IToken as IBlockquoteToken,

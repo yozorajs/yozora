@@ -1,7 +1,4 @@
-import type {
-  IMatchInlinePhaseApi,
-  IResultOfFindDelimiters,
-} from '../types/lifecycle/match-inline'
+import type { IMatchInlinePhaseApi, IResultOfFindDelimiters } from '../types/lifecycle/match-inline'
 import type { IYastTokenDelimiter } from '../types/token'
 import type { ITokenizer } from '../types/tokenizer'
 
@@ -22,9 +19,8 @@ export interface IBaseInlineTokenizerProps {
 /**
  * Base inline tokenizer.
  */
-export abstract class BaseInlineTokenizer<
-  IDelimiter extends IYastTokenDelimiter,
-> implements ITokenizer
+export abstract class BaseInlineTokenizer<IDelimiter extends IYastTokenDelimiter>
+  implements ITokenizer
 {
   public readonly name: string
   public readonly priority: number
@@ -40,9 +36,7 @@ export abstract class BaseInlineTokenizer<
    * @param nodePoints
    * @param api
    */
-  public *findDelimiter(
-    api: Readonly<IMatchInlinePhaseApi>,
-  ): IResultOfFindDelimiters<IDelimiter> {
+  public *findDelimiter(api: Readonly<IMatchInlinePhaseApi>): IResultOfFindDelimiters<IDelimiter> {
     let lastEndIndex = -1
     let delimiter: IDelimiter | null = null
     while (true) {

@@ -1,7 +1,4 @@
-export {
-  FencedBlockTokenizer,
-  FencedBlockTokenizer as default,
-} from './tokenizer'
+export { FencedBlockTokenizer, FencedBlockTokenizer as default } from './tokenizer'
 export { FencedBlockType } from './types'
 export type {
   IToken as IFencedBlockToken,

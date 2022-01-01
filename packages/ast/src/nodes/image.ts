@@ -8,10 +8,7 @@ export type ImageType = typeof ImageType
  * @see https://github.com/syntax-tree/mdast#image
  * @see https://github.github.com/gfm/#images
  */
-export interface IImage
-  extends IYastNode<ImageType>,
-    IYastResource,
-    IYastAlternative {}
+export interface IImage extends IYastNode<ImageType>, IYastResource, IYastAlternative {}
 
 /**
  * Example:

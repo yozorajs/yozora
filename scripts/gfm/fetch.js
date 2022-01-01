@@ -59,9 +59,7 @@ function fetchGFMExamplesInRange(left, right = left) {
 
 function fetchExamplesAll() {
   const exampleEls = document.querySelectorAll('[id^=example]')
-  const result = Array.from(exampleEls).map(exampleEl =>
-    parseGFMExample(exampleEl),
-  )
+  const result = Array.from(exampleEls).map(exampleEl => parseGFMExample(exampleEl))
   return JSON.stringify(result, null, 2)
 }
 

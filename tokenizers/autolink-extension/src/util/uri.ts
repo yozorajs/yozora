@@ -5,10 +5,7 @@ import {
   isPunctuationCharacter,
   isWhitespaceCharacter,
 } from '@yozora/character'
-import type {
-  IResultOfOptionalEater,
-  IResultOfRequiredEater,
-} from '@yozora/core-tokenizer'
+import type { IResultOfOptionalEater, IResultOfRequiredEater } from '@yozora/core-tokenizer'
 import { eatAutolinkSchema } from '@yozora/tokenizer-autolink'
 
 /**
@@ -36,11 +33,7 @@ export function eatExtendedUrl(
     return { valid: false, nextIndex: nextIndex + 1 }
 
   const result = eatValidDomain(nodePoints, nextIndex + 3, endIndex)
-  result.nextIndex = eatOptionalDomainFollows(
-    nodePoints,
-    result.nextIndex,
-    endIndex,
-  )
+  result.nextIndex = eatOptionalDomainFollows(nodePoints, result.nextIndex, endIndex)
   return result
 }
 
@@ -71,11 +64,7 @@ export function eatWWWDomain(
   }
 
   const result = eatValidDomain(nodePoints, nextIndex + 1, endIndex)
-  result.nextIndex = eatOptionalDomainFollows(
-    nodePoints,
-    result.nextIndex,
-    endIndex,
-  )
+  result.nextIndex = eatOptionalDomainFollows(nodePoints, result.nextIndex, endIndex)
   return result
 }
 
@@ -175,8 +164,7 @@ export function eatOptionalDomainFollows(
       const c = nodePoints[i].codePoint
       if (!isAlphanumeric(c)) break
     }
-    if (i >= startIndex && nodePoints[i].codePoint === AsciiCodePoint.AMPERSAND)
-      nextIndex = i - 1
+    if (i >= startIndex && nodePoints[i].codePoint === AsciiCodePoint.AMPERSAND) nextIndex = i - 1
   }
 
   return nextIndex + 1

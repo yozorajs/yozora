@@ -14,9 +14,7 @@
       "@yozora/jest-for-tokenizer": ["./scaffolds/jest-for-tokenizer/src"],
       "@yozora/tokenizer-admonition": ["./tokenizers/admonition/src"],
       "@yozora/tokenizer-autolink": ["./tokenizers/autolink/src"],
-      "@yozora/tokenizer-autolink-extension": [
-        "./tokenizers/autolink-extension/src"
-      ],
+      "@yozora/tokenizer-autolink-extension": ["./tokenizers/autolink-extension/src"],
       "@yozora/tokenizer-blockquote": ["./tokenizers/blockquote/src"],
       "@yozora/tokenizer-break": ["./tokenizers/break/src"],
       "@yozora/tokenizer-definition": ["./tokenizers/definition/src"],
@@ -26,12 +24,8 @@
       "@yozora/tokenizer-fenced-block": ["./tokenizers/fenced-block/src"],
       "@yozora/tokenizer-fenced-code": ["./tokenizers/fenced-code/src"],
       "@yozora/tokenizer-footnote": ["./tokenizers/footnote/src"],
-      "@yozora/tokenizer-footnote-definition": [
-        "./tokenizers/footnote-definition/src"
-      ],
-      "@yozora/tokenizer-footnote-reference": [
-        "./tokenizers/footnote-reference/src"
-      ],
+      "@yozora/tokenizer-footnote-definition": ["./tokenizers/footnote-definition/src"],
+      "@yozora/tokenizer-footnote-reference": ["./tokenizers/footnote-reference/src"],
       "@yozora/tokenizer-heading": ["./tokenizers/heading/src"],
       "@yozora/tokenizer-html-block": ["./tokenizers/html-block/src"],
       "@yozora/tokenizer-html-inline": ["./tokenizers/html-inline/src"],

@@ -12,9 +12,7 @@ export type FootnoteReferenceType = typeof FootnoteReferenceType
  * @see https://github.com/syntax-tree/mdast#imagereference
  * @see https://github.com/syntax-tree/mdast#linkreference
  */
-export interface IFootnoteReference
-  extends IYastNode<FootnoteReferenceType>,
-    IYastAssociation {}
+export interface IFootnoteReference extends IYastNode<FootnoteReferenceType>, IYastAssociation {}
 
 /**
  * Example:

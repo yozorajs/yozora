@@ -56,9 +56,7 @@ export class ParagraphTokenizer
    * @override
    * @see ITokenizerMatchBlockHook
    */
-  public eatOpener(
-    line: Readonly<IPhrasingContentLine>,
-  ): IResultOfEatOpener<T, IToken> {
+  public eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
     const { endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex >= endIndex) return null
 
@@ -129,9 +127,7 @@ export class ParagraphTokenizer
    * @override
    * @see ITokenizerMatchBlockHook
    */
-  public extractPhrasingContentLines(
-    token: Readonly<IToken>,
-  ): ReadonlyArray<IPhrasingContentLine> {
+  public extractPhrasingContentLines(token: Readonly<IToken>): ReadonlyArray<IPhrasingContentLine> {
     return token.lines
   }
 

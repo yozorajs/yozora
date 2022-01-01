@@ -1,11 +1,7 @@
 import type { IYastNode } from '@yozora/ast'
 import { LinkType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
-import {
-  AsciiCodePoint,
-  calcStringFromNodePoints,
-  isWhitespaceCharacter,
-} from '@yozora/character'
+import { AsciiCodePoint, calcStringFromNodePoints, isWhitespaceCharacter } from '@yozora/character'
 import type {
   IMatchInlinePhaseApi,
   IParseInlinePhaseApi,
@@ -146,11 +142,7 @@ export class AutolinkExtensionTokenizer
       startIndex: delimiter.startIndex,
       endIndex: delimiter.endIndex,
       contentType: delimiter.contentType,
-      children: api.resolveFallbackTokens(
-        [],
-        delimiter.startIndex,
-        delimiter.endIndex,
-      ),
+      children: api.resolveFallbackTokens([], delimiter.startIndex, delimiter.endIndex),
     }
     return [token]
   }
@@ -167,11 +159,7 @@ export class AutolinkExtensionTokenizer
     const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
 
     // Backslash-escapes do not work inside autolink.
-    let url = calcStringFromNodePoints(
-      nodePoints,
-      token.startIndex,
-      token.endIndex,
-    )
+    let url = calcStringFromNodePoints(nodePoints, token.startIndex, token.endIndex)
 
     switch (token.contentType) {
       // Add 'mailto:' prefix to email address type autolink.

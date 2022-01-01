@@ -1,9 +1,5 @@
 import type { INodePoint } from '@yozora/character'
-import {
-  AsciiCodePoint,
-  calcStringFromNodePoints,
-  isWhitespaceCharacter,
-} from '@yozora/character'
+import { AsciiCodePoint, calcStringFromNodePoints, isWhitespaceCharacter } from '@yozora/character'
 import { eatHTMLTagName } from '../util/eat-html-tagname'
 
 const includedTags = ['pre', 'script', 'style']
@@ -59,11 +55,7 @@ export function eatEndCondition1(
       nodePoints[i + 1].codePoint === AsciiCodePoint.SLASH
     ) {
       const tagNameStartIndex = i + 2
-      const tagNameEndIndex = eatHTMLTagName(
-        nodePoints,
-        tagNameStartIndex,
-        endIndex,
-      )
+      const tagNameEndIndex = eatHTMLTagName(nodePoints, tagNameStartIndex, endIndex)
       if (
         tagNameEndIndex == null ||
         tagNameEndIndex >= endIndex ||

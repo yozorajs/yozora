@@ -1,10 +1,6 @@
 import type { YastNodeType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
-import type {
-  IPartialYastInlineToken,
-  IYastInlineToken,
-  IYastTokenDelimiter,
-} from '../token'
+import type { IPartialYastInlineToken, IYastInlineToken, IYastTokenDelimiter } from '../token'
 
 /**
  * Api in match-inline phase.
@@ -77,9 +73,7 @@ export interface ITokenizerMatchInlineHook<
    *
    * @param api
    */
-  findDelimiter(
-    api: Readonly<IMatchInlinePhaseApi>,
-  ): IResultOfFindDelimiters<IDelimiter>
+  findDelimiter(api: Readonly<IMatchInlinePhaseApi>): IResultOfFindDelimiters<IDelimiter>
 
   /**
    * Check if the given two delimiters can be combined into a pair.
@@ -134,8 +128,11 @@ export interface ITokenizerMatchInlineHook<
  * Result of eatDelimiters.
  * @see ITokenizerMatchInlineHook
  */
-export type IResultOfFindDelimiters<IDelimiter extends IYastTokenDelimiter> =
-  Iterator<IDelimiter | null, void, [number, number]>
+export type IResultOfFindDelimiters<IDelimiter extends IYastTokenDelimiter> = Iterator<
+  IDelimiter | null,
+  void,
+  [number, number]
+>
 
 /**
  * Result type of ITokenizerMatchInlineHook#isDelimiterPair

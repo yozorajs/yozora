@@ -1,10 +1,6 @@
 import type { IYastNode } from '@yozora/ast'
 import { BlockquoteType } from '@yozora/ast'
-import {
-  AsciiCodePoint,
-  VirtualCodePoint,
-  isSpaceCharacter,
-} from '@yozora/character'
+import { AsciiCodePoint, VirtualCodePoint, isSpaceCharacter } from '@yozora/character'
 import type {
   IPhrasingContentLine,
   IResultOfEatAndInterruptPreviousSibling,
@@ -72,9 +68,7 @@ export class BlockquoteTokenizer
    * @override
    * @see ITokenizerMatchBlockHook
    */
-  public eatOpener(
-    line: Readonly<IPhrasingContentLine>,
-  ): IResultOfEatOpener<T, IToken> {
+  public eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
     /**
      * The '>' characters can be indented 1-3 spaces
      * @see https://github.github.com/gfm/#example-209
@@ -84,8 +78,7 @@ export class BlockquoteTokenizer
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (
       firstNonWhitespaceIndex >= endIndex ||
-      nodePoints[firstNonWhitespaceIndex].codePoint !==
-        AsciiCodePoint.CLOSE_ANGLE
+      nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.CLOSE_ANGLE
     )
       return null
 
@@ -96,20 +89,14 @@ export class BlockquoteTokenizer
      * @see https://github.github.com/gfm/#block-quote-marker
      */
     let nextIndex = firstNonWhitespaceIndex + 1
-    if (
-      nextIndex < endIndex &&
-      isSpaceCharacter(nodePoints[nextIndex].codePoint)
-    ) {
+    if (nextIndex < endIndex && isSpaceCharacter(nodePoints[nextIndex].codePoint)) {
       nextIndex += 1
       /**
        * When the '>' followed by a tab, it is treated as if it were expanded
        * into three spaces.
        * @see https://github.github.com/gfm/#example-6
        */
-      if (
-        nextIndex < endIndex &&
-        nodePoints[nextIndex].codePoint === VirtualCodePoint.SPACE
-      ) {
+      if (nextIndex < endIndex && nodePoints[nextIndex].codePoint === VirtualCodePoint.SPACE) {
         nextIndex += 1
       }
     }
@@ -151,19 +138,12 @@ export class BlockquoteTokenizer
     token: IToken,
     parentToken: Readonly<IYastBlockToken>,
   ): IResultOfEatContinuationText {
-    const {
-      nodePoints,
-      startIndex,
-      endIndex,
-      firstNonWhitespaceIndex,
-      countOfPrecedeSpaces,
-    } = line
+    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex, countOfPrecedeSpaces } = line
 
     if (
       countOfPrecedeSpaces >= 4 ||
       firstNonWhitespaceIndex >= endIndex ||
-      nodePoints[firstNonWhitespaceIndex].codePoint !==
-        AsciiCodePoint.CLOSE_ANGLE
+      nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.CLOSE_ANGLE
     ) {
       /**
        * It is a consequence of the Laziness rule that any number of initial
@@ -188,10 +168,7 @@ export class BlockquoteTokenizer
    * @override
    * @see ITokenizerParseBlockHook
    */
-  public parseBlock(
-    token: Readonly<IToken>,
-    children: IYastNode[],
-  ): IResultOfParse<T, INode> {
+  public parseBlock(token: Readonly<IToken>, children: IYastNode[]): IResultOfParse<T, INode> {
     const node: INode = { type: BlockquoteType, children }
     return node
   }

@@ -60,9 +60,7 @@ export class EcmaImportTokenizer
     })
   }
 
-  public eatOpener(
-    line: Readonly<IPhrasingContentLine>,
-  ): IResultOfEatOpener<T, IToken> {
+  public eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
     /**
      * Four spaces are too much
      * @see https://github.github.com/gfm/#example-180
@@ -128,9 +126,7 @@ export class EcmaImportTokenizer
       }
     }
 
-    return token === null
-      ? null
-      : { token, nextIndex: endIndex, saturated: true }
+    return token === null ? null : { token, nextIndex: endIndex, saturated: true }
   }
 
   /**

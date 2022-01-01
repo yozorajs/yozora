@@ -115,10 +115,7 @@ export class TokenizerTester<T = unknown> {
     // Generate answers
     const tasks: Array<Promise<void>> = []
     for (const caseGroup of this.collect()) {
-      const task = answerUseCaseGroup(
-        this.formattedCaseRootDirectory,
-        caseGroup,
-      )
+      const task = answerUseCaseGroup(this.formattedCaseRootDirectory, caseGroup)
       tasks.push(task)
     }
 
@@ -130,10 +127,7 @@ export class TokenizerTester<T = unknown> {
    * Run all use cases
    */
   public runTest(): void {
-    const testUseCaseGroup = (
-      parentDir: string,
-      caseGroup: ITokenizerUseCaseGroup<T>,
-    ): void => {
+    const testUseCaseGroup = (parentDir: string, caseGroup: ITokenizerUseCaseGroup<T>): void => {
       const self = this
       const title = caseGroup.title || caseGroup.dirpath.slice(parentDir.length)
       describe(title, function () {
@@ -222,9 +216,7 @@ export class TokenizerTester<T = unknown> {
     )
 
     const dirpath = this._formatDirpath(path.dirname(filepath))
-    const createCaseGroup = (
-      parentDirpath: string,
-    ): ITokenizerUseCaseGroup<T> => {
+    const createCaseGroup = (parentDirpath: string): ITokenizerUseCaseGroup<T> => {
       const caseGroup: ITokenizerUseCaseGroup<T> = {
         dirpath,
         filepath,
@@ -265,10 +257,7 @@ export class TokenizerTester<T = unknown> {
       let LCDIds: number[] = []
       for (let i = 0; i < caseGroups.length; ++i) {
         const caseGroup = caseGroups[i]
-        const commonDirpath = this._calcCommonDirpath(
-          caseGroup.dirpath,
-          dirpath,
-        )
+        const commonDirpath = this._calcCommonDirpath(caseGroup.dirpath, dirpath)
         if (commonDirpath.length > longestCommonDirpath.length) {
           longestCommonDirpath = commonDirpath
           LCDIds = [i]
@@ -280,8 +269,7 @@ export class TokenizerTester<T = unknown> {
       if (longestCommonDirpath <= parentDirpath) return false
 
       invariant(
-        LCDIds.length > 0 &&
-          LCDIds.every((x, i, A) => i === 0 || x - 1 === A[i - 1]),
+        LCDIds.length > 0 && LCDIds.every((x, i, A) => i === 0 || x - 1 === A[i - 1]),
         'LCDIds should be continuously increasing integers',
       )
 
@@ -291,10 +279,7 @@ export class TokenizerTester<T = unknown> {
         filepath: longestCommonDirpath,
         title: undefined,
         cases,
-        subGroups: [
-          ...LCDIds.map(i => caseGroups[i]),
-          createCaseGroup(longestCommonDirpath),
-        ],
+        subGroups: [...LCDIds.map(i => caseGroups[i]), createCaseGroup(longestCommonDirpath)],
       }
       caseGroups.splice(LCDIds[0], LCDIds.length, parentGroup)
       return true

@@ -7,11 +7,7 @@ import type {
   IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 import { createSinglePriorityDelimiterProcessor } from './single-priority'
-import type {
-  IDelimiterItem,
-  IDelimiterProcessorHook,
-  IPhrasingContentProcessor,
-} from './types'
+import type { IDelimiterItem, IDelimiterProcessorHook, IPhrasingContentProcessor } from './types'
 
 /**
  * Factory function for creating IPhrasingContentProcessor
@@ -82,8 +78,7 @@ export function createPhrasingContentProcessor(
       let potentialCloserCount = 0
       for (const item of nearestDelimiters) {
         const dType = item.delimiter.type
-        if (dType === 'full')
-          return { items: [item], nextIndex: item.delimiter.endIndex }
+        if (dType === 'full') return { items: [item], nextIndex: item.delimiter.endIndex }
         if (dType === 'both' || dType === 'closer') potentialCloserCount += 1
       }
 
@@ -93,10 +88,7 @@ export function createPhrasingContentProcessor(
         for (let index = 0; index < nearestDelimiters.length; ++index) {
           const { hook, delimiter } = nearestDelimiters[index]
           if (delimiter.type === 'both' || delimiter.type === 'closer') {
-            const openerDelimiter = processor.findNearestPairedDelimiter(
-              hook,
-              delimiter,
-            )
+            const openerDelimiter = processor.findNearestPairedDelimiter(hook, delimiter)
             if (openerDelimiter != null) {
               if (validPairedOpenerStartIndex < openerDelimiter.startIndex) {
                 validCloserIndex = index
@@ -193,10 +185,7 @@ export function createProcessorHookGroups(
     hookGroups.push(hookGroup)
 
     // Create a sub-DFS-layer processor.
-    const processor = createPhrasingContentProcessor(
-      hookGroups,
-      hookGroups.length,
-    )
+    const processor = createPhrasingContentProcessor(hookGroups, hookGroups.length)
 
     const api: Readonly<IMatchInlinePhaseApi> = Object.freeze({
       ...matchInlineApi,
@@ -205,11 +194,7 @@ export function createProcessorHookGroups(
         startIndex: number,
         endIndex: number,
       ): ReadonlyArray<IYastInlineToken> => {
-        let tokens = processor.process(
-          higherPriorityTokens,
-          startIndex,
-          endIndex,
-        )
+        let tokens = processor.process(higherPriorityTokens, startIndex, endIndex)
         tokens = resolveFallbackTokens(tokens, startIndex, endIndex)
         return tokens
       },
@@ -245,14 +230,10 @@ export function createProcessorHook(
     hook.isDelimiterPair == null ? undefined : hook.isDelimiterPair.bind(hook)
 
   const _processDelimiterPair: ITokenizerMatchInlineHook['processDelimiterPair'] =
-    hook.processDelimiterPair == null
-      ? undefined
-      : hook.processDelimiterPair.bind(hook)
+    hook.processDelimiterPair == null ? undefined : hook.processDelimiterPair.bind(hook)
 
   const _processSingleDelimiter: ITokenizerMatchInlineHook['processSingleDelimiter'] =
-    hook.processSingleDelimiter == null
-      ? undefined
-      : hook.processSingleDelimiter.bind(hook)
+    hook.processSingleDelimiter == null ? undefined : hook.processSingleDelimiter.bind(hook)
 
   return {
     name: hook.name,
@@ -262,22 +243,12 @@ export function createProcessorHook(
       _isDelimiterPair == null
         ? () => ({ paired: true })
         : (openerDelimiter, closerDelimiter, higherPriorityTokens) =>
-            _isDelimiterPair(
-              openerDelimiter,
-              closerDelimiter,
-              higherPriorityTokens,
-              api,
-            ),
+            _isDelimiterPair(openerDelimiter, closerDelimiter, higherPriorityTokens, api),
     processDelimiterPair:
       _processDelimiterPair == null
         ? (_1, _2, internalTokens) => ({ tokens: internalTokens })
         : (openerDelimiter, closerDelimiter, internalTokens) =>
-            _processDelimiterPair(
-              openerDelimiter,
-              closerDelimiter,
-              internalTokens,
-              api,
-            ),
+            _processDelimiterPair(openerDelimiter, closerDelimiter, internalTokens, api),
     processSingleDelimiter:
       _processSingleDelimiter == null
         ? () => []

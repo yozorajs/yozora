@@ -45,16 +45,11 @@ const desensitizers = {
       return '<LATEST>'
     },
     packageName =>
-      /^(@yozora\/[^\s\\/]*|packageVersion|toolPackageVersion|version)$/.test(
-        packageName,
-      ),
+      /^(@yozora\/[^\s\\/]*|packageVersion|toolPackageVersion|version)$/.test(packageName),
   ),
 }
 const jsonDesensitizer = createJsonDesensitizer({
-  string: composeStringDesensitizers(
-    desensitizers.filepath,
-    desensitizers.packageVersion,
-  ),
+  string: composeStringDesensitizers(desensitizers.filepath, desensitizers.packageVersion),
 })
 
 describe('new-tokenizer', function () {
@@ -102,10 +97,7 @@ describe('new-tokenizer', function () {
         fileSnapshot(
           targetDir,
           ['package.json', 'README.md'],
-          composeStringDesensitizers(
-            desensitizers.filepath,
-            desensitizers.packageVersion,
-          ),
+          composeStringDesensitizers(desensitizers.filepath, desensitizers.packageVersion),
         )
       }
     }
@@ -210,10 +202,7 @@ describe('new-tokenizer', function () {
         fileSnapshot(
           targetDir,
           ['package.json', 'README.md'],
-          composeStringDesensitizers(
-            desensitizers.filepath,
-            desensitizers.packageVersion,
-          ),
+          composeStringDesensitizers(desensitizers.filepath, desensitizers.packageVersion),
         )
       }
     }

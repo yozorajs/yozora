@@ -15,10 +15,7 @@ import type {
   ITokenizerMatchBlockHook,
   ITokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
-import {
-  TokenizerPriority,
-  eatOptionalWhitespaces,
-} from '@yozora/core-tokenizer'
+import { TokenizerPriority, eatOptionalWhitespaces } from '@yozora/core-tokenizer'
 import FencedBlockTokenizer from '@yozora/tokenizer-fenced-block'
 import type { INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
@@ -103,12 +100,7 @@ export class AdmonitionTokenizer
 
     const node: INode = {
       type: AdmonitionType,
-      keyword: calcEscapedStringFromNodePoints(
-        keyword,
-        0,
-        keyword.length,
-        true,
-      ),
+      keyword: calcEscapedStringFromNodePoints(keyword, 0, keyword.length, true),
       title,
       children,
     }

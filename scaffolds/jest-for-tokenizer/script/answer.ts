@@ -11,12 +11,7 @@ void createTester(parsers.gfm)
 
 // Generate answers for gfm-ex cases (with gfm extensions)
 void createTester(parsers.gfmEx)
-  .scan([
-    'gfm/**/*.json',
-    '!gfm/**/#616.json',
-    '!gfm/**/#619.json',
-    '!gfm/**/#620.json',
-  ])
+  .scan(['gfm/**/*.json', '!gfm/**/#616.json', '!gfm/**/#619.json', '!gfm/**/#620.json'])
   .runAnswer()
 
 // Generate answers for other cases

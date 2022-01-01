@@ -1,9 +1,5 @@
 import type { ICodePoint, INodePoint } from '@yozora/character'
-import {
-  isLineEnding,
-  isSpaceCharacter,
-  isWhitespaceCharacter,
-} from '@yozora/character'
+import { isLineEnding, isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
 import type { IPhrasingContentLine } from '../types/phrasing-content'
 import type { IResultOfOptionalEater } from '../types/util'
 

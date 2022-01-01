@@ -18,8 +18,7 @@ class GFMExampleClassifier {
       if (!fs.existsSync(groupDir)) fs.mkdirpSync(groupDir)
       for (let i = group.start; i <= group.end; ++i) {
         if (excluded.includes(i)) continue
-        const fileName =
-          '#' + ('' + i).padStart(self.numberLength, '0') + '.json'
+        const fileName = '#' + ('' + i).padStart(self.numberLength, '0') + '.json'
         const caseFilePath = path.join(groupDir, fileName)
         const gfmExample = self.gfmExamples[i]
         const data = self.mapGFMExampleDataToCase(gfmExample)

@@ -45,11 +45,7 @@ export function eatHTMLAttribute(
    */
   const attrNameStartIndex = i
   let c = nodePoints[i].codePoint
-  if (
-    !isAsciiLetter(c) &&
-    c !== AsciiCodePoint.UNDERSCORE &&
-    c !== AsciiCodePoint.COLON
-  )
+  if (!isAsciiLetter(c) && c !== AsciiCodePoint.UNDERSCORE && c !== AsciiCodePoint.COLON)
     return null
   for (i = attrNameStartIndex + 1; i < endIndex; ++i) {
     c = nodePoints[i].codePoint
@@ -103,10 +99,7 @@ export function eatHTMLAttribute(
             if (c === AsciiCodePoint.DOUBLE_QUOTE) break
           }
           const attrValueEndIndex = i
-          if (
-            i < endIndex &&
-            nodePoints[i].codePoint === AsciiCodePoint.DOUBLE_QUOTE
-          ) {
+          if (i < endIndex && nodePoints[i].codePoint === AsciiCodePoint.DOUBLE_QUOTE) {
             attribute.value = {
               startIndex: attrValueStartIndex,
               endIndex: attrValueEndIndex,
@@ -127,10 +120,7 @@ export function eatHTMLAttribute(
             if (c === AsciiCodePoint.SINGLE_QUOTE) break
           }
           const attrValueEndIndex = i
-          if (
-            i < endIndex &&
-            nodePoints[i].codePoint === AsciiCodePoint.SINGLE_QUOTE
-          ) {
+          if (i < endIndex && nodePoints[i].codePoint === AsciiCodePoint.SINGLE_QUOTE) {
             attribute.value = {
               startIndex: attrValueStartIndex,
               endIndex: attrValueEndIndex,

@@ -64,9 +64,7 @@ export class HeadingTokenizer
    * @override
    * @see ITokenizerMatchBlockHook
    */
-  public eatOpener(
-    line: Readonly<IPhrasingContentLine>,
-  ): IResultOfEatOpener<T, IToken> {
+  public eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
     /**
      * Four spaces are too much
      * @see https://github.github.com/gfm/#example-39
@@ -77,8 +75,7 @@ export class HeadingTokenizer
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (
       firstNonWhitespaceIndex >= endIndex ||
-      nodePoints[firstNonWhitespaceIndex].codePoint !==
-        AsciiCodePoint.NUMBER_SIGN
+      nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.NUMBER_SIGN
     ) {
       return null
     }
@@ -107,8 +104,7 @@ export class HeadingTokenizer
      * ATX headings can be empty
      * @see https://github.github.com/gfm/#example-49
      */
-    if (i + 1 < endIndex && !isSpaceCharacter(nodePoints[i].codePoint))
-      return null
+    if (i + 1 < endIndex && !isSpaceCharacter(nodePoints[i].codePoint)) return null
 
     const nextIndex = endIndex
     const token: IToken = {

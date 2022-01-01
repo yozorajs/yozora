@@ -63,10 +63,7 @@ export class FootnoteTokenizer
           i += 1
           break
         case AsciiCodePoint.CARET: {
-          if (
-            i + 1 < endIndex &&
-            nodePoints[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET
-          ) {
+          if (i + 1 < endIndex && nodePoints[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET) {
             return {
               type: 'opener',
               startIndex: i,

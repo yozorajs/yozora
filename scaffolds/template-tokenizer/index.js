@@ -1,8 +1,4 @@
-const {
-  toKebabCase,
-  toTrim,
-  convertToBoolean,
-} = require('@guanghechen/option-helper')
+const { toKebabCase, toTrim, convertToBoolean } = require('@guanghechen/option-helper')
 const {
   createNpmPackagePrompts,
   resolveNpmPackageAnswers,
@@ -83,8 +79,7 @@ module.exports = function (plop) {
       answers.tokenizerName = transformers.tokenizerName(_answers.tokenizerName)
       answers.tokenizerCategory = _answers.tokenizerCategory
       answers.useTokenizerMatchBlockHook = _answers.useTokenizerMatchBlockHook
-      answers.useTokenizerPostMatchBlockHook =
-        _answers.useTokenizerPostMatchBlockHook
+      answers.useTokenizerPostMatchBlockHook = _answers.useTokenizerPostMatchBlockHook
       answers.useTokenizerParseBlockHook = _answers.useTokenizerParseBlockHook
 
       switch (answers.tokenizerCategory) {
@@ -98,10 +93,8 @@ module.exports = function (plop) {
           break
       }
 
-      const resolveSourcePath = p =>
-        path.normalize(path.resolve(__dirname, 'boilerplate', p))
-      const resolveTargetPath = p =>
-        path.normalize(path.resolve(answers.packageLocation, p))
+      const resolveSourcePath = p => path.normalize(path.resolve(__dirname, 'boilerplate', p))
+      const resolveTargetPath = p => path.normalize(path.resolve(answers.packageLocation, p))
       const relativePath = path.relative(answers.packageLocation, cwd)
 
       const { tokenizerName, tokenizerCategory } = answers
@@ -214,36 +207,26 @@ module.exports = function (plop) {
         {
           type: 'add',
           path: resolveTargetPath('src/index.ts'),
-          templateFile: resolveSourcePath(
-            `${tokenizerCategory}-tokenizer/src/index.ts.hbs`,
-          ),
+          templateFile: resolveSourcePath(`${tokenizerCategory}-tokenizer/src/index.ts.hbs`),
         },
         {
           type: 'add',
           path: resolveTargetPath('src/tokenizer.ts'),
-          templateFile: resolveSourcePath(
-            `${tokenizerCategory}-tokenizer/src/tokenizer.ts.hbs`,
-          ),
+          templateFile: resolveSourcePath(`${tokenizerCategory}-tokenizer/src/tokenizer.ts.hbs`),
         },
         {
           type: 'add',
           path: resolveTargetPath('src/types.ts'),
-          templateFile: resolveSourcePath(
-            `${tokenizerCategory}-tokenizer/src/types.ts.hbs`,
-          ),
+          templateFile: resolveSourcePath(`${tokenizerCategory}-tokenizer/src/types.ts.hbs`),
         },
         {
           type: 'add',
           path: resolveTargetPath('__test__/answer.ts'),
-          templateFile: resolveSourcePath(
-            `${tokenizerCategory}-tokenizer/__test__/answer.ts.hbs`,
-          ),
+          templateFile: resolveSourcePath(`${tokenizerCategory}-tokenizer/__test__/answer.ts.hbs`),
         },
         {
           type: 'add',
-          path: resolveTargetPath(
-            `__test__/${toKebabCase(tokenizerName)}.spec.ts`,
-          ),
+          path: resolveTargetPath(`__test__/${toKebabCase(tokenizerName)}.spec.ts`),
           templateFile: resolveSourcePath(
             `${tokenizerCategory}-tokenizer/__test__/suite.spec.ts.hbs`,
           ),

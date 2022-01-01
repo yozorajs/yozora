@@ -20,9 +20,7 @@ export function invariant(
   // Throw an error when the condition fails.
   if (message == null) throw new Error(prefix + ': ')
 
-  throw new Error(
-    prefix + ': ' + (message instanceof Function ? message() : message),
-  )
+  throw new Error(prefix + ': ' + (message instanceof Function ? message() : message))
 }
 
 export default invariant

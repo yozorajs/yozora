@@ -1,11 +1,7 @@
 import type { IYastNode } from '@yozora/ast'
 import { InlineCodeType } from '@yozora/ast'
 import type { INodeInterval, INodePoint } from '@yozora/character'
-import {
-  AsciiCodePoint,
-  calcStringFromNodePoints,
-  isSpaceLike,
-} from '@yozora/character'
+import { AsciiCodePoint, calcStringFromNodePoints, isSpaceLike } from '@yozora/character'
 import type {
   IMatchInlinePhaseApi,
   IParseInlinePhaseApi,
@@ -71,10 +67,7 @@ export class InlineCodeTokenizer
       switch (c) {
         case AsciiCodePoint.BACKSLASH: {
           i += 1
-          if (
-            i < blockEndIndex &&
-            nodePoints[i].codePoint === AsciiCodePoint.BACKTICK
-          ) {
+          if (i < blockEndIndex && nodePoints[i].codePoint === AsciiCodePoint.BACKTICK) {
             const j = eatOptionalCharacters(
               nodePoints,
               i + 1,
@@ -117,12 +110,7 @@ export class InlineCodeTokenizer
           const _startIndex = i
 
           // matched as many backtick as possible
-          const endIndexOfBacktick = eatOptionalCharacters(
-            nodePoints,
-            i + 1,
-            blockEndIndex,
-            c,
-          )
+          const endIndexOfBacktick = eatOptionalCharacters(nodePoints, i + 1, blockEndIndex, c)
 
           potentialDelimiters.push({
             type: 'both',
@@ -153,8 +141,7 @@ export class InlineCodeTokenizer
       for (; pIndex < potentialDelimiters.length; ++pIndex) {
         for (; pIndex < potentialDelimiters.length; ++pIndex) {
           const delimiter = potentialDelimiters[pIndex]
-          if (delimiter.startIndex >= startIndex && delimiter.type !== 'closer')
-            break
+          if (delimiter.startIndex >= startIndex && delimiter.type !== 'closer') break
         }
         if (pIndex + 1 >= potentialDelimiters.length) return
 
@@ -198,9 +185,7 @@ export class InlineCodeTokenizer
    * @override
    * @see ITokenizerMatchInlineHook
    */
-  public processSingleDelimiter(
-    delimiter: IDelimiter,
-  ): IResultOfProcessSingleDelimiter<T, IToken> {
+  public processSingleDelimiter(delimiter: IDelimiter): IResultOfProcessSingleDelimiter<T, IToken> {
     const token: IToken = {
       nodeType: InlineCodeType,
       startIndex: delimiter.startIndex,
@@ -256,10 +241,7 @@ export class InlineCodeTokenizer
 
     const result: INode = {
       type: InlineCodeType,
-      value: calcStringFromNodePoints(nodePoints, startIndex, endIndex).replace(
-        /\n/g,
-        ' ',
-      ),
+      value: calcStringFromNodePoints(nodePoints, startIndex, endIndex).replace(/\n/g, ' '),
     }
     return result
   }

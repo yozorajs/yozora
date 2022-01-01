@@ -1,10 +1,6 @@
 import type { IYastNodePosition } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
-import {
-  isLineEnding,
-  isSpaceCharacter,
-  isWhitespaceCharacter,
-} from '@yozora/character'
+import { isLineEnding, isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
 import type { IPhrasingContentLine } from '../types/phrasing-content'
 import { calcEndYastNodePoint, calcStartYastNodePoint } from './node-point'
 
@@ -16,8 +12,7 @@ import { calcEndYastNodePoint, calcStartYastNodePoint } from './node-point'
  */
 export function* createPhrasingLineGenerator(
   nodePointsList: Iterable<INodePoint[]>,
-): Iterable<IPhrasingContentLine[]> &
-  Iterator<IPhrasingContentLine[], INodePoint[]> {
+): Iterable<IPhrasingContentLine[]> & Iterator<IPhrasingContentLine[], INodePoint[]> {
   const allNodePoints: INodePoint[] = []
   let startIndex = 0
   let firstNonWhitespaceIndex = 0
@@ -103,12 +98,7 @@ export function mergeContentLinesFaithfully(
   startLineIndex = 0,
   endLineIndex = lines.length,
 ): INodePoint[] {
-  if (
-    startLineIndex >= endLineIndex ||
-    startLineIndex < 0 ||
-    endLineIndex > lines.length
-  )
-    return []
+  if (startLineIndex >= endLineIndex || startLineIndex < 0 || endLineIndex > lines.length) return []
 
   const contents: INodePoint[] = []
   for (let i = startLineIndex; i < endLineIndex; ++i) {
@@ -135,12 +125,7 @@ export function mergeAndStripContentLines(
   endLineIndex = lines.length,
 ): INodePoint[] {
   const contents: INodePoint[] = []
-  if (
-    startLineIndex >= endLineIndex ||
-    startLineIndex < 0 ||
-    endLineIndex > lines.length
-  )
-    return []
+  if (startLineIndex >= endLineIndex || startLineIndex < 0 || endLineIndex > lines.length) return []
 
   for (let i = startLineIndex; i + 1 < endLineIndex; ++i) {
     const { nodePoints, endIndex, firstNonWhitespaceIndex } = lines[i]
@@ -159,8 +144,7 @@ export function mergeAndStripContentLines(
    * ends with two or more spaces will not end with a hard line break
    * @see https://github.github.com/gfm/#example-196
    */
-  const { nodePoints, endIndex, firstNonWhitespaceIndex } =
-    lines[endLineIndex - 1]
+  const { nodePoints, endIndex, firstNonWhitespaceIndex } = lines[endLineIndex - 1]
   let lastNonWhitespaceIndex = endIndex - 1
   for (; lastNonWhitespaceIndex >= 0; --lastNonWhitespaceIndex) {
     const p = nodePoints[lastNonWhitespaceIndex]

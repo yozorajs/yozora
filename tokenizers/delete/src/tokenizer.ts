@@ -73,8 +73,7 @@ export class DeleteTokenizer
            * If the preceding character is a whitespace, it cannot be used as a
            * closer delimiter
            */
-          const preceding =
-            _startIndex === startIndex ? null : nodePoints[_startIndex - 1]
+          const preceding = _startIndex === startIndex ? null : nodePoints[_startIndex - 1]
           if (preceding != null && isWhitespaceCharacter(preceding.codePoint)) {
             delimiterType = 'opener'
           }

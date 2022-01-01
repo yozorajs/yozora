@@ -69,9 +69,7 @@ export class DefinitionTokenizer
    * @override
    * @see ITokenizerMatchBlockHook
    */
-  public eatOpener(
-    line: Readonly<IPhrasingContentLine>,
-  ): IResultOfEatOpener<T, IToken> {
+  public eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
     /**
      * Four spaces are too much
      * @see https://github.github.com/gfm/#example-180
@@ -83,8 +81,12 @@ export class DefinitionTokenizer
 
     // Try to match link label
     let i = firstNonWhitespaceIndex
-    const { nextIndex: labelEndIndex, state: labelState } =
-      eatAndCollectLinkLabel(nodePoints, i, endIndex, null)
+    const { nextIndex: labelEndIndex, state: labelState } = eatAndCollectLinkLabel(
+      nodePoints,
+      i,
+      endIndex,
+      null,
+    )
     if (labelEndIndex < 0) return null
 
     const lineNo = nodePoints[startIndex].line
@@ -144,8 +146,7 @@ export class DefinitionTokenizer
     if (destinationEndIndex < 0) return null
 
     // Link destination not saturated
-    if (!destinationState.saturated && destinationEndIndex !== endIndex)
-      return null
+    if (!destinationState.saturated && destinationEndIndex !== endIndex) return null
 
     /**
      * At most one line break can be used between link title and link destination
@@ -168,8 +169,12 @@ export class DefinitionTokenizer
     if (i === destinationEndIndex) return null
 
     // Try to match link-title
-    const { nextIndex: titleEndIndex, state: titleState } =
-      eatAndCollectLinkTitle(nodePoints, i, endIndex, null)
+    const { nextIndex: titleEndIndex, state: titleState } = eatAndCollectLinkTitle(
+      nodePoints,
+      i,
+      endIndex,
+      null,
+    )
 
     /**
      * non-whitespace characters after title is not allowed
@@ -199,16 +204,19 @@ export class DefinitionTokenizer
     token: IToken,
   ): IResultOfEatContinuationText {
     // All parts of Definition have been matched
-    if (token.title != null && token.title.saturated)
-      return { status: 'notMatched' }
+    if (token.title != null && token.title.saturated) return { status: 'notMatched' }
 
     const { nodePoints, startIndex, firstNonWhitespaceIndex, endIndex } = line
     const lineNo = nodePoints[startIndex].line
 
     let i = firstNonWhitespaceIndex
     if (!token.label.saturated) {
-      const { nextIndex: labelEndIndex, state: labelState } =
-        eatAndCollectLinkLabel(nodePoints, i, endIndex, token.label)
+      const { nextIndex: labelEndIndex, state: labelState } = eatAndCollectLinkLabel(
+        nodePoints,
+        i,
+        endIndex,
+        token.label,
+      )
       if (labelEndIndex < 0) {
         return { status: 'failedAndRollback', lines: token.lines }
       }
@@ -272,8 +280,12 @@ export class DefinitionTokenizer
       token.lineNoOfTitle = lineNo
     }
 
-    const { nextIndex: titleEndIndex, state: titleState } =
-      eatAndCollectLinkTitle(nodePoints, i, endIndex, token.title)
+    const { nextIndex: titleEndIndex, state: titleState } = eatAndCollectLinkTitle(
+      nodePoints,
+      i,
+      endIndex,
+      token.title,
+    )
     // eslint-disable-next-line no-param-reassign
     token.title = titleState
 
@@ -292,10 +304,7 @@ export class DefinitionTokenizer
       // eslint-disable-next-line no-param-reassign
       token.title = null
       // eslint-disable-next-line no-param-reassign
-      token.position.end = calcEndYastNodePoint(
-        lastLine.nodePoints,
-        lastLine.endIndex - 1,
-      )
+      token.position.end = calcEndYastNodePoint(lastLine.nodePoints, lastLine.endIndex - 1)
       return {
         status: 'closingAndRollback',
         lines: token.lines.slice(token.lineNoOfTitle - 1),
@@ -311,10 +320,7 @@ export class DefinitionTokenizer
    * @override
    * @see ITokenizerMatchBlockHook
    */
-  public onClose(
-    token: IToken,
-    api: Readonly<IMatchBlockPhaseApi>,
-  ): IResultOfOnClose {
+  public onClose(token: IToken, api: Readonly<IMatchBlockPhaseApi>): IResultOfOnClose {
     let result: IResultOfOnClose
 
     // Not all parts of Definition have been matched.
@@ -340,10 +346,7 @@ export class DefinitionTokenizer
         // eslint-disable-next-line no-param-reassign
         token.title = null
         // eslint-disable-next-line no-param-reassign
-        token.position.end = calcEndYastNodePoint(
-          lastLine.nodePoints,
-          lastLine.endIndex - 1,
-        )
+        token.position.end = calcEndYastNodePoint(lastLine.nodePoints, lastLine.endIndex - 1)
 
         result = { status: 'closingAndRollback', lines }
       }
@@ -355,11 +358,7 @@ export class DefinitionTokenizer
      * @see https://github.github.com/gfm/#example-175
      */
     const labelPoints: INodePoint[] = token.label.nodePoints
-    const label = calcStringFromNodePoints(
-      labelPoints,
-      1,
-      labelPoints.length - 1,
-    )
+    const label = calcStringFromNodePoints(labelPoints, 1, labelPoints.length - 1)
     const identifier = resolveLabelToIdentifier(label)
 
     // Register definition identifier.
@@ -389,18 +388,8 @@ export class DefinitionTokenizer
     const destinationPoints: INodePoint[] = token.destination!.nodePoints
     const destination: string =
       destinationPoints[0].codePoint === AsciiCodePoint.OPEN_ANGLE
-        ? calcEscapedStringFromNodePoints(
-            destinationPoints,
-            1,
-            destinationPoints.length - 1,
-            true,
-          )
-        : calcEscapedStringFromNodePoints(
-            destinationPoints,
-            0,
-            destinationPoints.length,
-            true,
-          )
+        ? calcEscapedStringFromNodePoints(destinationPoints, 1, destinationPoints.length - 1, true)
+        : calcEscapedStringFromNodePoints(destinationPoints, 0, destinationPoints.length, true)
     const url = encodeLinkDestination(destination)
 
     /**

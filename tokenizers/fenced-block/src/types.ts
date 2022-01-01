@@ -10,8 +10,7 @@ export const FencedBlockType = 'fencedBlock'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type FencedBlockType = typeof FencedBlockType
 
-export interface IToken<T extends YastNodeType>
-  extends IPartialYastBlockToken<T> {
+export interface IToken<T extends YastNodeType> extends IPartialYastBlockToken<T> {
   /**
    * Line indent of a fenced block.
    */
@@ -34,8 +33,7 @@ export interface IToken<T extends YastNodeType>
   infoString: INodePoint[]
 }
 
-export interface ITokenizerProps<T extends YastNodeType>
-  extends Partial<IBaseBlockTokenizerProps> {
+export interface ITokenizerProps<T extends YastNodeType> extends Partial<IBaseBlockTokenizerProps> {
   /**
    * ITokenizer name.
    */

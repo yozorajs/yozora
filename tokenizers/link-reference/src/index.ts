@@ -1,7 +1,4 @@
-export {
-  LinkReferenceTokenizer,
-  LinkReferenceTokenizer as default,
-} from './tokenizer'
+export { LinkReferenceTokenizer, LinkReferenceTokenizer as default } from './tokenizer'
 export { uniqueName as LinkReferenceTokenizerName } from './types'
 export type {
   IToken as ILinkReferenceToken,

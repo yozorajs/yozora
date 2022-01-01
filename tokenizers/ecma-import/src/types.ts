@@ -1,8 +1,5 @@
 import type { EcmaImportType, IEcmaImport } from '@yozora/ast'
-import type {
-  IBaseBlockTokenizerProps,
-  IPartialYastBlockToken,
-} from '@yozora/core-tokenizer'
+import type { IBaseBlockTokenizerProps, IPartialYastBlockToken } from '@yozora/core-tokenizer'
 
 export type T = EcmaImportType
 export type INode = IEcmaImport

@@ -135,9 +135,7 @@ export function createEntityReferenceTrie(): EntityReferenceTrie {
  * Default entity reference trie.
  */
 export const entityReferenceTrie = createEntityReferenceTrie()
-entityReferences.forEach(entity =>
-  entityReferenceTrie.insert(entity.key, entity.value),
-)
+entityReferences.forEach(entity => entityReferenceTrie.insert(entity.key, entity.value))
 
 /**
  * Eating an entity reference.
@@ -156,8 +154,7 @@ export function eatEntityReference(
   const result = entityReferenceTrie.search(nodePoints, startIndex, endIndex)
   if (result != null) return result
 
-  if (nodePoints[startIndex].codePoint !== AsciiCodePoint.NUMBER_SIGN)
-    return null
+  if (nodePoints[startIndex].codePoint !== AsciiCodePoint.NUMBER_SIGN) return null
 
   let val = 0,
     i = startIndex + 1
@@ -212,8 +209,7 @@ export function eatEntityReference(
     }
   }
 
-  if (i >= endIndex || nodePoints[i].codePoint !== AsciiCodePoint.SEMICOLON)
-    return null
+  if (i >= endIndex || nodePoints[i].codePoint !== AsciiCodePoint.SEMICOLON) return null
 
   // Calc the corresponding Unicode character.
   let value: string

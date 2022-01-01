@@ -73,20 +73,17 @@ export class ListItemTokenizer
       priority: props.priority ?? TokenizerPriority.CONTAINING_BLOCK,
     })
     this.enableTaskListItem = props.enableTaskListItem ?? false
-    this.emptyItemCouldNotInterruptedTypes =
-      props.emptyItemCouldNotInterruptedTypes ?? [
-        PhrasingContentType,
-        ParagraphType,
-      ]
+    this.emptyItemCouldNotInterruptedTypes = props.emptyItemCouldNotInterruptedTypes ?? [
+      PhrasingContentType,
+      ParagraphType,
+    ]
   }
 
   /**
    * @override
    * @see ITokenizerMatchBlockHook
    */
-  public eatOpener(
-    line: Readonly<IPhrasingContentLine>,
-  ): IResultOfEatOpener<T, IToken> {
+  public eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
     /**
      * Four spaces are too much.
      * @see https://github.github.com/gfm/#example-253
@@ -235,12 +232,7 @@ export class ListItemTokenizer
      * based on the ordered list marker.
      * @see https://github.github.com/gfm/#list-items Item starting with a blank line
      */
-    if (
-      countOfSpaces === 0 &&
-      nextIndex < endIndex &&
-      c !== VirtualCodePoint.LINE_END
-    )
-      return null
+    if (countOfSpaces === 0 && nextIndex < endIndex && c !== VirtualCodePoint.LINE_END) return null
 
     const countOfTopBlankLine = c === VirtualCodePoint.LINE_END ? 1 : -1
     if (c === VirtualCodePoint.LINE_END) {
@@ -261,11 +253,7 @@ export class ListItemTokenizer
     // Try to resolve task status.
     let status: TaskStatus | null = null
     if (this.enableTaskListItem) {
-      ;({ status, nextIndex } = this.eatTaskStatus(
-        nodePoints,
-        nextIndex,
-        endIndex,
-      ))
+      ;({ status, nextIndex } = this.eatTaskStatus(nodePoints, nextIndex, endIndex))
     }
 
     const token: IToken = {
@@ -307,9 +295,7 @@ export class ListItemTokenizer
      * But an empty list item cannot interrupt a paragraph
      * @see https://github.github.com/gfm/#example-263
      */
-    if (
-      this.emptyItemCouldNotInterruptedTypes.includes(prevSiblingToken.nodeType)
-    ) {
+    if (this.emptyItemCouldNotInterruptedTypes.includes(prevSiblingToken.nodeType)) {
       if (token.indent === line.endIndex - line.startIndex) {
         return null
       }
@@ -333,12 +319,7 @@ export class ListItemTokenizer
     line: Readonly<IPhrasingContentLine>,
     token: IToken,
   ): IResultOfEatContinuationText {
-    const {
-      startIndex,
-      endIndex,
-      firstNonWhitespaceIndex,
-      countOfPrecedeSpaces: indent,
-    } = line
+    const { startIndex, endIndex, firstNonWhitespaceIndex, countOfPrecedeSpaces: indent } = line
 
     /**
      * A list item can begin with at most one blank line
@@ -375,10 +356,7 @@ export class ListItemTokenizer
    * @override
    * @see ITokenizerParseBlockHook
    */
-  public parseBlock(
-    token: Readonly<IToken>,
-    children: IYastNode[],
-  ): IResultOfParse<T, INode> {
+  public parseBlock(token: Readonly<IToken>, children: IYastNode[]): IResultOfParse<T, INode> {
     const node: INode = {
       type: ListItemType,
       status: token.status,

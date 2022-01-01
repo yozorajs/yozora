@@ -16,10 +16,7 @@ export const uniqueName = '@yozora/tokenizer-image-reference'
 export type T = ImageReferenceType
 export type INode = IImageReference
 
-export interface IToken
-  extends IPartialYastInlineToken<T>,
-    IYastAssociation,
-    IYastReference {}
+export interface IToken extends IPartialYastInlineToken<T>, IYastAssociation, IYastReference {}
 
 export interface IDelimiter extends IYastTokenDelimiter {
   brackets: ILinkReferenceDelimiterBracket[]

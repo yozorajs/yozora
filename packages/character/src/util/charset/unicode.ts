@@ -12,13 +12,12 @@ import { collectCodePointsFromEnum, createCodePointSearcher } from '../searcher'
  * @see https://github.github.com/gfm/#unicode-whitespace-character
  * @see http://www.fileformat.info/info/unicode/category/Zs/list.htm
  */
-export const [isUnicodeWhitespaceCharacter, unicodeWhitespaceCharacters] =
-  createCodePointSearcher([
-    AsciiCodePoint.HT,
-    AsciiCodePoint.LF,
-    AsciiCodePoint.FF,
-    AsciiCodePoint.CR,
-    VirtualCodePoint.SPACE,
-    VirtualCodePoint.LINE_END,
-    ...collectCodePointsFromEnum(UnicodeZsCodePoint),
-  ])
+export const [isUnicodeWhitespaceCharacter, unicodeWhitespaceCharacters] = createCodePointSearcher([
+  AsciiCodePoint.HT,
+  AsciiCodePoint.LF,
+  AsciiCodePoint.FF,
+  AsciiCodePoint.CR,
+  VirtualCodePoint.SPACE,
+  VirtualCodePoint.LINE_END,
+  ...collectCodePointsFromEnum(UnicodeZsCodePoint),
+])

@@ -38,9 +38,5 @@ export interface ITokenizerParseInlineHook<
    * @param children
    * @param api
    */
-  parseInline(
-    token: IToken,
-    children: IYastNode[],
-    api: Readonly<IParseInlinePhaseApi>,
-  ): Node
+  parseInline(token: IToken, children: IYastNode[], api: Readonly<IParseInlinePhaseApi>): Node
 }

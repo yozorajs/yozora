@@ -1,10 +1,6 @@
 import type { IHeading, IYastNode } from '@yozora/ast'
 import { HeadingType } from '@yozora/ast'
-import {
-  AsciiCodePoint,
-  VirtualCodePoint,
-  isUnicodeWhitespaceCharacter,
-} from '@yozora/character'
+import { AsciiCodePoint, VirtualCodePoint, isUnicodeWhitespaceCharacter } from '@yozora/character'
 import type {
   IMatchBlockPhaseApi,
   IParseBlockPhaseApi,
@@ -72,20 +68,14 @@ export class SetextHeadingTokenizer
     parentToken: Readonly<IYastBlockToken>,
     api: Readonly<IMatchBlockPhaseApi>,
   ): IResultOfEatAndInterruptPreviousSibling<T, IToken> {
-    const {
-      nodePoints,
-      endIndex,
-      firstNonWhitespaceIndex,
-      countOfPrecedeSpaces,
-    } = line
+    const { nodePoints, endIndex, firstNonWhitespaceIndex, countOfPrecedeSpaces } = line
 
     /**
      * Four spaces is too much
      * @see https://github.github.com/gfm/#example-55
      * @see https://github.github.com/gfm/#example-57
      */
-    if (countOfPrecedeSpaces >= 4 || firstNonWhitespaceIndex >= endIndex)
-      return null
+    if (countOfPrecedeSpaces >= 4 || firstNonWhitespaceIndex >= endIndex) return null
 
     let marker: number | null = null,
       hasPotentialInternalSpace = false
@@ -113,8 +103,7 @@ export class SetextHeadingTokenizer
        */
       if (
         hasPotentialInternalSpace ||
-        (c.codePoint !== AsciiCodePoint.EQUALS_SIGN &&
-          c.codePoint !== AsciiCodePoint.MINUS_SIGN) ||
+        (c.codePoint !== AsciiCodePoint.EQUALS_SIGN && c.codePoint !== AsciiCodePoint.MINUS_SIGN) ||
         (marker != null && marker !== c.codePoint)
       ) {
         marker = null

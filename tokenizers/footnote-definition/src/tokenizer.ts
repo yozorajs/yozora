@@ -66,17 +66,11 @@ export class FootnoteDefinitionTokenizer
    * @override
    * @see ITokenizerMatchBlockHook
    */
-  public eatOpener(
-    line: Readonly<IPhrasingContentLine>,
-  ): IResultOfEatOpener<T, IToken> {
+  public eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
     if (line.countOfPrecedeSpaces >= 4) return null
 
     const { nodePoints, startIndex, firstNonWhitespaceIndex, endIndex } = line
-    const nextIndex = eatFootnoteLabel(
-      nodePoints,
-      firstNonWhitespaceIndex,
-      endIndex,
-    )
+    const nextIndex = eatFootnoteLabel(nodePoints, firstNonWhitespaceIndex, endIndex)
 
     // Try to match the following colon (:).
     if (
@@ -107,15 +101,8 @@ export class FootnoteDefinitionTokenizer
    * @override
    * @see ITokenizerMatchBlockHook
    */
-  public eatContinuationText(
-    line: Readonly<IPhrasingContentLine>,
-  ): IResultOfEatContinuationText {
-    const {
-      startIndex,
-      endIndex,
-      firstNonWhitespaceIndex,
-      countOfPrecedeSpaces,
-    } = line
+  public eatContinuationText(line: Readonly<IPhrasingContentLine>): IResultOfEatContinuationText {
+    const { startIndex, endIndex, firstNonWhitespaceIndex, countOfPrecedeSpaces } = line
 
     // Blank line is allowed
     if (firstNonWhitespaceIndex >= endIndex) {
@@ -137,10 +124,7 @@ export class FootnoteDefinitionTokenizer
    * @override
    * @see ITokenizerMatchBlockHook
    */
-  public onClose(
-    token: IToken,
-    api: Readonly<IMatchBlockPhaseApi>,
-  ): IResultOfOnClose {
+  public onClose(token: IToken, api: Readonly<IMatchBlockPhaseApi>): IResultOfOnClose {
     /**
      * Labels are trimmed and case-insensitive
      * @see https://github.github.com/gfm/#example-174
@@ -168,10 +152,7 @@ export class FootnoteDefinitionTokenizer
    * @override
    * @see ITokenizerParseBlockHook
    */
-  public parseBlock(
-    token: Readonly<IToken>,
-    children: IYastNode[],
-  ): IResultOfParse<T, INode> {
+  public parseBlock(token: Readonly<IToken>, children: IYastNode[]): IResultOfParse<T, INode> {
     const label: string = token._label!
     const identifier: string = token._identifier!
 

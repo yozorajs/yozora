@@ -5,12 +5,7 @@ import { parsers } from 'jest.setup'
 
 createTester(parsers.yozora)
   .scan(['custom/**/*.json', '!custom/inline-math/backtick-required'])
-  .scan([
-    'gfm/**/*.json',
-    '!gfm/**/#616.json',
-    '!gfm/**/#619.json',
-    '!gfm/**/#620.json',
-  ])
+  .scan(['gfm/**/*.json', '!gfm/**/#616.json', '!gfm/**/#619.json', '!gfm/**/#620.json'])
   .runTest()
 
 createTester(

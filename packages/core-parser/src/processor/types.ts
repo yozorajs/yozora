@@ -24,18 +24,11 @@ import type { ITokenizerHookAll } from '../types'
 export interface IProcessorOptions {
   readonly tokenizerHookMap: ReadonlyMap<
     YastNodeType,
-    ITokenizer &
-      Partial<ITokenizerHookAll> &
-      ITokenizerParseBlockHook &
-      ITokenizerParseInlineHook
+    ITokenizer & Partial<ITokenizerHookAll> & ITokenizerParseBlockHook & ITokenizerParseInlineHook
   >
   readonly matchBlockHooks: ReadonlyArray<ITokenizer & ITokenizerMatchBlockHook>
-  readonly postMatchBlockHooks: ReadonlyArray<
-    ITokenizer & ITokenizerPostMatchBlockHook
-  >
-  readonly matchInlineHooks: ReadonlyArray<
-    ITokenizer & ITokenizerMatchInlineHook
-  >
+  readonly postMatchBlockHooks: ReadonlyArray<ITokenizer & ITokenizerPostMatchBlockHook>
+  readonly matchInlineHooks: ReadonlyArray<ITokenizer & ITokenizerMatchInlineHook>
   readonly phrasingContentTokenizer: PhrasingContentTokenizer
   readonly blockFallbackTokenizer: IBlockFallbackTokenizer | null
   readonly inlineFallbackTokenizer: IInlineFallbackTokenizer | null

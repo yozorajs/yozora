@@ -36,9 +36,7 @@ export function calcExcerptAst(
       if (i !== indexOfLastLiteralNode) return node
       return {
         ...node,
-        value: (node as IYastLiteral).value.slice(
-          totalExcerptLengthSoFar - pruneLength,
-        ),
+        value: (node as IYastLiteral).value.slice(totalExcerptLengthSoFar - pruneLength),
       }
     })
   }

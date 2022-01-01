@@ -92,12 +92,7 @@ export class FencedCodeTokenizer
     const node: INode = {
       type: CodeType,
       lang: calcEscapedStringFromNodePoints(lang, 0, lang.length, true),
-      meta: calcEscapedStringFromNodePoints(
-        infoString,
-        i,
-        infoString.length,
-        true,
-      ),
+      meta: calcEscapedStringFromNodePoints(infoString, i, infoString.length, true),
       value: calcStringFromNodePoints(contents),
     }
     return node

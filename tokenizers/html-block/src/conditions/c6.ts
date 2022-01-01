@@ -96,8 +96,7 @@ export function eatStartCondition6(
   if (startIndex >= endIndex) return endIndex
 
   const c = nodePoints[startIndex].codePoint
-  if (isWhitespaceCharacter(c) || c === AsciiCodePoint.CLOSE_ANGLE)
-    return startIndex + 1
+  if (isWhitespaceCharacter(c) || c === AsciiCodePoint.CLOSE_ANGLE) return startIndex + 1
 
   if (
     c === AsciiCodePoint.SLASH &&

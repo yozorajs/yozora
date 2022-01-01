@@ -27,13 +27,7 @@ import { eatEndCondition4, eatStartCondition4 } from './conditions/c4'
 import { eatEndCondition5, eatStartCondition5 } from './conditions/c5'
 import { eatStartCondition6 } from './conditions/c6'
 import { eatStartCondition7 } from './conditions/c7'
-import type {
-  HtmlBlockConditionType,
-  INode,
-  IToken,
-  ITokenizerProps,
-  T,
-} from './types'
+import type { HtmlBlockConditionType, INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 import { eatHTMLTagName } from './util/eat-html-tagname'
 
@@ -67,9 +61,7 @@ export class HtmlBlockTokenizer
    * @override
    * @see ITokenizerMatchBlockHook
    */
-  public eatOpener(
-    line: Readonly<IPhrasingContentLine>,
-  ): IResultOfEatOpener<T, IToken> {
+  public eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
     /**
      * The opening tag can be indented 1-3 spaces, but not 4.
      * @see https://github.github.com/gfm/#example-152
@@ -79,8 +71,7 @@ export class HtmlBlockTokenizer
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (
       firstNonWhitespaceIndex >= endIndex ||
-      nodePoints[firstNonWhitespaceIndex].codePoint !==
-        AsciiCodePoint.OPEN_ANGLE
+      nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.OPEN_ANGLE
     )
       return null
 
@@ -97,12 +88,7 @@ export class HtmlBlockTokenizer
      */
     let saturated = false
     if (condition !== 6 && condition !== 7) {
-      const endResult = this.eatEndCondition(
-        nodePoints,
-        startResult.nextIndex,
-        endIndex,
-        condition,
-      )
+      const endResult = this.eatEndCondition(nodePoints, startResult.nextIndex, endIndex, condition)
       if (endResult != null) saturated = true
     }
 
@@ -206,11 +192,7 @@ export class HtmlBlockTokenizer
 
     if (nodePoints[startIndex].codePoint !== AsciiCodePoint.SLASH) {
       const tagNameStartIndex = startIndex
-      const tagNameEndIndex = eatHTMLTagName(
-        nodePoints,
-        tagNameStartIndex,
-        endIndex,
-      )
+      const tagNameEndIndex = eatHTMLTagName(nodePoints, tagNameStartIndex, endIndex)
       if (tagNameEndIndex == null) return null
 
       const tagNameInterval: INodeInterval = {
@@ -225,31 +207,15 @@ export class HtmlBlockTokenizer
       const tagName = rawTagName.toLowerCase()
 
       // condition1
-      nextIndex = eatStartCondition1(
-        nodePoints,
-        tagNameInterval.endIndex,
-        endIndex,
-        tagName,
-      )
+      nextIndex = eatStartCondition1(nodePoints, tagNameInterval.endIndex, endIndex, tagName)
       if (nextIndex != null) return { nextIndex, condition: 1 }
 
       // condition 6
-      nextIndex = eatStartCondition6(
-        nodePoints,
-        tagNameInterval.endIndex,
-        endIndex,
-        tagName,
-      )
+      nextIndex = eatStartCondition6(nodePoints, tagNameInterval.endIndex, endIndex, tagName)
       if (nextIndex != null) return { nextIndex, condition: 6 }
 
       // condition 7
-      nextIndex = eatStartCondition7(
-        nodePoints,
-        tagNameInterval.endIndex,
-        endIndex,
-        tagName,
-        true,
-      )
+      nextIndex = eatStartCondition7(nodePoints, tagNameInterval.endIndex, endIndex, tagName, true)
       if (nextIndex != null) return { nextIndex, condition: 7 }
 
       // fallback
@@ -257,11 +223,7 @@ export class HtmlBlockTokenizer
     }
 
     const tagNameStartIndex = startIndex + 1
-    const tagNameEndIndex = eatHTMLTagName(
-      nodePoints,
-      tagNameStartIndex,
-      endIndex,
-    )
+    const tagNameEndIndex = eatHTMLTagName(nodePoints, tagNameStartIndex, endIndex)
     if (tagNameEndIndex == null) return null
 
     const tagNameInterval: INodeInterval = {
@@ -276,22 +238,11 @@ export class HtmlBlockTokenizer
     const tagName = rawTagName.toLowerCase()
 
     // condition 6
-    nextIndex = eatStartCondition6(
-      nodePoints,
-      tagNameInterval.endIndex,
-      endIndex,
-      tagName,
-    )
+    nextIndex = eatStartCondition6(nodePoints, tagNameInterval.endIndex, endIndex, tagName)
     if (nextIndex != null) return { nextIndex, condition: 6 }
 
     // condition 7.
-    nextIndex = eatStartCondition7(
-      nodePoints,
-      tagNameInterval.endIndex,
-      endIndex,
-      tagName,
-      false,
-    )
+    nextIndex = eatStartCondition7(nodePoints, tagNameInterval.endIndex, endIndex, tagName, false)
     if (nextIndex != null) return { nextIndex, condition: 7 }
 
     // fallback
@@ -335,11 +286,7 @@ export class HtmlBlockTokenizer
       }
       case 6:
       case 7: {
-        const firstNonWhitespaceIndex = eatOptionalWhitespaces(
-          nodePoints,
-          startIndex,
-          endIndex,
-        )
+        const firstNonWhitespaceIndex = eatOptionalWhitespaces(nodePoints, startIndex, endIndex)
         return firstNonWhitespaceIndex >= endIndex ? -1 : null
       }
     }

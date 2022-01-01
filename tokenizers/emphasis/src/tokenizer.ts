@@ -61,10 +61,7 @@ export class EmphasisTokenizer
      * Check if it is a opener delimiter.
      * @see https://github.github.com/gfm/#left-flanking-delimiter-run
      */
-    const isOpenerDelimiter = (
-      delimiterStartIndex: number,
-      delimiterEndIndex: number,
-    ): boolean => {
+    const isOpenerDelimiter = (delimiterStartIndex: number, delimiterEndIndex: number): boolean => {
       if (delimiterEndIndex === blockEndIndex) return false
       if (delimiterEndIndex === endIndex) return true
 
@@ -89,10 +86,7 @@ export class EmphasisTokenizer
      * Check if it is a closer delimiter.
      * @see https://github.github.com/gfm/#right-flanking-delimiter-run
      */
-    const isCloserDelimiter = (
-      delimiterStartIndex: number,
-      delimiterEndIndex: number,
-    ): boolean => {
+    const isCloserDelimiter = (delimiterStartIndex: number, delimiterEndIndex: number): boolean => {
       if (delimiterStartIndex === blockStartIndex) return false
       if (delimiterStartIndex === startIndex) return true
 
@@ -140,14 +134,8 @@ export class EmphasisTokenizer
           i = eatOptionalCharacters(nodePoints, i + 1, endIndex, c) - 1
 
           const _endIndex = i + 1
-          const isLeftFlankingDelimiterRun = isOpenerDelimiter(
-            _startIndex,
-            _endIndex,
-          )
-          const isRightFlankingDelimiterRun = isCloserDelimiter(
-            _startIndex,
-            _endIndex,
-          )
+          const isLeftFlankingDelimiterRun = isOpenerDelimiter(_startIndex, _endIndex)
+          const isRightFlankingDelimiterRun = isCloserDelimiter(_startIndex, _endIndex)
 
           let isOpener = isLeftFlankingDelimiterRun
           let isCloser = isRightFlankingDelimiterRun
@@ -240,10 +228,7 @@ export class EmphasisTokenizer
       nodePoints[openerDelimiter.startIndex].codePoint !==
         nodePoints[closerDelimiter.startIndex].codePoint ||
       ((openerDelimiter.type === 'both' || closerDelimiter.type === 'both') &&
-        (openerDelimiter.originalThickness +
-          closerDelimiter.originalThickness) %
-          3 ===
-          0 &&
+        (openerDelimiter.originalThickness + closerDelimiter.originalThickness) % 3 === 0 &&
         openerDelimiter.originalThickness % 3 !== 0)
     ) {
       return { paired: false, opener: true, closer: true }

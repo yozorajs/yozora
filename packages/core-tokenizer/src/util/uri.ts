@@ -1,10 +1,6 @@
 import { LinkReferenceType, LinkType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
-import {
-  AsciiCodePoint,
-  calcStringFromNodePoints,
-  foldCase,
-} from '@yozora/character'
+import { AsciiCodePoint, calcStringFromNodePoints, foldCase } from '@yozora/character'
 import type { IYastInlineToken } from '../types/token'
 
 /**
@@ -106,11 +102,7 @@ export function eatLinkLabel(
          * A link label must contain at least one non-whitespace character
          * @see https://github.github.com/gfm/#example-559
          */
-        const labelAndIdentifier = resolveLinkLabelAndIdentifier(
-          nodePoints,
-          startIndex + 1,
-          i,
-        )
+        const labelAndIdentifier = resolveLinkLabelAndIdentifier(nodePoints, startIndex + 1, i)
         return { nextIndex: i + 1, labelAndIdentifier }
       }
     }

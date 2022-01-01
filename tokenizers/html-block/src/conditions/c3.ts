@@ -17,8 +17,7 @@ export function eatStartCondition3(
   endIndex: number,
 ): number | null {
   const i = startIndex
-  if (i < endIndex && nodePoints[i].codePoint === AsciiCodePoint.QUESTION_MARK)
-    return i + 1
+  if (i < endIndex && nodePoints[i].codePoint === AsciiCodePoint.QUESTION_MARK) return i + 1
   return null
 }
 

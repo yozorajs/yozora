@@ -1,9 +1,4 @@
-import type {
-  IYastAlternative,
-  IYastAssociation,
-  IYastNode,
-  IYastReference,
-} from '../ast'
+import type { IYastAlternative, IYastAssociation, IYastNode, IYastReference } from '../ast'
 
 export const ImageReferenceType = 'imageReference'
 export type ImageReferenceType = typeof ImageReferenceType

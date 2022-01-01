@@ -1,8 +1,7 @@
 import type { IEcmaImportNamedImport } from '@yozora/ast'
 
 const namedImportItemRegex = /^(\w+)(?:\s+as\s+(\w+))?$/
-const namedImportRegex =
-  /\{\s*((?:[\w]+(?:\s+as\s+[\w]+)?\s*,\s*)*[\w]+(?:\s+as\s+[\w]+)?)\s*\}\s*/
+const namedImportRegex = /\{\s*((?:[\w]+(?:\s+as\s+[\w]+)?\s*,\s*)*[\w]+(?:\s+as\s+[\w]+)?)\s*\}\s*/
 
 /**
  * import '@yozora.parser'

@@ -17,9 +17,7 @@ createTesters(
     InlineCodeTokenizerName,
   ),
 ).forEach(tester =>
-  tester
-    .scan(['custom/inline-math', '!custom/inline-math/backtick-required'])
-    .runTest(),
+  tester.scan(['custom/inline-math', '!custom/inline-math/backtick-required']).runTest(),
 )
 
 createTesters(
@@ -32,6 +30,4 @@ createTesters(
     InlineCodeTokenizerName,
   ),
   parsers.yozora,
-).forEach(tester =>
-  tester.scan('custom/inline-math/backtick-required').runTest(),
-)
+).forEach(tester => tester.scan('custom/inline-math/backtick-required').runTest())

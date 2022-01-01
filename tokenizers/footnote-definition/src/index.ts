@@ -1,8 +1,5 @@
 export * from './util'
-export {
-  FootnoteDefinitionTokenizer,
-  FootnoteDefinitionTokenizer as default,
-} from './tokenizer'
+export { FootnoteDefinitionTokenizer, FootnoteDefinitionTokenizer as default } from './tokenizer'
 export { uniqueName as FootnoteDefinitionTokenizerName } from './types'
 export type {
   IToken as IFootnoteDefinitionToken,

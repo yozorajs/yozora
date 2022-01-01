@@ -44,10 +44,7 @@ export class TextTokenizer
    * @see ITokenizerMatchInlineHook
    */
   /* istanbul ignore next */
-  protected override _findDelimiter(
-    startIndex: number,
-    endIndex: number,
-  ): IDelimiter | null {
+  protected override _findDelimiter(startIndex: number, endIndex: number): IDelimiter | null {
     return {
       type: 'full',
       startIndex,
@@ -60,9 +57,7 @@ export class TextTokenizer
    * @see ITokenizerMatchInlineHook
    */
   /* istanbul ignore next */
-  public processSingleDelimiter(
-    delimiter: IDelimiter,
-  ): IResultOfProcessSingleDelimiter<T, IToken> {
+  public processSingleDelimiter(delimiter: IDelimiter): IResultOfProcessSingleDelimiter<T, IToken> {
     const token: IToken = {
       nodeType: TextType,
       startIndex: delimiter.startIndex,
@@ -95,11 +90,7 @@ export class TextTokenizer
   ): INode {
     const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     const { startIndex, endIndex } = token
-    let value: string = calcEscapedStringFromNodePoints(
-      nodePoints,
-      startIndex,
-      endIndex,
-    )
+    let value: string = calcEscapedStringFromNodePoints(nodePoints, startIndex, endIndex)
 
     /**
      * Spaces at the end of the line and beginning of the next line are removed

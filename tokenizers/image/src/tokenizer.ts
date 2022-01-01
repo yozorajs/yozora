@@ -1,10 +1,7 @@
 import type { IYastNode } from '@yozora/ast'
 import { ImageType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
-import {
-  AsciiCodePoint,
-  calcEscapedStringFromNodePoints,
-} from '@yozora/character'
+import { AsciiCodePoint, calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
   IMatchInlinePhaseApi,
   IParseInlinePhaseApi,
@@ -117,10 +114,7 @@ export class ImageTokenizer
           i += 1
           break
         case AsciiCodePoint.EXCLAMATION_MARK: {
-          if (
-            i + 1 < endIndex &&
-            nodePoints[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET
-          ) {
+          if (i + 1 < endIndex && nodePoints[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET) {
             return {
               type: 'opener',
               startIndex: i,
@@ -148,11 +142,7 @@ export class ImageTokenizer
           }
 
           // try to match link destination
-          const destinationStartIndex = eatOptionalWhitespaces(
-            nodePoints,
-            i + 2,
-            blockEndIndex,
-          )
+          const destinationStartIndex = eatOptionalWhitespaces(nodePoints, i + 2, blockEndIndex)
           const destinationEndIndex = eatLinkDestination(
             nodePoints,
             destinationStartIndex,
@@ -166,20 +156,14 @@ export class ImageTokenizer
             destinationEndIndex,
             blockEndIndex,
           )
-          const titleEndIndex = eatLinkTitle(
-            nodePoints,
-            titleStartIndex,
-            blockEndIndex,
-          )
+          const titleEndIndex = eatLinkTitle(nodePoints, titleStartIndex, blockEndIndex)
           if (titleEndIndex < 0) break
 
           const _startIndex = i
-          const _endIndex =
-            eatOptionalWhitespaces(nodePoints, titleEndIndex, blockEndIndex) + 1
+          const _endIndex = eatOptionalWhitespaces(nodePoints, titleEndIndex, blockEndIndex) + 1
           if (
             _endIndex > blockEndIndex ||
-            nodePoints[_endIndex - 1].codePoint !==
-              AsciiCodePoint.CLOSE_PARENTHESIS
+            nodePoints[_endIndex - 1].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
           ) {
             break
           }
@@ -281,12 +265,7 @@ export class ImageTokenizer
         startIndex += 1
         endIndex -= 1
       }
-      const destination = calcEscapedStringFromNodePoints(
-        nodePoints,
-        startIndex,
-        endIndex,
-        true,
-      )
+      const destination = calcEscapedStringFromNodePoints(nodePoints, startIndex, endIndex, true)
       url = encodeLinkDestination(destination)
     }
 
@@ -297,11 +276,7 @@ export class ImageTokenizer
     let title: string | undefined
     if (token.titleContent != null) {
       const { startIndex, endIndex } = token.titleContent
-      title = calcEscapedStringFromNodePoints(
-        nodePoints,
-        startIndex + 1,
-        endIndex - 1,
-      )
+      title = calcEscapedStringFromNodePoints(nodePoints, startIndex + 1, endIndex - 1)
     }
 
     const result: INode = { type: ImageType, url, alt, title }

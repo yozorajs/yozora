@@ -117,9 +117,7 @@ export class BreakTokenizer
    * @override
    * @see ITokenizerMatchInlineHook
    */
-  public processSingleDelimiter(
-    delimiter: IDelimiter,
-  ): IResultOfProcessSingleDelimiter<T, IToken> {
+  public processSingleDelimiter(delimiter: IDelimiter): IResultOfProcessSingleDelimiter<T, IToken> {
     const token: IToken = {
       nodeType: BreakType,
       startIndex: delimiter.startIndex,

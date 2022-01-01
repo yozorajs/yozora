@@ -1,11 +1,7 @@
 import type { IYastNode } from '@yozora/ast'
 import { InlineMathType } from '@yozora/ast'
 import type { INodeInterval, INodePoint } from '@yozora/character'
-import {
-  AsciiCodePoint,
-  calcStringFromNodePoints,
-  isSpaceLike,
-} from '@yozora/character'
+import { AsciiCodePoint, calcStringFromNodePoints, isSpaceLike } from '@yozora/character'
 import type {
   IMatchInlinePhaseApi,
   IParseInlinePhaseApi,
@@ -86,18 +82,10 @@ export class InlineMathTokenizer
           const _startIndex = i
 
           // matched as many backtick as possible
-          i = eatOptionalCharacters(
-            nodePoints,
-            i + 1,
-            blockEndIndex,
-            AsciiCodePoint.BACKTICK,
-          )
+          i = eatOptionalCharacters(nodePoints, i + 1, blockEndIndex, AsciiCodePoint.BACKTICK)
 
           // No dollar character found after backtick string
-          if (
-            i >= blockEndIndex ||
-            nodePoints[i].codePoint !== AsciiCodePoint.DOLLAR_SIGN
-          ) {
+          if (i >= blockEndIndex || nodePoints[i].codePoint !== AsciiCodePoint.DOLLAR_SIGN) {
             break
           }
 
@@ -120,19 +108,11 @@ export class InlineMathTokenizer
         case AsciiCodePoint.DOLLAR_SIGN: {
           // matched as many backtick as possible
           const _startIndex = i
-          i = eatOptionalCharacters(
-            nodePoints,
-            i + 1,
-            blockEndIndex,
-            AsciiCodePoint.BACKTICK,
-          )
+          i = eatOptionalCharacters(nodePoints, i + 1, blockEndIndex, AsciiCodePoint.BACKTICK)
 
           // A dollar sign followed by a dollar sign is not part of a valid
           // inlineMath delimiter
-          if (
-            i < blockEndIndex &&
-            nodePoints[i].codePoint === AsciiCodePoint.DOLLAR_SIGN
-          ) {
+          if (i < blockEndIndex && nodePoints[i].codePoint === AsciiCodePoint.DOLLAR_SIGN) {
             break
           }
 
@@ -179,8 +159,7 @@ export class InlineMathTokenizer
       for (; pIndex < potentialDelimiters.length; ++pIndex) {
         for (; pIndex < potentialDelimiters.length; ++pIndex) {
           const delimiter = potentialDelimiters[pIndex]
-          if (delimiter.startIndex >= startIndex && delimiter.type !== 'closer')
-            break
+          if (delimiter.startIndex >= startIndex && delimiter.type !== 'closer') break
         }
         if (pIndex + 1 >= potentialDelimiters.length) break
 
@@ -224,9 +203,7 @@ export class InlineMathTokenizer
    * @override
    * @see ITokenizerMatchInlineHook
    */
-  public processSingleDelimiter(
-    delimiter: IDelimiter,
-  ): IResultOfProcessSingleDelimiter<T, IToken> {
+  public processSingleDelimiter(delimiter: IDelimiter): IResultOfProcessSingleDelimiter<T, IToken> {
     const token: IToken = {
       nodeType: InlineMathType,
       startIndex: delimiter.startIndex,
@@ -282,10 +259,7 @@ export class InlineMathTokenizer
 
     const result: INode = {
       type: InlineMathType,
-      value: calcStringFromNodePoints(nodePoints, startIndex, endIndex).replace(
-        /\n/,
-        ' ',
-      ),
+      value: calcStringFromNodePoints(nodePoints, startIndex, endIndex).replace(/\n/, ' '),
     }
     return result
   }

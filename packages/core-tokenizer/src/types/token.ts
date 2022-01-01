@@ -5,8 +5,7 @@ import type { INodeInterval } from '@yozora/character'
  * Make a set of properties by key `K` become optional from `T`.
  */
 // eslint-disable-next-line @typescript-eslint/ban-types
-declare type IPickPartial<T extends object, K extends keyof T> = Omit<T, K> &
-  Partial<Pick<T, K>>
+declare type IPickPartial<T extends object, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
 /**
  * IToken delimiter.
@@ -39,8 +38,7 @@ export interface IYastToken<T extends YastNodeType = YastNodeType> {
 /**
  * Block data type token.
  */
-export interface IYastBlockToken<T extends YastNodeType = YastNodeType>
-  extends IYastToken<T> {
+export interface IYastBlockToken<T extends YastNodeType = YastNodeType> extends IYastToken<T> {
   /**
    * Location of a node in the source contents.
    */
@@ -66,11 +64,15 @@ export interface IYastInlineToken<T extends YastNodeType = YastNodeType>
 /**
  * Make '_tokenizer' partial from IYastBlockToken.
  */
-export type IPartialYastBlockToken<T extends YastNodeType = YastNodeType> =
-  IPickPartial<IYastBlockToken<T>, '_tokenizer'>
+export type IPartialYastBlockToken<T extends YastNodeType = YastNodeType> = IPickPartial<
+  IYastBlockToken<T>,
+  '_tokenizer'
+>
 
 /**
  * Make '_tokenizer' partial from IYastInlineToken.
  */
-export type IPartialYastInlineToken<T extends YastNodeType = YastNodeType> =
-  IPickPartial<IYastInlineToken<T>, '_tokenizer'>
+export type IPartialYastInlineToken<T extends YastNodeType = YastNodeType> = IPickPartial<
+  IYastInlineToken<T>,
+  '_tokenizer'
+>

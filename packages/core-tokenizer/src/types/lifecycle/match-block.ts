@@ -1,8 +1,5 @@
 import type { YastNodeType } from '@yozora/ast'
-import type {
-  IPhrasingContentLine,
-  IPhrasingContentToken,
-} from '../phrasing-content'
+import type { IPhrasingContentLine, IPhrasingContentToken } from '../phrasing-content'
 import type { IPartialYastBlockToken, IYastBlockToken } from '../token'
 
 /**
@@ -13,9 +10,7 @@ export interface IMatchBlockPhaseApi {
    * Extract phrasing content lines from block token.
    * @param token
    */
-  extractPhrasingLines(
-    token: IYastBlockToken,
-  ): ReadonlyArray<IPhrasingContentLine> | null
+  extractPhrasingLines(token: IYastBlockToken): ReadonlyArray<IPhrasingContentLine> | null
   /**
    * Build PhrasingContentToken from phrasing content lines.
    * @param lines
@@ -132,9 +127,7 @@ export interface ITokenizerMatchBlockHook<
    * Extract array of IPhrasingContentLine from a given IYastBlockToken.
    * @param token
    */
-  extractPhrasingContentLines?(
-    token: Readonly<IToken>,
-  ): ReadonlyArray<IPhrasingContentLine> | null
+  extractPhrasingContentLines?(token: Readonly<IToken>): ReadonlyArray<IPhrasingContentLine> | null
 
   /**
    * Build BlockTokenizerPostMatchPhaseToken from

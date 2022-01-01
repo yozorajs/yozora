@@ -550,12 +550,7 @@ ___
 items.forEach((item): void => {
   const data = item
   data.packageDirectory ??= 'tokenizers/' + data.tokenizerName
-  const docFilepath = path.join(
-    __dirname,
-    '../../',
-    data.packageDirectory,
-    'README.md',
-  )
+  const docFilepath = path.join(__dirname, '../../', data.packageDirectory, 'README.md')
   data.packageName ??= `@yozora/tokenizer-${data.tokenizerName}`
   data.shortPackageName ??= `tokenizer-${data.tokenizerName}`
   data.inGfm ??= false

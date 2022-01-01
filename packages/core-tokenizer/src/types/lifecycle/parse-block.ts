@@ -1,8 +1,5 @@
 import type { IYastNode, YastNodeType } from '@yozora/ast'
-import type {
-  IPhrasingContent,
-  IPhrasingContentLine,
-} from '../phrasing-content'
+import type { IPhrasingContent, IPhrasingContentLine } from '../phrasing-content'
 import type { IPartialYastBlockToken, IYastBlockToken } from '../token'
 
 /**
@@ -13,9 +10,7 @@ export interface IParseBlockPhaseApi {
    * Build IPhrasingContent from a PhrasingContentToken.
    * @param lines
    */
-  buildPhrasingContent(
-    lines: ReadonlyArray<IPhrasingContentLine>,
-  ): IPhrasingContent | null
+  buildPhrasingContent(lines: ReadonlyArray<IPhrasingContentLine>): IPhrasingContent | null
   /**
    * Parse phrasing content to Yozora AST nodes.
    * @param phrasingContent

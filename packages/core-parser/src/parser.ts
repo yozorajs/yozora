@@ -44,20 +44,11 @@ export interface IDefaultParserProps {
 export class DefaultParser implements IParser {
   protected readonly tokenizerHookMap: Map<
     YastNodeType,
-    ITokenizer &
-      Partial<ITokenizerHookAll> &
-      ITokenizerParseBlockHook &
-      ITokenizerParseInlineHook
+    ITokenizer & Partial<ITokenizerHookAll> & ITokenizerParseBlockHook & ITokenizerParseInlineHook
   >
-  protected readonly matchBlockHooks: Array<
-    ITokenizer & ITokenizerMatchBlockHook
-  >
-  protected readonly postMatchBlockHooks: Array<
-    ITokenizer & ITokenizerPostMatchBlockHook
-  >
-  protected readonly matchInlineHooks: Array<
-    ITokenizer & ITokenizerMatchInlineHook
-  >
+  protected readonly matchBlockHooks: Array<ITokenizer & ITokenizerMatchBlockHook>
+  protected readonly postMatchBlockHooks: Array<ITokenizer & ITokenizerPostMatchBlockHook>
+  protected readonly matchInlineHooks: Array<ITokenizer & ITokenizerMatchInlineHook>
   protected readonly phrasingContentTokenizer: PhrasingContentTokenizer
   protected blockFallbackTokenizer: IBlockFallbackTokenizer | null = null
   protected inlineFallbackTokenizer: IInlineFallbackTokenizer | null = null
@@ -89,9 +80,7 @@ export class DefaultParser implements IParser {
 
     // Resolve inline fallback tokenizer.
     const inlineFallbackTokenizer =
-      props.inlineFallbackTokenizer != null
-        ? props.inlineFallbackTokenizer
-        : null
+      props.inlineFallbackTokenizer != null ? props.inlineFallbackTokenizer : null
     if (inlineFallbackTokenizer != null) {
       this.useInlineFallbackTokenizer(inlineFallbackTokenizer)
     }
@@ -109,19 +98,14 @@ export class DefaultParser implements IParser {
     // Check if the tokenizer name has been registered by other tokenizer.
     const olderTokenizer = this.tokenizerHookMap.get(tokenizer.name)
     if (olderTokenizer != null) {
-      throw new TypeError(
-        `[useTokenizer] Name(${tokenizer.name}) has been registered.`,
-      )
+      throw new TypeError(`[useTokenizer] Name(${tokenizer.name}) has been registered.`)
     }
 
     const hook = tokenizer as ITokenizer & ITokenizerHookAll
     this.tokenizerHookMap.set(tokenizer.name, hook)
 
     // Register into this.*Hooks.
-    const registerIntoHooks = (
-      hooks: ITokenizer[],
-      flag: keyof ITokenizerHookPhaseFlags,
-    ): void => {
+    const registerIntoHooks = (hooks: ITokenizer[], flag: keyof ITokenizerHookPhaseFlags): void => {
       if (lifecycleHookFlags[flag] === false) return
       let index = 0
       for (; index < hooks.length; ++index) {
@@ -171,18 +155,13 @@ export class DefaultParser implements IParser {
    */
   public unmountTokenizer(tokenizerOrName: ITokenizer | string): this {
     const tokenizerName =
-      typeof tokenizerOrName === 'string'
-        ? tokenizerOrName
-        : tokenizerOrName.name
+      typeof tokenizerOrName === 'string' ? tokenizerOrName : tokenizerOrName.name
 
     const existed: boolean = this.tokenizerHookMap.delete(tokenizerName)
     if (!existed) return this
 
     // Check if its blockFallbackTokenizer
-    if (
-      this.blockFallbackTokenizer == null ||
-      this.blockFallbackTokenizer.name === tokenizerName
-    ) {
+    if (this.blockFallbackTokenizer == null || this.blockFallbackTokenizer.name === tokenizerName) {
       this.blockFallbackTokenizer = null
     }
 
@@ -210,9 +189,7 @@ export class DefaultParser implements IParser {
    * @override
    * @see IParser
    */
-  public useBlockFallbackTokenizer(
-    blockFallbackTokenizer: IBlockFallbackTokenizer,
-  ): this {
+  public useBlockFallbackTokenizer(blockFallbackTokenizer: IBlockFallbackTokenizer): this {
     // Unmount old fallback tokenizer
     if (this.blockFallbackTokenizer != null) {
       this.unmountTokenizer(this.blockFallbackTokenizer)
@@ -233,9 +210,7 @@ export class DefaultParser implements IParser {
    * @override
    * @see IParser
    */
-  public useInlineFallbackTokenizer(
-    inlineFallbackTokenizer: IInlineFallbackTokenizer,
-  ): this {
+  public useInlineFallbackTokenizer(inlineFallbackTokenizer: IInlineFallbackTokenizer): this {
     // Unmount old fallback tokenizer
     if (this.inlineFallbackTokenizer != null) {
       this.unmountTokenizer(this.inlineFallbackTokenizer)
@@ -269,15 +244,8 @@ export class DefaultParser implements IParser {
    * @override
    * @see IParser
    */
-  public parse(
-    contents: Iterable<string> | string,
-    options: IParseOptions = {},
-  ): IRoot {
-    const {
-      shouldReservePosition,
-      presetDefinitions,
-      presetFootnoteDefinitions,
-    } = {
+  public parse(contents: Iterable<string> | string, options: IParseOptions = {}): IRoot {
+    const { shouldReservePosition, presetDefinitions, presetFootnoteDefinitions } = {
       ...this.defaultParseOptions,
       ...options,
     }

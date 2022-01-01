@@ -17,8 +17,7 @@ import {
   trimBlankLines,
 } from '@yozora/core-tokenizer'
 
-export const phrasingContentTokenizerUniqueName =
-  '@yozora/tokenizer-phrasing-content'
+export const phrasingContentTokenizerUniqueName = '@yozora/tokenizer-phrasing-content'
 
 /**
  * Params for constructing PhrasingContentTokenizer
@@ -56,9 +55,7 @@ export class PhrasingContentTokenizer
    * @override
    * @see ITokenizerMatchBlockHook
    */
-  public extractPhrasingContentLines(
-    token: Readonly<IToken>,
-  ): ReadonlyArray<IPhrasingContentLine> {
+  public extractPhrasingContentLines(token: Readonly<IToken>): ReadonlyArray<IPhrasingContentLine> {
     return token.lines
   }
 
@@ -66,9 +63,7 @@ export class PhrasingContentTokenizer
    * @override
    * @see ITokenizerMatchBlockHook
    */
-  public buildBlockToken(
-    _lines: ReadonlyArray<IPhrasingContentLine>,
-  ): IToken | null {
+  public buildBlockToken(_lines: ReadonlyArray<IPhrasingContentLine>): IToken | null {
     const lines = trimBlankLines(_lines)
     if (lines == null) return null
 
@@ -87,9 +82,7 @@ export class PhrasingContentTokenizer
    * @param lines
    * @returns
    */
-  public buildPhrasingContent(
-    lines: ReadonlyArray<IPhrasingContentLine>,
-  ): IPhrasingContent | null {
+  public buildPhrasingContent(lines: ReadonlyArray<IPhrasingContentLine>): IPhrasingContent | null {
     const contents = mergeAndStripContentLines(lines)
     if (contents.length <= 0) return null
 

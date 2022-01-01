@@ -10,9 +10,7 @@ export interface IHtmlInlineCDataTokenData {
   htmlType: 'cdata'
 }
 
-export interface IHtmlInlineCDataDelimiter
-  extends IYastTokenDelimiter,
-    IHtmlInlineCDataTokenData {
+export interface IHtmlInlineCDataDelimiter extends IYastTokenDelimiter, IHtmlInlineCDataTokenData {
   type: 'full'
 }
 

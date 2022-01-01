@@ -53,13 +53,8 @@ export function eatAndCollectLinkTitle(
    * Although link titles may span multiple lines,
    * they may not contain a blank line.
    */
-  const firstNonWhitespaceIndex = eatOptionalWhitespaces(
-    nodePoints,
-    i,
-    endIndex,
-  )
-  if (firstNonWhitespaceIndex >= endIndex)
-    return { nextIndex: -1, state: state }
+  const firstNonWhitespaceIndex = eatOptionalWhitespaces(nodePoints, i, endIndex)
+  if (firstNonWhitespaceIndex >= endIndex) return { nextIndex: -1, state: state }
 
   if (state.nodePoints.length <= 0) {
     i = firstNonWhitespaceIndex
@@ -129,10 +124,7 @@ export function eatAndCollectLinkTitle(
           case AsciiCodePoint.OPEN_PARENTHESIS:
             return { nextIndex: -1, state: state }
           case AsciiCodePoint.CLOSE_PARENTHESIS:
-            if (
-              i + 1 >= endIndex ||
-              nodePoints[i + 1].codePoint === VirtualCodePoint.LINE_END
-            ) {
+            if (i + 1 >= endIndex || nodePoints[i + 1].codePoint === VirtualCodePoint.LINE_END) {
               state.nodePoints.push(p)
               // eslint-disable-next-line no-param-reassign
               state.saturated = true

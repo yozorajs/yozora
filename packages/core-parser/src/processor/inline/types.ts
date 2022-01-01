@@ -68,9 +68,7 @@ export interface IDelimiterProcessorHook {
     closerDelimiter: IYastTokenDelimiter,
     internalTokens: ReadonlyArray<IYastInlineToken>,
   ): IResultOfProcessDelimiterPair
-  processSingleDelimiter(
-    fullDelimiter: IYastTokenDelimiter,
-  ): IResultOfProcessSingleDelimiter
+  processSingleDelimiter(fullDelimiter: IYastTokenDelimiter): IResultOfProcessSingleDelimiter
   reset(): void
 }
 

@@ -1,9 +1,4 @@
-import type {
-  IListItem,
-  ListItemType,
-  TaskStatus,
-  YastNodeType,
-} from '@yozora/ast'
+import type { IListItem, ListItemType, TaskStatus, YastNodeType } from '@yozora/ast'
 import type {
   IBaseBlockTokenizerProps,
   IPartialYastBlockToken,

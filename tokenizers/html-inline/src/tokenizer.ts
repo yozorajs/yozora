@@ -70,11 +70,7 @@ export class HtmlInlineTokenizer
           i += 1
           break
         case AsciiCodePoint.OPEN_ANGLE: {
-          const delimiter: IDelimiter | null = this.tryToEatDelimiter(
-            nodePoints,
-            i,
-            endIndex,
-          )
+          const delimiter: IDelimiter | null = this.tryToEatDelimiter(nodePoints, i, endIndex)
           if (delimiter != null) return delimiter
           break
         }
@@ -87,9 +83,7 @@ export class HtmlInlineTokenizer
    * @override
    * @see ITokenizerMatchInlineHook
    */
-  public processSingleDelimiter(
-    delimiter: IDelimiter,
-  ): IResultOfProcessSingleDelimiter<T, IToken> {
+  public processSingleDelimiter(delimiter: IDelimiter): IResultOfProcessSingleDelimiter<T, IToken> {
     const token: IToken = {
       ...delimiter,
       nodeType: HtmlType,
@@ -128,11 +122,7 @@ export class HtmlInlineTokenizer
     let delimiter: IDelimiter | null = null
 
     // Try open tag.
-    delimiter = eatHtmlInlineTokenOpenDelimiter(
-      nodePoints,
-      startIndex,
-      endIndex,
-    )
+    delimiter = eatHtmlInlineTokenOpenDelimiter(nodePoints, startIndex, endIndex)
     if (delimiter != null) return delimiter
 
     // Try closing tag.
@@ -144,19 +134,11 @@ export class HtmlInlineTokenizer
     if (delimiter != null) return delimiter
 
     // Try processing instruction.
-    delimiter = eatHtmlInlineInstructionDelimiter(
-      nodePoints,
-      startIndex,
-      endIndex,
-    )
+    delimiter = eatHtmlInlineInstructionDelimiter(nodePoints, startIndex, endIndex)
     if (delimiter != null) return delimiter
 
     // Try declaration.
-    delimiter = eatHtmlInlineDeclarationDelimiter(
-      nodePoints,
-      startIndex,
-      endIndex,
-    )
+    delimiter = eatHtmlInlineDeclarationDelimiter(nodePoints, startIndex, endIndex)
     if (delimiter != null) return delimiter
 
     // Try CDATA section.

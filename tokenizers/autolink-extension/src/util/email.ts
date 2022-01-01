@@ -55,11 +55,7 @@ export function eatExtendEmailAddress(
       continue
     }
 
-    if (
-      isAlphanumeric(c) ||
-      c === AsciiCodePoint.MINUS_SIGN ||
-      c === AsciiCodePoint.UNDERSCORE
-    )
+    if (isAlphanumeric(c) || c === AsciiCodePoint.MINUS_SIGN || c === AsciiCodePoint.UNDERSCORE)
       continue
     break
   }
@@ -68,10 +64,7 @@ export function eatExtendEmailAddress(
   // occur at the end of the email address, in which case it will not be
   // considered part of the address.
   const lastCharacter = nodePoints[i - 1].codePoint
-  if (
-    lastCharacter === AsciiCodePoint.MINUS_SIGN ||
-    lastCharacter === AsciiCodePoint.UNDERSCORE
-  )
+  if (lastCharacter === AsciiCodePoint.MINUS_SIGN || lastCharacter === AsciiCodePoint.UNDERSCORE)
     return { valid: false, nextIndex: i }
 
   if (lastCharacter === AsciiCodePoint.DOT) {

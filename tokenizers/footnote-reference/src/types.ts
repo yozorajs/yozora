@@ -1,8 +1,4 @@
-import type {
-  FootnoteReferenceType,
-  IFootnoteReference,
-  IYastAssociation,
-} from '@yozora/ast'
+import type { FootnoteReferenceType, IFootnoteReference, IYastAssociation } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
   IPartialYastInlineToken,

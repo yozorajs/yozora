@@ -19,14 +19,8 @@ describe('stripChineseCharacters', function () {
   })
 
   test('english -- english', function () {
-    expect(stripChineseCharacters('English\nEnglish')).toEqual(
-      'English\nEnglish',
-    )
-    expect(stripChineseCharacters('English.\nEnglish')).toEqual(
-      'English.\nEnglish',
-    )
-    expect(stripChineseCharacters('English\n.English')).toEqual(
-      'English\n.English',
-    )
+    expect(stripChineseCharacters('English\nEnglish')).toEqual('English\nEnglish')
+    expect(stripChineseCharacters('English.\nEnglish')).toEqual('English.\nEnglish')
+    expect(stripChineseCharacters('English\n.English')).toEqual('English\n.English')
   })
 })

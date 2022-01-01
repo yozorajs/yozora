@@ -34,9 +34,7 @@ describe('Space', function () {
   })
 
   test('Negative', function () {
-    const notSpaces = collectCodePointsFromEnum(AsciiCodePoint).filter(
-      c => spaces.indexOf(c) < 0,
-    )
+    const notSpaces = collectCodePointsFromEnum(AsciiCodePoint).filter(c => spaces.indexOf(c) < 0)
     for (const c of notSpaces) {
       expect(isSpaceCharacter(c)).toBeFalsy()
     }

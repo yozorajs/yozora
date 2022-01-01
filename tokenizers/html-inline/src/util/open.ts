@@ -28,9 +28,7 @@ export interface IHtmlInlineOpenTokenData {
   selfClosed: boolean
 }
 
-export interface IHtmlInlineOpenDelimiter
-  extends IYastTokenDelimiter,
-    IHtmlInlineOpenTokenData {
+export interface IHtmlInlineOpenDelimiter extends IYastTokenDelimiter, IHtmlInlineOpenTokenData {
   type: 'full'
 }
 
@@ -52,11 +50,7 @@ export function eatHtmlInlineTokenOpenDelimiter(
   if (i + 2 >= endIndex) return null
 
   const tagNameStartIndex = i + 1
-  const tagNameEndIndex = eatHTMLTagName(
-    nodePoints,
-    tagNameStartIndex,
-    endIndex,
-  )
+  const tagNameEndIndex = eatHTMLTagName(nodePoints, tagNameStartIndex, endIndex)
   if (tagNameEndIndex == null) return null
 
   const attributes: RawHTMLAttribute[] = []
@@ -76,8 +70,7 @@ export function eatHtmlInlineTokenOpenDelimiter(
     selfClosed = true
   }
 
-  if (i >= endIndex || nodePoints[i].codePoint !== AsciiCodePoint.CLOSE_ANGLE)
-    return null
+  if (i >= endIndex || nodePoints[i].codePoint !== AsciiCodePoint.CLOSE_ANGLE) return null
 
   const delimiter: IHtmlInlineOpenDelimiter = {
     type: 'full',

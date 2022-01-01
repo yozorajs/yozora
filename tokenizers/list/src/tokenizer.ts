@@ -29,10 +29,7 @@ export interface ListTokenizerProps {}
  */
 export class ListTokenizer
   extends BaseBlockTokenizer
-  implements
-    ITokenizer,
-    ITokenizerPostMatchBlockHook,
-    ITokenizerParseBlockHook<T, IToken, INode>
+  implements ITokenizer, ITokenizerPostMatchBlockHook, ITokenizerParseBlockHook<T, IToken, INode>
 {
   public override readonly isContainingBlock: boolean = true
 
@@ -90,10 +87,7 @@ export class ListTokenizer
           const currentItem = listItems[i]
 
           // If there exists blank line between list items, then the list is loose.
-          if (
-            previousItem.position.end.line + 1 <
-            currentItem.position.start.line
-          ) {
+          if (previousItem.position.end.line + 1 < currentItem.position.start.line) {
             spread = true
             break
           }
@@ -170,10 +164,7 @@ export class ListTokenizer
    * @override
    * @see ITokenizerParseBlockHook
    */
-  public parseBlock(
-    token: Readonly<IToken>,
-    children: IYastNode[],
-  ): IResultOfParse<T, INode> {
+  public parseBlock(token: Readonly<IToken>, children: IYastNode[]): IResultOfParse<T, INode> {
     const node: INode = {
       type: ListType,
       ordered: token.ordered,
