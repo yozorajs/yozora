@@ -46,12 +46,8 @@ export function shallowMutateAstInPostorder(
       const subChildren: ReadonlyArray<IYastNode> = child.children
 
       // Whether to process the subtree recursively.
-      if (subChildren != null && subChildren.length > 0) {
-        const nextChild = traverse(subChildren, child)
-        collector0.conditionalAdd(nextChild, child, i)
-      } else {
-        collector0.add(child)
-      }
+      const nextChild = subChildren && subChildren.length > 0 ? traverse(subChildren, child) : child
+      collector0.add(nextChild, child, i)
     }
 
     // Processing current layer of nodes.
@@ -59,12 +55,8 @@ export function shallowMutateAstInPostorder(
     const collector1 = createShallowNodeCollector(nextChildren)
     for (let i = 0; i < nextChildren.length; ++i) {
       const child = nextChildren[i]
-      if (isMatched(child)) {
-        const nextChild = replace(child, parent, i)
-        collector1.conditionalAdd(nextChild, child, i)
-      } else {
-        collector1.add(child)
-      }
+      const nextChild = isMatched(child) ? replace(child, parent, i) : child
+      collector1.add(nextChild, child, i)
     }
 
     const finalChildren: IYastNode[] = collector1.collect()

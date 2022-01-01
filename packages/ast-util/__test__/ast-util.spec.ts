@@ -50,7 +50,7 @@ describe('createShallowNodeCollector', function () {
 
     test('full', function () {
       const collector = createShallowNodeCollector(nodes)
-      for (let i = 0; i < nodes.length; ++i) collector.add(nodes[i])
+      for (let i = 0; i < nodes.length; ++i) collector.add(nodes[i], nodes[i], i)
       expect(collector.collect()).toBe(nodes)
       expect(nodes).toEqual(originalNodes)
     })
@@ -61,7 +61,7 @@ describe('createShallowNodeCollector', function () {
       for (let i = 0; i < nodes.length; ++i) {
         const val = nodes[i]
         const nextVal = i === pos ? -val : val
-        collector.conditionalAdd(nextVal, val, i)
+        collector.add(nextVal, val, i)
       }
       expect(collector.collect()).toEqual(nodes.map((x, i) => (i === pos ? -x : x)))
       expect(nodes).toEqual(originalNodes)
@@ -74,8 +74,8 @@ describe('createShallowNodeCollector', function () {
         const val = nodes[i]
         if (i === pos) {
           const nextVal = i === pos ? -val : val
-          collector.conditionalAdd(nextVal, val, i)
-        } else Math.random() > 0.5 ? collector.add(val) : collector.conditionalAdd(val, val, i)
+          collector.add(nextVal, val, i)
+        } else collector.add(val, val, i)
       }
       expect(collector.collect()).toEqual(nodes.map((x, i) => (i === pos ? -x : x)))
       expect(nodes).toEqual(originalNodes)

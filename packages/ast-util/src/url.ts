@@ -30,7 +30,7 @@ export const defaultUrlResolver: IUrlResolver = (...pathPieces): string => {
 
   return pieces
     .join('/')
-    .replace(/[/]+/g, '/')
+    .replace(/([^:])[/]+/g, '$1/')
     .replace(/[/][.][/]/g, '/')
     .trim()
 }

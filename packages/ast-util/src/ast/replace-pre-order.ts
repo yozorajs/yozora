@@ -45,18 +45,15 @@ export function shallowMutateAstInPreorder(
       const child = children[i] as IYastParent
       if (isMatched(child)) {
         const nextChild = replace(child, parent, i)
-        collector.conditionalAdd(nextChild, child, i)
+        collector.add(nextChild, child, i)
       } else {
         // Recursively processing the descendant nodes in pre-order traverse.
         const subChildren: ReadonlyArray<IYastNode> = child.children
 
         // Whether to process the subtree recursively.
-        if (subChildren != null && subChildren.length > 0) {
-          const nextChild = traverse(subChildren, child)
-          collector.conditionalAdd(nextChild, child, i)
-        } else {
-          collector.add(child)
-        }
+        const nextChild: IYastNode =
+          subChildren && subChildren.length > 0 ? traverse(subChildren, child) : child
+        collector.add(nextChild, child, i)
       }
     }
 

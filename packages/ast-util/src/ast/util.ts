@@ -45,17 +45,12 @@ export function createNodeMatcher(
  */
 export interface IShallowNodeCollector<T> {
   /**
-   * Add a node.
-   * @param node
-   */
-  add(node: Readonly<T>): void
-  /**
    * Append a node depends whether if the node and nextNode is equal.
    * @param node
    * @param originalNode
    * @param originalIndex
    */
-  conditionalAdd(node: T | T[] | null, originalNode: Readonly<T>, originalIndex: number): void
+  add(node: T | T[] | null, originalNode: Readonly<T>, originalIndex: number): void
   /**
    * Return all of collected nodes.
    */
@@ -70,17 +65,10 @@ export interface IShallowNodeCollector<T> {
 export function createShallowNodeCollector<T>(nodes: T[]): IShallowNodeCollector<T> {
   let nextNodes: T[] | null = null
 
-  const add = (node: T): void => {
-    if (nextNodes !== null) nextNodes.push(node)
-  }
-
-  const conditionalAdd = (
-    node: T | T[] | null,
-    originalNode: Readonly<T>,
-    originalIndex: number,
-  ): void => {
-    if (node === originalNode) add(node)
-    else {
+  const add = (node: T | T[] | null, originalNode: Readonly<T>, originalIndex: number): void => {
+    if (node === originalNode) {
+      if (nextNodes !== null) nextNodes.push(node)
+    } else {
       if (nextNodes === null) nextNodes = nodes.slice(0, originalIndex)
       if (Array.isArray(node)) nextNodes.push(...node)
       else if (node !== null) nextNodes.push(node)
@@ -89,5 +77,5 @@ export function createShallowNodeCollector<T>(nodes: T[]): IShallowNodeCollector
 
   const collect: () => T[] = () => nextNodes ?? nodes
 
-  return { add, conditionalAdd, collect }
+  return { add, collect }
 }
