@@ -2,11 +2,11 @@ import { FootnoteReferenceType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type {
+  IMatchInlineHook,
   IMatchInlinePhaseApi,
+  IParseInlineHook,
   IResultOfProcessSingleDelimiter,
   ITokenizer,
-  ITokenizerMatchInlineHook,
-  ITokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
 import {
   BaseInlineTokenizer,
@@ -37,8 +37,8 @@ export class FootnoteReferenceTokenizer
   extends BaseInlineTokenizer<IDelimiter>
   implements
     ITokenizer,
-    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
-    ITokenizerParseInlineHook<T, IToken, INode>
+    IMatchInlineHook<T, IDelimiter, IToken>,
+    IParseInlineHook<T, IToken, INode>
 {
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {
@@ -88,7 +88,7 @@ export class FootnoteReferenceTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchInlineHook
+   * @see IMatchInlineHook
    */
   public processSingleDelimiter(
     delimiter: IDelimiter,
@@ -117,7 +117,7 @@ export class FootnoteReferenceTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseInlineHook
+   * @see IParseInlineHook
    */
   public parseInline(token: IToken): INode {
     const { identifier, label } = token

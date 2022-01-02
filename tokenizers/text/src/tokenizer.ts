@@ -4,11 +4,11 @@ import type { INodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
   IInlineFallbackTokenizer,
+  IMatchInlineHook,
+  IParseInlineHook,
   IParseInlinePhaseApi,
   IResultOfProcessSingleDelimiter,
   ITokenizer,
-  ITokenizerMatchInlineHook,
-  ITokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
 import { BaseInlineTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import type { IDelimiter, INode, IToken, ITokenizerProps, T } from './types'
@@ -28,8 +28,8 @@ export class TextTokenizer
   implements
     ITokenizer,
     IInlineFallbackTokenizer<T, IToken, INode>,
-    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
-    ITokenizerParseInlineHook<T, IToken, INode>
+    IMatchInlineHook<T, IDelimiter, IToken>,
+    IParseInlineHook<T, IToken, INode>
 {
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {
@@ -41,7 +41,7 @@ export class TextTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchInlineHook
+   * @see IMatchInlineHook
    */
   /* istanbul ignore next */
   protected override _findDelimiter(startIndex: number, endIndex: number): IDelimiter | null {
@@ -54,7 +54,7 @@ export class TextTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchInlineHook
+   * @see IMatchInlineHook
    */
   /* istanbul ignore next */
   public processSingleDelimiter(delimiter: IDelimiter): IResultOfProcessSingleDelimiter<T, IToken> {
@@ -81,7 +81,7 @@ export class TextTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseInlineHook
+   * @see IParseInlineHook
    */
   public parseInline(
     token: IToken,

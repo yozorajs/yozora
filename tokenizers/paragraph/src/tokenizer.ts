@@ -2,6 +2,8 @@ import type { IYastNode } from '@yozora/ast'
 import { ParagraphType } from '@yozora/ast'
 import type {
   IBlockFallbackTokenizer,
+  IMatchBlockHook,
+  IParseBlockHook,
   IParseBlockPhaseApi,
   IPhrasingContentLine,
   IResultOfEatContinuationText,
@@ -9,8 +11,6 @@ import type {
   IResultOfEatOpener,
   IResultOfParse,
   ITokenizer,
-  ITokenizerMatchBlockHook,
-  ITokenizerParseBlockHook,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
@@ -39,8 +39,8 @@ export class ParagraphTokenizer
   implements
     ITokenizer,
     IBlockFallbackTokenizer<T, IToken, INode>,
-    ITokenizerMatchBlockHook<T, IToken>,
-    ITokenizerParseBlockHook<T, IToken, INode>
+    IMatchBlockHook<T, IToken>,
+    IParseBlockHook<T, IToken, INode>
 {
   public readonly isContainingBlock = false
 
@@ -54,7 +54,7 @@ export class ParagraphTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
     const { endIndex, firstNonWhitespaceIndex } = line
@@ -72,7 +72,7 @@ export class ParagraphTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatContinuationText(
     line: Readonly<IPhrasingContentLine>,
@@ -94,7 +94,7 @@ export class ParagraphTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatLazyContinuationText(
     line: Readonly<IPhrasingContentLine>,
@@ -106,7 +106,7 @@ export class ParagraphTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseBlockHook
+   * @see IParseBlockHook
    */
   public parseBlock(
     token: Readonly<IToken>,
@@ -125,7 +125,7 @@ export class ParagraphTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public extractPhrasingContentLines(token: Readonly<IToken>): ReadonlyArray<IPhrasingContentLine> {
     return token.lines
@@ -133,7 +133,7 @@ export class ParagraphTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public buildBlockToken(
     _lines: ReadonlyArray<IPhrasingContentLine>,

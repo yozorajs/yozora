@@ -6,12 +6,12 @@ import {
   calcTrimBoundaryOfCodePoints,
 } from '@yozora/character'
 import type {
+  IMatchBlockHook,
+  IParseBlockHook,
   IPhrasingContentLine,
   IResultOfEatOpener,
   IResultOfParse,
   ITokenizer,
-  ITokenizerMatchBlockHook,
-  ITokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import { TokenizerPriority, mergeContentLinesFaithfully } from '@yozora/core-tokenizer'
 import FencedBlockTokenizer from '@yozora/tokenizer-fenced-block'
@@ -43,10 +43,7 @@ import { uniqueName } from './types'
  */
 export class MathTokenizer
   extends FencedBlockTokenizer<T>
-  implements
-    ITokenizer,
-    ITokenizerMatchBlockHook<T, IToken>,
-    ITokenizerParseBlockHook<T, IToken, INode>
+  implements ITokenizer, IMatchBlockHook<T, IToken>, IParseBlockHook<T, IToken, INode>
 {
   public override readonly isContainingBlock = true
 
@@ -63,7 +60,7 @@ export class MathTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    * @see FencedBlockTokenizer
    * @returns
    */
@@ -104,7 +101,7 @@ export class MathTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseBlockHook
+   * @see IParseBlockHook
    */
   public parseBlock(token: IToken): IResultOfParse<T, INode> {
     const contents: INodePoint[] = mergeContentLinesFaithfully(token.lines)

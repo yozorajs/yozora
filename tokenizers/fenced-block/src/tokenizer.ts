@@ -2,12 +2,12 @@ import type { YastNodeType } from '@yozora/ast'
 import type { ICodePoint, INodePoint } from '@yozora/character'
 import { calcTrimBoundaryOfCodePoints, isSpaceCharacter } from '@yozora/character'
 import type {
+  IMatchBlockHook,
   IPhrasingContentLine,
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatContinuationText,
   IResultOfEatOpener,
   ITokenizer,
-  ITokenizerMatchBlockHook,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
@@ -31,7 +31,7 @@ import type { FencedBlockType, IToken, ITokenizerProps } from './types'
  */
 export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
   extends BaseBlockTokenizer
-  implements ITokenizer, ITokenizerMatchBlockHook<T, IToken<T>>
+  implements ITokenizer, IMatchBlockHook<T, IToken<T>>
 {
   public override readonly isContainingBlock: boolean = false
 
@@ -54,7 +54,7 @@ export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken<T>> {
     /**
@@ -120,7 +120,7 @@ export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatAndInterruptPreviousSibling(
     line: Readonly<IPhrasingContentLine>,
@@ -137,7 +137,7 @@ export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatContinuationText(
     line: Readonly<IPhrasingContentLine>,

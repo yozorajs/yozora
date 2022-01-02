@@ -7,12 +7,12 @@ import {
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import type {
+  IMatchInlineHook,
   IMatchInlinePhaseApi,
+  IParseInlineHook,
   IResultOfIsDelimiterPair,
   IResultOfProcessDelimiterPair,
   ITokenizer,
-  ITokenizerMatchInlineHook,
-  ITokenizerParseInlineHook,
   IYastInlineToken,
 } from '@yozora/core-tokenizer'
 import {
@@ -33,8 +33,8 @@ export class EmphasisTokenizer
   extends BaseInlineTokenizer<IDelimiter>
   implements
     ITokenizer,
-    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
-    ITokenizerParseInlineHook<T, IToken, INode>
+    IMatchInlineHook<T, IDelimiter, IToken>,
+    IParseInlineHook<T, IToken, INode>
 {
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {
@@ -200,7 +200,7 @@ export class EmphasisTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchInlineHook
+   * @see IMatchInlineHook
    */
   public isDelimiterPair(
     openerDelimiter: IDelimiter,
@@ -238,7 +238,7 @@ export class EmphasisTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchInlineHook
+   * @see IMatchInlineHook
    */
   public processDelimiterPair(
     openerDelimiter: IDelimiter,
@@ -316,7 +316,7 @@ export class EmphasisTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseInlineHook
+   * @see IParseInlineHook
    */
   public parseInline(token: IToken, children: IYastNode[]): INode {
     const result: INode = {

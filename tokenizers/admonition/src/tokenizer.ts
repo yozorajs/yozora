@@ -7,13 +7,13 @@ import {
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import type {
+  IMatchBlockHook,
   IMatchBlockPhaseApi,
+  IParseBlockHook,
   IParseBlockPhaseApi,
   IPhrasingContentLine,
   IResultOfParse,
   ITokenizer,
-  ITokenizerMatchBlockHook,
-  ITokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import { TokenizerPriority, eatOptionalWhitespaces } from '@yozora/core-tokenizer'
 import FencedBlockTokenizer from '@yozora/tokenizer-fenced-block'
@@ -32,10 +32,7 @@ import { uniqueName } from './types'
  */
 export class AdmonitionTokenizer
   extends FencedBlockTokenizer<T>
-  implements
-    ITokenizer,
-    ITokenizerMatchBlockHook<T, IToken>,
-    ITokenizerParseBlockHook<T, IToken, INode>
+  implements ITokenizer, IMatchBlockHook<T, IToken>, IParseBlockHook<T, IToken, INode>
 {
   public override readonly isContainingBlock = true
 
@@ -53,7 +50,7 @@ export class AdmonitionTokenizer
   /**
    * Resolve children.
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public onClose(token: IToken, api: IMatchBlockPhaseApi): void {
     const children = api.rollbackPhrasingLines(token.lines)
@@ -63,7 +60,7 @@ export class AdmonitionTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseBlockHook
+   * @see IParseBlockHook
    */
   public parseBlock(
     token: IToken,

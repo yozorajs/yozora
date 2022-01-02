@@ -1,48 +1,17 @@
 import type { YastNodeType } from '@yozora/ast'
-import type { IPhrasingContentLine, IPhrasingContentToken } from '../phrasing-content'
+import type { IPhrasingContentLine } from '../phrasing-content'
 import type { IPartialYastBlockToken, IYastBlockToken } from '../token'
+import type { IMatchBlockPhaseApi } from './api'
 
-/**
- * Api in match-block phase.
- */
-export interface IMatchBlockPhaseApi {
-  /**
-   * Extract phrasing content lines from block token.
-   * @param token
-   */
-  extractPhrasingLines(token: IYastBlockToken): ReadonlyArray<IPhrasingContentLine> | null
-  /**
-   * Build PhrasingContentToken from phrasing content lines.
-   * @param lines
-   */
-  buildPhrasingContentToken(
-    lines: ReadonlyArray<IPhrasingContentLine>,
-  ): IPhrasingContentToken | null
-  /**
-   * Re-match token from phrasing content lines.
-   * @param lines
-   * @param originalToken
-   */
-  rollbackPhrasingLines(
-    lines: ReadonlyArray<IPhrasingContentLine>,
-    originalToken?: Readonly<IYastBlockToken>,
-  ): IYastBlockToken[]
-  /**
-   * Register a definition identifier.
-   * @param identifier
-   */
-  registerDefinitionIdentifier(identifier: string): void
-  /**
-   * Register a footnote definition identifier.
-   * @param identifier
-   */
-  registerFootnoteDefinitionIdentifier(identifier: string): void
-}
+export type IMatchBlockHookCreator<
+  T extends YastNodeType = YastNodeType,
+  IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
+> = (getApi: () => IMatchBlockPhaseApi) => IMatchBlockHook<T, IToken>
 
 /**
  * Hooks on the match-block phase.
  */
-export interface ITokenizerMatchBlockHook<
+export interface IMatchBlockHook<
   T extends YastNodeType = YastNodeType,
   IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
 > {
@@ -156,7 +125,7 @@ export interface ITokenizerMatchBlockHook<
  * # Returned on Failure
  *    => null
  *
- * @see ITokenizerMatchBlockHook.eatOpener
+ * @see IMatchBlockHook.eatOpener
  */
 export type IResultOfEatOpener<
   T extends YastNodeType = YastNodeType,
@@ -186,7 +155,7 @@ export type IResultOfEatOpener<
  *
  *  * failure => null
  *
- * @see ITokenizerMatchBlockHook.eatAndInterruptPreviousSibling
+ * @see IMatchBlockHook.eatAndInterruptPreviousSibling
  */
 export type IResultOfEatAndInterruptPreviousSibling<
   T extends YastNodeType = YastNodeType,
@@ -199,7 +168,7 @@ export type IResultOfEatAndInterruptPreviousSibling<
 } | null
 
 /**
- * @see ITokenizerMatchBlockHook
+ * @see IMatchBlockHook
  */
 export type IResultOfEatContinuationText =
   | {
@@ -228,7 +197,7 @@ export type IResultOfEatContinuationText =
     }
 
 /**
- * @see ITokenizerMatchBlockHook.eatLazyContinuationText
+ * @see IMatchBlockHook.eatLazyContinuationText
  */
 export type IResultOfEatLazyContinuationText =
   | {
@@ -240,7 +209,7 @@ export type IResultOfEatLazyContinuationText =
     }
 
 /**
- * @see ITokenizerMatchBlockHook
+ * @see IMatchBlockHook
  */
 export type IResultOfOnClose =
   | {

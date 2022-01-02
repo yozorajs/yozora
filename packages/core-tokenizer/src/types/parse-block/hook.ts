@@ -1,35 +1,20 @@
 import type { IYastNode, YastNodeType } from '@yozora/ast'
-import type { IPhrasingContent, IPhrasingContentLine } from '../phrasing-content'
-import type { IPartialYastBlockToken, IYastBlockToken } from '../token'
+import type { IPartialYastBlockToken } from '../token'
+import type { IParseBlockPhaseApi } from './api'
 
-/**
- * Api in parse-block phase.
- */
-export interface IParseBlockPhaseApi {
-  /**
-   * Build IPhrasingContent from a PhrasingContentToken.
-   * @param lines
-   */
-  buildPhrasingContent(lines: ReadonlyArray<IPhrasingContentLine>): IPhrasingContent | null
-  /**
-   * Parse phrasing content to Yozora AST nodes.
-   * @param phrasingContent
-   */
-  parsePhrasingContent(phrasingContent: IPhrasingContent): IYastNode[]
-  /**
-   * Parse block tokens to Yozora AST nodes.
-   * @param token
-   */
-  parseBlockTokens(token: IYastBlockToken[]): IYastNode[]
-}
+export type IParseBlockHookCreator<
+  T extends YastNodeType = YastNodeType,
+  IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
+  INode extends IYastNode<T> = IYastNode<T>,
+> = (api: IParseBlockPhaseApi) => IParseBlockHook<T, IToken, INode>
 
 /**
  * Hooks in the parse-block phase
  */
-export interface ITokenizerParseBlockHook<
+export interface IParseBlockHook<
   T extends YastNodeType = YastNodeType,
   IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
-  Node extends IYastNode<T> = IYastNode<T>,
+  INode extends IYastNode<T> = IYastNode<T>,
 > {
   /**
    * Parse matchStates
@@ -41,7 +26,7 @@ export interface ITokenizerParseBlockHook<
     token: Readonly<IToken>,
     children: IYastNode[],
     api: Readonly<IParseBlockPhaseApi>,
-  ): IResultOfParse<T, Node>
+  ): IResultOfParse<T, INode>
 }
 
 /**

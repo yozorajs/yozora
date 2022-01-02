@@ -1,4 +1,5 @@
-import type { IMatchInlinePhaseApi, IResultOfFindDelimiters } from '../types/lifecycle/match-inline'
+import type { IMatchInlinePhaseApi } from '../types/match-inline/api'
+import type { IResultOfFindDelimiters } from '../types/match-inline/hook'
 import type { IYastTokenDelimiter } from '../types/token'
 import type { ITokenizer } from '../types/tokenizer'
 

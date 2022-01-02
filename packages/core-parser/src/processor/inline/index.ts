@@ -1,8 +1,8 @@
 import type {
+  IMatchInlineHook,
   IMatchInlinePhaseApi,
   IResultOfFindDelimiters,
   ITokenizer,
-  ITokenizerMatchInlineHook,
   IYastInlineToken,
   IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
@@ -167,7 +167,7 @@ export const createPhrasingContentProcessor = (
  * @returns
  */
 export const createProcessorHookGroups = (
-  matchPhaseHooks: ReadonlyArray<ITokenizer & ITokenizerMatchInlineHook>,
+  matchPhaseHooks: ReadonlyArray<ITokenizer & IMatchInlineHook>,
   matchInlineApi: Readonly<Omit<IMatchInlinePhaseApi, 'resolveInternalTokens'>>,
   resolveFallbackTokens: (
     tokens: ReadonlyArray<IYastInlineToken>,
@@ -175,7 +175,7 @@ export const createProcessorHookGroups = (
     tokenEndIndex: number,
   ) => ReadonlyArray<IYastInlineToken>,
 ): IDelimiterProcessorHook[][] => {
-  const hooks: Array<ITokenizer & ITokenizerMatchInlineHook> = matchPhaseHooks
+  const hooks: Array<ITokenizer & IMatchInlineHook> = matchPhaseHooks
     .slice()
     .sort((h1, h2) => h2.priority - h1.priority)
 
@@ -220,19 +220,19 @@ export const createProcessorHookGroups = (
  * @returns
  */
 export const createProcessorHook = (
-  hook: ITokenizer & ITokenizerMatchInlineHook,
+  hook: ITokenizer & IMatchInlineHook,
   api: Readonly<IMatchInlinePhaseApi>,
 ): IDelimiterProcessorHook => {
   const delimiterIndexStack: number[] = []
   let _findDelimiter: IResultOfFindDelimiters<IYastTokenDelimiter>
 
-  const _isDelimiterPair: ITokenizerMatchInlineHook['isDelimiterPair'] =
+  const _isDelimiterPair: IMatchInlineHook['isDelimiterPair'] =
     hook.isDelimiterPair == null ? undefined : hook.isDelimiterPair.bind(hook)
 
-  const _processDelimiterPair: ITokenizerMatchInlineHook['processDelimiterPair'] =
+  const _processDelimiterPair: IMatchInlineHook['processDelimiterPair'] =
     hook.processDelimiterPair == null ? undefined : hook.processDelimiterPair.bind(hook)
 
-  const _processSingleDelimiter: ITokenizerMatchInlineHook['processSingleDelimiter'] =
+  const _processSingleDelimiter: IMatchInlineHook['processSingleDelimiter'] =
     hook.processSingleDelimiter == null ? undefined : hook.processSingleDelimiter.bind(hook)
 
   return {

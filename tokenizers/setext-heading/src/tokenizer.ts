@@ -2,15 +2,15 @@ import type { IHeading, IYastNode } from '@yozora/ast'
 import { HeadingType } from '@yozora/ast'
 import { AsciiCodePoint, VirtualCodePoint, isUnicodeWhitespaceCharacter } from '@yozora/character'
 import type {
+  IMatchBlockHook,
   IMatchBlockPhaseApi,
+  IParseBlockHook,
   IParseBlockPhaseApi,
   IPhrasingContentLine,
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatOpener,
   IResultOfParse,
   ITokenizer,
-  ITokenizerMatchBlockHook,
-  ITokenizerParseBlockHook,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
@@ -35,10 +35,7 @@ import { uniqueName } from './types'
  */
 export class SetextHeadingTokenizer
   extends BaseBlockTokenizer
-  implements
-    ITokenizer,
-    ITokenizerMatchBlockHook<T, IToken>,
-    ITokenizerParseBlockHook<T, IToken, INode>
+  implements ITokenizer, IMatchBlockHook<T, IToken>, IParseBlockHook<T, IToken, INode>
 {
   public readonly isContainingBlock = false
 
@@ -52,7 +49,7 @@ export class SetextHeadingTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatOpener(): IResultOfEatOpener<T, IToken> {
     return null
@@ -60,7 +57,7 @@ export class SetextHeadingTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatAndInterruptPreviousSibling(
     line: Readonly<IPhrasingContentLine>,
@@ -139,7 +136,7 @@ export class SetextHeadingTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseBlockHook
+   * @see IParseBlockHook
    */
   public parseBlock(
     token: Readonly<IToken>,

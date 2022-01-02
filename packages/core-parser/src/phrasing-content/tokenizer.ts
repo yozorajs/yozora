@@ -1,11 +1,11 @@
 import type {
   IBaseBlockTokenizerProps,
+  IParseBlockHook,
   IPhrasingContent,
   IPhrasingContentLine,
   IResultOfParse,
   IPhrasingContentToken as IToken,
   ITokenizer,
-  ITokenizerParseBlockHook,
   IPhrasingContent as Node,
   PhrasingContentType as T,
 } from '@yozora/core-tokenizer'
@@ -29,7 +29,7 @@ export type IPhrasingContentTokenizerProps = Partial<IBaseBlockTokenizerProps>
  */
 export class PhrasingContentTokenizer
   extends BaseBlockTokenizer
-  implements ITokenizer, ITokenizerParseBlockHook<T, IToken, Node>
+  implements ITokenizer, IParseBlockHook<T, IToken, Node>
 {
   public readonly isContainingBlock = false
 
@@ -43,7 +43,7 @@ export class PhrasingContentTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseBlockHook
+   * @see IParseBlockHook
    */
   public parseBlock(token: Readonly<IToken>): IResultOfParse<T, Node> {
     return this.buildPhrasingContent(token.lines)
@@ -51,7 +51,7 @@ export class PhrasingContentTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public extractPhrasingContentLines(token: Readonly<IToken>): ReadonlyArray<IPhrasingContentLine> {
     return token.lines
@@ -59,7 +59,7 @@ export class PhrasingContentTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public buildBlockToken(_lines: ReadonlyArray<IPhrasingContentLine>): IToken | null {
     const lines = trimBlankLines(_lines)

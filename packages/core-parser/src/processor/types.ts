@@ -2,18 +2,18 @@ import type { IRoot, IYastAssociation, YastNodeType } from '@yozora/ast'
 import type {
   IBlockFallbackTokenizer,
   IInlineFallbackTokenizer,
+  IMatchBlockHook,
   IMatchBlockPhaseApi,
+  IMatchInlineHook,
   IMatchInlinePhaseApi,
+  IParseBlockHook,
   IParseBlockPhaseApi,
+  IParseInlineHook,
   IParseInlinePhaseApi,
   IPhrasingContentLine,
+  IPostMatchBlockHook,
   IPostMatchBlockPhaseApi,
   ITokenizer,
-  ITokenizerMatchBlockHook,
-  ITokenizerMatchInlineHook,
-  ITokenizerParseBlockHook,
-  ITokenizerParseInlineHook,
-  ITokenizerPostMatchBlockHook,
 } from '@yozora/core-tokenizer'
 import type { PhrasingContentTokenizer } from '../phrasing-content/tokenizer'
 import type { ITokenizerHookAll } from '../types'
@@ -24,11 +24,11 @@ import type { ITokenizerHookAll } from '../types'
 export interface IProcessorOptions {
   readonly tokenizerHookMap: ReadonlyMap<
     YastNodeType,
-    ITokenizer & Partial<ITokenizerHookAll> & ITokenizerParseBlockHook & ITokenizerParseInlineHook
+    ITokenizer & Partial<ITokenizerHookAll> & IParseBlockHook & IParseInlineHook
   >
-  readonly matchBlockHooks: ReadonlyArray<ITokenizer & ITokenizerMatchBlockHook>
-  readonly postMatchBlockHooks: ReadonlyArray<ITokenizer & ITokenizerPostMatchBlockHook>
-  readonly matchInlineHooks: ReadonlyArray<ITokenizer & ITokenizerMatchInlineHook>
+  readonly matchBlockHooks: ReadonlyArray<ITokenizer & IMatchBlockHook>
+  readonly postMatchBlockHooks: ReadonlyArray<ITokenizer & IPostMatchBlockHook>
+  readonly matchInlineHooks: ReadonlyArray<ITokenizer & IMatchInlineHook>
   readonly phrasingContentTokenizer: PhrasingContentTokenizer
   readonly blockFallbackTokenizer: IBlockFallbackTokenizer | null
   readonly inlineFallbackTokenizer: IInlineFallbackTokenizer | null

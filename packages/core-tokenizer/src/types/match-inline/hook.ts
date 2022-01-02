@@ -1,69 +1,17 @@
 import type { YastNodeType } from '@yozora/ast'
-import type { INodePoint } from '@yozora/character'
 import type { IPartialYastInlineToken, IYastInlineToken, IYastTokenDelimiter } from '../token'
+import type { IMatchInlinePhaseApi } from './api'
 
-/**
- * Api in match-inline phase.
- */
-export interface IMatchInlinePhaseApi {
-  /**
-   * Check if there is exists a definition with the given identifier.
-   * @param identifier
-   */
-  hasDefinition(identifier: string): boolean
-
-  /**
-   * Check if there is exists a footnote definition with the given identifier.
-   * @param identifier
-   */
-  hasFootnoteDefinition(identifier: string): boolean
-
-  /**
-   * Get the node points.
-   */
-  getNodePoints(): ReadonlyArray<INodePoint>
-
-  /**
-   * Start index of current block token.
-   */
-  getBlockStartIndex(): number
-
-  /**
-   * End index of current block token.
-   */
-  getBlockEndIndex(): number
-
-  /**
-   * Resolve fallback inline tokens
-   *
-   * @param tokens
-   * @param tokenStartIndex
-   * @param tokenEndIndex
-   */
-  resolveFallbackTokens(
-    tokens: ReadonlyArray<IYastInlineToken>,
-    tokenStartIndex: number,
-    tokenEndIndex: number,
-  ): ReadonlyArray<IYastInlineToken>
-
-  /**
-   * Resolve raw contents with the fallback inline tokenizer.
-   *
-   * @param higherPriorityTokens
-   * @param startIndex
-   * @param endIndex
-   */
-  resolveInternalTokens(
-    higherPriorityTokens: ReadonlyArray<IYastInlineToken>,
-    startIndex: number,
-    endIndex: number,
-  ): ReadonlyArray<IYastInlineToken>
-}
+export type IMatchInlineHookCreator<
+  T extends YastNodeType = YastNodeType,
+  IDelimiter extends IYastTokenDelimiter = IYastTokenDelimiter,
+  IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
+> = (api: IMatchInlinePhaseApi) => IMatchInlineHook<T, IDelimiter, IToken>
 
 /**
  * Hooks on the match-inline phase.
  */
-export interface ITokenizerMatchInlineHook<
+export interface IMatchInlineHook<
   T extends YastNodeType = YastNodeType,
   IDelimiter extends IYastTokenDelimiter = IYastTokenDelimiter,
   IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
@@ -126,7 +74,7 @@ export interface ITokenizerMatchInlineHook<
 
 /**
  * Result of eatDelimiters.
- * @see ITokenizerMatchInlineHook
+ * @see IMatchInlineHook
  */
 export type IResultOfFindDelimiters<IDelimiter extends IYastTokenDelimiter> = Iterator<
   IDelimiter | null,
@@ -135,8 +83,8 @@ export type IResultOfFindDelimiters<IDelimiter extends IYastTokenDelimiter> = It
 >
 
 /**
- * Result type of ITokenizerMatchInlineHook#isDelimiterPair
- * @see ITokenizerMatchInlineHook
+ * Result type of IMatchInlineHook#isDelimiterPair
+ * @see IMatchInlineHook
  */
 export type IResultOfIsDelimiterPair =
   | {
@@ -149,8 +97,8 @@ export type IResultOfIsDelimiterPair =
     }
 
 /**
- * Result type of ITokenizerMatchInlineHook#processDelimiterPair
- * @see ITokenizerMatchInlineHook
+ * Result type of IMatchInlineHook#processDelimiterPair
+ * @see IMatchInlineHook
  */
 export interface IResultOfProcessDelimiterPair<
   T extends YastNodeType = YastNodeType,
@@ -163,8 +111,8 @@ export interface IResultOfProcessDelimiterPair<
 }
 
 /**
- * Result type of ITokenizerMatchInlineHook#processFullDelimiter
- * @see ITokenizerMatchInlineHook
+ * Result type of IMatchInlineHook#processFullDelimiter
+ * @see IMatchInlineHook
  */
 export type IResultOfProcessSingleDelimiter<
   T extends YastNodeType = YastNodeType,

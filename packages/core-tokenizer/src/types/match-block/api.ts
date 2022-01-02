@@ -2,9 +2,9 @@ import type { IPhrasingContentLine, IPhrasingContentToken } from '../phrasing-co
 import type { IYastBlockToken } from '../token'
 
 /**
- * Api n post-match-block phase.
+ * Api in match-block phase.
  */
-export interface IPostMatchBlockPhaseApi {
+export interface IMatchBlockPhaseApi {
   /**
    * Extract phrasing content lines from block token.
    * @param token
@@ -24,22 +24,16 @@ export interface IPostMatchBlockPhaseApi {
    */
   rollbackPhrasingLines(
     lines: ReadonlyArray<IPhrasingContentLine>,
-    originalToken: Readonly<IYastBlockToken>,
+    originalToken?: Readonly<IYastBlockToken>,
   ): IYastBlockToken[]
-}
-
-/**
- * Hooks on the post-match-block phase.
- */
-export interface ITokenizerPostMatchBlockHook {
   /**
-   * Transform IYastBlockToken list.
-   *
-   * @param tokens  peers nodes those have a same parent.
-   * @param api
+   * Register a definition identifier.
+   * @param identifier
    */
-  transformMatch(
-    tokens: ReadonlyArray<IYastBlockToken>,
-    api: Readonly<IPostMatchBlockPhaseApi>,
-  ): IYastBlockToken[]
+  registerDefinitionIdentifier(identifier: string): void
+  /**
+   * Register a footnote definition identifier.
+   * @param identifier
+   */
+  registerFootnoteDefinitionIdentifier(identifier: string): void
 }

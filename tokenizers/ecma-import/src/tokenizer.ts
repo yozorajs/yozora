@@ -6,12 +6,12 @@ import {
   calcTrimBoundaryOfCodePoints,
 } from '@yozora/character'
 import type {
+  IMatchBlockHook,
+  IParseBlockHook,
   IPhrasingContentLine,
   IResultOfEatOpener,
   IResultOfParse,
   ITokenizer,
-  ITokenizerMatchBlockHook,
-  ITokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -45,10 +45,7 @@ export interface EcmaImportTokenizerProps {}
  */
 export class EcmaImportTokenizer
   extends BaseBlockTokenizer
-  implements
-    ITokenizer,
-    ITokenizerMatchBlockHook<T, IToken>,
-    ITokenizerParseBlockHook<T, IToken, INode>
+  implements ITokenizer, IMatchBlockHook<T, IToken>, IParseBlockHook<T, IToken, INode>
 {
   public override readonly isContainingBlock = false
 
@@ -131,7 +128,7 @@ export class EcmaImportTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseBlockHook
+   * @see IParseBlockHook
    */
   public parseBlock(token: Readonly<IToken>): IResultOfParse<T, INode> {
     const node: INode = {

@@ -2,10 +2,10 @@ import type { IRoot, IYastNode } from '@yozora/ast'
 import { shallowMutateAstInPreorder } from '@yozora/ast-util'
 import type { INodePoint } from '@yozora/character'
 import type {
+  IMatchBlockHook,
   IPhrasingContent,
   IPhrasingContentLine,
   IPhrasingContentToken,
-  ITokenizerMatchBlockHook,
   IYastBlockToken,
   IYastInlineToken,
 } from '@yozora/core-tokenizer'
@@ -132,7 +132,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
   function extractPhrasingLines(
     token: IYastBlockToken,
   ): ReadonlyArray<IPhrasingContentLine> | null {
-    const tokenizer = tokenizerHookMap.get(token._tokenizer) as ITokenizerMatchBlockHook
+    const tokenizer = tokenizerHookMap.get(token._tokenizer) as IMatchBlockHook
 
     // no tokenizer for `IToken.type` found
     if (tokenizer == null) return null
@@ -174,7 +174,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
   ): IYastBlockToken[] {
     if (originalToken != null) {
       // Try to rematch through the original tokenizer.
-      const tokenizer = tokenizerHookMap.get(originalToken._tokenizer) as ITokenizerMatchBlockHook
+      const tokenizer = tokenizerHookMap.get(originalToken._tokenizer) as IMatchBlockHook
       if (tokenizer != null && tokenizer.buildBlockToken != null) {
         const token = tokenizer.buildBlockToken(lines, originalToken)
         if (token != null) return [token]
@@ -273,7 +273,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     const handle = (token: IYastBlockToken): IYastBlockToken => {
       const result: IYastBlockToken = { ...token }
       if (token.children != null && token.children.length > 0) {
-        // Post-order handle: Perform ITokenizerPostMatchBlockHook
+        // Post-order handle: Perform IPostMatchBlockHook
         let tokens = token.children.map(handle)
         for (const hook of postMatchBlockHooks) {
           tokens = hook.transformMatch(tokens, apis.postMatchBlockApi)
@@ -302,7 +302,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       // Post-order handle: Prioritize child nodes
       const children: IYastNode[] = token.children != null ? parseBlockTokens(token.children) : []
 
-      // Post-order handle: Perform ITokenizerParseBlockHook
+      // Post-order handle: Perform IParseBlockHook
       const resultOfParse = hook.parseBlock(token, children, apis.parseBlockApi)
       if (resultOfParse == null) continue
 

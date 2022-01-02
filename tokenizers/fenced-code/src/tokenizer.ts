@@ -7,10 +7,10 @@ import {
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import type {
+  IMatchBlockHook,
+  IParseBlockHook,
   IResultOfParse,
   ITokenizer,
-  ITokenizerMatchBlockHook,
-  ITokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import {
   TokenizerPriority,
@@ -33,10 +33,7 @@ import { uniqueName } from './types'
  */
 export class FencedCodeTokenizer
   extends FencedBlockTokenizer<T>
-  implements
-    ITokenizer,
-    ITokenizerMatchBlockHook<T, IToken>,
-    ITokenizerParseBlockHook<T, IToken, INode>
+  implements ITokenizer, IMatchBlockHook<T, IToken>, IParseBlockHook<T, IToken, INode>
 {
   public override readonly isContainingBlock = false
 
@@ -67,7 +64,7 @@ export class FencedCodeTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseBlockHook
+   * @see IParseBlockHook
    */
   public parseBlock(token: IToken): IResultOfParse<T, INode> {
     const infoString = token.infoString

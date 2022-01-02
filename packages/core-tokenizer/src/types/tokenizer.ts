@@ -1,8 +1,8 @@
 import type { IYastNode, YastNodeType } from '@yozora/ast'
-import type { ITokenizerMatchBlockHook } from './lifecycle/match-block'
-import type { IMatchInlinePhaseApi } from './lifecycle/match-inline'
-import type { ITokenizerParseBlockHook } from './lifecycle/parse-block'
-import type { ITokenizerParseInlineHook } from './lifecycle/parse-inline'
+import type { IMatchBlockHook } from './match-block/hook'
+import type { IMatchInlinePhaseApi } from './match-inline/api'
+import type { IParseBlockHook } from './parse-block/hook'
+import type { IParseInlineHook } from './parse-inline/hook'
 import type { IPartialYastBlockToken, IPartialYastInlineToken } from './token'
 
 /**
@@ -36,8 +36,8 @@ export interface IBlockFallbackTokenizer<
   IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
   Node extends IYastNode<T> = IYastNode<T>,
 > extends ITokenizer,
-    ITokenizerMatchBlockHook<T, IToken>,
-    ITokenizerParseBlockHook<T, IToken, Node> {}
+    IMatchBlockHook<T, IToken>,
+    IParseBlockHook<T, IToken, Node> {}
 
 /**
  * Fallback ITokenizer on the processing inline structure phase .
@@ -47,7 +47,7 @@ export interface IInlineFallbackTokenizer<
   IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
   Node extends IYastNode<T> = IYastNode<T>,
 > extends ITokenizer,
-    ITokenizerParseInlineHook<T, IToken, Node> {
+    IParseInlineHook<T, IToken, Node> {
   /**
    * @param startIndex
    * @param endIndex

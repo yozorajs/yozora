@@ -11,14 +11,14 @@ import {
   isWhitespaceCharacter,
 } from '@yozora/character'
 import type {
+  IMatchBlockHook,
+  IParseBlockHook,
   IPhrasingContentLine,
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatContinuationText,
   IResultOfEatOpener,
   IResultOfParse,
   ITokenizer,
-  ITokenizerMatchBlockHook,
-  ITokenizerParseBlockHook,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
@@ -57,10 +57,7 @@ import { uniqueName } from './types'
  */
 export class ListItemTokenizer
   extends BaseBlockTokenizer
-  implements
-    ITokenizer,
-    ITokenizerMatchBlockHook<T, IToken>,
-    ITokenizerParseBlockHook<T, IToken, INode>
+  implements ITokenizer, IMatchBlockHook<T, IToken>, IParseBlockHook<T, IToken, INode>
 {
   public readonly isContainingBlock = true
   public readonly enableTaskListItem: boolean
@@ -81,7 +78,7 @@ export class ListItemTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
     /**
@@ -277,7 +274,7 @@ export class ListItemTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatAndInterruptPreviousSibling(
     line: Readonly<IPhrasingContentLine>,
@@ -313,7 +310,7 @@ export class ListItemTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatContinuationText(
     line: Readonly<IPhrasingContentLine>,
@@ -354,7 +351,7 @@ export class ListItemTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseBlockHook
+   * @see IParseBlockHook
    */
   public parseBlock(token: Readonly<IToken>, children: IYastNode[]): IResultOfParse<T, INode> {
     const node: INode = {

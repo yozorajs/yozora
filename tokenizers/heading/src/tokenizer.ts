@@ -7,14 +7,14 @@ import {
   isWhitespaceCharacter,
 } from '@yozora/character'
 import type {
+  IMatchBlockHook,
+  IParseBlockHook,
   IParseBlockPhaseApi,
   IPhrasingContentLine,
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatOpener,
   IResultOfParse,
   ITokenizer,
-  ITokenizerMatchBlockHook,
-  ITokenizerParseBlockHook,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
@@ -45,10 +45,7 @@ import { uniqueName } from './types'
  */
 export class HeadingTokenizer
   extends BaseBlockTokenizer
-  implements
-    ITokenizer,
-    ITokenizerMatchBlockHook<T, IToken>,
-    ITokenizerParseBlockHook<T, IToken, INode>
+  implements ITokenizer, IMatchBlockHook<T, IToken>, IParseBlockHook<T, IToken, INode>
 {
   public readonly isContainingBlock = false
 
@@ -62,7 +59,7 @@ export class HeadingTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
     /**
@@ -121,7 +118,7 @@ export class HeadingTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatAndInterruptPreviousSibling(
     line: Readonly<IPhrasingContentLine>,
@@ -138,7 +135,7 @@ export class HeadingTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseBlockHook
+   * @see IParseBlockHook
    */
   public parseBlock(
     token: Readonly<IToken>,

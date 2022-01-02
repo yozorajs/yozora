@@ -9,13 +9,13 @@ import {
   isLinkToken,
 } from '@yozora/core-tokenizer'
 import type {
+  IMatchInlineHook,
   IMatchInlinePhaseApi,
+  IParseInlineHook,
   IResultOfIsDelimiterPair,
   IResultOfProcessDelimiterPair,
   IResultOfProcessSingleDelimiter,
   ITokenizer,
-  ITokenizerMatchInlineHook,
-  ITokenizerParseInlineHook,
   IYastInlineToken,
 } from '@yozora/core-tokenizer'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
@@ -100,8 +100,8 @@ export class LinkReferenceTokenizer
   extends BaseInlineTokenizer<IDelimiter>
   implements
     ITokenizer,
-    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
-    ITokenizerParseInlineHook<T, IToken, INode>
+    IMatchInlineHook<T, IDelimiter, IToken>,
+    IParseInlineHook<T, IToken, INode>
 {
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {
@@ -258,7 +258,7 @@ export class LinkReferenceTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchInlineHook
+   * @see IMatchInlineHook
    */
   public isDelimiterPair(
     openerDelimiter: IDelimiter,
@@ -308,7 +308,7 @@ export class LinkReferenceTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchInlineHook
+   * @see IMatchInlineHook
    */
   public processDelimiterPair(
     openerDelimiter: IDelimiter,
@@ -354,7 +354,7 @@ export class LinkReferenceTokenizer
    * (even though it is not defined).
    *
    * @override
-   * @see ITokenizerMatchInlineHook
+   * @see IMatchInlineHook
    * @see https://github.github.com/gfm/#example-579
    */
   public processSingleDelimiter(
@@ -427,7 +427,7 @@ export class LinkReferenceTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseInlineHook
+   * @see IParseInlineHook
    */
   public parseInline(token: IToken, children: IYastNode[]): INode {
     const { identifier, label, referenceType } = token

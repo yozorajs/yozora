@@ -3,13 +3,13 @@ import { InlineMathType } from '@yozora/ast'
 import type { INodeInterval, INodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcStringFromNodePoints, isSpaceLike } from '@yozora/character'
 import type {
+  IMatchInlineHook,
   IMatchInlinePhaseApi,
+  IParseInlineHook,
   IParseInlinePhaseApi,
   IResultOfFindDelimiters,
   IResultOfProcessSingleDelimiter,
   ITokenizer,
-  ITokenizerMatchInlineHook,
-  ITokenizerParseInlineHook,
   IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 import {
@@ -27,8 +27,8 @@ export class InlineMathTokenizer
   extends BaseInlineTokenizer<IDelimiter>
   implements
     ITokenizer,
-    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
-    ITokenizerParseInlineHook<T, IToken, INode>
+    IMatchInlineHook<T, IDelimiter, IToken>,
+    IParseInlineHook<T, IToken, INode>
 {
   public readonly backtickRequired: boolean
 
@@ -201,7 +201,7 @@ export class InlineMathTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchInlineHook
+   * @see IMatchInlineHook
    */
   public processSingleDelimiter(delimiter: IDelimiter): IResultOfProcessSingleDelimiter<T, IToken> {
     const token: IToken = {
@@ -215,7 +215,7 @@ export class InlineMathTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseInlineHook
+   * @see IParseInlineHook
    */
   public parseInline(
     token: IToken,

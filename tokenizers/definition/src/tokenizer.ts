@@ -6,15 +6,15 @@ import {
   calcStringFromNodePoints,
 } from '@yozora/character'
 import type {
+  IMatchBlockHook,
   IMatchBlockPhaseApi,
+  IParseBlockHook,
   IPhrasingContentLine,
   IResultOfEatContinuationText,
   IResultOfEatOpener,
   IResultOfOnClose,
   IResultOfParse,
   ITokenizer,
-  ITokenizerMatchBlockHook,
-  ITokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -50,10 +50,7 @@ import { eatAndCollectLinkTitle } from './util/link-title'
  */
 export class DefinitionTokenizer
   extends BaseBlockTokenizer
-  implements
-    ITokenizer,
-    ITokenizerMatchBlockHook<T, IToken>,
-    ITokenizerParseBlockHook<T, IToken, INode>
+  implements ITokenizer, IMatchBlockHook<T, IToken>, IParseBlockHook<T, IToken, INode>
 {
   public override readonly isContainingBlock = false
 
@@ -67,7 +64,7 @@ export class DefinitionTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
     /**
@@ -197,7 +194,7 @@ export class DefinitionTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatContinuationText(
     line: Readonly<IPhrasingContentLine>,
@@ -318,7 +315,7 @@ export class DefinitionTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public onClose(token: IToken, api: Readonly<IMatchBlockPhaseApi>): IResultOfOnClose {
     let result: IResultOfOnClose
@@ -375,7 +372,7 @@ export class DefinitionTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseBlockHook
+   * @see IParseBlockHook
    */
   public parseBlock(token: Readonly<IToken>): IResultOfParse<T, INode> {
     const label: string = token._label!

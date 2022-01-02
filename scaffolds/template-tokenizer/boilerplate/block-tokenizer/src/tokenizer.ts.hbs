@@ -10,9 +10,9 @@ import type {
   IResultOfEatOpener,
   IResultOfParse,
   ITokenizer,
-  ITokenizerMatchBlockHook,
-  ITokenizerParseBlockHook,
-  ITokenizerPostMatchBlockHook,
+  IMatchBlockHook,
+  IParseBlockHook,
+  IPostMatchBlockHook,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
@@ -32,13 +32,13 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
   implements
     ITokenizer{{#if usingHooks}},{{/if}}
 {{#if useTokenizerMatchBlockHook}}
-    ITokenizerMatchBlockHook<T, IToken>{{#if TokenizerMatchBlockHook__isNotLastHook}},{{/if}}
+    IMatchBlockHook<T, IToken>{{#if TokenizerMatchBlockHook__isNotLastHook}},{{/if}}
 {{/if}}
 {{#if useTokenizerPostMatchBlockHook}}
-    ITokenizerPostMatchBlockHook{{#if TokenizerPostMatchBlockHook__isNotLastHook}},{{/if}}
+    IPostMatchBlockHook{{#if TokenizerPostMatchBlockHook__isNotLastHook}},{{/if}}
 {{/if}}
 {{#if useTokenizerParseBlockHook}}
-    ITokenizerParseBlockHook<T, IToken, INode>{{#if TokenizerParseBlockHook__isNotLastHook}},{{/if}}
+    IParseBlockHook<T, IToken, INode>{{#if TokenizerParseBlockHook__isNotLastHook}},{{/if}}
 {{/if}} {
   public readonly isContainingBlock = false
 
@@ -53,7 +53,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatOpener(
     line: Readonly<IPhrasingContentLine>,
@@ -92,7 +92,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
 
   // /**
   //  * @override
-  //  * @see ITokenizerMatchBlockHook
+  //  * @see IMatchBlockHook
   //  */
   // public eatAndInterruptPreviousSibling(
   //   line: Readonly<IPhrasingContentLine>,
@@ -110,7 +110,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
 
   // /**
   //  * @override
-  //  * @see ITokenizerMatchBlockHook
+  //  * @see IMatchBlockHook
   //  */
   // public eatContinuationText(
   //   line: Readonly<IPhrasingContentLine>,
@@ -122,7 +122,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
 
   // /**
   //  * @override
-  //  * @see ITokenizerMatchBlockHook
+  //  * @see IMatchBlockHook
   //  */
   // public eatLazyContinuationText(
   //   line: Readonly<IPhrasingContentLine>,
@@ -137,7 +137,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
 
   /**
    * @override
-   * @see ITokenizerPostMatchBlockHook
+   * @see IPostMatchBlockHook
    */
   public transformMatch(
     tokens: ReadonlyArray<IYastBlockToken>,
@@ -150,7 +150,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
 
   /**
    * @override
-   * @see ITokenizerParseBlockHook
+   * @see IParseBlockHook
    */
   public parseBlock(token: Readonly<IToken>): IResultOfParse<T, INode> {
     const node: INode = { type: token.nodeType }

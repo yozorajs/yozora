@@ -10,7 +10,9 @@ import { TableCellType, TableRowType, TableType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
+  IMatchBlockHook,
   IMatchBlockPhaseApi,
+  IParseBlockHook,
   IPhrasingContent,
   IPhrasingContentLine,
   IPhrasingContentToken,
@@ -19,8 +21,6 @@ import type {
   IResultOfEatOpener,
   IResultOfParse,
   ITokenizer,
-  ITokenizerMatchBlockHook,
-  ITokenizerParseBlockHook,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
@@ -60,10 +60,7 @@ import { uniqueName } from './types'
  */
 export class TableTokenizer
   extends BaseBlockTokenizer
-  implements
-    ITokenizer,
-    ITokenizerMatchBlockHook<T, IToken>,
-    ITokenizerParseBlockHook<T, IToken, INode>
+  implements ITokenizer, IMatchBlockHook<T, IToken>, IParseBlockHook<T, IToken, INode>
 {
   public readonly isContainingBlock = false
 
@@ -77,7 +74,7 @@ export class TableTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatOpener(): IResultOfEatOpener<T, IToken> {
     return null
@@ -85,7 +82,7 @@ export class TableTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatAndInterruptPreviousSibling(
     line: Readonly<IPhrasingContentLine>,
@@ -219,7 +216,7 @@ export class TableTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatLazyContinuationText(
     line: Readonly<IPhrasingContentLine>,
@@ -242,7 +239,7 @@ export class TableTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseBlockHook
+   * @see IParseBlockHook
    */
   public parseBlock(token: Readonly<IToken>, children: IYastNode[]): IResultOfParse<T, INode> {
     let node: INode

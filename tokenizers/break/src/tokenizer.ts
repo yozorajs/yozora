@@ -2,11 +2,11 @@ import { BreakType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
 import type {
+  IMatchInlineHook,
   IMatchInlinePhaseApi,
+  IParseInlineHook,
   IResultOfProcessSingleDelimiter,
   ITokenizer,
-  ITokenizerMatchInlineHook,
-  ITokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
 import { BaseInlineTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import { BreakTokenMarkerType, uniqueName } from './types'
@@ -32,8 +32,8 @@ export class BreakTokenizer
   extends BaseInlineTokenizer<IDelimiter>
   implements
     ITokenizer,
-    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
-    ITokenizerParseInlineHook<T, IToken, INode>
+    IMatchInlineHook<T, IDelimiter, IToken>,
+    IParseInlineHook<T, IToken, INode>
 {
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {
@@ -115,7 +115,7 @@ export class BreakTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchInlineHook
+   * @see IMatchInlineHook
    */
   public processSingleDelimiter(delimiter: IDelimiter): IResultOfProcessSingleDelimiter<T, IToken> {
     const token: IToken = {
@@ -128,7 +128,7 @@ export class BreakTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseInlineHook
+   * @see IParseInlineHook
    */
   public parseInline(): INode {
     const result: INode = { type: BreakType }

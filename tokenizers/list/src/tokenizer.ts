@@ -1,11 +1,11 @@
 import type { IListItem, IYastNode, IYastNodePosition } from '@yozora/ast'
 import { ListItemType, ListType } from '@yozora/ast'
 import type {
+  IParseBlockHook,
+  IPostMatchBlockHook,
   IPostMatchBlockPhaseApi,
   IResultOfParse,
   ITokenizer,
-  ITokenizerParseBlockHook,
-  ITokenizerPostMatchBlockHook,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import { BaseBlockTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
@@ -29,7 +29,7 @@ export interface ListTokenizerProps {}
  */
 export class ListTokenizer
   extends BaseBlockTokenizer
-  implements ITokenizer, ITokenizerPostMatchBlockHook, ITokenizerParseBlockHook<T, IToken, INode>
+  implements ITokenizer, IPostMatchBlockHook, IParseBlockHook<T, IToken, INode>
 {
   public override readonly isContainingBlock: boolean = true
 
@@ -43,7 +43,7 @@ export class ListTokenizer
 
   /**
    * @override
-   * @see ITokenizerPostMatchBlockHook
+   * @see IPostMatchBlockHook
    */
   public transformMatch(
     tokens: ReadonlyArray<IYastBlockToken>,
@@ -162,7 +162,7 @@ export class ListTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseBlockHook
+   * @see IParseBlockHook
    */
   public parseBlock(token: Readonly<IToken>, children: IYastNode[]): IResultOfParse<T, INode> {
     const node: INode = {

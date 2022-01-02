@@ -2,13 +2,13 @@ import { CodeType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, VirtualCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
+  IMatchBlockHook,
+  IParseBlockHook,
   IPhrasingContentLine,
   IResultOfEatContinuationText,
   IResultOfEatOpener,
   IResultOfParse,
   ITokenizer,
-  ITokenizerMatchBlockHook,
-  ITokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -33,10 +33,7 @@ import { uniqueName } from './types'
  */
 export class IndentedCodeTokenizer
   extends BaseBlockTokenizer
-  implements
-    ITokenizer,
-    ITokenizerMatchBlockHook<T, IToken>,
-    ITokenizerParseBlockHook<T, IToken, INode>
+  implements ITokenizer, IMatchBlockHook<T, IToken>, IParseBlockHook<T, IToken, INode>
 {
   public readonly isContainingBlock = false
 
@@ -50,7 +47,7 @@ export class IndentedCodeTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
     if (line.countOfPrecedeSpaces < 4) return null
@@ -96,7 +93,7 @@ export class IndentedCodeTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatContinuationText(
     line: Readonly<IPhrasingContentLine>,
@@ -125,7 +122,7 @@ export class IndentedCodeTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseBlockHook
+   * @see IParseBlockHook
    */
   public parseBlock(token: Readonly<IToken>): IResultOfParse<T, INode> {
     /**

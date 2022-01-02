@@ -3,12 +3,12 @@ import { createNodePointGenerator } from '@yozora/character'
 import type {
   IBlockFallbackTokenizer,
   IInlineFallbackTokenizer,
+  IMatchBlockHook,
+  IMatchInlineHook,
+  IParseBlockHook,
+  IParseInlineHook,
+  IPostMatchBlockHook,
   ITokenizer,
-  ITokenizerMatchBlockHook,
-  ITokenizerMatchInlineHook,
-  ITokenizerParseBlockHook,
-  ITokenizerParseInlineHook,
-  ITokenizerPostMatchBlockHook,
 } from '@yozora/core-tokenizer'
 import { createPhrasingLineGenerator } from '@yozora/core-tokenizer'
 import { PhrasingContentTokenizer } from './phrasing-content/tokenizer'
@@ -44,11 +44,11 @@ export interface IDefaultParserProps {
 export class DefaultParser implements IParser {
   protected readonly tokenizerHookMap: Map<
     YastNodeType,
-    ITokenizer & Partial<ITokenizerHookAll> & ITokenizerParseBlockHook & ITokenizerParseInlineHook
+    ITokenizer & Partial<ITokenizerHookAll> & IParseBlockHook & IParseInlineHook
   >
-  protected readonly matchBlockHooks: Array<ITokenizer & ITokenizerMatchBlockHook>
-  protected readonly postMatchBlockHooks: Array<ITokenizer & ITokenizerPostMatchBlockHook>
-  protected readonly matchInlineHooks: Array<ITokenizer & ITokenizerMatchInlineHook>
+  protected readonly matchBlockHooks: Array<ITokenizer & IMatchBlockHook>
+  protected readonly postMatchBlockHooks: Array<ITokenizer & IPostMatchBlockHook>
+  protected readonly matchInlineHooks: Array<ITokenizer & IMatchInlineHook>
   protected readonly phrasingContentTokenizer: PhrasingContentTokenizer
   protected blockFallbackTokenizer: IBlockFallbackTokenizer | null = null
   protected inlineFallbackTokenizer: IInlineFallbackTokenizer | null = null

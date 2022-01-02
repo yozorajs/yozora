@@ -2,14 +2,14 @@ import { HtmlType } from '@yozora/ast'
 import type { INodeInterval, INodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
+  IMatchBlockHook,
+  IParseBlockHook,
   IPhrasingContentLine,
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatContinuationText,
   IResultOfEatOpener,
   IResultOfParse,
   ITokenizer,
-  ITokenizerMatchBlockHook,
-  ITokenizerParseBlockHook,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
@@ -42,10 +42,7 @@ import { eatHTMLTagName } from './util/eat-html-tagname'
  */
 export class HtmlBlockTokenizer
   extends BaseBlockTokenizer
-  implements
-    ITokenizer,
-    ITokenizerMatchBlockHook<T, IToken>,
-    ITokenizerParseBlockHook<T, IToken, INode>
+  implements ITokenizer, IMatchBlockHook<T, IToken>, IParseBlockHook<T, IToken, INode>
 {
   public readonly isContainingBlock = false
 
@@ -59,7 +56,7 @@ export class HtmlBlockTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
     /**
@@ -107,7 +104,7 @@ export class HtmlBlockTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatAndInterruptPreviousSibling(
     line: Readonly<IPhrasingContentLine>,
@@ -125,7 +122,7 @@ export class HtmlBlockTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatContinuationText(
     line: Readonly<IPhrasingContentLine>,
@@ -147,7 +144,7 @@ export class HtmlBlockTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseBlockHook
+   * @see IParseBlockHook
    */
   public parseBlock(token: Readonly<IToken>): IResultOfParse<T, INode> {
     // Try to build phrasingContent

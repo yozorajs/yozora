@@ -182,14 +182,14 @@ Array [
     "answers:",
     Object {
       "BlockTokenizerPostParsePhaseHook__isNotLastHook": false,
-      "ITokenizerMatchBlockHook__isNotLastHook": false,
-      "ITokenizerParseBlockHook__isNotLastHook": false,
-      "ITokenizerPostMatchBlockHook__isNotLastHook": false,
+      "IMatchBlockHook__isNotLastHook": false,
+      "IParseBlockHook__isNotLastHook": false,
+      "IPostMatchBlockHook__isNotLastHook": false,
       "cwd": "<WORKSPACE>/output",
       "fallbackTokenizerName": "paragraph",
       "isBlockTokenizer": true,
       "isMonorepo": true,
-      "lastHook": "ITokenizerParseBlockHook",
+      "lastHook": "IParseBlockHook",
       "nodeModulesPath": "../../node_modules",
       "packageAuthor": "guanghechen",
       "packageDescription": "Some descriptions",
@@ -292,9 +292,9 @@ import type {
   IResultOfEatOpener,
   IResultOfParse,
   ITokenizer,
-  ITokenizerMatchBlockHook,
-  ITokenizerParseBlockHook,
-  ITokenizerPostMatchBlockHook,
+  IMatchBlockHook,
+  IParseBlockHook,
+  IPostMatchBlockHook,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
@@ -313,8 +313,8 @@ export class WawTokenizer
   extends BaseBlockTokenizer
   implements
     ITokenizer
-    ITokenizerMatchBlockHook<T, IToken>
-    ITokenizerParseBlockHook<T, IToken, INode>
+    IMatchBlockHook<T, IToken>
+    IParseBlockHook<T, IToken, INode>
  {
   public readonly isContainingBlock = false
 
@@ -328,7 +328,7 @@ export class WawTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatOpener(
     line: Readonly<IPhrasingContentLine>,
@@ -367,7 +367,7 @@ export class WawTokenizer
 
   // /**
   //  * @override
-  //  * @see ITokenizerMatchBlockHook
+  //  * @see IMatchBlockHook
   //  */
   // public eatAndInterruptPreviousSibling(
   //   line: Readonly<IPhrasingContentLine>,
@@ -385,7 +385,7 @@ export class WawTokenizer
 
   // /**
   //  * @override
-  //  * @see ITokenizerMatchBlockHook
+  //  * @see IMatchBlockHook
   //  */
   // public eatContinuationText(
   //   line: Readonly<IPhrasingContentLine>,
@@ -397,7 +397,7 @@ export class WawTokenizer
 
   // /**
   //  * @override
-  //  * @see ITokenizerMatchBlockHook
+  //  * @see IMatchBlockHook
   //  */
   // public eatLazyContinuationText(
   //   line: Readonly<IPhrasingContentLine>,
@@ -410,7 +410,7 @@ export class WawTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseBlockHook
+   * @see IParseBlockHook
    */
   public parseBlock(token: Readonly<IToken>): IResultOfParse<T, INode> {
     const node: INode = { type: token.nodeType }
@@ -478,14 +478,14 @@ Array [
     "answers:",
     Object {
       "BlockTokenizerPostParsePhaseHook__isNotLastHook": false,
-      "ITokenizerMatchBlockHook__isNotLastHook": false,
-      "ITokenizerParseBlockHook__isNotLastHook": false,
-      "ITokenizerPostMatchBlockHook__isNotLastHook": false,
+      "IMatchBlockHook__isNotLastHook": false,
+      "IParseBlockHook__isNotLastHook": false,
+      "IPostMatchBlockHook__isNotLastHook": false,
       "cwd": "<WORKSPACE>/output",
       "fallbackTokenizerName": "text",
       "isInlineTokenizer": true,
       "isMonorepo": true,
-      "lastHook": "ITokenizerParseBlockHook",
+      "lastHook": "IParseBlockHook",
       "nodeModulesPath": "../../node_modules",
       "packageAuthor": "guanghechen",
       "packageDescription": "",
@@ -709,14 +709,14 @@ Array [
     "answers:",
     Object {
       "BlockTokenizerPostParsePhaseHook__isNotLastHook": false,
-      "ITokenizerMatchBlockHook__isNotLastHook": false,
-      "ITokenizerParseBlockHook__isNotLastHook": false,
-      "ITokenizerPostMatchBlockHook__isNotLastHook": false,
+      "IMatchBlockHook__isNotLastHook": false,
+      "IParseBlockHook__isNotLastHook": false,
+      "IPostMatchBlockHook__isNotLastHook": false,
       "cwd": "<WORKSPACE>/output",
       "fallbackTokenizerName": "text",
       "isInlineTokenizer": true,
       "isMonorepo": true,
-      "lastHook": "ITokenizerParseBlockHook",
+      "lastHook": "IParseBlockHook",
       "nodeModulesPath": "../../node_modules",
       "packageAuthor": "guanghechen",
       "packageDescription": "Some descriptions",
@@ -818,8 +818,8 @@ import type {
   IParseInlinePhaseApi,
   IResultOfProcessSingleDelimiter,
   ITokenizer,
-  ITokenizerMatchInlineHook,
-  ITokenizerParseInlineHook,
+  IMatchInlineHook,
+  IParseInlineHook,
 } from '@yozora/core-tokenizer'
 import { 
   BaseInlineTokenizer, 
@@ -836,8 +836,8 @@ export class InlineWawTokenizer
   extends BaseInlineTokenizer<IDelimiter>
   implements
     ITokenizer,
-    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
-    ITokenizerParseInlineHook<T, IToken, INode> {
+    IMatchInlineHook<T, IDelimiter, IToken>,
+    IParseInlineHook<T, IToken, INode> {
 
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {
@@ -883,7 +883,7 @@ export class InlineWawTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchInlineHook
+   * @see IMatchInlineHook
    */
   public processSingleDelimiter(
     delimiter: IDelimiter,
@@ -900,7 +900,7 @@ export class InlineWawTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseInlineHook
+   * @see IParseInlineHook
    */
   public processToken(
     token: IToken,
@@ -1254,14 +1254,14 @@ Array [
     "answers:",
     Object {
       "BlockTokenizerPostParsePhaseHook__isNotLastHook": false,
-      "ITokenizerMatchBlockHook__isNotLastHook": false,
-      "ITokenizerParseBlockHook__isNotLastHook": false,
-      "ITokenizerPostMatchBlockHook__isNotLastHook": false,
+      "IMatchBlockHook__isNotLastHook": false,
+      "IParseBlockHook__isNotLastHook": false,
+      "IPostMatchBlockHook__isNotLastHook": false,
       "cwd": "<WORKSPACE>/output",
       "fallbackTokenizerName": "paragraph",
       "isBlockTokenizer": true,
       "isMonorepo": false,
-      "lastHook": "ITokenizerParseBlockHook",
+      "lastHook": "IParseBlockHook",
       "nodeModulesPath": "../../node_modules",
       "packageAuthor": "guanghechen",
       "packageDescription": "Some descriptions",
@@ -1420,9 +1420,9 @@ import type {
   IResultOfEatOpener,
   IResultOfParse,
   ITokenizer,
-  ITokenizerMatchBlockHook,
-  ITokenizerParseBlockHook,
-  ITokenizerPostMatchBlockHook,
+  IMatchBlockHook,
+  IParseBlockHook,
+  IPostMatchBlockHook,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
@@ -1441,8 +1441,8 @@ export class WawTokenizer
   extends BaseBlockTokenizer
   implements
     ITokenizer
-    ITokenizerMatchBlockHook<T, IToken>
-    ITokenizerParseBlockHook<T, IToken, INode>
+    IMatchBlockHook<T, IToken>
+    IParseBlockHook<T, IToken, INode>
  {
   public readonly isContainingBlock = false
 
@@ -1456,7 +1456,7 @@ export class WawTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatOpener(
     line: Readonly<IPhrasingContentLine>,
@@ -1495,7 +1495,7 @@ export class WawTokenizer
 
   // /**
   //  * @override
-  //  * @see ITokenizerMatchBlockHook
+  //  * @see IMatchBlockHook
   //  */
   // public eatAndInterruptPreviousSibling(
   //   line: Readonly<IPhrasingContentLine>,
@@ -1513,7 +1513,7 @@ export class WawTokenizer
 
   // /**
   //  * @override
-  //  * @see ITokenizerMatchBlockHook
+  //  * @see IMatchBlockHook
   //  */
   // public eatContinuationText(
   //   line: Readonly<IPhrasingContentLine>,
@@ -1525,7 +1525,7 @@ export class WawTokenizer
 
   // /**
   //  * @override
-  //  * @see ITokenizerMatchBlockHook
+  //  * @see IMatchBlockHook
   //  */
   // public eatLazyContinuationText(
   //   line: Readonly<IPhrasingContentLine>,
@@ -1538,7 +1538,7 @@ export class WawTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseBlockHook
+   * @see IParseBlockHook
    */
   public parseBlock(token: Readonly<IToken>): IResultOfParse<T, INode> {
     const node: INode = { type: token.nodeType }
@@ -1644,14 +1644,14 @@ Array [
     "answers:",
     Object {
       "BlockTokenizerPostParsePhaseHook__isNotLastHook": false,
-      "ITokenizerMatchBlockHook__isNotLastHook": false,
-      "ITokenizerParseBlockHook__isNotLastHook": false,
-      "ITokenizerPostMatchBlockHook__isNotLastHook": false,
+      "IMatchBlockHook__isNotLastHook": false,
+      "IParseBlockHook__isNotLastHook": false,
+      "IPostMatchBlockHook__isNotLastHook": false,
       "cwd": "<WORKSPACE>/output",
       "fallbackTokenizerName": "text",
       "isInlineTokenizer": true,
       "isMonorepo": false,
-      "lastHook": "ITokenizerParseBlockHook",
+      "lastHook": "IParseBlockHook",
       "nodeModulesPath": "../../node_modules",
       "packageAuthor": "guanghechen",
       "packageDescription": "",
@@ -1966,14 +1966,14 @@ Array [
     "answers:",
     Object {
       "BlockTokenizerPostParsePhaseHook__isNotLastHook": false,
-      "ITokenizerMatchBlockHook__isNotLastHook": false,
-      "ITokenizerParseBlockHook__isNotLastHook": false,
-      "ITokenizerPostMatchBlockHook__isNotLastHook": false,
+      "IMatchBlockHook__isNotLastHook": false,
+      "IParseBlockHook__isNotLastHook": false,
+      "IPostMatchBlockHook__isNotLastHook": false,
       "cwd": "<WORKSPACE>/output",
       "fallbackTokenizerName": "text",
       "isInlineTokenizer": true,
       "isMonorepo": false,
-      "lastHook": "ITokenizerParseBlockHook",
+      "lastHook": "IParseBlockHook",
       "nodeModulesPath": "../../node_modules",
       "packageAuthor": "guanghechen",
       "packageDescription": "Some descriptions",
@@ -2131,8 +2131,8 @@ import type {
   IParseInlinePhaseApi,
   IResultOfProcessSingleDelimiter,
   ITokenizer,
-  ITokenizerMatchInlineHook,
-  ITokenizerParseInlineHook,
+  IMatchInlineHook,
+  IParseInlineHook,
 } from '@yozora/core-tokenizer'
 import { 
   BaseInlineTokenizer, 
@@ -2149,8 +2149,8 @@ export class InlineWawTokenizer
   extends BaseInlineTokenizer<IDelimiter>
   implements
     ITokenizer,
-    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
-    ITokenizerParseInlineHook<T, IToken, INode> {
+    IMatchInlineHook<T, IDelimiter, IToken>,
+    IParseInlineHook<T, IToken, INode> {
 
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {
@@ -2196,7 +2196,7 @@ export class InlineWawTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchInlineHook
+   * @see IMatchInlineHook
    */
   public processSingleDelimiter(
     delimiter: IDelimiter,
@@ -2213,7 +2213,7 @@ export class InlineWawTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseInlineHook
+   * @see IParseInlineHook
    */
   public processToken(
     token: IToken,

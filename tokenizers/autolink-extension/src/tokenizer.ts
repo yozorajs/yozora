@@ -3,12 +3,12 @@ import { LinkType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcStringFromNodePoints, isWhitespaceCharacter } from '@yozora/character'
 import type {
+  IMatchInlineHook,
   IMatchInlinePhaseApi,
+  IParseInlineHook,
   IParseInlinePhaseApi,
   IResultOfProcessSingleDelimiter,
   ITokenizer,
-  ITokenizerMatchInlineHook,
-  ITokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
 import { BaseInlineTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import type {
@@ -39,8 +39,8 @@ export class AutolinkExtensionTokenizer
   extends BaseInlineTokenizer<IDelimiter>
   implements
     ITokenizer,
-    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
-    ITokenizerParseInlineHook<T, IToken, INode>
+    IMatchInlineHook<T, IDelimiter, IToken>,
+    IParseInlineHook<T, IToken, INode>
 {
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {
@@ -131,7 +131,7 @@ export class AutolinkExtensionTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchInlineHook
+   * @see IMatchInlineHook
    */
   public processSingleDelimiter(
     delimiter: IDelimiter,
@@ -149,7 +149,7 @@ export class AutolinkExtensionTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseInlineHook
+   * @see IParseInlineHook
    */
   public parseInline(
     token: IToken,

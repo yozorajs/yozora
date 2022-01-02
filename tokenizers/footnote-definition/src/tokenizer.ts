@@ -2,15 +2,15 @@ import { FootnoteDefinitionType } from '@yozora/ast'
 import type { IYastNode } from '@yozora/ast'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
+  IMatchBlockHook,
   IMatchBlockPhaseApi,
+  IParseBlockHook,
   IPhrasingContentLine,
   IResultOfEatContinuationText,
   IResultOfEatOpener,
   IResultOfOnClose,
   IResultOfParse,
   ITokenizer,
-  ITokenizerMatchBlockHook,
-  ITokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -46,10 +46,7 @@ import { eatFootnoteLabel } from './util'
  */
 export class FootnoteDefinitionTokenizer
   extends BaseBlockTokenizer
-  implements
-    ITokenizer,
-    ITokenizerMatchBlockHook<T, IToken>,
-    ITokenizerParseBlockHook<T, IToken, INode>
+  implements ITokenizer, IMatchBlockHook<T, IToken>, IParseBlockHook<T, IToken, INode>
 {
   public readonly isContainingBlock = true
   public readonly indent = 4
@@ -64,7 +61,7 @@ export class FootnoteDefinitionTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
     if (line.countOfPrecedeSpaces >= 4) return null
@@ -99,7 +96,7 @@ export class FootnoteDefinitionTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public eatContinuationText(line: Readonly<IPhrasingContentLine>): IResultOfEatContinuationText {
     const { startIndex, endIndex, firstNonWhitespaceIndex, countOfPrecedeSpaces } = line
@@ -122,7 +119,7 @@ export class FootnoteDefinitionTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchBlockHook
+   * @see IMatchBlockHook
    */
   public onClose(token: IToken, api: Readonly<IMatchBlockPhaseApi>): IResultOfOnClose {
     /**
@@ -150,7 +147,7 @@ export class FootnoteDefinitionTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseBlockHook
+   * @see IParseBlockHook
    */
   public parseBlock(token: Readonly<IToken>, children: IYastNode[]): IResultOfParse<T, INode> {
     const label: string = token._label!

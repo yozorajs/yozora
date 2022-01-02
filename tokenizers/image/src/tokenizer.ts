@@ -3,13 +3,13 @@ import { ImageType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
+  IMatchInlineHook,
   IMatchInlinePhaseApi,
+  IParseInlineHook,
   IParseInlinePhaseApi,
   IResultOfIsDelimiterPair,
   IResultOfProcessDelimiterPair,
   ITokenizer,
-  ITokenizerMatchInlineHook,
-  ITokenizerParseInlineHook,
   IYastInlineToken,
 } from '@yozora/core-tokenizer'
 import {
@@ -60,8 +60,8 @@ export class ImageTokenizer
   extends BaseInlineTokenizer<IDelimiter>
   implements
     ITokenizer,
-    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
-    ITokenizerParseInlineHook<T, IToken, INode>
+    IMatchInlineHook<T, IDelimiter, IToken>,
+    IParseInlineHook<T, IToken, INode>
 {
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {
@@ -85,7 +85,7 @@ export class ImageTokenizer
    * @see https://github.github.com/gfm/#example-582
    *
    * @override
-   * @see ITokenizerMatchInlineHook
+   * @see IMatchInlineHook
    */
   protected override _findDelimiter(
     startIndex: number,
@@ -196,7 +196,7 @@ export class ImageTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchInlineHook
+   * @see IMatchInlineHook
    */
   public isDelimiterPair(
     openerDelimiter: IDelimiter,
@@ -223,7 +223,7 @@ export class ImageTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchInlineHook
+   * @see IMatchInlineHook
    */
   public processDelimiterPair(
     openerDelimiter: IDelimiter,
@@ -248,7 +248,7 @@ export class ImageTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseInlineHook
+   * @see IParseInlineHook
    */
   public parseInline(
     token: IToken,

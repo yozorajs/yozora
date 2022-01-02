@@ -3,12 +3,12 @@ import { FootnoteType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type {
+  IMatchInlineHook,
   IMatchInlinePhaseApi,
+  IParseInlineHook,
   IResultOfIsDelimiterPair,
   IResultOfProcessDelimiterPair,
   ITokenizer,
-  ITokenizerMatchInlineHook,
-  ITokenizerParseInlineHook,
   IYastInlineToken,
 } from '@yozora/core-tokenizer'
 import { BaseInlineTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
@@ -34,8 +34,8 @@ export class FootnoteTokenizer
   extends BaseInlineTokenizer<IDelimiter>
   implements
     ITokenizer,
-    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
-    ITokenizerParseInlineHook<T, IToken, INode>
+    IMatchInlineHook<T, IDelimiter, IToken>,
+    IParseInlineHook<T, IToken, INode>
 {
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {
@@ -85,7 +85,7 @@ export class FootnoteTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchInlineHook
+   * @see IMatchInlineHook
    */
   public isDelimiterPair(
     openerDelimiter: IDelimiter,
@@ -112,7 +112,7 @@ export class FootnoteTokenizer
 
   /**
    * @override
-   * @see ITokenizerMatchInlineHook
+   * @see IMatchInlineHook
    */
   public processDelimiterPair(
     openerDelimiter: IDelimiter,
@@ -135,7 +135,7 @@ export class FootnoteTokenizer
 
   /**
    * @override
-   * @see ITokenizerParseInlineHook
+   * @see IParseInlineHook
    */
   public parseInline(token: IToken, children: IYastNode[]): INode {
     const result: INode = {

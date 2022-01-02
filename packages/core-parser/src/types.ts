@@ -2,12 +2,12 @@ import type { IRoot, IYastAssociation } from '@yozora/ast'
 import type {
   IBlockFallbackTokenizer,
   IInlineFallbackTokenizer,
+  IMatchBlockHook,
+  IMatchInlineHook,
+  IParseBlockHook,
+  IParseInlineHook,
+  IPostMatchBlockHook,
   ITokenizer,
-  ITokenizerMatchBlockHook,
-  ITokenizerMatchInlineHook,
-  ITokenizerParseBlockHook,
-  ITokenizerParseInlineHook,
-  ITokenizerPostMatchBlockHook,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 
@@ -22,17 +22,17 @@ export type ITokenizerHookPhase =
 export type ITokenizerHookPhaseFlags = Record<ITokenizerHookPhase, false>
 
 export type ITokenizerHook =
-  | ITokenizerMatchBlockHook
-  | ITokenizerPostMatchBlockHook
-  | ITokenizerParseBlockHook
-  | ITokenizerMatchInlineHook
-  | ITokenizerParseInlineHook
+  | IMatchBlockHook
+  | IPostMatchBlockHook
+  | IParseBlockHook
+  | IMatchInlineHook
+  | IParseInlineHook
 
-export type ITokenizerHookAll = ITokenizerMatchBlockHook &
-  ITokenizerPostMatchBlockHook &
-  ITokenizerParseBlockHook &
-  ITokenizerMatchInlineHook &
-  ITokenizerParseInlineHook
+export type ITokenizerHookAll = IMatchBlockHook &
+  IPostMatchBlockHook &
+  IParseBlockHook &
+  IMatchInlineHook &
+  IParseInlineHook
 
 export interface IParseOptions {
   /**
@@ -116,7 +116,7 @@ export interface IParser {
 /**
  * Hook on match-block phase.
  */
-export type IYastMatchPhaseHook = ITokenizer & ITokenizerMatchBlockHook
+export type IYastMatchPhaseHook = ITokenizer & IMatchBlockHook
 
 /**
  * Node on match-block phase.
