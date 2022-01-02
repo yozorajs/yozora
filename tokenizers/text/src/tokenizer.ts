@@ -1,16 +1,13 @@
-import type { IYastNode } from '@yozora/ast'
 import { TextType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
   IInlineFallbackTokenizer,
-  IMatchInlineHook,
-  IParseInlineHook,
-  IParseInlinePhaseApi,
-  IResultOfProcessSingleDelimiter,
-  ITokenizer,
+  IInlineTokenizer,
+  IMatchInlineHookCreator,
+  IParseInlineHookCreator,
 } from '@yozora/core-tokenizer'
-import { BaseInlineTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+import { BaseInlineTokenizer, TokenizerPriority, genFindDelimiter } from '@yozora/core-tokenizer'
 import type { IDelimiter, INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
@@ -24,12 +21,10 @@ import { uniqueName } from './types'
  * @see https://github.github.com/gfm/#textual-content
  */
 export class TextTokenizer
-  extends BaseInlineTokenizer<IDelimiter>
+  extends BaseInlineTokenizer<T, IDelimiter, IToken, INode>
   implements
-    ITokenizer,
-    IInlineFallbackTokenizer<T, IToken, INode>,
-    IMatchInlineHook<T, IDelimiter, IToken>,
-    IParseInlineHook<T, IToken, INode>
+    IInlineTokenizer<T, IDelimiter, IToken, INode>,
+    IInlineFallbackTokenizer<T, IToken, INode>
 {
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {
@@ -39,37 +34,6 @@ export class TextTokenizer
     })
   }
 
-  /**
-   * @override
-   * @see IMatchInlineHook
-   */
-  /* istanbul ignore next */
-  protected override _findDelimiter(startIndex: number, endIndex: number): IDelimiter | null {
-    return {
-      type: 'full',
-      startIndex,
-      endIndex,
-    }
-  }
-
-  /**
-   * @override
-   * @see IMatchInlineHook
-   */
-  /* istanbul ignore next */
-  public processSingleDelimiter(delimiter: IDelimiter): IResultOfProcessSingleDelimiter<T, IToken> {
-    const token: IToken = {
-      nodeType: TextType,
-      startIndex: delimiter.startIndex,
-      endIndex: delimiter.endIndex,
-    }
-    return [token]
-  }
-
-  /**
-   * @override
-   * @see FallbackInlineTokenizer
-   */
   public findAndHandleDelimiter(startIndex: number, endIndex: number): IToken {
     const token: IToken = {
       nodeType: TextType,
@@ -79,25 +43,36 @@ export class TextTokenizer
     return token
   }
 
-  /**
-   * @override
-   * @see IParseInlineHook
-   */
-  public parseInline(
-    token: IToken,
-    children: IYastNode[],
-    api: Readonly<IParseInlinePhaseApi>,
-  ): INode {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
-    const { startIndex, endIndex } = token
-    let value: string = calcEscapedStringFromNodePoints(nodePoints, startIndex, endIndex)
+  public override readonly match: IMatchInlineHookCreator<T, IDelimiter, IToken> = () => ({
+    findDelimiter: () =>
+      genFindDelimiter<IDelimiter>((startIndex, endIndex) => ({
+        type: 'full',
+        startIndex,
+        endIndex,
+      })),
+    /* istanbul ignore next */
+    processSingleDelimiter: delimiter => [
+      {
+        nodeType: TextType,
+        startIndex: delimiter.startIndex,
+        endIndex: delimiter.endIndex,
+      },
+    ],
+  })
 
-    /**
-     * Spaces at the end of the line and beginning of the next line are removed
-     * @see https://github.github.com/gfm/#example-670
-     */
-    value = value.replace(/[^\S\n]*\n[^\S\n]*/g, '\n')
-    const result: INode = { type: TextType, value }
-    return result
-  }
+  public override readonly parse: IParseInlineHookCreator<T, IToken, INode> = api => ({
+    parse: token => {
+      const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+      const { startIndex, endIndex } = token
+      let value: string = calcEscapedStringFromNodePoints(nodePoints, startIndex, endIndex)
+
+      /**
+       * Spaces at the end of the line and beginning of the next line are removed
+       * @see https://github.github.com/gfm/#example-670
+       */
+      value = value.replace(/[^\S\n]*\n[^\S\n]*/g, '\n')
+      const result: INode = { type: TextType, value }
+      return result
+    },
+  })
 }

@@ -18,10 +18,8 @@ export interface IMatchInlineHook<
 > {
   /**
    * Find an inline token delimiter.
-   *
-   * @param api
    */
-  findDelimiter(api: Readonly<IMatchInlinePhaseApi>): IResultOfFindDelimiters<IDelimiter>
+  findDelimiter(): IResultOfFindDelimiters<IDelimiter>
 
   /**
    * Check if the given two delimiters can be combined into a pair.
@@ -35,13 +33,11 @@ export interface IMatchInlineHook<
    * @param openerDelimiter
    * @param closerDelimiter
    * @param internalTokens
-   * @param api
    */
   isDelimiterPair?(
     openerDelimiter: IDelimiter,
     closerDelimiter: IDelimiter,
     internalTokens: ReadonlyArray<IYastInlineToken>,
-    api: Readonly<IMatchInlinePhaseApi>,
   ): IResultOfIsDelimiterPair
 
   /**
@@ -50,13 +46,11 @@ export interface IMatchInlineHook<
    * @param openerDelimiter
    * @param closerDelimiter
    * @param internalTokens
-   * @param api
    */
   processDelimiterPair?(
     openerDelimiter: IDelimiter,
     closerDelimiter: IDelimiter,
     internalTokens: ReadonlyArray<IYastInlineToken>,
-    api: Readonly<IMatchInlinePhaseApi>,
   ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter>
 
   /**
@@ -66,10 +60,7 @@ export interface IMatchInlineHook<
    * @param delimiter
    * @param api
    */
-  processSingleDelimiter?(
-    delimiter: IDelimiter,
-    api: Readonly<IMatchInlinePhaseApi>,
-  ): IResultOfProcessSingleDelimiter<T, IToken>
+  processSingleDelimiter?(delimiter: IDelimiter): IResultOfProcessSingleDelimiter<T, IToken>
 }
 
 /**

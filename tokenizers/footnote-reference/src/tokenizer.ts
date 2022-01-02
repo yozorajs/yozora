@@ -2,15 +2,15 @@ import { FootnoteReferenceType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type {
-  IMatchInlineHook,
-  IMatchInlinePhaseApi,
-  IParseInlineHook,
+  IInlineTokenizer,
+  IMatchInlineHookCreator,
+  IParseInlineHookCreator,
   IResultOfProcessSingleDelimiter,
-  ITokenizer,
 } from '@yozora/core-tokenizer'
 import {
   BaseInlineTokenizer,
   TokenizerPriority,
+  genFindDelimiter,
   resolveLinkLabelAndIdentifier,
 } from '@yozora/core-tokenizer'
 import { eatFootnoteLabel } from '@yozora/tokenizer-footnote-definition'
@@ -34,11 +34,8 @@ import { uniqueName } from './types'
  * @see https://github.github.com/gfm/#link-label
  */
 export class FootnoteReferenceTokenizer
-  extends BaseInlineTokenizer<IDelimiter>
-  implements
-    ITokenizer,
-    IMatchInlineHook<T, IDelimiter, IToken>,
-    IParseInlineHook<T, IToken, INode>
+  extends BaseInlineTokenizer<T, IDelimiter, IToken, INode>
+  implements IInlineTokenizer<T, IDelimiter, IToken, INode>
 {
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {
@@ -48,84 +45,76 @@ export class FootnoteReferenceTokenizer
     })
   }
 
-  /**
-   * @override
-   * @see BaseInlineTokenizer
-   */
-  protected override _findDelimiter(
-    startIndex: number,
-    endIndex: number,
-    api: Readonly<IMatchInlinePhaseApi>,
-  ): IDelimiter | null {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+  public override readonly match: IMatchInlineHookCreator<T, IDelimiter, IToken> = api => {
+    return {
+      findDelimiter: () => genFindDelimiter<IDelimiter>(_findDelimiter),
+      processSingleDelimiter,
+    }
 
-    for (let i = startIndex; i < endIndex; ++i) {
-      const p = nodePoints[i]
-      switch (p.codePoint) {
-        case AsciiCodePoint.BACKSLASH:
-          i += 1
-          break
-        /**
-         * A footnote text consists of a sequence of zero or more inline elements
-         * enclosed by square brackets ([ and ])
-         * @see https://github.github.com/gfm/#footnote-text
-         */
-        case AsciiCodePoint.OPEN_BRACKET: {
-          const nextIndex = eatFootnoteLabel(nodePoints, i, endIndex)
-          if (nextIndex >= 0) {
-            return {
-              type: 'full',
-              startIndex: i,
-              endIndex: nextIndex,
+    function _findDelimiter(startIndex: number, endIndex: number): IDelimiter | null {
+      const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+
+      for (let i = startIndex; i < endIndex; ++i) {
+        const p = nodePoints[i]
+        switch (p.codePoint) {
+          case AsciiCodePoint.BACKSLASH:
+            i += 1
+            break
+          /**
+           * A footnote text consists of a sequence of zero or more inline elements
+           * enclosed by square brackets ([ and ])
+           * @see https://github.github.com/gfm/#footnote-text
+           */
+          case AsciiCodePoint.OPEN_BRACKET: {
+            const nextIndex = eatFootnoteLabel(nodePoints, i, endIndex)
+            if (nextIndex >= 0) {
+              return {
+                type: 'full',
+                startIndex: i,
+                endIndex: nextIndex,
+              }
             }
+            break
           }
-          break
         }
       }
+      return null
     }
-    return null
+
+    function processSingleDelimiter(
+      delimiter: IDelimiter,
+    ): IResultOfProcessSingleDelimiter<T, IToken> {
+      const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+      const labelAndIdentifier = resolveLinkLabelAndIdentifier(
+        nodePoints,
+        delimiter.startIndex + 2,
+        delimiter.endIndex - 1,
+      )
+      if (labelAndIdentifier == null) return []
+
+      const { label, identifier } = labelAndIdentifier
+      if (!api.hasFootnoteDefinition(identifier)) return []
+
+      const token: IToken = {
+        nodeType: FootnoteReferenceType,
+        startIndex: delimiter.startIndex,
+        endIndex: delimiter.endIndex,
+        label,
+        identifier,
+      }
+      return [token]
+    }
   }
 
-  /**
-   * @override
-   * @see IMatchInlineHook
-   */
-  public processSingleDelimiter(
-    delimiter: IDelimiter,
-    api: Readonly<IMatchInlinePhaseApi>,
-  ): IResultOfProcessSingleDelimiter<T, IToken> {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
-    const labelAndIdentifier = resolveLinkLabelAndIdentifier(
-      nodePoints,
-      delimiter.startIndex + 2,
-      delimiter.endIndex - 1,
-    )
-    if (labelAndIdentifier == null) return []
-
-    const { label, identifier } = labelAndIdentifier
-    if (!api.hasFootnoteDefinition(identifier)) return []
-
-    const token: IToken = {
-      nodeType: FootnoteReferenceType,
-      startIndex: delimiter.startIndex,
-      endIndex: delimiter.endIndex,
-      label,
-      identifier,
-    }
-    return [token]
-  }
-
-  /**
-   * @override
-   * @see IParseInlineHook
-   */
-  public parseInline(token: IToken): INode {
-    const { identifier, label } = token
-    const result: INode = {
-      type: FootnoteReferenceType,
-      identifier,
-      label,
-    }
-    return result
-  }
+  public override readonly parse: IParseInlineHookCreator<T, IToken, INode> = () => ({
+    parse: token => {
+      const { identifier, label } = token
+      const result: INode = {
+        type: FootnoteReferenceType,
+        identifier,
+        label,
+      }
+      return result
+    },
+  })
 }

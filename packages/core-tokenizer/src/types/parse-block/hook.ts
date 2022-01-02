@@ -29,21 +29,6 @@ export interface IParseBlockHook<
   ): IResultOfParse<T, INode>
 }
 
-/**
- * # Returned on success
- *    => {
- *      classification: 'flow' | 'meta'
- *      token: Node
- *    }
- *
- *  * classification: classify IYastNode
- *    - *flow*: Represents this IYastNode is in the Document-Flow
- *    - *meta*: Represents this IYastNode is a meta data node
- *  * token: the parsed data node
- *
- * # Returned on failure
- *    => null
- */
 export type IResultOfParse<
   T extends YastNodeType = YastNodeType,
   Node extends IYastNode<T> = IYastNode<T>,

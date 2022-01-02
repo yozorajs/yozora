@@ -1,17 +1,15 @@
-import type { IYastNode } from '@yozora/ast'
 import { FootnoteType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type {
-  IMatchInlineHook,
-  IMatchInlinePhaseApi,
-  IParseInlineHook,
+  IInlineTokenizer,
+  IMatchInlineHookCreator,
+  IParseInlineHookCreator,
   IResultOfIsDelimiterPair,
   IResultOfProcessDelimiterPair,
-  ITokenizer,
   IYastInlineToken,
 } from '@yozora/core-tokenizer'
-import { BaseInlineTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+import { BaseInlineTokenizer, TokenizerPriority, genFindDelimiter } from '@yozora/core-tokenizer'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import type { IDelimiter, INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
@@ -31,11 +29,8 @@ import { uniqueName } from './types'
  * @see https://www.markdownguide.org/extended-syntax/#footnotes
  */
 export class FootnoteTokenizer
-  extends BaseInlineTokenizer<IDelimiter>
-  implements
-    ITokenizer,
-    IMatchInlineHook<T, IDelimiter, IToken>,
-    IParseInlineHook<T, IToken, INode>
+  extends BaseInlineTokenizer<T, IDelimiter, IToken, INode>
+  implements IInlineTokenizer<T, IDelimiter, IToken, INode>
 {
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {
@@ -45,103 +40,88 @@ export class FootnoteTokenizer
     })
   }
 
-  /**
-   * @override
-   * @see BaseInlineTokenizer
-   */
-  protected override _findDelimiter(
-    startIndex: number,
-    endIndex: number,
-    api: Readonly<IMatchInlinePhaseApi>,
-  ): IDelimiter | null {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+  public override readonly match: IMatchInlineHookCreator<T, IDelimiter, IToken> = api => {
+    return {
+      findDelimiter: () => genFindDelimiter<IDelimiter>(_findDelimiter),
+      isDelimiterPair,
+      processDelimiterPair,
+    }
 
-    for (let i = startIndex; i < endIndex; ++i) {
-      const c = nodePoints[i].codePoint
-      switch (c) {
-        case AsciiCodePoint.BACKSLASH:
-          i += 1
-          break
-        case AsciiCodePoint.CARET: {
-          if (i + 1 < endIndex && nodePoints[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET) {
-            return {
-              type: 'opener',
-              startIndex: i,
-              endIndex: i + 2,
+    function _findDelimiter(startIndex: number, endIndex: number): IDelimiter | null {
+      const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+
+      for (let i = startIndex; i < endIndex; ++i) {
+        const c = nodePoints[i].codePoint
+        switch (c) {
+          case AsciiCodePoint.BACKSLASH:
+            i += 1
+            break
+          case AsciiCodePoint.CARET: {
+            if (i + 1 < endIndex && nodePoints[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET) {
+              return {
+                type: 'opener',
+                startIndex: i,
+                endIndex: i + 2,
+              }
             }
+            break
           }
-          break
+          case AsciiCodePoint.CLOSE_BRACKET:
+            return {
+              type: 'closer',
+              startIndex: i,
+              endIndex: i + 1,
+            }
         }
-        case AsciiCodePoint.CLOSE_BRACKET:
-          return {
-            type: 'closer',
-            startIndex: i,
-            endIndex: i + 1,
-          }
       }
+      return null
     }
-    return null
-  }
 
-  /**
-   * @override
-   * @see IMatchInlineHook
-   */
-  public isDelimiterPair(
-    openerDelimiter: IDelimiter,
-    closerDelimiter: IDelimiter,
-    internalTokens: ReadonlyArray<IYastInlineToken>,
-    api: Readonly<IMatchInlinePhaseApi>,
-  ): IResultOfIsDelimiterPair {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
-    const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
-      openerDelimiter.endIndex,
-      closerDelimiter.startIndex,
-      internalTokens,
-      nodePoints,
-    )
-    switch (balancedBracketsStatus) {
-      case -1:
-        return { paired: false, opener: false, closer: true }
-      case 0:
-        return { paired: true }
-      case 1:
-        return { paired: false, opener: true, closer: false }
-    }
-  }
-
-  /**
-   * @override
-   * @see IMatchInlineHook
-   */
-  public processDelimiterPair(
-    openerDelimiter: IDelimiter,
-    closerDelimiter: IDelimiter,
-    internalTokens: ReadonlyArray<IYastInlineToken>,
-    api: Readonly<IMatchInlinePhaseApi>,
-  ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter> {
-    const token: IToken = {
-      nodeType: FootnoteType,
-      startIndex: openerDelimiter.startIndex,
-      endIndex: closerDelimiter.endIndex,
-      children: api.resolveInternalTokens(
-        internalTokens,
+    function isDelimiterPair(
+      openerDelimiter: IDelimiter,
+      closerDelimiter: IDelimiter,
+      internalTokens: ReadonlyArray<IYastInlineToken>,
+    ): IResultOfIsDelimiterPair {
+      const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+      const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
         openerDelimiter.endIndex,
         closerDelimiter.startIndex,
-      ),
+        internalTokens,
+        nodePoints,
+      )
+      switch (balancedBracketsStatus) {
+        case -1:
+          return { paired: false, opener: false, closer: true }
+        case 0:
+          return { paired: true }
+        case 1:
+          return { paired: false, opener: true, closer: false }
+      }
     }
-    return { tokens: [token] }
+
+    function processDelimiterPair(
+      openerDelimiter: IDelimiter,
+      closerDelimiter: IDelimiter,
+      internalTokens: ReadonlyArray<IYastInlineToken>,
+    ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter> {
+      const token: IToken = {
+        nodeType: FootnoteType,
+        startIndex: openerDelimiter.startIndex,
+        endIndex: closerDelimiter.endIndex,
+        children: api.resolveInternalTokens(
+          internalTokens,
+          openerDelimiter.endIndex,
+          closerDelimiter.startIndex,
+        ),
+      }
+      return { tokens: [token] }
+    }
   }
 
-  /**
-   * @override
-   * @see IParseInlineHook
-   */
-  public parseInline(token: IToken, children: IYastNode[]): INode {
-    const result: INode = {
+  public override readonly parse: IParseInlineHookCreator<T, IToken, INode> = () => ({
+    parse: (_token, children) => ({
       type: FootnoteType,
       children,
-    }
-    return result
-  }
+    }),
+  })
 }

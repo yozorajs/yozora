@@ -22,7 +22,7 @@ import { {{{pascalCase tokenizerName}}}Type, uniqueName } from './types'
  * Lexical Analyzer for {{{pascalCase tokenizerName}}}
  */
 export class {{{pascalCase tokenizerName}}}Tokenizer
-  extends BaseInlineTokenizer<IDelimiter>
+  extends BaseInlineTokenizer<T, IDelimiter, IToken, INode>
   implements
     ITokenizer,
     IMatchInlineHook<T, IDelimiter, IToken>,

@@ -2,6 +2,7 @@ import type { IRoot, IYastAssociation } from '@yozora/ast'
 import type {
   IBlockFallbackTokenizer,
   IInlineFallbackTokenizer,
+  IInlineTokenizer,
   IMatchBlockHook,
   IMatchInlineHook,
   IParseBlockHook,
@@ -11,11 +12,9 @@ import type {
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 
-export type ITokenizerHookPhase =
-  | 'match-block'
-  | 'post-match-block'
-  // | 'parse-block'
-  | 'match-inline'
+export type ITokenizerHookPhase = 'match-block' | 'post-match-block'
+// | 'parse-block'
+// | 'match-inline'
 // | 'parse-inline'
 
 // Set *false* to disable corresponding hook.
@@ -55,6 +54,13 @@ export interface IParseOptions {
  * Parser for markdown like contents.
  */
 export interface IParser {
+  /**
+   * Register inline tokenizer into context.
+   * @param tokenizer
+   * @param registerBeforeTokenizer register to the front of the specified tokenizer
+   */
+  useInlineTokenizer(tokenizer: IInlineTokenizer, registerBeforeTokenizer?: string): this
+
   /**
    * Register tokenizer and hook into context.
    * @param tokenizer

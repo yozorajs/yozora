@@ -3,6 +3,7 @@ import { createNodePointGenerator } from '@yozora/character'
 import type {
   IBlockFallbackTokenizer,
   IInlineFallbackTokenizer,
+  IInlineTokenizer,
   IMatchBlockHook,
   IMatchInlineHook,
   IParseBlockHook,
@@ -46,19 +47,21 @@ export class DefaultParser implements IParser {
     YastNodeType,
     ITokenizer & Partial<ITokenizerHookAll> & IParseBlockHook & IParseInlineHook
   >
+  protected readonly inlineTokenizers: IInlineTokenizer[]
+  protected readonly inlineTokenizerMap: Map<string, IInlineTokenizer>
   protected readonly matchBlockHooks: Array<ITokenizer & IMatchBlockHook>
   protected readonly postMatchBlockHooks: Array<ITokenizer & IPostMatchBlockHook>
-  protected readonly matchInlineHooks: Array<ITokenizer & IMatchInlineHook>
   protected readonly phrasingContentTokenizer: PhrasingContentTokenizer
   protected blockFallbackTokenizer: IBlockFallbackTokenizer | null = null
   protected inlineFallbackTokenizer: IInlineFallbackTokenizer | null = null
   protected defaultParseOptions: Required<IParseOptions> = null as any
 
   constructor(props: IDefaultParserProps) {
+    this.inlineTokenizers = []
+    this.inlineTokenizerMap = new Map()
     this.tokenizerHookMap = new Map()
     this.matchBlockHooks = []
     this.postMatchBlockHooks = []
-    this.matchInlineHooks = []
     this.phrasingContentTokenizer = new PhrasingContentTokenizer()
 
     // Set default IParseOptions
@@ -68,7 +71,6 @@ export class DefaultParser implements IParser {
     this.useTokenizer(new PhrasingContentTokenizer(), undefined, {
       'match-block': false,
       'post-match-block': false,
-      'match-inline': false,
     })
 
     // Resolve block fallback tokenizer.
@@ -84,6 +86,34 @@ export class DefaultParser implements IParser {
     if (inlineFallbackTokenizer != null) {
       this.useInlineFallbackTokenizer(inlineFallbackTokenizer)
     }
+  }
+
+  public useInlineTokenizer(tokenizer: IInlineTokenizer, registerBeforeTokenizer?: string): this {
+    this._registerTokenizer(
+      this.inlineTokenizers,
+      this.inlineTokenizerMap,
+      tokenizer,
+      registerBeforeTokenizer,
+    )
+    return this
+  }
+
+  public unmountInlineTokenizer(tokenizerOrName: ITokenizer | string): this {
+    this._unregisterTokenizer(this.inlineTokenizers, this.inlineTokenizerMap, tokenizerOrName)
+    return this
+  }
+
+  public replaceInlineTokenizer(
+    tokenizer: IInlineTokenizer,
+    registerBeforeTokenizer?: string,
+  ): this {
+    this._replaceTokenizer(
+      this.inlineTokenizers,
+      this.inlineTokenizerMap,
+      tokenizer,
+      registerBeforeTokenizer,
+    )
+    return this
   }
 
   /**
@@ -109,11 +139,10 @@ export class DefaultParser implements IParser {
       if (lifecycleHookFlags[flag] === false) return
       let index = 0
       for (; index < hooks.length; ++index) {
-        const h = hooks[index]
-        if (registerBeforeTokenizer === h.name) break
-        if (hook.priority > h.priority) break
+        const t = hooks[index]
+        if (registerBeforeTokenizer === t.name) break
+        if (hook.priority > t.priority) break
       }
-
       if (index < 0 || index >= hooks.length) hooks.push(hook)
       else hooks.splice(index, 0, hook)
     }
@@ -126,11 +155,6 @@ export class DefaultParser implements IParser {
     // post-match-block phase
     if (hook.transformMatch != null) {
       registerIntoHooks(this.postMatchBlockHooks, 'post-match-block')
-    }
-
-    // match-inline phase
-    if (hook.findDelimiter != null) {
-      registerIntoHooks(this.matchInlineHooks, 'match-inline')
     }
     return this
   }
@@ -181,7 +205,6 @@ export class DefaultParser implements IParser {
 
     unmountFromHooks(this.matchBlockHooks)
     unmountFromHooks(this.postMatchBlockHooks)
-    unmountFromHooks(this.matchInlineHooks)
     return this
   }
 
@@ -199,7 +222,6 @@ export class DefaultParser implements IParser {
     this.useTokenizer(blockFallbackTokenizer, undefined, {
       'match-block': false,
       'post-match-block': false,
-      'match-inline': false,
     })
 
     this.blockFallbackTokenizer = blockFallbackTokenizer
@@ -220,7 +242,6 @@ export class DefaultParser implements IParser {
     this.useTokenizer(inlineFallbackTokenizer, undefined, {
       'match-block': false,
       'post-match-block': false,
-      'match-inline': false,
     })
 
     this.inlineFallbackTokenizer = inlineFallbackTokenizer
@@ -257,7 +278,8 @@ export class DefaultParser implements IParser {
       tokenizerHookMap: this.tokenizerHookMap,
       matchBlockHooks: this.matchBlockHooks,
       postMatchBlockHooks: this.postMatchBlockHooks,
-      matchInlineHooks: this.matchInlineHooks,
+      inlineTokenizers: this.inlineTokenizers,
+      inlineTokenizerMap: this.inlineTokenizerMap,
       phrasingContentTokenizer: this.phrasingContentTokenizer,
       blockFallbackTokenizer: this.blockFallbackTokenizer,
       inlineFallbackTokenizer: this.inlineFallbackTokenizer,
@@ -267,5 +289,56 @@ export class DefaultParser implements IParser {
     })
     const root: IRoot = processor.process(linesIterator)
     return root
+  }
+
+  protected _replaceTokenizer(
+    tokenizers: ITokenizer[],
+    tokenizerMap: Map<string, ITokenizer>,
+    tokenizer: ITokenizer,
+    registerBeforeTokenizer?: string,
+  ): void {
+    this._unregisterTokenizer(tokenizers, tokenizerMap, tokenizer.name)
+    this._registerTokenizer(tokenizers, tokenizerMap, tokenizer, registerBeforeTokenizer)
+  }
+
+  protected _registerTokenizer(
+    tokenizers: ITokenizer[],
+    tokenizerMap: Map<string, ITokenizer>,
+    tokenizer: ITokenizer,
+    registerBeforeTokenizer?: string,
+  ): void {
+    if (!tokenizerMap.has(tokenizer.name)) {
+      let index = 0
+      for (; index < tokenizers.length; ++index) {
+        const t = tokenizers[index]
+        if (registerBeforeTokenizer === t.name) break
+        if (tokenizer.priority > t.priority) break
+      }
+      if (index < 0 || index >= tokenizers.length) tokenizers.push(tokenizer)
+      else tokenizers.splice(index, 0, tokenizer)
+    }
+  }
+
+  protected _unregisterTokenizer(
+    tokenizers: ITokenizer[],
+    tokenizerMap: Map<string, ITokenizer>,
+    tokenizerOrName: ITokenizer | string,
+  ): void {
+    const tokenizerName =
+      typeof tokenizerOrName === 'string' ? tokenizerOrName : tokenizerOrName.name
+
+    // Unregister from tokenizerMap.
+    const existed: boolean = tokenizerMap.delete(tokenizerName)
+    if (!existed) return
+
+    // Check if it is blockFallbackTokenizer
+    if (this.blockFallbackTokenizer?.name === tokenizerName) this.blockFallbackTokenizer = null
+
+    // Check if it is inlineFallbackTokenizer
+    if (this.inlineFallbackTokenizer?.name === tokenizerName) this.inlineFallbackTokenizer = null
+
+    // Unregister from tokenizers
+    const index: number = tokenizers.findIndex(tokenizer => tokenizer.name === tokenizerName)
+    if (index >= 0) tokenizers.splice(index, 1)
   }
 }

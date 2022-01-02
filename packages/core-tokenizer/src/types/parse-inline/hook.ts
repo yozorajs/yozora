@@ -6,7 +6,7 @@ export type IParseInlineHookCreator<
   T extends YastNodeType = YastNodeType,
   IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
   INode extends IYastNode<T> = IYastNode<T>,
-> = (getApi: () => IParseInlinePhaseApi) => IParseInlineHook<T, IToken, INode>
+> = (api: Readonly<IParseInlinePhaseApi>) => IParseInlineHook<T, IToken, INode>
 
 /**
  * Hooks on the parse-inline phase.
@@ -20,7 +20,6 @@ export interface IParseInlineHook<
    * Processing token list to IYastNode list.
    * @param token
    * @param children
-   * @param api
    */
-  parseInline(token: IToken, children: IYastNode[], api: Readonly<IParseInlinePhaseApi>): INode
+  parse(token: IToken, children: IYastNode[]): INode
 }

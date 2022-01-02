@@ -1,4 +1,5 @@
 import type {
+  IInlineTokenizer,
   IMatchInlineHook,
   IMatchInlinePhaseApi,
   IResultOfFindDelimiters,
@@ -167,7 +168,7 @@ export const createPhrasingContentProcessor = (
  * @returns
  */
 export const createProcessorHookGroups = (
-  matchPhaseHooks: ReadonlyArray<ITokenizer & IMatchInlineHook>,
+  tokenizers: ReadonlyArray<IInlineTokenizer>,
   matchInlineApi: Readonly<Omit<IMatchInlinePhaseApi, 'resolveInternalTokens'>>,
   resolveFallbackTokens: (
     tokens: ReadonlyArray<IYastInlineToken>,
@@ -175,12 +176,8 @@ export const createProcessorHookGroups = (
     tokenEndIndex: number,
   ) => ReadonlyArray<IYastInlineToken>,
 ): IDelimiterProcessorHook[][] => {
-  const hooks: Array<ITokenizer & IMatchInlineHook> = matchPhaseHooks
-    .slice()
-    .sort((h1, h2) => h2.priority - h1.priority)
-
   const hookGroups: IDelimiterProcessorHook[][] = []
-  for (let i = 0; i < hooks.length; ) {
+  for (let i = 0; i < tokenizers.length; ) {
     const hookGroup: IDelimiterProcessorHook[] = []
     hookGroups.push(hookGroup)
 
@@ -200,9 +197,9 @@ export const createProcessorHookGroups = (
       },
     })
 
-    const currentPriority = hooks[i].priority
-    for (; i < hooks.length; ++i) {
-      const hook = hooks[i]
+    const currentPriority = tokenizers[i].priority
+    for (; i < tokenizers.length; ++i) {
+      const hook = tokenizers[i]
       if (hook.priority !== currentPriority) break
       const processorHook = createProcessorHook(hook, api)
       hookGroup.push(processorHook)
@@ -220,44 +217,22 @@ export const createProcessorHookGroups = (
  * @returns
  */
 export const createProcessorHook = (
-  hook: ITokenizer & IMatchInlineHook,
+  tokenizer: IInlineTokenizer,
   api: Readonly<IMatchInlinePhaseApi>,
 ): IDelimiterProcessorHook => {
-  const delimiterIndexStack: number[] = []
   let _findDelimiter: IResultOfFindDelimiters<IYastTokenDelimiter>
-
-  const _isDelimiterPair: IMatchInlineHook['isDelimiterPair'] =
-    hook.isDelimiterPair == null ? undefined : hook.isDelimiterPair.bind(hook)
-
-  const _processDelimiterPair: IMatchInlineHook['processDelimiterPair'] =
-    hook.processDelimiterPair == null ? undefined : hook.processDelimiterPair.bind(hook)
-
-  const _processSingleDelimiter: IMatchInlineHook['processSingleDelimiter'] =
-    hook.processSingleDelimiter == null ? undefined : hook.processSingleDelimiter.bind(hook)
-
+  const hook = tokenizer.matchInline(api)
   return {
-    name: hook.name,
-    priority: hook.priority,
+    isDelimiterPair: () => ({ paired: true }),
+    processDelimiterPair: (_1, _2, internalTokens) => ({ tokens: internalTokens }),
+    processSingleDelimiter: () => [],
+    ...hook,
+    name: tokenizer.name,
+    priority: tokenizer.priority,
     findDelimiter: rangeIndex => _findDelimiter.next(rangeIndex).value,
-    isDelimiterPair:
-      _isDelimiterPair == null
-        ? () => ({ paired: true })
-        : (openerDelimiter, closerDelimiter, higherPriorityTokens) =>
-            _isDelimiterPair(openerDelimiter, closerDelimiter, higherPriorityTokens, api),
-    processDelimiterPair:
-      _processDelimiterPair == null
-        ? (_1, _2, internalTokens) => ({ tokens: internalTokens })
-        : (openerDelimiter, closerDelimiter, internalTokens) =>
-            _processDelimiterPair(openerDelimiter, closerDelimiter, internalTokens, api),
-    processSingleDelimiter:
-      _processSingleDelimiter == null
-        ? () => []
-        : delimiter => _processSingleDelimiter(delimiter, api),
     reset: () => {
-      delimiterIndexStack.length = 0
-      _findDelimiter = hook.findDelimiter(api)
-
-      // start generator
+      // restart generator
+      _findDelimiter = hook.findDelimiter()
       _findDelimiter.next()
     },
   }

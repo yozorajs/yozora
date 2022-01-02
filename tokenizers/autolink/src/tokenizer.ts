@@ -1,19 +1,17 @@
-import type { IYastNode } from '@yozora/ast'
 import { LinkType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
-  IMatchInlineHook,
-  IMatchInlinePhaseApi,
-  IParseInlineHook,
-  IParseInlinePhaseApi,
+  IInlineTokenizer,
+  IMatchInlineHookCreator,
+  IParseInlineHookCreator,
   IResultOfProcessSingleDelimiter,
-  ITokenizer,
 } from '@yozora/core-tokenizer'
 import {
   BaseInlineTokenizer,
   TokenizerPriority,
   encodeLinkDestination,
+  genFindDelimiter,
 } from '@yozora/core-tokenizer'
 import type {
   AutolinkContentType,
@@ -42,11 +40,8 @@ const helpers: ReadonlyArray<IContentHelper> = [
  * @see https://github.github.com/gfm/#autolink
  */
 export class AutolinkTokenizer
-  extends BaseInlineTokenizer<IDelimiter>
-  implements
-    ITokenizer,
-    IMatchInlineHook<T, IDelimiter, IToken>,
-    IParseInlineHook<T, IToken, INode>
+  extends BaseInlineTokenizer<T, IDelimiter, IToken, INode>
+  implements IInlineTokenizer<T, IDelimiter, IToken, INode>
 {
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {
@@ -61,94 +56,85 @@ export class AutolinkTokenizer
     })
   }
 
-  /**
-   * @override
-   * @see BaseInlineTokenizer
-   */
-  protected override _findDelimiter(
-    startIndex: number,
-    endIndex: number,
-    api: Readonly<IMatchInlinePhaseApi>,
-  ): IDelimiter | null {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+  public override readonly match: IMatchInlineHookCreator<T, IDelimiter, IToken> = api => {
+    return {
+      findDelimiter: () => genFindDelimiter<IDelimiter>(_findDelimiter),
+      processSingleDelimiter,
+    }
 
-    for (let i = startIndex; i < endIndex; ++i) {
-      if (nodePoints[i].codePoint !== AsciiCodePoint.OPEN_ANGLE) continue
+    function _findDelimiter(startIndex: number, endIndex: number): IDelimiter | null {
+      const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
 
-      let nextIndex: number = endIndex
-      let contentType: AutolinkContentType | null = null
-      for (const helper of helpers) {
-        const eatResult = helper.eat(nodePoints, i + 1, endIndex)
-        nextIndex = Math.min(nextIndex, eatResult.nextIndex)
-        if (eatResult.valid) {
-          contentType = helper.contentType
-          nextIndex = eatResult.nextIndex
-          break
+      for (let i = startIndex; i < endIndex; ++i) {
+        if (nodePoints[i].codePoint !== AsciiCodePoint.OPEN_ANGLE) continue
+
+        let nextIndex: number = endIndex
+        let contentType: AutolinkContentType | null = null
+        for (const helper of helpers) {
+          const eatResult = helper.eat(nodePoints, i + 1, endIndex)
+          nextIndex = Math.min(nextIndex, eatResult.nextIndex)
+          if (eatResult.valid) {
+            contentType = helper.contentType
+            nextIndex = eatResult.nextIndex
+            break
+          }
         }
-      }
 
-      // Optimization: move forward to the next latest potential position.
-      if (contentType == null) {
-        i = Math.max(i, nextIndex - 1)
-        continue
-      }
-
-      if (nextIndex < endIndex && nodePoints[nextIndex].codePoint === AsciiCodePoint.CLOSE_ANGLE) {
-        return {
-          type: 'full',
-          startIndex: i,
-          endIndex: nextIndex + 1,
-          contentType,
+        // Optimization: move forward to the next latest potential position.
+        if (contentType == null) {
+          i = Math.max(i, nextIndex - 1)
+          continue
         }
+
+        if (
+          nextIndex < endIndex &&
+          nodePoints[nextIndex].codePoint === AsciiCodePoint.CLOSE_ANGLE
+        ) {
+          return {
+            type: 'full',
+            startIndex: i,
+            endIndex: nextIndex + 1,
+            contentType,
+          }
+        }
+        i = nextIndex - 1
       }
-      i = nextIndex - 1
+      return null
     }
-    return null
+
+    function processSingleDelimiter(
+      delimiter: IDelimiter,
+    ): IResultOfProcessSingleDelimiter<T, IToken> {
+      const token: IToken = {
+        nodeType: LinkType,
+        startIndex: delimiter.startIndex,
+        endIndex: delimiter.endIndex,
+        contentType: delimiter.contentType,
+        children: api.resolveFallbackTokens([], delimiter.startIndex + 1, delimiter.endIndex - 1),
+      }
+      return [token]
+    }
   }
 
-  /**
-   * @override
-   * @see IMatchInlineHook
-   */
-  public processSingleDelimiter(
-    delimiter: IDelimiter,
-    api: Readonly<IMatchInlinePhaseApi>,
-  ): IResultOfProcessSingleDelimiter<T, IToken> {
-    const token: IToken = {
-      nodeType: LinkType,
-      startIndex: delimiter.startIndex,
-      endIndex: delimiter.endIndex,
-      contentType: delimiter.contentType,
-      children: api.resolveFallbackTokens([], delimiter.startIndex + 1, delimiter.endIndex - 1),
-    }
-    return [token]
-  }
+  public override readonly parse: IParseInlineHookCreator<T, IToken, INode> = api => ({
+    parse: (token, children) => {
+      const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
 
-  /**
-   * @override
-   * @see IParseInlineHook
-   */
-  public parseInline(
-    token: IToken,
-    children: IYastNode[],
-    api: Readonly<IParseInlinePhaseApi>,
-  ): INode {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+      // Backslash-escapes do not work inside autolink.
+      let url = calcStringFromNodePoints(nodePoints, token.startIndex + 1, token.endIndex - 1)
 
-    // Backslash-escapes do not work inside autolink.
-    let url = calcStringFromNodePoints(nodePoints, token.startIndex + 1, token.endIndex - 1)
+      // Add 'mailto:' prefix to email address type autolink.
+      if (token.contentType === 'email') {
+        url = 'mailto:' + url
+      }
 
-    // Add 'mailto:' prefix to email address type autolink.
-    if (token.contentType === 'email') {
-      url = 'mailto:' + url
-    }
-
-    const encodedUrl = encodeLinkDestination(url)
-    const result: INode = {
-      type: LinkType,
-      url: encodedUrl,
-      children,
-    }
-    return result
-  }
+      const encodedUrl = encodeLinkDestination(url)
+      const result: INode = {
+        type: LinkType,
+        url: encodedUrl,
+        children,
+      }
+      return result
+    },
+  })
 }

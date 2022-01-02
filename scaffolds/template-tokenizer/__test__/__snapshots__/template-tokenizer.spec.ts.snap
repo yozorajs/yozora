@@ -81,7 +81,7 @@ createTester(parser)
     'gfm/**/*.json',
     // The following cases are conflict when enabled GFM autolink (extension)
     // @see https://github.github.com/gfm/#example-616
-    '!gfm/**/#616.json',  
+    '!gfm/**/#616.json',
     '!gfm/**/#619.json',
     '!gfm/**/#620.json',
   ])
@@ -348,7 +348,7 @@ export class WawTokenizer
     for (; i < endIndex; ++i) {
       c = nodePoints[i].codePoint
       if (c !== marker) break
-    } 
+    }
     if (i < endIndex && !isLineEnding(c)) return null
 
     const nextIndex = endIndex
@@ -608,7 +608,7 @@ createTester(parser)
     'gfm/**/*.json',
     // The following cases are conflict when enabled GFM autolink (extension)
     // @see https://github.github.com/gfm/#example-616
-    '!gfm/**/#616.json',  
+    '!gfm/**/#616.json',
     '!gfm/**/#619.json',
     '!gfm/**/#620.json',
   ])
@@ -821,8 +821,8 @@ import type {
   IMatchInlineHook,
   IParseInlineHook,
 } from '@yozora/core-tokenizer'
-import { 
-  BaseInlineTokenizer, 
+import {
+  BaseInlineTokenizer,
   TokenizerPriority,
   eatOptionalWhitespaces,
 } from '@yozora/core-tokenizer'
@@ -833,7 +833,7 @@ import { InlineWawType, uniqueName } from './types'
  * Lexical Analyzer for InlineWaw
  */
 export class InlineWawTokenizer
-  extends BaseInlineTokenizer<IDelimiter>
+  extends BaseInlineTokenizer<T, IDelimiter, IToken, INode>
   implements
     ITokenizer,
     IMatchInlineHook<T, IDelimiter, IToken>,
@@ -871,7 +871,7 @@ export class InlineWawTokenizer
       c = nodePoints[i].codePoint
       if (c !== marker) break
     }
-    if (i < endIndex) return null 
+    if (i < endIndex) return null
 
     const delimiter: IDelimiter = {
       type: 'full',
@@ -1153,7 +1153,7 @@ createTester(parser)
     'gfm/**/*.json',
     // The following cases are conflict when enabled GFM autolink (extension)
     // @see https://github.github.com/gfm/#example-616
-    '!gfm/**/#616.json',  
+    '!gfm/**/#616.json',
     '!gfm/**/#619.json',
     '!gfm/**/#620.json',
   ])
@@ -1476,7 +1476,7 @@ export class WawTokenizer
     for (; i < endIndex; ++i) {
       c = nodePoints[i].codePoint
       if (c !== marker) break
-    } 
+    }
     if (i < endIndex && !isLineEnding(c)) return null
 
     const nextIndex = endIndex
@@ -1865,7 +1865,7 @@ createTester(parser)
     'gfm/**/*.json',
     // The following cases are conflict when enabled GFM autolink (extension)
     // @see https://github.github.com/gfm/#example-616
-    '!gfm/**/#616.json',  
+    '!gfm/**/#616.json',
     '!gfm/**/#619.json',
     '!gfm/**/#620.json',
   ])
@@ -2134,8 +2134,8 @@ import type {
   IMatchInlineHook,
   IParseInlineHook,
 } from '@yozora/core-tokenizer'
-import { 
-  BaseInlineTokenizer, 
+import {
+  BaseInlineTokenizer,
   TokenizerPriority,
   eatOptionalWhitespaces,
 } from '@yozora/core-tokenizer'
@@ -2146,7 +2146,7 @@ import { InlineWawType, uniqueName } from './types'
  * Lexical Analyzer for InlineWaw
  */
 export class InlineWawTokenizer
-  extends BaseInlineTokenizer<IDelimiter>
+  extends BaseInlineTokenizer<T, IDelimiter, IToken, INode>
   implements
     ITokenizer,
     IMatchInlineHook<T, IDelimiter, IToken>,
@@ -2184,7 +2184,7 @@ export class InlineWawTokenizer
       c = nodePoints[i].codePoint
       if (c !== marker) break
     }
-    if (i < endIndex) return null 
+    if (i < endIndex) return null
 
     const delimiter: IDelimiter = {
       type: 'full',

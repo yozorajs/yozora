@@ -3,6 +3,7 @@ import { shallowMutateAstInPreorder } from '@yozora/ast-util'
 import type { INodePoint } from '@yozora/character'
 import type {
   IMatchBlockHook,
+  IParseInlineHook,
   IPhrasingContent,
   IPhrasingContentLine,
   IPhrasingContentToken,
@@ -29,7 +30,6 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     tokenizerHookMap,
     matchBlockHooks,
     postMatchBlockHooks,
-    matchInlineHooks,
     phrasingContentTokenizer,
     blockFallbackTokenizer,
     inlineFallbackTokenizer,
@@ -84,7 +84,13 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
 
   // match-inline hook groups.
   const matchInlineHookGroups: ReadonlyArray<ReadonlyArray<IDelimiterProcessorHook>> =
-    createProcessorHookGroups(matchInlineHooks, apis.matchInlineApi, resolveFallbackTokens)
+    createProcessorHookGroups(options.inlineTokenizers, apis.matchInlineApi, resolveFallbackTokens)
+  const parseInlineHookMap = new Map<string, IParseInlineHook>(
+    Array.from(options.inlineTokenizerMap.entries()).map(entry => [
+      entry[0],
+      entry[1].parse(apis.parseInlineApi),
+    ]),
+  )
   const phrasingContentProcessor = createPhrasingContentProcessor(matchInlineHookGroups, 0)
 
   return { process }
@@ -346,14 +352,13 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     const results: IYastNode[] = []
     for (const o of tokens) {
       // Post-order handle: But first check the validity of the current node
-      const hook = tokenizerHookMap.get(o._tokenizer)
+      const hook = parseInlineHookMap.get(o._tokenizer)
 
       // cannot find matched tokenizer
       invariant(hook != null, `[parseInline] tokenizer '${o._tokenizer}' not existed`)
 
       const children: IYastNode[] = o.children != null ? parseInline(o.children) : []
-
-      const node = hook.parseInline(o, children, apis.parseInlineApi)
+      const node = hook.parse(o, children)
 
       if (shouldReservePosition) {
         node.position = {

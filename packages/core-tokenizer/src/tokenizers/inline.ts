@@ -1,4 +1,3 @@
-import type { IMatchInlinePhaseApi } from '../types/match-inline/api'
 import type { IResultOfFindDelimiters } from '../types/match-inline/hook'
 import type { IYastTokenDelimiter } from '../types/token'
 import type { ITokenizer } from '../types/tokenizer'
@@ -32,43 +31,28 @@ export abstract class BaseInlineTokenizer<IDelimiter extends IYastTokenDelimiter
   }
 
   /**
-   * Create delimiter finder.
-   *
-   * @param nodePoints
-   * @param api
-   */
-  public *findDelimiter(api: Readonly<IMatchInlinePhaseApi>): IResultOfFindDelimiters<IDelimiter> {
-    let lastEndIndex = -1
-    let delimiter: IDelimiter | null = null
-    while (true) {
-      const [startIndex, endIndex] = yield delimiter
-
-      // Read from cache.
-      if (lastEndIndex === endIndex) {
-        if (delimiter == null || delimiter.startIndex >= startIndex) continue
-      }
-      lastEndIndex = endIndex
-
-      delimiter = this._findDelimiter(startIndex, endIndex, api)
-    }
-  }
-
-  /**
-   * Find an inline token delimiter (called by `this.findDelimiter()`).
-   *
-   * @param api
-   */
-  protected abstract _findDelimiter(
-    startIndex: number,
-    endIndex: number,
-    api: Readonly<IMatchInlinePhaseApi>,
-  ): IDelimiter | null
-
-  /**
    * Returns a string representing the tokenizer.
    * @override
    */
   public toString(): string {
     return this.name
+  }
+}
+
+export function* genFindDelimiter<IDelimiter extends IYastTokenDelimiter>(
+  _findDelimiter: (startIndex: number, endIndex: number) => IDelimiter | null,
+): IResultOfFindDelimiters<IDelimiter> {
+  let lastEndIndex = -1
+  let delimiter: IDelimiter | null = null
+  while (true) {
+    const [startIndex, endIndex] = yield delimiter
+
+    // Read from cache.
+    if (lastEndIndex === endIndex) {
+      if (delimiter == null || delimiter.startIndex >= startIndex) continue
+    }
+    lastEndIndex = endIndex
+
+    delimiter = _findDelimiter(startIndex, endIndex)
   }
 }

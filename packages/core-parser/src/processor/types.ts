@@ -2,6 +2,7 @@ import type { IRoot, IYastAssociation, YastNodeType } from '@yozora/ast'
 import type {
   IBlockFallbackTokenizer,
   IInlineFallbackTokenizer,
+  IInlineTokenizer,
   IMatchBlockHook,
   IMatchBlockPhaseApi,
   IMatchInlineHook,
@@ -28,7 +29,8 @@ export interface IProcessorOptions {
   >
   readonly matchBlockHooks: ReadonlyArray<ITokenizer & IMatchBlockHook>
   readonly postMatchBlockHooks: ReadonlyArray<ITokenizer & IPostMatchBlockHook>
-  readonly matchInlineHooks: ReadonlyArray<ITokenizer & IMatchInlineHook>
+  readonly inlineTokenizers: ReadonlyArray<IInlineTokenizer>
+  readonly inlineTokenizerMap: Readonly<Map<string, IInlineTokenizer>>
   readonly phrasingContentTokenizer: PhrasingContentTokenizer
   readonly blockFallbackTokenizer: IBlockFallbackTokenizer | null
   readonly inlineFallbackTokenizer: IInlineFallbackTokenizer | null
