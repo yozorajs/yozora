@@ -20,7 +20,6 @@ import type { IHookContext, IToken, T } from './types'
  * @see https://github.github.com/gfm/#paragraphs
  */
 export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function () {
-  const { name: _tokenizer } = this
   return {
     isContainingBlock: false,
     eatOpener,

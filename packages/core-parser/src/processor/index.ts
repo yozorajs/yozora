@@ -182,7 +182,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
   function buildPhrasingContent(
     lines: ReadonlyArray<IPhrasingContentLine>,
   ): IPhrasingContent | null {
-    return blockFallbackTokenizer?.buildPhrasingContent(lines) ?? null
+    return phrasingContentTokenizer.buildPhrasingContent(lines)
   }
 
   /**

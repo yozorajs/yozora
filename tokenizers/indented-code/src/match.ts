@@ -7,7 +7,7 @@ import type {
   IResultOfEatOpener,
 } from '@yozora/core-tokenizer'
 import { calcEndYastNodePoint, calcStartYastNodePoint } from '@yozora/core-tokenizer'
-import type { IHookContext, INode, IToken, T } from './types'
+import type { IHookContext, IToken, T } from './types'
 
 /**
  * An indented code block is composed of one or more indented chunks

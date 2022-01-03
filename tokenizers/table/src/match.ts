@@ -187,132 +187,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function (
     return { status: 'opening', nextIndex: line.endIndex }
   }
 
-  /**
-   * Find delimiter row
-   *
-   * The delimiter row consists of cells whose only content are
-   * hyphens (-), and optionally, a leading or trailing colon (:),
-   * or both, to indicate left, right, or center alignment respectively.
-   * @see https://github.github.com/gfm/#delimiter-row
-   */
-  function calcTableColumn(
-    nodePoints: ReadonlyArray<INodePoint>,
-    currentLine: IPhrasingContentLine,
-    previousLine: IPhrasingContentLine,
-  ): ITableColumn[] | null {
-    /**
-     * The previous line of the delimiter line must not be blank line
-     */
-    if (previousLine.firstNonWhitespaceIndex >= previousLine.endIndex) {
-      return null
-    }
-
-    /**
-     * Four spaces is too much
-     * @see https://github.github.com/gfm/#example-57
-     */
-    if (currentLine.firstNonWhitespaceIndex - currentLine.startIndex >= 4) return null
-
-    const columns: ITableColumn[] = []
-
-    /**
-     * eat leading optional pipe
-     */
-    let p = nodePoints[currentLine.firstNonWhitespaceIndex]
-    let cIndex =
-      p.codePoint === AsciiCodePoint.VERTICAL_SLASH
-        ? currentLine.firstNonWhitespaceIndex + 1
-        : currentLine.firstNonWhitespaceIndex
-
-    for (; cIndex < currentLine.endIndex; ) {
-      for (; cIndex < currentLine.endIndex; ++cIndex) {
-        p = nodePoints[cIndex]
-        if (!isWhitespaceCharacter(p.codePoint)) break
-      }
-      if (cIndex >= currentLine.endIndex) break
-
-      // eat left optional colon
-      let leftColon = false
-      if (p.codePoint === AsciiCodePoint.COLON) {
-        leftColon = true
-        cIndex += 1
-      }
-
-      let hyphenCount = 0
-      for (; cIndex < currentLine.endIndex; ++cIndex) {
-        p = nodePoints[cIndex]
-        if (p.codePoint !== AsciiCodePoint.MINUS_SIGN) break
-        hyphenCount += 1
-      }
-
-      // hyphen must be exist
-      if (hyphenCount <= 0) return null
-
-      // eat right optional colon
-      let rightColon = false
-      if (cIndex < currentLine.endIndex && p.codePoint === AsciiCodePoint.COLON) {
-        rightColon = true
-        cIndex += 1
-      }
-
-      // eating next pipe
-      for (; cIndex < currentLine.endIndex; ++cIndex) {
-        p = nodePoints[cIndex]
-        if (isWhitespaceCharacter(p.codePoint)) continue
-        if (p.codePoint === AsciiCodePoint.VERTICAL_SLASH) {
-          cIndex += 1
-          break
-        }
-
-        // There are other non-white space characters
-        return null
-      }
-
-      let align: IYastAlignType = null
-      if (leftColon && rightColon) align = 'center'
-      else if (leftColon) align = 'left'
-      else if (rightColon) align = 'right'
-      const column: ITableColumn = { align }
-      columns.push(column)
-    }
-
-    if (columns.length <= 0) return null
-
-    /**
-     * The header row must match the delimiter row in the number of cells.
-     * If not, a table will not be recognized
-     * @see https://github.github.com/gfm/#example-203
-     */
-    let cellCount = 0,
-      hasNonWhitespaceBeforePipe = false
-    for (let pIndex = previousLine.startIndex; pIndex < previousLine.endIndex; ++pIndex) {
-      const p = nodePoints[pIndex]
-      if (isWhitespaceCharacter(p.codePoint)) continue
-
-      if (p.codePoint === AsciiCodePoint.VERTICAL_SLASH) {
-        if (hasNonWhitespaceBeforePipe || cellCount > 0) cellCount += 1
-        hasNonWhitespaceBeforePipe = false
-        continue
-      }
-
-      hasNonWhitespaceBeforePipe = true
-
-      /**
-       * Include a pipe in a cell’s content by escaping it,
-       * including inside other inline spans
-       */
-      if (p.codePoint === AsciiCodePoint.BACKSLASH) pIndex += 1
-    }
-    if (hasNonWhitespaceBeforePipe && columns.length > 1) cellCount += 1
-    if (cellCount !== columns.length) return null
-
-    // Successfully matched to a legal table delimiter line
-    return columns
-  }
-
-  /**
-   * process table row
-   */
+  // process table row
   function calcTableRow(line: IPhrasingContentLine, columns: ITableColumn[]): ITableRowToken {
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
 
@@ -426,3 +301,126 @@ export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function (
     return row
   }
 }
+
+/**
+ * Find delimiter row
+ *
+ * The delimiter row consists of cells whose only content are
+ * hyphens (-), and optionally, a leading or trailing colon (:),
+ * or both, to indicate left, right, or center alignment respectively.
+ * @see https://github.github.com/gfm/#delimiter-row
+ */
+// function calcTableColumn(
+//   nodePoints: ReadonlyArray<INodePoint>,
+//   currentLine: IPhrasingContentLine,
+//   previousLine: IPhrasingContentLine,
+// ): ITableColumn[] | null {
+//   /**
+//    * The previous line of the delimiter line must not be blank line
+//    */
+//   if (previousLine.firstNonWhitespaceIndex >= previousLine.endIndex) {
+//     return null
+//   }
+
+//   /**
+//    * Four spaces is too much
+//    * @see https://github.github.com/gfm/#example-57
+//    */
+//   if (currentLine.firstNonWhitespaceIndex - currentLine.startIndex >= 4) return null
+
+//   const columns: ITableColumn[] = []
+
+//   /**
+//    * eat leading optional pipe
+//    */
+//   let p = nodePoints[currentLine.firstNonWhitespaceIndex]
+//   let cIndex =
+//     p.codePoint === AsciiCodePoint.VERTICAL_SLASH
+//       ? currentLine.firstNonWhitespaceIndex + 1
+//       : currentLine.firstNonWhitespaceIndex
+
+//   for (; cIndex < currentLine.endIndex; ) {
+//     for (; cIndex < currentLine.endIndex; ++cIndex) {
+//       p = nodePoints[cIndex]
+//       if (!isWhitespaceCharacter(p.codePoint)) break
+//     }
+//     if (cIndex >= currentLine.endIndex) break
+
+//     // eat left optional colon
+//     let leftColon = false
+//     if (p.codePoint === AsciiCodePoint.COLON) {
+//       leftColon = true
+//       cIndex += 1
+//     }
+
+//     let hyphenCount = 0
+//     for (; cIndex < currentLine.endIndex; ++cIndex) {
+//       p = nodePoints[cIndex]
+//       if (p.codePoint !== AsciiCodePoint.MINUS_SIGN) break
+//       hyphenCount += 1
+//     }
+
+//     // hyphen must be exist
+//     if (hyphenCount <= 0) return null
+
+//     // eat right optional colon
+//     let rightColon = false
+//     if (cIndex < currentLine.endIndex && p.codePoint === AsciiCodePoint.COLON) {
+//       rightColon = true
+//       cIndex += 1
+//     }
+
+//     // eating next pipe
+//     for (; cIndex < currentLine.endIndex; ++cIndex) {
+//       p = nodePoints[cIndex]
+//       if (isWhitespaceCharacter(p.codePoint)) continue
+//       if (p.codePoint === AsciiCodePoint.VERTICAL_SLASH) {
+//         cIndex += 1
+//         break
+//       }
+
+//       // There are other non-white space characters
+//       return null
+//     }
+
+//     let align: IYastAlignType = null
+//     if (leftColon && rightColon) align = 'center'
+//     else if (leftColon) align = 'left'
+//     else if (rightColon) align = 'right'
+//     const column: ITableColumn = { align }
+//     columns.push(column)
+//   }
+
+//   if (columns.length <= 0) return null
+
+//   /**
+//    * The header row must match the delimiter row in the number of cells.
+//    * If not, a table will not be recognized
+//    * @see https://github.github.com/gfm/#example-203
+//    */
+//   let cellCount = 0,
+//     hasNonWhitespaceBeforePipe = false
+//   for (let pIndex = previousLine.startIndex; pIndex < previousLine.endIndex; ++pIndex) {
+//     const p = nodePoints[pIndex]
+//     if (isWhitespaceCharacter(p.codePoint)) continue
+
+//     if (p.codePoint === AsciiCodePoint.VERTICAL_SLASH) {
+//       if (hasNonWhitespaceBeforePipe || cellCount > 0) cellCount += 1
+//       hasNonWhitespaceBeforePipe = false
+//       continue
+//     }
+
+//     hasNonWhitespaceBeforePipe = true
+
+//     /**
+//      * Include a pipe in a cell’s content by escaping it,
+//      * including inside other inline spans
+//      */
+//     if (p.codePoint === AsciiCodePoint.BACKSLASH) pIndex += 1
+//   }
+//   if (hasNonWhitespaceBeforePipe && columns.length > 1) cellCount += 1
+//   if (cellCount !== columns.length) return null
+
+//   // Successfully matched to a legal table delimiter line
+//   return columns
+// }
