@@ -10,8 +10,8 @@ import type {
   IMatchInlineHook,
   IParseInlineHook,
 } from '@yozora/core-tokenizer'
-import { 
-  BaseInlineTokenizer, 
+import {
+  BaseInlineTokenizer,
   TokenizerPriority,
   eatOptionalWhitespaces,
 } from '@yozora/core-tokenizer'
@@ -60,7 +60,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
       c = nodePoints[i].codePoint
       if (c !== marker) break
     }
-    if (i < endIndex) return null 
+    if (i < endIndex) return null
 
     const delimiter: IDelimiter = {
       type: 'full',

@@ -73,7 +73,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
     for (; i < endIndex; ++i) {
       c = nodePoints[i].codePoint
       if (c !== marker) break
-    } 
+    }
     if (i < endIndex && !isLineEnding(c)) return null
 
     const nextIndex = endIndex
