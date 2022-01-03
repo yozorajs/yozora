@@ -4,6 +4,7 @@ import type {
   IBaseBlockTokenizerProps,
   IPartialYastBlockToken,
   IPhrasingContentLine,
+  ITokenizer,
 } from '@yozora/core-tokenizer'
 
 export const FencedBlockType = 'fencedBlock'
@@ -31,6 +32,32 @@ export interface IToken<T extends YastNodeType> extends IPartialYastBlockToken<T
    * Meta info string
    */
   infoString: INodePoint[]
+}
+
+export interface IFencedBlockHookContext<T extends YastNodeType> extends ITokenizer {
+  /**
+   * Type of special FencedBlock token and FencedBlock node.
+   */
+  nodeType: T
+  /**
+   * Available fence markers.
+   */
+  markers: ICodePoint[]
+  /**
+   * The minimum amount required
+   */
+  markersRequired: number
+  /**
+   * Check if the info string is valid.
+   * @param infoString
+   * @param marker
+   * @param countOfMarker
+   */
+  checkInfoString?(
+    infoString: Readonly<INodePoint[]>,
+    marker: ICodePoint,
+    countOfMarker: number,
+  ): boolean
 }
 
 export interface ITokenizerProps<T extends YastNodeType> extends Partial<IBaseBlockTokenizerProps> {

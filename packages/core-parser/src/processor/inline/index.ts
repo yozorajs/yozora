@@ -1,9 +1,7 @@
 import type {
   IInlineTokenizer,
-  IMatchInlineHook,
   IMatchInlinePhaseApi,
   IResultOfFindDelimiters,
-  ITokenizer,
   IYastInlineToken,
   IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
@@ -221,7 +219,7 @@ export const createProcessorHook = (
   api: Readonly<IMatchInlinePhaseApi>,
 ): IDelimiterProcessorHook => {
   let _findDelimiter: IResultOfFindDelimiters<IYastTokenDelimiter>
-  const hook = tokenizer.matchInline(api)
+  const hook = tokenizer.match(api)
   return {
     isDelimiterPair: () => ({ paired: true }),
     processDelimiterPair: (_1, _2, internalTokens) => ({ tokens: internalTokens }),

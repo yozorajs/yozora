@@ -2,11 +2,12 @@ import type { IRoot, IYastNode } from '@yozora/ast'
 import { shallowMutateAstInPreorder } from '@yozora/ast-util'
 import type { INodePoint } from '@yozora/character'
 import type {
-  IMatchBlockHook,
+  IParseBlockHook,
   IParseInlineHook,
   IPhrasingContent,
   IPhrasingContentLine,
   IPhrasingContentToken,
+  IPostMatchBlockHook,
   IYastBlockToken,
   IYastInlineToken,
 } from '@yozora/core-tokenizer'
@@ -16,8 +17,8 @@ import {
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
 import invariant from '@yozora/invariant'
-import type { IYastBlockTokenTree } from '../types'
 import { createBlockContentProcessor } from './block'
+import type { IMatchBlockPhaseHook, IYastBlockTokenTree } from './block/types'
 import { createPhrasingContentProcessor, createProcessorHookGroups } from './inline'
 import type { IDelimiterProcessorHook } from './inline/types'
 import type { IProcessor, IProcessorApis, IProcessorOptions } from './types'
@@ -27,9 +28,10 @@ import type { IProcessor, IProcessorApis, IProcessorOptions } from './types'
  */
 export function createProcessor(options: IProcessorOptions): IProcessor {
   const {
-    tokenizerHookMap,
-    matchBlockHooks,
-    postMatchBlockHooks,
+    inlineTokenizers,
+    inlineTokenizerMap,
+    blockTokenizers,
+    blockTokenizerMap,
     phrasingContentTokenizer,
     blockFallbackTokenizer,
     inlineFallbackTokenizer,
@@ -82,11 +84,31 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     },
   })
 
-  // match-inline hook groups.
+  const matchBlockHooks: ReadonlyArray<IMatchBlockPhaseHook> = blockTokenizers.map(tokenizer => ({
+    ...tokenizer.match(apis.matchBlockApi),
+    name: tokenizer.name,
+    priority: tokenizer.priority,
+  }))
+  const postMatchBlockHooks: ReadonlyArray<IPostMatchBlockHook> = blockTokenizers
+    .filter(tokenizer => tokenizer.postMatch)
+    .map(tokenizer => tokenizer.postMatch!(apis.postMatchBlockApi))
+  const parseBlockHookMap = new Map<string, IParseBlockHook>(
+    Array.from(blockTokenizerMap.entries()).map(entry => [
+      entry[0],
+      entry[1].parse(apis.parseBlockApi),
+    ]),
+  )
+  const blockFallbackHook: IMatchBlockPhaseHook | null = blockFallbackTokenizer
+    ? {
+        ...blockFallbackTokenizer.match(apis.matchBlockApi),
+        name: blockFallbackTokenizer.name,
+        priority: blockFallbackTokenizer.priority,
+      }
+    : null
   const matchInlineHookGroups: ReadonlyArray<ReadonlyArray<IDelimiterProcessorHook>> =
-    createProcessorHookGroups(options.inlineTokenizers, apis.matchInlineApi, resolveFallbackTokens)
+    createProcessorHookGroups(inlineTokenizers, apis.matchInlineApi, resolveFallbackTokens)
   const parseInlineHookMap = new Map<string, IParseInlineHook>(
-    Array.from(options.inlineTokenizerMap.entries()).map(entry => [
+    Array.from(inlineTokenizerMap.entries()).map(entry => [
       entry[0],
       entry[1].parse(apis.parseInlineApi),
     ]),
@@ -138,13 +160,8 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
   function extractPhrasingLines(
     token: IYastBlockToken,
   ): ReadonlyArray<IPhrasingContentLine> | null {
-    const tokenizer = tokenizerHookMap.get(token._tokenizer) as IMatchBlockHook
-
-    // no tokenizer for `IToken.type` found
-    if (tokenizer == null) return null
-
-    if (tokenizer.extractPhrasingContentLines == null) return null
-    return tokenizer.extractPhrasingContentLines(token)
+    const tokenizer = blockTokenizerMap.get(token._tokenizer)
+    return tokenizer?.extractPhrasingContentLines(token) ?? null
   }
 
   /**
@@ -165,7 +182,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
   function buildPhrasingContent(
     lines: ReadonlyArray<IPhrasingContentLine>,
   ): IPhrasingContent | null {
-    return phrasingContentTokenizer.buildPhrasingContent(lines)
+    return blockFallbackTokenizer?.buildPhrasingContent(lines) ?? null
   }
 
   /**
@@ -180,8 +197,8 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
   ): IYastBlockToken[] {
     if (originalToken != null) {
       // Try to rematch through the original tokenizer.
-      const tokenizer = tokenizerHookMap.get(originalToken._tokenizer) as IMatchBlockHook
-      if (tokenizer != null && tokenizer.buildBlockToken != null) {
+      const tokenizer = blockTokenizerMap.get(originalToken._tokenizer)
+      if (tokenizer !== undefined && tokenizer.buildBlockToken != null) {
         const token = tokenizer.buildBlockToken(lines, originalToken)
         if (token != null) return [token]
       }
@@ -248,11 +265,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
   function matchBlockTokens(
     linesIterator: Iterable<ReadonlyArray<IPhrasingContentLine>>,
   ): IYastBlockTokenTree {
-    const processor = createBlockContentProcessor(
-      apis.matchBlockApi,
-      matchBlockHooks,
-      blockFallbackTokenizer,
-    )
+    const processor = createBlockContentProcessor(matchBlockHooks, blockFallbackHook)
 
     for (const lines of linesIterator) {
       for (const line of lines) {
@@ -282,7 +295,9 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
         // Post-order handle: Perform IPostMatchBlockHook
         let tokens = token.children.map(handle)
         for (const hook of postMatchBlockHooks) {
-          tokens = hook.transformMatch(tokens, apis.postMatchBlockApi)
+          if (hook.transformMatch) {
+            tokens = hook.transformMatch(tokens)
+          }
         }
         result.children = tokens
       }
@@ -300,16 +315,16 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     const results: IYastNode[] = []
     for (const token of tokens) {
       // Post-order handle: But first check the validity of the current node
-      const hook = tokenizerHookMap.get(token._tokenizer)
+      const hook = parseBlockHookMap.get(token._tokenizer)
 
       // cannot find matched tokenizer
-      invariant(hook != null, `[parseBlock] tokenizer '${token._tokenizer}' not found`)
+      invariant(hook !== undefined, `[parseBlock] tokenizer '${token._tokenizer}' not found`)
 
       // Post-order handle: Prioritize child nodes
       const children: IYastNode[] = token.children != null ? parseBlockTokens(token.children) : []
 
       // Post-order handle: Perform IParseBlockHook
-      const resultOfParse = hook.parseBlock(token, children, apis.parseBlockApi)
+      const resultOfParse = hook.parse(token, children)
       if (resultOfParse == null) continue
 
       const node = resultOfParse

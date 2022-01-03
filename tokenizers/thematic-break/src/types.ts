@@ -1,5 +1,9 @@
 import type { IThematicBreak, ThematicBreakType } from '@yozora/ast'
-import type { IBaseBlockTokenizerProps, IPartialYastBlockToken } from '@yozora/core-tokenizer'
+import type {
+  IBaseBlockTokenizerProps,
+  IPartialYastBlockToken,
+  ITokenizer,
+} from '@yozora/core-tokenizer'
 
 export type T = ThematicBreakType
 export type INode = IThematicBreak
@@ -15,5 +19,7 @@ export interface IToken extends IPartialYastBlockToken<T> {
    */
   continuous: boolean
 }
+
+export type IHookContext = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

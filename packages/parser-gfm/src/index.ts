@@ -60,12 +60,12 @@ export class GfmParser extends DefaultParser {
 
     // Set block fallback tokenizer.
     if (this.blockFallbackTokenizer == null) {
-      this.useBlockFallbackTokenizer(new ParagraphTokenizer())
+      this.useFallbackTokenizer(new ParagraphTokenizer())
     }
 
     // Set inline fallback tokenizer.
     if (this.inlineFallbackTokenizer == null) {
-      this.useInlineFallbackTokenizer(new TextTokenizer())
+      this.useFallbackTokenizer(new TextTokenizer())
     }
 
     this

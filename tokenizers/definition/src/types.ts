@@ -3,6 +3,7 @@ import type {
   IBaseBlockTokenizerProps,
   IPartialYastBlockToken,
   IPhrasingContentLine,
+  ITokenizer,
 } from '@yozora/core-tokenizer'
 import type { LinkDestinationCollectingState } from './util/link-destination'
 import type { LinkLabelCollectingState } from './util/link-label'
@@ -51,5 +52,7 @@ export interface IToken extends IPartialYastBlockToken<T> {
    */
   _identifier?: string
 }
+
+export type IHookContext = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

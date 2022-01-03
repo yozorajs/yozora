@@ -2,6 +2,7 @@ import type { IList, ListType } from '@yozora/ast'
 import type {
   IBaseBlockTokenizerProps,
   IPartialYastBlockToken,
+  ITokenizer,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import type { IListItemToken as IListItemToken0 } from '@yozora/tokenizer-list-item'
@@ -39,5 +40,7 @@ export interface IToken extends IPartialYastBlockToken<T> {
    */
   children: IListItemToken[]
 }
+
+export type IHookContext = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

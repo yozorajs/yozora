@@ -2,6 +2,7 @@ import type { IListItem, ListItemType, TaskStatus, YastNodeType } from '@yozora/
 import type {
   IBaseBlockTokenizerProps,
   IPartialYastBlockToken,
+  ITokenizer,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 
@@ -44,6 +45,20 @@ export interface IToken extends IPartialYastBlockToken<T> {
    * Child token nodes.
    */
   children: IYastBlockToken[]
+}
+
+export interface IHookContext extends ITokenizer {
+  /**
+   * Specify an array of IYastNode types that could not be interrupted
+   * by this ITokenizer if the current list-item is empty.
+   * @see https://github.github.com/gfm/#example-263
+   */
+  readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<YastNodeType>
+
+  /**
+   * Should enable task list item (extension).
+   */
+  readonly enableTaskListItem: boolean
 }
 
 export interface ITokenizerProps extends Partial<IBaseBlockTokenizerProps> {

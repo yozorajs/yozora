@@ -1,49 +1,32 @@
-import type { IYastNode } from '@yozora/ast'
 import { ParagraphType } from '@yozora/ast'
 import type {
   IBlockFallbackTokenizer,
-  IMatchBlockHook,
-  IParseBlockHook,
-  IParseBlockPhaseApi,
+  IMatchBlockHookCreator,
+  IParseBlockHookCreator,
   IPhrasingContentLine,
-  IResultOfEatContinuationText,
-  IResultOfEatLazyContinuationText,
-  IResultOfEatOpener,
-  IResultOfParse,
-  ITokenizer,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
   TokenizerPriority,
+  buildPhrasingContent,
   calcPositionFromPhrasingContentLines,
   trimBlankLines,
 } from '@yozora/core-tokenizer'
-import type { INode, IToken, ITokenizerProps, T } from './types'
+import { match } from './match'
+import { parse } from './parse'
+import type { IHookContext, INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
  * Lexical Analyzer for Paragraph.
- *
- * A sequence of non-blank lines that cannot be interpreted as other kinds
- * of blocks forms a paragraph. The contents of the paragraph are the result
- * of parsing the paragraph’s raw content as inlines. The paragraph’s raw
- * content is formed by concatenating the lines and removing initial and
- * final whitespace.
- *
  * @see https://github.com/syntax-tree/mdast#list
  * @see https://github.github.com/gfm/#paragraphs
  */
 export class ParagraphTokenizer
-  extends BaseBlockTokenizer
-  implements
-    ITokenizer,
-    IBlockFallbackTokenizer<T, IToken, INode>,
-    IMatchBlockHook<T, IToken>,
-    IParseBlockHook<T, IToken, INode>
+  extends BaseBlockTokenizer<T, IToken, INode, IHookContext>
+  implements IBlockFallbackTokenizer<T, IToken, INode, IHookContext>
 {
-  public readonly isContainingBlock = false
-
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {
     super({
@@ -52,90 +35,17 @@ export class ParagraphTokenizer
     })
   }
 
-  /**
-   * @override
-   * @see IMatchBlockHook
-   */
-  public eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
-    const { endIndex, firstNonWhitespaceIndex } = line
-    if (firstNonWhitespaceIndex >= endIndex) return null
+  public override readonly match: IMatchBlockHookCreator<T, IToken, IHookContext> = match
 
-    const lines: Array<Readonly<IPhrasingContentLine>> = [line]
-    const position = calcPositionFromPhrasingContentLines(lines)
-    const token: IToken = {
-      nodeType: ParagraphType,
-      position,
-      lines,
-    }
-    return { token, nextIndex: endIndex }
-  }
+  public override readonly parse: IParseBlockHookCreator<T, IToken, INode, IHookContext> = parse
 
-  /**
-   * @override
-   * @see IMatchBlockHook
-   */
-  public eatContinuationText(
-    line: Readonly<IPhrasingContentLine>,
-    token: IToken,
-  ): IResultOfEatContinuationText {
-    const { endIndex, firstNonWhitespaceIndex } = line
-
-    /**
-     * Paragraphs can contain multiple lines, but no blank lines
-     * @see https://github.github.com/gfm/#example-190
-     */
-    if (firstNonWhitespaceIndex >= endIndex) {
-      return { status: 'notMatched' }
-    }
-
-    token.lines.push(line)
-    return { status: 'opening', nextIndex: endIndex }
-  }
-
-  /**
-   * @override
-   * @see IMatchBlockHook
-   */
-  public eatLazyContinuationText(
-    line: Readonly<IPhrasingContentLine>,
-    token: IToken,
-  ): IResultOfEatLazyContinuationText {
-    const result = this.eatContinuationText(line, token)
-    return result as IResultOfEatLazyContinuationText
-  }
-
-  /**
-   * @override
-   * @see IParseBlockHook
-   */
-  public parseBlock(
+  public override extractPhrasingContentLines(
     token: Readonly<IToken>,
-    children: IYastNode[],
-    api: Readonly<IParseBlockPhaseApi>,
-  ): IResultOfParse<T, INode> {
-    const phrasingContent = api.buildPhrasingContent(token.lines)
-    if (phrasingContent == null) return null
-
-    const node: INode = {
-      type: ParagraphType,
-      children: [phrasingContent],
-    }
-    return node
-  }
-
-  /**
-   * @override
-   * @see IMatchBlockHook
-   */
-  public extractPhrasingContentLines(token: Readonly<IToken>): ReadonlyArray<IPhrasingContentLine> {
+  ): ReadonlyArray<IPhrasingContentLine> {
     return token.lines
   }
 
-  /**
-   * @override
-   * @see IMatchBlockHook
-   */
-  public buildBlockToken(
+  public override buildBlockToken(
     _lines: ReadonlyArray<IPhrasingContentLine>,
   ): (IToken & IYastBlockToken) | null {
     const lines = trimBlankLines(_lines)
@@ -150,4 +60,6 @@ export class ParagraphTokenizer
     }
     return token
   }
+
+  public readonly buildPhrasingContent = buildPhrasingContent
 }

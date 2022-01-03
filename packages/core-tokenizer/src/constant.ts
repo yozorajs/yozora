@@ -1,3 +1,10 @@
+export enum TokenizerType {
+  // Block tokenizer
+  BLOCK = 'block',
+  // inline tokenizer
+  INLINE = 'inline',
+}
+
 /**
  * Commonly used tokenizer priority enumeration.
  */

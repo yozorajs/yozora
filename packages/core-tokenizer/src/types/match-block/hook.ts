@@ -1,12 +1,14 @@
 import type { YastNodeType } from '@yozora/ast'
 import type { IPhrasingContentLine } from '../phrasing-content'
 import type { IPartialYastBlockToken, IYastBlockToken } from '../token'
+import type { ITokenizer } from '../tokenizer'
 import type { IMatchBlockPhaseApi } from './api'
 
 export type IMatchBlockHookCreator<
   T extends YastNodeType = YastNodeType,
   IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
-> = (getApi: () => IMatchBlockPhaseApi) => IMatchBlockHook<T, IToken>
+  IThis extends ITokenizer = ITokenizer,
+> = (this: IThis, api: IMatchBlockPhaseApi) => IMatchBlockHook<T, IToken>
 
 /**
  * Hooks on the match-block phase.
@@ -38,13 +40,11 @@ export interface IMatchBlockHook<
    * @param line
    * @param prevSiblingToken
    * @param parentToken
-   * @param api
    */
   eatAndInterruptPreviousSibling?(
     line: Readonly<IPhrasingContentLine>,
     prevSiblingToken: Readonly<IYastBlockToken>,
     parentToken: Readonly<IYastBlockToken>,
-    api: Readonly<IMatchBlockPhaseApi>,
   ): IResultOfEatAndInterruptPreviousSibling<T, IToken>
 
   /**
@@ -56,14 +56,12 @@ export interface IMatchBlockHook<
    * @param line
    * @param token
    * @param parentToken
-   * @param api
    * @see https://github.github.com/gfm/#phase-1-block-structure step1
    */
   eatContinuationText?(
     line: Readonly<IPhrasingContentLine>,
     token: IToken,
     parentToken: Readonly<IYastBlockToken>,
-    api: Readonly<IMatchBlockPhaseApi>,
   ): IResultOfEatContinuationText
 
   /**
@@ -75,39 +73,19 @@ export interface IMatchBlockHook<
    * @param line
    * @param token
    * @param parentToken
-   * @param api
    * @see https://github.github.com/gfm/#phase-1-block-structure step3
    */
   eatLazyContinuationText?(
     line: Readonly<IPhrasingContentLine>,
     token: IToken,
     parentToken: Readonly<IYastBlockToken>,
-    api: Readonly<IMatchBlockPhaseApi>,
   ): IResultOfEatLazyContinuationText
 
   /**
    * Called when the token is saturated.
    * @param token
-   * @param api
    */
-  onClose?(token: IToken, api: Readonly<IMatchBlockPhaseApi>): IResultOfOnClose
-
-  /**
-   * Extract array of IPhrasingContentLine from a given IYastBlockToken.
-   * @param token
-   */
-  extractPhrasingContentLines?(token: Readonly<IToken>): ReadonlyArray<IPhrasingContentLine> | null
-
-  /**
-   * Build BlockTokenizerPostMatchPhaseToken from
-   * a PhrasingContentMatchPhaseToken.
-   * @param lines
-   * @param originalToken
-   */
-  buildBlockToken?(
-    lines: ReadonlyArray<IPhrasingContentLine>,
-    originalToken: IToken,
-  ): (IToken & IYastBlockToken) | null
+  onClose?(token: IToken): IResultOfOnClose
 }
 
 /**

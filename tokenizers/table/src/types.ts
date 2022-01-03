@@ -11,6 +11,7 @@ import type {
   IBaseBlockTokenizerProps,
   IPartialYastBlockToken,
   IPhrasingContentToken,
+  ITokenizer,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 
@@ -43,5 +44,7 @@ export interface ITableCellToken extends IYastBlockToken<TableCellType> {
    */
   children: IPhrasingContentToken[]
 }
+
+export type IHookContext = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

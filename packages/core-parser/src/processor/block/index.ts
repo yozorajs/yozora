@@ -1,8 +1,6 @@
 import type { IYastNodePoint } from '@yozora/ast'
 import { isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
 import type {
-  IBlockFallbackTokenizer,
-  IMatchBlockPhaseApi,
   IPartialYastBlockToken,
   IPhrasingContentLine,
   IResultOfEatContinuationText,
@@ -10,8 +8,12 @@ import type {
 } from '@yozora/core-tokenizer'
 import { calcEndYastNodePoint } from '@yozora/core-tokenizer'
 import invariant from '@yozora/invariant'
-import type { IYastBlockTokenTree, IYastMatchBlockState, IYastMatchPhaseHook } from '../../types'
-import type { IBlockContentProcessor } from './types'
+import type {
+  IBlockContentProcessor,
+  IMatchBlockPhaseHook,
+  IYastBlockTokenTree,
+  IYastMatchBlockState,
+} from './types'
 
 /**
  * Factory function for creating IBlockContentProcessor
@@ -21,9 +23,8 @@ import type { IBlockContentProcessor } from './types'
  * @param fallbackHook
  */
 export const createBlockContentProcessor = (
-  api: Readonly<IMatchBlockPhaseApi>,
-  hooks: ReadonlyArray<IYastMatchPhaseHook>,
-  fallbackHook: (IBlockFallbackTokenizer & IYastMatchPhaseHook) | null,
+  hooks: ReadonlyArray<IMatchBlockPhaseHook>,
+  fallbackHook: IMatchBlockPhaseHook | null,
 ): IBlockContentProcessor => {
   const root: IYastBlockTokenTree = {
     _tokenizer: 'root',
@@ -37,7 +38,7 @@ export const createBlockContentProcessor = (
 
   const stateStack: IYastMatchBlockState[] = []
   stateStack.push({
-    hook: { isContainingBlock: true } as unknown as IYastMatchPhaseHook,
+    hook: { isContainingBlock: true } as unknown as IMatchBlockPhaseHook,
     token: root,
   })
 
@@ -58,14 +59,14 @@ export const createBlockContentProcessor = (
    * @param lines
    */
   const createRollbackProcessor = (
-    hook: IYastMatchPhaseHook,
+    hook: IMatchBlockPhaseHook,
     lines: ReadonlyArray<IPhrasingContentLine>,
   ): IBlockContentProcessor | null => {
     if (lines.length <= 0) return null
 
     // Reprocess lines.
     const candidateHooks = hooks.filter(h => h != hook)
-    const processor = createBlockContentProcessor(api, candidateHooks, fallbackHook)
+    const processor = createBlockContentProcessor(candidateHooks, fallbackHook)
 
     for (const line of lines) {
       processor.consume(line)
@@ -88,7 +89,7 @@ export const createBlockContentProcessor = (
 
       // Call the `onClose()` hook.
       if (topState.hook.onClose != null) {
-        const result = topState.hook.onClose(topState.token, api)
+        const result = topState.hook.onClose(topState.token)
         if (result != null) {
           switch (result.status) {
             case 'closingAndRollback': {
@@ -132,7 +133,7 @@ export const createBlockContentProcessor = (
    * @param saturated
    */
   const push = (
-    hook: IYastMatchPhaseHook,
+    hook: IMatchBlockPhaseHook,
     nextToken: IYastBlockToken,
     saturated: boolean,
   ): void => {
@@ -159,7 +160,7 @@ export const createBlockContentProcessor = (
    * @param parent
    */
   const rollback = (
-    hook: IYastMatchPhaseHook,
+    hook: IMatchBlockPhaseHook,
     lines: IPhrasingContentLine[],
     parent: IYastMatchBlockState,
   ): boolean => {
@@ -236,7 +237,7 @@ export const createBlockContentProcessor = (
      * @param hook
      * @param line
      */
-    const consumeNewOpener = (hook: IYastMatchPhaseHook, line: IPhrasingContentLine): boolean => {
+    const consumeNewOpener = (hook: IMatchBlockPhaseHook, line: IPhrasingContentLine): boolean => {
       const { token: parentToken } = stateStack[currentStackIndex]
       const result = hook.eatOpener(line, parentToken)
       if (result == null) return false
@@ -263,7 +264,7 @@ export const createBlockContentProcessor = (
      * @param line
      * @param stackIndex
      */
-    const interruptSibling = (hook: IYastMatchPhaseHook, line: IPhrasingContentLine): boolean => {
+    const interruptSibling = (hook: IMatchBlockPhaseHook, line: IPhrasingContentLine): boolean => {
       if (hook.eatAndInterruptPreviousSibling == null) return false
 
       const { hook: siblingHook, token: siblingToken } = stateStack[currentStackIndex]
@@ -271,7 +272,7 @@ export const createBlockContentProcessor = (
       if (hook.priority <= siblingHook.priority) return false
 
       // try `eatAndInterruptPreviousSibling` first
-      const result = hook.eatAndInterruptPreviousSibling(line, siblingToken, parentToken, api)
+      const result = hook.eatAndInterruptPreviousSibling(line, siblingToken, parentToken)
       if (result == null) return false
 
       // Successfully interrupt the previous node.
@@ -325,7 +326,7 @@ export const createBlockContentProcessor = (
         const result: IResultOfEatContinuationText =
           currentHook.eatContinuationText == null
             ? { status: 'notMatched' }
-            : currentHook.eatContinuationText(eatingInfo, currentStateItem.token, parentToken, api)
+            : currentHook.eatContinuationText(eatingInfo, currentStateItem.token, parentToken)
 
         let finished = false,
           rolledBack = false
@@ -455,7 +456,7 @@ export const createBlockContentProcessor = (
 
       const { token: parentToken } = stateStack[stateStack.length - 2]
       const eatingInfo = getEatingInfo()
-      const result = hook.eatLazyContinuationText(eatingInfo, token, parentToken, api)
+      const result = hook.eatLazyContinuationText(eatingInfo, token, parentToken)
       switch (result.status) {
         case 'notMatched': {
           return false

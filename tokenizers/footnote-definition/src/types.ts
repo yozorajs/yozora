@@ -3,6 +3,7 @@ import type { INodeInterval, INodePoint } from '@yozora/character'
 import type {
   IBaseBlockTokenizerProps,
   IPartialYastBlockToken,
+  ITokenizer,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 
@@ -27,6 +28,10 @@ export interface IToken extends IPartialYastBlockToken<T> {
    * Resolved definition identifier.
    */
   _identifier?: string
+}
+
+export interface IHookContext extends ITokenizer {
+  indent: number
 }
 
 export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

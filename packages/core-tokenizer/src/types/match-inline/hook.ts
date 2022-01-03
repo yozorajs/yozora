@@ -1,12 +1,14 @@
 import type { YastNodeType } from '@yozora/ast'
 import type { IPartialYastInlineToken, IYastInlineToken, IYastTokenDelimiter } from '../token'
+import type { ITokenizer } from '../tokenizer'
 import type { IMatchInlinePhaseApi } from './api'
 
 export type IMatchInlineHookCreator<
   T extends YastNodeType = YastNodeType,
   IDelimiter extends IYastTokenDelimiter = IYastTokenDelimiter,
   IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
-> = (api: IMatchInlinePhaseApi) => IMatchInlineHook<T, IDelimiter, IToken>
+  IThis extends ITokenizer = ITokenizer,
+> = (this: IThis, api: IMatchInlinePhaseApi) => IMatchInlineHook<T, IDelimiter, IToken>
 
 /**
  * Hooks on the match-inline phase.

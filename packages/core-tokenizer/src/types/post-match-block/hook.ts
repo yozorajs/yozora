@@ -1,8 +1,10 @@
 import type { IYastBlockToken } from '../token'
+import type { ITokenizer } from '../tokenizer'
 import type { IPostMatchBlockPhaseApi } from './api'
 
-export type IPostMatchBlockHookCreator = (
-  getApi: () => IPostMatchBlockPhaseApi,
+export type IPostMatchBlockHookCreator<IThis extends ITokenizer = ITokenizer> = (
+  this: IThis,
+  api: IPostMatchBlockPhaseApi,
 ) => IPostMatchBlockHook
 
 /**
@@ -13,10 +15,6 @@ export interface IPostMatchBlockHook {
    * Transform IYastBlockToken list.
    *
    * @param tokens  peers nodes those have a same parent.
-   * @param api
    */
-  transformMatch(
-    tokens: ReadonlyArray<IYastBlockToken>,
-    api: Readonly<IPostMatchBlockPhaseApi>,
-  ): IYastBlockToken[]
+  transformMatch(tokens: ReadonlyArray<IYastBlockToken>): IYastBlockToken[]
 }

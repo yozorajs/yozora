@@ -3,6 +3,7 @@ import type {
   IBaseBlockTokenizerProps,
   IPartialYastBlockToken,
   IPhrasingContentLine,
+  ITokenizer,
 } from '@yozora/core-tokenizer'
 
 export type T = HeadingType
@@ -19,5 +20,7 @@ export interface IToken extends IPartialYastBlockToken<T> {
    */
   lines: ReadonlyArray<IPhrasingContentLine>
 }
+
+export type IHookContext = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

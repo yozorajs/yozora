@@ -1,26 +1,16 @@
-import type { IRoot, YastNodeType } from '@yozora/ast'
+import type { IRoot } from '@yozora/ast'
 import { createNodePointGenerator } from '@yozora/character'
 import type {
   IBlockFallbackTokenizer,
+  IBlockTokenizer,
   IInlineFallbackTokenizer,
   IInlineTokenizer,
-  IMatchBlockHook,
-  IMatchInlineHook,
-  IParseBlockHook,
-  IParseInlineHook,
-  IPostMatchBlockHook,
   ITokenizer,
 } from '@yozora/core-tokenizer'
-import { createPhrasingLineGenerator } from '@yozora/core-tokenizer'
+import { TokenizerType, createPhrasingLineGenerator } from '@yozora/core-tokenizer'
 import { PhrasingContentTokenizer } from './phrasing-content/tokenizer'
 import { createProcessor } from './processor'
-import type {
-  IParseOptions,
-  IParser,
-  ITokenizerHook,
-  ITokenizerHookAll,
-  ITokenizerHookPhaseFlags,
-} from './types'
+import type { IParseOptions, IParser } from './types'
 
 /**
  * Parameters for constructing a DefaultYastParser.
@@ -43,14 +33,11 @@ export interface IDefaultParserProps {
 }
 
 export class DefaultParser implements IParser {
-  protected readonly tokenizerHookMap: Map<
-    YastNodeType,
-    ITokenizer & Partial<ITokenizerHookAll> & IParseBlockHook & IParseInlineHook
-  >
+  protected readonly blockTokenizers: IBlockTokenizer[]
+  protected readonly blockTokenizerMap: Map<string, IBlockTokenizer>
   protected readonly inlineTokenizers: IInlineTokenizer[]
   protected readonly inlineTokenizerMap: Map<string, IInlineTokenizer>
-  protected readonly matchBlockHooks: Array<ITokenizer & IMatchBlockHook>
-  protected readonly postMatchBlockHooks: Array<ITokenizer & IPostMatchBlockHook>
+
   protected readonly phrasingContentTokenizer: PhrasingContentTokenizer
   protected blockFallbackTokenizer: IBlockFallbackTokenizer | null = null
   protected inlineFallbackTokenizer: IInlineFallbackTokenizer | null = null
@@ -59,199 +46,83 @@ export class DefaultParser implements IParser {
   constructor(props: IDefaultParserProps) {
     this.inlineTokenizers = []
     this.inlineTokenizerMap = new Map()
-    this.tokenizerHookMap = new Map()
-    this.matchBlockHooks = []
-    this.postMatchBlockHooks = []
-    this.phrasingContentTokenizer = new PhrasingContentTokenizer()
+    this.blockTokenizers = []
+    this.blockTokenizerMap = new Map()
+
+    const phrasingContentTokenizer = new PhrasingContentTokenizer()
+    this.phrasingContentTokenizer = phrasingContentTokenizer
+    this.blockTokenizerMap.set(phrasingContentTokenizer.name, phrasingContentTokenizer)
 
     // Set default IParseOptions
     this.setDefaultParseOptions(props.defaultParseOptions)
-
-    // Register phrasing-content tokenizer.
-    this.useTokenizer(new PhrasingContentTokenizer(), undefined, {
-      'match-block': false,
-      'post-match-block': false,
-    })
 
     // Resolve block fallback tokenizer.
     const blockFallbackTokenizer =
       props.blockFallbackTokenizer != null ? props.blockFallbackTokenizer : null
     if (blockFallbackTokenizer != null) {
-      this.useBlockFallbackTokenizer(blockFallbackTokenizer)
+      this.useFallbackTokenizer(blockFallbackTokenizer)
     }
 
     // Resolve inline fallback tokenizer.
     const inlineFallbackTokenizer =
       props.inlineFallbackTokenizer != null ? props.inlineFallbackTokenizer : null
     if (inlineFallbackTokenizer != null) {
-      this.useInlineFallbackTokenizer(inlineFallbackTokenizer)
+      this.useFallbackTokenizer(inlineFallbackTokenizer)
     }
   }
 
-  public useInlineTokenizer(tokenizer: IInlineTokenizer, registerBeforeTokenizer?: string): this {
-    this._registerTokenizer(
-      this.inlineTokenizers,
-      this.inlineTokenizerMap,
-      tokenizer,
-      registerBeforeTokenizer,
-    )
+  public useTokenizer(tokenizer: ITokenizer, registerBeforeTokenizer?: string): this {
+    const tokenizers: ITokenizer[] =
+      tokenizer.type === TokenizerType.BLOCK ? this.blockTokenizers : this.inlineTokenizers
+    const tokenizerMap: Map<string, ITokenizer> =
+      tokenizer.type === TokenizerType.BLOCK ? this.blockTokenizerMap : this.inlineTokenizerMap
+    this._registerTokenizer(tokenizers, tokenizerMap, tokenizer, registerBeforeTokenizer)
     return this
   }
 
-  public unmountInlineTokenizer(tokenizerOrName: ITokenizer | string): this {
-    this._unregisterTokenizer(this.inlineTokenizers, this.inlineTokenizerMap, tokenizerOrName)
+  public replaceTokenizer(tokenizer: ITokenizer, registerBeforeTokenizer?: string): this {
+    const tokenizers: ITokenizer[] =
+      tokenizer.type === TokenizerType.BLOCK ? this.blockTokenizers : this.inlineTokenizers
+    const tokenizerMap: Map<string, ITokenizer> =
+      tokenizer.type === TokenizerType.BLOCK ? this.blockTokenizerMap : this.inlineTokenizerMap
+    this._replaceTokenizer(tokenizers, tokenizerMap, tokenizer, registerBeforeTokenizer)
     return this
   }
 
-  public replaceInlineTokenizer(
-    tokenizer: IInlineTokenizer,
-    registerBeforeTokenizer?: string,
-  ): this {
-    this._replaceTokenizer(
-      this.inlineTokenizers,
-      this.inlineTokenizerMap,
-      tokenizer,
-      registerBeforeTokenizer,
-    )
-    return this
-  }
-
-  /**
-   * @override
-   * @see IParser
-   */
-  public useTokenizer(
-    tokenizer: ITokenizer & (Partial<ITokenizerHook> | never),
-    registerBeforeTokenizer?: string,
-    lifecycleHookFlags: Partial<ITokenizerHookPhaseFlags> = {},
-  ): this {
-    // Check if the tokenizer name has been registered by other tokenizer.
-    const olderTokenizer = this.tokenizerHookMap.get(tokenizer.name)
-    if (olderTokenizer != null) {
-      throw new TypeError(`[useTokenizer] Name(${tokenizer.name}) has been registered.`)
-    }
-
-    const hook = tokenizer as ITokenizer & ITokenizerHookAll
-    this.tokenizerHookMap.set(tokenizer.name, hook)
-
-    // Register into this.*Hooks.
-    const registerIntoHooks = (hooks: ITokenizer[], flag: keyof ITokenizerHookPhaseFlags): void => {
-      if (lifecycleHookFlags[flag] === false) return
-      let index = 0
-      for (; index < hooks.length; ++index) {
-        const t = hooks[index]
-        if (registerBeforeTokenizer === t.name) break
-        if (hook.priority > t.priority) break
-      }
-      if (index < 0 || index >= hooks.length) hooks.push(hook)
-      else hooks.splice(index, 0, hook)
-    }
-
-    // match-block phase
-    if (hook.eatOpener != null) {
-      registerIntoHooks(this.matchBlockHooks, 'match-block')
-    }
-
-    // post-match-block phase
-    if (hook.transformMatch != null) {
-      registerIntoHooks(this.postMatchBlockHooks, 'post-match-block')
-    }
-    return this
-  }
-
-  /**
-   * @override
-   * @see IParser
-   */
-  public replaceTokenizer(
-    tokenizer: ITokenizer & (Partial<ITokenizerHook> | never),
-    registerBeforeTokenizer?: string,
-    lifecycleHookFlags?: Partial<ITokenizerHookPhaseFlags>,
-  ): this {
-    this.unmountTokenizer(tokenizer.name)
-    this.useTokenizer(tokenizer, registerBeforeTokenizer, lifecycleHookFlags)
-    return this
-  }
-
-  /**
-   * @override
-   * @see IParser
-   */
   public unmountTokenizer(tokenizerOrName: ITokenizer | string): this {
-    const tokenizerName =
-      typeof tokenizerOrName === 'string' ? tokenizerOrName : tokenizerOrName.name
-
-    const existed: boolean = this.tokenizerHookMap.delete(tokenizerName)
-    if (!existed) return this
-
-    // Check if its blockFallbackTokenizer
-    if (this.blockFallbackTokenizer == null || this.blockFallbackTokenizer.name === tokenizerName) {
-      this.blockFallbackTokenizer = null
-    }
-
-    // Check if it is inlineFallbackTokenizer
-    else if (
-      this.inlineFallbackTokenizer == null ||
-      this.inlineFallbackTokenizer.name === tokenizerName
-    ) {
-      this.inlineFallbackTokenizer = null
-    }
-
-    // Unmount from hooks.
-    const unmountFromHooks = (hooks: ITokenizer[]): void => {
-      const hookIndex = hooks.findIndex(hook => hook.name === tokenizerName)
-      if (hookIndex >= 0) hooks.splice(hookIndex, 1)
-    }
-
-    unmountFromHooks(this.matchBlockHooks)
-    unmountFromHooks(this.postMatchBlockHooks)
+    this._unregisterTokenizer(this.inlineTokenizers, this.inlineTokenizerMap, tokenizerOrName)
+    this._unregisterTokenizer(this.blockTokenizers, this.blockTokenizerMap, tokenizerOrName)
     return this
   }
 
-  /**
-   * @override
-   * @see IParser
-   */
-  public useBlockFallbackTokenizer(blockFallbackTokenizer: IBlockFallbackTokenizer): this {
-    // Unmount old fallback tokenizer
-    if (this.blockFallbackTokenizer != null) {
-      this.unmountTokenizer(this.blockFallbackTokenizer)
+  public useFallbackTokenizer(
+    fallbackTokenizer: IBlockFallbackTokenizer | IInlineFallbackTokenizer,
+  ): this {
+    switch (fallbackTokenizer.type) {
+      case TokenizerType.BLOCK:
+        // Unmount old fallback tokenizer
+        if (this.blockFallbackTokenizer != null) {
+          this.unmountTokenizer(this.blockFallbackTokenizer)
+        }
+
+        // register fallback tokenizer
+        this.blockTokenizerMap.set(fallbackTokenizer.name, fallbackTokenizer)
+        this.blockFallbackTokenizer = fallbackTokenizer
+        break
+      case TokenizerType.INLINE:
+        // Unmount old fallback tokenizer
+        if (this.inlineFallbackTokenizer != null) {
+          this.unmountTokenizer(this.inlineFallbackTokenizer)
+        }
+
+        // register fallback tokenizer
+        this.inlineTokenizerMap.set(fallbackTokenizer.name, fallbackTokenizer)
+        this.inlineFallbackTokenizer = fallbackTokenizer
+        break
     }
-
-    // register fallback tokenizer
-    this.useTokenizer(blockFallbackTokenizer, undefined, {
-      'match-block': false,
-      'post-match-block': false,
-    })
-
-    this.blockFallbackTokenizer = blockFallbackTokenizer
     return this
   }
 
-  /**
-   * @override
-   * @see IParser
-   */
-  public useInlineFallbackTokenizer(inlineFallbackTokenizer: IInlineFallbackTokenizer): this {
-    // Unmount old fallback tokenizer
-    if (this.inlineFallbackTokenizer != null) {
-      this.unmountTokenizer(this.inlineFallbackTokenizer)
-    }
-
-    // register fallback tokenizer
-    this.useTokenizer(inlineFallbackTokenizer, undefined, {
-      'match-block': false,
-      'post-match-block': false,
-    })
-
-    this.inlineFallbackTokenizer = inlineFallbackTokenizer
-    return this
-  }
-
-  /**
-   * @override
-   * @see IParser
-   */
   public setDefaultParseOptions(options: Partial<IParseOptions> = {}): void {
     this.defaultParseOptions = {
       presetDefinitions: [],
@@ -261,10 +132,6 @@ export class DefaultParser implements IParser {
     }
   }
 
-  /**
-   * @override
-   * @see IParser
-   */
   public parse(contents: Iterable<string> | string, options: IParseOptions = {}): IRoot {
     const { shouldReservePosition, presetDefinitions, presetFootnoteDefinitions } = {
       ...this.defaultParseOptions,
@@ -275,11 +142,10 @@ export class DefaultParser implements IParser {
     const nodePointsIterator = createNodePointGenerator(contents)
     const linesIterator = createPhrasingLineGenerator(nodePointsIterator)
     const processor = createProcessor({
-      tokenizerHookMap: this.tokenizerHookMap,
-      matchBlockHooks: this.matchBlockHooks,
-      postMatchBlockHooks: this.postMatchBlockHooks,
       inlineTokenizers: this.inlineTokenizers,
       inlineTokenizerMap: this.inlineTokenizerMap,
+      blockTokenizers: this.blockTokenizers,
+      blockTokenizerMap: this.blockTokenizerMap,
       phrasingContentTokenizer: this.phrasingContentTokenizer,
       blockFallbackTokenizer: this.blockFallbackTokenizer,
       inlineFallbackTokenizer: this.inlineFallbackTokenizer,
@@ -307,16 +173,24 @@ export class DefaultParser implements IParser {
     tokenizer: ITokenizer,
     registerBeforeTokenizer?: string,
   ): void {
-    if (!tokenizerMap.has(tokenizer.name)) {
-      let index = 0
-      for (; index < tokenizers.length; ++index) {
-        const t = tokenizers[index]
-        if (registerBeforeTokenizer === t.name) break
-        if (tokenizer.priority > t.priority) break
+    if (tokenizerMap.has(tokenizer.name)) {
+      // Check if the tokenizer name has been registered by other tokenizer.
+      const olderTokenizer = tokenizerMap.get(tokenizer.name)
+      if (olderTokenizer != null) {
+        throw new TypeError(`[useTokenizer] Name(${tokenizer.name}) has been registered.`)
       }
-      if (index < 0 || index >= tokenizers.length) tokenizers.push(tokenizer)
-      else tokenizers.splice(index, 0, tokenizer)
     }
+
+    tokenizerMap.set(tokenizer.name, tokenizer)
+
+    let index = 0
+    for (; index < tokenizers.length; ++index) {
+      const t = tokenizers[index]
+      if (registerBeforeTokenizer === t.name) break
+      if (tokenizer.priority > t.priority) break
+    }
+    if (index < 0 || index >= tokenizers.length) tokenizers.push(tokenizer)
+    else tokenizers.splice(index, 0, tokenizer)
   }
 
   protected _unregisterTokenizer(
