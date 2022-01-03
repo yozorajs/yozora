@@ -1,5 +1,40 @@
 # Changelog
 
+<a name="2.0.0-alpha.0"></a>
+## 2.0.0-alpha.0 (2022-01-03)
+
+### Added
+
+- ✅ test: update snapshots [[9dee29c](https://github.com/yozorajs/yozora/commit/9dee29cffa44d1885af20ff700add2274fdf6e7b)]
+
+### Changed
+
+- 🚨 fix: fix lint warnings [[fc4b9fd](https://github.com/yozorajs/yozora/commit/fc4b9fd5e4edca9df93f34b9f3fbee711d4670f5)]
+- 🎨 refactor: rename parser hooks [[ef6cbc5](https://github.com/yozorajs/yozora/commit/ef6cbc51323e6ef9d4cd78f1c7194ae1f7819245)]
+- 🎨 improve: simplify codes [[b531940](https://github.com/yozorajs/yozora/commit/b531940512b997b6c5e8959173b844517daa5df9)]
+- 🎨 refactor: refactor eatOptionalBlankLines [[f55552e](https://github.com/yozorajs/yozora/commit/f55552e65bf98645172ef25079fd987e0d4c717b)]
+- 🎨 improve: simplify codes &amp; fix logic errors [[0e20fff](https://github.com/yozorajs/yozora/commit/0e20fff295d61f85183f15b1e0feaf4011026d04)]
+- 🎨 style: set print width to 100 [[657a621](https://github.com/yozorajs/yozora/commit/657a6211cad52d5f1b183e7bcd7ea227b2aa7724)]
+- 🎨 improve: simplify codes &amp; fix logic errors [[c704cce](https://github.com/yozorajs/yozora/commit/c704cce0cdb66ea60f5f65b9b4e2b44014a51781)]
+- ⬆️ chore: upgrade devDependencies [[c22d620](https://github.com/yozorajs/yozora/commit/c22d620e97d033030bd9e2ae8596a86a939cb2e5)]
+- ⬆️ chore: upgrade devDependencies [[07976e2](https://github.com/yozorajs/yozora/commit/07976e23a58c13f365de32827cb866b0e6c784e1)]
+
+### Breaking changes
+
+- 💥 refactor: refactor block tokenizers [[50ea4da](https://github.com/yozorajs/yozora/commit/50ea4dac5be8d7dd3d6eccf7e0ce1cfe05fe704a)]
+- 💥 refactor: refactor inline tokenizers [[85e2d65](https://github.com/yozorajs/yozora/commit/85e2d655baf1e4f2010cbf9d80ed3a4f2d390d5c)]
+- 💥 feat: [breaking] rename types with &#x27;I&#x27; prefix [[d37d862](https://github.com/yozorajs/yozora/commit/d37d862212831dbe75ac92a6dbdadf2fa81cce8c)]
+
+### Fixed
+
+- 🐛 fix: footnoteDefinition should be containing blocks, but fencedCode shouldn&#x27;t be [[51c9133](https://github.com/yozorajs/yozora/commit/51c913361761b36ff54ef0ae49e549e3305bb789)]
+
+### Miscellaneous
+
+-  style: remove whitespaces [[c8fa999](https://github.com/yozorajs/yozora/commit/c8fa999baaccdd8a5cb0d232e74fb6f631d25e19)]
+- 📝 docs: update CHANGELOG [[96fb3a8](https://github.com/yozorajs/yozora/commit/96fb3a8961fd211939a276f087ce1fe80aaaf236)]
+
+
 <a name="1.3.0"></a>
 ## 1.3.0 (2021-10-09)
 
