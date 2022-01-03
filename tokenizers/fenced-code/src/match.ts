@@ -14,6 +14,6 @@ export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function (
   const hook = fencedMatch.call(this, api) as IMatchBlockHook<T, IToken>
   return {
     ...hook,
-    isContainingBlock: true,
+    isContainingBlock: false,
   }
 }

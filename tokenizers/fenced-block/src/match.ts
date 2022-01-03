@@ -23,7 +23,7 @@ export function match<
 >(this: IThis, _api: IMatchBlockPhaseApi): IMatchBlockHook<T, IToken<T>> {
   const { nodeType, markers, markersRequired, checkInfoString } = this
   return {
-    isContainingBlock: true,
+    isContainingBlock: false,
     eatOpener,
     eatAndInterruptPreviousSibling,
     eatContinuationText,

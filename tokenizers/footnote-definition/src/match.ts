@@ -37,7 +37,7 @@ import { eatFootnoteLabel } from './util'
 export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function (api) {
   const { indent } = this
   return {
-    isContainingBlock: false,
+    isContainingBlock: true,
     eatOpener,
     eatContinuationText,
     onClose,
