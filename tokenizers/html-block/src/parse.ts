@@ -5,14 +5,16 @@ import type { IHookContext, INode, IToken, T } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IHookContext> = function () {
   return {
-    parse: token => {
-      // Try to build phrasingContent
-      const contents = mergeContentLinesFaithfully(token.lines)
-      const node: INode = {
-        type: 'html',
-        value: calcStringFromNodePoints(contents),
-      }
-      return node
-    },
+    parse: tokens =>
+      tokens.map(token => {
+        // Try to build phrasingContent
+        const contents = mergeContentLinesFaithfully(token.lines)
+        const node: INode = {
+          type: 'html',
+          position: token.position,
+          value: calcStringFromNodePoints(contents),
+        }
+        return node
+      }),
   }
 }

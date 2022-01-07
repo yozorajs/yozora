@@ -1,63 +1,62 @@
-import type { ITableCell, ITableRow } from '@yozora/ast'
+import type { ITableCell, ITableRow, IYastNode } from '@yozora/ast'
 import { TableCellType, TableRowType, TableType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type { IParseBlockHookCreator, IPhrasingContent } from '@yozora/core-tokenizer'
 import { PhrasingContentType } from '@yozora/core-tokenizer'
-import type { IHookContext, INode, ITableToken, IToken, T } from './types'
+import type { IHookContext, INode, IToken, T } from './types'
 
-export const parse: IParseBlockHookCreator<T, IToken, INode, IHookContext> = () => ({
-  parse: (token, children) => {
-    let node: INode
-    switch (token.nodeType) {
-      case TableType: {
-        node = {
-          type: TableType,
-          columns: (token as ITableToken).columns,
-          children: children as ITableRow[],
-        }
-        break
-      }
-      case TableRowType: {
-        node = {
-          type: TableRowType,
-          children: children as ITableCell[],
-        }
-        break
-      }
-      case TableCellType: {
-        node = {
-          type: TableCellType,
-          children: children as IPhrasingContent[],
-        }
-
-        /**
-         * Include a pipe in a cell’s content by escaping it, including inside
-         * other inline spans
-         * @see https://github.github.com/gfm/#example-200
-         */
-        for (const phrasingContent of node.children as IPhrasingContent[]) {
-          if (phrasingContent.type !== PhrasingContentType) continue
-          const nextContents: INodePoint[] = []
-          const endIndex = phrasingContent.contents.length
-          for (let i = 0; i < endIndex; ++i) {
-            const p = phrasingContent.contents[i]
-            if (p.codePoint === AsciiCodePoint.BACKSLASH && i + 1 < endIndex) {
-              const q = phrasingContent.contents[i + 1]
-              if (q.codePoint !== AsciiCodePoint.VERTICAL_SLASH) nextContents.push(p)
-              nextContents.push(q)
-              i += 1
-              continue
+export const parse: IParseBlockHookCreator<T, IToken, INode, IHookContext> = api => ({
+  parse: tokens =>
+    tokens.map(token => {
+      const tableRows: ITableRow[] = token.rows.map((row): ITableRow => {
+        const tableCells: ITableCell[] = row.cells.map((cell): ITableCell => {
+          /**
+           * Include a pipe in a cell’s content by escaping it, including inside
+           * other inline spans
+           * @see https://github.github.com/gfm/#example-200
+           */
+          const contents: IYastNode[] = cell.contents ? api.parseBlockTokens(cell.contents) : []
+          for (const phrasingContent of contents as IPhrasingContent[]) {
+            if (phrasingContent.type !== PhrasingContentType) continue
+            const nextContents: INodePoint[] = []
+            const endIndex = phrasingContent.contents.length
+            for (let i = 0; i < endIndex; ++i) {
+              const p = phrasingContent.contents[i]
+              if (p.codePoint === AsciiCodePoint.BACKSLASH && i + 1 < endIndex) {
+                const q = phrasingContent.contents[i + 1]
+                if (q.codePoint !== AsciiCodePoint.VERTICAL_SLASH) nextContents.push(p)
+                nextContents.push(q)
+                i += 1
+                continue
+              }
+              nextContents.push(p)
             }
-            nextContents.push(p)
+            phrasingContent.contents = nextContents
           }
-          phrasingContent.contents = nextContents
+
+          const tableCell: ITableCell = {
+            type: TableCellType,
+            position: cell.position,
+            children: contents,
+          }
+          return tableCell
+        })
+
+        const tableRow: ITableRow = {
+          type: TableRowType,
+          position: row.position,
+          children: tableCells,
         }
-        break
+        return tableRow
+      })
+
+      const table: INode = {
+        type: TableType,
+        position: token.position,
+        columns: token.columns,
+        children: tableRows,
       }
-      default:
-        return null
-    }
-    return node
-  },
+      return table
+    }),
 })

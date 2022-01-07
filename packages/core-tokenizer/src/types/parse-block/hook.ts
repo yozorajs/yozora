@@ -23,10 +23,5 @@ export interface IParseBlockHook<
    * @param nodePoints  array of INodePoint
    * @param token       token on post-match phase
    */
-  parse(token: Readonly<IToken>, children: IYastNode[]): IResultOfParse<T, INode>
+  parse(token: ReadonlyArray<IToken>): INode[]
 }
-
-export type IResultOfParse<
-  T extends YastNodeType = YastNodeType,
-  Node extends IYastNode<T> = IYastNode<T>,
-> = Node | null

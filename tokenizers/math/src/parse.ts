@@ -7,18 +7,20 @@ import type { IHookContext, INode, IToken, T } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IHookContext> = function () {
   return {
-    parse: token => {
-      const contents: INodePoint[] = mergeContentLinesFaithfully(token.lines)
+    parse: tokens =>
+      tokens.map(token => {
+        const contents: INodePoint[] = mergeContentLinesFaithfully(token.lines)
 
-      /**
-       * Backslash escape works in info strings in fenced code blocks.
-       * @see https://github.github.com/gfm/#example-320
-       */
-      const node: INode = {
-        type: MathType,
-        value: calcStringFromNodePoints(contents),
-      }
-      return node
-    },
+        /**
+         * Backslash escape works in info strings in fenced code blocks.
+         * @see https://github.github.com/gfm/#example-320
+         */
+        const node: INode = {
+          type: MathType,
+          position: token.position,
+          value: calcStringFromNodePoints(contents),
+        }
+        return node
+      }),
   }
 }

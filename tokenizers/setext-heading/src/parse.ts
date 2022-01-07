@@ -6,32 +6,34 @@ import type { IHookContext, INode, IToken, T } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IHookContext> = function (api) {
   return {
-    parse: token => {
-      let depth: IHeading['depth'] = 1
-      switch (token.marker) {
-        /**
-         * The heading is a level 1 heading if '=' characters are used
-         */
-        case AsciiCodePoint.EQUALS_SIGN:
-          depth = 1
-          break
-        /**
-         * The heading is a level 2 heading if '-' characters are used
-         */
-        case AsciiCodePoint.MINUS_SIGN:
-          depth = 2
-          break
-      }
+    parse: tokens =>
+      tokens.map(token => {
+        let depth: IHeading['depth'] = 1
+        switch (token.marker) {
+          /**
+           * The heading is a level 1 heading if '=' characters are used
+           */
+          case AsciiCodePoint.EQUALS_SIGN:
+            depth = 1
+            break
+          /**
+           * The heading is a level 2 heading if '-' characters are used
+           */
+          case AsciiCodePoint.MINUS_SIGN:
+            depth = 2
+            break
+        }
 
-      // Resolve phrasing content.
-      const phrasingContent = api.buildPhrasingContent(token.lines)
+        // Resolve phrasing content.
+        const phrasingContent = api.buildPhrasingContent(token.lines)
 
-      const node: INode = {
-        type: HeadingType,
-        depth,
-        children: phrasingContent == null ? [] : [phrasingContent],
-      }
-      return node
-    },
+        const node: INode = {
+          type: HeadingType,
+          position: token.position,
+          depth,
+          children: phrasingContent == null ? [] : [phrasingContent],
+        }
+        return node
+      }),
   }
 }

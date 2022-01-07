@@ -1,8 +1,7 @@
 import type {
   ITable,
-  ITableCell,
   ITableColumn,
-  ITableRow,
+  IYastNodePosition,
   TableCellType,
   TableRowType,
   TableType,
@@ -12,15 +11,13 @@ import type {
   IPartialYastBlockToken,
   IPhrasingContentToken,
   ITokenizer,
-  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 
-export type T = TableType | TableRowType | TableCellType
-export type INode = ITable | ITableRow | ITableCell
-export type IToken = ITableToken | ITableRowToken | ITableCellToken
+export type T = TableType
+export type INode = ITable
 export const uniqueName = '@yozora/tokenizer-table'
 
-export interface ITableToken extends IPartialYastBlockToken<TableType> {
+export interface IToken extends IPartialYastBlockToken<TableType> {
   /**
    * Table column configuration items
    */
@@ -28,21 +25,16 @@ export interface ITableToken extends IPartialYastBlockToken<TableType> {
   /**
    * Table rows
    */
-  children: ITableRowToken[]
+  rows: ITableRowToken[]
 }
 
-export interface ITableRowToken extends IYastBlockToken<TableRowType> {
-  /**
-   * Table cells
-   */
-  children: ITableCellToken[]
+export interface ITableRowToken extends IPartialYastBlockToken<TableRowType> {
+  cells: ITableCellToken[]
 }
 
-export interface ITableCellToken extends IYastBlockToken<TableCellType> {
-  /**
-   * Contents of table cell.
-   */
-  children: IPhrasingContentToken[]
+export interface ITableCellToken extends IPartialYastBlockToken<TableCellType> {
+  position: IYastNodePosition
+  contents: IPhrasingContentToken[]
 }
 
 export type IHookContext = ITokenizer

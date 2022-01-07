@@ -1,5 +1,5 @@
 import type { IRoot, IYastNode } from '@yozora/ast'
-import { shallowMutateAstInPreorder } from '@yozora/ast-util'
+import { shallowMutateAstInPreorder, traverseAst } from '@yozora/ast-util'
 import type { INodePoint } from '@yozora/character'
 import type {
   IParseBlockHook,
@@ -141,8 +141,11 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
 
     const blockNodes = parseBlockTokens(blockTokenTree.children)
 
-    const tree: IRoot = { type: 'root', children: blockNodes }
-    if (shouldReservePosition) tree.position = blockTokenTree.position
+    const tree: IRoot = {
+      type: 'root',
+      position: blockTokenTree.position,
+      children: blockNodes,
+    }
 
     // Resolve phrasingContents into Yozora AST nodes.
     const result: IRoot = shallowMutateAstInPreorder(
@@ -150,6 +153,16 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       [PhrasingContentType],
       (node): IYastNode[] => parsePhrasingContent(node as IPhrasingContent),
     )
+
+    // TODO: refactor this.
+    if (!shouldReservePosition) {
+      tree.position = undefined
+      traverseAst(tree, null, node => {
+        // eslint-disable-next-line no-param-reassign
+        ;(node as IYastNode).position = undefined
+      })
+    }
+
     return result
   }
 
@@ -221,9 +234,6 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return inlineNodes
   }
 
-  /**
-   * Resolve fallback inline tokens
-   */
   function resolveFallbackTokens(
     tokens: ReadonlyArray<IYastInlineToken>,
     tokenStartIndex: number,
@@ -259,9 +269,6 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return results
   }
 
-  /**
-   * match-block phase.
-   */
   function matchBlockTokens(
     linesIterator: Iterable<ReadonlyArray<IPhrasingContentLine>>,
   ): IYastBlockTokenTree {
@@ -277,9 +284,6 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return root
   }
 
-  /**
-   * post-match-block phase.
-   */
   function postMatchBlockTokens(tokenTree: IYastBlockTokenTree): IYastBlockTokenTree {
     /**
      * 由于 transformMatch 拥有替换原节点的能力，因此采用后序处理，
@@ -308,35 +312,23 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return root
   }
 
-  /**
-   * parse-block phase.
-   */
   function parseBlockTokens(tokens: IYastBlockToken[]): IYastNode[] {
     const results: IYastNode[] = []
-    for (const token of tokens) {
-      // Post-order handle: But first check the validity of the current node
-      const hook = parseBlockHookMap.get(token._tokenizer)
+    for (let i0 = 0, i1: number; i0 < tokens.length; i0 = i1) {
+      const _tokenizer: string = tokens[i0]._tokenizer
+      for (i1 = i0 + 1; i1 < tokens.length && tokens[i1]._tokenizer === _tokenizer; ) i1 += 1
+
+      const hook = parseBlockHookMap.get(_tokenizer)
 
       // cannot find matched tokenizer
-      invariant(hook !== undefined, `[parseBlock] tokenizer '${token._tokenizer}' not found`)
+      invariant(hook !== undefined, `[parseBlock] tokenizer '${_tokenizer}' not found`)
 
-      // Post-order handle: Prioritize child nodes
-      const children: IYastNode[] = token.children != null ? parseBlockTokens(token.children) : []
-
-      // Post-order handle: Perform IParseBlockHook
-      const resultOfParse = hook.parse(token, children)
-      if (resultOfParse == null) continue
-
-      const node = resultOfParse
-      if (shouldReservePosition) node.position = token.position
-      results.push(node)
+      const nodes: IYastNode[] = hook.parse(tokens.slice(i0, i1))
+      results.push(...nodes)
     }
     return results
   }
 
-  /**
-   * match-inline phase.
-   */
   function matchInlineTokens(
     nodePoints: ReadonlyArray<INodePoint>,
     startIndexOfBlock: number,
@@ -360,9 +352,6 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return tokens
   }
 
-  /**
-   * parse-inline phase.
-   */
   function parseInline(tokens: ReadonlyArray<IYastInlineToken>): IYastNode[] {
     const results: IYastNode[] = []
     for (const o of tokens) {

@@ -6,6 +6,6 @@ export type {
   IHookContext as ITableHookContext,
   ITableCellToken,
   ITableRowToken,
-  ITableToken,
+  IToken as ITableToken,
   ITokenizerProps as ITableTokenizerProps,
 } from './types'

@@ -45,9 +45,20 @@ export class PhrasingContentTokenizer
     }
   }
 
-  public override readonly parse: IParseBlockHookCreator<T, IToken, INode> = () => ({
-    parse: token => buildPhrasingContent(token.lines),
-  })
+  public override readonly parse: IParseBlockHookCreator<T, IToken, INode> = function () {
+    return {
+      parse: tokens => {
+        const results: INode[] = []
+        for (const token of tokens) {
+          const node: INode | null = buildPhrasingContent(token.lines)
+          if (node !== null) {
+            results.push(node)
+          }
+        }
+        return results
+      },
+    }
+  }
 
   public override extractPhrasingContentLines(
     token: Readonly<IToken>,

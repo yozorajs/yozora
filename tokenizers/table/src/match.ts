@@ -1,6 +1,5 @@
 import type { ITableColumn, IYastAlignType, IYastNodePoint } from '@yozora/ast'
 import { TableCellType, TableRowType, TableType } from '@yozora/ast'
-import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
   IMatchBlockHookCreator,
@@ -12,7 +11,7 @@ import type {
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import { calcEndYastNodePoint, calcStartYastNodePoint } from '@yozora/core-tokenizer'
-import type { IHookContext, ITableCellToken, ITableRowToken, ITableToken, IToken, T } from './types'
+import type { IHookContext, ITableCellToken, ITableRowToken, IToken, T } from './types'
 
 /**
  * A table is an arrangement of data with rows and columns, consisting of
@@ -158,7 +157,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function (
         end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
       },
       columns,
-      children: [row],
+      rows: [row],
     }
     return {
       token,
@@ -178,12 +177,10 @@ export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function (
       return { status: 'notMatched' }
     }
 
-    const tableToken = token as ITableToken
-
-    const row = calcTableRow(line, tableToken.columns)
+    const row = calcTableRow(line, token.columns)
     if (row == null) return { status: 'notMatched' }
 
-    tableToken.children.push(row)
+    token.rows.push(row)
     return { status: 'opening', nextIndex: line.endIndex }
   }
 
@@ -258,7 +255,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function (
         _tokenizer,
         nodeType: TableCellType,
         position: { start: startPoint, end: endPoint },
-        children: phrasingContent == null ? [] : [phrasingContent],
+        contents: phrasingContent == null ? [] : [phrasingContent],
       }
       cells.push(cell)
 
@@ -287,7 +284,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function (
         _tokenizer,
         nodeType: TableCellType,
         position: { start: { ...endPoint }, end: { ...endPoint } },
-        children: [],
+        contents: [],
       }
       cells.push(cell)
     }
@@ -296,7 +293,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function (
       _tokenizer,
       nodeType: TableRowType,
       position: { start: startPoint, end: endPoint },
-      children: cells,
+      cells,
     }
     return row
   }

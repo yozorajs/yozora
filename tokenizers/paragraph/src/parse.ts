@@ -4,15 +4,20 @@ import type { IHookContext, INode, IToken, T } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IHookContext> = function (api) {
   return {
-    parse: token => {
-      const phrasingContent = api.buildPhrasingContent(token.lines)
-      if (phrasingContent == null) return null
+    parse: tokens => {
+      const results: INode[] = []
+      for (const token of tokens) {
+        const phrasingContent = api.buildPhrasingContent(token.lines)
+        if (phrasingContent == null) continue
 
-      const node: INode = {
-        type: ParagraphType,
-        children: [phrasingContent],
+        const node: INode = {
+          type: ParagraphType,
+          position: token.position,
+          children: [phrasingContent],
+        }
+        results.push(node)
       }
-      return node
+      return results
     },
   }
 }
