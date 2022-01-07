@@ -7,59 +7,6 @@
       "htmlAnswer": "<p><a href=\"localhost:5001/foo\">localhost:5001/foo</a></p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "link",
-                "url": "localhost:5001/foo",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "localhost:5001/foo",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 2,
-                        "offset": 1
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 20,
-                        "offset": 19
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 21,
-                    "offset": 20
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 21,
-                "offset": 20
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -71,7 +18,60 @@
             "column": 21,
             "offset": 20
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 21,
+                "offset": 20
+              }
+            },
+            "children": [
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 21,
+                    "offset": 20
+                  }
+                },
+                "url": "localhost:5001/foo",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 20,
+                        "offset": 19
+                      }
+                    },
+                    "value": "localhost:5001/foo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   ]

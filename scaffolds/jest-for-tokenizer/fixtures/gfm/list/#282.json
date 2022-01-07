@@ -7,151 +7,6 @@
       "htmlAnswer": "<ol>\n<li>foo</li>\n<li>bar</li>\n</ol>\n<ol start=\"3\">\n<li>baz</li>\n</ol>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "list",
-            "ordered": true,
-            "orderType": "1",
-            "start": 1,
-            "marker": 46,
-            "spread": false,
-            "children": [
-              {
-                "type": "listItem",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "foo",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 4,
-                        "offset": 3
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 8,
-                    "offset": 7
-                  }
-                }
-              },
-              {
-                "type": "listItem",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "bar",
-                    "position": {
-                      "start": {
-                        "line": 2,
-                        "column": 4,
-                        "offset": 10
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 7,
-                        "offset": 13
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 7
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 8,
-                    "offset": 14
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 8,
-                "offset": 14
-              }
-            }
-          },
-          {
-            "type": "list",
-            "ordered": true,
-            "orderType": "1",
-            "start": 3,
-            "marker": 41,
-            "spread": false,
-            "children": [
-              {
-                "type": "listItem",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "baz",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 4,
-                        "offset": 17
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 7,
-                        "offset": 20
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 14
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 7,
-                    "offset": 20
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 14
-              },
-              "end": {
-                "line": 3,
-                "column": 7,
-                "offset": 20
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -163,7 +18,152 @@
             "column": 7,
             "offset": 20
           }
-        }
+        },
+        "children": [
+          {
+            "type": "list",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 8,
+                "offset": 14
+              }
+            },
+            "ordered": true,
+            "orderType": "1",
+            "start": 1,
+            "marker": 46,
+            "spread": false,
+            "children": [
+              {
+                "type": "listItem",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 8,
+                    "offset": 7
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      }
+                    },
+                    "value": "foo"
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 7
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 8,
+                    "offset": 14
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 4,
+                        "offset": 10
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 7,
+                        "offset": 13
+                      }
+                    },
+                    "value": "bar"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "list",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 14
+              },
+              "end": {
+                "line": 3,
+                "column": 7,
+                "offset": 20
+              }
+            },
+            "ordered": true,
+            "orderType": "1",
+            "start": 3,
+            "marker": 41,
+            "spread": false,
+            "children": [
+              {
+                "type": "listItem",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 14
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 7,
+                    "offset": 20
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 4,
+                        "offset": 17
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 7,
+                        "offset": 20
+                      }
+                    },
+                    "value": "baz"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   ]

@@ -7,26 +7,6 @@
       "htmlAnswer": "",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "definition",
-            "identifier": "foo",
-            "label": "foo",
-            "url": "/url",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 12,
-                "offset": 11
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -38,7 +18,27 @@
             "column": 12,
             "offset": 11
           }
-        }
+        },
+        "children": [
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 12,
+                "offset": 11
+              }
+            },
+            "identifier": "foo",
+            "label": "foo",
+            "url": "/url"
+          }
+        ]
       }
     }
   ]

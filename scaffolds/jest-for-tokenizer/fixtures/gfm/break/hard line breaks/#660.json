@@ -7,16 +7,51 @@
       "htmlAnswer": "<p><em>foo<br />\nbar</em></p>",
       "parseAnswer": {
         "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 5,
+            "offset": 10
+          }
+        },
         "children": [
           {
             "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 5,
+                "offset": 10
+              }
+            },
             "children": [
               {
                 "type": "emphasis",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 5,
+                    "offset": 10
+                  }
+                },
                 "children": [
                   {
                     "type": "text",
-                    "value": "foo",
                     "position": {
                       "start": {
                         "line": 1,
@@ -28,7 +63,8 @@
                         "column": 5,
                         "offset": 4
                       }
-                    }
+                    },
+                    "value": "foo"
                   },
                   {
                     "type": "break",
@@ -47,7 +83,6 @@
                   },
                   {
                     "type": "text",
-                    "value": "\nbar",
                     "position": {
                       "start": {
                         "line": 1,
@@ -59,49 +94,14 @@
                         "column": 4,
                         "offset": 9
                       }
-                    }
+                    },
+                    "value": "\nbar"
                   }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 5,
-                    "offset": 10
-                  }
-                }
+                ]
               }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 5,
-                "offset": 10
-              }
-            }
+            ]
           }
-        ],
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 5,
-            "offset": 10
-          }
-        }
+        ]
       }
     }
   ]

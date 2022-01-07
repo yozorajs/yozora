@@ -7,59 +7,6 @@
       "htmlAnswer": "<p><a href=\"http://www.commonmark.org\">www.commonmark.org</a></p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "link",
-                "url": "http://www.commonmark.org",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "www.commonmark.org",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 19,
-                        "offset": 18
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 19,
-                    "offset": 18
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 19,
-                "offset": 18
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -71,7 +18,60 @@
             "column": 19,
             "offset": 18
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 19,
+                "offset": 18
+              }
+            },
+            "children": [
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 19,
+                    "offset": 18
+                  }
+                },
+                "url": "http://www.commonmark.org",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 19,
+                        "offset": 18
+                      }
+                    },
+                    "value": "www.commonmark.org"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   ]

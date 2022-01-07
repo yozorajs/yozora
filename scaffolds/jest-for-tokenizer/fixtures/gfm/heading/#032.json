@@ -7,212 +7,6 @@
       "htmlAnswer": "<h1>foo</h1>\n<h2>foo</h2>\n<h3>foo</h3>\n<h4>foo</h4>\n<h5>foo</h5>\n<h6>foo</h6>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "heading",
-            "depth": 1,
-            "children": [
-              {
-                "type": "text",
-                "value": "foo",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 3,
-                    "offset": 2
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 6,
-                    "offset": 5
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 7,
-                "offset": 6
-              }
-            }
-          },
-          {
-            "type": "heading",
-            "depth": 2,
-            "children": [
-              {
-                "type": "text",
-                "value": "foo",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 4,
-                    "offset": 9
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 7,
-                    "offset": 12
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 2,
-                "column": 1,
-                "offset": 6
-              },
-              "end": {
-                "line": 2,
-                "column": 8,
-                "offset": 13
-              }
-            }
-          },
-          {
-            "type": "heading",
-            "depth": 3,
-            "children": [
-              {
-                "type": "text",
-                "value": "foo",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 5,
-                    "offset": 17
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 8,
-                    "offset": 20
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 13
-              },
-              "end": {
-                "line": 3,
-                "column": 9,
-                "offset": 21
-              }
-            }
-          },
-          {
-            "type": "heading",
-            "depth": 4,
-            "children": [
-              {
-                "type": "text",
-                "value": "foo",
-                "position": {
-                  "start": {
-                    "line": 4,
-                    "column": 6,
-                    "offset": 26
-                  },
-                  "end": {
-                    "line": 4,
-                    "column": 9,
-                    "offset": 29
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 21
-              },
-              "end": {
-                "line": 4,
-                "column": 10,
-                "offset": 30
-              }
-            }
-          },
-          {
-            "type": "heading",
-            "depth": 5,
-            "children": [
-              {
-                "type": "text",
-                "value": "foo",
-                "position": {
-                  "start": {
-                    "line": 5,
-                    "column": 7,
-                    "offset": 36
-                  },
-                  "end": {
-                    "line": 5,
-                    "column": 10,
-                    "offset": 39
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 5,
-                "column": 1,
-                "offset": 30
-              },
-              "end": {
-                "line": 5,
-                "column": 11,
-                "offset": 40
-              }
-            }
-          },
-          {
-            "type": "heading",
-            "depth": 6,
-            "children": [
-              {
-                "type": "text",
-                "value": "foo",
-                "position": {
-                  "start": {
-                    "line": 6,
-                    "column": 8,
-                    "offset": 47
-                  },
-                  "end": {
-                    "line": 6,
-                    "column": 11,
-                    "offset": 50
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 6,
-                "column": 1,
-                "offset": 40
-              },
-              "end": {
-                "line": 6,
-                "column": 11,
-                "offset": 50
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -224,7 +18,213 @@
             "column": 11,
             "offset": 50
           }
-        }
+        },
+        "children": [
+          {
+            "type": "heading",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 7,
+                "offset": 6
+              }
+            },
+            "depth": 1,
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 3,
+                    "offset": 2
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 6,
+                    "offset": 5
+                  }
+                },
+                "value": "foo"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 1,
+                "offset": 6
+              },
+              "end": {
+                "line": 2,
+                "column": 8,
+                "offset": 13
+              }
+            },
+            "depth": 2,
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 4,
+                    "offset": 9
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 7,
+                    "offset": 12
+                  }
+                },
+                "value": "foo"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 13
+              },
+              "end": {
+                "line": 3,
+                "column": 9,
+                "offset": 21
+              }
+            },
+            "depth": 3,
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 5,
+                    "offset": 17
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 8,
+                    "offset": 20
+                  }
+                },
+                "value": "foo"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 21
+              },
+              "end": {
+                "line": 4,
+                "column": 10,
+                "offset": 30
+              }
+            },
+            "depth": 4,
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 4,
+                    "column": 6,
+                    "offset": 26
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 9,
+                    "offset": 29
+                  }
+                },
+                "value": "foo"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "position": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 30
+              },
+              "end": {
+                "line": 5,
+                "column": 11,
+                "offset": 40
+              }
+            },
+            "depth": 5,
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 7,
+                    "offset": 36
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 10,
+                    "offset": 39
+                  }
+                },
+                "value": "foo"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "position": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 40
+              },
+              "end": {
+                "line": 6,
+                "column": 11,
+                "offset": 50
+              }
+            },
+            "depth": 6,
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 6,
+                    "column": 8,
+                    "offset": 47
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 11,
+                    "offset": 50
+                  }
+                },
+                "value": "foo"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

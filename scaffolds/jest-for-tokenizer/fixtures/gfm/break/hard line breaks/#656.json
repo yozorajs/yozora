@@ -7,13 +7,36 @@
       "htmlAnswer": "<p>foo<br />\nbaz</p>",
       "parseAnswer": {
         "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 4,
+            "offset": 14
+          }
+        },
         "children": [
           {
             "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 4,
+                "offset": 14
+              }
+            },
             "children": [
               {
                 "type": "text",
-                "value": "foo",
                 "position": {
                   "start": {
                     "line": 1,
@@ -25,7 +48,8 @@
                     "column": 4,
                     "offset": 3
                   }
-                }
+                },
+                "value": "foo"
               },
               {
                 "type": "break",
@@ -44,7 +68,6 @@
               },
               {
                 "type": "text",
-                "value": "\nbaz",
                 "position": {
                   "start": {
                     "line": 1,
@@ -56,35 +79,12 @@
                     "column": 4,
                     "offset": 14
                   }
-                }
+                },
+                "value": "\nbaz"
               }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 4,
-                "offset": 14
-              }
-            }
+            ]
           }
-        ],
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 4,
-            "offset": 14
-          }
-        }
+        ]
       }
     }
   ]

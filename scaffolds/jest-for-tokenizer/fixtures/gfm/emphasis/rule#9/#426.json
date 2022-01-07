@@ -7,124 +7,6 @@
       "htmlAnswer": "<p>foo<strong><strong><strong>bar</strong></strong></strong>***baz</p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "foo",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 4,
-                    "offset": 3
-                  }
-                }
-              },
-              {
-                "type": "strong",
-                "children": [
-                  {
-                    "type": "strong",
-                    "children": [
-                      {
-                        "type": "strong",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "bar",
-                            "position": {
-                              "start": {
-                                "line": 1,
-                                "column": 10,
-                                "offset": 9
-                              },
-                              "end": {
-                                "line": 1,
-                                "column": 13,
-                                "offset": 12
-                              }
-                            }
-                          }
-                        ],
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 8,
-                            "offset": 7
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 15,
-                            "offset": 14
-                          }
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 6,
-                        "offset": 5
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 17,
-                        "offset": 16
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 4,
-                    "offset": 3
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 19,
-                    "offset": 18
-                  }
-                }
-              },
-              {
-                "type": "text",
-                "value": "***baz",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 19,
-                    "offset": 18
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 25,
-                    "offset": 24
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 25,
-                "offset": 24
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -136,7 +18,125 @@
             "column": 25,
             "offset": 24
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 25,
+                "offset": 24
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 4,
+                    "offset": 3
+                  }
+                },
+                "value": "foo"
+              },
+              {
+                "type": "strong",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 4,
+                    "offset": 3
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 19,
+                    "offset": 18
+                  }
+                },
+                "children": [
+                  {
+                    "type": "strong",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 6,
+                        "offset": 5
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 17,
+                        "offset": 16
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "strong",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 8,
+                            "offset": 7
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 15,
+                            "offset": 14
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 10,
+                                "offset": 9
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 13,
+                                "offset": 12
+                              }
+                            },
+                            "value": "bar"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 19,
+                    "offset": 18
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 25,
+                    "offset": 24
+                  }
+                },
+                "value": "***baz"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

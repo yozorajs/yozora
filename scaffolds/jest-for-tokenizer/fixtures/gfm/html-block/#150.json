@@ -7,24 +7,6 @@
       "htmlAnswer": "<!DOCTYPE html>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "html",
-            "value": "<!DOCTYPE html>",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 16,
-                "offset": 15
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -36,7 +18,25 @@
             "column": 16,
             "offset": 15
           }
-        }
+        },
+        "children": [
+          {
+            "type": "html",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 16,
+                "offset": 15
+              }
+            },
+            "value": "<!DOCTYPE html>"
+          }
+        ]
       }
     }
   ]

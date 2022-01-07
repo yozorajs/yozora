@@ -7,57 +7,6 @@
       "htmlAnswer": "<p><code>foo\\</code>bar`</p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "inlineCode",
-                "value": "foo\\",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 7,
-                    "offset": 6
-                  }
-                }
-              },
-              {
-                "type": "text",
-                "value": "bar`",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 7,
-                    "offset": 6
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 11,
-                    "offset": 10
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 11,
-                "offset": 10
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -69,7 +18,58 @@
             "column": 11,
             "offset": 10
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 11,
+                "offset": 10
+              }
+            },
+            "children": [
+              {
+                "type": "inlineCode",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  }
+                },
+                "value": "foo\\"
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 11,
+                    "offset": 10
+                  }
+                },
+                "value": "bar`"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

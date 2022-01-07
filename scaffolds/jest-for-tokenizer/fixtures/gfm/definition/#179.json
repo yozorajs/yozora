@@ -7,59 +7,6 @@
       "htmlAnswer": "<p>&quot;title&quot; ok</p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "definition",
-            "identifier": "foo",
-            "label": "foo",
-            "url": "/url",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 13,
-                "offset": 12
-              }
-            }
-          },
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "\"title\" ok",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 12
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 11,
-                    "offset": 22
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 2,
-                "column": 1,
-                "offset": 12
-              },
-              "end": {
-                "line": 2,
-                "column": 11,
-                "offset": 22
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -71,7 +18,60 @@
             "column": 11,
             "offset": 22
           }
-        }
+        },
+        "children": [
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 13,
+                "offset": 12
+              }
+            },
+            "identifier": "foo",
+            "label": "foo",
+            "url": "/url"
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 1,
+                "offset": 12
+              },
+              "end": {
+                "line": 2,
+                "column": 11,
+                "offset": 22
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 12
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 11,
+                    "offset": 22
+                  }
+                },
+                "value": "\"title\" ok"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

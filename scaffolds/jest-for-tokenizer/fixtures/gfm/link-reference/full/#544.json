@@ -7,75 +7,6 @@
       "htmlAnswer": "<p>[foo <bar attr=\"][ref]\"></p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "[foo ",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 6,
-                    "offset": 5
-                  }
-                }
-              },
-              {
-                "type": "html",
-                "value": "<bar attr=\"][ref]\">",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 6,
-                    "offset": 5
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 25,
-                    "offset": 24
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 26,
-                "offset": 25
-              }
-            }
-          },
-          {
-            "type": "definition",
-            "identifier": "ref",
-            "label": "ref",
-            "url": "/uri",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 26
-              },
-              "end": {
-                "line": 3,
-                "column": 12,
-                "offset": 37
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -87,7 +18,76 @@
             "column": 12,
             "offset": 37
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 26,
+                "offset": 25
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 6,
+                    "offset": 5
+                  }
+                },
+                "value": "[foo "
+              },
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 6,
+                    "offset": 5
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 25,
+                    "offset": 24
+                  }
+                },
+                "value": "<bar attr=\"][ref]\">"
+              }
+            ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 26
+              },
+              "end": {
+                "line": 3,
+                "column": 12,
+                "offset": 37
+              }
+            },
+            "identifier": "ref",
+            "label": "ref",
+            "url": "/uri"
+          }
+        ]
       }
     }
   ]

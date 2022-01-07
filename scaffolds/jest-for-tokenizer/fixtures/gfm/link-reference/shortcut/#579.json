@@ -7,113 +7,6 @@
       "htmlAnswer": "<p>[foo]<a href=\"/url1\">bar</a></p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "[foo]",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 6,
-                    "offset": 5
-                  }
-                }
-              },
-              {
-                "type": "linkReference",
-                "identifier": "baz",
-                "label": "baz",
-                "referenceType": "full",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "bar",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 10,
-                        "offset": 9
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 6,
-                    "offset": 5
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 16,
-                    "offset": 15
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 17,
-                "offset": 16
-              }
-            }
-          },
-          {
-            "type": "definition",
-            "identifier": "baz",
-            "label": "baz",
-            "url": "/url1",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 17
-              },
-              "end": {
-                "line": 3,
-                "column": 14,
-                "offset": 30
-              }
-            }
-          },
-          {
-            "type": "definition",
-            "identifier": "foo",
-            "label": "foo",
-            "url": "/url2",
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 30
-              },
-              "end": {
-                "line": 4,
-                "column": 13,
-                "offset": 42
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -125,7 +18,114 @@
             "column": 13,
             "offset": 42
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 17,
+                "offset": 16
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 6,
+                    "offset": 5
+                  }
+                },
+                "value": "[foo]"
+              },
+              {
+                "type": "linkReference",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 6,
+                    "offset": 5
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 16,
+                    "offset": 15
+                  }
+                },
+                "identifier": "baz",
+                "label": "baz",
+                "referenceType": "full",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 10,
+                        "offset": 9
+                      }
+                    },
+                    "value": "bar"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 17
+              },
+              "end": {
+                "line": 3,
+                "column": 14,
+                "offset": 30
+              }
+            },
+            "identifier": "baz",
+            "label": "baz",
+            "url": "/url1"
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 30
+              },
+              "end": {
+                "line": 4,
+                "column": 13,
+                "offset": 42
+              }
+            },
+            "identifier": "foo",
+            "label": "foo",
+            "url": "/url2"
+          }
+        ]
       }
     }
   ]

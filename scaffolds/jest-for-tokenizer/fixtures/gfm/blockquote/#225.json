@@ -7,58 +7,6 @@
       "htmlAnswer": "<blockquote>\n<p>bar\nbaz</p>\n</blockquote>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "blockquote",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "bar\nbaz",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 3,
-                        "offset": 2
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 4,
-                        "offset": 9
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 3,
-                    "offset": 2
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 4,
-                    "offset": 9
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 4,
-                "offset": 9
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -70,7 +18,59 @@
             "column": 4,
             "offset": 9
           }
-        }
+        },
+        "children": [
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 4,
+                "offset": 9
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 3,
+                    "offset": 2
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 4,
+                    "offset": 9
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 4,
+                        "offset": 9
+                      }
+                    },
+                    "value": "bar\nbaz"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   ]

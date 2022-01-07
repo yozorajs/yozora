@@ -7,146 +7,6 @@
       "htmlAnswer": "<ul>\n<li>\n<h1>Foo</h1>\n</li>\n<li>\n<h2>Bar</h2>\nbaz</li>\n</ul>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "list",
-            "ordered": false,
-            "marker": 45,
-            "spread": false,
-            "children": [
-              {
-                "type": "listItem",
-                "children": [
-                  {
-                    "type": "heading",
-                    "depth": 1,
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "Foo",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 5,
-                            "offset": 4
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 8,
-                            "offset": 7
-                          }
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 3,
-                        "offset": 2
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 9,
-                        "offset": 8
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 9,
-                    "offset": 8
-                  }
-                }
-              },
-              {
-                "type": "listItem",
-                "children": [
-                  {
-                    "type": "heading",
-                    "depth": 2,
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "Bar",
-                        "position": {
-                          "start": {
-                            "line": 2,
-                            "column": 3,
-                            "offset": 10
-                          },
-                          "end": {
-                            "line": 2,
-                            "column": 6,
-                            "offset": 13
-                          }
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 2,
-                        "column": 3,
-                        "offset": 10
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 7,
-                        "offset": 20
-                      }
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": "baz",
-                    "position": {
-                      "start": {
-                        "line": 4,
-                        "column": 3,
-                        "offset": 22
-                      },
-                      "end": {
-                        "line": 4,
-                        "column": 6,
-                        "offset": 25
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 8
-                  },
-                  "end": {
-                    "line": 4,
-                    "column": 6,
-                    "offset": 25
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 4,
-                "column": 6,
-                "offset": 25
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -158,7 +18,147 @@
             "column": 6,
             "offset": 25
           }
-        }
+        },
+        "children": [
+          {
+            "type": "list",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 4,
+                "column": 6,
+                "offset": 25
+              }
+            },
+            "ordered": false,
+            "marker": 45,
+            "spread": false,
+            "children": [
+              {
+                "type": "listItem",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 9,
+                    "offset": 8
+                  }
+                },
+                "children": [
+                  {
+                    "type": "heading",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 9,
+                        "offset": 8
+                      }
+                    },
+                    "depth": 1,
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 5,
+                            "offset": 4
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 8,
+                            "offset": 7
+                          }
+                        },
+                        "value": "Foo"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 8
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 6,
+                    "offset": 25
+                  }
+                },
+                "children": [
+                  {
+                    "type": "heading",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 3,
+                        "offset": 10
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 7,
+                        "offset": 20
+                      }
+                    },
+                    "depth": 2,
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 2,
+                            "column": 3,
+                            "offset": 10
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 6,
+                            "offset": 13
+                          }
+                        },
+                        "value": "Bar"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 4,
+                        "column": 3,
+                        "offset": 22
+                      },
+                      "end": {
+                        "line": 4,
+                        "column": 6,
+                        "offset": 25
+                      }
+                    },
+                    "value": "baz"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   ]

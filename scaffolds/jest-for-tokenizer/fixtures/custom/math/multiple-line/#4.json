@@ -6,24 +6,6 @@
       "input": "$$$\nf(x)=\\left\\lbrace\\begin{aligned}\n&x^2, &x < 0\\\\\n&0, &x = 0\\\\\n&x^3, &x > 0\n\\end{aligned}\\right.\n$$",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "math",
-            "value": "f(x)=\\left\\lbrace\\begin{aligned}\n&x^2, &x < 0\\\\\n&0, &x = 0\\\\\n&x^3, &x > 0\n\\end{aligned}\\right.\n$$",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 7,
-                "column": 3,
-                "offset": 101
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -35,7 +17,25 @@
             "column": 3,
             "offset": 101
           }
-        }
+        },
+        "children": [
+          {
+            "type": "math",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 7,
+                "column": 3,
+                "offset": 101
+              }
+            },
+            "value": "f(x)=\\left\\lbrace\\begin{aligned}\n&x^2, &x < 0\\\\\n&0, &x = 0\\\\\n&x^3, &x > 0\n\\end{aligned}\\right.\n$$"
+          }
+        ]
       }
     }
   ]

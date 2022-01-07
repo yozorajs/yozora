@@ -7,41 +7,6 @@
       "htmlAnswer": "<p><code>f&amp;ouml;&amp;ouml;</code></p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "inlineCode",
-                "value": "f&ouml;&ouml;",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 16,
-                    "offset": 15
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 16,
-                "offset": 15
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -53,7 +18,42 @@
             "column": 16,
             "offset": 15
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 16,
+                "offset": 15
+              }
+            },
+            "children": [
+              {
+                "type": "inlineCode",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 16,
+                    "offset": 15
+                  }
+                },
+                "value": "f&ouml;&ouml;"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

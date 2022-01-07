@@ -7,24 +7,6 @@
       "htmlAnswer": "<div>\nbar\n</div>\n*foo*",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "html",
-            "value": "<div>\nbar\n</div>\n*foo*",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 4,
-                "column": 6,
-                "offset": 22
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -36,7 +18,25 @@
             "column": 6,
             "offset": 22
           }
-        }
+        },
+        "children": [
+          {
+            "type": "html",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 4,
+                "column": 6,
+                "offset": 22
+              }
+            },
+            "value": "<div>\nbar\n</div>\n*foo*"
+          }
+        ]
       }
     }
   ]

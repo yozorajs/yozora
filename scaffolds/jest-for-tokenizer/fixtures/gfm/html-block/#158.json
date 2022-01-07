@@ -7,24 +7,6 @@
       "htmlAnswer": "<div>\n*Emphasized* text.\n</div>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "html",
-            "value": "<div>\n*Emphasized* text.\n</div>",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 3,
-                "column": 7,
-                "offset": 31
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -36,7 +18,25 @@
             "column": 7,
             "offset": 31
           }
-        }
+        },
+        "children": [
+          {
+            "type": "html",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 7,
+                "offset": 31
+              }
+            },
+            "value": "<div>\n*Emphasized* text.\n</div>"
+          }
+        ]
       }
     }
   ]

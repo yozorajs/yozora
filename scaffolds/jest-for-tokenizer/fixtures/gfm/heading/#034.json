@@ -7,74 +7,6 @@
       "htmlAnswer": "<p>#5 bolt</p>\n<p>#hashtag</p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "#5 bolt",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 8,
-                    "offset": 7
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 9,
-                "offset": 8
-              }
-            }
-          },
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "#hashtag",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 9
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 9,
-                    "offset": 17
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 9
-              },
-              "end": {
-                "line": 3,
-                "column": 9,
-                "offset": 17
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -86,7 +18,75 @@
             "column": 9,
             "offset": 17
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 9,
+                "offset": 8
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 8,
+                    "offset": 7
+                  }
+                },
+                "value": "#5 bolt"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 9
+              },
+              "end": {
+                "line": 3,
+                "column": 9,
+                "offset": 17
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 9
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 9,
+                    "offset": 17
+                  }
+                },
+                "value": "#hashtag"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

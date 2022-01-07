@@ -6,41 +6,6 @@
       "input": "$\nf(x)=\\left\\lbrace\\begin{aligned}\n&x^2, &x < 0\\\\\n&0, &x = 0\\\\\n&x^3, &x > 0\n\\end{aligned}\\right.\n$",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "inlineMath",
-                "value": "f(x)=\\left\\lbrace\\begin{aligned} &x^2, &x < 0\\\\\n&0, &x = 0\\\\\n&x^3, &x > 0\n\\end{aligned}\\right.",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 7,
-                    "column": 2,
-                    "offset": 98
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 7,
-                "column": 2,
-                "offset": 98
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -52,7 +17,42 @@
             "column": 2,
             "offset": 98
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 7,
+                "column": 2,
+                "offset": 98
+              }
+            },
+            "children": [
+              {
+                "type": "inlineMath",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 2,
+                    "offset": 98
+                  }
+                },
+                "value": "f(x)=\\left\\lbrace\\begin{aligned} &x^2, &x < 0\\\\\n&0, &x = 0\\\\\n&x^3, &x > 0\n\\end{aligned}\\right."
+              }
+            ]
+          }
+        ]
       }
     }
   ]

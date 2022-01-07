@@ -7,42 +7,6 @@
       "htmlAnswer": "<h1>foo#</h1>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "heading",
-            "depth": 1,
-            "children": [
-              {
-                "type": "text",
-                "value": "foo#",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 3,
-                    "offset": 2
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 7,
-                    "offset": 6
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 7,
-                "offset": 6
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -54,7 +18,43 @@
             "column": 7,
             "offset": 6
           }
-        }
+        },
+        "children": [
+          {
+            "type": "heading",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 7,
+                "offset": 6
+              }
+            },
+            "depth": 1,
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 3,
+                    "offset": 2
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  }
+                },
+                "value": "foo#"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

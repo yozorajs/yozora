@@ -7,63 +7,6 @@
       "htmlAnswer": "<p><img src=\"train.jpg\" alt=\"foo bar\" title=\"train &amp; tracks\" /></p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "imageReference",
-                "identifier": "foobar",
-                "label": "foobar",
-                "referenceType": "full",
-                "alt": "foo bar",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 21,
-                    "offset": 20
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 22,
-                "offset": 21
-              }
-            }
-          },
-          {
-            "type": "definition",
-            "identifier": "foobar",
-            "label": "FOOBAR",
-            "url": "train.jpg",
-            "title": "train & tracks",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 22
-              },
-              "end": {
-                "line": 3,
-                "column": 37,
-                "offset": 58
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -75,7 +18,64 @@
             "column": 37,
             "offset": 58
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 22,
+                "offset": 21
+              }
+            },
+            "children": [
+              {
+                "type": "imageReference",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 21,
+                    "offset": 20
+                  }
+                },
+                "identifier": "foobar",
+                "label": "foobar",
+                "referenceType": "full",
+                "alt": "foo bar"
+              }
+            ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 22
+              },
+              "end": {
+                "line": 3,
+                "column": 37,
+                "offset": 58
+              }
+            },
+            "identifier": "foobar",
+            "label": "FOOBAR",
+            "url": "train.jpg",
+            "title": "train & tracks"
+          }
+        ]
       }
     }
   ]

@@ -7,41 +7,6 @@
       "htmlAnswer": "<p>[link](foo\nbar)</p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "[link](foo\nbar)",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 5,
-                    "offset": 15
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 5,
-                "offset": 15
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -53,7 +18,42 @@
             "column": 5,
             "offset": 15
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 5,
+                "offset": 15
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 5,
+                    "offset": 15
+                  }
+                },
+                "value": "[link](foo\nbar)"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

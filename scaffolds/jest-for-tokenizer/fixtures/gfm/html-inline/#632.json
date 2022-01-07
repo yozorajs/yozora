@@ -7,73 +7,6 @@
       "htmlAnswer": "<p><a><bab><c2c></p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "html",
-                "value": "<a>",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 4,
-                    "offset": 3
-                  }
-                }
-              },
-              {
-                "type": "html",
-                "value": "<bab>",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 4,
-                    "offset": 3
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 9,
-                    "offset": 8
-                  }
-                }
-              },
-              {
-                "type": "html",
-                "value": "<c2c>",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 9,
-                    "offset": 8
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 14,
-                    "offset": 13
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 14,
-                "offset": 13
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -85,7 +18,74 @@
             "column": 14,
             "offset": 13
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 14,
+                "offset": 13
+              }
+            },
+            "children": [
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 4,
+                    "offset": 3
+                  }
+                },
+                "value": "<a>"
+              },
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 4,
+                    "offset": 3
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 9,
+                    "offset": 8
+                  }
+                },
+                "value": "<bab>"
+              },
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 9,
+                    "offset": 8
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 14,
+                    "offset": 13
+                  }
+                },
+                "value": "<c2c>"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

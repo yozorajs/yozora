@@ -7,74 +7,6 @@
       "htmlAnswer": "<p>[\n]</p>\n<p>[\n]: /uri</p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "[\n]",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 3,
-                    "offset": 4
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 4,
-                "offset": 5
-              }
-            }
-          },
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "[\n]: /uri",
-                "position": {
-                  "start": {
-                    "line": 4,
-                    "column": 1,
-                    "offset": 6
-                  },
-                  "end": {
-                    "line": 5,
-                    "column": 9,
-                    "offset": 16
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 6
-              },
-              "end": {
-                "line": 5,
-                "column": 9,
-                "offset": 16
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -86,7 +18,75 @@
             "column": 9,
             "offset": 16
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 4,
+                "offset": 5
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 3,
+                    "offset": 4
+                  }
+                },
+                "value": "[\n]"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 6
+              },
+              "end": {
+                "line": 5,
+                "column": 9,
+                "offset": 16
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 6
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 9,
+                    "offset": 16
+                  }
+                },
+                "value": "[\n]: /uri"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

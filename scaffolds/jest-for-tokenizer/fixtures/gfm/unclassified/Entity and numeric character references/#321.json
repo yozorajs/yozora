@@ -7,41 +7,6 @@
       "htmlAnswer": "<p>  &amp; © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸</p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "  & © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 33,
-                    "offset": 109
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 3,
-                "column": 33,
-                "offset": 109
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -53,7 +18,42 @@
             "column": 33,
             "offset": 109
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 33,
+                "offset": 109
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 33,
+                    "offset": 109
+                  }
+                },
+                "value": "  & © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

@@ -7,41 +7,6 @@
       "htmlAnswer": "<p><code>foo `` bar</code></p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "inlineCode",
-                "value": "foo `` bar",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 15,
-                    "offset": 14
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 15,
-                "offset": 14
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -53,7 +18,42 @@
             "column": 15,
             "offset": 14
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 15,
+                "offset": 14
+              }
+            },
+            "children": [
+              {
+                "type": "inlineCode",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 15,
+                    "offset": 14
+                  }
+                },
+                "value": "foo `` bar"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

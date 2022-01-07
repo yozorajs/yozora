@@ -7,110 +7,6 @@
       "htmlAnswer": "<h3>foo ###</h3>\n<h2>foo ###</h2>\n<h1>foo #</h1>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "heading",
-            "depth": 3,
-            "children": [
-              {
-                "type": "text",
-                "value": "foo ###",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 5,
-                    "offset": 4
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 13,
-                    "offset": 12
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 14,
-                "offset": 13
-              }
-            }
-          },
-          {
-            "type": "heading",
-            "depth": 2,
-            "children": [
-              {
-                "type": "text",
-                "value": "foo ###",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 4,
-                    "offset": 16
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 12,
-                    "offset": 24
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 2,
-                "column": 1,
-                "offset": 13
-              },
-              "end": {
-                "line": 2,
-                "column": 13,
-                "offset": 25
-              }
-            }
-          },
-          {
-            "type": "heading",
-            "depth": 1,
-            "children": [
-              {
-                "type": "text",
-                "value": "foo #",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 3,
-                    "offset": 27
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 9,
-                    "offset": 33
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 25
-              },
-              "end": {
-                "line": 3,
-                "column": 9,
-                "offset": 33
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -122,7 +18,111 @@
             "column": 9,
             "offset": 33
           }
-        }
+        },
+        "children": [
+          {
+            "type": "heading",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 14,
+                "offset": 13
+              }
+            },
+            "depth": 3,
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 5,
+                    "offset": 4
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 13,
+                    "offset": 12
+                  }
+                },
+                "value": "foo ###"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 1,
+                "offset": 13
+              },
+              "end": {
+                "line": 2,
+                "column": 13,
+                "offset": 25
+              }
+            },
+            "depth": 2,
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 4,
+                    "offset": 16
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 12,
+                    "offset": 24
+                  }
+                },
+                "value": "foo ###"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 25
+              },
+              "end": {
+                "line": 3,
+                "column": 9,
+                "offset": 33
+              }
+            },
+            "depth": 1,
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 3,
+                    "offset": 27
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 9,
+                    "offset": 33
+                  }
+                },
+                "value": "foo #"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

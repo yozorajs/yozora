@@ -7,41 +7,6 @@
       "htmlAnswer": "<p><code>foo   bar  baz</code></p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "inlineCode",
-                "value": "foo   bar  baz",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 5,
-                    "offset": 16
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 5,
-                "offset": 16
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -53,7 +18,42 @@
             "column": 5,
             "offset": 16
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 5,
+                "offset": 16
+              }
+            },
+            "children": [
+              {
+                "type": "inlineCode",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 5,
+                    "offset": 16
+                  }
+                },
+                "value": "foo   bar  baz"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

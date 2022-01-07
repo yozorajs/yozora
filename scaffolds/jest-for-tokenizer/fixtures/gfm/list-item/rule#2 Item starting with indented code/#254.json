@@ -7,94 +7,6 @@
       "htmlAnswer": "<ul>\n<li>foo</li>\n</ul>\n<p>bar</p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "list",
-            "ordered": false,
-            "marker": 45,
-            "spread": false,
-            "children": [
-              {
-                "type": "listItem",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "foo",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 6,
-                        "offset": 5
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 9,
-                        "offset": 8
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 10,
-                    "offset": 9
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 10,
-                "offset": 9
-              }
-            }
-          },
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "bar",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 3,
-                    "offset": 12
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 6,
-                    "offset": 15
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 10
-              },
-              "end": {
-                "line": 3,
-                "column": 6,
-                "offset": 15
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -106,7 +18,95 @@
             "column": 6,
             "offset": 15
           }
-        }
+        },
+        "children": [
+          {
+            "type": "list",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 10,
+                "offset": 9
+              }
+            },
+            "ordered": false,
+            "marker": 45,
+            "spread": false,
+            "children": [
+              {
+                "type": "listItem",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 10,
+                    "offset": 9
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 6,
+                        "offset": 5
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 9,
+                        "offset": 8
+                      }
+                    },
+                    "value": "foo"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 10
+              },
+              "end": {
+                "line": 3,
+                "column": 6,
+                "offset": 15
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 3,
+                    "offset": 12
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 6,
+                    "offset": 15
+                  }
+                },
+                "value": "bar"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

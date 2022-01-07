@@ -7,74 +7,6 @@
       "htmlAnswer": "<p>foo &lt;!--&gt; foo --&gt;</p>\n<p>foo &lt;!-- foo---&gt;</p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "foo <!--> foo -->",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 18,
-                    "offset": 17
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 19,
-                "offset": 18
-              }
-            }
-          },
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "foo <!-- foo--->",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 19
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 17,
-                    "offset": 35
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 19
-              },
-              "end": {
-                "line": 3,
-                "column": 17,
-                "offset": 35
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -86,7 +18,75 @@
             "column": 17,
             "offset": 35
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 19,
+                "offset": 18
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 18,
+                    "offset": 17
+                  }
+                },
+                "value": "foo <!--> foo -->"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 19
+              },
+              "end": {
+                "line": 3,
+                "column": 17,
+                "offset": 35
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 19
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 17,
+                    "offset": 35
+                  }
+                },
+                "value": "foo <!-- foo--->"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

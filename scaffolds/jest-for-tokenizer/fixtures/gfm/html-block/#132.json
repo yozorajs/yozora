@@ -7,24 +7,6 @@
       "htmlAnswer": "<a href=\"foo\">\n*bar*\n</a>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "html",
-            "value": "<a href=\"foo\">\n*bar*\n</a>",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 3,
-                "column": 5,
-                "offset": 25
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -36,7 +18,25 @@
             "column": 5,
             "offset": 25
           }
-        }
+        },
+        "children": [
+          {
+            "type": "html",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 5,
+                "offset": 25
+              }
+            },
+            "value": "<a href=\"foo\">\n*bar*\n</a>"
+          }
+        ]
       }
     }
   ]

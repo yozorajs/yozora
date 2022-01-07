@@ -7,26 +7,6 @@
       "htmlAnswer": "<pre><code>aaa\n```\n</code></pre>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "code",
-            "lang": "",
-            "meta": "",
-            "value": "aaa\n```\n",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 4,
-                "column": 4,
-                "offset": 15
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -38,7 +18,27 @@
             "column": 4,
             "offset": 15
           }
-        }
+        },
+        "children": [
+          {
+            "type": "code",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 4,
+                "column": 4,
+                "offset": 15
+              }
+            },
+            "lang": "",
+            "meta": "",
+            "value": "aaa\n```\n"
+          }
+        ]
       }
     }
   ]

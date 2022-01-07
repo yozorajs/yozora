@@ -7,57 +7,6 @@
       "htmlAnswer": "<!-- Foo\n\nbar\n   baz -->\n<p>okay</p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "html",
-            "value": "<!-- Foo\n\nbar\n   baz -->\n",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 4,
-                "column": 12,
-                "offset": 25
-              }
-            }
-          },
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "okay",
-                "position": {
-                  "start": {
-                    "line": 5,
-                    "column": 1,
-                    "offset": 25
-                  },
-                  "end": {
-                    "line": 5,
-                    "column": 5,
-                    "offset": 29
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 5,
-                "column": 1,
-                "offset": 25
-              },
-              "end": {
-                "line": 5,
-                "column": 5,
-                "offset": 29
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -69,7 +18,58 @@
             "column": 5,
             "offset": 29
           }
-        }
+        },
+        "children": [
+          {
+            "type": "html",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 4,
+                "column": 12,
+                "offset": 25
+              }
+            },
+            "value": "<!-- Foo\n\nbar\n   baz -->\n"
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 25
+              },
+              "end": {
+                "line": 5,
+                "column": 5,
+                "offset": 29
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 25
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 5,
+                    "offset": 29
+                  }
+                },
+                "value": "okay"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

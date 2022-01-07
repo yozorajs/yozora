@@ -7,24 +7,6 @@
       "htmlAnswer": "<pre><code>```\naaa\n```\n</code></pre>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "code",
-            "value": "```\naaa\n```",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 3,
-                "column": 8,
-                "offset": 23
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -36,7 +18,25 @@
             "column": 8,
             "offset": 23
           }
-        }
+        },
+        "children": [
+          {
+            "type": "code",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 8,
+                "offset": 23
+              }
+            },
+            "value": "```\naaa\n```"
+          }
+        ]
       }
     }
   ]

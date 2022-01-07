@@ -7,79 +7,6 @@
       "htmlAnswer": "<p><a href=\"/uri\">bar\\</a></p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "definition",
-            "identifier": "bar\\\\",
-            "label": "bar\\\\",
-            "url": "/uri",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 15,
-                "offset": 14
-              }
-            }
-          },
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "linkReference",
-                "identifier": "bar\\\\",
-                "label": "bar\\\\",
-                "referenceType": "shortcut",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "bar\\",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 2,
-                        "offset": 16
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 7,
-                        "offset": 21
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 15
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 8,
-                    "offset": 22
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 15
-              },
-              "end": {
-                "line": 3,
-                "column": 8,
-                "offset": 22
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -91,7 +18,80 @@
             "column": 8,
             "offset": 22
           }
-        }
+        },
+        "children": [
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 15,
+                "offset": 14
+              }
+            },
+            "identifier": "bar\\\\",
+            "label": "bar\\\\",
+            "url": "/uri"
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 15
+              },
+              "end": {
+                "line": 3,
+                "column": 8,
+                "offset": 22
+              }
+            },
+            "children": [
+              {
+                "type": "linkReference",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 15
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 8,
+                    "offset": 22
+                  }
+                },
+                "identifier": "bar\\\\",
+                "label": "bar\\\\",
+                "referenceType": "shortcut",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 2,
+                        "offset": 16
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 7,
+                        "offset": 21
+                      }
+                    },
+                    "value": "bar\\"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   ]

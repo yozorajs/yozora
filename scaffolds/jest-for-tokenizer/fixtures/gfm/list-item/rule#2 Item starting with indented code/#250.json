@@ -7,73 +7,6 @@
       "htmlAnswer": "<pre><code>indented code\n</code></pre>\n<p>paragraph</p>\n<pre><code>more code\n</code></pre>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "code",
-            "value": "indented code\n",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 2,
-                "offset": 19
-              }
-            }
-          },
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "paragraph",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 19
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 10,
-                    "offset": 28
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 19
-              },
-              "end": {
-                "line": 3,
-                "column": 11,
-                "offset": 29
-              }
-            }
-          },
-          {
-            "type": "code",
-            "value": "more code",
-            "position": {
-              "start": {
-                "line": 5,
-                "column": 1,
-                "offset": 30
-              },
-              "end": {
-                "line": 5,
-                "column": 14,
-                "offset": 43
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -85,7 +18,74 @@
             "column": 14,
             "offset": 43
           }
-        }
+        },
+        "children": [
+          {
+            "type": "code",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 2,
+                "offset": 19
+              }
+            },
+            "value": "indented code\n"
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 19
+              },
+              "end": {
+                "line": 3,
+                "column": 11,
+                "offset": 29
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 19
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 10,
+                    "offset": 28
+                  }
+                },
+                "value": "paragraph"
+              }
+            ]
+          },
+          {
+            "type": "code",
+            "position": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 30
+              },
+              "end": {
+                "line": 5,
+                "column": 14,
+                "offset": 43
+              }
+            },
+            "value": "more code"
+          }
+        ]
       }
     }
   ]

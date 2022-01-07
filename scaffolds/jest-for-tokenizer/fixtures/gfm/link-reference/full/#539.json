@@ -7,80 +7,6 @@
       "htmlAnswer": "<p><a href=\"/uri\"><img src=\"moon.jpg\" alt=\"moon\" /></a></p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "linkReference",
-                "identifier": "ref",
-                "label": "ref",
-                "referenceType": "full",
-                "children": [
-                  {
-                    "type": "image",
-                    "url": "moon.jpg",
-                    "alt": "moon",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 2,
-                        "offset": 1
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 19,
-                        "offset": 18
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 25,
-                    "offset": 24
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 26,
-                "offset": 25
-              }
-            }
-          },
-          {
-            "type": "definition",
-            "identifier": "ref",
-            "label": "ref",
-            "url": "/uri",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 26
-              },
-              "end": {
-                "line": 3,
-                "column": 12,
-                "offset": 37
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -92,7 +18,81 @@
             "column": 12,
             "offset": 37
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 26,
+                "offset": 25
+              }
+            },
+            "children": [
+              {
+                "type": "linkReference",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 25,
+                    "offset": 24
+                  }
+                },
+                "identifier": "ref",
+                "label": "ref",
+                "referenceType": "full",
+                "children": [
+                  {
+                    "type": "image",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 19,
+                        "offset": 18
+                      }
+                    },
+                    "url": "moon.jpg",
+                    "alt": "moon"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 26
+              },
+              "end": {
+                "line": 3,
+                "column": 12,
+                "offset": 37
+              }
+            },
+            "identifier": "ref",
+            "label": "ref",
+            "url": "/uri"
+          }
+        ]
       }
     }
   ]

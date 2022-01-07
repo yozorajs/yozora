@@ -6,60 +6,6 @@
       "input": "[^1]: /url",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "footnoteDefinition",
-            "identifier": "1",
-            "label": "1",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "/url",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 11,
-                        "offset": 10
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 6,
-                    "offset": 5
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 11,
-                    "offset": 10
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 11,
-                "offset": 10
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -71,7 +17,61 @@
             "column": 11,
             "offset": 10
           }
-        }
+        },
+        "children": [
+          {
+            "type": "footnoteDefinition",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 11,
+                "offset": 10
+              }
+            },
+            "identifier": "1",
+            "label": "1",
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 6,
+                    "offset": 5
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 11,
+                    "offset": 10
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 11,
+                        "offset": 10
+                      }
+                    },
+                    "value": "/url"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   ]

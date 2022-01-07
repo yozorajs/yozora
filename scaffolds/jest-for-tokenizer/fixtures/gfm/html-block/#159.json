@@ -7,88 +7,6 @@
       "htmlAnswer": "<table>\n<tr>\n<td>\nHi\n</td>\n</tr>\n</table>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "html",
-            "value": "<table>\n",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 9,
-                "offset": 8
-              }
-            }
-          },
-          {
-            "type": "html",
-            "value": "<tr>\n",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 9
-              },
-              "end": {
-                "line": 3,
-                "column": 6,
-                "offset": 14
-              }
-            }
-          },
-          {
-            "type": "html",
-            "value": "<td>\nHi\n</td>\n",
-            "position": {
-              "start": {
-                "line": 5,
-                "column": 1,
-                "offset": 15
-              },
-              "end": {
-                "line": 7,
-                "column": 7,
-                "offset": 29
-              }
-            }
-          },
-          {
-            "type": "html",
-            "value": "</tr>\n",
-            "position": {
-              "start": {
-                "line": 9,
-                "column": 1,
-                "offset": 30
-              },
-              "end": {
-                "line": 9,
-                "column": 7,
-                "offset": 36
-              }
-            }
-          },
-          {
-            "type": "html",
-            "value": "</table>",
-            "position": {
-              "start": {
-                "line": 11,
-                "column": 1,
-                "offset": 37
-              },
-              "end": {
-                "line": 11,
-                "column": 9,
-                "offset": 45
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -100,7 +18,89 @@
             "column": 9,
             "offset": 45
           }
-        }
+        },
+        "children": [
+          {
+            "type": "html",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 9,
+                "offset": 8
+              }
+            },
+            "value": "<table>\n"
+          },
+          {
+            "type": "html",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 9
+              },
+              "end": {
+                "line": 3,
+                "column": 6,
+                "offset": 14
+              }
+            },
+            "value": "<tr>\n"
+          },
+          {
+            "type": "html",
+            "position": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 15
+              },
+              "end": {
+                "line": 7,
+                "column": 7,
+                "offset": 29
+              }
+            },
+            "value": "<td>\nHi\n</td>\n"
+          },
+          {
+            "type": "html",
+            "position": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 30
+              },
+              "end": {
+                "line": 9,
+                "column": 7,
+                "offset": 36
+              }
+            },
+            "value": "</tr>\n"
+          },
+          {
+            "type": "html",
+            "position": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 37
+              },
+              "end": {
+                "line": 11,
+                "column": 9,
+                "offset": 45
+              }
+            },
+            "value": "</table>"
+          }
+        ]
       }
     }
   ]

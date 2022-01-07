@@ -7,74 +7,6 @@
       "htmlAnswer": "<p>This ~~has a</p>\n<p>new paragraph~~.</p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "This ~~has a",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 13,
-                    "offset": 12
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 14,
-                "offset": 13
-              }
-            }
-          },
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "new paragraph~~.",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 14
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 17,
-                    "offset": 30
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 14
-              },
-              "end": {
-                "line": 3,
-                "column": 17,
-                "offset": 30
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -86,7 +18,75 @@
             "column": 17,
             "offset": 30
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 14,
+                "offset": 13
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 13,
+                    "offset": 12
+                  }
+                },
+                "value": "This ~~has a"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 14
+              },
+              "end": {
+                "line": 3,
+                "column": 17,
+                "offset": 30
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 14
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 17,
+                    "offset": 30
+                  }
+                },
+                "value": "new paragraph~~."
+              }
+            ]
+          }
+        ]
       }
     }
   ]

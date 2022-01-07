@@ -7,57 +7,6 @@
       "htmlAnswer": "<p><code>&lt;a href=&quot;</code>&quot;&gt;`</p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "inlineCode",
-                "value": "<a href=\"",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 12,
-                    "offset": 11
-                  }
-                }
-              },
-              {
-                "type": "text",
-                "value": "\">`",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 12,
-                    "offset": 11
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 15,
-                    "offset": 14
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 15,
-                "offset": 14
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -69,7 +18,58 @@
             "column": 15,
             "offset": 14
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 15,
+                "offset": 14
+              }
+            },
+            "children": [
+              {
+                "type": "inlineCode",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 12,
+                    "offset": 11
+                  }
+                },
+                "value": "<a href=\""
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 12,
+                    "offset": 11
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 15,
+                    "offset": 14
+                  }
+                },
+                "value": "\">`"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

@@ -7,28 +7,21 @@
       "htmlAnswer": "<h1>Heading</h1>\n<pre><code>foo\n</code></pre>\n<h2>Heading</h2>\n<pre><code>foo\n</code></pre>\n<hr />",
       "parseAnswer": {
         "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 6,
+            "column": 5,
+            "offset": 45
+          }
+        },
         "children": [
           {
             "type": "heading",
-            "depth": 1,
-            "children": [
-              {
-                "type": "text",
-                "value": "Heading",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 3,
-                    "offset": 2
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 10,
-                    "offset": 9
-                  }
-                }
-              }
-            ],
             "position": {
               "start": {
                 "line": 1,
@@ -40,11 +33,29 @@
                 "column": 11,
                 "offset": 10
               }
-            }
+            },
+            "depth": 1,
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 3,
+                    "offset": 2
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 10,
+                    "offset": 9
+                  }
+                },
+                "value": "Heading"
+              }
+            ]
           },
           {
             "type": "code",
-            "value": "foo\n",
             "position": {
               "start": {
                 "line": 2,
@@ -56,29 +67,11 @@
                 "column": 9,
                 "offset": 18
               }
-            }
+            },
+            "value": "foo\n"
           },
           {
             "type": "heading",
-            "depth": 2,
-            "children": [
-              {
-                "type": "text",
-                "value": "Heading",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 18
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 8,
-                    "offset": 25
-                  }
-                }
-              }
-            ],
             "position": {
               "start": {
                 "line": 3,
@@ -90,11 +83,29 @@
                 "column": 8,
                 "offset": 33
               }
-            }
+            },
+            "depth": 2,
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 18
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 8,
+                    "offset": 25
+                  }
+                },
+                "value": "Heading"
+              }
+            ]
           },
           {
             "type": "code",
-            "value": "foo\n",
             "position": {
               "start": {
                 "line": 5,
@@ -106,7 +117,8 @@
                 "column": 9,
                 "offset": 41
               }
-            }
+            },
+            "value": "foo\n"
           },
           {
             "type": "thematicBreak",
@@ -123,19 +135,7 @@
               }
             }
           }
-        ],
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 6,
-            "column": 5,
-            "offset": 45
-          }
-        }
+        ]
       }
     }
   ]

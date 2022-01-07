@@ -6,26 +6,6 @@
       "input": ":::important\n:::",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "admonition",
-            "keyword": "important",
-            "title": [],
-            "children": [],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 4,
-                "offset": 16
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -37,7 +17,27 @@
             "column": 4,
             "offset": 16
           }
-        }
+        },
+        "children": [
+          {
+            "type": "admonition",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 4,
+                "offset": 16
+              }
+            },
+            "keyword": "important",
+            "title": [],
+            "children": []
+          }
+        ]
       }
     }
   ]

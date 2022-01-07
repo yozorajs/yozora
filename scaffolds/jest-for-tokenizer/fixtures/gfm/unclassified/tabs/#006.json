@@ -7,41 +7,6 @@
       "htmlAnswer": "<blockquote>\n<pre><code>  foo\n</code></pre>\n</blockquote>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "blockquote",
-            "children": [
-              {
-                "type": "code",
-                "value": "  foo",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 2,
-                    "offset": 1
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 7,
-                    "offset": 6
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 7,
-                "offset": 6
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -53,7 +18,42 @@
             "column": 7,
             "offset": 6
           }
-        }
+        },
+        "children": [
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 7,
+                "offset": 6
+              }
+            },
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 2,
+                    "offset": 1
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  }
+                },
+                "value": "  foo"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

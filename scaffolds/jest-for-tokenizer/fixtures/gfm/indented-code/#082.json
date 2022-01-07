@@ -7,24 +7,6 @@
       "htmlAnswer": "<pre><code>chunk1\n  \n  chunk2\n</code></pre>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "code",
-            "value": "chunk1\n  \n  chunk2",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 3,
-                "column": 13,
-                "offset": 30
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -36,7 +18,25 @@
             "column": 13,
             "offset": 30
           }
-        }
+        },
+        "children": [
+          {
+            "type": "code",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 13,
+                "offset": 30
+              }
+            },
+            "value": "chunk1\n  \n  chunk2"
+          }
+        ]
       }
     }
   ]

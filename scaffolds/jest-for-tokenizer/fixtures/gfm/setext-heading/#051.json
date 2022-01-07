@@ -7,75 +7,6 @@
       "htmlAnswer": "<h1>Foo <em>bar\nbaz</em></h1>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "heading",
-            "depth": 1,
-            "children": [
-              {
-                "type": "text",
-                "value": "Foo ",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 5,
-                    "offset": 4
-                  }
-                }
-              },
-              {
-                "type": "emphasis",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "bar\nbaz",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 6,
-                        "offset": 5
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 4,
-                        "offset": 12
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 5,
-                    "offset": 4
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 5,
-                    "offset": 13
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 3,
-                "column": 5,
-                "offset": 18
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -87,7 +18,76 @@
             "column": 5,
             "offset": 18
           }
-        }
+        },
+        "children": [
+          {
+            "type": "heading",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 5,
+                "offset": 18
+              }
+            },
+            "depth": 1,
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 5,
+                    "offset": 4
+                  }
+                },
+                "value": "Foo "
+              },
+              {
+                "type": "emphasis",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 5,
+                    "offset": 4
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 5,
+                    "offset": 13
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 6,
+                        "offset": 5
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 4,
+                        "offset": 12
+                      }
+                    },
+                    "value": "bar\nbaz"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   ]

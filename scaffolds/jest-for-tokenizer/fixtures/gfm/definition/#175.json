@@ -7,79 +7,6 @@
       "htmlAnswer": "<p><a href=\"/%CF%86%CE%BF%CF%85\">αγω</a></p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "definition",
-            "identifier": "αγω",
-            "label": "ΑΓΩ",
-            "url": "/%CF%86%CE%BF%CF%85",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 13,
-                "offset": 12
-              }
-            }
-          },
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "linkReference",
-                "identifier": "αγω",
-                "label": "αγω",
-                "referenceType": "shortcut",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "αγω",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 2,
-                        "offset": 14
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 5,
-                        "offset": 17
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 13
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 6,
-                    "offset": 18
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 13
-              },
-              "end": {
-                "line": 3,
-                "column": 6,
-                "offset": 18
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -91,7 +18,80 @@
             "column": 6,
             "offset": 18
           }
-        }
+        },
+        "children": [
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 13,
+                "offset": 12
+              }
+            },
+            "identifier": "αγω",
+            "label": "ΑΓΩ",
+            "url": "/%CF%86%CE%BF%CF%85"
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 13
+              },
+              "end": {
+                "line": 3,
+                "column": 6,
+                "offset": 18
+              }
+            },
+            "children": [
+              {
+                "type": "linkReference",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 13
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 6,
+                    "offset": 18
+                  }
+                },
+                "identifier": "αγω",
+                "label": "αγω",
+                "referenceType": "shortcut",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 2,
+                        "offset": 14
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 5,
+                        "offset": 17
+                      }
+                    },
+                    "value": "αγω"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   ]

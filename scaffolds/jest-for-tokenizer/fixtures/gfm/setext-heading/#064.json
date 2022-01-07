@@ -7,47 +7,21 @@
       "htmlAnswer": "<ul>\n<li>Foo</li>\n</ul>\n<hr />",
       "parseAnswer": {
         "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 4,
+            "offset": 9
+          }
+        },
         "children": [
           {
             "type": "list",
-            "ordered": false,
-            "marker": 45,
-            "spread": false,
-            "children": [
-              {
-                "type": "listItem",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Foo",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 3,
-                        "offset": 2
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 6,
-                        "offset": 5
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 7,
-                    "offset": 6
-                  }
-                }
-              }
-            ],
             "position": {
               "start": {
                 "line": 1,
@@ -59,7 +33,45 @@
                 "column": 7,
                 "offset": 6
               }
-            }
+            },
+            "ordered": false,
+            "marker": 45,
+            "spread": false,
+            "children": [
+              {
+                "type": "listItem",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 6,
+                        "offset": 5
+                      }
+                    },
+                    "value": "Foo"
+                  }
+                ]
+              }
+            ]
           },
           {
             "type": "thematicBreak",
@@ -76,19 +88,7 @@
               }
             }
           }
-        ],
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 4,
-            "offset": 9
-          }
-        }
+        ]
       }
     }
   ]

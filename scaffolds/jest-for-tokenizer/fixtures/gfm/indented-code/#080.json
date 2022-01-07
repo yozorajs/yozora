@@ -7,24 +7,6 @@
       "htmlAnswer": "<pre><code>&lt;a/&gt;\n*hi*\n\n- one\n</code></pre>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "code",
-            "value": "<a/>\n*hi*\n\n- one",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 4,
-                "column": 10,
-                "offset": 28
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -36,7 +18,25 @@
             "column": 10,
             "offset": 28
           }
-        }
+        },
+        "children": [
+          {
+            "type": "code",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 4,
+                "column": 10,
+                "offset": 28
+              }
+            },
+            "value": "<a/>\n*hi*\n\n- one"
+          }
+        ]
       }
     }
   ]

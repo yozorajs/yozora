@@ -7,174 +7,6 @@
       "htmlAnswer": "<p>Visit <a href=\"http://www.commonmark.org\">www.commonmark.org</a>.</p>\n<p>Visit <a href=\"http://www.commonmark.org/a.b\">www.commonmark.org/a.b</a>.</p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "Visit ",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 7,
-                    "offset": 6
-                  }
-                }
-              },
-              {
-                "type": "link",
-                "url": "http://www.commonmark.org",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "www.commonmark.org",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 25,
-                        "offset": 24
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 7,
-                    "offset": 6
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 25,
-                    "offset": 24
-                  }
-                }
-              },
-              {
-                "type": "text",
-                "value": ".",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 25,
-                    "offset": 24
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 26,
-                    "offset": 25
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 27,
-                "offset": 26
-              }
-            }
-          },
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "Visit ",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 27
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 7,
-                    "offset": 33
-                  }
-                }
-              },
-              {
-                "type": "link",
-                "url": "http://www.commonmark.org/a.b",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "www.commonmark.org/a.b",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 7,
-                        "offset": 33
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 29,
-                        "offset": 55
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 7,
-                    "offset": 33
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 29,
-                    "offset": 55
-                  }
-                }
-              },
-              {
-                "type": "text",
-                "value": ".",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 29,
-                    "offset": 55
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 30,
-                    "offset": 56
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 27
-              },
-              "end": {
-                "line": 3,
-                "column": 30,
-                "offset": 56
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -186,7 +18,175 @@
             "column": 30,
             "offset": 56
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 27,
+                "offset": 26
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  }
+                },
+                "value": "Visit "
+              },
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 25,
+                    "offset": 24
+                  }
+                },
+                "url": "http://www.commonmark.org",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 25,
+                        "offset": 24
+                      }
+                    },
+                    "value": "www.commonmark.org"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 25,
+                    "offset": 24
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 26,
+                    "offset": 25
+                  }
+                },
+                "value": "."
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 27
+              },
+              "end": {
+                "line": 3,
+                "column": 30,
+                "offset": 56
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 27
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 7,
+                    "offset": 33
+                  }
+                },
+                "value": "Visit "
+              },
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 7,
+                    "offset": 33
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 29,
+                    "offset": 55
+                  }
+                },
+                "url": "http://www.commonmark.org/a.b",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 7,
+                        "offset": 33
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 29,
+                        "offset": 55
+                      }
+                    },
+                    "value": "www.commonmark.org/a.b"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 29,
+                    "offset": 55
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 30,
+                    "offset": 56
+                  }
+                },
+                "value": "."
+              }
+            ]
+          }
+        ]
       }
     }
   ]

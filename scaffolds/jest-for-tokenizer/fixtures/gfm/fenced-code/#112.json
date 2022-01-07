@@ -7,26 +7,6 @@
       "htmlAnswer": "<pre><code class=\"language-ruby\">def foo(x)\n  return 3\nend\n</code></pre>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "code",
-            "lang": "ruby",
-            "meta": "",
-            "value": "def foo(x)\n  return 3\nend\n",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 5,
-                "column": 4,
-                "offset": 37
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -38,7 +18,27 @@
             "column": 4,
             "offset": 37
           }
-        }
+        },
+        "children": [
+          {
+            "type": "code",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 5,
+                "column": 4,
+                "offset": 37
+              }
+            },
+            "lang": "ruby",
+            "meta": "",
+            "value": "def foo(x)\n  return 3\nend\n"
+          }
+        ]
       }
     }
   ]

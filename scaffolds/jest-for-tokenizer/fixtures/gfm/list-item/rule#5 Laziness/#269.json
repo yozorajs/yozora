@@ -7,63 +7,6 @@
       "htmlAnswer": "<ol>\n<li>A paragraph\nwith two lines.</li>\n</ol>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "list",
-            "ordered": true,
-            "orderType": "1",
-            "start": 1,
-            "marker": 46,
-            "spread": false,
-            "children": [
-              {
-                "type": "listItem",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "A paragraph\nwith two lines.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 20,
-                        "offset": 37
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 20,
-                    "offset": 37
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 20,
-                "offset": 37
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -75,7 +18,64 @@
             "column": 20,
             "offset": 37
           }
-        }
+        },
+        "children": [
+          {
+            "type": "list",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 20,
+                "offset": 37
+              }
+            },
+            "ordered": true,
+            "orderType": "1",
+            "start": 1,
+            "marker": 46,
+            "spread": false,
+            "children": [
+              {
+                "type": "listItem",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 20,
+                    "offset": 37
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 20,
+                        "offset": 37
+                      }
+                    },
+                    "value": "A paragraph\nwith two lines."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   ]

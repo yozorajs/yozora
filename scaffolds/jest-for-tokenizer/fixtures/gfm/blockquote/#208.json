@@ -7,92 +7,6 @@
       "htmlAnswer": "<blockquote>\n<h1>Foo</h1>\n<p>bar\nbaz</p>\n</blockquote>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "blockquote",
-            "children": [
-              {
-                "type": "heading",
-                "depth": 1,
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Foo",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 8,
-                        "offset": 7
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 11,
-                        "offset": 10
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 6,
-                    "offset": 5
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 12,
-                    "offset": 11
-                  }
-                }
-              },
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "bar\nbaz",
-                    "position": {
-                      "start": {
-                        "line": 2,
-                        "column": 6,
-                        "offset": 16
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 7,
-                        "offset": 26
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 6,
-                    "offset": 16
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 7,
-                    "offset": 26
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 3,
-                "column": 7,
-                "offset": 26
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -104,7 +18,93 @@
             "column": 7,
             "offset": 26
           }
-        }
+        },
+        "children": [
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 7,
+                "offset": 26
+              }
+            },
+            "children": [
+              {
+                "type": "heading",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 6,
+                    "offset": 5
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 12,
+                    "offset": 11
+                  }
+                },
+                "depth": 1,
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 8,
+                        "offset": 7
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 11,
+                        "offset": 10
+                      }
+                    },
+                    "value": "Foo"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 6,
+                    "offset": 16
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 7,
+                    "offset": 26
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 6,
+                        "offset": 16
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 7,
+                        "offset": 26
+                      }
+                    },
+                    "value": "bar\nbaz"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   ]

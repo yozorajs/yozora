@@ -7,130 +7,6 @@
       "htmlAnswer": "<h1><a href=\"/url\">Foo</a></h1>\n<blockquote>\n<p>bar</p>\n</blockquote>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "heading",
-            "depth": 1,
-            "children": [
-              {
-                "type": "linkReference",
-                "identifier": "foo",
-                "label": "Foo",
-                "referenceType": "shortcut",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Foo",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 4,
-                        "offset": 3
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 3,
-                    "offset": 2
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 8,
-                    "offset": 7
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 9,
-                "offset": 8
-              }
-            }
-          },
-          {
-            "type": "definition",
-            "identifier": "foo",
-            "label": "foo",
-            "url": "/url",
-            "position": {
-              "start": {
-                "line": 2,
-                "column": 1,
-                "offset": 8
-              },
-              "end": {
-                "line": 2,
-                "column": 13,
-                "offset": 20
-              }
-            }
-          },
-          {
-            "type": "blockquote",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "bar",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 3,
-                        "offset": 22
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 6,
-                        "offset": 25
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 3,
-                    "offset": 22
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 6,
-                    "offset": 25
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 20
-              },
-              "end": {
-                "line": 3,
-                "column": 6,
-                "offset": 25
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -142,7 +18,131 @@
             "column": 6,
             "offset": 25
           }
-        }
+        },
+        "children": [
+          {
+            "type": "heading",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 9,
+                "offset": 8
+              }
+            },
+            "depth": 1,
+            "children": [
+              {
+                "type": "linkReference",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 3,
+                    "offset": 2
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 8,
+                    "offset": 7
+                  }
+                },
+                "identifier": "foo",
+                "label": "Foo",
+                "referenceType": "shortcut",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      }
+                    },
+                    "value": "Foo"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 1,
+                "offset": 8
+              },
+              "end": {
+                "line": 2,
+                "column": 13,
+                "offset": 20
+              }
+            },
+            "identifier": "foo",
+            "label": "foo",
+            "url": "/url"
+          },
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 20
+              },
+              "end": {
+                "line": 3,
+                "column": 6,
+                "offset": 25
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 3,
+                    "offset": 22
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 6,
+                    "offset": 25
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 3,
+                        "offset": 22
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 6,
+                        "offset": 25
+                      }
+                    },
+                    "value": "bar"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   ]

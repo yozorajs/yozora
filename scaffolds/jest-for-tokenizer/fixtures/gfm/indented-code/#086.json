@@ -7,24 +7,6 @@
       "htmlAnswer": "<pre><code>    foo\nbar\n</code></pre>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "code",
-            "value": "    foo\nbar",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 8,
-                "offset": 19
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -36,7 +18,25 @@
             "column": 8,
             "offset": 19
           }
-        }
+        },
+        "children": [
+          {
+            "type": "code",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 8,
+                "offset": 19
+              }
+            },
+            "value": "    foo\nbar"
+          }
+        ]
       }
     }
   ]

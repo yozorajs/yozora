@@ -7,24 +7,6 @@
       "htmlAnswer": "<script>\nfoo\n</script>1. *bar*",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "html",
-            "value": "<script>\nfoo\n</script>1. *bar*",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 3,
-                "column": 18,
-                "offset": 30
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -36,7 +18,25 @@
             "column": 18,
             "offset": 30
           }
-        }
+        },
+        "children": [
+          {
+            "type": "html",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 18,
+                "offset": 30
+              }
+            },
+            "value": "<script>\nfoo\n</script>1. *bar*"
+          }
+        ]
       }
     }
   ]

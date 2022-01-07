@@ -6,90 +6,6 @@
       "input": "Here is a footnote^[you can type them inline, which may be easier, since you don’t have to pick an identifier and move down to type the note.] additional thing.",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "Here is a footnote",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 19,
-                    "offset": 18
-                  }
-                }
-              },
-              {
-                "type": "footnote",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "you can type them inline, which may be easier, since you don’t have to pick an identifier and move down to type the note.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 21,
-                        "offset": 20
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 142,
-                        "offset": 141
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 19,
-                    "offset": 18
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 143,
-                    "offset": 142
-                  }
-                }
-              },
-              {
-                "type": "text",
-                "value": " additional thing.",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 143,
-                    "offset": 142
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 161,
-                    "offset": 160
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 161,
-                "offset": 160
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -101,7 +17,91 @@
             "column": 161,
             "offset": 160
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 161,
+                "offset": 160
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 19,
+                    "offset": 18
+                  }
+                },
+                "value": "Here is a footnote"
+              },
+              {
+                "type": "footnote",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 19,
+                    "offset": 18
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 143,
+                    "offset": 142
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 21,
+                        "offset": 20
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 142,
+                        "offset": 141
+                      }
+                    },
+                    "value": "you can type them inline, which may be easier, since you don’t have to pick an identifier and move down to type the note."
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 143,
+                    "offset": 142
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 161,
+                    "offset": 160
+                  }
+                },
+                "value": " additional thing."
+              }
+            ]
+          }
+        ]
       }
     }
   ]

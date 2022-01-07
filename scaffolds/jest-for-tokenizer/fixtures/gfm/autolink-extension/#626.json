@@ -7,126 +7,6 @@
       "htmlAnswer": "<p><a href=\"http://www.google.com/search?q=commonmark&amp;hl=en\">www.google.com/search?q=commonmark&amp;hl=en</a></p>\n<p><a href=\"http://www.google.com/search?q=commonmark\">www.google.com/search?q=commonmark</a>&amp;hl;</p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "link",
-                "url": "http://www.google.com/search?q=commonmark&hl=en",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "www.google.com/search?q=commonmark&hl=en",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 41,
-                        "offset": 40
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 41,
-                    "offset": 40
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 42,
-                "offset": 41
-              }
-            }
-          },
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "link",
-                "url": "http://www.google.com/search?q=commonmark",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "www.google.com/search?q=commonmark",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 1,
-                        "offset": 42
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 35,
-                        "offset": 76
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 42
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 35,
-                    "offset": 76
-                  }
-                }
-              },
-              {
-                "type": "text",
-                "value": "&hl;",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 35,
-                    "offset": 76
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 39,
-                    "offset": 80
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 42
-              },
-              "end": {
-                "line": 3,
-                "column": 39,
-                "offset": 80
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -138,7 +18,127 @@
             "column": 39,
             "offset": 80
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 42,
+                "offset": 41
+              }
+            },
+            "children": [
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 41,
+                    "offset": 40
+                  }
+                },
+                "url": "http://www.google.com/search?q=commonmark&hl=en",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 41,
+                        "offset": 40
+                      }
+                    },
+                    "value": "www.google.com/search?q=commonmark&hl=en"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 42
+              },
+              "end": {
+                "line": 3,
+                "column": 39,
+                "offset": 80
+              }
+            },
+            "children": [
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 42
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 35,
+                    "offset": 76
+                  }
+                },
+                "url": "http://www.google.com/search?q=commonmark",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 42
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 35,
+                        "offset": 76
+                      }
+                    },
+                    "value": "www.google.com/search?q=commonmark"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 35,
+                    "offset": 76
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 39,
+                    "offset": 80
+                  }
+                },
+                "value": "&hl;"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

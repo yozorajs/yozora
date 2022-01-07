@@ -7,57 +7,6 @@
       "htmlAnswer": "<p><code> </code>\naaa</p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "inlineCode",
-                "value": " ",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 8,
-                    "offset": 7
-                  }
-                }
-              },
-              {
-                "type": "text",
-                "value": "\naaa",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 8,
-                    "offset": 7
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 4,
-                    "offset": 11
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 4,
-                "offset": 11
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -69,7 +18,58 @@
             "column": 4,
             "offset": 11
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 4,
+                "offset": 11
+              }
+            },
+            "children": [
+              {
+                "type": "inlineCode",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 8,
+                    "offset": 7
+                  }
+                },
+                "value": " "
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 8,
+                    "offset": 7
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 4,
+                    "offset": 11
+                  }
+                },
+                "value": "\naaa"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

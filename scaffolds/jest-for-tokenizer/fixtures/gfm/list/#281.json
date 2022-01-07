@@ -7,147 +7,6 @@
       "htmlAnswer": "<ul>\n<li>foo</li>\n<li>bar</li>\n</ul>\n<ul>\n<li>baz</li>\n</ul>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "list",
-            "ordered": false,
-            "marker": 45,
-            "spread": false,
-            "children": [
-              {
-                "type": "listItem",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "foo",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 3,
-                        "offset": 2
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 6,
-                        "offset": 5
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 7,
-                    "offset": 6
-                  }
-                }
-              },
-              {
-                "type": "listItem",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "bar",
-                    "position": {
-                      "start": {
-                        "line": 2,
-                        "column": 3,
-                        "offset": 8
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 6,
-                        "offset": 11
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 6
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 7,
-                    "offset": 12
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 7,
-                "offset": 12
-              }
-            }
-          },
-          {
-            "type": "list",
-            "ordered": false,
-            "marker": 43,
-            "spread": false,
-            "children": [
-              {
-                "type": "listItem",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "baz",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 3,
-                        "offset": 14
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 6,
-                        "offset": 17
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 12
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 6,
-                    "offset": 17
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 12
-              },
-              "end": {
-                "line": 3,
-                "column": 6,
-                "offset": 17
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -159,7 +18,148 @@
             "column": 6,
             "offset": 17
           }
-        }
+        },
+        "children": [
+          {
+            "type": "list",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 7,
+                "offset": 12
+              }
+            },
+            "ordered": false,
+            "marker": 45,
+            "spread": false,
+            "children": [
+              {
+                "type": "listItem",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 6,
+                        "offset": 5
+                      }
+                    },
+                    "value": "foo"
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 6
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 7,
+                    "offset": 12
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 3,
+                        "offset": 8
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 6,
+                        "offset": 11
+                      }
+                    },
+                    "value": "bar"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "list",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 12
+              },
+              "end": {
+                "line": 3,
+                "column": 6,
+                "offset": 17
+              }
+            },
+            "ordered": false,
+            "marker": 43,
+            "spread": false,
+            "children": [
+              {
+                "type": "listItem",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 12
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 6,
+                    "offset": 17
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 3,
+                        "offset": 14
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 6,
+                        "offset": 17
+                      }
+                    },
+                    "value": "baz"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   ]

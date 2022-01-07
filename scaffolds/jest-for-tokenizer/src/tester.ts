@@ -167,6 +167,11 @@ export class TokenizerTester<T = unknown> {
    */
   public format<T = unknown>(data: T): Partial<T> {
     const stringified = JSON.stringify(data, (key: string, val: any) => {
+      if (val && val.type && val.position) {
+        const { type, position, ...restData } = val
+        return { type, position, ...restData }
+      }
+
       switch (key) {
         default:
           return val

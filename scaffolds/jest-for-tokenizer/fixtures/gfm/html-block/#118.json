@@ -7,122 +7,6 @@
       "htmlAnswer": "<table><tr><td>\n<pre>\n**Hello**,\n<p><em>world</em>.\n</pre></p>\n</td></tr></table>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "html",
-            "value": "<table><tr><td>\n<pre>\n**Hello**,\n",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 3,
-                "column": 12,
-                "offset": 33
-              }
-            }
-          },
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "emphasis",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "world",
-                    "position": {
-                      "start": {
-                        "line": 5,
-                        "column": 2,
-                        "offset": 35
-                      },
-                      "end": {
-                        "line": 5,
-                        "column": 7,
-                        "offset": 40
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 5,
-                    "column": 1,
-                    "offset": 34
-                  },
-                  "end": {
-                    "line": 5,
-                    "column": 8,
-                    "offset": 41
-                  }
-                }
-              },
-              {
-                "type": "text",
-                "value": ".\n",
-                "position": {
-                  "start": {
-                    "line": 5,
-                    "column": 8,
-                    "offset": 41
-                  },
-                  "end": {
-                    "line": 5,
-                    "column": 10,
-                    "offset": 43
-                  }
-                }
-              },
-              {
-                "type": "html",
-                "value": "</pre>",
-                "position": {
-                  "start": {
-                    "line": 6,
-                    "column": 1,
-                    "offset": 43
-                  },
-                  "end": {
-                    "line": 6,
-                    "column": 7,
-                    "offset": 49
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 5,
-                "column": 1,
-                "offset": 34
-              },
-              "end": {
-                "line": 6,
-                "column": 8,
-                "offset": 50
-              }
-            }
-          },
-          {
-            "type": "html",
-            "value": "</td></tr></table>",
-            "position": {
-              "start": {
-                "line": 7,
-                "column": 1,
-                "offset": 50
-              },
-              "end": {
-                "line": 7,
-                "column": 19,
-                "offset": 68
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -134,7 +18,123 @@
             "column": 19,
             "offset": 68
           }
-        }
+        },
+        "children": [
+          {
+            "type": "html",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 12,
+                "offset": 33
+              }
+            },
+            "value": "<table><tr><td>\n<pre>\n**Hello**,\n"
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 34
+              },
+              "end": {
+                "line": 6,
+                "column": 8,
+                "offset": 50
+              }
+            },
+            "children": [
+              {
+                "type": "emphasis",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 34
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 8,
+                    "offset": 41
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 5,
+                        "column": 2,
+                        "offset": 35
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 7,
+                        "offset": 40
+                      }
+                    },
+                    "value": "world"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 8,
+                    "offset": 41
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 10,
+                    "offset": 43
+                  }
+                },
+                "value": ".\n"
+              },
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 6,
+                    "column": 1,
+                    "offset": 43
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 7,
+                    "offset": 49
+                  }
+                },
+                "value": "</pre>"
+              }
+            ]
+          },
+          {
+            "type": "html",
+            "position": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 50
+              },
+              "end": {
+                "line": 7,
+                "column": 19,
+                "offset": 68
+              }
+            },
+            "value": "</td></tr></table>"
+          }
+        ]
       }
     }
   ]

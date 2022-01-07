@@ -6,112 +6,6 @@
       "input": "^[a[foo][bar]]\n\n[bar]: /url",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "footnote",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "a",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 3,
-                        "offset": 2
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 4,
-                        "offset": 3
-                      }
-                    }
-                  },
-                  {
-                    "type": "linkReference",
-                    "identifier": "bar",
-                    "label": "bar",
-                    "referenceType": "full",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "foo",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 5,
-                            "offset": 4
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 8,
-                            "offset": 7
-                          }
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 4,
-                        "offset": 3
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 14,
-                        "offset": 13
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 15,
-                    "offset": 14
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 16,
-                "offset": 15
-              }
-            }
-          },
-          {
-            "type": "definition",
-            "identifier": "bar",
-            "label": "bar",
-            "url": "/url",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 16
-              },
-              "end": {
-                "line": 3,
-                "column": 12,
-                "offset": 27
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -123,7 +17,113 @@
             "column": 12,
             "offset": 27
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 16,
+                "offset": 15
+              }
+            },
+            "children": [
+              {
+                "type": "footnote",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 15,
+                    "offset": 14
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      }
+                    },
+                    "value": "a"
+                  },
+                  {
+                    "type": "linkReference",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 14,
+                        "offset": 13
+                      }
+                    },
+                    "identifier": "bar",
+                    "label": "bar",
+                    "referenceType": "full",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 5,
+                            "offset": 4
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 8,
+                            "offset": 7
+                          }
+                        },
+                        "value": "foo"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 16
+              },
+              "end": {
+                "line": 3,
+                "column": 12,
+                "offset": 27
+              }
+            },
+            "identifier": "bar",
+            "label": "bar",
+            "url": "/url"
+          }
+        ]
       }
     }
   ]

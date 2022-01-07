@@ -7,146 +7,6 @@
       "htmlAnswer": "<ol>\n<li>\n<p>A paragraph\nwith two lines.</p>\n<pre><code>indented code\n</code></pre>\n<blockquote>\n<p>A block quote.</p>\n</blockquote>\n</li>\n</ol>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "list",
-            "ordered": true,
-            "orderType": "1",
-            "start": 1,
-            "marker": 46,
-            "spread": true,
-            "children": [
-              {
-                "type": "listItem",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "A paragraph\nwith two lines.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 8,
-                            "offset": 7
-                          },
-                          "end": {
-                            "line": 2,
-                            "column": 23,
-                            "offset": 41
-                          }
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 8,
-                        "offset": 7
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 24,
-                        "offset": 42
-                      }
-                    }
-                  },
-                  {
-                    "type": "code",
-                    "value": "indented code\n",
-                    "position": {
-                      "start": {
-                        "line": 4,
-                        "column": 8,
-                        "offset": 50
-                      },
-                      "end": {
-                        "line": 5,
-                        "column": 2,
-                        "offset": 69
-                      }
-                    }
-                  },
-                  {
-                    "type": "blockquote",
-                    "children": [
-                      {
-                        "type": "paragraph",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "A block quote.",
-                            "position": {
-                              "start": {
-                                "line": 6,
-                                "column": 10,
-                                "offset": 78
-                              },
-                              "end": {
-                                "line": 6,
-                                "column": 24,
-                                "offset": 92
-                              }
-                            }
-                          }
-                        ],
-                        "position": {
-                          "start": {
-                            "line": 6,
-                            "column": 10,
-                            "offset": 78
-                          },
-                          "end": {
-                            "line": 6,
-                            "column": 24,
-                            "offset": 92
-                          }
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 6,
-                        "column": 8,
-                        "offset": 76
-                      },
-                      "end": {
-                        "line": 6,
-                        "column": 24,
-                        "offset": 92
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 6,
-                    "column": 24,
-                    "offset": 92
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 6,
-                "column": 24,
-                "offset": 92
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -158,7 +18,147 @@
             "column": 24,
             "offset": 92
           }
-        }
+        },
+        "children": [
+          {
+            "type": "list",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 6,
+                "column": 24,
+                "offset": 92
+              }
+            },
+            "ordered": true,
+            "orderType": "1",
+            "start": 1,
+            "marker": 46,
+            "spread": true,
+            "children": [
+              {
+                "type": "listItem",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 24,
+                    "offset": 92
+                  }
+                },
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 8,
+                        "offset": 7
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 24,
+                        "offset": 42
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 8,
+                            "offset": 7
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 23,
+                            "offset": 41
+                          }
+                        },
+                        "value": "A paragraph\nwith two lines."
+                      }
+                    ]
+                  },
+                  {
+                    "type": "code",
+                    "position": {
+                      "start": {
+                        "line": 4,
+                        "column": 8,
+                        "offset": 50
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 2,
+                        "offset": 69
+                      }
+                    },
+                    "value": "indented code\n"
+                  },
+                  {
+                    "type": "blockquote",
+                    "position": {
+                      "start": {
+                        "line": 6,
+                        "column": 8,
+                        "offset": 76
+                      },
+                      "end": {
+                        "line": 6,
+                        "column": 24,
+                        "offset": 92
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "position": {
+                          "start": {
+                            "line": 6,
+                            "column": 10,
+                            "offset": 78
+                          },
+                          "end": {
+                            "line": 6,
+                            "column": 24,
+                            "offset": 92
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 6,
+                                "column": 10,
+                                "offset": 78
+                              },
+                              "end": {
+                                "line": 6,
+                                "column": 24,
+                                "offset": 92
+                              }
+                            },
+                            "value": "A block quote."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   ]

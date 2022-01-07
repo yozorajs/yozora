@@ -7,95 +7,6 @@
       "htmlAnswer": "<p><a href=\"/uri\">foo *bar</a>*</p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "linkReference",
-                "identifier": "ref",
-                "label": "ref",
-                "referenceType": "full",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "foo *bar",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 2,
-                        "offset": 1
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 10,
-                        "offset": 9
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 16,
-                    "offset": 15
-                  }
-                }
-              },
-              {
-                "type": "text",
-                "value": "*",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 16,
-                    "offset": 15
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 17,
-                    "offset": 16
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 18,
-                "offset": 17
-              }
-            }
-          },
-          {
-            "type": "definition",
-            "identifier": "ref",
-            "label": "ref",
-            "url": "/uri",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 18
-              },
-              "end": {
-                "line": 3,
-                "column": 12,
-                "offset": 29
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -107,7 +18,96 @@
             "column": 12,
             "offset": 29
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 18,
+                "offset": 17
+              }
+            },
+            "children": [
+              {
+                "type": "linkReference",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 16,
+                    "offset": 15
+                  }
+                },
+                "identifier": "ref",
+                "label": "ref",
+                "referenceType": "full",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 10,
+                        "offset": 9
+                      }
+                    },
+                    "value": "foo *bar"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 16,
+                    "offset": 15
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 17,
+                    "offset": 16
+                  }
+                },
+                "value": "*"
+              }
+            ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 18
+              },
+              "end": {
+                "line": 3,
+                "column": 12,
+                "offset": 29
+              }
+            },
+            "identifier": "ref",
+            "label": "ref",
+            "url": "/uri"
+          }
+        ]
       }
     }
   ]

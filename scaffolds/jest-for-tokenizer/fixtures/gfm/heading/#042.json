@@ -7,76 +7,6 @@
       "htmlAnswer": "<h1>foo</h1>\n<h5>foo</h5>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "heading",
-            "depth": 1,
-            "children": [
-              {
-                "type": "text",
-                "value": "foo",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 3,
-                    "offset": 2
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 6,
-                    "offset": 5
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 42,
-                "offset": 41
-              }
-            }
-          },
-          {
-            "type": "heading",
-            "depth": 5,
-            "children": [
-              {
-                "type": "text",
-                "value": "foo",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 7,
-                    "offset": 47
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 10,
-                    "offset": 50
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 2,
-                "column": 1,
-                "offset": 41
-              },
-              "end": {
-                "line": 2,
-                "column": 13,
-                "offset": 53
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -88,7 +18,77 @@
             "column": 13,
             "offset": 53
           }
-        }
+        },
+        "children": [
+          {
+            "type": "heading",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 42,
+                "offset": 41
+              }
+            },
+            "depth": 1,
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 3,
+                    "offset": 2
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 6,
+                    "offset": 5
+                  }
+                },
+                "value": "foo"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 1,
+                "offset": 41
+              },
+              "end": {
+                "line": 2,
+                "column": 13,
+                "offset": 53
+              }
+            },
+            "depth": 5,
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 7,
+                    "offset": 47
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 10,
+                    "offset": 50
+                  }
+                },
+                "value": "foo"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

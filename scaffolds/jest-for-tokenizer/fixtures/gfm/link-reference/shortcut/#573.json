@@ -7,97 +7,6 @@
       "htmlAnswer": "<p><a href=\"/url2\">foo</a></p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "linkReference",
-                "identifier": "bar",
-                "label": "bar",
-                "referenceType": "full",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "foo",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 2,
-                        "offset": 1
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 5,
-                        "offset": 4
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 11,
-                    "offset": 10
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 12,
-                "offset": 11
-              }
-            }
-          },
-          {
-            "type": "definition",
-            "identifier": "foo",
-            "label": "foo",
-            "url": "/url1",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 12
-              },
-              "end": {
-                "line": 3,
-                "column": 14,
-                "offset": 25
-              }
-            }
-          },
-          {
-            "type": "definition",
-            "identifier": "bar",
-            "label": "bar",
-            "url": "/url2",
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 25
-              },
-              "end": {
-                "line": 4,
-                "column": 13,
-                "offset": 37
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -109,7 +18,98 @@
             "column": 13,
             "offset": 37
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 12,
+                "offset": 11
+              }
+            },
+            "children": [
+              {
+                "type": "linkReference",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 11,
+                    "offset": 10
+                  }
+                },
+                "identifier": "bar",
+                "label": "bar",
+                "referenceType": "full",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      }
+                    },
+                    "value": "foo"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 12
+              },
+              "end": {
+                "line": 3,
+                "column": 14,
+                "offset": 25
+              }
+            },
+            "identifier": "foo",
+            "label": "foo",
+            "url": "/url1"
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 25
+              },
+              "end": {
+                "line": 4,
+                "column": 13,
+                "offset": 37
+              }
+            },
+            "identifier": "bar",
+            "label": "bar",
+            "url": "/url2"
+          }
+        ]
       }
     }
   ]

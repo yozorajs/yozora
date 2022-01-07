@@ -7,6 +7,18 @@
       "htmlAnswer": "<hr />\n<hr />",
       "parseAnswer": {
         "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 4,
+            "offset": 7
+          }
+        },
         "children": [
           {
             "type": "thematicBreak",
@@ -38,19 +50,7 @@
               }
             }
           }
-        ],
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 4,
-            "offset": 7
-          }
-        }
+        ]
       }
     }
   ]

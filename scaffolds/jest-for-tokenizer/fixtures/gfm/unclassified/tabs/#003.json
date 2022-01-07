@@ -7,24 +7,6 @@
       "htmlAnswer": "<pre><code>a\ta\nὐ\ta\n</code></pre>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "code",
-            "value": "a\ta\nὐ\ta",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 8,
-                "offset": 15
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -36,7 +18,25 @@
             "column": 8,
             "offset": 15
           }
-        }
+        },
+        "children": [
+          {
+            "type": "code",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 8,
+                "offset": 15
+              }
+            },
+            "value": "a\ta\nὐ\ta"
+          }
+        ]
       }
     }
   ]

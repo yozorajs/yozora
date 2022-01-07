@@ -7,74 +7,6 @@
       "htmlAnswer": "<p>foo\n*</p>\n<p>foo\n1.</p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "foo\n*",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 2,
-                    "offset": 5
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 3,
-                "offset": 6
-              }
-            }
-          },
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "foo\n1.",
-                "position": {
-                  "start": {
-                    "line": 4,
-                    "column": 1,
-                    "offset": 7
-                  },
-                  "end": {
-                    "line": 5,
-                    "column": 3,
-                    "offset": 13
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 7
-              },
-              "end": {
-                "line": 5,
-                "column": 3,
-                "offset": 13
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -86,7 +18,75 @@
             "column": 3,
             "offset": 13
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 3,
+                "offset": 6
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 2,
+                    "offset": 5
+                  }
+                },
+                "value": "foo\n*"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 7
+              },
+              "end": {
+                "line": 5,
+                "column": 3,
+                "offset": 13
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 7
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 3,
+                    "offset": 13
+                  }
+                },
+                "value": "foo\n1."
+              }
+            ]
+          }
+        ]
       }
     }
   ]

@@ -6,41 +6,6 @@
       "input": "```$x^2+y^2=z^2$```",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "inlineMath",
-                "value": "x^2+y^2=z^2",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 20,
-                    "offset": 19
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 20,
-                "offset": 19
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -52,7 +17,42 @@
             "column": 20,
             "offset": 19
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 20,
+                "offset": 19
+              }
+            },
+            "children": [
+              {
+                "type": "inlineMath",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 20,
+                    "offset": 19
+                  }
+                },
+                "value": "x^2+y^2=z^2"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

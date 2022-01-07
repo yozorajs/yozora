@@ -7,63 +7,6 @@
       "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" /></p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "imageReference",
-                "identifier": "foo",
-                "label": "foo",
-                "referenceType": "collapsed",
-                "alt": "foo",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 9,
-                    "offset": 8
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 10,
-                "offset": 9
-              }
-            }
-          },
-          {
-            "type": "definition",
-            "identifier": "foo",
-            "label": "foo",
-            "url": "/url",
-            "title": "title",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 10
-              },
-              "end": {
-                "line": 3,
-                "column": 20,
-                "offset": 29
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -75,7 +18,64 @@
             "column": 20,
             "offset": 29
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 10,
+                "offset": 9
+              }
+            },
+            "children": [
+              {
+                "type": "imageReference",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 9,
+                    "offset": 8
+                  }
+                },
+                "identifier": "foo",
+                "label": "foo",
+                "referenceType": "collapsed",
+                "alt": "foo"
+              }
+            ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 10
+              },
+              "end": {
+                "line": 3,
+                "column": 20,
+                "offset": 29
+              }
+            },
+            "identifier": "foo",
+            "label": "foo",
+            "url": "/url",
+            "title": "title"
+          }
+        ]
       }
     }
   ]

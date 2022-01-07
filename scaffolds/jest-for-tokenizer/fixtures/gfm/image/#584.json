@@ -7,63 +7,6 @@
       "htmlAnswer": "<p><img src=\"train.jpg\" alt=\"foo bar\" title=\"train &amp; tracks\" /></p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "imageReference",
-                "identifier": "foo *bar*",
-                "label": "foo *bar*",
-                "referenceType": "collapsed",
-                "alt": "foo bar",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 15,
-                    "offset": 14
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 16,
-                "offset": 15
-              }
-            }
-          },
-          {
-            "type": "definition",
-            "identifier": "foo *bar*",
-            "label": "foo *bar*",
-            "url": "train.jpg",
-            "title": "train & tracks",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 16
-              },
-              "end": {
-                "line": 3,
-                "column": 40,
-                "offset": 55
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -75,7 +18,64 @@
             "column": 40,
             "offset": 55
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 16,
+                "offset": 15
+              }
+            },
+            "children": [
+              {
+                "type": "imageReference",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 15,
+                    "offset": 14
+                  }
+                },
+                "identifier": "foo *bar*",
+                "label": "foo *bar*",
+                "referenceType": "collapsed",
+                "alt": "foo bar"
+              }
+            ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 16
+              },
+              "end": {
+                "line": 3,
+                "column": 40,
+                "offset": 55
+              }
+            },
+            "identifier": "foo *bar*",
+            "label": "foo *bar*",
+            "url": "train.jpg",
+            "title": "train & tracks"
+          }
+        ]
       }
     }
   ]

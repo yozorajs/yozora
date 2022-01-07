@@ -7,63 +7,6 @@
       "htmlAnswer": "<p><img src=\"/url\" alt=\"Foo\" title=\"title\" /></p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "imageReference",
-                "identifier": "foo",
-                "label": "Foo",
-                "referenceType": "shortcut",
-                "alt": "Foo",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 7,
-                    "offset": 6
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 8,
-                "offset": 7
-              }
-            }
-          },
-          {
-            "type": "definition",
-            "identifier": "foo",
-            "label": "foo",
-            "url": "/url",
-            "title": "title",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 8
-              },
-              "end": {
-                "line": 3,
-                "column": 20,
-                "offset": 27
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -75,7 +18,64 @@
             "column": 20,
             "offset": 27
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 8,
+                "offset": 7
+              }
+            },
+            "children": [
+              {
+                "type": "imageReference",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  }
+                },
+                "identifier": "foo",
+                "label": "Foo",
+                "referenceType": "shortcut",
+                "alt": "Foo"
+              }
+            ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 8
+              },
+              "end": {
+                "line": 3,
+                "column": 20,
+                "offset": 27
+              }
+            },
+            "identifier": "foo",
+            "label": "foo",
+            "url": "/url",
+            "title": "title"
+          }
+        ]
       }
     }
   ]

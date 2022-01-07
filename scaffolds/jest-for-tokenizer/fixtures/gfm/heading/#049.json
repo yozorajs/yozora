@@ -7,59 +7,6 @@
       "htmlAnswer": "<h2></h2>\n<h1></h1>\n<h3></h3>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "heading",
-            "depth": 2,
-            "children": [],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 5,
-                "offset": 4
-              }
-            }
-          },
-          {
-            "type": "heading",
-            "depth": 1,
-            "children": [],
-            "position": {
-              "start": {
-                "line": 2,
-                "column": 1,
-                "offset": 4
-              },
-              "end": {
-                "line": 2,
-                "column": 3,
-                "offset": 6
-              }
-            }
-          },
-          {
-            "type": "heading",
-            "depth": 3,
-            "children": [],
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 6
-              },
-              "end": {
-                "line": 3,
-                "column": 8,
-                "offset": 13
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -71,7 +18,60 @@
             "column": 8,
             "offset": 13
           }
-        }
+        },
+        "children": [
+          {
+            "type": "heading",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 5,
+                "offset": 4
+              }
+            },
+            "depth": 2,
+            "children": []
+          },
+          {
+            "type": "heading",
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 1,
+                "offset": 4
+              },
+              "end": {
+                "line": 2,
+                "column": 3,
+                "offset": 6
+              }
+            },
+            "depth": 1,
+            "children": []
+          },
+          {
+            "type": "heading",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 6
+              },
+              "end": {
+                "line": 3,
+                "column": 8,
+                "offset": 13
+              }
+            },
+            "depth": 3,
+            "children": []
+          }
+        ]
       }
     }
   ]

@@ -7,147 +7,6 @@
       "htmlAnswer": "<blockquote>\n<blockquote>\n<ol>\n<li>\n<p>one</p>\n<p>two</p>\n</li>\n</ol>\n</blockquote>\n</blockquote>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "blockquote",
-            "children": [
-              {
-                "type": "blockquote",
-                "children": [
-                  {
-                    "type": "list",
-                    "ordered": true,
-                    "orderType": "1",
-                    "start": 1,
-                    "marker": 46,
-                    "spread": true,
-                    "children": [
-                      {
-                        "type": "listItem",
-                        "children": [
-                          {
-                            "type": "paragraph",
-                            "children": [
-                              {
-                                "type": "text",
-                                "value": "one",
-                                "position": {
-                                  "start": {
-                                    "line": 1,
-                                    "column": 12,
-                                    "offset": 11
-                                  },
-                                  "end": {
-                                    "line": 1,
-                                    "column": 15,
-                                    "offset": 14
-                                  }
-                                }
-                              }
-                            ],
-                            "position": {
-                              "start": {
-                                "line": 1,
-                                "column": 12,
-                                "offset": 11
-                              },
-                              "end": {
-                                "line": 1,
-                                "column": 16,
-                                "offset": 15
-                              }
-                            }
-                          },
-                          {
-                            "type": "paragraph",
-                            "children": [
-                              {
-                                "type": "text",
-                                "value": "two",
-                                "position": {
-                                  "start": {
-                                    "line": 3,
-                                    "column": 8,
-                                    "offset": 25
-                                  },
-                                  "end": {
-                                    "line": 3,
-                                    "column": 11,
-                                    "offset": 28
-                                  }
-                                }
-                              }
-                            ],
-                            "position": {
-                              "start": {
-                                "line": 3,
-                                "column": 8,
-                                "offset": 25
-                              },
-                              "end": {
-                                "line": 3,
-                                "column": 11,
-                                "offset": 28
-                              }
-                            }
-                          }
-                        ],
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 8,
-                            "offset": 7
-                          },
-                          "end": {
-                            "line": 3,
-                            "column": 11,
-                            "offset": 28
-                          }
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 8,
-                        "offset": 7
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 11,
-                        "offset": 28
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 6,
-                    "offset": 5
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 11,
-                    "offset": 28
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 3,
-                "column": 11,
-                "offset": 28
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -159,7 +18,148 @@
             "column": 11,
             "offset": 28
           }
-        }
+        },
+        "children": [
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 11,
+                "offset": 28
+              }
+            },
+            "children": [
+              {
+                "type": "blockquote",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 6,
+                    "offset": 5
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 11,
+                    "offset": 28
+                  }
+                },
+                "children": [
+                  {
+                    "type": "list",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 8,
+                        "offset": 7
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 11,
+                        "offset": 28
+                      }
+                    },
+                    "ordered": true,
+                    "orderType": "1",
+                    "start": 1,
+                    "marker": 46,
+                    "spread": true,
+                    "children": [
+                      {
+                        "type": "listItem",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 8,
+                            "offset": 7
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 11,
+                            "offset": 28
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 12,
+                                "offset": 11
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 16,
+                                "offset": 15
+                              }
+                            },
+                            "children": [
+                              {
+                                "type": "text",
+                                "position": {
+                                  "start": {
+                                    "line": 1,
+                                    "column": 12,
+                                    "offset": 11
+                                  },
+                                  "end": {
+                                    "line": 1,
+                                    "column": 15,
+                                    "offset": 14
+                                  }
+                                },
+                                "value": "one"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "paragraph",
+                            "position": {
+                              "start": {
+                                "line": 3,
+                                "column": 8,
+                                "offset": 25
+                              },
+                              "end": {
+                                "line": 3,
+                                "column": 11,
+                                "offset": 28
+                              }
+                            },
+                            "children": [
+                              {
+                                "type": "text",
+                                "position": {
+                                  "start": {
+                                    "line": 3,
+                                    "column": 8,
+                                    "offset": 25
+                                  },
+                                  "end": {
+                                    "line": 3,
+                                    "column": 11,
+                                    "offset": 28
+                                  }
+                                },
+                                "value": "two"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   ]

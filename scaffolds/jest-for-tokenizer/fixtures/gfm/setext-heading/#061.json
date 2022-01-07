@@ -7,142 +7,6 @@
       "htmlAnswer": "<h2>`Foo</h2>\n<p>`</p>\n<h2>&lt;a title=&quot;a lot</h2>\n<p>of dashes&quot;/&gt;</p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "heading",
-            "depth": 2,
-            "children": [
-              {
-                "type": "text",
-                "value": "`Foo",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 5,
-                    "offset": 4
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 6,
-                "offset": 10
-              }
-            }
-          },
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "`",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 10
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 2,
-                    "offset": 11
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 10
-              },
-              "end": {
-                "line": 3,
-                "column": 3,
-                "offset": 12
-              }
-            }
-          },
-          {
-            "type": "heading",
-            "depth": 2,
-            "children": [
-              {
-                "type": "text",
-                "value": "<a title=\"a lot",
-                "position": {
-                  "start": {
-                    "line": 5,
-                    "column": 1,
-                    "offset": 13
-                  },
-                  "end": {
-                    "line": 5,
-                    "column": 16,
-                    "offset": 28
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 5,
-                "column": 1,
-                "offset": 13
-              },
-              "end": {
-                "line": 6,
-                "column": 5,
-                "offset": 33
-              }
-            }
-          },
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "of dashes\"/>",
-                "position": {
-                  "start": {
-                    "line": 7,
-                    "column": 1,
-                    "offset": 33
-                  },
-                  "end": {
-                    "line": 7,
-                    "column": 13,
-                    "offset": 45
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 7,
-                "column": 1,
-                "offset": 33
-              },
-              "end": {
-                "line": 7,
-                "column": 13,
-                "offset": 45
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -154,7 +18,143 @@
             "column": 13,
             "offset": 45
           }
-        }
+        },
+        "children": [
+          {
+            "type": "heading",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 6,
+                "offset": 10
+              }
+            },
+            "depth": 2,
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 5,
+                    "offset": 4
+                  }
+                },
+                "value": "`Foo"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 10
+              },
+              "end": {
+                "line": 3,
+                "column": 3,
+                "offset": 12
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 10
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 2,
+                    "offset": 11
+                  }
+                },
+                "value": "`"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "position": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 13
+              },
+              "end": {
+                "line": 6,
+                "column": 5,
+                "offset": 33
+              }
+            },
+            "depth": 2,
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 13
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 16,
+                    "offset": 28
+                  }
+                },
+                "value": "<a title=\"a lot"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 33
+              },
+              "end": {
+                "line": 7,
+                "column": 13,
+                "offset": 45
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 33
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 13,
+                    "offset": 45
+                  }
+                },
+                "value": "of dashes\"/>"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

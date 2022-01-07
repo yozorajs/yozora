@@ -7,77 +7,6 @@
       "htmlAnswer": "<ul>\n<li>one</li>\n</ul>\n<pre><code> two\n</code></pre>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "list",
-            "ordered": false,
-            "marker": 45,
-            "spread": false,
-            "children": [
-              {
-                "type": "listItem",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "one",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 10,
-                        "offset": 9
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 11,
-                    "offset": 10
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 11,
-                "offset": 10
-              }
-            }
-          },
-          {
-            "type": "code",
-            "value": " two",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 11
-              },
-              "end": {
-                "line": 3,
-                "column": 9,
-                "offset": 19
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -89,7 +18,78 @@
             "column": 9,
             "offset": 19
           }
-        }
+        },
+        "children": [
+          {
+            "type": "list",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 11,
+                "offset": 10
+              }
+            },
+            "ordered": false,
+            "marker": 45,
+            "spread": false,
+            "children": [
+              {
+                "type": "listItem",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 11,
+                    "offset": 10
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 10,
+                        "offset": 9
+                      }
+                    },
+                    "value": "one"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "code",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 11
+              },
+              "end": {
+                "line": 3,
+                "column": 9,
+                "offset": 19
+              }
+            },
+            "value": " two"
+          }
+        ]
       }
     }
   ]

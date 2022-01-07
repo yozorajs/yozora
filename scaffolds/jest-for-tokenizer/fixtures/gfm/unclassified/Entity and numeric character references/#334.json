@@ -7,94 +7,6 @@
       "htmlAnswer": "<p>* foo</p>\n<ul>\n<li>foo</li>\n</ul>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "* foo",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 10,
-                    "offset": 9
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 11,
-                "offset": 10
-              }
-            }
-          },
-          {
-            "type": "list",
-            "ordered": false,
-            "marker": 42,
-            "spread": false,
-            "children": [
-              {
-                "type": "listItem",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "foo",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 3,
-                        "offset": 13
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 6,
-                        "offset": 16
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 11
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 6,
-                    "offset": 16
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 11
-              },
-              "end": {
-                "line": 3,
-                "column": 6,
-                "offset": 16
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -106,7 +18,95 @@
             "column": 6,
             "offset": 16
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 11,
+                "offset": 10
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 10,
+                    "offset": 9
+                  }
+                },
+                "value": "* foo"
+              }
+            ]
+          },
+          {
+            "type": "list",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 11
+              },
+              "end": {
+                "line": 3,
+                "column": 6,
+                "offset": 16
+              }
+            },
+            "ordered": false,
+            "marker": 42,
+            "spread": false,
+            "children": [
+              {
+                "type": "listItem",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 11
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 6,
+                    "offset": 16
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 3,
+                        "offset": 13
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 6,
+                        "offset": 16
+                      }
+                    },
+                    "value": "foo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   ]

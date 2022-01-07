@@ -6,59 +6,6 @@
       "input": "[foo]: /url \n\"foo\nbar",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "definition",
-            "identifier": "foo",
-            "label": "foo",
-            "url": "/url",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 14,
-                "offset": 13
-              }
-            }
-          },
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "\"foo\nbar",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 13
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 4,
-                    "offset": 21
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 2,
-                "column": 1,
-                "offset": 13
-              },
-              "end": {
-                "line": 3,
-                "column": 4,
-                "offset": 21
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -70,20 +17,10 @@
             "column": 4,
             "offset": 21
           }
-        }
-      }
-    },
-    {
-      "description": "Unexpected close2",
-      "input": "   [foo]: \n      /url  \n           'the \n foo",
-      "parseAnswer": {
-        "type": "root",
+        },
         "children": [
           {
             "type": "definition",
-            "identifier": "foo",
-            "label": "foo",
-            "url": "/url",
             "position": {
               "start": {
                 "line": 1,
@@ -91,62 +28,56 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
+                "line": 1,
                 "column": 14,
-                "offset": 24
+                "offset": 13
               }
-            }
-          },
-          {
-            "type": "code",
-            "value": "       'the \n",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 24
-              },
-              "end": {
-                "line": 3,
-                "column": 18,
-                "offset": 41
-              }
-            }
+            },
+            "identifier": "foo",
+            "label": "foo",
+            "url": "/url"
           },
           {
             "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 1,
+                "offset": 13
+              },
+              "end": {
+                "line": 3,
+                "column": 4,
+                "offset": 21
+              }
+            },
             "children": [
               {
                 "type": "text",
-                "value": "foo",
                 "position": {
                   "start": {
-                    "line": 4,
-                    "column": 2,
-                    "offset": 42
+                    "line": 2,
+                    "column": 1,
+                    "offset": 13
                   },
                   "end": {
-                    "line": 4,
-                    "column": 5,
-                    "offset": 45
+                    "line": 3,
+                    "column": 4,
+                    "offset": 21
                   }
-                }
+                },
+                "value": "\"foo\nbar"
               }
-            ],
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 41
-              },
-              "end": {
-                "line": 4,
-                "column": 5,
-                "offset": 45
-              }
-            }
+            ]
           }
-        ],
+        ]
+      }
+    },
+    {
+      "description": "Unexpected close2",
+      "input": "   [foo]: \n      /url  \n           'the \n foo",
+      "parseAnswer": {
+        "type": "root",
         "position": {
           "start": {
             "line": 1,
@@ -158,21 +89,10 @@
             "column": 5,
             "offset": 45
           }
-        }
-      }
-    },
-    {
-      "description": "parentheses link title",
-      "input": "[link]: /url (foo and bar)",
-      "parseAnswer": {
-        "type": "root",
+        },
         "children": [
           {
             "type": "definition",
-            "identifier": "link",
-            "label": "link",
-            "url": "/url",
-            "title": "foo and bar",
             "position": {
               "start": {
                 "line": 1,
@@ -180,13 +100,72 @@
                 "offset": 0
               },
               "end": {
-                "line": 1,
-                "column": 27,
-                "offset": 26
+                "line": 2,
+                "column": 14,
+                "offset": 24
               }
-            }
+            },
+            "identifier": "foo",
+            "label": "foo",
+            "url": "/url"
+          },
+          {
+            "type": "code",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 24
+              },
+              "end": {
+                "line": 3,
+                "column": 18,
+                "offset": 41
+              }
+            },
+            "value": "       'the \n"
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 41
+              },
+              "end": {
+                "line": 4,
+                "column": 5,
+                "offset": 45
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 4,
+                    "column": 2,
+                    "offset": 42
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 5,
+                    "offset": 45
+                  }
+                },
+                "value": "foo"
+              }
+            ]
           }
-        ],
+        ]
+      }
+    },
+    {
+      "description": "parentheses link title",
+      "input": "[link]: /url (foo and bar)",
+      "parseAnswer": {
+        "type": "root",
         "position": {
           "start": {
             "line": 1,
@@ -198,21 +177,10 @@
             "column": 27,
             "offset": 26
           }
-        }
-      }
-    },
-    {
-      "description": "parentheses link title (escape allowed)",
-      "input": "[link]: /url (foo \\( and \\) bar)",
-      "parseAnswer": {
-        "type": "root",
+        },
         "children": [
           {
             "type": "definition",
-            "identifier": "link",
-            "label": "link",
-            "url": "/url",
-            "title": "foo ( and ) bar",
             "position": {
               "start": {
                 "line": 1,
@@ -221,12 +189,23 @@
               },
               "end": {
                 "line": 1,
-                "column": 33,
-                "offset": 32
+                "column": 27,
+                "offset": 26
               }
-            }
+            },
+            "identifier": "link",
+            "label": "link",
+            "url": "/url",
+            "title": "foo and bar"
           }
-        ],
+        ]
+      }
+    },
+    {
+      "description": "parentheses link title (escape allowed)",
+      "input": "[link]: /url (foo \\( and \\) bar)",
+      "parseAnswer": {
+        "type": "root",
         "position": {
           "start": {
             "line": 1,
@@ -238,7 +217,28 @@
             "column": 33,
             "offset": 32
           }
-        }
+        },
+        "children": [
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 33,
+                "offset": 32
+              }
+            },
+            "identifier": "link",
+            "label": "link",
+            "url": "/url",
+            "title": "foo ( and ) bar"
+          }
+        ]
       }
     }
   ]

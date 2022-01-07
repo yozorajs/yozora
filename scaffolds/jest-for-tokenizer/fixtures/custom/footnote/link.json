@@ -6,308 +6,6 @@
       "input": "[This is a short cut link reference] ^[[google](https://www.google.com) `inline code` *emphasis* **strong** literal text.] additional thing. \n\n [This is a short cut link reference]: /url",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "linkReference",
-                "identifier": "this is a short cut link reference",
-                "label": "This is a short cut link reference",
-                "referenceType": "shortcut",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "This is a short cut link reference",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 2,
-                        "offset": 1
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 36,
-                        "offset": 35
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 37,
-                    "offset": 36
-                  }
-                }
-              },
-              {
-                "type": "text",
-                "value": " ",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 37,
-                    "offset": 36
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 38,
-                    "offset": 37
-                  }
-                }
-              },
-              {
-                "type": "footnote",
-                "children": [
-                  {
-                    "type": "link",
-                    "url": "https://www.google.com",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "google",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 41,
-                            "offset": 40
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 47,
-                            "offset": 46
-                          }
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 40,
-                        "offset": 39
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 72,
-                        "offset": 71
-                      }
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": " ",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 72,
-                        "offset": 71
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 73,
-                        "offset": 72
-                      }
-                    }
-                  },
-                  {
-                    "type": "inlineCode",
-                    "value": "inline code",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 73,
-                        "offset": 72
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 86,
-                        "offset": 85
-                      }
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": " ",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 86,
-                        "offset": 85
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 87,
-                        "offset": 86
-                      }
-                    }
-                  },
-                  {
-                    "type": "emphasis",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "emphasis",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 88,
-                            "offset": 87
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 96,
-                            "offset": 95
-                          }
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 87,
-                        "offset": 86
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 97,
-                        "offset": 96
-                      }
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": " ",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 97,
-                        "offset": 96
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 98,
-                        "offset": 97
-                      }
-                    }
-                  },
-                  {
-                    "type": "strong",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "strong",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 100,
-                            "offset": 99
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 106,
-                            "offset": 105
-                          }
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 98,
-                        "offset": 97
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 108,
-                        "offset": 107
-                      }
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": " literal text.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 108,
-                        "offset": 107
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 122,
-                        "offset": 121
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 38,
-                    "offset": 37
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  }
-                }
-              },
-              {
-                "type": "text",
-                "value": " additional thing.",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 141,
-                    "offset": 140
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 143,
-                "offset": 142
-              }
-            }
-          },
-          {
-            "type": "definition",
-            "identifier": "this is a short cut link reference",
-            "label": "This is a short cut link reference",
-            "url": "/url",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 143
-              },
-              "end": {
-                "line": 3,
-                "column": 44,
-                "offset": 186
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -319,7 +17,309 @@
             "column": 44,
             "offset": 186
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 143,
+                "offset": 142
+              }
+            },
+            "children": [
+              {
+                "type": "linkReference",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 37,
+                    "offset": 36
+                  }
+                },
+                "identifier": "this is a short cut link reference",
+                "label": "This is a short cut link reference",
+                "referenceType": "shortcut",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 36,
+                        "offset": 35
+                      }
+                    },
+                    "value": "This is a short cut link reference"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 37,
+                    "offset": 36
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 38,
+                    "offset": 37
+                  }
+                },
+                "value": " "
+              },
+              {
+                "type": "footnote",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 38,
+                    "offset": 37
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 123,
+                    "offset": 122
+                  }
+                },
+                "children": [
+                  {
+                    "type": "link",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 40,
+                        "offset": 39
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 72,
+                        "offset": 71
+                      }
+                    },
+                    "url": "https://www.google.com",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 41,
+                            "offset": 40
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 47,
+                            "offset": 46
+                          }
+                        },
+                        "value": "google"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 72,
+                        "offset": 71
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 73,
+                        "offset": 72
+                      }
+                    },
+                    "value": " "
+                  },
+                  {
+                    "type": "inlineCode",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 73,
+                        "offset": 72
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 86,
+                        "offset": 85
+                      }
+                    },
+                    "value": "inline code"
+                  },
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 86,
+                        "offset": 85
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 87,
+                        "offset": 86
+                      }
+                    },
+                    "value": " "
+                  },
+                  {
+                    "type": "emphasis",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 87,
+                        "offset": 86
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 97,
+                        "offset": 96
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 88,
+                            "offset": 87
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 96,
+                            "offset": 95
+                          }
+                        },
+                        "value": "emphasis"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 97,
+                        "offset": 96
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 98,
+                        "offset": 97
+                      }
+                    },
+                    "value": " "
+                  },
+                  {
+                    "type": "strong",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 98,
+                        "offset": 97
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 108,
+                        "offset": 107
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 100,
+                            "offset": 99
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 106,
+                            "offset": 105
+                          }
+                        },
+                        "value": "strong"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 108,
+                        "offset": 107
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 122,
+                        "offset": 121
+                      }
+                    },
+                    "value": " literal text."
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 123,
+                    "offset": 122
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 141,
+                    "offset": 140
+                  }
+                },
+                "value": " additional thing."
+              }
+            ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 143
+              },
+              "end": {
+                "line": 3,
+                "column": 44,
+                "offset": 186
+              }
+            },
+            "identifier": "this is a short cut link reference",
+            "label": "This is a short cut link reference",
+            "url": "/url"
+          }
+        ]
       }
     }
   ]

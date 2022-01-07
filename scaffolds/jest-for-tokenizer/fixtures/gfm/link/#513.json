@@ -7,162 +7,6 @@
       "htmlAnswer": "<p><a href=\"/url\" title=\"title\">link</a>\n<a href=\"/url\" title=\"title\">link</a>\n<a href=\"/url\" title=\"title\">link</a></p>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "link",
-                "url": "/url",
-                "title": "title",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "link",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 2,
-                        "offset": 1
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 6,
-                        "offset": 5
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 21,
-                    "offset": 20
-                  }
-                }
-              },
-              {
-                "type": "text",
-                "value": "\n",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 21,
-                    "offset": 20
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 22,
-                    "offset": 21
-                  }
-                }
-              },
-              {
-                "type": "link",
-                "url": "/url",
-                "title": "title",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "link",
-                    "position": {
-                      "start": {
-                        "line": 2,
-                        "column": 2,
-                        "offset": 22
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 6,
-                        "offset": 26
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 21
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 21,
-                    "offset": 41
-                  }
-                }
-              },
-              {
-                "type": "text",
-                "value": "\n",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 21,
-                    "offset": 41
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 22,
-                    "offset": 42
-                  }
-                }
-              },
-              {
-                "type": "link",
-                "url": "/url",
-                "title": "title",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "link",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 2,
-                        "offset": 43
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 6,
-                        "offset": 47
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 42
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 21,
-                    "offset": 62
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 3,
-                "column": 21,
-                "offset": 62
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -174,7 +18,163 @@
             "column": 21,
             "offset": 62
           }
-        }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 21,
+                "offset": 62
+              }
+            },
+            "children": [
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 21,
+                    "offset": 20
+                  }
+                },
+                "url": "/url",
+                "title": "title",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 6,
+                        "offset": 5
+                      }
+                    },
+                    "value": "link"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 21,
+                    "offset": 20
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 22,
+                    "offset": 21
+                  }
+                },
+                "value": "\n"
+              },
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 21
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 21,
+                    "offset": 41
+                  }
+                },
+                "url": "/url",
+                "title": "title",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 2,
+                        "offset": 22
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 6,
+                        "offset": 26
+                      }
+                    },
+                    "value": "link"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 21,
+                    "offset": 41
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 22,
+                    "offset": 42
+                  }
+                },
+                "value": "\n"
+              },
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 42
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 21,
+                    "offset": 62
+                  }
+                },
+                "url": "/url",
+                "title": "title",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 2,
+                        "offset": 43
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 6,
+                        "offset": 47
+                      }
+                    },
+                    "value": "link"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   ]

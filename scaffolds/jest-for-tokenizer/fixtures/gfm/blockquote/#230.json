@@ -7,91 +7,6 @@
       "htmlAnswer": "<blockquote>\n<pre><code>code\n</code></pre>\n</blockquote>\n<blockquote>\n<p>not code</p>\n</blockquote>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "blockquote",
-            "children": [
-              {
-                "type": "code",
-                "value": "code\n",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 3,
-                    "offset": 2
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 12,
-                    "offset": 11
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 12,
-                "offset": 11
-              }
-            }
-          },
-          {
-            "type": "blockquote",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "not code",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 6,
-                        "offset": 17
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 14,
-                        "offset": 25
-                      }
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 3,
-                    "offset": 14
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 14,
-                    "offset": 25
-                  }
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 12
-              },
-              "end": {
-                "line": 3,
-                "column": 14,
-                "offset": 25
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -103,7 +18,92 @@
             "column": 14,
             "offset": 25
           }
-        }
+        },
+        "children": [
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 12,
+                "offset": 11
+              }
+            },
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 3,
+                    "offset": 2
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 12,
+                    "offset": 11
+                  }
+                },
+                "value": "code\n"
+              }
+            ]
+          },
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 12
+              },
+              "end": {
+                "line": 3,
+                "column": 14,
+                "offset": 25
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 3,
+                    "offset": 14
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 14,
+                    "offset": 25
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 6,
+                        "offset": 17
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 14,
+                        "offset": 25
+                      }
+                    },
+                    "value": "not code"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   ]

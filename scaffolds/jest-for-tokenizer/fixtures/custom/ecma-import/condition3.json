@@ -6,39 +6,6 @@
       "input": "import Parser, { a as b, x, c as d } from '@yozora/parser'",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "ecmaImport",
-            "moduleName": "@yozora/parser",
-            "defaultImport": "Parser",
-            "namedImports": [
-              {
-                "src": "a",
-                "alias": "b"
-              },
-              {
-                "src": "x",
-                "alias": null
-              },
-              {
-                "src": "c",
-                "alias": "d"
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 59,
-                "offset": 58
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -50,35 +17,10 @@
             "column": 59,
             "offset": 58
           }
-        }
-      }
-    },
-    {
-      "description": "multiple line",
-      "input": "import Parser, { a as b,\n x, c as d } from '@yozora/parser'",
-      "parseAnswer": {
-        "type": "root",
+        },
         "children": [
           {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "import Parser, { a as b,\nx, c as d } from '@yozora/parser'",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 35,
-                    "offset": 59
-                  }
-                }
-              }
-            ],
+            "type": "ecmaImport",
             "position": {
               "start": {
                 "line": 1,
@@ -86,13 +28,36 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 35,
-                "offset": 59
+                "line": 1,
+                "column": 59,
+                "offset": 58
               }
-            }
+            },
+            "moduleName": "@yozora/parser",
+            "defaultImport": "Parser",
+            "namedImports": [
+              {
+                "src": "a",
+                "alias": "b"
+              },
+              {
+                "src": "x",
+                "alias": null
+              },
+              {
+                "src": "c",
+                "alias": "d"
+              }
+            ]
           }
-        ],
+        ]
+      }
+    },
+    {
+      "description": "multiple line",
+      "input": "import Parser, { a as b,\n x, c as d } from '@yozora/parser'",
+      "parseAnswer": {
+        "type": "root",
         "position": {
           "start": {
             "line": 1,
@@ -104,25 +69,10 @@
             "column": 35,
             "offset": 59
           }
-        }
-      }
-    },
-    {
-      "description": "multiple import statements",
-      "input": "import Parser, { a as b } from '@yozora/parser'\n import { x, c as d } from '@yozora/parser'",
-      "parseAnswer": {
-        "type": "root",
+        },
         "children": [
           {
-            "type": "ecmaImport",
-            "moduleName": "@yozora/parser",
-            "defaultImport": "Parser",
-            "namedImports": [
-              {
-                "src": "a",
-                "alias": "b"
-              }
-            ],
+            "type": "paragraph",
             "position": {
               "start": {
                 "line": 1,
@@ -130,39 +80,38 @@
                 "offset": 0
               },
               "end": {
-                "line": 1,
-                "column": 49,
-                "offset": 48
-              }
-            }
-          },
-          {
-            "type": "ecmaImport",
-            "moduleName": "@yozora/parser",
-            "namedImports": [
-              {
-                "src": "x",
-                "alias": null
-              },
-              {
-                "src": "c",
-                "alias": "d"
-              }
-            ],
-            "position": {
-              "start": {
                 "line": 2,
-                "column": 1,
-                "offset": 48
-              },
-              "end": {
-                "line": 2,
-                "column": 44,
-                "offset": 91
+                "column": 35,
+                "offset": 59
               }
-            }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 35,
+                    "offset": 59
+                  }
+                },
+                "value": "import Parser, { a as b,\nx, c as d } from '@yozora/parser'"
+              }
+            ]
           }
-        ],
+        ]
+      }
+    },
+    {
+      "description": "multiple import statements",
+      "input": "import Parser, { a as b } from '@yozora/parser'\n import { x, c as d } from '@yozora/parser'",
+      "parseAnswer": {
+        "type": "root",
         "position": {
           "start": {
             "line": 1,
@@ -174,7 +123,58 @@
             "column": 44,
             "offset": 91
           }
-        }
+        },
+        "children": [
+          {
+            "type": "ecmaImport",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 49,
+                "offset": 48
+              }
+            },
+            "moduleName": "@yozora/parser",
+            "defaultImport": "Parser",
+            "namedImports": [
+              {
+                "src": "a",
+                "alias": "b"
+              }
+            ]
+          },
+          {
+            "type": "ecmaImport",
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 1,
+                "offset": 48
+              },
+              "end": {
+                "line": 2,
+                "column": 44,
+                "offset": 91
+              }
+            },
+            "moduleName": "@yozora/parser",
+            "namedImports": [
+              {
+                "src": "x",
+                "alias": null
+              },
+              {
+                "src": "c",
+                "alias": "d"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

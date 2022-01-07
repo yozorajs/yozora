@@ -7,24 +7,6 @@
       "htmlAnswer": "<pre><code>a simple\n  indented code block\n</code></pre>",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "code",
-            "value": "a simple\n  indented code block",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 26,
-                "offset": 38
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -36,7 +18,25 @@
             "column": 26,
             "offset": 38
           }
-        }
+        },
+        "children": [
+          {
+            "type": "code",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 26,
+                "offset": 38
+              }
+            },
+            "value": "a simple\n  indented code block"
+          }
+        ]
       }
     }
   ]

@@ -6,24 +6,6 @@
       "input": " $$x^2 + y^2=z^2$$  ",
       "parseAnswer": {
         "type": "root",
-        "children": [
-          {
-            "type": "math",
-            "value": "x^2 + y^2=z^2",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 21,
-                "offset": 20
-              }
-            }
-          }
-        ],
         "position": {
           "start": {
             "line": 1,
@@ -35,7 +17,25 @@
             "column": 21,
             "offset": 20
           }
-        }
+        },
+        "children": [
+          {
+            "type": "math",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 21,
+                "offset": 20
+              }
+            },
+            "value": "x^2 + y^2=z^2"
+          }
+        ]
       }
     }
   ]
