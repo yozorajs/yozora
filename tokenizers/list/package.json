@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@yozora/ast": "^2.0.0-alpha.0",
-    "@yozora/core-tokenizer": "^2.0.0-alpha.0",
-    "@yozora/tokenizer-list-item": "^2.0.0-alpha.0"
+    "@yozora/character": "^2.0.0-alpha.0",
+    "@yozora/core-tokenizer": "^2.0.0-alpha.0"
   }
 }

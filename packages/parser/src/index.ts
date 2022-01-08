@@ -24,7 +24,6 @@ import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
 import LinkTokenizer from '@yozora/tokenizer-link'
 import LinkReferenceTokenizer from '@yozora/tokenizer-link-reference'
 import ListTokenizer from '@yozora/tokenizer-list'
-import ListItemTokenizer from '@yozora/tokenizer-list-item'
 import MathTokenizer from '@yozora/tokenizer-math'
 import ParagraphTokenizer from '@yozora/tokenizer-paragraph'
 import SetextHeadingTokenizer from '@yozora/tokenizer-setext-heading'
@@ -101,7 +100,7 @@ export class YozoraParser extends DefaultParser {
       .useTokenizer(new SetextHeadingTokenizer())
       .useTokenizer(new ThematicBreakTokenizer())
       .useTokenizer(new BlockquoteTokenizer())
-      .useTokenizer(new ListItemTokenizer({ enableTaskListItem: true }))
+      .useTokenizer(new ListTokenizer({ enableTaskListItem: true }))
       .useTokenizer(new HeadingTokenizer())
       .useTokenizer(new FencedCodeTokenizer())
       .useTokenizer(new AdmonitionTokenizer())
@@ -110,7 +109,6 @@ export class YozoraParser extends DefaultParser {
       .useTokenizer(new DefinitionTokenizer())
       .useTokenizer(new EcmaImportTokenizer())
       .useTokenizer(new TableTokenizer())
-      .useTokenizer(new ListTokenizer())
 
       // inline tokenizers.
       .useTokenizer(new HtmlInlineTokenizer())

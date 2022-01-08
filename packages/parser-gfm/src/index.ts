@@ -16,7 +16,6 @@ import InlineCodeTokenizer from '@yozora/tokenizer-inline-code'
 import LinkTokenizer from '@yozora/tokenizer-link'
 import LinkReferenceTokenizer from '@yozora/tokenizer-link-reference'
 import ListTokenizer from '@yozora/tokenizer-list'
-import ListItemTokenizer from '@yozora/tokenizer-list-item'
 import ParagraphTokenizer from '@yozora/tokenizer-paragraph'
 import SetextHeadingTokenizer from '@yozora/tokenizer-setext-heading'
 import TextTokenizer from '@yozora/tokenizer-text'
@@ -76,11 +75,10 @@ export class GfmParser extends DefaultParser {
       .useTokenizer(new SetextHeadingTokenizer())
       .useTokenizer(new ThematicBreakTokenizer())
       .useTokenizer(new BlockquoteTokenizer())
-      .useTokenizer(new ListItemTokenizer({ enableTaskListItem: false }))
+      .useTokenizer(new ListTokenizer({ enableTaskListItem: false }))
       .useTokenizer(new HeadingTokenizer())
       .useTokenizer(new FencedCodeTokenizer())
       .useTokenizer(new DefinitionTokenizer())
-      .useTokenizer(new ListTokenizer())
 
       // inline tokenizers.
       .useTokenizer(new HtmlInlineTokenizer())

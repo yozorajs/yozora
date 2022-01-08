@@ -1,20 +1,15 @@
+import type { YastNodeType } from '@yozora/ast'
+import { ParagraphType } from '@yozora/ast'
 import type {
   IBlockTokenizer,
   IMatchBlockHookCreator,
   IParseBlockHookCreator,
-  IPostMatchBlockHookCreator,
 } from '@yozora/core-tokenizer'
-import { BaseBlockTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+import { BaseBlockTokenizer, PhrasingContentType, TokenizerPriority } from '@yozora/core-tokenizer'
+import { match } from './match'
 import { parse } from './parse'
-import { postMatch } from './postMatch'
 import type { IHookContext, INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
-
-/**
- * Params for constructing ListTokenizer
- */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ListTokenizerProps {}
 
 /**
  * Lexical Analyzer for List.
@@ -35,16 +30,17 @@ export class ListTokenizer
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.CONTAINING_BLOCK,
     })
+    this.enableTaskListItem = props.enableTaskListItem ?? false
+    this.emptyItemCouldNotInterruptedTypes = props.emptyItemCouldNotInterruptedTypes ?? [
+      PhrasingContentType,
+      ParagraphType,
+    ]
   }
 
-  public override readonly match: IMatchBlockHookCreator<T, IToken, IHookContext> = () => {
-    return {
-      isContainingBlock: true,
-      eatOpener: () => null,
-    }
-  }
+  public readonly enableTaskListItem: boolean
+  public readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<YastNodeType>
 
-  public readonly postMatch: IPostMatchBlockHookCreator<IHookContext> = postMatch
+  public override readonly match: IMatchBlockHookCreator<T, IToken, IHookContext> = match
 
   public override readonly parse: IParseBlockHookCreator<T, IToken, INode, IHookContext> = parse
 }

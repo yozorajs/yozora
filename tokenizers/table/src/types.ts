@@ -28,6 +28,10 @@ export interface IToken extends IPartialYastBlockToken<TableType> {
   rows: ITableRowToken[]
 }
 
+export type IHookContext = ITokenizer
+
+export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>
+
 export interface ITableRowToken extends IPartialYastBlockToken<TableRowType> {
   cells: ITableCellToken[]
 }
@@ -36,7 +40,3 @@ export interface ITableCellToken extends IPartialYastBlockToken<TableCellType> {
   position: IYastNodePosition
   contents: IPhrasingContentToken[]
 }
-
-export type IHookContext = ITokenizer
-
-export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>
