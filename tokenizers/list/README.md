@@ -213,10 +213,12 @@ a. This is an another type of ordered list item
 
 ### Options
 
-Name              | Type        | Required  | Default
-:----------------:|:-----------:|:---------:|:--------------:
-`name`            | `string`    | `false`   | `"@yozora/tokenizer-list"`
-`priority`        | `number`    | `false`   | `TokenizerPriority.CONTAINING_BLOCK`
+Name                                | Type              | Required  | Default
+:----------------------------------:|:-----------------:|:---------:|:--------------:
+`name`                              | `string`          | `false`   | `"@yozora/tokenizer-list"`
+`priority`                          | `number`          | `false`   | `TokenizerPriority.CONTAINING_BLOCK`
+`enableTaskListItem`                | `boolean`         | `false`   | `false`
+`emptyItemCouldNotInterruptedTypes` | `YastNodeType[]`  | `false`   | `[PhrasingContentType, ParagraphType]`
 
 * `name`: The unique name of the tokenizer, used to bind the token it generates,
   to determine the tokenizer that should be called in each life cycle of the
@@ -226,6 +228,14 @@ Name              | Type        | Required  | Default
   high priority priority execution. interruptable. In addition, in the `match-block`
   stage, a high-priority tokenizer can interrupt the matching process of a
   low-priority tokenizer.
+
+* `enableTaskListItem`: Whether to enable task list item (extension).
+
+* `emptyItemCouldNotInterruptedTypes`: Specify an array of IYastNode types that could not be
+  interrupted by this ITokenizer if the current list-item is empty.
+
+  @see https://github.github.com/gfm/#example-263
+
 
 <!-- :end -->
 
