@@ -10,7 +10,7 @@ const parser = new YozoraParser({
   .useTokenizer(new {{{pascalCase tokenizerName}}}Tokenizer())
 
 // Run official test cases
-createTester(parser)
+void createTester(parser)
   .scan([
     'gfm/**/*.json',
     // The following cases are conflict when enabled GFM autolink (extension)
@@ -23,6 +23,6 @@ createTester(parser)
   .runTest()
 
 // Run custom test cases
-createTester(parser)
+void createTester(parser)
   .scan('fixtures', __dirname)
   .runTest()

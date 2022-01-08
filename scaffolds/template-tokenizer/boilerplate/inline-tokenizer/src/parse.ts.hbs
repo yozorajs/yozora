@@ -1,0 +1,24 @@
+import type { INodePoint } from '@yozora/character'
+import { calcEscapedStringFromNodePoints } from '@yozora/character'
+import type { IParseInlineHookCreator } from '@yozora/core-tokenizer'
+import type { INode, IThis, IToken, T } from './types'
+import { {{{pascalCase tokenizerName}}}Type } from './types'
+
+export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function (api) {
+  return {
+    parse: (token, children) => {
+      const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+      const { startIndex, endIndex } = token
+      let value: string = calcEscapedStringFromNodePoints(
+        nodePoints,
+        startIndex,
+        endIndex
+      )
+
+      // Remove the spaces at the end of the line and beginning of the next line.
+      value = value.replace(/[^\S\n]*\n[^\S\n]*/g, '\n')
+      const node: INode = { type: {{{pascalCase tokenizerName}}}Type, value }
+      return node
+    },
+  }
+}

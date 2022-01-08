@@ -2,6 +2,7 @@ import type { IYastLiteral } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
   IPartialYastInlineToken,
+  ITokenizer,
   IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
@@ -19,12 +20,12 @@ export const uniqueName = '{{{packageName}}}'
  *    ```js
  *    ```
  */
-export interface INode extends IYastLiteral<T> {
-
-}
+export type INode = IYastLiteral<T>
 
 export type IToken = IPartialYastInlineToken<T>
 
 export type IDelimiter = IYastTokenDelimiter
+
+export type IThis = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>

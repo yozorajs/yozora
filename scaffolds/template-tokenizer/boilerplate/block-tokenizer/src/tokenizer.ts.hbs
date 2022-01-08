@@ -1,43 +1,21 @@
-import type { IYastNode } from '@yozora/ast'
-import { ThematicBreakType } from '@yozora/ast'
-import { AsciiCodePoint, isLineEnding } from '@yozora/character'
 import type {
-  IPhrasingContentLine,
-  IResultOfEatAndInterruptPreviousSibling,
-  IResultOfEatContinuationText,
-  IResultOfEatLazyContinuationText,
-  IResultOfEatOpener,
-  IResultOfParse,
-  ITokenizer,
-  IMatchBlockHook,
-  IParseBlockHook,
-  IPostMatchBlockHook,
-  IYastBlockToken,
+  IBlockTokenizer,
+  IMatchBlockHookCreator,
+  IParseBlockHookCreator,
 } from '@yozora/core-tokenizer'
-import {
-  BaseBlockTokenizer,
-  TokenizerPriority,
-  calcEndYastNodePoint,
-  calcStartYastNodePoint,
-} from '@yozora/core-tokenizer'
-import type { INode, IToken, ITokenizerProps, T } from './types'
+import { BaseBlockTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+import { match } from './match'
+import { parse } from './parse'
+import type { INode, IThis, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
  * Lexical Analyzer for {{{pascalCase tokenizerName}}}
  */
 export class {{{pascalCase tokenizerName}}}Tokenizer
-  extends BaseBlockTokenizer
-  implements
-    ITokenizer{{#if usingHooks}},{{/if}}
-{{#if useTokenizerMatchBlockHook}}
-    IMatchBlockHook<T, IToken>{{#if TokenizerMatchBlockHook__isNotLastHook}},{{/if}}
-{{/if}}
-{{#if useTokenizerParseBlockHook}}
-    IParseBlockHook<T, IToken, INode>{{#if TokenizerParseBlockHook__isNotLastHook}},{{/if}}
-{{/if}} {
-  public readonly isContainingBlock = false
-
+  extends BaseBlockTokenizer<T, IToken, INode, IThis>
+  implements IBlockTokenizer<T, IToken, INode, IThis>
+{
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {
     super({
@@ -45,99 +23,8 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
       priority: props.priority ?? TokenizerPriority.ATOMIC,
     })
   }
-{{#if useTokenizerMatchBlockHook}}
 
-  /**
-   * @override
-   * @see IMatchBlockHook
-   */
-  public eatOpener(
-    line: Readonly<IPhrasingContentLine>,
-    parentToken: Readonly<IYastBlockToken>,
-  ): IResultOfEatOpener<T, IToken> {
-    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
-    if (firstNonWhitespaceIndex + 3 >= endIndex) return null
+  public override readonly match: IMatchBlockHookCreator<T, IToken, IThis> = match
 
-    let i = firstNonWhitespaceIndex
-    const marker = nodePoints[i].codePoint
-    let c = marker
-    if (
-      marker !== AsciiCodePoint.QUESTION_MARK &&
-      marker !== AsciiCodePoint.EXCLAMATION_MARK
-    ) return null
-
-    for (; i < endIndex; ++i) {
-      c = nodePoints[i].codePoint
-      if (c !== marker) break
-    }
-    if (i < endIndex && !isLineEnding(c)) return null
-
-    const nextIndex = endIndex
-    const token: IToken = {
-      nodeType: ThematicBreakType,
-      position: {
-        start: calcStartYastNodePoint(nodePoints, startIndex),
-        end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
-      },
-      marker,
-      continuous: true,
-    }
-
-    return { token, nextIndex, saturated: true }
-  }
-
-  // /**
-  //  * @override
-  //  * @see IMatchBlockHook
-  //  */
-  // public eatAndInterruptPreviousSibling(
-  //   line: Readonly<IPhrasingContentLine>,
-  //   prevSiblingToken: Readonly<IYastBlockToken>,
-  //   parentToken: Readonly<IYastBlockToken>,
-  // ): IResultOfEatAndInterruptPreviousSibling<T, IToken> {
-  //   const result = this.eatOpener(line, parentToken)
-  //   if (result == null) return null
-  //   return {
-  //     token: result.token,
-  //     nextIndex: result.nextIndex,
-  //     remainingSibling: prevSiblingToken,
-  //   }
-  // }
-
-  // /**
-  //  * @override
-  //  * @see IMatchBlockHook
-  //  */
-  // public eatContinuationText(
-  //   line: Readonly<IPhrasingContentLine>,
-  //   token: IToken,
-  //   parentToken: Readonly<IYastBlockToken>,
-  // ): IResultOfEatContinuationText {
-  //   return { status: 'notMatched' }
-  // }
-
-  // /**
-  //  * @override
-  //  * @see IMatchBlockHook
-  //  */
-  // public eatLazyContinuationText(
-  //   line: Readonly<IPhrasingContentLine>,
-  //   token: IToken,
-  //   parentToken: Readonly<IYastBlockToken>,
-  // ): IResultOfEatLazyContinuationText {
-  //   const result = this.eatContinuationText(line, token, parentToken)
-  //   return result as IResultOfEatLazyContinuationText
-  // }
-{{/if}}
-{{#if useTokenizerParseBlockHook}}
-
-  /**
-   * @override
-   * @see IParseBlockHook
-   */
-  public parseBlock(token: Readonly<IToken>): IResultOfParse<T, INode> {
-    const node: INode = { type: token.nodeType }
-    return node
-  }
-{{/if}}
+  public override readonly parse: IParseBlockHookCreator<T, IToken, INode, IThis> = parse
 }

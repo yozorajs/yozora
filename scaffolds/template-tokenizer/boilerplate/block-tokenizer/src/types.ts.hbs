@@ -1,14 +1,17 @@
-import type { IThematicBreak, ThematicBreakType } from '@yozora/ast'
+import type { IYastParent } from '@yozora/ast'
 import type {
   IBaseBlockTokenizerProps,
   IPartialYastBlockToken,
+  ITokenizer,
+  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 
-export type T = ThematicBreakType
-export type INode = IThematicBreak
+export const {{{pascalCase tokenizerName}}}Type = '{{{camelCase tokenizerName}}}'
+export type T = typeof {{{pascalCase tokenizerName}}}Type
 
 export const uniqueName = '{{{packageName}}}'
 
+export type INode = IYastParent<T>
 
 export interface IToken extends IPartialYastBlockToken<T> {
   /**
@@ -19,7 +22,12 @@ export interface IToken extends IPartialYastBlockToken<T> {
    * Whether there are no internal spaces between marker characters
    */
   continuous: boolean
+  /**
+   *
+   */
+  children: IYastBlockToken[]
 }
 
+export type IThis = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

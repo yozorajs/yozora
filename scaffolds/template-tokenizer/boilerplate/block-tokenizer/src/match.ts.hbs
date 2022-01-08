@@ -1,0 +1,90 @@
+import { AsciiCodePoint, isLineEnding } from '@yozora/character'
+import type {
+  IMatchBlockHookCreator,
+  IPhrasingContentLine,
+  // IResultOfEatAndInterruptPreviousSibling,
+  // IResultOfEatContinuationText,
+  // IResultOfEatLazyContinuationText,
+  IResultOfEatOpener,
+  IYastBlockToken,
+} from '@yozora/core-tokenizer'
+import { calcEndYastNodePoint, calcStartYastNodePoint } from '@yozora/core-tokenizer'
+import type { IThis, IToken, T } from './types'
+import { {{{pascalCase tokenizerName}}}Type } from './types'
+
+export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
+  return {
+    isContainingBlock: false,
+    eatOpener,
+    // eatAndInterruptPreviousSibling,
+    // eatContinuationText,
+    // eatLazyContinuationText,
+  }
+
+  function eatOpener(
+    line: Readonly<IPhrasingContentLine>,
+    parentToken: Readonly<IYastBlockToken>,
+  ): IResultOfEatOpener<T, IToken> {
+    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
+    if (firstNonWhitespaceIndex + 3 >= endIndex) return null
+
+    let i = firstNonWhitespaceIndex
+    const marker = nodePoints[i].codePoint
+    let c = marker
+    if (
+      marker !== AsciiCodePoint.QUESTION_MARK &&
+      marker !== AsciiCodePoint.EXCLAMATION_MARK
+    ) return null
+
+    for (; i < endIndex; ++i) {
+      c = nodePoints[i].codePoint
+      if (c !== marker) break
+    }
+    if (i < endIndex && !isLineEnding(c)) return null
+
+    const nextIndex = endIndex
+    const token: IToken = {
+      nodeType: {{{pascalCase tokenizerName}}}Type,
+      position: {
+        start: calcStartYastNodePoint(nodePoints, startIndex),
+        end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
+      },
+      marker,
+      continuous: true,
+      children: [],
+    }
+
+    return { token, nextIndex, saturated: true }
+  }
+
+  // function eatAndInterruptPreviousSibling(
+  //   line: Readonly<IPhrasingContentLine>,
+  //   prevSiblingToken: Readonly<IYastBlockToken>,
+  //   parentToken: Readonly<IYastBlockToken>,
+  // ): IResultOfEatAndInterruptPreviousSibling<T, IToken> {
+  //   const result = this.eatOpener(line, parentToken)
+  //   if (result == null) return null
+  //   return {
+  //     token: result.token,
+  //     nextIndex: result.nextIndex,
+  //     remainingSibling: prevSiblingToken,
+  //   }
+  // }
+
+  // function eatContinuationText(
+  //   line: Readonly<IPhrasingContentLine>,
+  //   token: IToken,
+  //   parentToken: Readonly<IYastBlockToken>,
+  // ): IResultOfEatContinuationText {
+  //   return { status: 'notMatched' }
+  // }
+
+  // function eatLazyContinuationText(
+  //   line: Readonly<IPhrasingContentLine>,
+  //   token: IToken,
+  //   parentToken: Readonly<IYastBlockToken>,
+  // ): IResultOfEatLazyContinuationText {
+  //   const result = this.eatContinuationText(line, token, parentToken)
+  //   return result as IResultOfEatLazyContinuationText
+  // }
+}

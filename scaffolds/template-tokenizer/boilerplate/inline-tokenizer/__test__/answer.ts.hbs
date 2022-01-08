@@ -10,6 +10,6 @@ const parser = new YozoraParser({
   .useTokenizer(new {{{pascalCase tokenizerName}}}Tokenizer())
 
 // Generate answers for custom test cases
-createTester(parser)
+void createTester(parser)
   .scan('fixtures', __dirname)
   .runAnswer()

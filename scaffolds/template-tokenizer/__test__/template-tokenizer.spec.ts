@@ -106,8 +106,6 @@ describe('new-tokenizer', function () {
       await runTest({
         expectedPackageLocation: 'tokenizers/waw',
         defaultAnswers: {
-          useTokenizerMatchBlockHook: true,
-          useTokenizerParseBlockHook: true,
           isDebugMode: true,
         },
         mockInputs: ['', '', 'some descriptions', 'tokenizers/waw', '', '', ''],
@@ -121,8 +119,6 @@ describe('new-tokenizer', function () {
       await runTest({
         expectedPackageLocation: 'tokenizers/inline-waw',
         defaultAnswers: {
-          useTokenizerMatchBlockHook: true,
-          useTokenizerParseBlockHook: true,
           isDebugMode: true,
         },
         mockInputs: ['', '', 'some descriptions', 'tokenizers/inline-waw'],
@@ -136,8 +132,6 @@ describe('new-tokenizer', function () {
       await runTest({
         expectedPackageLocation: 'packages/tokenizer-inline-waw',
         defaultAnswers: {
-          useTokenizerMatchBlockHook: true,
-          useTokenizerParseBlockHook: true,
           isDebugMode: true,
           debugOptions: {
             shouldGenerateFiles: false,
@@ -208,8 +202,6 @@ describe('new-tokenizer', function () {
       await runTest({
         expectedPackageLocation: 'tokenizers/waw',
         defaultAnswers: {
-          useTokenizerMatchBlockHook: true,
-          useTokenizerParseBlockHook: true,
           isDebugMode: true,
         },
         mockInputs: ['', '', 'some descriptions', 'tokenizers/waw', '', '', ''],
@@ -223,8 +215,6 @@ describe('new-tokenizer', function () {
       await runTest({
         expectedPackageLocation: 'tokenizers/inline-waw',
         defaultAnswers: {
-          useTokenizerMatchBlockHook: true,
-          useTokenizerParseBlockHook: true,
           isDebugMode: true,
         },
         mockInputs: ['', '', 'some descriptions', 'tokenizers/inline-waw'],
@@ -238,8 +228,6 @@ describe('new-tokenizer', function () {
       await runTest({
         expectedPackageLocation: 'packages/tokenizer-inline-waw',
         defaultAnswers: {
-          useTokenizerMatchBlockHook: true,
-          useTokenizerParseBlockHook: true,
           isDebugMode: true,
           debugOptions: {
             shouldGenerateFiles: false,

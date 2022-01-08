@@ -1,32 +1,20 @@
-import type { IYastNode } from '@yozora/ast'
-import type { INodePoint } from '@yozora/character'
-import { AsciiCodePoint } from '@yozora/character'
-import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
-  IMatchInlinePhaseApi,
-  IParseInlinePhaseApi,
-  IResultOfProcessSingleDelimiter,
-  ITokenizer,
-  IMatchInlineHook,
-  IParseInlineHook,
+  IInlineTokenizer,
+  IMatchInlineHookCreator,
+  IParseInlineHookCreator,
 } from '@yozora/core-tokenizer'
-import {
-  BaseInlineTokenizer,
-  TokenizerPriority,
-  eatOptionalWhitespaces,
-} from '@yozora/core-tokenizer'
-import type { IDelimiter, INode, IToken, ITokenizerProps, T } from './types'
-import { {{{pascalCase tokenizerName}}}Type, uniqueName } from './types'
+import { BaseInlineTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+import { match } from './match'
+import { parse } from './parse'
+import type { IDelimiter, INode, IThis, IToken, ITokenizerProps, T } from './types'
+import { uniqueName } from './types'
 
 /**
  * Lexical Analyzer for {{{pascalCase tokenizerName}}}
  */
 export class {{{pascalCase tokenizerName}}}Tokenizer
-  extends BaseInlineTokenizer<T, IDelimiter, IToken, INode>
-  implements
-    ITokenizer,
-    IMatchInlineHook<T, IDelimiter, IToken>,
-    IParseInlineHook<T, IToken, INode> {
+  extends BaseInlineTokenizer<T, IDelimiter, IToken, INode, IThis>
+  implements IInlineTokenizer<T, IDelimiter, IToken, INode, IThis> {
 
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {
@@ -36,77 +24,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
     })
   }
 
-  /**
-   * @override
-   * @see BaseInlineTokenizer
-   */
-  protected override _findDelimiter(
-    startIndex: number,
-    endIndex: number,
-    api: Readonly<IMatchInlinePhaseApi>,
-  ): IDelimiter | null {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
-    let i = eatOptionalWhitespaces(nodePoints, startIndex, endIndex)
-    if (i + 3 >= endIndex) return null
+  public override readonly match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = match
 
-    const marker = nodePoints[i].codePoint
-    let c = marker
-    if (
-      marker !== AsciiCodePoint.QUESTION_MARK &&
-      marker !== AsciiCodePoint.EXCLAMATION_MARK
-    ) return null
-
-    for (; i < endIndex; ++i) {
-      c = nodePoints[i].codePoint
-      if (c !== marker) break
-    }
-    if (i < endIndex) return null
-
-    const delimiter: IDelimiter = {
-      type: 'full',
-      startIndex,
-      endIndex,
-    }
-    return delimiter
-  }
-
-  /**
-   * @override
-   * @see IMatchInlineHook
-   */
-  public processSingleDelimiter(
-    delimiter: IDelimiter,
-    api: Readonly<IMatchInlinePhaseApi>,
-  ): IResultOfProcessSingleDelimiter<T, IToken> {
-    if (delimiter.type !== 'full') return []
-    const token: IToken = {
-      nodeType: {{{pascalCase tokenizerName}}}Type,
-      startIndex: delimiter.startIndex,
-      endIndex: delimiter.endIndex,
-    }
-    return [token]
-  }
-
-  /**
-   * @override
-   * @see IParseInlineHook
-   */
-  public processToken(
-    token: IToken,
-    children: IYastNode[],
-    api: Readonly<IParseInlinePhaseApi>,
-  ): INode {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
-    const { startIndex, endIndex } = token
-    let value: string = calcEscapedStringFromNodePoints(
-      nodePoints,
-      startIndex,
-      endIndex
-    )
-
-    // Remove the spaces at the end of the line and beginning of the next line.
-    value = value.replace(/[^\S\n]*\n[^\S\n]*/g, '\n')
-    const node: INode = { type: {{{pascalCase tokenizerName}}}Type, value }
-    return node
-  }
+  public override readonly parse: IParseInlineHookCreator<T, IToken, INode, IThis> = parse
 }

@@ -50,29 +50,11 @@ module.exports = function (plop) {
 
   plop.setGenerator('tokenizer', {
     description: 'create tokenizer template project',
-    prompts: [
-      ...prompts,
-      {
-        type: 'confirm',
-        name: 'useTokenizerMatchBlockHook',
-        message: 'add match hooks',
-        default: true,
-        when: answers => answers.tokenizerCategory === 'block',
-      },
-      {
-        type: 'confirm',
-        name: 'useTokenizerParseBlockHook',
-        message: 'add parse hooks',
-        default: true,
-        when: answers => answers.tokenizerCategory === 'block',
-      },
-    ],
+    prompts: [...prompts],
     actions: function (_answers) {
       const answers = resolveNpmPackageAnswers(preAnswers, _answers)
       answers.tokenizerName = transformers.tokenizerName(_answers.tokenizerName)
       answers.tokenizerCategory = _answers.tokenizerCategory
-      answers.useTokenizerMatchBlockHook = _answers.useTokenizerMatchBlockHook
-      answers.useTokenizerParseBlockHook = _answers.useTokenizerParseBlockHook
 
       switch (answers.tokenizerCategory) {
         case 'block':
@@ -98,35 +80,6 @@ module.exports = function (plop) {
         : './tsconfig.settings'
       answers.nodeModulesPath = path.join(relativePath, 'node_modules')
       answers.toolPackageVersion = manifest.version
-
-      /**
-       * Determine whether should append a comma.
-       */
-      answers.usingHooks = false
-      const hookNames = [
-        'IMatchBlockHook',
-        'IPostMatchBlockHook',
-        'IParseBlockHook',
-        'BlockTokenizerPostParsePhaseHook',
-      ]
-      for (let i = 0; i < hookNames.length; ++i) {
-        const hookName = hookNames[i]
-        answers[hookName + '__isNotLastHook'] = false
-        if (answers['use' + hookName]) {
-          answers.usingHooks = true
-          for (let j = i - 1; j >= 0; --j) {
-            const previousHookName = hookNames[j]
-            answers[previousHookName + '__isNotLastHook'] = true
-          }
-        }
-      }
-
-      if (answers.useTokenizerMatchBlockHook) {
-        answers.lastHook = 'IMatchBlockHook'
-      }
-      if (answers.useTokenizerParseBlockHook) {
-        answers.lastHook = 'IParseBlockHook'
-      }
 
       // Assign resolved data into plop templates.
       Object.assign(_answers, answers)
@@ -197,6 +150,16 @@ module.exports = function (plop) {
           type: 'add',
           path: resolveTargetPath('src/index.ts'),
           templateFile: resolveSourcePath(`${tokenizerCategory}-tokenizer/src/index.ts.hbs`),
+        },
+        {
+          type: 'add',
+          path: resolveTargetPath('src/match.ts'),
+          templateFile: resolveSourcePath(`${tokenizerCategory}-tokenizer/src/match.ts.hbs`),
+        },
+        {
+          type: 'add',
+          path: resolveTargetPath('src/parse.ts'),
+          templateFile: resolveSourcePath(`${tokenizerCategory}-tokenizer/src/parse.ts.hbs`),
         },
         {
           type: 'add',
