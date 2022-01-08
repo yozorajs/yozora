@@ -11,12 +11,12 @@ import { createNodeMatcher } from './util'
  *
  * @param immutableRoot
  * @param aimTypesOrNodeMatcher
- * @param mutate
+ * @param touch
  */
 export function traverseAst(
   immutableRoot: IRoot,
   aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | INodeMatcher | null,
-  mutate: (
+  touch: (
     immutableNode: Readonly<IYastNode>,
     immutableParent: Readonly<IYastParent>,
     childIndex: number,
@@ -28,7 +28,7 @@ export function traverseAst(
     const { children } = u
     for (let i = 0; i < children.length; ++i) {
       const v = children[i] as IYastParent
-      if (isMatched(v)) mutate(v, u, i)
+      if (isMatched(v)) touch(v, u, i)
 
       // Recursively visit.
       if (v.children != null) visit(v)

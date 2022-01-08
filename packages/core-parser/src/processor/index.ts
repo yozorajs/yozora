@@ -1,5 +1,5 @@
 import type { IRoot, IYastNode } from '@yozora/ast'
-import { shallowMutateAstInPreorder, traverseAst } from '@yozora/ast-util'
+import { removePositions, shallowMutateAstInPreorder } from '@yozora/ast-util'
 import type { INodePoint } from '@yozora/character'
 import type {
   IParseBlockHook,
@@ -136,29 +136,19 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
 
     const blockNodes = parseBlockTokens(blockTokenTree.children)
 
-    const tree: IRoot = {
-      type: 'root',
-      position: blockTokenTree.position,
-      children: blockNodes,
-    }
-
     // Resolve phrasingContents into Yozora AST nodes.
-    const result: IRoot = shallowMutateAstInPreorder(
-      tree,
+    const ast: IRoot = shallowMutateAstInPreorder(
+      {
+        type: 'root',
+        position: blockTokenTree.position,
+        children: blockNodes,
+      },
       [PhrasingContentType],
       (node): IYastNode[] => parsePhrasingContent(node as IPhrasingContent),
     )
 
-    // TODO: refactor this.
-    if (!shouldReservePosition) {
-      tree.position = undefined
-      traverseAst(tree, null, node => {
-        // eslint-disable-next-line no-param-reassign
-        ;(node as IYastNode).position = undefined
-      })
-    }
-
-    return result
+    if (!shouldReservePosition) removePositions(ast)
+    return ast
   }
 
   /**

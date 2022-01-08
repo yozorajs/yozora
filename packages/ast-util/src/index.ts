@@ -1,5 +1,6 @@
 export * from './ast/clone'
 export * from './ast/collect'
+export * from './ast/remove-positions'
 export * from './ast/replace-post-order'
 export * from './ast/replace-pre-order'
 export * from './ast/search'
