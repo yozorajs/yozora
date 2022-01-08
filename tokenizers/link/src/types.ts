@@ -3,6 +3,7 @@ import type { INodeInterval } from '@yozora/character'
 import type {
   IBaseInlineTokenizerProps,
   IPartialYastInlineToken,
+  ITokenizer,
   IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
@@ -35,5 +36,7 @@ export interface IDelimiter extends IYastTokenDelimiter {
    */
   titleContent?: INodeInterval
 }
+
+export type IHookContext = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>

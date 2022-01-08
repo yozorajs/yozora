@@ -2,6 +2,7 @@ import type { FootnoteType, IFootnote } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
   IPartialYastInlineToken,
+  ITokenizer,
   IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
@@ -17,5 +18,7 @@ export interface IDelimiter extends IYastTokenDelimiter {
    */
   type: 'opener' | 'closer'
 }
+
+export type IHookContext = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>

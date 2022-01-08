@@ -2,6 +2,7 @@ import type { IText, TextType } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
   IPartialYastInlineToken,
+  ITokenizer,
   IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
@@ -14,5 +15,7 @@ export type IToken = IPartialYastInlineToken<T>
 export interface IDelimiter extends IYastTokenDelimiter {
   type: 'full'
 }
+
+export type IHookContext = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>

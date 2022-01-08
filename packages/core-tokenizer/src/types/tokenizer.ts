@@ -95,7 +95,8 @@ export interface IInlineFallbackTokenizer<
   T extends YastNodeType = YastNodeType,
   IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
   INode extends IYastNode<T> = IYastNode<T>,
-> extends IInlineTokenizer<T, IYastTokenDelimiter, IToken, INode> {
+  IThis extends ITokenizer = ITokenizer,
+> extends IInlineTokenizer<T, IYastTokenDelimiter, IToken, INode, IThis> {
   /**
    * @param startIndex
    * @param endIndex

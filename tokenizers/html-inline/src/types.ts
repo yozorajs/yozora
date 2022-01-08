@@ -1,5 +1,9 @@
 import type { HtmlType, IHtml } from '@yozora/ast'
-import type { IBaseInlineTokenizerProps, IPartialYastInlineToken } from '@yozora/core-tokenizer'
+import type {
+  IBaseInlineTokenizerProps,
+  IPartialYastInlineToken,
+  ITokenizer,
+} from '@yozora/core-tokenizer'
 import type { IHtmlInlineCDataDelimiter, IHtmlInlineCDataTokenData } from './util/cdata'
 import type { IHtmlInlineClosingDelimiter, IHtmlInlineClosingTokenData } from './util/closing'
 import type { IHtmlInlineCommentDelimiter, IHtmlInlineCommentTokenData } from './util/comment'
@@ -45,5 +49,7 @@ export type IDelimiter =
   | IHtmlInlineInstructionDelimiter
   | IHtmlInlineDeclarationDelimiter
   | IHtmlInlineCDataDelimiter
+
+export type IHookContext = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>

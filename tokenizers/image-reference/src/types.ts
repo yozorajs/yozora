@@ -7,6 +7,7 @@ import type {
 import type {
   IBaseInlineTokenizerProps,
   IPartialYastInlineToken,
+  ITokenizer,
   IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 import type { ILinkReferenceDelimiterBracket } from '@yozora/tokenizer-link-reference'
@@ -21,5 +22,7 @@ export interface IToken extends IPartialYastInlineToken<T>, IYastAssociation, IY
 export interface IDelimiter extends IYastTokenDelimiter {
   brackets: ILinkReferenceDelimiterBracket[]
 }
+
+export type IHookContext = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>

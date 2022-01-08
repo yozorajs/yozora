@@ -2,6 +2,7 @@ import type { IInlineMath, InlineMathType } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
   IPartialYastInlineToken,
+  ITokenizer,
   IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
@@ -25,6 +26,13 @@ export interface IDelimiter extends IYastTokenDelimiter {
    * Thickness of the InlineMathDelimiter
    */
   thickness: number
+}
+
+export interface IHookContext extends ITokenizer {
+  /**
+   * Whether if the backtick mark wrapping necessary.
+   */
+  readonly backtickRequired: boolean
 }
 
 export interface ITokenizerProps extends Partial<IBaseInlineTokenizerProps> {

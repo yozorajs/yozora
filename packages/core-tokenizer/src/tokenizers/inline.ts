@@ -3,7 +3,7 @@ import { TokenizerType } from '../constant'
 import type { IMatchInlineHookCreator, IResultOfFindDelimiters } from '../types/match-inline/hook'
 import type { IParseInlineHookCreator } from '../types/parse-inline/hook'
 import type { IPartialYastInlineToken, IYastTokenDelimiter } from '../types/token'
-import type { IInlineTokenizer } from '../types/tokenizer'
+import type { IInlineTokenizer, ITokenizer } from '../types/tokenizer'
 
 /**
  * Params for constructing a BaseInlineTokenizer.
@@ -27,14 +27,15 @@ export abstract class BaseInlineTokenizer<
   IDelimiter extends IYastTokenDelimiter = IYastTokenDelimiter,
   IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
   INode extends IYastNode<T> = IYastNode<T>,
-> implements IInlineTokenizer<T, IDelimiter, IToken, INode>
+  IThis extends ITokenizer = ITokenizer,
+> implements IInlineTokenizer<T, IDelimiter, IToken, INode, IThis>
 {
   public readonly type = TokenizerType.INLINE
   public readonly name: string
   public readonly priority: number
 
-  public abstract readonly match: IMatchInlineHookCreator<T, IDelimiter, IToken>
-  public abstract readonly parse: IParseInlineHookCreator<T, IToken, INode>
+  public abstract readonly match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis>
+  public abstract readonly parse: IParseInlineHookCreator<T, IToken, INode, IThis>
 
   constructor(props: IBaseInlineTokenizerProps) {
     this.name = props.name

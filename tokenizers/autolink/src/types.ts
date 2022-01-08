@@ -4,6 +4,7 @@ import type {
   IBaseInlineTokenizerProps,
   IPartialYastInlineToken,
   IResultOfRequiredEater,
+  ITokenizer,
   IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
@@ -28,6 +29,8 @@ export interface IDelimiter extends IYastTokenDelimiter {
    */
   contentType: AutolinkContentType
 }
+
+export type IHookContext = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>
 

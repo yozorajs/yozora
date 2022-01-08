@@ -2,6 +2,7 @@ import type { IInlineCode, InlineCodeType } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
   IPartialYastInlineToken,
+  ITokenizer,
   IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
@@ -23,5 +24,7 @@ export interface IDelimiter extends IYastTokenDelimiter {
    */
   thickness: number
 }
+
+export type IHookContext = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>
