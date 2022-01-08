@@ -1,6 +1,6 @@
 {
   "name": "@yozora/jest-for-tokenizer",
-  "version": "2.0.0-alpha.0",
+  "version": "2.0.0-alpha.1",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -35,8 +35,8 @@
     "test:update": "node --unhandled-rejections=strict -r ts-node/register -r tsconfig-paths/register script/answer.ts"
   },
   "dependencies": {
-    "@yozora/core-parser": "^2.0.0-alpha.0",
-    "@yozora/invariant": "^2.0.0-alpha.0",
+    "@yozora/core-parser": "^2.0.0-alpha.1",
+    "@yozora/invariant": "^2.0.0-alpha.1",
     "globby": "^11.0.4"
   },
   "peerDependencies": {

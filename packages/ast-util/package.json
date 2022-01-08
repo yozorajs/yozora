@@ -1,6 +1,6 @@
 {
   "name": "@yozora/ast-util",
-  "version": "2.0.0-alpha.0",
+  "version": "2.0.0-alpha.1",
   "description": "Utility functions to handle Yozora markdown ast",
   "author": {
     "name": "guanghechen",
@@ -37,7 +37,7 @@
     "test:update": "yarn test -u"
   },
   "dependencies": {
-    "@yozora/ast": "^2.0.0-alpha.0",
-    "@yozora/character": "^2.0.0-alpha.0"
+    "@yozora/ast": "^2.0.0-alpha.1",
+    "@yozora/character": "^2.0.0-alpha.1"
   }
 }
