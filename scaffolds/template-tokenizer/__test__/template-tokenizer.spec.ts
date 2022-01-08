@@ -107,7 +107,6 @@ describe('new-tokenizer', function () {
         expectedPackageLocation: 'tokenizers/waw',
         defaultAnswers: {
           useTokenizerMatchBlockHook: true,
-          useTokenizerPostMatchBlockHook: true,
           useTokenizerParseBlockHook: true,
           isDebugMode: true,
         },
@@ -123,7 +122,6 @@ describe('new-tokenizer', function () {
         expectedPackageLocation: 'tokenizers/inline-waw',
         defaultAnswers: {
           useTokenizerMatchBlockHook: true,
-          useTokenizerPostMatchBlockHook: true,
           useTokenizerParseBlockHook: true,
           isDebugMode: true,
         },
@@ -139,7 +137,6 @@ describe('new-tokenizer', function () {
         expectedPackageLocation: 'packages/tokenizer-inline-waw',
         defaultAnswers: {
           useTokenizerMatchBlockHook: true,
-          useTokenizerPostMatchBlockHook: true,
           useTokenizerParseBlockHook: true,
           isDebugMode: true,
           debugOptions: {
@@ -212,7 +209,6 @@ describe('new-tokenizer', function () {
         expectedPackageLocation: 'tokenizers/waw',
         defaultAnswers: {
           useTokenizerMatchBlockHook: true,
-          useTokenizerPostMatchBlockHook: true,
           useTokenizerParseBlockHook: true,
           isDebugMode: true,
         },
@@ -228,7 +224,6 @@ describe('new-tokenizer', function () {
         expectedPackageLocation: 'tokenizers/inline-waw',
         defaultAnswers: {
           useTokenizerMatchBlockHook: true,
-          useTokenizerPostMatchBlockHook: true,
           useTokenizerParseBlockHook: true,
           isDebugMode: true,
         },
@@ -244,7 +239,6 @@ describe('new-tokenizer', function () {
         expectedPackageLocation: 'packages/tokenizer-inline-waw',
         defaultAnswers: {
           useTokenizerMatchBlockHook: true,
-          useTokenizerPostMatchBlockHook: true,
           useTokenizerParseBlockHook: true,
           isDebugMode: true,
           debugOptions: {

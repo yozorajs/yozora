@@ -206,7 +206,6 @@ Array [
       "tsconfigSrcExtends": "../../tsconfig.settings",
       "useTokenizerMatchBlockHook": true,
       "useTokenizerParseBlockHook": true,
-      "useTokenizerPostMatchBlockHook": false,
       "usingHooks": false,
     },
   ],
@@ -285,7 +284,6 @@ import { ThematicBreakType } from '@yozora/ast'
 import { AsciiCodePoint, isLineEnding } from '@yozora/character'
 import type {
   IPhrasingContentLine,
-  IPostMatchBlockPhaseApi,
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatContinuationText,
   IResultOfEatLazyContinuationText,
@@ -502,7 +500,6 @@ Array [
       "tsconfigSrcExtends": "../../tsconfig.settings",
       "useTokenizerMatchBlockHook": true,
       "useTokenizerParseBlockHook": true,
-      "useTokenizerPostMatchBlockHook": true,
       "usingHooks": false,
     },
   ],
@@ -733,7 +730,6 @@ Array [
       "tsconfigSrcExtends": "../../tsconfig.settings",
       "useTokenizerMatchBlockHook": true,
       "useTokenizerParseBlockHook": true,
-      "useTokenizerPostMatchBlockHook": true,
       "usingHooks": false,
     },
   ],
@@ -1278,7 +1274,6 @@ Array [
       "tsconfigSrcExtends": "./tsconfig.settings",
       "useTokenizerMatchBlockHook": true,
       "useTokenizerParseBlockHook": true,
-      "useTokenizerPostMatchBlockHook": false,
       "usingHooks": false,
     },
   ],
@@ -1413,7 +1408,6 @@ import { ThematicBreakType } from '@yozora/ast'
 import { AsciiCodePoint, isLineEnding } from '@yozora/character'
 import type {
   IPhrasingContentLine,
-  IPostMatchBlockPhaseApi,
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatContinuationText,
   IResultOfEatLazyContinuationText,
@@ -1668,7 +1662,6 @@ Array [
       "tsconfigSrcExtends": "./tsconfig.settings",
       "useTokenizerMatchBlockHook": true,
       "useTokenizerParseBlockHook": true,
-      "useTokenizerPostMatchBlockHook": true,
       "usingHooks": false,
     },
   ],
@@ -1990,7 +1983,6 @@ Array [
       "tsconfigSrcExtends": "./tsconfig.settings",
       "useTokenizerMatchBlockHook": true,
       "useTokenizerParseBlockHook": true,
-      "useTokenizerPostMatchBlockHook": true,
       "usingHooks": false,
     },
   ],

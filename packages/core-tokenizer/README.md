@@ -76,10 +76,7 @@ The parsing steps of the block tokenizer are divided into three life cycles:
 
 * `match-block`: match a block node and get a `BlockToken`
 
-* `post-match-block`: filter or merge block-level nodes at the same level
-  (currently only used in [@yozora/tokenizer-list][])
-
-* `parse-block`: Parse a `BlockToken` into a YAST node
+* `parse-block`: Parse `BlockTokens` into a YAST nodes
 
 #### match-block phase
 
@@ -172,16 +169,6 @@ The life cycle methods at this stage is subdivided into the following methods
 * `buildBlockToken`: (Optional) Convert `PhrasingContentLines[]` into a Block Token.
   This method is only needed when the matching node of this type may be rolled back
 
-#### post-match-block phase
-
-The lifecycle methods at this stage are subdivided into the following methods
-(for complete type definitions, see [post-match-block][lifecycle-post-match-block]):
-
-* `transformMatch`: (Required) Convert the sibling nodes of a certain level in
-  the tree obtained in the [match-block][lifecycle-match-block] stage into a new
-  block node list. In fact, this life cycle method is only implemented in
-  [@yozora/tokenizer-list][]
-
 #### parse-block phase
 
 The life cycle methods at this stage is subdivided into the following methods
@@ -233,7 +220,6 @@ The lifecycle methods at this stage is subdivided into the following methods
 
 * Block Tokenizer Lifecycle
   - [match-block][lifecycle-match-block]
-  - [post-match-block][lifecycle-post-match-block]
   - [parse-block][lifecycle-parse-block]
 
 * Inline Tokenizer Lifecycle
@@ -247,7 +233,6 @@ The lifecycle methods at this stage is subdivided into the following methods
 [lifecycle-match-inline]: https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/lifecycle/match-inline.ts
 [lifecycle-parse-block]: https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/lifecycle/parse-block.ts
 [lifecycle-parse-inline]: https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/lifecycle/parse-inline.ts
-[lifecycle-post-match-block]: https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/lifecycle/post-match-block.ts
 [@yozora/core-parser]: https://www.npmjs.com/package/@yozora/core-parser
 [@yozora/template-tokenizer]: https://www.npmjs.com/package/@yozora/template-tokenizer
 [@yozora/tokenizer-blockquote]: https://www.npmjs.com/package/@yozora/tokenizer-blockquote

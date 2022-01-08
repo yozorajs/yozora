@@ -1,10 +1,6 @@
 import type { IListItem, IParagraph, IYastNode, IYastNodePosition } from '@yozora/ast'
 import { ListItemType, ListType, ParagraphType } from '@yozora/ast'
-import type {
-  IParseBlockHookCreator,
-  IParseBlockPhaseApi,
-  IPhrasingContent,
-} from '@yozora/core-tokenizer'
+import type { IParseBlockHookCreator, IParseBlockPhaseApi } from '@yozora/core-tokenizer'
 import type { IHookContext, INode, IToken, T } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IHookContext> = function (api) {

@@ -7,7 +7,6 @@ import type {
   IPhrasingContent,
   IPhrasingContentLine,
   IPhrasingContentToken,
-  IPostMatchBlockHook,
   IYastBlockToken,
   IYastInlineToken,
 } from '@yozora/core-tokenizer'
@@ -89,9 +88,6 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     name: tokenizer.name,
     priority: tokenizer.priority,
   }))
-  const postMatchBlockHooks: ReadonlyArray<IPostMatchBlockHook> = blockTokenizers
-    .filter(tokenizer => tokenizer.postMatch)
-    .map(tokenizer => tokenizer.postMatch!(apis.postMatchBlockApi))
   const parseBlockHookMap = new Map<string, IParseBlockHook>(
     Array.from(blockTokenizerMap.entries()).map(entry => [
       entry[0],
@@ -127,8 +123,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     footnoteIdentifierSet.clear()
 
     isIdentifierRegisterAvailable = true // Open registration.
-    let blockTokenTree = matchBlockTokens(lines)
-    blockTokenTree = postMatchBlockTokens(blockTokenTree)
+    const blockTokenTree = matchBlockTokens(lines)
     isIdentifierRegisterAvailable = false // Close registration.
 
     // Solve reference identifiers.
@@ -281,34 +276,6 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     }
 
     const root = processor.done()
-    return root
-  }
-
-  function postMatchBlockTokens(tokenTree: IYastBlockTokenTree): IYastBlockTokenTree {
-    /**
-     * 由于 transformMatch 拥有替换原节点的能力，因此采用后序处理，
-     * 防止多次进入到同一节点（替换节点可能会产生一个高阶子树，类似于 List）；
-     *
-     * Since transformMatch has the ability to replace the original node,
-     * post-order processing is used to prevent multiple entry to the same
-     * node (replacement of the node may produce a high-order subtree, similar to List)
-     */
-    const handle = (token: IYastBlockToken): IYastBlockToken => {
-      const result: IYastBlockToken = { ...token }
-      if (token.children != null && token.children.length > 0) {
-        // Post-order handle: Perform IPostMatchBlockHook
-        let tokens = token.children.map(handle)
-        for (const hook of postMatchBlockHooks) {
-          if (hook.transformMatch) {
-            tokens = hook.transformMatch(tokens)
-          }
-        }
-        result.children = tokens
-      }
-      return result
-    }
-
-    const root: IYastBlockTokenTree = handle(tokenTree) as IYastBlockTokenTree
     return root
   }
 

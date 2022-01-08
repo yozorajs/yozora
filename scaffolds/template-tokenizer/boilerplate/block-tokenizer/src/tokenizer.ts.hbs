@@ -3,7 +3,6 @@ import { ThematicBreakType } from '@yozora/ast'
 import { AsciiCodePoint, isLineEnding } from '@yozora/character'
 import type {
   IPhrasingContentLine,
-  IPostMatchBlockPhaseApi,
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatContinuationText,
   IResultOfEatLazyContinuationText,
@@ -33,9 +32,6 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
     ITokenizer{{#if usingHooks}},{{/if}}
 {{#if useTokenizerMatchBlockHook}}
     IMatchBlockHook<T, IToken>{{#if TokenizerMatchBlockHook__isNotLastHook}},{{/if}}
-{{/if}}
-{{#if useTokenizerPostMatchBlockHook}}
-    IPostMatchBlockHook{{#if TokenizerPostMatchBlockHook__isNotLastHook}},{{/if}}
 {{/if}}
 {{#if useTokenizerParseBlockHook}}
     IParseBlockHook<T, IToken, INode>{{#if TokenizerParseBlockHook__isNotLastHook}},{{/if}}
@@ -132,19 +128,6 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
   //   const result = this.eatContinuationText(line, token, parentToken)
   //   return result as IResultOfEatLazyContinuationText
   // }
-{{/if}}
-{{#if useTokenizerPostMatchBlockHook}}
-
-  /**
-   * @override
-   * @see IPostMatchBlockHook
-   */
-  public transformMatch(
-    tokens: ReadonlyArray<IYastBlockToken>,
-    api: Readonly<IPostMatchBlockPhaseApi>
-  ): ReadonlyArray<IYastBlockToken> {
-    return tokens
-  }
 {{/if}}
 {{#if useTokenizerParseBlockHook}}
 

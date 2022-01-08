@@ -61,13 +61,6 @@ module.exports = function (plop) {
       },
       {
         type: 'confirm',
-        name: 'useTokenizerPostMatchBlockHook',
-        message: 'add post-match hooks',
-        default: false,
-        when: answers => answers.tokenizerCategory === 'block',
-      },
-      {
-        type: 'confirm',
         name: 'useTokenizerParseBlockHook',
         message: 'add parse hooks',
         default: true,
@@ -79,7 +72,6 @@ module.exports = function (plop) {
       answers.tokenizerName = transformers.tokenizerName(_answers.tokenizerName)
       answers.tokenizerCategory = _answers.tokenizerCategory
       answers.useTokenizerMatchBlockHook = _answers.useTokenizerMatchBlockHook
-      answers.useTokenizerPostMatchBlockHook = _answers.useTokenizerPostMatchBlockHook
       answers.useTokenizerParseBlockHook = _answers.useTokenizerParseBlockHook
 
       switch (answers.tokenizerCategory) {
@@ -131,9 +123,6 @@ module.exports = function (plop) {
 
       if (answers.useTokenizerMatchBlockHook) {
         answers.lastHook = 'IMatchBlockHook'
-      }
-      if (answers.useTokenizerPostMatchBlockHook) {
-        answers.lastHook = 'IPostMatchBlockHook'
       }
       if (answers.useTokenizerParseBlockHook) {
         answers.lastHook = 'IParseBlockHook'

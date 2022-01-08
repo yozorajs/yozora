@@ -5,7 +5,6 @@ import type { IMatchInlinePhaseApi } from '../types/match-inline/api'
 import type { IMatchInlineHookCreator } from '../types/match-inline/hook'
 import type { IParseBlockHookCreator } from '../types/parse-block/hook'
 import type { IParseInlineHookCreator } from '../types/parse-inline/hook'
-import type { IPostMatchBlockHookCreator } from '../types/post-match-block/hook'
 import type {
   IPartialYastBlockToken,
   IPartialYastInlineToken,
@@ -46,7 +45,6 @@ export interface IBlockTokenizer<
 > extends ITokenizer {
   readonly type: TokenizerType.BLOCK
   readonly match: IMatchBlockHookCreator<T, IToken, IThis>
-  readonly postMatch?: IPostMatchBlockHookCreator<IThis>
   readonly parse: IParseBlockHookCreator<T, IToken, INode, IThis>
 
   /**

@@ -71,11 +71,10 @@
 
 ### Block Tokenizer
 
-块分词器的解析步骤分为三个生命周期：
+块分词器的解析步骤分为两个生命周期：
 
 * `match-block`: 匹配一个块节点，得到一个 `BlockToken`
-* `post-match-block`: 过滤或合并同层级的块级节点 （目前实际上仅在 [@yozora/tokenizer-list][] 中使用到）
-* `parse-block`: 将一个 `BlockToken` 解析成一个 YAST node
+* `parse-block`: 将相同类型的 `BlockToken` 列表解析成 YAST nodes
 
 #### match-block phase
 
@@ -157,14 +156,6 @@ export interface PhrasingContentLine {
 * `buildBlockToken`: （可选）将 `PhrasingContentLines[]` 转成一个 Block Token，
   在匹配此类型节点可能出现回滚时才需要实现此方法
 
-#### post-match-block phase
-
-此阶段的生命周期函数细分成下列函数（完整的类型定义见 [post-match-block][lifecycle-post-match-block]）：
-
-* `transformMatch`: （必选）将 [match-block][lifecycle-match-block] 阶段得到的树
-  中某一层级的兄弟节点转成新的块节点列表。实际上只在 [@yozora/tokenizer-list][]
-  中实现了此生命周期函数
-
 #### parse-block phase
 
 此阶段的生命周期函数细分成下列函数（完整的类型定义见 [parse-block][lifecycle-parse-block]）：
@@ -211,7 +202,6 @@ export interface PhrasingContentLine {
 
 * Block Tokenizer Lifecycle
   - [match-block][lifecycle-match-block]
-  - [post-match-block][lifecycle-post-match-block]
   - [parse-block][lifecycle-parse-block]
 
 * Inline Tokenizer Lifecycle
@@ -225,7 +215,6 @@ export interface PhrasingContentLine {
 [lifecycle-match-inline]: https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/lifecycle/match-inline.ts
 [lifecycle-parse-block]: https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/lifecycle/parse-block.ts
 [lifecycle-parse-inline]: https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/lifecycle/parse-inline.ts
-[lifecycle-post-match-block]: https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/lifecycle/post-match-block.ts
 [@yozora/core-parser]: https://www.npmjs.com/package/@yozora/core-parser
 [@yozora/template-tokenizer]: https://www.npmjs.com/package/@yozora/template-tokenizer
 [@yozora/tokenizer-emphasis]: https://www.npmjs.com/package/@yozora/tokenizer-emphasis

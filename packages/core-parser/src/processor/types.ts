@@ -9,7 +9,6 @@ import type {
   IParseBlockPhaseApi,
   IParseInlinePhaseApi,
   IPhrasingContentLine,
-  IPostMatchBlockPhaseApi,
 } from '@yozora/core-tokenizer'
 import type { PhrasingContentTokenizer } from '../phrasing-content/tokenizer'
 
@@ -48,10 +47,6 @@ export interface IProcessorApis {
    * Api in match-block phase.
    */
   matchBlockApi: IMatchBlockPhaseApi
-  /**
-   * Api in post-match-block phase.
-   */
-  postMatchBlockApi: IPostMatchBlockPhaseApi
   /**
    * Api in parse-block phase.
    */
