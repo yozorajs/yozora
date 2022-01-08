@@ -88,9 +88,9 @@
 > - > ...
 ```
 
-如上面代码第二行所示，在解析 [ListItem][@yozora/tokenizer-list-item] 时，并不能
+如上面代码第二行所示，在解析 [ListItem][@yozora/tokenizer-list] 时，并不能
 获取原文档行内的首字符，而是顺着已有的嵌套结构等待它的祖先元素（如上面的
-[Blockquote][@yozora/tokenizer-list-item]） 完成匹配后才能获得匹配机会。为了使得
+[Blockquote][@yozora/tokenizer-blockquote]） 完成匹配后才能获得匹配机会。为了使得
 分词器之间可以无感知的协调工作，在设计块级分词器在 `match-block` 阶段的生命周期
 函数时，将嵌套结构的解析逻辑放在 [@yozora/core-parser][] 中，并使用一个数据结构
 `PhrasingContentLine` 作为行的实际解析单元：
@@ -229,7 +229,6 @@ export interface PhrasingContentLine {
 [@yozora/core-parser]: https://www.npmjs.com/package/@yozora/core-parser
 [@yozora/template-tokenizer]: https://www.npmjs.com/package/@yozora/template-tokenizer
 [@yozora/tokenizer-emphasis]: https://www.npmjs.com/package/@yozora/tokenizer-emphasis
-[@yozora/tokenizer-list-item]: https://www.npmjs.com/package/@yozora/tokenizer-list-item
 [@yozora/tokenizer-list]: https://www.npmjs.com/package/@yozora/tokenizer-list
 [@yozora/tokenizer-paragraph]: https://www.npmjs.com/package/@yozora/tokenizer-paragraph
 [@yozora/tokenizer-text]: https://www.npmjs.com/package/@yozora/tokenizer-text

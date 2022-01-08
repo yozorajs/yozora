@@ -62,7 +62,6 @@
     "@yozora/tokenizer-link": "^2.0.0-alpha.0",
     "@yozora/tokenizer-link-reference": "^2.0.0-alpha.0",
     "@yozora/tokenizer-list": "^2.0.0-alpha.0",
-    "@yozora/tokenizer-list-item": "^2.0.0-alpha.0",
     "@yozora/tokenizer-paragraph": "^2.0.0-alpha.0",
     "@yozora/tokenizer-setext-heading": "^2.0.0-alpha.0",
     "@yozora/tokenizer-text": "^2.0.0-alpha.0",

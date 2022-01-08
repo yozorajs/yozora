@@ -44,8 +44,7 @@ export type IGfmParserProps = IDefaultParserProps
  *  - @yozora/tokenizer-inline-code
  *  - @yozora/tokenizer-link
  *  - @yozora/tokenizer-link-reference
- *  - @yozora/tokenizer-list
- *  - @yozora/tokenizer-list-item (disabled task list item)
+ *  - @yozora/tokenizer-list  (task list item is not enabled)
  *  - @yozora/tokenizer-paragraph
  *  - @yozora/tokenizer-setext-heading
  *  - @yozora/tokenizer-text

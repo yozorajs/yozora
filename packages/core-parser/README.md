@@ -153,7 +153,6 @@ parser.parse(source())
 [@yozora/tokenizer-link]:               https://github.com/yozorajs/yozora/tree/main/tokenizers/link#readme
 [@yozora/tokenizer-link-reference]:     https://github.com/yozorajs/yozora/tree/main/tokenizers/link-reference#readme
 [@yozora/tokenizer-list]:               https://github.com/yozorajs/yozora/tree/main/tokenizers/list#readme
-[@yozora/tokenizer-list-item]:          https://github.com/yozorajs/yozora/tree/main/tokenizers/list-item#readme
 [@yozora/tokenizer-math]:               https://github.com/yozorajs/yozora/tree/main/tokenizers/math#readme
 [@yozora/tokenizer-paragraph]:          https://github.com/yozorajs/yozora/tree/main/tokenizers/paragraph#readme
 [@yozora/tokenizer-setext-heading]:     https://github.com/yozorajs/yozora/tree/main/tokenizers/setext-heading#readme

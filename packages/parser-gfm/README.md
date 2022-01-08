@@ -155,8 +155,7 @@ See [@yozora/parser-gfm documentation][docpage] for details.
   [@yozora/tokenizer-inline-code][]         | Resolve [GFM code spans][gfm-inline-code]
   [@yozora/tokenizer-link][]                | Resolve [GFM links][gfm-link]
   [@yozora/tokenizer-link-reference][]      | Resolve [GFM reference links][gfm-link-reference]
-  [@yozora/tokenizer-list][]                | Resolve [GFM lists][gfm-list]
-  [@yozora/tokenizer-list-item][]           | Resolve [GFM list items][gfm-list-item]
+  [@yozora/tokenizer-list][]                | Resolve [GFM lists][gfm-list] (with [GFM list items][gfm-list-item])
   [@yozora/tokenizer-paragraph][]           | Resolve [GFM paragraphs][gfm-paragraph]
   [@yozora/tokenizer-setext-heading][]      | Resolve [GFM setext headings][gfm-setext-heading]
   [@yozora/tokenizer-text][]                | Resolve [GFM textual contents][gfm-text]

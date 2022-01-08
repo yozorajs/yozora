@@ -38,7 +38,6 @@
       "@yozora/tokenizer-link": ["./tokenizers/link/src"],
       "@yozora/tokenizer-link-reference": ["./tokenizers/link-reference/src"],
       "@yozora/tokenizer-list": ["./tokenizers/list/src"],
-      "@yozora/tokenizer-list-item": ["./tokenizers/list-item/src"],
       "@yozora/tokenizer-math": ["./tokenizers/math/src"],
       "@yozora/tokenizer-paragraph": ["./tokenizers/paragraph/src"],
       "@yozora/tokenizer-setext-heading": ["./tokenizers/setext-heading/src"],

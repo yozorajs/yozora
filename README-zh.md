@@ -188,8 +188,7 @@
   [@yozora/tokenizer-inline-math][]         | Resolve inline formulas
   [@yozora/tokenizer-link][]                | Resolve [GFM links][gfm-link]
   [@yozora/tokenizer-link-reference][]      | Resolve [GFM reference links][gfm-link-reference]
-  [@yozora/tokenizer-list][]                | Resolve [GFM lists][gfm-list]
-  [@yozora/tokenizer-list-item][]           | Resolve [GFM list items][gfm-list-item] and [GFM task list items][gfm-list-task-item]
+  [@yozora/tokenizer-list][]                | Resolve [GFM lists][gfm-list] (with [GFM list items][gfm-list-item] and [GFM task list items][gfm-list-task-item])
   [@yozora/tokenizer-math][]                | Resolve block formulas
   [@yozora/tokenizer-paragraph][]           | Resolve [GFM paragraphs][gfm-paragraph]
   [@yozora/tokenizer-setext-heading][]      | Resolve [GFM setext headings][gfm-setext-heading]

@@ -94,9 +94,9 @@ block-level node has a nested structure:
 ```
 
 As shown in the second line of the above code, when parsing
-[ListItem][@yozora/tokenizer-list-item], it cannot get the first character in
+[ListItem][@yozora/tokenizer-list], it cannot get the first character in
 the original document line, but wait for its ancestor elements along the
-existing nesting structure (such as the above [Blockquote][@yozora/tokenizer-list-item])
+existing nesting structure (such as the above [Blockquote][@yozora/tokenizer-blockquote])
 to complete the matching, and then gets a matching opportunity. In order to make
 the tokenizers work with each other transparently, when designing the life cycle
 methods of the block-level tokenizer in the `match-block` stage, the parsing
@@ -250,8 +250,8 @@ The lifecycle methods at this stage is subdivided into the following methods
 [lifecycle-post-match-block]: https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/lifecycle/post-match-block.ts
 [@yozora/core-parser]: https://www.npmjs.com/package/@yozora/core-parser
 [@yozora/template-tokenizer]: https://www.npmjs.com/package/@yozora/template-tokenizer
+[@yozora/tokenizer-blockquote]: https://www.npmjs.com/package/@yozora/tokenizer-blockquote
 [@yozora/tokenizer-emphasis]: https://www.npmjs.com/package/@yozora/tokenizer-emphasis
-[@yozora/tokenizer-list-item]: https://www.npmjs.com/package/@yozora/tokenizer-list-item
 [@yozora/tokenizer-list]: https://www.npmjs.com/package/@yozora/tokenizer-list
 [@yozora/tokenizer-paragraph]: https://www.npmjs.com/package/@yozora/tokenizer-paragraph
 [@yozora/tokenizer-text]: https://www.npmjs.com/package/@yozora/tokenizer-text
