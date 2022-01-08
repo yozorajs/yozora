@@ -1,5 +1,5 @@
-export { match as blockquoteMatch } from './match'
-export { parse as blockquoteParse } from './parse'
+export { match as inlineCodeMatch } from './match'
+export { parse as inlineCodeParse } from './parse'
 export { InlineCodeTokenizer, InlineCodeTokenizer as default } from './tokenizer'
 export { uniqueName as InlineCodeTokenizerName } from './types'
 export type {

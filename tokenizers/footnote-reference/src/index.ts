@@ -1,5 +1,5 @@
-export { match as blockquoteMatch } from './match'
-export { parse as blockquoteParse } from './parse'
+export { match as footnoteReferenceMatch } from './match'
+export { parse as footnoteReferenceParse } from './parse'
 export { FootnoteReferenceTokenizer, FootnoteReferenceTokenizer as default } from './tokenizer'
 export { uniqueName as FootnoteReferenceTokenizerName } from './types'
 export type {

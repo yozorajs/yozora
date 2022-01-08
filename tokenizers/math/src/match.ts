@@ -6,7 +6,7 @@ import type {
   IResultOfEatOpener,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
-import { fencedMatch } from '@yozora/tokenizer-fenced-block'
+import { fencedBlockMatch } from '@yozora/tokenizer-fenced-block'
 import type { IThis, IToken, T } from './types'
 
 /**
@@ -32,7 +32,7 @@ import type { IThis, IToken, T } from './types'
  */
 export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
   const { markers } = this
-  const hook = fencedMatch.call(this, api) as IMatchBlockHook<T, IToken>
+  const hook = fencedBlockMatch.call(this, api) as IMatchBlockHook<T, IToken>
   return {
     ...hook,
     isContainingBlock: true,

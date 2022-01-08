@@ -1,5 +1,5 @@
-export { match as blockquoteMatch } from './match'
-export { parse as blockquoteParse } from './parse'
+export { match as deleteMatch } from './match'
+export { parse as deleteParse } from './parse'
 export { DeleteTokenizer, DeleteTokenizer as default } from './tokenizer'
 export { uniqueName as DeleteTokenizerName } from './types'
 export type {

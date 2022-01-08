@@ -15,8 +15,8 @@ import { uniqueName } from './types'
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
 export class EmphasisTokenizer
-  extends BaseInlineTokenizer<T, IDelimiter, IToken, INode>
-  implements IInlineTokenizer<T, IDelimiter, IToken, INode>
+  extends BaseInlineTokenizer<T, IDelimiter, IToken, INode, IThis>
+  implements IInlineTokenizer<T, IDelimiter, IToken, INode, IThis>
 {
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {

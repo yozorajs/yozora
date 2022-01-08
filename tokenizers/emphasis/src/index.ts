@@ -1,5 +1,5 @@
-export { match as blockquoteMatch } from './match'
-export { parse as blockquoteParse } from './parse'
+export { match as emphasisMatch } from './match'
+export { parse as emphasisParse } from './parse'
 export { EmphasisTokenizer, EmphasisTokenizer as default } from './tokenizer'
 export { uniqueName as EmphasisTokenizerName } from './types'
 export type {

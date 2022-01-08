@@ -1,4 +1,4 @@
-export { match as fencedMatch } from './match'
+export { match as fencedBlockMatch } from './match'
 export { FencedBlockTokenizer, FencedBlockTokenizer as default } from './tokenizer'
 export { FencedBlockType } from './types'
 export type {

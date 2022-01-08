@@ -1,6 +1,6 @@
 export * from './util'
-export { match as blockquoteMatch } from './match'
-export { parse as blockquoteParse } from './parse'
+export { match as imageMatch } from './match'
+export { parse as imageParse } from './parse'
 export { ImageTokenizer, ImageTokenizer as default } from './tokenizer'
 export { uniqueName as ImageTokenizerName } from './types'
 export type {
