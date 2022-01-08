@@ -1,5 +1,37 @@
 # Changelog
 
+<a name="2.0.0-alpha.1"></a>
+## 2.0.0-alpha.1 (2022-01-08)
+
+### Added
+
+- ✅ test: update snapshots [[1ccab70](https://github.com/yozorajs/yozora/commit/1ccab707a86effc3c1f7f1d9a452a4e7292c6bad)]
+
+### Changed
+
+- 🎨 improve: add removePositions [[0bc66ba](https://github.com/yozorajs/yozora/commit/0bc66bad3a9bb9bff619df2ebfbd75e091629fbe)]
+- 🎨 refactor: rename IHookContext to IThis [[04d5470](https://github.com/yozorajs/yozora/commit/04d5470c9949c4acfe6239289d34a8b5c6191e71)]
+- 🎨 refactor: refactor inline tokenizers [[b3ff235](https://github.com/yozorajs/yozora/commit/b3ff235f31f18e6ae511aaa4f96919f4eb90fa5c)]
+- 🎨 refactor: merge @yozora/tokenizer-list and @yozora/tokenizer-list-item [[53e1f6a](https://github.com/yozorajs/yozora/commit/53e1f6a454b0a5fbdbc2e17cafb3a175e05a1234)]
+
+### Removed
+
+- 🔥 improve: remove post-match-block lifecycle [[747a693](https://github.com/yozorajs/yozora/commit/747a693d1f39d79b7c84223ede0edc769d63f338)]
+- 🔥 improve: remove @yozora/tokenizer-list-item, please use @yozora/tokenizer-list directly [[ee3307c](https://github.com/yozorajs/yozora/commit/ee3307ca93fa3ad44e13de4ce59a17f48071eb6a)]
+
+### Fixed
+
+- 🐛 fix: fix incorrect export names [[b2d1fa7](https://github.com/yozorajs/yozora/commit/b2d1fa71d774bd78c87aa51435ba89593ebbeb24)]
+
+### Miscellaneous
+
+-  :alies:  feat: [BREAKING] rewrite @yozora/template-tokenizer [[65ec3e9](https://github.com/yozorajs/yozora/commit/65ec3e91a1f683644ecc595419dc0299ef7c1a37)]
+- 📝 docs(list-item): update README [[2acac08](https://github.com/yozorajs/yozora/commit/2acac088cfb9600c12da5a180ae4996befa9ac15)]
+- 📝 docs: update READMEs [[320afeb](https://github.com/yozorajs/yozora/commit/320afebd6c500cbbce5fd65c1cd184bbd2224f25)]
+-  :breaking:  feat: refactor parse-block hooks [[117104d](https://github.com/yozorajs/yozora/commit/117104de9668a0d160e9e008ee6305811e83aec6)]
+- 📝 docs: update CHANGELOG [[3d5fd1b](https://github.com/yozorajs/yozora/commit/3d5fd1b0e1ef03b09b508588c6dc6de5e1e47283)]
+
+
 <a name="2.0.0-alpha.0"></a>
 ## 2.0.0-alpha.0 (2022-01-03)
 
