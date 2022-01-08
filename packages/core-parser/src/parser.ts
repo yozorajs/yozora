@@ -13,7 +13,7 @@ import { createProcessor } from './processor'
 import type { IParseOptions, IParser } from './types'
 
 /**
- * Parameters for constructing a DefaultYastParser.
+ * Parameters for constructing a DefaultParser.
  */
 export interface IDefaultParserProps {
   /**

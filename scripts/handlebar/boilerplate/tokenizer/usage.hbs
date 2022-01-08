@@ -24,14 +24,14 @@ so you can use `YozoraParser`{{#if inGfmEx}} / `GfmExParser`{{/if}}{{#if inGfm}}
 registered in *IParser* as a plugin-in before it can be used.
 
 ```typescript {4,9}
-import { DefaultYastParser } from '@yozora/core-parser'
+import { DefaultParser } from '@yozora/core-parser'
 import ParagraphTokenizer from '@yozora/tokenizer-paragraph'
 import TextTokenizer from '@yozora/tokenizer-text'
 import {{{toPascalCase tokenizerName}}}Tokenizer from '{{{packageName}}}'
 
-const parser = new DefaultYastParser()
-  .useBlockFallbackTokenizer(new ParagraphTokenizer())
-  .useInlineFallbackTokenizer(new TextTokenizer())
+const parser = new DefaultParser()
+  .useFallbackTokenizer(new ParagraphTokenizer())
+  .useFallbackTokenizer(new TextTokenizer())
   .useTokenizer(new {{{toPascalCase tokenizerName}}}Tokenizer())
 
 // parse source markdown content

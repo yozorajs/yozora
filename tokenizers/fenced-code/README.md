@@ -84,14 +84,14 @@ so you can use `YozoraParser` / `GfmExParser` / `GfmParser` directly.
 registered in *YastParser* as a plugin-in before it can be used.
 
 ```typescript {4,9}
-import { DefaultYastParser } from '@yozora/core-parser'
+import { DefaultParser } from '@yozora/core-parser'
 import ParagraphTokenizer from '@yozora/tokenizer-paragraph'
 import TextTokenizer from '@yozora/tokenizer-text'
 import FencedCodeTokenizer from '@yozora/tokenizer-fenced-code'
 
-const parser = new DefaultYastParser()
-  .useBlockFallbackTokenizer(new ParagraphTokenizer())
-  .useInlineFallbackTokenizer(new TextTokenizer())
+const parser = new DefaultParser()
+  .useFallbackTokenizer(new ParagraphTokenizer())
+  .useFallbackTokenizer(new TextTokenizer())
   .useTokenizer(new FencedCodeTokenizer())
 
 // parse source markdown content
@@ -256,7 +256,6 @@ Name              | Type        | Required  | Default
 [@yozora/tokenizer-link]:                     https://github.com/yozorajs/yozora/tree/main/tokenizers/link#readme
 [@yozora/tokenizer-link-reference]:           https://github.com/yozorajs/yozora/tree/main/tokenizers/link-reference#readme
 [@yozora/tokenizer-list]:                     https://github.com/yozorajs/yozora/tree/main/tokenizers/list#readme
-[@yozora/tokenizer-list-item]:                https://github.com/yozorajs/yozora/tree/main/tokenizers/list-item#readme
 [@yozora/tokenizer-math]:                     https://github.com/yozorajs/yozora/tree/main/tokenizers/math#readme
 [@yozora/tokenizer-paragraph]:                https://github.com/yozorajs/yozora/tree/main/tokenizers/paragraph#readme
 [@yozora/tokenizer-setext-heading]:           https://github.com/yozorajs/yozora/tree/main/tokenizers/setext-heading#readme
@@ -316,7 +315,6 @@ Name              | Type        | Required  | Default
 [doc-@yozora/tokenizer-definition]:           https://yozora.guanghechen.com/docs/package/tokenizer-definition
 [doc-@yozora/tokenizer-link-reference]:       https://yozora.guanghechen.com/docs/package/tokenizer-link-reference
 [doc-@yozora/tokenizer-list]:                 https://yozora.guanghechen.com/docs/package/tokenizer-list
-[doc-@yozora/tokenizer-list-item]:            https://yozora.guanghechen.com/docs/package/tokenizer-list-item
 [doc-@yozora/tokenizer-math]:                 https://yozora.guanghechen.com/docs/package/tokenizer-math
 [doc-@yozora/tokenizer-paragraph]:            https://yozora.guanghechen.com/docs/package/tokenizer-paragraph
 [doc-@yozora/tokenizer-setext-heading]:       https://yozora.guanghechen.com/docs/package/tokenizer-setext-heading

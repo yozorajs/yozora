@@ -53,7 +53,7 @@
 
 <!-- :end -->
 
-[@yozora/tokenizer-list] produce [List][node-type] type nodes.
+[@yozora/tokenizer-list] produce [List][node-type] (with [ListItem][node-type:list-item] as children) type nodes.
 See [documentation][docpage] for details.
 
 <!-- :begin use tokenizer/usage -->
@@ -84,14 +84,14 @@ so you can use `YozoraParser` / `GfmExParser` / `GfmParser` directly.
 registered in *YastParser* as a plugin-in before it can be used.
 
 ```typescript {4,9}
-import { DefaultYastParser } from '@yozora/core-parser'
+import { DefaultParser } from '@yozora/core-parser'
 import ParagraphTokenizer from '@yozora/tokenizer-paragraph'
 import TextTokenizer from '@yozora/tokenizer-text'
 import ListTokenizer from '@yozora/tokenizer-list'
 
-const parser = new DefaultYastParser()
-  .useBlockFallbackTokenizer(new ParagraphTokenizer())
-  .useInlineFallbackTokenizer(new TextTokenizer())
+const parser = new DefaultParser()
+  .useFallbackTokenizer(new ParagraphTokenizer())
+  .useFallbackTokenizer(new TextTokenizer())
   .useTokenizer(new ListTokenizer())
 
 // parse source markdown content
@@ -236,15 +236,17 @@ Name              | Type        | Required  | Default
 * [@yozora/parser][]
 * [@yozora/parser-gfm][]
 * [@yozora/parser-gfm-ex][]
-* [@yozora/tokenizer-list-item][]
 * [@yozora/react-list][]
 * [@yozora/react-list-item][]
 * [@yozora/react-markdown][]
 * [Live Examples][live-examples]
 * [List | Yozora AST][node-type]
 * [Documentation][docpage]
+* [List | Mdast][mdast-homepage]
+* [ListItem | Documentation][mdast-homepage:list-item]
 
 [node-type]: http://yozora.guanghechen.com/docs/package/ast#list
+[node-type:list-item]: http://yozora.guanghechen.com/docs/package/ast#listitem
 
 <!-- :begin use tokenizer/definitions -->
 
@@ -252,7 +254,8 @@ Name              | Type        | Required  | Default
 [docpage]: https://yozora.guanghechen.com/docs/package/tokenizer-list
 [homepage]: https://github.com/yozorajs/yozora/tree/main/tokenizers/list#readme
 [gfm-spec]: https://github.github.com/gfm
-[mdast-homepage]: https://github.com/syntax-tree/mdast
+[mdast-homepage]: https://github.com/syntax-tree/mdast#list
+[mdast-homepage:list-item]: https://github.com/syntax-tree/mdast#listitem
 
 [@yozora/ast]:                                https://github.com/yozorajs/yozora/tree/main/packages/ast#readme
 [@yozora/ast-util]:                           https://github.com/yozorajs/yozora/tree/main/packages/ast-util#readme
@@ -291,7 +294,6 @@ Name              | Type        | Required  | Default
 [@yozora/tokenizer-link]:                     https://github.com/yozorajs/yozora/tree/main/tokenizers/link#readme
 [@yozora/tokenizer-link-reference]:           https://github.com/yozorajs/yozora/tree/main/tokenizers/link-reference#readme
 [@yozora/tokenizer-list]:                     https://github.com/yozorajs/yozora/tree/main/tokenizers/list#readme
-[@yozora/tokenizer-list-item]:                https://github.com/yozorajs/yozora/tree/main/tokenizers/list-item#readme
 [@yozora/tokenizer-math]:                     https://github.com/yozorajs/yozora/tree/main/tokenizers/math#readme
 [@yozora/tokenizer-paragraph]:                https://github.com/yozorajs/yozora/tree/main/tokenizers/paragraph#readme
 [@yozora/tokenizer-setext-heading]:           https://github.com/yozorajs/yozora/tree/main/tokenizers/setext-heading#readme
@@ -351,7 +353,6 @@ Name              | Type        | Required  | Default
 [doc-@yozora/tokenizer-definition]:           https://yozora.guanghechen.com/docs/package/tokenizer-definition
 [doc-@yozora/tokenizer-link-reference]:       https://yozora.guanghechen.com/docs/package/tokenizer-link-reference
 [doc-@yozora/tokenizer-list]:                 https://yozora.guanghechen.com/docs/package/tokenizer-list
-[doc-@yozora/tokenizer-list-item]:            https://yozora.guanghechen.com/docs/package/tokenizer-list-item
 [doc-@yozora/tokenizer-math]:                 https://yozora.guanghechen.com/docs/package/tokenizer-math
 [doc-@yozora/tokenizer-paragraph]:            https://yozora.guanghechen.com/docs/package/tokenizer-paragraph
 [doc-@yozora/tokenizer-setext-heading]:       https://yozora.guanghechen.com/docs/package/tokenizer-setext-heading

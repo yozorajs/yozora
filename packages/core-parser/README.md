@@ -60,21 +60,21 @@
 
 ## Usage
 
-[@yozora/core-parser][] provide a DefaultYastParser, which without any built-in
+[@yozora/core-parser][] provide a DefaultParser, which without any built-in
 tokenizers.
 
 ```typescript
-import { DefaultYastParser } from '@yozora/parser-gfm-ex'
+import { DefaultParser } from '@yozora/parser-gfm-ex'
 import ParagraphTokenizer from '@yozora/tokenizer-paragraph'
 import IndentedTokenizer from '@yozora/tokenizer-indented-code'
 import InlineCodeTokenizer from '@yozora/tokenizer-inline-code'
 import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
 import TextTokenizer from '@yozora/tokenizer-text'
 
-const parser = new DefaultYastParser()
+const parser = new DefaultParser()
 parser
-  .useBlockFallbackTokenizer(new ParagraphTokenizer())
-  .useInlineFallbackTokenizer(new TextTokenizer())
+  .useFallbackTokenizer(new ParagraphTokenizer())
+  .useFallbackTokenizer(new TextTokenizer())
   .useTokenizer(new IndentedCodeTokenizer())
   .useTokenizer(new InlineMathTokenizer())
   .useTokenizer(new InlineCodeTokenizer())
