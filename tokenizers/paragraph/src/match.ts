@@ -7,7 +7,7 @@ import type {
   IResultOfEatOpener,
 } from '@yozora/core-tokenizer'
 import { calcPositionFromPhrasingContentLines } from '@yozora/core-tokenizer'
-import type { IHookContext, IToken, T } from './types'
+import type { IThis, IToken, T } from './types'
 
 /**
  * A sequence of non-blank lines that cannot be interpreted as other kinds
@@ -19,7 +19,7 @@ import type { IHookContext, IToken, T } from './types'
  * @see https://github.com/syntax-tree/mdast#list
  * @see https://github.github.com/gfm/#paragraphs
  */
-export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function () {
+export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
   return {
     isContainingBlock: false,
     eatOpener,

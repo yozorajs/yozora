@@ -6,14 +6,7 @@ import type {
   IResultOfProcessSingleDelimiter,
 } from '@yozora/core-tokenizer'
 import { genFindDelimiter } from '@yozora/core-tokenizer'
-import type {
-  AutolinkContentType,
-  IContentHelper,
-  IDelimiter,
-  IHookContext,
-  IToken,
-  T,
-} from './types'
+import type { AutolinkContentType, IContentHelper, IDelimiter, IThis, IToken, T } from './types'
 import { eatEmailAddress } from './util/email'
 import { eatAbsoluteUri } from './util/uri'
 
@@ -28,7 +21,7 @@ const helpers: ReadonlyArray<IContentHelper> = [
  *
  * @see https://github.github.com/gfm/#autolink
  */
-export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IHookContext> = function (api) {
+export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = function (api) {
   return {
     findDelimiter: () => genFindDelimiter<IDelimiter>(_findDelimiter),
     processSingleDelimiter,

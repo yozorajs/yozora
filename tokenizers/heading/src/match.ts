@@ -12,7 +12,7 @@ import {
   calcStartYastNodePoint,
   eatOptionalCharacters,
 } from '@yozora/core-tokenizer'
-import type { IHookContext, IToken, T } from './types'
+import type { IThis, IToken, T } from './types'
 
 /**
  * An ATX heading consists of a string of characters, parsed as inline content,
@@ -28,7 +28,7 @@ import type { IHookContext, IToken, T } from './types'
  * @see https://github.com/syntax-tree/mdast#heading
  * @see https://github.github.com/gfm/#atx-heading
  */
-export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function () {
+export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
   return {
     isContainingBlock: false,
     eatOpener,

@@ -3,7 +3,7 @@ export { parse as paragraphParse } from './parse'
 export { ParagraphTokenizer, ParagraphTokenizer as default } from './tokenizer'
 export { uniqueName as ParagraphTokenizerName } from './types'
 export type {
-  IHookContext as IParagraphHookContext,
+  IThis as IParagraphHookContext,
   IToken as IParagraphToken,
   ITokenizerProps as IParagraphTokenizerProps,
 } from './types'

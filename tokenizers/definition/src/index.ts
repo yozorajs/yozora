@@ -6,7 +6,7 @@ export { parse as definitionParse } from './parse'
 export { DefinitionTokenizer, DefinitionTokenizer as default } from './tokenizer'
 export { uniqueName as DefinitionTokenizerName } from './types'
 export type {
-  IHookContext as IDefinitionHookContext,
+  IThis as IDefinitionHookContext,
   IToken as IDefinitionToken,
   ITokenizerProps as IDefinitionTokenizerProps,
 } from './types'

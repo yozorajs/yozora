@@ -7,7 +7,7 @@ import type {
 } from '@yozora/core-tokenizer'
 import { genFindDelimiter } from '@yozora/core-tokenizer'
 import { BreakTokenMarkerType } from './types'
-import type { IDelimiter, IHookContext, IToken, T } from './types'
+import type { IDelimiter, IThis, IToken, T } from './types'
 
 /**
  * A line break (not in a code span or HTML tag) that is preceded by two or more
@@ -23,7 +23,7 @@ import type { IDelimiter, IHookContext, IToken, T } from './types'
  *
  * @see https://github.com/syntax-tree/mdast#break
  */
-export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IHookContext> = function (api) {
+export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = function (api) {
   return {
     findDelimiter: () => genFindDelimiter<IDelimiter>(_findDelimiter),
     processSingleDelimiter,

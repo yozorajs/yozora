@@ -3,7 +3,7 @@ export { parse as admonitionParse } from './parse'
 export { AdmonitionTokenizer, AdmonitionTokenizer as default } from './tokenizer'
 export { uniqueName as AdmonitionTokenizerName } from './types'
 export type {
-  IHookContext as IAdmonitionHookContext,
+  IThis as IAdmonitionHookContext,
   IToken as IAdmonitionToken,
   ITokenizerProps as IAdmonitionTokenizerProps,
 } from './types'

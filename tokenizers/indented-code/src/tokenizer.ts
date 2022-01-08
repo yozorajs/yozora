@@ -6,7 +6,7 @@ import type {
 import { BaseBlockTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import { match } from './match'
 import { parse } from './parse'
-import type { IHookContext, INode, IToken, ITokenizerProps, T } from './types'
+import type { INode, IThis, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -14,8 +14,8 @@ import { uniqueName } from './types'
  * @see https://github.github.com/gfm/#indented-code-block
  */
 export class IndentedCodeTokenizer
-  extends BaseBlockTokenizer<T, IToken, INode, IHookContext>
-  implements IBlockTokenizer<T, IToken, INode, IHookContext>
+  extends BaseBlockTokenizer<T, IToken, INode, IThis>
+  implements IBlockTokenizer<T, IToken, INode, IThis>
 {
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {
@@ -25,7 +25,7 @@ export class IndentedCodeTokenizer
     })
   }
 
-  public override readonly match: IMatchBlockHookCreator<T, IToken, IHookContext> = match
+  public override readonly match: IMatchBlockHookCreator<T, IToken, IThis> = match
 
-  public override readonly parse: IParseBlockHookCreator<T, IToken, INode, IHookContext> = parse
+  public override readonly parse: IParseBlockHookCreator<T, IToken, INode, IThis> = parse
 }

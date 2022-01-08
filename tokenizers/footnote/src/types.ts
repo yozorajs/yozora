@@ -19,6 +19,6 @@ export interface IDelimiter extends IYastTokenDelimiter {
   type: 'opener' | 'closer'
 }
 
-export type IHookContext = ITokenizer
+export type IThis = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>

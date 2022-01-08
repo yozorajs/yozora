@@ -28,7 +28,7 @@ export interface IDelimiter extends IYastTokenDelimiter {
   thickness: number
 }
 
-export interface IHookContext extends ITokenizer {
+export interface IThis extends ITokenizer {
   /**
    * Whether if the backtick mark wrapping necessary.
    */

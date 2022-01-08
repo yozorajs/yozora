@@ -4,7 +4,7 @@ export { parse as footnoteDefinitionParse } from './parse'
 export { FootnoteDefinitionTokenizer, FootnoteDefinitionTokenizer as default } from './tokenizer'
 export { uniqueName as FootnoteDefinitionTokenizerName } from './types'
 export type {
-  IHookContext as IFootnoteDefinitionHookContext,
+  IThis as IFootnoteDefinitionHookContext,
   IToken as IFootnoteDefinitionToken,
   ITokenizerProps as IFootnoteDefinitionTokenizerProps,
 } from './types'

@@ -11,7 +11,7 @@ import type {
   IResultOfEatOpener,
 } from '@yozora/core-tokenizer'
 import { calcEndYastNodePoint, calcStartYastNodePoint } from '@yozora/core-tokenizer'
-import type { IHookContext, IToken, T } from './types'
+import type { IThis, IToken, T } from './types'
 import { regex1, regex2, regex3, resolveNameImports } from './util'
 
 /**
@@ -26,7 +26,7 @@ import { regex1, regex2, regex3, resolveNameImports } from './util'
  * @see https://github.com/syntax-tree/mdast#strong
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
-export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function () {
+export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
   return {
     isContainingBlock: false,
     eatOpener,

@@ -14,7 +14,7 @@ import {
   eatOptionalWhitespaces,
   resolveLabelToIdentifier,
 } from '@yozora/core-tokenizer'
-import type { IHookContext, IToken, T } from './types'
+import type { IThis, IToken, T } from './types'
 import { eatAndCollectLinkDestination } from './util/link-destination'
 import { eatAndCollectLinkLabel } from './util/link-label'
 import { eatAndCollectLinkTitle } from './util/link-title'
@@ -34,7 +34,7 @@ import { eatAndCollectLinkTitle } from './util/link-title'
  *
  * @see https://github.github.com/gfm/#link-reference-definition
  */
-export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function (api) {
+export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
   return {
     isContainingBlock: false,
     eatOpener,

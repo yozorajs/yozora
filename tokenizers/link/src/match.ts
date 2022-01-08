@@ -8,7 +8,7 @@ import type {
   IYastInlineToken,
 } from '@yozora/core-tokenizer'
 import { eatOptionalWhitespaces, genFindDelimiter, isLinkToken } from '@yozora/core-tokenizer'
-import type { IDelimiter, IHookContext, IToken, T } from './types'
+import type { IDelimiter, IThis, IToken, T } from './types'
 import { checkBalancedBracketsStatus } from './util/check-brackets'
 import { eatLinkDestination } from './util/link-destination'
 import { eatLinkTitle } from './util/link-title'
@@ -41,7 +41,7 @@ import { eatLinkTitle } from './util/link-title'
  * @see https://github.com/syntax-tree/mdast#link
  * @see https://github.github.com/gfm/#links
  */
-export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IHookContext> = function (api) {
+export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = function (api) {
   return {
     findDelimiter: () => genFindDelimiter<IDelimiter>(_findDelimiter),
     isDelimiterPair,

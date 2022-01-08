@@ -8,7 +8,7 @@ import type {
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import { calcEndYastNodePoint, calcStartYastNodePoint } from '@yozora/core-tokenizer'
-import type { IHookContext, IToken, T } from './types'
+import type { IThis, IToken, T } from './types'
 
 /**
  * A line consisting of 0-3 spaces of indentation, followed by a sequence of
@@ -17,7 +17,7 @@ import type { IHookContext, IToken, T } from './types'
  *
  * @see https://github.github.com/gfm/#thematic-break
  */
-export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function () {
+export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
   return {
     isContainingBlock: false,
     eatOpener,

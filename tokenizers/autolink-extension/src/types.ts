@@ -31,7 +31,7 @@ export interface IDelimiter extends IYastTokenDelimiter {
   contentType: AutolinkExtensionContentType
 }
 
-export type IHookContext = ITokenizer
+export type IThis = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>
 

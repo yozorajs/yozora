@@ -2,9 +2,9 @@ import { InlineCodeType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { calcStringFromNodePoints, isSpaceLike } from '@yozora/character'
 import type { IParseInlineHookCreator } from '@yozora/core-tokenizer'
-import type { IHookContext, INode, IToken, T } from './types'
+import type { INode, IThis, IToken, T } from './types'
 
-export const parse: IParseInlineHookCreator<T, IToken, INode, IHookContext> = function (api) {
+export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function (api) {
   return {
     parse: token => {
       const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()

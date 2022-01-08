@@ -7,7 +7,7 @@ import type {
 } from '@yozora/core-tokenizer'
 import { genFindDelimiter, resolveLinkLabelAndIdentifier } from '@yozora/core-tokenizer'
 import { eatFootnoteLabel } from '@yozora/tokenizer-footnote-definition'
-import type { IDelimiter, IHookContext, IToken, T } from './types'
+import type { IDelimiter, IThis, IToken, T } from './types'
 
 /**
  * A full footnote consists of a footnote label.
@@ -23,7 +23,7 @@ import type { IDelimiter, IHookContext, IToken, T } from './types'
  * @see https://github.com/syntax-tree/mdast#footnotereference
  * @see https://github.github.com/gfm/#link-label
  */
-export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IHookContext> = function (api) {
+export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = function (api) {
   return {
     findDelimiter: () => genFindDelimiter<IDelimiter>(_findDelimiter),
     processSingleDelimiter,

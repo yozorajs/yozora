@@ -13,6 +13,6 @@ export interface IToken extends IFencedBlockToken<T> {
   children?: IYastBlockToken[]
 }
 
-export type IHookContext = IFencedBlockHookContext<T>
+export type IThis = IFencedBlockHookContext<T>
 
 export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

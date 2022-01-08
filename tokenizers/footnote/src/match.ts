@@ -9,7 +9,7 @@ import type {
 } from '@yozora/core-tokenizer'
 import { genFindDelimiter } from '@yozora/core-tokenizer'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
-import type { IDelimiter, IHookContext, IToken, T } from './types'
+import type { IDelimiter, IThis, IToken, T } from './types'
 
 /**
  * An inline footnote consists of a footnote text followed immediately by a right
@@ -23,7 +23,7 @@ import type { IDelimiter, IHookContext, IToken, T } from './types'
  * @see https://github.github.com/gfm/#links
  * @see https://www.markdownguide.org/extended-syntax/#footnotes
  */
-export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IHookContext> = function (api) {
+export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = function (api) {
   return {
     findDelimiter: () => genFindDelimiter<IDelimiter>(_findDelimiter),
     isDelimiterPair,

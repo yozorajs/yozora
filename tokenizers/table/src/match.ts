@@ -11,7 +11,7 @@ import type {
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import { calcEndYastNodePoint, calcStartYastNodePoint } from '@yozora/core-tokenizer'
-import type { IHookContext, ITableCellToken, ITableRowToken, IToken, T } from './types'
+import type { ITableCellToken, ITableRowToken, IThis, IToken, T } from './types'
 
 /**
  * A table is an arrangement of data with rows and columns, consisting of
@@ -28,7 +28,7 @@ import type { IHookContext, ITableCellToken, ITableRowToken, IToken, T } from '.
  * @see https://github.com/syntax-tree/mdast#tablerow
  * @see https://github.com/syntax-tree/mdast#tablecell
  */
-export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function (api) {
+export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
   const { name: _tokenizer } = this
   return {
     isContainingBlock: false,

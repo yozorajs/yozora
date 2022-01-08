@@ -14,6 +14,6 @@ export type IToken = IPartialYastInlineToken<T>
 
 export type IDelimiter = IYastTokenDelimiter
 
-export type IHookContext = ITokenizer
+export type IThis = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>

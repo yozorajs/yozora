@@ -6,7 +6,7 @@ import type {
 import { BaseInlineTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import { match } from './match'
 import { parse } from './parse'
-import type { IDelimiter, IHookContext, INode, IToken, ITokenizerProps, T } from './types'
+import type { IDelimiter, INode, IThis, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -18,8 +18,8 @@ import { uniqueName } from './types'
  * @see https://www.markdownguide.org/extended-syntax/#footnotes
  */
 export class FootnoteTokenizer
-  extends BaseInlineTokenizer<T, IDelimiter, IToken, INode, IHookContext>
-  implements IInlineTokenizer<T, IDelimiter, IToken, INode, IHookContext>
+  extends BaseInlineTokenizer<T, IDelimiter, IToken, INode, IThis>
+  implements IInlineTokenizer<T, IDelimiter, IToken, INode, IThis>
 {
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {
@@ -29,8 +29,7 @@ export class FootnoteTokenizer
     })
   }
 
-  public override readonly match: IMatchInlineHookCreator<T, IDelimiter, IToken, IHookContext> =
-    match
+  public override readonly match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = match
 
-  public override readonly parse: IParseInlineHookCreator<T, IToken, INode, IHookContext> = parse
+  public override readonly parse: IParseInlineHookCreator<T, IToken, INode, IThis> = parse
 }

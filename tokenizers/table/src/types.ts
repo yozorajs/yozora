@@ -28,7 +28,7 @@ export interface IToken extends IPartialYastBlockToken<TableType> {
   rows: ITableRowToken[]
 }
 
-export type IHookContext = ITokenizer
+export type IThis = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>
 

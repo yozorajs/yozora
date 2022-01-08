@@ -18,7 +18,7 @@ import type {
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import { calcEndYastNodePoint, calcStartYastNodePoint } from '@yozora/core-tokenizer'
-import type { IHookContext, IToken, T } from './types'
+import type { IThis, IToken, T } from './types'
 
 /**
  * The following rules define list items:
@@ -43,7 +43,7 @@ import type { IHookContext, IToken, T } from './types'
  * @see https://github.github.com/gfm/#list-items
  */
 
-export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function () {
+export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
   const { emptyItemCouldNotInterruptedTypes, enableTaskListItem } = this
 
   return {

@@ -8,7 +8,7 @@ import type {
   IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 import { eatOptionalCharacters } from '@yozora/core-tokenizer'
-import type { IDelimiter, IHookContext, IToken, T } from './types'
+import type { IDelimiter, IThis, IToken, T } from './types'
 
 /**
  * Syntax for images is like the syntax for links, with one difference. Instead
@@ -23,7 +23,7 @@ import type { IDelimiter, IHookContext, IToken, T } from './types'
  * @see https://github.com/syntax-tree/mdast#inline-code
  * @see https://github.github.com/gfm/#code-span
  */
-export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IHookContext> = function (api) {
+export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = function (api) {
   return { findDelimiter, processSingleDelimiter }
 
   function* findDelimiter(): IResultOfFindDelimiters<IDelimiter> {

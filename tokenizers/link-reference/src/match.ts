@@ -10,7 +10,7 @@ import type {
   IYastInlineToken,
 } from '@yozora/core-tokenizer'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
-import type { IDelimiter, IHookContext, ILinkReferenceDelimiterBracket, IToken, T } from './types'
+import type { IDelimiter, ILinkReferenceDelimiterBracket, IThis, IToken, T } from './types'
 
 /**
  * There are three kinds of reference links:
@@ -77,7 +77,7 @@ import type { IDelimiter, IHookContext, ILinkReferenceDelimiterBracket, IToken, 
  * @see https://github.com/syntax-tree/mdast#linkreference
  * @see https://github.github.com/gfm/#reference-link
  */
-export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IHookContext> = function (api) {
+export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = function (api) {
   return {
     findDelimiter: () => genFindDelimiter<IDelimiter>(_findDelimiter),
     isDelimiterPair,

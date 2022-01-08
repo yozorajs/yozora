@@ -8,6 +8,6 @@ export const uniqueName = '@yozora/tokenizer-fenced-code'
 
 export type IToken = IFencedBlockToken<T>
 
-export type IHookContext = IFencedBlockHookContext<T>
+export type IThis = IFencedBlockHookContext<T>
 
 export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

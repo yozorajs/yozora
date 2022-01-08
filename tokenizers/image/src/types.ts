@@ -40,6 +40,6 @@ export interface IDelimiter extends IYastTokenDelimiter {
   titleContent?: INodeInterval
 }
 
-export type IHookContext = ITokenizer
+export type IThis = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>

@@ -5,7 +5,7 @@ export { parse as htmlBlockParse } from './parse'
 export { HtmlBlockTokenizer, HtmlBlockTokenizer as default } from './tokenizer'
 export { uniqueName as HtmlBlockTokenizerName } from './types'
 export type {
-  IHookContext as IHtmlBlockHookContext,
+  IThis as IHtmlBlockHookContext,
   IToken as IHtmlBlockToken,
   ITokenizerProps as IHtmlBlockTokenizerProps,
 } from './types'

@@ -8,6 +8,6 @@ export const uniqueName = '@yozora/tokenizer-math'
 
 export type IToken = IFencedBlockToken<T>
 
-export type IHookContext = IFencedBlockHookContext<T>
+export type IThis = IFencedBlockHookContext<T>
 
 export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

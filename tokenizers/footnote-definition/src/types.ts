@@ -30,7 +30,7 @@ export interface IToken extends IPartialYastBlockToken<T> {
   _identifier?: string
 }
 
-export interface IHookContext extends ITokenizer {
+export interface IThis extends ITokenizer {
   indent: number
 }
 

@@ -12,7 +12,7 @@ import {
   calcStartYastNodePoint,
   resolveLabelToIdentifier,
 } from '@yozora/core-tokenizer'
-import type { IHookContext, IToken, T } from './types'
+import type { IThis, IToken, T } from './types'
 import { eatFootnoteLabel } from './util'
 
 /**
@@ -34,7 +34,7 @@ import { eatFootnoteLabel } from './util'
  * @see https://github.com/remarkjs/remark-footnotes
  * @see https://www.markdownguide.org/extended-syntax/#footnotes
  */
-export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function (api) {
+export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
   const { indent } = this
   return {
     isContainingBlock: true,

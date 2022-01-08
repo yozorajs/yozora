@@ -10,7 +10,7 @@ import type {
   AutolinkExtensionContentType,
   ContentHelper,
   IDelimiter,
-  IHookContext,
+  IThis,
   IToken,
   T,
 } from './types'
@@ -26,7 +26,7 @@ const helpers: ReadonlyArray<ContentHelper> = [
 /**
  * @see https://github.github.com/gfm/#autolinks-extension-
  */
-export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IHookContext> = function (api) {
+export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = function (api) {
   return {
     findDelimiter: () => genFindDelimiter<IDelimiter>(_findDelimiter),
     processSingleDelimiter,

@@ -21,7 +21,7 @@ import { eatEndCondition4, eatStartCondition4 } from './conditions/c4'
 import { eatEndCondition5, eatStartCondition5 } from './conditions/c5'
 import { eatStartCondition6 } from './conditions/c6'
 import { eatStartCondition7 } from './conditions/c7'
-import type { HtmlBlockConditionType, IHookContext, IToken, T } from './types'
+import type { HtmlBlockConditionType, IThis, IToken, T } from './types'
 import { eatHTMLTagName } from './util/eat-html-tagname'
 
 /**
@@ -31,7 +31,7 @@ import { eatHTMLTagName } from './util/eat-html-tagname'
  * @see https://github.com/syntax-tree/mdast#html
  * @see https://github.github.com/gfm/#html-blocks
  */
-export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function () {
+export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
   return {
     isContainingBlock: false,
     eatOpener,

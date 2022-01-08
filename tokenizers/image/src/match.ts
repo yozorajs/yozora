@@ -13,7 +13,7 @@ import {
   eatLinkDestination,
   eatLinkTitle,
 } from '@yozora/tokenizer-link'
-import type { IDelimiter, IHookContext, IToken, T } from './types'
+import type { IDelimiter, IThis, IToken, T } from './types'
 
 /**
  * Syntax for images is like the syntax for links, with one difference.
@@ -42,7 +42,7 @@ import type { IDelimiter, IHookContext, IToken, T } from './types'
  * @see https://github.com/syntax-tree/mdast#image
  * @see https://github.github.com/gfm/#images
  */
-export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IHookContext> = function (api) {
+export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = function (api) {
   return {
     findDelimiter: () => genFindDelimiter<IDelimiter>(_findDelimiter),
     isDelimiterPair,

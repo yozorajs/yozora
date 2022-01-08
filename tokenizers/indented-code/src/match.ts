@@ -7,7 +7,7 @@ import type {
   IResultOfEatOpener,
 } from '@yozora/core-tokenizer'
 import { calcEndYastNodePoint, calcStartYastNodePoint } from '@yozora/core-tokenizer'
-import type { IHookContext, IToken, T } from './types'
+import type { IThis, IToken, T } from './types'
 
 /**
  * An indented code block is composed of one or more indented chunks
@@ -18,7 +18,7 @@ import type { IHookContext, IToken, T } from './types'
  *
  * @see https://github.github.com/gfm/#indented-code-block
  */
-export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function () {
+export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
   return {
     isContainingBlock: false,
     eatOpener,

@@ -20,7 +20,7 @@ export interface IDelimiter extends IYastTokenDelimiter {
   markerType: BreakTokenMarkerType
 }
 
-export type IHookContext = ITokenizer
+export type IThis = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>
 

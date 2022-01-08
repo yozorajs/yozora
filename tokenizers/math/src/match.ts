@@ -7,7 +7,7 @@ import type {
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import { fencedMatch } from '@yozora/tokenizer-fenced-block'
-import type { IHookContext, IToken, T } from './types'
+import type { IThis, IToken, T } from './types'
 
 /**
  * * single line math block:
@@ -30,7 +30,7 @@ import type { IHookContext, IToken, T } from './types'
  *
  * @see https://github.com/remarkjs/remark-math
  */
-export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function (api) {
+export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
   const { markers } = this
   const hook = fencedMatch.call(this, api) as IMatchBlockHook<T, IToken>
   return {

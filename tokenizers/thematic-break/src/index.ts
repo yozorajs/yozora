@@ -3,7 +3,7 @@ export { parse as thematicBreakParse } from './parse'
 export { ThematicBreakTokenizer, ThematicBreakTokenizer as default } from './tokenizer'
 export { uniqueName as ThematicBreakTokenizerName } from './types'
 export type {
-  IHookContext as IThematicBreakHookContext,
+  IThis as IThematicBreakHookContext,
   IToken as IThematicBreakToken,
   ITokenizerProps as IThematicBreakTokenizerProps,
 } from './types'

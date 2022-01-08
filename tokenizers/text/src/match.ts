@@ -1,7 +1,7 @@
 import { TextType } from '@yozora/ast'
 import type { IMatchInlineHookCreator } from '@yozora/core-tokenizer'
 import { genFindDelimiter } from '@yozora/core-tokenizer'
-import type { IDelimiter, IHookContext, IToken, T } from './types'
+import type { IDelimiter, IThis, IToken, T } from './types'
 
 /**
  * Any characters not given an interpretation by the other tokenizer will be
@@ -10,7 +10,7 @@ import type { IDelimiter, IHookContext, IToken, T } from './types'
  * @see https://github.com/syntax-tree/mdast#text
  * @see https://github.github.com/gfm/#textual-content
  */
-export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IHookContext> = function () {
+export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = function () {
   return {
     findDelimiter: () =>
       genFindDelimiter<IDelimiter>((startIndex, endIndex) => ({

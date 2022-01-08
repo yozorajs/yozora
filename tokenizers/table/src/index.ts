@@ -3,7 +3,7 @@ export { parse as tableParse } from './parse'
 export { TableTokenizer, TableTokenizer as default } from './tokenizer'
 export { uniqueName as TableTokenizerName } from './types'
 export type {
-  IHookContext as ITableHookContext,
+  IThis as ITableHookContext,
   ITableCellToken,
   ITableRowToken,
   IToken as ITableToken,

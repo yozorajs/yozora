@@ -1,6 +1,6 @@
 import type { IMatchBlockHook, IMatchBlockHookCreator } from '@yozora/core-tokenizer'
 import { fencedMatch } from '@yozora/tokenizer-fenced-block'
-import type { IHookContext, IToken, T } from './types'
+import type { IThis, IToken, T } from './types'
 
 /**
  * A code fence is a sequence of at least three consecutive backtick characters
@@ -10,7 +10,7 @@ import type { IHookContext, IToken, T } from './types'
  * @see https://github.com/syntax-tree/mdast#code
  * @see https://github.github.com/gfm/#code-fence
  */
-export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function (api) {
+export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
   const hook = fencedMatch.call(this, api) as IMatchBlockHook<T, IToken>
   return {
     ...hook,

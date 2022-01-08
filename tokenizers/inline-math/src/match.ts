@@ -8,9 +8,9 @@ import type {
   IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 import { eatOptionalCharacters } from '@yozora/core-tokenizer'
-import type { IDelimiter, IHookContext, IToken, T } from './types'
+import type { IDelimiter, IThis, IToken, T } from './types'
 
-export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IHookContext> = function (api) {
+export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = function (api) {
   const { backtickRequired } = this
   return { findDelimiter, processSingleDelimiter }
 

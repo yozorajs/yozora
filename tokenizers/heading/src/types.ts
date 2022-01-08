@@ -21,6 +21,6 @@ export interface IToken extends IPartialYastBlockToken<T> {
   line: Readonly<IPhrasingContentLine>
 }
 
-export type IHookContext = ITokenizer
+export type IThis = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

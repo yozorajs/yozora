@@ -4,9 +4,9 @@ import type { INodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints, isUnicodeWhitespaceCharacter } from '@yozora/character'
 import type { IParseBlockHookCreator, IPhrasingContentLine } from '@yozora/core-tokenizer'
 import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
-import type { IHookContext, INode, IToken, T } from './types'
+import type { INode, IThis, IToken, T } from './types'
 
-export const parse: IParseBlockHookCreator<T, IToken, INode, IHookContext> = function (api) {
+export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (api) {
   return {
     parse: tokens =>
       tokens.map(token => {

@@ -4,9 +4,9 @@ import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type { IParseBlockHookCreator, IPhrasingContent } from '@yozora/core-tokenizer'
 import { PhrasingContentType } from '@yozora/core-tokenizer'
-import type { IHookContext, INode, IToken, T } from './types'
+import type { INode, IThis, IToken, T } from './types'
 
-export const parse: IParseBlockHookCreator<T, IToken, INode, IHookContext> = api => ({
+export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = api => ({
   parse: tokens =>
     tokens.map(token => {
       const tableRows: ITableRow[] = token.rows.map((row): ITableRow => {

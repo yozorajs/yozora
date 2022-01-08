@@ -9,7 +9,7 @@ export { parse as blockquoteParse } from './parse'
 export { HtmlInlineTokenizer, HtmlInlineTokenizer as default } from './tokenizer'
 export { uniqueName as HtmlInlineTokenizerName } from './types'
 export type {
-  IHookContext as IHtmlInlineHookContext,
+  IThis as IHtmlInlineHookContext,
   IToken as IHtmlInlineToken,
   ITokenizerProps as IHtmlInlineTokenizerProps,
 } from './types'

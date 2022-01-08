@@ -8,7 +8,7 @@ import type {
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import { calcEndYastNodePoint, calcStartYastNodePoint } from '@yozora/core-tokenizer'
-import type { IHookContext, IToken, T } from './types'
+import type { IThis, IToken, T } from './types'
 
 /**
  * A setext heading consists of one or more lines of text, each containing
@@ -19,7 +19,7 @@ import type { IHookContext, IToken, T } from './types'
  *
  * @see https://github.github.com/gfm/#setext-heading
  */
-export const match: IMatchBlockHookCreator<T, IToken, IHookContext> = function (api) {
+export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
   return {
     isContainingBlock: false,
     eatOpener,

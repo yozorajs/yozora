@@ -7,9 +7,9 @@ import {
 } from '@yozora/character'
 import type { IParseBlockHookCreator } from '@yozora/core-tokenizer'
 import { eatOptionalWhitespaces, mergeContentLinesFaithfully } from '@yozora/core-tokenizer'
-import type { IHookContext, INode, IToken, T } from './types'
+import type { INode, IThis, IToken, T } from './types'
 
-export const parse: IParseBlockHookCreator<T, IToken, INode, IHookContext> = function () {
+export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function () {
   return {
     parse: tokens =>
       tokens.map(token => {

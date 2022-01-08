@@ -6,7 +6,7 @@ import type {
   IResultOfProcessSingleDelimiter,
 } from '@yozora/core-tokenizer'
 import { eatOptionalWhitespaces, genFindDelimiter } from '@yozora/core-tokenizer'
-import type { IDelimiter, IHookContext, IToken, T } from './types'
+import type { IDelimiter, IThis, IToken, T } from './types'
 import { eatHtmlInlineCDataDelimiter } from './util/cdata'
 import { eatHtmlInlineClosingDelimiter } from './util/closing'
 import { eatHtmlInlineCommentDelimiter } from './util/comment'
@@ -22,7 +22,7 @@ import { eatHtmlInlineTokenOpenDelimiter } from './util/open'
  *
  * @see https://github.github.com/gfm/#raw-html
  */
-export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IHookContext> = function (api) {
+export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = function (api) {
   return {
     findDelimiter: () => genFindDelimiter<IDelimiter>(_findDelimiter),
     processSingleDelimiter,

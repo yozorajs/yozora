@@ -9,7 +9,7 @@ import { TokenizerPriority } from '@yozora/core-tokenizer'
 import FencedBlockTokenizer from '@yozora/tokenizer-fenced-block'
 import { match } from './match'
 import { parse } from './parse'
-import type { IHookContext, INode, IToken, ITokenizerProps, T } from './types'
+import type { INode, IThis, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -17,8 +17,8 @@ import { uniqueName } from './types'
  * @see https://github.com/remarkjs/remark-math
  */
 export class MathTokenizer
-  extends FencedBlockTokenizer<T, INode, IHookContext>
-  implements IBlockTokenizer<T, IToken, INode, IHookContext>
+  extends FencedBlockTokenizer<T, INode, IThis>
+  implements IBlockTokenizer<T, IToken, INode, IThis>
 {
   /* istanbul ignore next */
   constructor(props: ITokenizerProps = {}) {
@@ -31,7 +31,7 @@ export class MathTokenizer
     })
   }
 
-  public override readonly match: IMatchBlockHookCreator<T, IToken, IHookContext> = match
+  public override readonly match: IMatchBlockHookCreator<T, IToken, IThis> = match
 
-  public override readonly parse: IParseBlockHookCreator<T, IToken, INode, IHookContext> = parse
+  public override readonly parse: IParseBlockHookCreator<T, IToken, INode, IThis> = parse
 }

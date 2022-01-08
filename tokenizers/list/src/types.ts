@@ -47,7 +47,7 @@ export interface IToken extends IPartialYastBlockToken<T> {
   children: IYastBlockToken[]
 }
 
-export interface IHookContext extends ITokenizer {
+export interface IThis extends ITokenizer {
   /**
    * Specify an array of IYastNode types that could not be interrupted
    * by this ITokenizer if the current list-item is empty.
