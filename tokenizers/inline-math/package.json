@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-inline-math",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "description": "Tokenizer for processing inline math (formulas)",
   "author": {
     "name": "guanghechen",
@@ -45,11 +45,11 @@
     "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir ."
   },
   "dependencies": {
-    "@yozora/ast": "^2.0.0-alpha.1",
-    "@yozora/character": "^2.0.0-alpha.1",
-    "@yozora/core-tokenizer": "^2.0.0-alpha.1"
+    "@yozora/ast": "^2.0.0-alpha.2",
+    "@yozora/character": "^2.0.0-alpha.2",
+    "@yozora/core-tokenizer": "^2.0.0-alpha.2"
   },
   "devDependencies": {
-    "@yozora/tokenizer-inline-code": "^2.0.0-alpha.1"
+    "@yozora/tokenizer-inline-code": "^2.0.0-alpha.2"
   }
 }

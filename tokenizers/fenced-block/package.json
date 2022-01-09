@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-fenced-block",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -34,8 +34,8 @@
     "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build"
   },
   "dependencies": {
-    "@yozora/ast": "^2.0.0-alpha.1",
-    "@yozora/character": "^2.0.0-alpha.1",
-    "@yozora/core-tokenizer": "^2.0.0-alpha.1"
+    "@yozora/ast": "^2.0.0-alpha.2",
+    "@yozora/character": "^2.0.0-alpha.2",
+    "@yozora/core-tokenizer": "^2.0.0-alpha.2"
   }
 }
