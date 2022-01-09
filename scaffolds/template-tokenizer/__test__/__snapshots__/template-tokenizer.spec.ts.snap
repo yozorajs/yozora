@@ -272,6 +272,123 @@ export type {
 "
 `;
 
+exports[`new-tokenizer monorepo block: src/match.ts 1`] = `
+"import { AsciiCodePoint, isLineEnding } from '@yozora/character'
+import type {
+  IMatchBlockHookCreator,
+  IPhrasingContentLine,
+  // IResultOfEatAndInterruptPreviousSibling,
+  // IResultOfEatContinuationText,
+  // IResultOfEatLazyContinuationText,
+  IResultOfEatOpener,
+  IYastBlockToken,
+} from '@yozora/core-tokenizer'
+import { calcEndYastNodePoint, calcStartYastNodePoint } from '@yozora/core-tokenizer'
+import type { IThis, IToken, T } from './types'
+import { WawType } from './types'
+
+export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
+  return {
+    isContainingBlock: false,
+    eatOpener,
+    // eatAndInterruptPreviousSibling,
+    // eatContinuationText,
+    // eatLazyContinuationText,
+  }
+
+  function eatOpener(
+    line: Readonly<IPhrasingContentLine>,
+    parentToken: Readonly<IYastBlockToken>,
+  ): IResultOfEatOpener<T, IToken> {
+    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
+    if (firstNonWhitespaceIndex + 3 >= endIndex) return null
+
+    let i = firstNonWhitespaceIndex
+    const marker = nodePoints[i].codePoint
+    let c = marker
+    if (
+      marker !== AsciiCodePoint.QUESTION_MARK &&
+      marker !== AsciiCodePoint.EXCLAMATION_MARK
+    ) return null
+
+    for (; i < endIndex; ++i) {
+      c = nodePoints[i].codePoint
+      if (c !== marker) break
+    }
+    if (i < endIndex && !isLineEnding(c)) return null
+
+    const nextIndex = endIndex
+    const token: IToken = {
+      nodeType: WawType,
+      position: {
+        start: calcStartYastNodePoint(nodePoints, startIndex),
+        end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
+      },
+      marker,
+      continuous: true,
+      children: [],
+    }
+
+    return { token, nextIndex, saturated: true }
+  }
+
+  // function eatAndInterruptPreviousSibling(
+  //   line: Readonly<IPhrasingContentLine>,
+  //   prevSiblingToken: Readonly<IYastBlockToken>,
+  //   parentToken: Readonly<IYastBlockToken>,
+  // ): IResultOfEatAndInterruptPreviousSibling<T, IToken> {
+  //   const result = this.eatOpener(line, parentToken)
+  //   if (result == null) return null
+  //   return {
+  //     token: result.token,
+  //     nextIndex: result.nextIndex,
+  //     remainingSibling: prevSiblingToken,
+  //   }
+  // }
+
+  // function eatContinuationText(
+  //   line: Readonly<IPhrasingContentLine>,
+  //   token: IToken,
+  //   parentToken: Readonly<IYastBlockToken>,
+  // ): IResultOfEatContinuationText {
+  //   return { status: 'notMatched' }
+  // }
+
+  // function eatLazyContinuationText(
+  //   line: Readonly<IPhrasingContentLine>,
+  //   token: IToken,
+  //   parentToken: Readonly<IYastBlockToken>,
+  // ): IResultOfEatLazyContinuationText {
+  //   const result = this.eatContinuationText(line, token, parentToken)
+  //   return result as IResultOfEatLazyContinuationText
+  // }
+}
+"
+`;
+
+exports[`new-tokenizer monorepo block: src/parse.ts 1`] = `
+"import type { IYastNode } from '@yozora/ast'
+import type { IParseBlockHookCreator } from '@yozora/core-tokenizer'
+import type { INode, IThis, IToken, T } from './types'
+import { WawType } from './types'
+
+export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (api) {
+  return {
+    parse: tokens => 
+      tokens.map(token => {
+        const children: IYastNode[] = token.children ? api.parseBlockTokens(token.children) : []
+        const node: INode = { 
+          type: WawType,
+          position: token.position,
+          children,
+        }
+        return node
+      }),
+  }
+}
+"
+`;
+
 exports[`new-tokenizer monorepo block: src/tokenizer.ts 1`] = `
 "import type {
   IBlockTokenizer,
@@ -682,6 +799,99 @@ export type {
   IToken as IInlineWawToken,
   ITokenizerProps as IInlineWawTokenizerProps,
 } from './types'
+"
+`;
+
+exports[`new-tokenizer monorepo inline: src/match.ts 1`] = `
+"import type { INodePoint } from '@yozora/character'
+import { AsciiCodePoint } from '@yozora/character'
+import type {
+  IMatchInlineHookCreator,
+  IResultOfProcessSingleDelimiter,
+} from '@yozora/core-tokenizer'
+import { eatOptionalWhitespaces, genFindDelimiter } from '@yozora/core-tokenizer'
+import type { IDelimiter, IThis, IToken, T } from './types'
+import { InlineWawType } from './types'
+
+export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = function (api) {
+  return {
+    findDelimiter: () => genFindDelimiter<IDelimiter>(_findDelimiter),
+    processSingleDelimiter,
+  }
+
+  function _findDelimiter(startIndex: number, endIndex: number): IDelimiter | null {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+    let i = eatOptionalWhitespaces(nodePoints, startIndex, endIndex)
+    if (i + 3 >= endIndex) return null
+
+    const marker = nodePoints[i].codePoint
+    let c = marker
+    if (
+      marker !== AsciiCodePoint.QUESTION_MARK &&
+      marker !== AsciiCodePoint.EXCLAMATION_MARK
+    ) return null
+
+    for (; i < endIndex; ++i) {
+      c = nodePoints[i].codePoint
+      if (c !== marker) break
+    }
+    if (i < endIndex) return null
+
+    const delimiter: IDelimiter = {
+      type: 'full',
+      startIndex,
+      endIndex,
+    }
+    return delimiter
+  }
+
+  function processSingleDelimiter(
+    delimiter: IDelimiter
+  ): IResultOfProcessSingleDelimiter<T, IToken> {
+    if (delimiter.type !== 'full') return []
+    const token: IToken = {
+      nodeType: InlineWawType,
+      startIndex: delimiter.startIndex,
+      endIndex: delimiter.endIndex,
+    }
+    return [token]
+  }
+}
+"
+`;
+
+exports[`new-tokenizer monorepo inline: src/parse.ts 1`] = `
+"import type { IYastNode } from '@yozora/ast'
+import type { INodePoint } from '@yozora/character'
+import { calcEscapedStringFromNodePoints } from '@yozora/character'
+import type { IParseInlineHookCreator } from '@yozora/core-tokenizer'
+import type { INode, IThis, IToken, T } from './types'
+import { InlineWawType } from './types'
+
+export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function (api) {
+  return {
+    parse: tokens =>
+      tokens.map(token => {
+        const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+        const { startIndex, endIndex } = token
+        let value: string = calcEscapedStringFromNodePoints(
+          nodePoints,
+          startIndex,
+          endIndex
+        )
+
+        // Remove the spaces at the end of the line and beginning of the next line.
+        value = value.replace(/[^\\\\S\\\\n]*\\\\n[^\\\\S\\\\n]*/g, '\\\\n')
+        const children: IYastNode[] = token.children ? api.parseInlineTokens(token.children) : []
+        const node: INode = {
+          type: InlineWawType,
+          position: api.calcPosition(token),
+          value,
+        }
+        return node
+      }),
+  }
+}
 "
 `;
 
@@ -1193,6 +1403,123 @@ export type {
   IToken as IWawToken,
   ITokenizerProps as IWawTokenizerProps,
 } from './types'
+"
+`;
+
+exports[`new-tokenizer not a monorepo block: src/match.ts 1`] = `
+"import { AsciiCodePoint, isLineEnding } from '@yozora/character'
+import type {
+  IMatchBlockHookCreator,
+  IPhrasingContentLine,
+  // IResultOfEatAndInterruptPreviousSibling,
+  // IResultOfEatContinuationText,
+  // IResultOfEatLazyContinuationText,
+  IResultOfEatOpener,
+  IYastBlockToken,
+} from '@yozora/core-tokenizer'
+import { calcEndYastNodePoint, calcStartYastNodePoint } from '@yozora/core-tokenizer'
+import type { IThis, IToken, T } from './types'
+import { WawType } from './types'
+
+export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
+  return {
+    isContainingBlock: false,
+    eatOpener,
+    // eatAndInterruptPreviousSibling,
+    // eatContinuationText,
+    // eatLazyContinuationText,
+  }
+
+  function eatOpener(
+    line: Readonly<IPhrasingContentLine>,
+    parentToken: Readonly<IYastBlockToken>,
+  ): IResultOfEatOpener<T, IToken> {
+    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
+    if (firstNonWhitespaceIndex + 3 >= endIndex) return null
+
+    let i = firstNonWhitespaceIndex
+    const marker = nodePoints[i].codePoint
+    let c = marker
+    if (
+      marker !== AsciiCodePoint.QUESTION_MARK &&
+      marker !== AsciiCodePoint.EXCLAMATION_MARK
+    ) return null
+
+    for (; i < endIndex; ++i) {
+      c = nodePoints[i].codePoint
+      if (c !== marker) break
+    }
+    if (i < endIndex && !isLineEnding(c)) return null
+
+    const nextIndex = endIndex
+    const token: IToken = {
+      nodeType: WawType,
+      position: {
+        start: calcStartYastNodePoint(nodePoints, startIndex),
+        end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
+      },
+      marker,
+      continuous: true,
+      children: [],
+    }
+
+    return { token, nextIndex, saturated: true }
+  }
+
+  // function eatAndInterruptPreviousSibling(
+  //   line: Readonly<IPhrasingContentLine>,
+  //   prevSiblingToken: Readonly<IYastBlockToken>,
+  //   parentToken: Readonly<IYastBlockToken>,
+  // ): IResultOfEatAndInterruptPreviousSibling<T, IToken> {
+  //   const result = this.eatOpener(line, parentToken)
+  //   if (result == null) return null
+  //   return {
+  //     token: result.token,
+  //     nextIndex: result.nextIndex,
+  //     remainingSibling: prevSiblingToken,
+  //   }
+  // }
+
+  // function eatContinuationText(
+  //   line: Readonly<IPhrasingContentLine>,
+  //   token: IToken,
+  //   parentToken: Readonly<IYastBlockToken>,
+  // ): IResultOfEatContinuationText {
+  //   return { status: 'notMatched' }
+  // }
+
+  // function eatLazyContinuationText(
+  //   line: Readonly<IPhrasingContentLine>,
+  //   token: IToken,
+  //   parentToken: Readonly<IYastBlockToken>,
+  // ): IResultOfEatLazyContinuationText {
+  //   const result = this.eatContinuationText(line, token, parentToken)
+  //   return result as IResultOfEatLazyContinuationText
+  // }
+}
+"
+`;
+
+exports[`new-tokenizer not a monorepo block: src/parse.ts 1`] = `
+"import type { IYastNode } from '@yozora/ast'
+import type { IParseBlockHookCreator } from '@yozora/core-tokenizer'
+import type { INode, IThis, IToken, T } from './types'
+import { WawType } from './types'
+
+export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (api) {
+  return {
+    parse: tokens => 
+      tokens.map(token => {
+        const children: IYastNode[] = token.children ? api.parseBlockTokens(token.children) : []
+        const node: INode = { 
+          type: WawType,
+          position: token.position,
+          children,
+        }
+        return node
+      }),
+  }
+}
 "
 `;
 
@@ -1791,6 +2118,99 @@ export type {
   IToken as IInlineWawToken,
   ITokenizerProps as IInlineWawTokenizerProps,
 } from './types'
+"
+`;
+
+exports[`new-tokenizer not a monorepo inline: src/match.ts 1`] = `
+"import type { INodePoint } from '@yozora/character'
+import { AsciiCodePoint } from '@yozora/character'
+import type {
+  IMatchInlineHookCreator,
+  IResultOfProcessSingleDelimiter,
+} from '@yozora/core-tokenizer'
+import { eatOptionalWhitespaces, genFindDelimiter } from '@yozora/core-tokenizer'
+import type { IDelimiter, IThis, IToken, T } from './types'
+import { InlineWawType } from './types'
+
+export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = function (api) {
+  return {
+    findDelimiter: () => genFindDelimiter<IDelimiter>(_findDelimiter),
+    processSingleDelimiter,
+  }
+
+  function _findDelimiter(startIndex: number, endIndex: number): IDelimiter | null {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+    let i = eatOptionalWhitespaces(nodePoints, startIndex, endIndex)
+    if (i + 3 >= endIndex) return null
+
+    const marker = nodePoints[i].codePoint
+    let c = marker
+    if (
+      marker !== AsciiCodePoint.QUESTION_MARK &&
+      marker !== AsciiCodePoint.EXCLAMATION_MARK
+    ) return null
+
+    for (; i < endIndex; ++i) {
+      c = nodePoints[i].codePoint
+      if (c !== marker) break
+    }
+    if (i < endIndex) return null
+
+    const delimiter: IDelimiter = {
+      type: 'full',
+      startIndex,
+      endIndex,
+    }
+    return delimiter
+  }
+
+  function processSingleDelimiter(
+    delimiter: IDelimiter
+  ): IResultOfProcessSingleDelimiter<T, IToken> {
+    if (delimiter.type !== 'full') return []
+    const token: IToken = {
+      nodeType: InlineWawType,
+      startIndex: delimiter.startIndex,
+      endIndex: delimiter.endIndex,
+    }
+    return [token]
+  }
+}
+"
+`;
+
+exports[`new-tokenizer not a monorepo inline: src/parse.ts 1`] = `
+"import type { IYastNode } from '@yozora/ast'
+import type { INodePoint } from '@yozora/character'
+import { calcEscapedStringFromNodePoints } from '@yozora/character'
+import type { IParseInlineHookCreator } from '@yozora/core-tokenizer'
+import type { INode, IThis, IToken, T } from './types'
+import { InlineWawType } from './types'
+
+export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function (api) {
+  return {
+    parse: tokens =>
+      tokens.map(token => {
+        const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+        const { startIndex, endIndex } = token
+        let value: string = calcEscapedStringFromNodePoints(
+          nodePoints,
+          startIndex,
+          endIndex
+        )
+
+        // Remove the spaces at the end of the line and beginning of the next line.
+        value = value.replace(/[^\\\\S\\\\n]*\\\\n[^\\\\S\\\\n]*/g, '\\\\n')
+        const children: IYastNode[] = token.children ? api.parseInlineTokens(token.children) : []
+        const node: INode = {
+          type: InlineWawType,
+          position: api.calcPosition(token),
+          value,
+        }
+        return node
+      }),
+  }
+}
 "
 `;
 
