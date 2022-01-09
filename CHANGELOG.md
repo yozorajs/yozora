@@ -1,5 +1,35 @@
 # Changelog
 
+<a name="2.0.0-alpha.2"></a>
+## 2.0.0-alpha.2 (2022-01-09)
+
+### Added
+
+- ✅ test: add test for removePositions [[967f3c6](https://github.com/yozorajs/yozora/commit/967f3c6e5d4ec5d1a4e623331c3720cbf5ebca4b)]
+
+### Changed
+
+- 🎨 refactor: remove PhrasingContentTokenizer (processInline throw hook api directly) [[d69d884](https://github.com/yozorajs/yozora/commit/d69d88431a9069011470fdb5d67fc196bc90e824)]
+- 🎨 refactor: refactor removePosition [[87a974f](https://github.com/yozorajs/yozora/commit/87a974fd744ae937d5778d3cdba4b345141bcaf6)]
+- 🎨 improve: rewrite removePositions [[427b6c2](https://github.com/yozorajs/yozora/commit/427b6c24e12fbae0d76fc36b63c8f66cb937ede3)]
+- 🎨 improve: simplify codes [[0712473](https://github.com/yozorajs/yozora/commit/0712473e824f532844e73f9e2023b591fb6bd6a5)]
+- 👽 fix: update templates &amp; update snapshot [[3485f9e](https://github.com/yozorajs/yozora/commit/3485f9e61a0725be931f344336c63dd0b6ed88c5)]
+- 🎨 refactor: refactor parse-inline hooks [[455cfbd](https://github.com/yozorajs/yozora/commit/455cfbdfec9f3d7a738d0b3f23655805b1eaea0b)]
+- 🔧 chore: update ci [[ab2e079](https://github.com/yozorajs/yozora/commit/ab2e079ea31d879fd8e07abc229347574adf70d9)]
+
+### Breaking changes
+
+- 💥 art: refactor IParseBlockPhaseApi, use processInlines instead buildPhrasingContent and parsePhrasingContent [[0715e39](https://github.com/yozorajs/yozora/commit/0715e391d663fdf0c76ca6c0a283ed350d1626df)]
+
+### Removed
+
+- 🔥 improve: remove unused codes [[4e8b719](https://github.com/yozorajs/yozora/commit/4e8b71974a6a74fb7db4193fcebe241b40b6e262)]
+
+### Miscellaneous
+
+- 📝 docs: update CHANGELOG [[89be08b](https://github.com/yozorajs/yozora/commit/89be08b90a3773a57010ca04a728b63e31cf151f)]
+
+
 <a name="2.0.0-alpha.1"></a>
 ## 2.0.0-alpha.1 (2022-01-08)
 
