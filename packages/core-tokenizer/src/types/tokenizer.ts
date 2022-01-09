@@ -11,7 +11,7 @@ import type {
   IYastBlockToken,
   IYastTokenDelimiter,
 } from '../types/token'
-import type { IPhrasingContent, IPhrasingContentLine } from './phrasing-content'
+import type { IPhrasingContentLine } from './phrasing-content'
 
 export interface ITokenizer {
   /**
@@ -65,19 +65,12 @@ export interface IBlockTokenizer<
   ): (IToken & IYastBlockToken) | null
 }
 
-export interface IBlockFallbackTokenizer<
+export type IBlockFallbackTokenizer<
   T extends YastNodeType = YastNodeType,
   IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
   INode extends IYastNode<T> = IYastNode<T>,
   IThis extends ITokenizer = ITokenizer,
-> extends IBlockTokenizer<T, IToken, INode, IThis> {
-  /**
-   * Build PhrasingContent from PhrasingContentToken.
-   * @param lines
-   * @returns
-   */
-  buildPhrasingContent(lines: ReadonlyArray<IPhrasingContentLine>): IPhrasingContent | null
-}
+> = IBlockTokenizer<T, IToken, INode, IThis>
 
 export interface IInlineTokenizer<
   T extends YastNodeType = YastNodeType,

@@ -1,8 +1,7 @@
 import type { IYastNodePosition } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { isLineEnding, isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
-import type { IPhrasingContent, IPhrasingContentLine } from '../types/phrasing-content'
-import { PhrasingContentType } from '../types/phrasing-content'
+import type { IPhrasingContentLine } from '../types/phrasing-content'
 import { calcEndYastNodePoint, calcStartYastNodePoint } from './node-point'
 
 /**
@@ -156,17 +155,4 @@ export function mergeAndStripContentLines(
   }
 
   return contents
-}
-
-/**
- * Build IPhrasingContent from PhrasingContentToken.
- * @param lines
- * @returns
- */
-export function buildPhrasingContent(
-  lines: ReadonlyArray<IPhrasingContentLine>,
-): IPhrasingContent | null {
-  const contents = mergeAndStripContentLines(lines)
-  if (contents.length <= 0) return null
-  return { type: PhrasingContentType, contents }
 }

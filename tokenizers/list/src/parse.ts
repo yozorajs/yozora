@@ -48,7 +48,8 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
  *
  * If list is not loose, traverse the list-items, for the list-item whose
  * first child node is Paragraph, convert the first node in this list-item
- * to IPhrasingContent
+ * to Phrasing content
+ * @see https://github.com/syntax-tree/mdast#phrasingcontent
  */
 const resolveList = (tokens: IToken[], api: IParseBlockPhaseApi): INode | null => {
   if (tokens.length <= 0) return null

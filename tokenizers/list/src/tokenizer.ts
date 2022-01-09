@@ -5,7 +5,7 @@ import type {
   IMatchBlockHookCreator,
   IParseBlockHookCreator,
 } from '@yozora/core-tokenizer'
-import { BaseBlockTokenizer, PhrasingContentType, TokenizerPriority } from '@yozora/core-tokenizer'
+import { BaseBlockTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import { match } from './match'
 import { parse } from './parse'
 import type { INode, IThis, IToken, ITokenizerProps, T } from './types'
@@ -32,7 +32,6 @@ export class ListTokenizer
     })
     this.enableTaskListItem = props.enableTaskListItem ?? false
     this.emptyItemCouldNotInterruptedTypes = props.emptyItemCouldNotInterruptedTypes ?? [
-      PhrasingContentType,
       ParagraphType,
     ]
   }

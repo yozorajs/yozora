@@ -9,7 +9,6 @@ import type {
 import {
   BaseBlockTokenizer,
   TokenizerPriority,
-  buildPhrasingContent,
   calcPositionFromPhrasingContentLines,
   trimBlankLines,
 } from '@yozora/core-tokenizer'
@@ -60,6 +59,4 @@ export class ParagraphTokenizer
     }
     return token
   }
-
-  public readonly buildPhrasingContent = buildPhrasingContent
 }

@@ -126,11 +126,10 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       footnoteIdentifierSet.add(footnoteDefinition.identifier)
     }
 
-    const blockNodes = parseBlockTokens(blockTokenTree.children)
-
+    const children: IYastNode[] = parseBlockTokens(blockTokenTree.children)
     const ast: IRoot = shouldReservePosition
-      ? { type: 'root', position: blockTokenTree.position, children: blockNodes }
-      : { type: 'root', children: blockNodes }
+      ? { type: 'root', position: blockTokenTree.position, children }
+      : { type: 'root', children }
     return ast
   }
 

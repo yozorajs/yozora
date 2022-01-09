@@ -218,7 +218,7 @@ Name                                | Type              | Required  | Default
 `name`                              | `string`          | `false`   | `"@yozora/tokenizer-list"`
 `priority`                          | `number`          | `false`   | `TokenizerPriority.CONTAINING_BLOCK`
 `enableTaskListItem`                | `boolean`         | `false`   | `false`
-`emptyItemCouldNotInterruptedTypes` | `YastNodeType[]`  | `false`   | `[PhrasingContentType, ParagraphType]`
+`emptyItemCouldNotInterruptedTypes` | `YastNodeType[]`  | `false`   | `[ParagraphType]`
 
 * `name`: The unique name of the tokenizer, used to bind the token it generates,
   to determine the tokenizer that should be called in each life cycle of the

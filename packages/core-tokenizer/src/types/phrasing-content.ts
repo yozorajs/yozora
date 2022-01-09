@@ -1,35 +1,4 @@
-import type { IYastNode } from '@yozora/ast'
 import type { INodeInterval, INodePoint } from '@yozora/character'
-import type { IYastBlockToken } from './token'
-
-/**
- * typeof IPhrasingContent
- */
-export const PhrasingContentType = 'phrasingContent'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type PhrasingContentType = typeof PhrasingContentType
-
-/**
- * Phrasing content represent the text in a document, and its markup.
- *
- * @see https://github.com/syntax-tree/mdast#phrasingcontent
- */
-export interface IPhrasingContent extends IYastNode<PhrasingContentType> {
-  /**
-   * Inline data nodes
-   */
-  contents: INodePoint[]
-}
-
-/**
- * Middle token during the whole match and parse phase.
- */
-export interface IPhrasingContentToken extends IYastBlockToken<PhrasingContentType> {
-  /**
-   * Lines of a IPhrasingContent.
-   */
-  lines: IPhrasingContentLine[]
-}
 
 /**
  * Phrasing content lines
