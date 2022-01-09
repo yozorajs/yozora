@@ -4,7 +4,6 @@ import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
   IMatchBlockHookCreator,
   IPhrasingContentLine,
-  IPhrasingContentToken,
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatLazyContinuationText,
   IResultOfEatOpener,
@@ -238,10 +237,10 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
       // End point of the table-cell
       const endPoint: IYastNodePoint = calcEndYastNodePoint(nodePoints, i - 1)
 
-      const phrasingContent: IPhrasingContentToken | null =
+      const lines: IPhrasingContentLine[] =
         cellFirstNonWhitespaceIndex >= cellEndIndex
-          ? null
-          : api.buildPhrasingContentToken([
+          ? []
+          : [
               {
                 nodePoints,
                 startIndex: cellStartIndex,
@@ -249,13 +248,13 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
                 firstNonWhitespaceIndex: cellFirstNonWhitespaceIndex,
                 countOfPrecedeSpaces: cellFirstNonWhitespaceIndex - cellStartIndex,
               },
-            ])
+            ]
 
       const cell: ITableCellToken = {
         _tokenizer,
         nodeType: TableCellType,
         position: { start: startPoint, end: endPoint },
-        contents: phrasingContent == null ? [] : [phrasingContent],
+        lines: lines,
       }
       cells.push(cell)
 
@@ -284,7 +283,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
         _tokenizer,
         nodeType: TableCellType,
         position: { start: { ...endPoint }, end: { ...endPoint } },
-        contents: [],
+        lines: [],
       }
       cells.push(cell)
     }

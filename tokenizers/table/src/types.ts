@@ -9,7 +9,7 @@ import type {
 import type {
   IBaseBlockTokenizerProps,
   IPartialYastBlockToken,
-  IPhrasingContentToken,
+  IPhrasingContentLine,
   ITokenizer,
 } from '@yozora/core-tokenizer'
 
@@ -38,5 +38,5 @@ export interface ITableRowToken extends IPartialYastBlockToken<TableRowType> {
 
 export interface ITableCellToken extends IPartialYastBlockToken<TableCellType> {
   position: IYastNodePosition
-  contents: IPhrasingContentToken[]
+  lines: IPhrasingContentLine[]
 }

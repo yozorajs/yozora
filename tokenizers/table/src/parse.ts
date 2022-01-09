@@ -2,8 +2,8 @@ import type { ITableCell, ITableRow, IYastNode } from '@yozora/ast'
 import { TableCellType, TableRowType, TableType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
-import type { IParseBlockHookCreator, IPhrasingContent } from '@yozora/core-tokenizer'
-import { PhrasingContentType } from '@yozora/core-tokenizer'
+import type { IParseBlockHookCreator } from '@yozora/core-tokenizer'
+import { mergeAndStripContentLines } from '@yozora/core-tokenizer'
 import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = api => ({
@@ -16,28 +16,26 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = api => ({
            * other inline spans
            * @see https://github.github.com/gfm/#example-200
            */
-          const contents: IYastNode[] = api.parseBlockTokens(cell.contents)
-          for (const phrasingContent of contents as IPhrasingContent[]) {
-            if (phrasingContent.type !== PhrasingContentType) continue
-            const nextContents: INodePoint[] = []
-            const endIndex = phrasingContent.contents.length
-            for (let i = 0; i < endIndex; ++i) {
-              const p = phrasingContent.contents[i]
+          const contents: INodePoint[] = []
+          {
+            const nodePoints: INodePoint[] = mergeAndStripContentLines(cell.lines)
+            for (let i = 0, endIndex = nodePoints.length; i < endIndex; ++i) {
+              const p = nodePoints[i]
               if (p.codePoint === AsciiCodePoint.BACKSLASH && i + 1 < endIndex) {
-                const q = phrasingContent.contents[i + 1]
-                if (q.codePoint !== AsciiCodePoint.VERTICAL_SLASH) nextContents.push(p)
-                nextContents.push(q)
+                const q: INodePoint = nodePoints[i + 1]
+                if (q.codePoint !== AsciiCodePoint.VERTICAL_SLASH) contents.push(p)
+                contents.push(q)
                 i += 1
-                continue
+              } else {
+                contents.push(p)
               }
-              nextContents.push(p)
             }
-            phrasingContent.contents = nextContents
           }
 
+          const children: IYastNode[] = api.processInlines(contents)
           const tableCell: ITableCell = api.shouldReservePosition
-            ? { type: TableCellType, position: cell.position, children: contents }
-            : { type: TableCellType, children: contents }
+            ? { type: TableCellType, position: cell.position, children }
+            : { type: TableCellType, children }
           return tableCell
         })
 

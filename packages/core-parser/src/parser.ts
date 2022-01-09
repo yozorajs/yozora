@@ -8,7 +8,6 @@ import type {
   ITokenizer,
 } from '@yozora/core-tokenizer'
 import { TokenizerType, createPhrasingLineGenerator } from '@yozora/core-tokenizer'
-import { PhrasingContentTokenizer } from './phrasing-content/tokenizer'
 import { createProcessor } from './processor'
 import type { IParseOptions, IParser } from './types'
 
@@ -38,7 +37,6 @@ export class DefaultParser implements IParser {
   protected readonly inlineTokenizers: IInlineTokenizer[]
   protected readonly inlineTokenizerMap: Map<string, IInlineTokenizer>
 
-  protected readonly phrasingContentTokenizer: PhrasingContentTokenizer
   protected blockFallbackTokenizer: IBlockFallbackTokenizer | null = null
   protected inlineFallbackTokenizer: IInlineFallbackTokenizer | null = null
   protected defaultParseOptions: Required<IParseOptions> = null as any
@@ -48,10 +46,6 @@ export class DefaultParser implements IParser {
     this.inlineTokenizerMap = new Map()
     this.blockTokenizers = []
     this.blockTokenizerMap = new Map()
-
-    const phrasingContentTokenizer = new PhrasingContentTokenizer()
-    this.phrasingContentTokenizer = phrasingContentTokenizer
-    this.blockTokenizerMap.set(phrasingContentTokenizer.name, phrasingContentTokenizer)
 
     // Set default IParseOptions
     this.setDefaultParseOptions(props.defaultParseOptions)
@@ -146,7 +140,6 @@ export class DefaultParser implements IParser {
       inlineTokenizerMap: this.inlineTokenizerMap,
       blockTokenizers: this.blockTokenizers,
       blockTokenizerMap: this.blockTokenizerMap,
-      phrasingContentTokenizer: this.phrasingContentTokenizer,
       blockFallbackTokenizer: this.blockFallbackTokenizer,
       inlineFallbackTokenizer: this.inlineFallbackTokenizer,
       shouldReservePosition,

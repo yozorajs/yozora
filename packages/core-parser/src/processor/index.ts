@@ -1,20 +1,13 @@
 import type { IRoot, IYastNode } from '@yozora/ast'
-import { shallowMutateAstInPreorder } from '@yozora/ast-util'
 import type { INodePoint } from '@yozora/character'
 import type {
   IParseBlockHook,
   IParseInlineHook,
-  IPhrasingContent,
   IPhrasingContentLine,
-  IPhrasingContentToken,
   IYastBlockToken,
   IYastInlineToken,
 } from '@yozora/core-tokenizer'
-import {
-  PhrasingContentType,
-  calcEndYastNodePoint,
-  calcStartYastNodePoint,
-} from '@yozora/core-tokenizer'
+import { calcEndYastNodePoint, calcStartYastNodePoint } from '@yozora/core-tokenizer'
 import invariant from '@yozora/invariant'
 import { createBlockContentProcessor } from './block'
 import type { IMatchBlockPhaseHook, IYastBlockTokenTree } from './block/types'
@@ -31,7 +24,6 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     inlineTokenizerMap,
     blockTokenizers,
     blockTokenizerMap,
-    phrasingContentTokenizer,
     blockFallbackTokenizer,
     inlineFallbackTokenizer,
     shouldReservePosition,
@@ -49,7 +41,6 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
   const apis: IProcessorApis = Object.freeze({
     matchBlockApi: {
       extractPhrasingLines,
-      buildPhrasingContentToken,
       rollbackPhrasingLines,
       registerDefinitionIdentifier: (identifier: string): void => {
         if (isIdentifierRegisterAvailable) definitionIdentifierSet.add(identifier)
@@ -57,11 +48,6 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       registerFootnoteDefinitionIdentifier: (identifier: string): void => {
         if (isIdentifierRegisterAvailable) footnoteIdentifierSet.add(identifier)
       },
-    },
-    postMatchBlockApi: {
-      extractPhrasingLines,
-      buildPhrasingContentToken,
-      rollbackPhrasingLines,
     },
     parseBlockApi: {
       shouldReservePosition,
@@ -142,21 +128,9 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
 
     const blockNodes = parseBlockTokens(blockTokenTree.children)
 
-    // Resolve phrasingContents into Yozora AST nodes.
-    const ast: IRoot = shallowMutateAstInPreorder(
-      shouldReservePosition
-        ? {
-            type: 'root',
-            position: blockTokenTree.position,
-            children: blockNodes,
-          }
-        : {
-            type: 'root',
-            children: blockNodes,
-          },
-      [PhrasingContentType],
-      (node): IYastNode[] => parsePhrasingContent(node as IPhrasingContent),
-    )
+    const ast: IRoot = shouldReservePosition
+      ? { type: 'root', position: blockTokenTree.position, children: blockNodes }
+      : { type: 'root', children: blockNodes }
     return ast
   }
 
@@ -165,16 +139,6 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
   ): ReadonlyArray<IPhrasingContentLine> | null {
     const tokenizer = blockTokenizerMap.get(token._tokenizer)
     return tokenizer?.extractPhrasingContentLines(token) ?? null
-  }
-
-  /**
-   * Build PhrasingContentToken from phrasing content lines.
-   * @param lines
-   */
-  function buildPhrasingContentToken(
-    lines: ReadonlyArray<IPhrasingContentLine>,
-  ): IPhrasingContentToken | null {
-    return phrasingContentTokenizer.buildBlockToken(lines)
   }
 
   /**
@@ -199,16 +163,6 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     // Try to rematch from the beginning
     const tokenTree = matchBlockTokens([lines])
     return tokenTree.children
-  }
-
-  /**
-   * Parse phrasing content to Yozora AST nodes.
-   * @param phrasingContent
-   * @returns
-   */
-  function parsePhrasingContent(phrasingContent: IPhrasingContent): IYastNode[] {
-    const inlineNodes: IYastNode[] = processInlines(phrasingContent.contents)
-    return inlineNodes
   }
 
   function resolveFallbackTokens(

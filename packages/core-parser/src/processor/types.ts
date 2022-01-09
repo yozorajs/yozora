@@ -10,7 +10,6 @@ import type {
   IParseInlinePhaseApi,
   IPhrasingContentLine,
 } from '@yozora/core-tokenizer'
-import type { PhrasingContentTokenizer } from '../phrasing-content/tokenizer'
 
 /**
  * Options for constructing a processor.
@@ -20,7 +19,6 @@ export interface IProcessorOptions {
   readonly inlineTokenizerMap: Readonly<Map<string, IInlineTokenizer>>
   readonly blockTokenizers: ReadonlyArray<IBlockTokenizer>
   readonly blockTokenizerMap: Readonly<Map<string, IBlockTokenizer>>
-  readonly phrasingContentTokenizer: PhrasingContentTokenizer
   readonly blockFallbackTokenizer: IBlockFallbackTokenizer | null
   readonly inlineFallbackTokenizer: IInlineFallbackTokenizer | null
   readonly shouldReservePosition: boolean
