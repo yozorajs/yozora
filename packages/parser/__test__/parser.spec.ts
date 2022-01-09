@@ -1,7 +1,7 @@
 import { createTester } from '@yozora/jest-for-tokenizer'
 import { InlineCodeTokenizerName } from '@yozora/tokenizer-inline-code'
 import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
-import { parsers } from 'jest.setup'
+import { loadFixtures, parsers } from 'jest.setup'
 
 createTester(parsers.yozora)
   .scan(['custom/**/*.json', '!custom/inline-math/backtick-required'])
@@ -16,3 +16,17 @@ createTester(
 )
   .scan(['custom/inline-math/backtick-required'])
   .runTest()
+
+describe('snapshot', function () {
+  test('basic', function () {
+    const content: string = loadFixtures('demo.md')
+    const parser = parsers.yozora
+
+    expect(parser.parse(content, { shouldReservePosition: true })).toMatchSnapshot(
+      'should reserve position',
+    )
+    expect(parser.parse(content, { shouldReservePosition: false })).toMatchSnapshot(
+      "shouldn't reserve position",
+    )
+  })
+})
