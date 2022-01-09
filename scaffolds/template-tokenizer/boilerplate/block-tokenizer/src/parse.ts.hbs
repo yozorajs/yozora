@@ -5,10 +5,10 @@ import { {{{pascalCase tokenizerName}}}Type } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (api) {
   return {
-    parse: tokens => 
+    parse: tokens =>
       tokens.map(token => {
-        const children: IYastNode[] = token.children ? api.parseBlockTokens(token.children) : []
-        const node: INode = { 
+        const children: IYastNode[] = api.parseBlockTokens(token.children)
+        const node: INode = {
           type: {{{pascalCase tokenizerName}}}Type,
           position: token.position,
           children,

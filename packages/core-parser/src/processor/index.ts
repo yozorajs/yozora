@@ -274,7 +274,9 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return root
   }
 
-  function parseBlockTokens(tokens: ReadonlyArray<IYastBlockToken>): IYastNode[] {
+  function parseBlockTokens(tokens?: ReadonlyArray<IYastBlockToken>): IYastNode[] {
+    if (tokens === undefined || tokens.length <= 0) return []
+
     const results: IYastNode[] = []
     for (let i0 = 0, i1: number; i0 < tokens.length; i0 = i1) {
       const _tokenizer: string = tokens[i0]._tokenizer
@@ -314,7 +316,9 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return tokens
   }
 
-  function parseInlineTokens(tokens: ReadonlyArray<IYastInlineToken>): IYastNode[] {
+  function parseInlineTokens(tokens?: ReadonlyArray<IYastInlineToken>): IYastNode[] {
+    if (tokens === undefined || tokens.length <= 0) return []
+
     const results: IYastNode[] = []
     for (let i0 = 0, i1: number; i0 < tokens.length; i0 = i1) {
       const _tokenizer: string = tokens[i0]._tokenizer

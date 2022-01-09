@@ -18,7 +18,7 @@ export interface IParseBlockPhaseApi {
   parsePhrasingContent(phrasingContent: IPhrasingContent): IYastNode[]
   /**
    * Parse block tokens to Yozora AST nodes.
-   * @param token
+   * @param tokens
    */
-  parseBlockTokens(token: ReadonlyArray<IYastBlockToken>): IYastNode[]
+  parseBlockTokens(tokens?: ReadonlyArray<IYastBlockToken>): IYastNode[]
 }

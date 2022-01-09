@@ -38,7 +38,7 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
           return api.parsePhrasingContent(phrasingContent)
         })()
 
-        const children: IYastNode[] = token.children ? api.parseBlockTokens(token.children) : []
+        const children: IYastNode[] = api.parseBlockTokens(token.children)
         const node: INode = {
           type: AdmonitionType,
           position: token.position,

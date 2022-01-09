@@ -27,7 +27,7 @@ export interface IParseInlinePhaseApi {
   hasFootnoteDefinition(identifier: string): boolean
   /**
    * Parse inline tokens to Yozora AST nodes.
-   * @param token
+   * @param tokens
    */
-  parseInlineTokens(tokens: ReadonlyArray<IYastInlineToken>): IYastNode[]
+  parseInlineTokens(tokens?: ReadonlyArray<IYastInlineToken>): IYastNode[]
 }

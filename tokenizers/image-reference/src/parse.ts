@@ -11,7 +11,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
         const { identifier, label, referenceType } = token
 
         // calc alt
-        const children: IYastNode[] = token.children ? api.parseInlineTokens(token.children) : []
+        const children: IYastNode[] = api.parseInlineTokens(token.children)
         const alt = calcImageAlt(children)
 
         const node: INode = {

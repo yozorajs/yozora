@@ -7,7 +7,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
   return {
     parse: tokens =>
       tokens.map(token => {
-        const children: IYastNode[] = token.children ? api.parseInlineTokens(token.children) : []
+        const children: IYastNode[] = api.parseInlineTokens(token.children)
         const node: INode = {
           type: DeleteType,
           position: api.calcPosition(token),

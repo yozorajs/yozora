@@ -8,7 +8,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
     parse: tokens =>
       tokens.map(token => {
         const { identifier, label, referenceType } = token
-        const children: IYastNode[] = token.children ? api.parseInlineTokens(token.children) : []
+        const children: IYastNode[] = api.parseInlineTokens(token.children)
         const node: INode = {
           type: LinkReferenceType,
           position: api.calcPosition(token),

@@ -16,7 +16,7 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = api => ({
            * other inline spans
            * @see https://github.github.com/gfm/#example-200
            */
-          const contents: IYastNode[] = cell.contents ? api.parseBlockTokens(cell.contents) : []
+          const contents: IYastNode[] = api.parseBlockTokens(cell.contents)
           for (const phrasingContent of contents as IPhrasingContent[]) {
             if (phrasingContent.type !== PhrasingContentType) continue
             const nextContents: INodePoint[] = []

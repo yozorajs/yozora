@@ -36,7 +36,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
           title = calcEscapedStringFromNodePoints(nodePoints, startIndex + 1, endIndex - 1)
         }
 
-        const children: IYastNode[] = token.children ? api.parseInlineTokens(token.children) : []
+        const children: IYastNode[] = api.parseInlineTokens(token.children)
         const node: INode = {
           type: LinkType,
           position: api.calcPosition(token),
