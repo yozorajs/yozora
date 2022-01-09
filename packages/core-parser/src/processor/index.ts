@@ -152,8 +152,8 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       (node): IYastNode[] => parsePhrasingContent(node as IPhrasingContent),
     )
 
-    if (!shouldReservePosition) removePositions(ast)
-    return ast
+    const result: IRoot = shouldReservePosition ? ast : removePositions(ast)
+    return result
   }
 
   /**
