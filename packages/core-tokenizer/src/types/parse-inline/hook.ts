@@ -21,7 +21,6 @@ export interface IParseInlineHook<
   /**
    * Processing token list to IYastNode list.
    * @param token
-   * @param children
    */
-  parse(token: IToken, children: IYastNode[]): INode
+  parse(token: ReadonlyArray<IToken>): INode[]
 }

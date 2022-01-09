@@ -80,6 +80,11 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       getNodePoints: () => _nodePoints,
       hasDefinition: identifier => definitionIdentifierSet.has(identifier),
       hasFootnoteDefinition: identifier => footnoteIdentifierSet.has(identifier),
+      parseInlineTokens,
+      calcPosition: token => ({
+        start: calcStartYastNodePoint(_nodePoints, token.startIndex),
+        end: calcEndYastNodePoint(_nodePoints, token.endIndex - 1),
+      }),
     },
   })
 
@@ -215,7 +220,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
   function parsePhrasingContent(phrasingContent: IPhrasingContent): IYastNode[] {
     const nodePoints: ReadonlyArray<INodePoint> = phrasingContent.contents
     const inlineTokens = matchInlineTokens(nodePoints, 0, nodePoints.length)
-    const inlineNodes = parseInline(inlineTokens)
+    const inlineNodes = parseInlineTokens(inlineTokens)
     return inlineNodes
   }
 
@@ -269,7 +274,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return root
   }
 
-  function parseBlockTokens(tokens: IYastBlockToken[]): IYastNode[] {
+  function parseBlockTokens(tokens: ReadonlyArray<IYastBlockToken>): IYastNode[] {
     const results: IYastNode[] = []
     for (let i0 = 0, i1: number; i0 < tokens.length; i0 = i1) {
       const _tokenizer: string = tokens[i0]._tokenizer
@@ -309,25 +314,19 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return tokens
   }
 
-  function parseInline(tokens: ReadonlyArray<IYastInlineToken>): IYastNode[] {
+  function parseInlineTokens(tokens: ReadonlyArray<IYastInlineToken>): IYastNode[] {
     const results: IYastNode[] = []
-    for (const o of tokens) {
-      // Post-order handle: But first check the validity of the current node
-      const hook = parseInlineHookMap.get(o._tokenizer)
+    for (let i0 = 0, i1: number; i0 < tokens.length; i0 = i1) {
+      const _tokenizer: string = tokens[i0]._tokenizer
+      for (i1 = i0 + 1; i1 < tokens.length && tokens[i1]._tokenizer === _tokenizer; ) i1 += 1
+
+      const hook = parseInlineHookMap.get(_tokenizer)
 
       // cannot find matched tokenizer
-      invariant(hook != null, `[parseInline] tokenizer '${o._tokenizer}' not existed`)
+      invariant(hook !== undefined, `[parseBlock] tokenizer '${_tokenizer}' not found`)
 
-      const children: IYastNode[] = o.children != null ? parseInline(o.children) : []
-      const node = hook.parse(o, children)
-
-      if (shouldReservePosition) {
-        node.position = {
-          start: calcStartYastNodePoint(_nodePoints, o.startIndex),
-          end: calcEndYastNodePoint(_nodePoints, o.endIndex - 1),
-        }
-      }
-      results.push(node)
+      const nodes: IYastNode[] = hook.parse(tokens.slice(i0, i1))
+      results.push(...nodes)
     }
     return results
   }

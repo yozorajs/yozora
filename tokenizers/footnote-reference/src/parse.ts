@@ -4,14 +4,16 @@ import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function (api) {
   return {
-    parse: token => {
-      const { identifier, label } = token
-      const result: INode = {
-        type: FootnoteReferenceType,
-        identifier,
-        label,
-      }
-      return result
-    },
+    parse: tokens =>
+      tokens.map(token => {
+        const { identifier, label } = token
+        const node: INode = {
+          type: FootnoteReferenceType,
+          position: api.calcPosition(token),
+          identifier,
+          label,
+        }
+        return node
+      }),
   }
 }

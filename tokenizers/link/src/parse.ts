@@ -1,3 +1,4 @@
+import type { IYastNode } from '@yozora/ast'
 import { LinkType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcEscapedStringFromNodePoints } from '@yozora/character'
@@ -7,35 +8,43 @@ import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function (api) {
   return {
-    parse: (token, children) => {
-      const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+    parse: tokens =>
+      tokens.map(token => {
+        const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
 
-      // calc url
-      let url = ''
-      if (token.destinationContent != null) {
-        let { startIndex, endIndex } = token.destinationContent
-        if (nodePoints[startIndex].codePoint === AsciiCodePoint.OPEN_ANGLE) {
-          startIndex += 1
-          endIndex -= 1
+        // calc url
+        let url = ''
+        if (token.destinationContent != null) {
+          let { startIndex, endIndex } = token.destinationContent
+          if (nodePoints[startIndex].codePoint === AsciiCodePoint.OPEN_ANGLE) {
+            startIndex += 1
+            endIndex -= 1
+          }
+          const destination = calcEscapedStringFromNodePoints(
+            nodePoints,
+            startIndex,
+            endIndex,
+            true,
+          )
+          url = encodeLinkDestination(destination)
         }
-        const destination = calcEscapedStringFromNodePoints(nodePoints, startIndex, endIndex, true)
-        url = encodeLinkDestination(destination)
-      }
 
-      // calc title
-      let title: string | undefined
-      if (token.titleContent != null) {
-        const { startIndex, endIndex } = token.titleContent
-        title = calcEscapedStringFromNodePoints(nodePoints, startIndex + 1, endIndex - 1)
-      }
+        // calc title
+        let title: string | undefined
+        if (token.titleContent != null) {
+          const { startIndex, endIndex } = token.titleContent
+          title = calcEscapedStringFromNodePoints(nodePoints, startIndex + 1, endIndex - 1)
+        }
 
-      const result: INode = {
-        type: LinkType,
-        url,
-        title,
-        children,
-      }
-      return result
-    },
+        const children: IYastNode[] = token.children ? api.parseInlineTokens(token.children) : []
+        const node: INode = {
+          type: LinkType,
+          position: api.calcPosition(token),
+          url,
+          title,
+          children,
+        }
+        return node
+      }),
   }
 }

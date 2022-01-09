@@ -1,3 +1,4 @@
+import type { IYastNode } from '@yozora/ast'
 import { ImageType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcEscapedStringFromNodePoints } from '@yozora/character'
@@ -8,33 +9,47 @@ import { calcImageAlt } from './util'
 
 export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function (api) {
   return {
-    parse: (token, children) => {
-      const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+    parse: tokens =>
+      tokens.map(token => {
+        const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
 
-      // calc url
-      let url = ''
-      if (token.destinationContent != null) {
-        let { startIndex, endIndex } = token.destinationContent
-        if (nodePoints[startIndex].codePoint === AsciiCodePoint.OPEN_ANGLE) {
-          startIndex += 1
-          endIndex -= 1
+        // calc url
+        let url = ''
+        if (token.destinationContent != null) {
+          let { startIndex, endIndex } = token.destinationContent
+          if (nodePoints[startIndex].codePoint === AsciiCodePoint.OPEN_ANGLE) {
+            startIndex += 1
+            endIndex -= 1
+          }
+          const destination = calcEscapedStringFromNodePoints(
+            nodePoints,
+            startIndex,
+            endIndex,
+            true,
+          )
+          url = encodeLinkDestination(destination)
         }
-        const destination = calcEscapedStringFromNodePoints(nodePoints, startIndex, endIndex, true)
-        url = encodeLinkDestination(destination)
-      }
 
-      // calc alt
-      const alt = calcImageAlt(children)
+        // calc alt
+        const children: IYastNode[] = token.children ? api.parseInlineTokens(token.children) : []
+        const alt = calcImageAlt(children)
 
-      // calc title
-      let title: string | undefined
-      if (token.titleContent != null) {
-        const { startIndex, endIndex } = token.titleContent
-        title = calcEscapedStringFromNodePoints(nodePoints, startIndex + 1, endIndex - 1)
-      }
+        // calc title
+        let title: string | undefined
+        if (token.titleContent != null) {
+          const { startIndex, endIndex } = token.titleContent
+          title = calcEscapedStringFromNodePoints(nodePoints, startIndex + 1, endIndex - 1)
+        }
 
-      const result: INode = { type: ImageType, url, alt, title }
-      return result
-    },
+        const node: INode = {
+          type: ImageType,
+
+          position: api.calcPosition(token),
+          url,
+          alt,
+          title,
+        }
+        return node
+      }),
   }
 }

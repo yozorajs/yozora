@@ -6,12 +6,18 @@ import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function (api) {
   return {
-    parse: token => {
-      const { startIndex, endIndex } = token
-      const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
-      const value = calcStringFromNodePoints(nodePoints, startIndex, endIndex)
-      const result: INode = { type: HtmlType, value }
-      return result
-    },
+    parse: tokens =>
+      tokens.map(token => {
+        const { startIndex, endIndex } = token
+        const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+        const value = calcStringFromNodePoints(nodePoints, startIndex, endIndex)
+        const node: INode = {
+          type: HtmlType,
+
+          position: api.calcPosition(token),
+          value,
+        }
+        return node
+      }),
   }
 }

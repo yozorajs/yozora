@@ -6,18 +6,23 @@ import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function (api) {
   return {
-    parse: token => {
-      const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
-      const { startIndex, endIndex } = token
-      let value: string = calcEscapedStringFromNodePoints(nodePoints, startIndex, endIndex)
+    parse: tokens =>
+      tokens.map(token => {
+        const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+        const { startIndex, endIndex } = token
+        let value: string = calcEscapedStringFromNodePoints(nodePoints, startIndex, endIndex)
 
-      /**
-       * Spaces at the end of the line and beginning of the next line are removed
-       * @see https://github.github.com/gfm/#example-670
-       */
-      value = value.replace(/[^\S\n]*\n[^\S\n]*/g, '\n')
-      const result: INode = { type: TextType, value }
-      return result
-    },
+        /**
+         * Spaces at the end of the line and beginning of the next line are removed
+         * @see https://github.github.com/gfm/#example-670
+         */
+        value = value.replace(/[^\S\n]*\n[^\S\n]*/g, '\n')
+        const node: INode = {
+          type: TextType,
+          position: api.calcPosition(token),
+          value,
+        }
+        return node
+      }),
   }
 }

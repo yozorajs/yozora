@@ -19,8 +19,7 @@ export interface IParseBlockHook<
   INode extends IYastNode<T> = IYastNode<T>,
 > {
   /**
-   * Parse matchStates
-   * @param nodePoints  array of INodePoint
+   * Processing token list to IYastNode list.
    * @param token       token on match phase
    */
   parse(token: ReadonlyArray<IToken>): INode[]
