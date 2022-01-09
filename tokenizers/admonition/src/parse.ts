@@ -3,7 +3,7 @@ import { AdmonitionType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints, isUnicodeWhitespaceCharacter } from '@yozora/character'
 import type { IParseBlockHookCreator, IPhrasingContentLine } from '@yozora/core-tokenizer'
-import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
+import { eatOptionalWhitespaces, mergeAndStripContentLines } from '@yozora/core-tokenizer'
 import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (api) {
@@ -33,9 +33,8 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
               countOfPrecedeSpaces: 0,
             },
           ]
-          const phrasingContent = api.buildPhrasingContent(titleLines)
-          if (phrasingContent == null) return []
-          return api.parsePhrasingContent(phrasingContent)
+          const contents: INodePoint[] = mergeAndStripContentLines(titleLines)
+          return api.processInlines(contents)
         })()
 
         const keyword: string = calcEscapedStringFromNodePoints(

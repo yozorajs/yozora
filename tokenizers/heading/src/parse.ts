@@ -1,11 +1,13 @@
 import type { IYastNode } from '@yozora/ast'
 import { HeadingType } from '@yozora/ast'
+import type { INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   calcTrimBoundaryOfCodePoints,
   isWhitespaceCharacter,
 } from '@yozora/character'
 import type { IParseBlockHookCreator, IPhrasingContentLine } from '@yozora/core-tokenizer'
+import { mergeAndStripContentLines } from '@yozora/core-tokenizer'
 import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (api) {
@@ -64,8 +66,9 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
           },
         ]
 
-        const phrasingContent = api.buildPhrasingContent(lines)
-        const children: IYastNode[] = phrasingContent == null ? [] : [phrasingContent]
+        // Resolve phrasing content.
+        const contents: INodePoint[] = mergeAndStripContentLines(lines)
+        const children: IYastNode[] = api.processInlines(contents)
 
         const node: INode = api.shouldReservePosition
           ? { type: HeadingType, position: token.position, depth: token.depth, children }

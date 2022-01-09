@@ -65,8 +65,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     },
     parseBlockApi: {
       shouldReservePosition,
-      buildPhrasingContent,
-      parsePhrasingContent,
+      processInlines,
       parseBlockTokens,
     },
     matchInlineApi: {
@@ -161,10 +160,6 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return ast
   }
 
-  /**
-   *
-   * @param token
-   */
   function extractPhrasingLines(
     token: IYastBlockToken,
   ): ReadonlyArray<IPhrasingContentLine> | null {
@@ -180,17 +175,6 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     lines: ReadonlyArray<IPhrasingContentLine>,
   ): IPhrasingContentToken | null {
     return phrasingContentTokenizer.buildBlockToken(lines)
-  }
-
-  /**
-   * Build IPhrasingContent from a PhrasingContentToken.
-   * @param lines
-   * @returns
-   */
-  function buildPhrasingContent(
-    lines: ReadonlyArray<IPhrasingContentLine>,
-  ): IPhrasingContent | null {
-    return phrasingContentTokenizer.buildPhrasingContent(lines)
   }
 
   /**
@@ -223,9 +207,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
    * @returns
    */
   function parsePhrasingContent(phrasingContent: IPhrasingContent): IYastNode[] {
-    const nodePoints: ReadonlyArray<INodePoint> = phrasingContent.contents
-    const inlineTokens = matchInlineTokens(nodePoints, 0, nodePoints.length)
-    const inlineNodes = parseInlineTokens(inlineTokens)
+    const inlineNodes: IYastNode[] = processInlines(phrasingContent.contents)
     return inlineNodes
   }
 
@@ -296,6 +278,13 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       results.push(...nodes)
     }
     return results
+  }
+
+  function processInlines(nodePoints: ReadonlyArray<INodePoint>): IYastNode[] {
+    if (nodePoints.length <= 0) return []
+    const inlineTokens = matchInlineTokens(nodePoints, 0, nodePoints.length)
+    const inlineNodes = parseInlineTokens(inlineTokens)
+    return inlineNodes
   }
 
   function matchInlineTokens(
