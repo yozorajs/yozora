@@ -10,11 +10,9 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
         const phrasingContent = api.buildPhrasingContent(token.lines)
         if (phrasingContent == null) continue
 
-        const node: INode = {
-          type: ParagraphType,
-          position: token.position,
-          children: [phrasingContent],
-        }
+        const node: INode = api.shouldReservePosition
+          ? { type: ParagraphType, position: token.position, children: [phrasingContent] }
+          : { type: ParagraphType, children: [phrasingContent] }
         results.push(node)
       }
       return results

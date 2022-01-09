@@ -2291,34 +2291,10 @@ Object {
       "keyword": "tip",
       "title": Array [
         Object {
-          "position": Object {
-            "end": Object {
-              "column": 18,
-              "line": 2,
-              "offset": 18,
-            },
-            "start": Object {
-              "column": 8,
-              "line": 2,
-              "offset": 8,
-            },
-          },
           "type": "text",
           "value": "将进酒 -- 李白 ",
         },
         Object {
-          "position": Object {
-            "end": Object {
-              "column": 23,
-              "line": 2,
-              "offset": 23,
-            },
-            "start": Object {
-              "column": 18,
-              "line": 2,
-              "offset": 18,
-            },
-          },
           "type": "inlineMath",
           "value": "x^2",
         },

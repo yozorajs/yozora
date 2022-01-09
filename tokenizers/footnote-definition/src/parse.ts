@@ -11,13 +11,20 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
         const identifier: string = token._identifier!
 
         const children: IYastNode[] = api.parseBlockTokens(token.children)
-        const node: INode = {
-          type: FootnoteDefinitionType,
-          position: token.position,
-          identifier,
-          label,
-          children,
-        }
+        const node: INode = api.shouldReservePosition
+          ? {
+              type: FootnoteDefinitionType,
+              position: token.position,
+              identifier,
+              label,
+              children,
+            }
+          : {
+              type: FootnoteDefinitionType,
+              identifier,
+              label,
+              children,
+            }
         return node
       }),
   }

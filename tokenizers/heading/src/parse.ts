@@ -67,12 +67,9 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
         const phrasingContent = api.buildPhrasingContent(lines)
         const children: IYastNode[] = phrasingContent == null ? [] : [phrasingContent]
 
-        const node: INode = {
-          type: HeadingType,
-          position: token.position,
-          depth: token.depth,
-          children,
-        }
+        const node: INode = api.shouldReservePosition
+          ? { type: HeadingType, position: token.position, depth: token.depth, children }
+          : { type: HeadingType, depth: token.depth, children }
         return node
       }),
   }

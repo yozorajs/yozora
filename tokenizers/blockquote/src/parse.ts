@@ -8,11 +8,9 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
     parse: tokens =>
       tokens.map(token => {
         const children: IYastNode[] = api.parseBlockTokens(token.children)
-        const node: INode = {
-          type: BlockquoteType,
-          position: token.position,
-          children,
-        }
+        const node: INode = api.shouldReservePosition
+          ? { type: BlockquoteType, position: token.position, children }
+          : { type: BlockquoteType, children }
         return node
       }),
   }

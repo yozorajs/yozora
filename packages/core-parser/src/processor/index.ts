@@ -1,5 +1,5 @@
 import type { IRoot, IYastNode } from '@yozora/ast'
-import { removePositions, shallowMutateAstInPreorder } from '@yozora/ast-util'
+import { shallowMutateAstInPreorder } from '@yozora/ast-util'
 import type { INodePoint } from '@yozora/character'
 import type {
   IParseBlockHook,
@@ -64,6 +64,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       rollbackPhrasingLines,
     },
     parseBlockApi: {
+      shouldReservePosition,
       buildPhrasingContent,
       parsePhrasingContent,
       parseBlockTokens,
@@ -77,6 +78,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       resolveFallbackTokens,
     },
     parseInlineApi: {
+      shouldReservePosition,
       getNodePoints: () => _nodePoints,
       hasDefinition: identifier => definitionIdentifierSet.has(identifier),
       hasFootnoteDefinition: identifier => footnoteIdentifierSet.has(identifier),
@@ -143,17 +145,20 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
 
     // Resolve phrasingContents into Yozora AST nodes.
     const ast: IRoot = shallowMutateAstInPreorder(
-      {
-        type: 'root',
-        position: blockTokenTree.position,
-        children: blockNodes,
-      },
+      shouldReservePosition
+        ? {
+            type: 'root',
+            position: blockTokenTree.position,
+            children: blockNodes,
+          }
+        : {
+            type: 'root',
+            children: blockNodes,
+          },
       [PhrasingContentType],
       (node): IYastNode[] => parsePhrasingContent(node as IPhrasingContent),
     )
-
-    const result: IRoot = shouldReservePosition ? ast : removePositions(ast)
-    return result
+    return ast
   }
 
   /**

@@ -26,12 +26,9 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
         }
 
         const children: IYastNode[] = api.parseInlineTokens(token.children)
-        const node: INode = {
-          type: LinkType,
-          position: api.calcPosition(token),
-          url,
-          children,
-        }
+        const node: INode = api.shouldReservePosition
+          ? { type: LinkType, position: api.calcPosition(token), url, children }
+          : { type: LinkType, url, children }
         return node
       }),
   }

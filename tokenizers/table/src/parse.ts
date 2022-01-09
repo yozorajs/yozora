@@ -35,28 +35,21 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = api => ({
             phrasingContent.contents = nextContents
           }
 
-          const tableCell: ITableCell = {
-            type: TableCellType,
-            position: cell.position,
-            children: contents,
-          }
+          const tableCell: ITableCell = api.shouldReservePosition
+            ? { type: TableCellType, position: cell.position, children: contents }
+            : { type: TableCellType, children: contents }
           return tableCell
         })
 
-        const tableRow: ITableRow = {
-          type: TableRowType,
-          position: row.position,
-          children: tableCells,
-        }
+        const tableRow: ITableRow = api.shouldReservePosition
+          ? { type: TableRowType, position: row.position, children: tableCells }
+          : { type: TableRowType, children: tableCells }
         return tableRow
       })
 
-      const table: INode = {
-        type: TableType,
-        position: token.position,
-        columns: token.columns,
-        children: tableRows,
-      }
+      const table: INode = api.shouldReservePosition
+        ? { type: TableType, position: token.position, columns: token.columns, children: tableRows }
+        : { type: TableType, columns: token.columns, children: tableRows }
       return table
     }),
 })

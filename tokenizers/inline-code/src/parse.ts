@@ -43,11 +43,10 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
           }
         }
 
-        const node: INode = {
-          type: InlineCodeType,
-          position: api.calcPosition(token),
-          value: calcStringFromNodePoints(nodePoints, startIndex, endIndex).replace(/\n/g, ' '),
-        }
+        const value = calcStringFromNodePoints(nodePoints, startIndex, endIndex).replace(/\n/g, ' ')
+        const node: INode = api.shouldReservePosition
+          ? { type: InlineCodeType, position: api.calcPosition(token), value }
+          : { type: InlineCodeType, value }
         return node
       }),
   }

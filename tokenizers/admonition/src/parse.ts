@@ -14,11 +14,11 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
 
         // Match an admonition keyword.
         let i = 0
-        const keyword: INodePoint[] = []
+        const keywordNodePoints: INodePoint[] = []
         for (; i < infoString.length; ++i) {
           const p = infoString[i]
           if (isUnicodeWhitespaceCharacter(p.codePoint)) break
-          keyword.push(p)
+          keywordNodePoints.push(p)
         }
 
         i = eatOptionalWhitespaces(infoString, i, infoString.length)
@@ -38,14 +38,17 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
           return api.parsePhrasingContent(phrasingContent)
         })()
 
+        const keyword: string = calcEscapedStringFromNodePoints(
+          keywordNodePoints,
+          0,
+          keywordNodePoints.length,
+          true,
+        )
         const children: IYastNode[] = api.parseBlockTokens(token.children)
-        const node: INode = {
-          type: AdmonitionType,
-          position: token.position,
-          keyword: calcEscapedStringFromNodePoints(keyword, 0, keyword.length, true),
-          title,
-          children,
-        }
+
+        const node: INode = api.shouldReservePosition
+          ? { type: AdmonitionType, position: token.position, keyword, title, children }
+          : { type: AdmonitionType, keyword, title, children }
         return node
       }),
   }

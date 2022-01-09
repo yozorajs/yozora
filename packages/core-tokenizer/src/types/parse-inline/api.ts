@@ -7,6 +7,10 @@ import type { IYastInlineToken } from '../token'
  */
 export interface IParseInlinePhaseApi {
   /**
+   * Whether it is necessary to reserve the position in the IYastNode produced.
+   */
+  readonly shouldReservePosition: boolean
+  /**
    * Get the node points.
    */
   getNodePoints(): ReadonlyArray<INodePoint>

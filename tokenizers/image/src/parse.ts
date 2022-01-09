@@ -41,14 +41,9 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
           title = calcEscapedStringFromNodePoints(nodePoints, startIndex + 1, endIndex - 1)
         }
 
-        const node: INode = {
-          type: ImageType,
-
-          position: api.calcPosition(token),
-          url,
-          alt,
-          title,
-        }
+        const node: INode = api.shouldReservePosition
+          ? { type: ImageType, position: api.calcPosition(token), url, alt, title }
+          : { type: ImageType, url, alt, title }
         return node
       }),
   }

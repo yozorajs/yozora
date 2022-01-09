@@ -11,12 +11,9 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
         const { startIndex, endIndex } = token
         const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
         const value = calcStringFromNodePoints(nodePoints, startIndex, endIndex)
-        const node: INode = {
-          type: HtmlType,
-
-          position: api.calcPosition(token),
-          value,
-        }
+        const node: INode = api.shouldReservePosition
+          ? { type: HtmlType, position: api.calcPosition(token), value }
+          : { type: HtmlType, value }
         return node
       }),
   }

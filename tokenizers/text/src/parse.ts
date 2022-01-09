@@ -17,11 +17,9 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
          * @see https://github.github.com/gfm/#example-670
          */
         value = value.replace(/[^\S\n]*\n[^\S\n]*/g, '\n')
-        const node: INode = {
-          type: TextType,
-          position: api.calcPosition(token),
-          value,
-        }
+        const node: INode = api.shouldReservePosition
+          ? { type: TextType, position: api.calcPosition(token), value }
+          : { type: TextType, value }
         return node
       }),
   }

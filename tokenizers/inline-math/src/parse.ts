@@ -24,7 +24,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
          * but doesn't consist entirely of space characters, a single space
          * character is removed from the front and back. This allows you to
          * include code that begins or endsWith backtick characters, which must
-         * be separated by whitespace from theopening or closing backtick strings.
+         * be separated by whitespace from the opening or closing backtick strings.
          * @see https://github.github.com/gfm/#example-340
          *
          * Only spaces, and not unicode whitespace in general, are stripped
@@ -43,11 +43,10 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
           }
         }
 
-        const node: INode = {
-          type: InlineMathType,
-          position: api.calcPosition(token),
-          value: calcStringFromNodePoints(nodePoints, startIndex, endIndex).replace(/\n/, ' '),
-        }
+        const value = calcStringFromNodePoints(nodePoints, startIndex, endIndex).replace(/\n/, ' ')
+        const node: INode = api.shouldReservePosition
+          ? { type: InlineMathType, position: api.calcPosition(token), value }
+          : { type: InlineMathType, value }
         return node
       }),
   }

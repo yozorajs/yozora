@@ -9,7 +9,7 @@ import type { IParseBlockHookCreator } from '@yozora/core-tokenizer'
 import { eatOptionalWhitespaces, mergeContentLinesFaithfully } from '@yozora/core-tokenizer'
 import type { INode, IThis, IToken, T } from './types'
 
-export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function () {
+export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (api) {
   return {
     parse: tokens =>
       tokens.map(token => {
@@ -32,13 +32,20 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
          * Backslash escape works in info strings in fenced code blocks.
          * @see https://github.github.com/gfm/#example-320
          */
-        const node: INode = {
-          type: CodeType,
-          position: token.position,
-          lang: calcEscapedStringFromNodePoints(lang, 0, lang.length, true),
-          meta: calcEscapedStringFromNodePoints(infoString, i, infoString.length, true),
-          value: calcStringFromNodePoints(contents),
-        }
+        const node: INode = api.shouldReservePosition
+          ? {
+              type: CodeType,
+              position: token.position,
+              lang: calcEscapedStringFromNodePoints(lang, 0, lang.length, true),
+              meta: calcEscapedStringFromNodePoints(infoString, i, infoString.length, true),
+              value: calcStringFromNodePoints(contents),
+            }
+          : {
+              type: CodeType,
+              lang: calcEscapedStringFromNodePoints(lang, 0, lang.length, true),
+              meta: calcEscapedStringFromNodePoints(infoString, i, infoString.length, true),
+              value: calcStringFromNodePoints(contents),
+            }
         return node
       }),
   }

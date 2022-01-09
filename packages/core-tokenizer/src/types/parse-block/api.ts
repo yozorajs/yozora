@@ -7,6 +7,10 @@ import type { IYastBlockToken } from '../token'
  */
 export interface IParseBlockPhaseApi {
   /**
+   * Whether it is necessary to reserve the position in the IYastNode produced.
+   */
+  readonly shouldReservePosition: boolean
+  /**
    * Build IPhrasingContent from a PhrasingContentToken.
    * @param lines
    */

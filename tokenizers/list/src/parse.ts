@@ -91,27 +91,39 @@ const resolveList = (tokens: IToken[], api: IParseBlockPhaseApi): INode | null =
           .map(node => (node.type === ParagraphType ? (node as IParagraph).children : node))
           .flat()
 
-    const listItem: IListItem = {
-      type: ListItemType,
-      position: listItemToken.position,
-      status: listItemToken.status,
-      children,
-    }
+    const listItem: IListItem = api.shouldReservePosition
+      ? {
+          type: ListItemType,
+          position: listItemToken.position,
+          status: listItemToken.status,
+          children,
+        }
+      : { type: ListItemType, status: listItemToken.status, children }
     return listItem
   })
 
-  const node: INode = {
-    type: ListType,
-    position: {
-      start: { ...tokens[0].position.start },
-      end: { ...tokens[tokens.length - 1].position.end },
-    },
-    ordered: tokens[0].ordered,
-    orderType: tokens[0].orderType,
-    start: tokens[0].order,
-    marker: tokens[0].marker,
-    spread,
-    children,
-  }
+  const node: INode = api.shouldReservePosition
+    ? {
+        type: ListType,
+        position: {
+          start: { ...tokens[0].position.start },
+          end: { ...tokens[tokens.length - 1].position.end },
+        },
+        ordered: tokens[0].ordered,
+        orderType: tokens[0].orderType,
+        start: tokens[0].order,
+        marker: tokens[0].marker,
+        spread,
+        children,
+      }
+    : {
+        type: ListType,
+        ordered: tokens[0].ordered,
+        orderType: tokens[0].orderType,
+        start: tokens[0].order,
+        marker: tokens[0].marker,
+        spread,
+        children,
+      }
   return node
 }

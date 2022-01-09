@@ -14,14 +14,22 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
         const children: IYastNode[] = api.parseInlineTokens(token.children)
         const alt = calcImageAlt(children)
 
-        const node: INode = {
-          type: ImageReferenceType,
-          position: api.calcPosition(token),
-          identifier,
-          label,
-          referenceType,
-          alt,
-        }
+        const node: INode = api.shouldReservePosition
+          ? {
+              type: ImageReferenceType,
+              position: api.calcPosition(token),
+              identifier,
+              label,
+              referenceType,
+              alt,
+            }
+          : {
+              type: ImageReferenceType,
+              identifier,
+              label,
+              referenceType,
+              alt,
+            }
         return node
       }),
   }

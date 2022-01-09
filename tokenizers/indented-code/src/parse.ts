@@ -5,7 +5,7 @@ import type { IParseBlockHookCreator } from '@yozora/core-tokenizer'
 import { mergeContentLinesFaithfully } from '@yozora/core-tokenizer'
 import type { INode, IThis, IToken, T } from './types'
 
-export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function () {
+export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (api) {
   return {
     parse: tokens =>
       tokens.map(token => {
@@ -31,11 +31,11 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
           startLineIndex,
           endLineIndex,
         )
-        const node: INode = {
-          type: CodeType,
-          position: token.position,
-          value: calcStringFromNodePoints(contents),
-        }
+
+        const value: string = calcStringFromNodePoints(contents)
+        const node: INode = api.shouldReservePosition
+          ? { type: CodeType, position: token.position, value }
+          : { type: CodeType, value }
         return node
       }),
   }
