@@ -1,5 +1,27 @@
 # Changelog
 
+<a name="2.0.0-alpha.3"></a>
+## 2.0.0-alpha.3 (2022-01-12)
+
+### Changed
+
+- 🎨 improve: simplify codes [[8b11590](https://github.com/yozorajs/yozora/commit/8b115905d8c19317834654cbb34d170eee6df20f)]
+
+### Breaking changes
+
+- 💥 feat: [breaking] remove &#x27;IYastNode&#x27; prefix for AST types [[35c8fd2](https://github.com/yozorajs/yozora/commit/35c8fd2a6c27fb0bdb4020ccda5974ad05748c46)]
+- 💥 feat: [breaking] remove &#x27;I&#x27; prefix for AST node types [[cad4b0b](https://github.com/yozorajs/yozora/commit/cad4b0b5b8061ea495f6455ef1554bb3c8f223a0)]
+
+### Removed
+
+- 🔥 improve: remove unused codes [[32dc109](https://github.com/yozorajs/yozora/commit/32dc1092105a313374ae1f6605ad952dda837151)]
+- 🔥 improve: remove unused codes [[ea053ac](https://github.com/yozorajs/yozora/commit/ea053acf0de85950f38d985ee9f98e7c0066415c)]
+
+### Miscellaneous
+
+- 📝 docs: update CHANGELOG [[2fbe5bb](https://github.com/yozorajs/yozora/commit/2fbe5bb73db326369eb2c5cf4292902a87d70a78)]
+
+
 <a name="2.0.0-alpha.2"></a>
 ## 2.0.0-alpha.2 (2022-01-09)
 
