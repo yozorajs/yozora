@@ -39,21 +39,3 @@ export function calcEndYastNodePoint(
   const { line, column, offset } = nodePoints[index]
   return { line, column: column + 1, offset: offset + 1 }
 }
-
-/**
- * Calculate YastNodePosition from array of BlockTokenizerPostMatchPhaseState
- *
- * @param children
- */
-export function calcPositionFromChildren(
-  children?: ReadonlyArray<IYastBlockToken>,
-): IYastNodePosition | null {
-  if (children == null || children.length <= 0) return null
-  const firstChild = children[0]
-  const lastChild = children[children.length - 1]
-  const position: IYastNodePosition = {
-    start: { ...firstChild.position.start },
-    end: { ...lastChild.position.end },
-  }
-  return position
-}
