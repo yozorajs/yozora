@@ -4,7 +4,6 @@ import type {
   IMatchBlockHookCreator,
   IParseBlockHookCreator,
   IPhrasingContentLine,
-  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -44,15 +43,12 @@ export class ParagraphTokenizer
     return token.lines
   }
 
-  public override buildBlockToken(
-    _lines: ReadonlyArray<IPhrasingContentLine>,
-  ): (IToken & IYastBlockToken) | null {
+  public override buildBlockToken(_lines: ReadonlyArray<IPhrasingContentLine>): IToken | null {
     const lines = trimBlankLines(_lines)
     if (lines.length <= 0) return null
 
     const position = calcPositionFromPhrasingContentLines(lines)
-    const token: IToken & IYastBlockToken = {
-      _tokenizer: this.name,
+    const token: IToken = {
       nodeType: ParagraphType,
       lines,
       position,

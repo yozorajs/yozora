@@ -49,7 +49,6 @@ describe('paragraph patch test', function () {
   it('buildBlockState', function () {
     expect(tokenizer.buildBlockToken([])).toBeNull()
     expect(tokenizer.buildBlockToken(nextLines)).toEqual({
-      _tokenizer: ParagraphTokenizerName,
       nodeType: ParagraphType,
       lines: nextLines,
       position: {

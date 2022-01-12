@@ -8,7 +8,6 @@ import type { IParseInlineHookCreator } from '../types/parse-inline/hook'
 import type {
   IPartialYastBlockToken,
   IPartialYastInlineToken,
-  IYastBlockToken,
   IYastTokenDelimiter,
 } from '../types/token'
 import type { IPhrasingContentLine } from './phrasing-content'
@@ -62,7 +61,7 @@ export interface IBlockTokenizer<
   buildBlockToken(
     lines: ReadonlyArray<IPhrasingContentLine>,
     originalToken: IToken,
-  ): (IToken & IYastBlockToken) | null
+  ): (IToken & IPartialYastBlockToken) | null
 }
 
 export type IBlockFallbackTokenizer<

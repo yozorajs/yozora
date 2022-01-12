@@ -28,7 +28,6 @@ import type { ITableCellToken, ITableRowToken, IThis, IToken, T } from './types'
  * @see https://github.com/syntax-tree/mdast#tablecell
  */
 export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
-  const { name: _tokenizer } = this
   return {
     isContainingBlock: false,
     eatOpener,
@@ -251,7 +250,6 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
             ]
 
       const cell: ITableCellToken = {
-        _tokenizer,
         nodeType: TableCellType,
         position: { start: startPoint, end: endPoint },
         lines: lines,
@@ -280,7 +278,6 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
      */
     for (let c = cells.length; c < columns.length; ++c) {
       const cell: ITableCellToken = {
-        _tokenizer,
         nodeType: TableCellType,
         position: { start: { ...endPoint }, end: { ...endPoint } },
         lines: [],
@@ -289,7 +286,6 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
     }
 
     const row: ITableRowToken = {
-      _tokenizer,
       nodeType: TableRowType,
       position: { start: startPoint, end: endPoint },
       cells,

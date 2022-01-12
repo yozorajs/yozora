@@ -155,7 +155,10 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       const tokenizer = blockTokenizerMap.get(originalToken._tokenizer)
       if (tokenizer !== undefined && tokenizer.buildBlockToken != null) {
         const token = tokenizer.buildBlockToken(lines, originalToken)
-        if (token != null) return [token]
+        if (token !== null) {
+          token._tokenizer = tokenizer.name
+          return [token as IYastBlockToken]
+        }
       }
     }
 
