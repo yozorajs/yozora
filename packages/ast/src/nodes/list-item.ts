@@ -1,4 +1,4 @@
-import type { IYastParent } from '../ast'
+import type { Parent } from '../ast'
 
 export const ListItemType = 'listItem'
 export type ListItemType = typeof ListItemType
@@ -27,7 +27,7 @@ export enum TaskStatus {
  * @see https://github.com/syntax-tree/mdast#listitem
  * @see https://github.github.com/gfm/#list-items
  */
-export interface ListItem extends IYastParent<ListItemType> {
+export interface ListItem extends Parent<ListItemType> {
   /**
    * Status of a todo task.
    */

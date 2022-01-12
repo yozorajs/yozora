@@ -1,4 +1,4 @@
-import type { IYastLiteral, IYastParent, Root } from '@yozora/ast'
+import type { Literal, Parent, Root } from '@yozora/ast'
 import { TextType } from '@yozora/ast'
 import { shallowCloneAst } from './ast/clone'
 
@@ -9,11 +9,11 @@ export function calcExcerptAst(immutableRoot: Readonly<Root>, pruneLength: numbe
   if (immutableRoot.children.length <= 0) return immutableRoot
 
   let totalExcerptLengthSoFar = 0
-  let parentOfLastLiteralNode: IYastParent | null = null as any
+  let parentOfLastLiteralNode: Parent | null = null as any
   let indexOfLastLiteralNode = 0
   const excerptAst = shallowCloneAst(immutableRoot, (node, parent, index) => {
     if (totalExcerptLengthSoFar >= pruneLength) return true
-    const { value } = node as IYastLiteral
+    const { value } = node as Literal
     if (value != null) {
       parentOfLastLiteralNode = parent
       indexOfLastLiteralNode = index
@@ -33,7 +33,7 @@ export function calcExcerptAst(immutableRoot: Readonly<Root>, pruneLength: numbe
       if (i !== indexOfLastLiteralNode) return node
       return {
         ...node,
-        value: (node as IYastLiteral).value.slice(totalExcerptLengthSoFar - pruneLength),
+        value: (node as Literal).value.slice(totalExcerptLengthSoFar - pruneLength),
       }
     })
   }

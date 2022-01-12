@@ -1,4 +1,4 @@
-import type { IYastLiteral } from '../ast'
+import type { Literal } from '../ast'
 
 export const CodeType = 'code'
 export type CodeType = typeof CodeType
@@ -9,7 +9,7 @@ export type CodeType = typeof CodeType
  * @see https://github.com/syntax-tree/mdast#code
  * @see https://github.github.com/gfm/#code-fence
  */
-export interface Code extends IYastLiteral<CodeType> {
+export interface Code extends Literal<CodeType> {
   /**
    * Language of the codes
    */

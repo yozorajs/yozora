@@ -1,4 +1,4 @@
-import type { IYastNode } from '@yozora/ast'
+import type { Node } from '@yozora/ast'
 import { AdmonitionType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints, isUnicodeWhitespaceCharacter } from '@yozora/character'
@@ -22,7 +22,7 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
         }
 
         i = eatOptionalWhitespaces(infoString, i, infoString.length)
-        const title: IYastNode[] = ((): IYastNode[] => {
+        const title: Node[] = ((): Node[] => {
           if (i >= infoString.length) return []
           const titleLines: IPhrasingContentLine[] = [
             {
@@ -43,7 +43,7 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
           keywordNodePoints.length,
           true,
         )
-        const children: IYastNode[] = api.parseBlockTokens(token.children)
+        const children: Node[] = api.parseBlockTokens(token.children)
 
         const node: INode = api.shouldReservePosition
           ? { type: AdmonitionType, position: token.position, keyword, title, children }

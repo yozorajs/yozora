@@ -1,4 +1,4 @@
-import type { IYastParent } from '../ast'
+import type { Parent } from '../ast'
 
 export const FootnoteType = 'footnote'
 export type FootnoteType = typeof FootnoteType
@@ -7,7 +7,7 @@ export type FootnoteType = typeof FootnoteType
  * Footnote represents content relating to the document that is outside its flow.
  * @see https://github.com/syntax-tree/mdast#footnote
  */
-export type Footnote = IYastParent<FootnoteType>
+export type Footnote = Parent<FootnoteType>
 
 /**
  * Example:

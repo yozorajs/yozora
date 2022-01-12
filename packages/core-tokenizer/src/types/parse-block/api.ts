@@ -1,4 +1,4 @@
-import type { IYastNode } from '@yozora/ast'
+import type { Node } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import type { IYastBlockToken } from '../token'
 
@@ -7,17 +7,17 @@ import type { IYastBlockToken } from '../token'
  */
 export interface IParseBlockPhaseApi {
   /**
-   * Whether it is necessary to reserve the position in the IYastNode produced.
+   * Whether it is necessary to reserve the position in the Node produced.
    */
   readonly shouldReservePosition: boolean
   /**
    * Process node points into inline nodes.
    * @param nodePoints
    */
-  processInlines(nodePoints: ReadonlyArray<INodePoint>): IYastNode[]
+  processInlines(nodePoints: ReadonlyArray<INodePoint>): Node[]
   /**
    * Parse block tokens to Yozora AST nodes.
    * @param tokens
    */
-  parseBlockTokens(tokens?: ReadonlyArray<IYastBlockToken>): IYastNode[]
+  parseBlockTokens(tokens?: ReadonlyArray<IYastBlockToken>): Node[]
 }

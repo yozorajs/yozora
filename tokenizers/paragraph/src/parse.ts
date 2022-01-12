@@ -1,4 +1,4 @@
-import type { IYastNode } from '@yozora/ast'
+import type { Node } from '@yozora/ast'
 import { ParagraphType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import type { IParseBlockHookCreator } from '@yozora/core-tokenizer'
@@ -12,7 +12,7 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
       for (const token of tokens) {
         // Resolve phrasing content.
         const contents: INodePoint[] = mergeAndStripContentLines(token.lines)
-        const children: IYastNode[] = api.processInlines(contents)
+        const children: Node[] = api.processInlines(contents)
 
         if (children.length <= 0) continue
 

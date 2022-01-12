@@ -1,4 +1,4 @@
-import type { IYastNode, IYastParent, Root, YastNodeType } from '@yozora/ast'
+import type { Node, NodeType, Parent, Root } from '@yozora/ast'
 import type { INodeMatcher } from './util'
 import { createNodeMatcher } from './util'
 
@@ -15,19 +15,19 @@ import { createNodeMatcher } from './util'
  */
 export function traverseAst(
   immutableRoot: Root,
-  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | INodeMatcher | null,
+  aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher | null,
   touch: (
-    immutableNode: Readonly<IYastNode>,
-    immutableParent: Readonly<IYastParent>,
+    immutableNode: Readonly<Node>,
+    immutableParent: Readonly<Parent>,
     childIndex: number,
   ) => void,
 ): void {
   const isMatched: INodeMatcher = createNodeMatcher(aimTypesOrNodeMatcher)
 
-  const visit = (u: IYastParent): void => {
+  const visit = (u: Parent): void => {
     const { children } = u
     for (let i = 0; i < children.length; ++i) {
-      const v = children[i] as IYastParent
+      const v = children[i] as Parent
       if (isMatched(v)) touch(v, u, i)
 
       // Recursively visit.

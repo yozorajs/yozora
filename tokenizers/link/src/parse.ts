@@ -1,4 +1,4 @@
-import type { IYastNode } from '@yozora/ast'
+import type { Node } from '@yozora/ast'
 import { LinkType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcEscapedStringFromNodePoints } from '@yozora/character'
@@ -36,7 +36,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
           title = calcEscapedStringFromNodePoints(nodePoints, startIndex + 1, endIndex - 1)
         }
 
-        const children: IYastNode[] = api.parseInlineTokens(token.children)
+        const children: Node[] = api.parseInlineTokens(token.children)
         const node: INode = api.shouldReservePosition
           ? { type: LinkType, position: api.calcPosition(token), url, title, children }
           : { type: LinkType, url, title, children }

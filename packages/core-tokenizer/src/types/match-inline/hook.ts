@@ -1,10 +1,10 @@
-import type { YastNodeType } from '@yozora/ast'
+import type { NodeType } from '@yozora/ast'
 import type { IPartialYastInlineToken, IYastInlineToken, IYastTokenDelimiter } from '../token'
 import type { ITokenizer } from '../tokenizer'
 import type { IMatchInlinePhaseApi } from './api'
 
 export type IMatchInlineHookCreator<
-  T extends YastNodeType = YastNodeType,
+  T extends NodeType = NodeType,
   IDelimiter extends IYastTokenDelimiter = IYastTokenDelimiter,
   IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
   IThis extends ITokenizer = ITokenizer,
@@ -14,7 +14,7 @@ export type IMatchInlineHookCreator<
  * Hooks on the match-inline phase.
  */
 export interface IMatchInlineHook<
-  T extends YastNodeType = YastNodeType,
+  T extends NodeType = NodeType,
   IDelimiter extends IYastTokenDelimiter = IYastTokenDelimiter,
   IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
 > {
@@ -94,7 +94,7 @@ export type IResultOfIsDelimiterPair =
  * @see IMatchInlineHook
  */
 export interface IResultOfProcessDelimiterPair<
-  T extends YastNodeType = YastNodeType,
+  T extends NodeType = NodeType,
   IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
   IDelimiter extends IYastTokenDelimiter = IYastTokenDelimiter,
 > {
@@ -108,6 +108,6 @@ export interface IResultOfProcessDelimiterPair<
  * @see IMatchInlineHook
  */
 export type IResultOfProcessSingleDelimiter<
-  T extends YastNodeType = YastNodeType,
+  T extends NodeType = NodeType,
   IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
 > = IToken[]

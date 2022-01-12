@@ -1,4 +1,4 @@
-import type { IYastAssociation, IYastParent } from '../ast'
+import type { Association, Parent } from '../ast'
 
 export const FootnoteDefinitionType = 'footnoteDefinition'
 export type FootnoteDefinitionType = typeof FootnoteDefinitionType
@@ -8,7 +8,7 @@ export type FootnoteDefinitionType = typeof FootnoteDefinitionType
  * outside its flow.
  * @see https://github.com/syntax-tree/mdast#footnotedefinition
  */
-export interface FootnoteDefinition extends IYastParent<FootnoteDefinitionType>, IYastAssociation {}
+export interface FootnoteDefinition extends Parent<FootnoteDefinitionType>, Association {}
 
 /**
  * Example:

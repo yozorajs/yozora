@@ -1,4 +1,4 @@
-import type { IYastNode, YastNodeType } from '@yozora/ast'
+import type { Node, NodeType } from '@yozora/ast'
 import { TokenizerType } from '../constant'
 import type { IMatchBlockHookCreator } from '../types/match-block/hook'
 import type { IParseBlockHookCreator } from '../types/parse-block/hook'
@@ -24,9 +24,9 @@ export interface IBaseBlockTokenizerProps {
  * Base block tokenizer.
  */
 export abstract class BaseBlockTokenizer<
-  T extends YastNodeType = YastNodeType,
+  T extends NodeType = NodeType,
   IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
-  INode extends IYastNode<T> = IYastNode<T>,
+  INode extends Node<T> = Node<T>,
   IThis extends ITokenizer = ITokenizer,
 > implements IBlockTokenizer<T, IToken, INode, IThis>
 {

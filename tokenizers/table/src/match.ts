@@ -1,4 +1,4 @@
-import type { IYastAlignType, IYastNodePoint, TableColumn } from '@yozora/ast'
+import type { AlignType, NodePoint, TableColumn } from '@yozora/ast'
 import { TableCellType, TableRowType, TableType } from '@yozora/ast'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
@@ -104,7 +104,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
         return null
       }
 
-      let align: IYastAlignType = null
+      let align: AlignType = null
       if (leftColon && rightColon) align = 'center'
       else if (leftColon) align = 'left'
       else if (rightColon) align = 'right'
@@ -205,7 +205,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
       }
 
       // Start point of the table-cell.
-      const startPoint: IYastNodePoint =
+      const startPoint: NodePoint =
         i < endIndex
           ? calcStartYastNodePoint(nodePoints, i)
           : calcEndYastNodePoint(nodePoints, endIndex - 1)
@@ -234,7 +234,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
       }
 
       // End point of the table-cell
-      const endPoint: IYastNodePoint = calcEndYastNodePoint(nodePoints, i - 1)
+      const endPoint: NodePoint = calcEndYastNodePoint(nodePoints, i - 1)
 
       const lines: IPhrasingContentLine[] =
         cellFirstNonWhitespaceIndex >= cellEndIndex
@@ -264,10 +264,10 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
     }
 
     // Start point of the table-row
-    const startPoint: IYastNodePoint = calcStartYastNodePoint(nodePoints, startIndex)
+    const startPoint: NodePoint = calcStartYastNodePoint(nodePoints, startIndex)
 
     // End point of the table-row
-    const endPoint: IYastNodePoint = calcEndYastNodePoint(nodePoints, endIndex - 1)
+    const endPoint: NodePoint = calcEndYastNodePoint(nodePoints, endIndex - 1)
 
     /**
      * The remainder of the table’s rows may vary in the number of cells.
@@ -375,7 +375,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
 //       return null
 //     }
 
-//     let align: IYastAlignType = null
+//     let align: AlignType = null
 //     if (leftColon && rightColon) align = 'center'
 //     else if (leftColon) align = 'left'
 //     else if (rightColon) align = 'right'

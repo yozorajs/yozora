@@ -1,4 +1,4 @@
-import type { IYastNode, IYastParent, Root, YastNodeType } from '@yozora/ast'
+import type { Node, NodeType, Parent, Root } from '@yozora/ast'
 import type { INodeMatcher } from './util'
 import { createNodeMatcher, createShallowNodeCollector } from './util'
 
@@ -26,24 +26,21 @@ import { createNodeMatcher, createShallowNodeCollector } from './util'
  */
 export function shallowMutateAstInPostorder(
   immutableRoot: Readonly<Root>,
-  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | INodeMatcher | null,
+  aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher | null,
   replace: (
-    immutableNode: Readonly<IYastNode>,
-    immutableParent: Readonly<IYastParent>,
+    immutableNode: Readonly<Node>,
+    immutableParent: Readonly<Parent>,
     childIndex: number,
-  ) => IYastNode | IYastNode[] | null,
+  ) => Node | Node[] | null,
 ): Readonly<Root> {
   const isMatched: INodeMatcher = createNodeMatcher(aimTypesOrNodeMatcher)
 
-  const traverse = (
-    children: ReadonlyArray<IYastNode>,
-    parent: Readonly<IYastParent>,
-  ): IYastNode => {
+  const traverse = (children: ReadonlyArray<Node>, parent: Readonly<Parent>): Node => {
     // Recursively processing the descendant nodes in post-order traverse.
-    const collector0 = createShallowNodeCollector(children as IYastNode[])
+    const collector0 = createShallowNodeCollector(children as Node[])
     for (let i = 0; i < children.length; ++i) {
-      const child = children[i] as IYastParent
-      const subChildren: ReadonlyArray<IYastNode> = child.children
+      const child = children[i] as Parent
+      const subChildren: ReadonlyArray<Node> = child.children
 
       // Whether to process the subtree recursively.
       const nextChild = subChildren && subChildren.length > 0 ? traverse(subChildren, child) : child
@@ -51,7 +48,7 @@ export function shallowMutateAstInPostorder(
     }
 
     // Processing current layer of nodes.
-    const nextChildren: IYastNode[] = collector0.collect()
+    const nextChildren: Node[] = collector0.collect()
     const collector1 = createShallowNodeCollector(nextChildren)
     for (let i = 0; i < nextChildren.length; ++i) {
       const child = nextChildren[i]
@@ -59,8 +56,8 @@ export function shallowMutateAstInPostorder(
       collector1.add(nextChild, child, i)
     }
 
-    const finalChildren: IYastNode[] = collector1.collect()
-    const result: IYastNode =
+    const finalChildren: Node[] = collector1.collect()
+    const result: Node =
       finalChildren === children ? parent : { ...parent, children: finalChildren }
     return result
   }

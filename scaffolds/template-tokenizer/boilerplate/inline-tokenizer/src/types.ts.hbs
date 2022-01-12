@@ -1,4 +1,4 @@
-import type { IYastLiteral } from '@yozora/ast'
+import type { Literal } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
   IPartialYastInlineToken,
@@ -20,7 +20,7 @@ export const uniqueName = '{{{packageName}}}'
  *    ```js
  *    ```
  */
-export type INode = IYastLiteral<T>
+export type INode = Literal<T>
 
 export type IToken = IPartialYastInlineToken<T>
 

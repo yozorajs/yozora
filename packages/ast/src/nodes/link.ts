@@ -1,4 +1,4 @@
-import type { IYastParent, IYastResource } from '../ast'
+import type { Parent, Resource } from '../ast'
 
 export const LinkType = 'link'
 export type LinkType = typeof LinkType
@@ -8,7 +8,7 @@ export type LinkType = typeof LinkType
  * @see https://github.com/syntax-tree/mdast#link
  * @see https://github.github.com/gfm/#inline-link
  */
-export interface Link extends IYastParent<LinkType>, IYastResource {}
+export interface Link extends Parent<LinkType>, Resource {}
 
 /**
  * Example:

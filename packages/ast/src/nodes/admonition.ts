@@ -1,4 +1,4 @@
-import type { IYastNode, IYastParent } from '../ast'
+import type { Node, Parent } from '../ast'
 
 export const AdmonitionType = 'admonition'
 export type AdmonitionType = typeof AdmonitionType
@@ -8,7 +8,7 @@ export type AdmonitionType = typeof AdmonitionType
  * the body can include any block markdown except another admonition.
  * @see https://github.com/elviswolcott/remark-admonitions
  */
-export interface Admonition extends IYastParent<AdmonitionType> {
+export interface Admonition extends Parent<AdmonitionType> {
   /**
    * Keyword of an admonition.
    */
@@ -16,7 +16,7 @@ export interface Admonition extends IYastParent<AdmonitionType> {
   /**
    * Admonition title.
    */
-  title: IYastNode[]
+  title: Node[]
 }
 
 /**

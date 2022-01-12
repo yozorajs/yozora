@@ -1,4 +1,4 @@
-import type { IYastNode, YastNodeType } from '@yozora/ast'
+import type { Node, NodeType } from '@yozora/ast'
 import type { ICodePoint } from '@yozora/character'
 import type { IBlockTokenizer, IMatchBlockHookCreator } from '@yozora/core-tokenizer'
 import { BaseBlockTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
@@ -16,8 +16,8 @@ import type { IFencedBlockHookContext, IToken, ITokenizerProps } from './types'
  * @see https://github.github.com/gfm/#code-fence
  */
 export abstract class FencedBlockTokenizer<
-    T extends YastNodeType = YastNodeType,
-    INode extends IYastNode<T> = IYastNode<T>,
+    T extends NodeType = NodeType,
+    INode extends Node<T> = Node<T>,
     IThis extends IFencedBlockHookContext<T> = IFencedBlockHookContext<T>,
   >
   extends BaseBlockTokenizer<T, IToken<T>, INode, any>

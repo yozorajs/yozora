@@ -1,4 +1,4 @@
-import type { IYastLiteral } from '../ast'
+import type { Literal } from '../ast'
 
 export const TextType = 'text'
 export type TextType = typeof TextType
@@ -8,7 +8,7 @@ export type TextType = typeof TextType
  * @see https://github.com/syntax-tree/mdast#text
  * @see https://github.github.com/gfm/#textual-content
  */
-export type Text = IYastLiteral<TextType>
+export type Text = Literal<TextType>
 
 /**
  * Example:

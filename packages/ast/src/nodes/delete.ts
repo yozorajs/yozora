@@ -1,4 +1,4 @@
-import type { IYastParent } from '../ast'
+import type { Parent } from '../ast'
 
 export const DeleteType = 'delete'
 export type DeleteType = typeof DeleteType
@@ -8,7 +8,7 @@ export type DeleteType = typeof DeleteType
  * @see https://github.com/syntax-tree/mdast#delete
  * @see https://github.github.com/gfm/#strikethrough-extension-
  */
-export type Delete = IYastParent<DeleteType>
+export type Delete = Parent<DeleteType>
 
 /**
  * Example:

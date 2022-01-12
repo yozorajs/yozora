@@ -1,4 +1,4 @@
-import type { IYastLiteral, Root } from '@yozora/ast'
+import type { Literal, Root } from '@yozora/ast'
 import { TextType } from '@yozora/ast'
 import { loadJSONFixture } from 'jest.setup'
 import { traverseAst } from '../src'
@@ -11,7 +11,7 @@ describe('traverseAST', function () {
     traverseAst(ast, [TextType], (node, parent, childIndex): void => {
       if (childIndex === 0) {
         // eslint-disable-next-line no-param-reassign
-        ;(node as IYastLiteral).value = '+++' + (node as IYastLiteral).value
+        ;(node as Literal).value = '+++' + (node as Literal).value
       }
     })
     expect(ast).toMatchSnapshot()
@@ -21,12 +21,12 @@ describe('traverseAST', function () {
   test('allTypes', function () {
     const ast: Root = loadJSONFixture('basic1.ast.json')
     traverseAst(ast, null, (node, parent, childIndex): void => {
-      const { value } = node as IYastLiteral
+      const { value } = node as Literal
       if (value == null) return
 
       if (childIndex === 0) {
         // eslint-disable-next-line no-param-reassign
-        ;(node as IYastLiteral).value = '+++' + (node as IYastLiteral).value
+        ;(node as Literal).value = '+++' + (node as Literal).value
       }
     })
     expect(ast).toMatchSnapshot()

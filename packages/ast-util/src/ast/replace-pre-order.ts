@@ -1,4 +1,4 @@
-import type { IYastNode, IYastParent, Root, YastNodeType } from '@yozora/ast'
+import type { Node, NodeType, Parent, Root } from '@yozora/ast'
 import type { INodeMatcher } from './util'
 import { createNodeMatcher, createShallowNodeCollector } from './util'
 
@@ -26,39 +26,36 @@ import { createNodeMatcher, createShallowNodeCollector } from './util'
  */
 export function shallowMutateAstInPreorder(
   immutableRoot: Readonly<Root>,
-  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | INodeMatcher | null,
+  aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher | null,
   replace: (
-    immutableNode: Readonly<IYastNode>,
-    immutableParent: Readonly<IYastParent>,
+    immutableNode: Readonly<Node>,
+    immutableParent: Readonly<Parent>,
     childIndex: number,
-  ) => IYastNode | IYastNode[] | null,
+  ) => Node | Node[] | null,
 ): Readonly<Root> {
   const isMatched: INodeMatcher = createNodeMatcher(aimTypesOrNodeMatcher)
 
-  const traverse = (
-    children: ReadonlyArray<IYastNode>,
-    parent: Readonly<IYastParent>,
-  ): IYastNode => {
+  const traverse = (children: ReadonlyArray<Node>, parent: Readonly<Parent>): Node => {
     // Processing current layer of nodes.
-    const collector = createShallowNodeCollector(children as IYastNode[])
+    const collector = createShallowNodeCollector(children as Node[])
     for (let i = 0; i < children.length; ++i) {
-      const child = children[i] as IYastParent
+      const child = children[i] as Parent
       if (isMatched(child)) {
         const nextChild = replace(child, parent, i)
         collector.add(nextChild, child, i)
       } else {
         // Recursively processing the descendant nodes in pre-order traverse.
-        const subChildren: ReadonlyArray<IYastNode> = child.children
+        const subChildren: ReadonlyArray<Node> = child.children
 
         // Whether to process the subtree recursively.
-        const nextChild: IYastNode =
+        const nextChild: Node =
           subChildren && subChildren.length > 0 ? traverse(subChildren, child) : child
         collector.add(nextChild, child, i)
       }
     }
 
-    const finalChildren: IYastNode[] = collector.collect()
-    const result: IYastNode =
+    const finalChildren: Node[] = collector.collect()
+    const result: Node =
       finalChildren === children ? parent : { ...parent, children: finalChildren }
     return result
   }

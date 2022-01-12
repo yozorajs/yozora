@@ -1,4 +1,4 @@
-import type { IYastNode, Root } from '@yozora/ast'
+import type { Node, Root } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import type {
   IParseBlockHook,
@@ -126,7 +126,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       footnoteIdentifierSet.add(footnoteDefinition.identifier)
     }
 
-    const children: IYastNode[] = parseBlockTokens(blockTokenTree.children)
+    const children: Node[] = parseBlockTokens(blockTokenTree.children)
     const ast: Root = shouldReservePosition
       ? { type: 'root', position: blockTokenTree.position, children }
       : { type: 'root', children }
@@ -217,10 +217,10 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return root
   }
 
-  function parseBlockTokens(tokens?: ReadonlyArray<IYastBlockToken>): IYastNode[] {
+  function parseBlockTokens(tokens?: ReadonlyArray<IYastBlockToken>): Node[] {
     if (tokens === undefined || tokens.length <= 0) return []
 
-    const results: IYastNode[] = []
+    const results: Node[] = []
     for (let i0 = 0, i1: number; i0 < tokens.length; i0 = i1) {
       const _tokenizer: string = tokens[i0]._tokenizer
       for (i1 = i0 + 1; i1 < tokens.length && tokens[i1]._tokenizer === _tokenizer; ) i1 += 1
@@ -230,13 +230,13 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       // cannot find matched tokenizer
       invariant(hook !== undefined, `[parseBlock] tokenizer '${_tokenizer}' not found`)
 
-      const nodes: IYastNode[] = hook.parse(tokens.slice(i0, i1))
+      const nodes: Node[] = hook.parse(tokens.slice(i0, i1))
       results.push(...nodes)
     }
     return results
   }
 
-  function processInlines(nodePoints: ReadonlyArray<INodePoint>): IYastNode[] {
+  function processInlines(nodePoints: ReadonlyArray<INodePoint>): Node[] {
     if (nodePoints.length <= 0) return []
     const inlineTokens = matchInlineTokens(nodePoints, 0, nodePoints.length)
     const inlineNodes = parseInlineTokens(inlineTokens)
@@ -266,10 +266,10 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return tokens
   }
 
-  function parseInlineTokens(tokens?: ReadonlyArray<IYastInlineToken>): IYastNode[] {
+  function parseInlineTokens(tokens?: ReadonlyArray<IYastInlineToken>): Node[] {
     if (tokens === undefined || tokens.length <= 0) return []
 
-    const results: IYastNode[] = []
+    const results: Node[] = []
     for (let i0 = 0, i1: number; i0 < tokens.length; i0 = i1) {
       const _tokenizer: string = tokens[i0]._tokenizer
       for (i1 = i0 + 1; i1 < tokens.length && tokens[i1]._tokenizer === _tokenizer; ) i1 += 1
@@ -279,7 +279,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       // cannot find matched tokenizer
       invariant(hook !== undefined, `[parseBlock] tokenizer '${_tokenizer}' not found`)
 
-      const nodes: IYastNode[] = hook.parse(tokens.slice(i0, i1))
+      const nodes: Node[] = hook.parse(tokens.slice(i0, i1))
       results.push(...nodes)
     }
     return results

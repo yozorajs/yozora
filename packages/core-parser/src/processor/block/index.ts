@@ -1,4 +1,4 @@
-import type { IYastNodePoint } from '@yozora/ast'
+import type { NodePoint } from '@yozora/ast'
 import { isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
 import type {
   IPartialYastBlockToken,
@@ -47,7 +47,7 @@ export const createBlockContentProcessor = (
    * @param endPoint
    */
   let currentStackIndex = 0
-  const refreshPosition = (endPoint: IYastNodePoint): void => {
+  const refreshPosition = (endPoint: NodePoint): void => {
     for (let sIndex = currentStackIndex; sIndex >= 0; --sIndex) {
       const o = stateStack[sIndex]
       o.token.position.end = { ...endPoint }

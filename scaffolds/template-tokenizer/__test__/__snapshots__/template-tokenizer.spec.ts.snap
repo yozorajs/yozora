@@ -367,7 +367,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
 `;
 
 exports[`new-tokenizer monorepo block: src/parse.ts 1`] = `
-"import type { IYastNode } from '@yozora/ast'
+"import type { Node } from '@yozora/ast'
 import type { IParseBlockHookCreator } from '@yozora/core-tokenizer'
 import type { INode, IThis, IToken, T } from './types'
 import { WawType } from './types'
@@ -376,7 +376,7 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
   return {
     parse: tokens =>
       tokens.map(token => {
-        const children: IYastNode[] = api.parseBlockTokens(token.children)
+        const children: Node[] = api.parseBlockTokens(token.children)
         const node: INode = {
           type: WawType,
           position: token.position,
@@ -424,7 +424,7 @@ export class WawTokenizer
 `;
 
 exports[`new-tokenizer monorepo block: src/types.ts 1`] = `
-"import type { IYastParent } from '@yozora/ast'
+"import type { Parent } from '@yozora/ast'
 import type {
   IBaseBlockTokenizerProps,
   IPartialYastBlockToken,
@@ -437,7 +437,7 @@ export type T = typeof WawType
 
 export const uniqueName = '@yozora/tokenizer-waw'
 
-export type INode = IYastParent<T>
+export type INode = Parent<T>
 
 export interface IToken extends IPartialYastBlockToken<T> {
   /**
@@ -861,7 +861,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
 `;
 
 exports[`new-tokenizer monorepo inline: src/parse.ts 1`] = `
-"import type { IYastNode } from '@yozora/ast'
+"import type { Node } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type { IParseInlineHookCreator } from '@yozora/core-tokenizer'
@@ -882,7 +882,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
 
         // Remove the spaces at the end of the line and beginning of the next line.
         value = value.replace(/[^\\\\S\\\\n]*\\\\n[^\\\\S\\\\n]*/g, '\\\\n')
-        const children: IYastNode[] = api.parseInlineTokens(token.children)
+        const children: Node[] = api.parseInlineTokens(token.children)
         const node: INode = {
           type: InlineWawType,
           position: api.calcPosition(token),
@@ -930,7 +930,7 @@ export class InlineWawTokenizer
 `;
 
 exports[`new-tokenizer monorepo inline: src/types.ts 1`] = `
-"import type { IYastLiteral } from '@yozora/ast'
+"import type { Literal } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
   IPartialYastInlineToken,
@@ -952,7 +952,7 @@ export const uniqueName = '@yozora/tokenizer-inline-waw'
  *    \`\`\`js
  *    \`\`\`
  */
-export type INode = IYastLiteral<T>
+export type INode = Literal<T>
 
 export type IToken = IPartialYastInlineToken<T>
 
@@ -1501,7 +1501,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
 `;
 
 exports[`new-tokenizer not a monorepo block: src/parse.ts 1`] = `
-"import type { IYastNode } from '@yozora/ast'
+"import type { Node } from '@yozora/ast'
 import type { IParseBlockHookCreator } from '@yozora/core-tokenizer'
 import type { INode, IThis, IToken, T } from './types'
 import { WawType } from './types'
@@ -1510,7 +1510,7 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
   return {
     parse: tokens =>
       tokens.map(token => {
-        const children: IYastNode[] = api.parseBlockTokens(token.children)
+        const children: Node[] = api.parseBlockTokens(token.children)
         const node: INode = {
           type: WawType,
           position: token.position,
@@ -1558,7 +1558,7 @@ export class WawTokenizer
 `;
 
 exports[`new-tokenizer not a monorepo block: src/types.ts 1`] = `
-"import type { IYastParent } from '@yozora/ast'
+"import type { Parent } from '@yozora/ast'
 import type {
   IBaseBlockTokenizerProps,
   IPartialYastBlockToken,
@@ -1571,7 +1571,7 @@ export type T = typeof WawType
 
 export const uniqueName = '@yozora/tokenizer-waw'
 
-export type INode = IYastParent<T>
+export type INode = Parent<T>
 
 export interface IToken extends IPartialYastBlockToken<T> {
   /**
@@ -2180,7 +2180,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
 `;
 
 exports[`new-tokenizer not a monorepo inline: src/parse.ts 1`] = `
-"import type { IYastNode } from '@yozora/ast'
+"import type { Node } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type { IParseInlineHookCreator } from '@yozora/core-tokenizer'
@@ -2201,7 +2201,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
 
         // Remove the spaces at the end of the line and beginning of the next line.
         value = value.replace(/[^\\\\S\\\\n]*\\\\n[^\\\\S\\\\n]*/g, '\\\\n')
-        const children: IYastNode[] = api.parseInlineTokens(token.children)
+        const children: Node[] = api.parseInlineTokens(token.children)
         const node: INode = {
           type: InlineWawType,
           position: api.calcPosition(token),
@@ -2249,7 +2249,7 @@ export class InlineWawTokenizer
 `;
 
 exports[`new-tokenizer not a monorepo inline: src/types.ts 1`] = `
-"import type { IYastLiteral } from '@yozora/ast'
+"import type { Literal } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
   IPartialYastInlineToken,
@@ -2271,7 +2271,7 @@ export const uniqueName = '@yozora/tokenizer-inline-waw'
  *    \`\`\`js
  *    \`\`\`
  */
-export type INode = IYastLiteral<T>
+export type INode = Literal<T>
 
 export type IToken = IPartialYastInlineToken<T>
 

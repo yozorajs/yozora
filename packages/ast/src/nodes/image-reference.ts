@@ -1,4 +1,4 @@
-import type { IYastAlternative, IYastAssociation, IYastNode, IYastReference } from '../ast'
+import type { Alternative, Association, Node, Reference } from '../ast'
 
 export const ImageReferenceType = 'imageReference'
 export type ImageReferenceType = typeof ImageReferenceType
@@ -10,10 +10,10 @@ export type ImageReferenceType = typeof ImageReferenceType
  * @see https://github.com/syntax-tree/mdast#imagereference
  */
 export interface ImageReference
-  extends IYastNode<ImageReferenceType>,
-    IYastAssociation,
-    IYastReference,
-    IYastAlternative {}
+  extends Node<ImageReferenceType>,
+    Association,
+    Reference,
+    Alternative {}
 
 /**
  * Example:

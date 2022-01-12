@@ -1,4 +1,4 @@
-import type { IYastAlignType, IYastParent } from '../ast'
+import type { AlignType, Parent } from '../ast'
 import type { TableRow } from './table-row'
 
 export const TableType = 'table'
@@ -12,14 +12,14 @@ export interface TableColumn {
    * An align field can be present. If present, it must be a list of alignTypes.
    * It represents how cells in columns are aligned.
    */
-  align: IYastAlignType
+  align: AlignType
 }
 
 /**
  * @see https://github.github.com/gfm/#table
  * @see https://github.com/syntax-tree/mdast#table
  */
-export interface Table extends IYastParent<TableType> {
+export interface Table extends Parent<TableType> {
   /**
    * Table column configuration items
    */

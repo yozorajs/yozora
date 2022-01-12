@@ -2,9 +2,9 @@ import type {
   Footnote,
   FootnoteDefinition,
   FootnoteReference,
+  NodeType,
   Paragraph,
   Root,
-  YastNodeType,
 } from '@yozora/ast'
 import {
   FootnoteDefinitionType,
@@ -27,7 +27,7 @@ export const defaultFootnoteIdentifierPrefix = 'footnote-'
  */
 export function collectFootnoteDefinitions(
   immutableRoot: Readonly<Root>,
-  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | INodeMatcher = [FootnoteDefinitionType],
+  aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher = [FootnoteDefinitionType],
 ): FootnoteDefinition[] {
   const results: FootnoteDefinition[] = collectNodes(immutableRoot, aimTypesOrNodeMatcher)
 
@@ -57,7 +57,7 @@ export function collectFootnoteDefinitions(
  */
 export function calcFootnoteDefinitionMap(
   immutableRoot: Readonly<Root>,
-  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | INodeMatcher = [FootnoteDefinitionType],
+  aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher = [FootnoteDefinitionType],
   presetFootnoteDefinitions: ReadonlyArray<FootnoteDefinition> = [],
   preferReferences = false,
   identifierPrefix = defaultFootnoteIdentifierPrefix,

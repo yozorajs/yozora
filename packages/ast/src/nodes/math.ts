@@ -1,4 +1,4 @@
-import type { IYastLiteral } from '../ast'
+import type { Literal } from '../ast'
 
 export const MathType = 'math'
 export type MathType = typeof MathType
@@ -6,7 +6,7 @@ export type MathType = typeof MathType
 /**
  * Math content.
  */
-export type Math = IYastLiteral<MathType>
+export type Math = Literal<MathType>
 
 /**
  * Example:

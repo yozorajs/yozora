@@ -1,4 +1,4 @@
-import type { IYastNode, YastNodeType } from '@yozora/ast'
+import type { Node, NodeType } from '@yozora/ast'
 import { TokenizerType } from '../constant'
 import type { IMatchInlineHookCreator, IResultOfFindDelimiters } from '../types/match-inline/hook'
 import type { IParseInlineHookCreator } from '../types/parse-inline/hook'
@@ -23,10 +23,10 @@ export interface IBaseInlineTokenizerProps {
  * Base inline tokenizer.
  */
 export abstract class BaseInlineTokenizer<
-  T extends YastNodeType = YastNodeType,
+  T extends NodeType = NodeType,
   IDelimiter extends IYastTokenDelimiter = IYastTokenDelimiter,
   IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
-  INode extends IYastNode<T> = IYastNode<T>,
+  INode extends Node<T> = Node<T>,
   IThis extends ITokenizer = ITokenizer,
 > implements IInlineTokenizer<T, IDelimiter, IToken, INode, IThis>
 {

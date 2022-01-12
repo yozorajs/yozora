@@ -1,4 +1,4 @@
-import type { IYastParent } from '../ast'
+import type { Parent } from '../ast'
 
 export const StrongType = 'strong'
 export type StrongType = typeof StrongType
@@ -9,7 +9,7 @@ export type StrongType = typeof StrongType
  * @see https://github.com/syntax-tree/mdast#strong
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
-export type Strong = IYastParent<StrongType>
+export type Strong = Parent<StrongType>
 
 /**
  * Example:

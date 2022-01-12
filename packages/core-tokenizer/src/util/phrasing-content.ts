@@ -1,4 +1,4 @@
-import type { IYastNodePosition } from '@yozora/ast'
+import type { NodePosition } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { isLineEnding, isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
 import type { IPhrasingContentLine } from '../types/phrasing-content'
@@ -74,10 +74,10 @@ export function* createPhrasingLineGenerator(
  */
 export function calcPositionFromPhrasingContentLines(
   lines: ReadonlyArray<IPhrasingContentLine>,
-): IYastNodePosition {
+): NodePosition {
   const firstLine: IPhrasingContentLine = lines[0]
   const lastLine: IPhrasingContentLine = lines[lines.length - 1]
-  const position: IYastNodePosition = {
+  const position: NodePosition = {
     start: calcStartYastNodePoint(firstLine.nodePoints, firstLine.startIndex),
     end: calcEndYastNodePoint(lastLine.nodePoints, lastLine.endIndex - 1),
   }

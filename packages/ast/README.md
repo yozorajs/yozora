@@ -70,7 +70,7 @@ See [@yozora/ast documentation](https://yozora.guanghechen.com/docs/package/ast)
  * Syntactic units of the yozora AST.
  * @see https://github.com/syntax-tree/unist#node
  */
-export interface YastNode<T extends YastNodeType = YastNodeType> {
+export interface YastNode<T extends NodeType = NodeType> {
   /**
    * The variant of a node.
    */
@@ -90,7 +90,7 @@ export interface YastNode<T extends YastNodeType = YastNodeType> {
  * Nodes containing other nodes.
  * @see https://github.com/syntax-tree/mdast#parent
  */
-export interface YastParent<T extends YastNodeType = YastNodeType>
+export interface YastParent<T extends NodeType = NodeType>
   extends YastNode<T> {
   /**
    * List representing the children of a node.
@@ -140,7 +140,7 @@ export interface YastAssociation {
 /**
  * Nodes containing a value.
  */
-export interface YastLiteral<T extends YastNodeType = YastNodeType>
+export interface YastLiteral<T extends NodeType = NodeType>
   extends YastNode<T> {
   /**
    * Literal value.
@@ -239,13 +239,13 @@ export interface YastNodePosition {
 }
 ```
 
-### YastNodeType
+### NodeType
 
 ```typescript
 /**
  * Variant of a node of yozora AST.
  */
-export type YastNodeType = string
+export type NodeType = string
 ```
 
 ### YastAlignType

@@ -1,4 +1,4 @@
-import type { IYastParent } from '../ast'
+import type { Parent } from '../ast'
 import type { TableCell } from './table-cell'
 
 export const TableRowType = 'tableRow'
@@ -9,7 +9,7 @@ export type TableRowType = typeof TableRowType
  * @see https://github.com/syntax-tree/mdast#tablerow
  * @see https://github.github.com/gfm/#tables-extension-
  */
-export interface TableRow extends IYastParent<TableRowType> {
+export interface TableRow extends Parent<TableRowType> {
   /**
    * Table cells
    */

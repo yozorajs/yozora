@@ -1,4 +1,4 @@
-import type { IYastNode, YastNodeType } from '@yozora/ast'
+import type { Node, NodeType } from '@yozora/ast'
 import type { TokenizerType } from '../constant'
 import type { IMatchBlockHookCreator } from '../types/match-block/hook'
 import type { IMatchInlinePhaseApi } from '../types/match-inline/api'
@@ -18,7 +18,7 @@ export interface ITokenizer {
    */
   readonly type: TokenizerType
   /**
-   * Name of a tokenizer (in order to identify a unique IYastNode ITokenizer)
+   * Name of a tokenizer (in order to identify a unique Node ITokenizer)
    */
   readonly name: string
   /**
@@ -37,9 +37,9 @@ export interface ITokenizer {
 }
 
 export interface IBlockTokenizer<
-  T extends YastNodeType = YastNodeType,
+  T extends NodeType = NodeType,
   IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
-  INode extends IYastNode<T> = IYastNode<T>,
+  INode extends Node<T> = Node<T>,
   IThis extends ITokenizer = ITokenizer,
 > extends ITokenizer {
   readonly type: TokenizerType.BLOCK
@@ -65,17 +65,17 @@ export interface IBlockTokenizer<
 }
 
 export type IBlockFallbackTokenizer<
-  T extends YastNodeType = YastNodeType,
+  T extends NodeType = NodeType,
   IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
-  INode extends IYastNode<T> = IYastNode<T>,
+  INode extends Node<T> = Node<T>,
   IThis extends ITokenizer = ITokenizer,
 > = IBlockTokenizer<T, IToken, INode, IThis>
 
 export interface IInlineTokenizer<
-  T extends YastNodeType = YastNodeType,
+  T extends NodeType = NodeType,
   IDelimiter extends IYastTokenDelimiter = IYastTokenDelimiter,
   IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
-  INode extends IYastNode<T> = IYastNode<T>,
+  INode extends Node<T> = Node<T>,
   IThis extends ITokenizer = ITokenizer,
 > extends ITokenizer {
   readonly type: TokenizerType.INLINE
@@ -84,9 +84,9 @@ export interface IInlineTokenizer<
 }
 
 export interface IInlineFallbackTokenizer<
-  T extends YastNodeType = YastNodeType,
+  T extends NodeType = NodeType,
   IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
-  INode extends IYastNode<T> = IYastNode<T>,
+  INode extends Node<T> = Node<T>,
   IThis extends ITokenizer = ITokenizer,
 > extends IInlineTokenizer<T, IYastTokenDelimiter, IToken, INode, IThis> {
   /**

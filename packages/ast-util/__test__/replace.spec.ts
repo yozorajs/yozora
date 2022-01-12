@@ -1,4 +1,4 @@
-import type { IYastLiteral, InlineCode, Root } from '@yozora/ast'
+import type { InlineCode, Literal, Root } from '@yozora/ast'
 import { InlineCodeType, LinkType, TextType } from '@yozora/ast'
 import { loadJSONFixture } from 'jest.setup'
 import { shallowMutateAstInPostorder, shallowMutateAstInPreorder } from '../src'
@@ -12,7 +12,7 @@ describe('replace-post-order', function () {
       if (childIndex === 0) {
         const result: InlineCode = {
           type: InlineCodeType,
-          value: (node as IYastLiteral).value,
+          value: (node as Literal).value,
         }
         return result
       }
@@ -25,13 +25,13 @@ describe('replace-post-order', function () {
   test('allTypes', function () {
     const ast: Root = loadJSONFixture('basic1.ast.json')
     shallowMutateAstInPostorder(ast, null, (node, parent, childIndex) => {
-      const { value } = node as IYastLiteral
+      const { value } = node as Literal
       if (value == null) return node
 
       if (childIndex === 0) {
         const result: InlineCode = {
           type: InlineCodeType,
-          value: (node as IYastLiteral).value,
+          value: (node as Literal).value,
         }
         return result
       }
@@ -59,7 +59,7 @@ describe('replace-pre-order', function () {
       if (childIndex === 0) {
         const result: InlineCode = {
           type: InlineCodeType,
-          value: (node as IYastLiteral).value,
+          value: (node as Literal).value,
         }
         return result
       }
@@ -72,13 +72,13 @@ describe('replace-pre-order', function () {
   test('allTypes', function () {
     const ast: Root = loadJSONFixture('basic1.ast.json')
     shallowMutateAstInPreorder(ast, null, (node, parent, childIndex) => {
-      const { value } = node as IYastLiteral
+      const { value } = node as Literal
       if (value == null) return node
 
       if (childIndex === 0) {
         const result: InlineCode = {
           type: InlineCodeType,
-          value: (node as IYastLiteral).value,
+          value: (node as Literal).value,
         }
         return result
       }

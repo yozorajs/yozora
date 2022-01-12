@@ -1,9 +1,4 @@
-import type {
-  IYastAssociation,
-  IYastReference,
-  LinkReference,
-  LinkReferenceType,
-} from '@yozora/ast'
+import type { Association, LinkReference, LinkReferenceType, Reference } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
   IPartialYastInlineToken,
@@ -16,7 +11,7 @@ export const uniqueName = '@yozora/tokenizer-link-reference'
 export type T = LinkReferenceType
 export type INode = LinkReference
 
-export interface IToken extends IPartialYastInlineToken<T>, IYastAssociation, IYastReference {}
+export interface IToken extends IPartialYastInlineToken<T>, Association, Reference {}
 
 export interface ILinkReferenceDelimiterBracket {
   /**

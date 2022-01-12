@@ -1,4 +1,4 @@
-import type { IYastNodePosition, YastNodeType } from '@yozora/ast'
+import type { NodePosition, NodeType } from '@yozora/ast'
 import type { INodeInterval } from '@yozora/character'
 
 /**
@@ -18,15 +18,15 @@ export interface IYastTokenDelimiter extends INodeInterval {
 }
 
 /**
- * Potential IYastNode.
+ * Potential Node.
  */
-export interface IYastToken<T extends YastNodeType = YastNodeType> {
+export interface IYastToken<T extends NodeType = NodeType> {
   /**
    * Name of the tokenizer which produced this token.
    */
   _tokenizer: string
   /**
-   * Type of the potential IYastNode.
+   * Type of the potential Node.
    */
   nodeType: T
   /**
@@ -38,11 +38,11 @@ export interface IYastToken<T extends YastNodeType = YastNodeType> {
 /**
  * Block data type token.
  */
-export interface IYastBlockToken<T extends YastNodeType = YastNodeType> extends IYastToken<T> {
+export interface IYastBlockToken<T extends NodeType = NodeType> extends IYastToken<T> {
   /**
    * Location of a node in the source contents.
    */
-  position: IYastNodePosition
+  position: NodePosition
   /**
    * List of child node of current token node
    */
@@ -52,7 +52,7 @@ export interface IYastBlockToken<T extends YastNodeType = YastNodeType> extends 
 /**
  * Inline data type token.
  */
-export interface IYastInlineToken<T extends YastNodeType = YastNodeType>
+export interface IYastInlineToken<T extends NodeType = NodeType>
   extends IYastToken<T>,
     INodeInterval {
   /**
@@ -64,7 +64,7 @@ export interface IYastInlineToken<T extends YastNodeType = YastNodeType>
 /**
  * Make '_tokenizer' partial from IYastBlockToken.
  */
-export type IPartialYastBlockToken<T extends YastNodeType = YastNodeType> = IPickPartial<
+export type IPartialYastBlockToken<T extends NodeType = NodeType> = IPickPartial<
   IYastBlockToken<T>,
   '_tokenizer'
 >
@@ -72,7 +72,7 @@ export type IPartialYastBlockToken<T extends YastNodeType = YastNodeType> = IPic
 /**
  * Make '_tokenizer' partial from IYastInlineToken.
  */
-export type IPartialYastInlineToken<T extends YastNodeType = YastNodeType> = IPickPartial<
+export type IPartialYastInlineToken<T extends NodeType = NodeType> = IPickPartial<
   IYastInlineToken<T>,
   '_tokenizer'
 >

@@ -1,11 +1,11 @@
-import type { YastNodeType } from '@yozora/ast'
+import type { NodeType } from '@yozora/ast'
 import type { IPhrasingContentLine } from '../phrasing-content'
 import type { IPartialYastBlockToken, IYastBlockToken } from '../token'
 import type { ITokenizer } from '../tokenizer'
 import type { IMatchBlockPhaseApi } from './api'
 
 export type IMatchBlockHookCreator<
-  T extends YastNodeType = YastNodeType,
+  T extends NodeType = NodeType,
   IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
   IThis extends ITokenizer = ITokenizer,
 > = (this: IThis, api: IMatchBlockPhaseApi) => IMatchBlockHook<T, IToken>
@@ -14,7 +14,7 @@ export type IMatchBlockHookCreator<
  * Hooks on the match-block phase.
  */
 export interface IMatchBlockHook<
-  T extends YastNodeType = YastNodeType,
+  T extends NodeType = NodeType,
   IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
 > {
   /**
@@ -106,7 +106,7 @@ export interface IMatchBlockHook<
  * @see IMatchBlockHook.eatOpener
  */
 export type IResultOfEatOpener<
-  T extends YastNodeType = YastNodeType,
+  T extends NodeType = NodeType,
   IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
 > = {
   token: IToken
@@ -136,7 +136,7 @@ export type IResultOfEatOpener<
  * @see IMatchBlockHook.eatAndInterruptPreviousSibling
  */
 export type IResultOfEatAndInterruptPreviousSibling<
-  T extends YastNodeType = YastNodeType,
+  T extends NodeType = NodeType,
   IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
 > = {
   token: IToken

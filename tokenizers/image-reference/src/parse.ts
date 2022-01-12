@@ -1,4 +1,4 @@
-import type { IYastNode } from '@yozora/ast'
+import type { Node } from '@yozora/ast'
 import { ImageReferenceType } from '@yozora/ast'
 import type { IParseInlineHookCreator } from '@yozora/core-tokenizer'
 import { calcImageAlt } from '@yozora/tokenizer-image'
@@ -11,7 +11,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
         const { identifier, label, referenceType } = token
 
         // calc alt
-        const children: IYastNode[] = api.parseInlineTokens(token.children)
+        const children: Node[] = api.parseInlineTokens(token.children)
         const alt = calcImageAlt(children)
 
         const node: INode = api.shouldReservePosition

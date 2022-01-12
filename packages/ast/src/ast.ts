@@ -1,13 +1,13 @@
 /**
  * Variant of a node of yozora AST.
  */
-export type YastNodeType = string
+export type NodeType = string
 
 /**
  * Syntactic units of the yozora AST.
  * @see https://github.com/syntax-tree/unist#node
  */
-export interface IYastNode<T extends YastNodeType = YastNodeType> {
+export interface Node<T extends NodeType = NodeType> {
   /**
    * The variant of a node.
    */
@@ -16,24 +16,24 @@ export interface IYastNode<T extends YastNodeType = YastNodeType> {
    * Location of a node in a source document.
    * Must not be present if a node is generated.
    */
-  position?: IYastNodePosition
+  position?: NodePosition
 }
 
 /**
  * Nodes containing other nodes.
  * @see https://github.com/syntax-tree/mdast#parent
  */
-export interface IYastParent<T extends YastNodeType = YastNodeType> extends IYastNode<T> {
+export interface Parent<T extends NodeType = NodeType> extends Node<T> {
   /**
    * List representing the children of a node.
    */
-  children: IYastNode[]
+  children: Node[]
 }
 
 /**
  * Nodes containing a value.
  */
-export interface IYastLiteral<T extends YastNodeType = YastNodeType> extends IYastNode<T> {
+export interface Literal<T extends NodeType = NodeType> extends Node<T> {
   /**
    * Literal value.
    */
@@ -44,7 +44,7 @@ export interface IYastLiteral<T extends YastNodeType = YastNodeType> extends IYa
  * A reference to resource.
  * @see https://github.com/syntax-tree/mdast#resource
  */
-export interface IYastResource {
+export interface Resource {
   /**
    * A URL to the referenced resource.
    */
@@ -60,7 +60,7 @@ export interface IYastResource {
  * An internal relation from one node to another.
  * @see https://github.com/syntax-tree/mdast#association
  */
-export interface IYastAssociation {
+export interface Association {
   /**
    * It can match an identifier field on another node.
    */
@@ -75,7 +75,7 @@ export interface IYastAssociation {
  * A marker that is associated to another node.
  * @see https://github.com/syntax-tree/mdast#reference
  */
-export interface IYastReference {
+export interface Reference {
   /**
    * The explicitness of a reference:
    *  - shortcut: the reference is implicit, its identifier inferred from its content
@@ -90,7 +90,7 @@ export interface IYastReference {
  * Alternative represents a node with a fallback.
  * @see https://github.com/syntax-tree/mdast#alternative
  */
-export interface IYastAlternative {
+export interface Alternative {
   /**
    * Equivalent content for environments that cannot represent the
    * node as intended.
@@ -102,7 +102,7 @@ export interface IYastAlternative {
  * One place in the source file.
  * @see https://github.com/syntax-tree/unist#point
  */
-export interface IYastNodePoint {
+export interface NodePoint {
   /**
    * Line in a source file.
    * @minimum 1
@@ -124,15 +124,15 @@ export interface IYastNodePoint {
  * Location of a node in a source file.
  * @see https://github.com/syntax-tree/unist#position
  */
-export interface IYastNodePosition {
+export interface NodePosition {
   /**
    * Place of the first character of the parsed source region.
    */
-  start: IYastNodePoint
+  start: NodePoint
   /**
    * Place of the first character after the parsed source region.
    */
-  end: IYastNodePoint
+  end: NodePoint
   /**
    * start column at each index (plus start line) in the source region,
    * for elements that span multiple lines
@@ -144,4 +144,4 @@ export interface IYastNodePosition {
  * AlignType represents how phrasing content is aligned
  * @see https://github.com/syntax-tree/mdast#aligntype
  */
-export type IYastAlignType = 'left' | 'right' | 'center' | null
+export type AlignType = 'left' | 'right' | 'center' | null

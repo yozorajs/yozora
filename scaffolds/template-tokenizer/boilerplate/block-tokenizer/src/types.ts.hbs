@@ -1,4 +1,4 @@
-import type { IYastParent } from '@yozora/ast'
+import type { Parent } from '@yozora/ast'
 import type {
   IBaseBlockTokenizerProps,
   IPartialYastBlockToken,
@@ -11,7 +11,7 @@ export type T = typeof {{{pascalCase tokenizerName}}}Type
 
 export const uniqueName = '{{{packageName}}}'
 
-export type INode = IYastParent<T>
+export type INode = Parent<T>
 
 export interface IToken extends IPartialYastBlockToken<T> {
   /**

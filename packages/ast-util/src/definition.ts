@@ -1,4 +1,4 @@
-import type { Definition, IYastAssociation, Root, YastNodeType } from '@yozora/ast'
+import type { Association, Definition, NodeType, Root } from '@yozora/ast'
 import { DefinitionType } from '@yozora/ast'
 import { collectNodes } from './ast/collect'
 import { traverseAst } from './ast/traverse'
@@ -12,7 +12,7 @@ import type { INodeMatcher } from './ast/util'
  */
 export const collectDefinitions = (
   root: Readonly<Root>,
-  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | INodeMatcher = [DefinitionType],
+  aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher = [DefinitionType],
 ): Definition[] => {
   const results: Definition[] = collectNodes(root, aimTypesOrNodeMatcher)
 
@@ -34,8 +34,8 @@ export const collectDefinitions = (
  */
 export const calcIdentifierSet = (
   root: Readonly<Root>,
-  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | INodeMatcher,
-  presetIdentifiers: ReadonlyArray<Readonly<IYastAssociation>> = [],
+  aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher,
+  presetIdentifiers: ReadonlyArray<Readonly<Association>> = [],
 ): Set<string> => {
   const identifierSet: Set<string> = new Set<string>()
 
@@ -60,7 +60,7 @@ export const calcIdentifierSet = (
  */
 export const calcDefinitionMap = (
   immutableRoot: Readonly<Root>,
-  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | INodeMatcher = [DefinitionType],
+  aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher = [DefinitionType],
   presetDefinitions: ReadonlyArray<Definition> = [],
 ): {
   root: Readonly<Root>

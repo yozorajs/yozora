@@ -1,4 +1,4 @@
-import type { List, ListType, TaskStatus, YastNodeType } from '@yozora/ast'
+import type { List, ListType, NodeType, TaskStatus } from '@yozora/ast'
 import type {
   IBaseBlockTokenizerProps,
   IPartialYastBlockToken,
@@ -49,11 +49,11 @@ export interface IToken extends IPartialYastBlockToken<T> {
 
 export interface IThis extends ITokenizer {
   /**
-   * Specify an array of IYastNode types that could not be interrupted
+   * Specify an array of Node types that could not be interrupted
    * by this ITokenizer if the current list-item is empty.
    * @see https://github.github.com/gfm/#example-263
    */
-  readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<YastNodeType>
+  readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<NodeType>
 
   /**
    * Should enable task list item (extension).
@@ -63,11 +63,11 @@ export interface IThis extends ITokenizer {
 
 export interface ITokenizerProps extends Partial<IBaseBlockTokenizerProps> {
   /**
-   * Specify an array of IYastNode types that could not be interrupted
+   * Specify an array of Node types that could not be interrupted
    * by this ITokenizer if the current list-item is empty.
    * @see https://github.github.com/gfm/#example-263
    */
-  readonly emptyItemCouldNotInterruptedTypes?: YastNodeType[]
+  readonly emptyItemCouldNotInterruptedTypes?: NodeType[]
 
   /**
    * Should enable task list item (extension).

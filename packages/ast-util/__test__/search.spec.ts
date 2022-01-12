@@ -1,4 +1,4 @@
-import type { IYastLiteral, Root } from '@yozora/ast'
+import type { Literal, Root } from '@yozora/ast'
 import { loadJSONFixture } from 'jest.setup'
 import { searchNode } from '../src'
 
@@ -14,7 +14,7 @@ describe('basic1', function () {
   test('special node', function () {
     expect(
       searchNode(ast, node => {
-        const { type, value } = node as IYastLiteral
+        const { type, value } = node as Literal
         return type === 'text' && value === 'bar'
       }),
     ).toEqual([1, 1, 1, 0])
@@ -24,7 +24,7 @@ describe('basic1', function () {
   test('miss', function () {
     expect(
       searchNode(ast, node => {
-        const { type, value } = node as IYastLiteral
+        const { type, value } = node as Literal
         return type === 'text' && value === '____bar_______bar___'
       }),
     ).toEqual(null)

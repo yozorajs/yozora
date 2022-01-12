@@ -1,4 +1,4 @@
-import type { IYastLiteral } from '../ast'
+import type { Literal } from '../ast'
 
 export const InlineCodeType = 'inlineCode'
 export type InlineCodeType = typeof InlineCodeType
@@ -9,7 +9,7 @@ export type InlineCodeType = typeof InlineCodeType
  * @see https://github.com/syntax-tree/mdast#inline-code
  * @see https://github.github.com/gfm/#code-span
  */
-export type InlineCode = IYastLiteral<InlineCodeType>
+export type InlineCode = Literal<InlineCodeType>
 
 /**
  * Example:

@@ -1,4 +1,4 @@
-import type { IYastNodePoint, IYastNodePosition } from '@yozora/ast'
+import type { NodePoint, NodePosition } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import type { IYastBlockToken } from '../types/token'
 
@@ -16,7 +16,7 @@ import type { IYastBlockToken } from '../types/token'
 export function calcStartYastNodePoint(
   nodePoints: ReadonlyArray<INodePoint>,
   index: number,
-): IYastNodePoint {
+): NodePoint {
   const { line, column, offset } = nodePoints[index]
   return { line, column, offset }
 }
@@ -35,7 +35,7 @@ export function calcStartYastNodePoint(
 export function calcEndYastNodePoint(
   nodePoints: ReadonlyArray<INodePoint>,
   index: number,
-): IYastNodePoint {
+): NodePoint {
   const { line, column, offset } = nodePoints[index]
   return { line, column: column + 1, offset: offset + 1 }
 }

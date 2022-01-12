@@ -1,4 +1,4 @@
-import type { YastNodeType } from '@yozora/ast'
+import type { NodeType } from '@yozora/ast'
 import { ParagraphType } from '@yozora/ast'
 import type {
   IBlockTokenizer,
@@ -37,7 +37,7 @@ export class ListTokenizer
   }
 
   public readonly enableTaskListItem: boolean
-  public readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<YastNodeType>
+  public readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<NodeType>
 
   public override readonly match: IMatchBlockHookCreator<T, IToken, IThis> = match
 

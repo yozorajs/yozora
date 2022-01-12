@@ -1,4 +1,4 @@
-import type { IYastNode, IYastNodePosition } from '@yozora/ast'
+import type { Node, NodePosition } from '@yozora/ast'
 import type { INodeInterval, INodePoint } from '@yozora/character'
 import type { IYastInlineToken } from '../token'
 
@@ -7,7 +7,7 @@ import type { IYastInlineToken } from '../token'
  */
 export interface IParseInlinePhaseApi {
   /**
-   * Whether it is necessary to reserve the position in the IYastNode produced.
+   * Whether it is necessary to reserve the position in the Node produced.
    */
   readonly shouldReservePosition: boolean
   /**
@@ -18,7 +18,7 @@ export interface IParseInlinePhaseApi {
    * Calculate position of token.
    * @param interval
    */
-  calcPosition(interval: Readonly<INodeInterval>): IYastNodePosition
+  calcPosition(interval: Readonly<INodeInterval>): NodePosition
   /**
    * Check if there is exists a definition with the given identifier.
    * @param identifier
@@ -33,5 +33,5 @@ export interface IParseInlinePhaseApi {
    * Parse inline tokens to Yozora AST nodes.
    * @param tokens
    */
-  parseInlineTokens(tokens?: ReadonlyArray<IYastInlineToken>): IYastNode[]
+  parseInlineTokens(tokens?: ReadonlyArray<IYastInlineToken>): Node[]
 }

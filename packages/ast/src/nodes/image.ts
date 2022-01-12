@@ -1,4 +1,4 @@
-import type { IYastAlternative, IYastNode, IYastResource } from '../ast'
+import type { Alternative, Node, Resource } from '../ast'
 
 export const ImageType = 'image'
 export type ImageType = typeof ImageType
@@ -8,7 +8,7 @@ export type ImageType = typeof ImageType
  * @see https://github.com/syntax-tree/mdast#image
  * @see https://github.github.com/gfm/#images
  */
-export interface Image extends IYastNode<ImageType>, IYastResource, IYastAlternative {}
+export interface Image extends Node<ImageType>, Resource, Alternative {}
 
 /**
  * Example:

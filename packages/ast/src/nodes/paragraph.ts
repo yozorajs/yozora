@@ -1,4 +1,4 @@
-import type { IYastParent } from '../ast'
+import type { Parent } from '../ast'
 
 export const ParagraphType = 'paragraph'
 export type ParagraphType = typeof ParagraphType
@@ -9,7 +9,7 @@ export type ParagraphType = typeof ParagraphType
  * @see https://github.com/syntax-tree/mdast#paragraph
  * @see https://github.github.com/gfm/#paragraphs
  */
-export type Paragraph = IYastParent<ParagraphType>
+export type Paragraph = Parent<ParagraphType>
 
 /**
  * Example:

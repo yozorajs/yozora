@@ -1,4 +1,4 @@
-import type { IYastAlternative, IYastLiteral, IYastNode, IYastParent } from '@yozora/ast'
+import type { Alternative, Literal, Node, Parent } from '@yozora/ast'
 
 /**
  * calc alt
@@ -6,8 +6,8 @@ import type { IYastAlternative, IYastLiteral, IYastNode, IYastParent } from '@yo
  * is rendered to HTML, this is standardly used as the image’s alt attribute
  * @see https://github.github.com/gfm/#example-582
  */
-export function calcImageAlt(nodes: ReadonlyArray<IYastNode>): string {
-  return (nodes as ReadonlyArray<IYastNode & IYastAlternative & IYastLiteral & IYastParent>)
+export function calcImageAlt(nodes: ReadonlyArray<Node>): string {
+  return (nodes as ReadonlyArray<Node & Alternative & Literal & Parent>)
     .map((o): string => {
       if (o.value != null) return o.value
       if (o.alt != null) return o.alt

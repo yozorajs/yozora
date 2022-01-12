@@ -218,7 +218,7 @@ Name                                | Type              | Required  | Default
 `name`                              | `string`          | `false`   | `"@yozora/tokenizer-list"`
 `priority`                          | `number`          | `false`   | `TokenizerPriority.CONTAINING_BLOCK`
 `enableTaskListItem`                | `boolean`         | `false`   | `false`
-`emptyItemCouldNotInterruptedTypes` | `YastNodeType[]`  | `false`   | `[ParagraphType]`
+`emptyItemCouldNotInterruptedTypes` | `NodeType[]`  | `false`   | `[ParagraphType]`
 
 * `name`: The unique name of the tokenizer, used to bind the token it generates,
   to determine the tokenizer that should be called in each life cycle of the
@@ -231,7 +231,7 @@ Name                                | Type              | Required  | Default
 
 * `enableTaskListItem`: Whether to enable task list item (extension).
 
-* `emptyItemCouldNotInterruptedTypes`: Specify an array of IYastNode types that could not be
+* `emptyItemCouldNotInterruptedTypes`: Specify an array of Node types that could not be
   interrupted by this ITokenizer if the current list-item is empty.
 
   @see https://github.github.com/gfm/#example-263

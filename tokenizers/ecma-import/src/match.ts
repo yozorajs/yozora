@@ -1,4 +1,4 @@
-import type { IYastNodePosition } from '@yozora/ast'
+import type { NodePosition } from '@yozora/ast'
 import { EcmaImportType } from '@yozora/ast'
 import {
   AsciiCodePoint,
@@ -60,7 +60,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
     let m: RegExpExecArray | null
 
     let token: IToken | null = null
-    const position = (): IYastNodePosition => ({
+    const position = (): NodePosition => ({
       start: calcStartYastNodePoint(nodePoints, startIndex),
       end: calcEndYastNodePoint(nodePoints, endIndex - 1),
     })

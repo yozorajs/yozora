@@ -1,4 +1,4 @@
-import type { IYastNode } from '../ast'
+import type { Node } from '../ast'
 
 export const ThematicBreakType = 'thematicBreak'
 export type ThematicBreakType = typeof ThematicBreakType
@@ -9,7 +9,7 @@ export type ThematicBreakType = typeof ThematicBreakType
  * @see https://github.com/syntax-tree/mdast#thematicbreak
  * @see https://github.github.com/gfm/#thematic-break
  */
-export type ThematicBreak = IYastNode<ThematicBreakType>
+export type ThematicBreak = Node<ThematicBreakType>
 
 /**
  * Example:

@@ -1,4 +1,4 @@
-import type { IYastAssociation, Root } from '@yozora/ast'
+import type { Association, Root } from '@yozora/ast'
 import type {
   IBlockFallbackTokenizer,
   IBlockTokenizer,
@@ -22,8 +22,8 @@ export interface IProcessorOptions {
   readonly blockFallbackTokenizer: IBlockFallbackTokenizer | null
   readonly inlineFallbackTokenizer: IInlineFallbackTokenizer | null
   readonly shouldReservePosition: boolean
-  readonly presetDefinitions: IYastAssociation[]
-  readonly presetFootnoteDefinitions: IYastAssociation[]
+  readonly presetDefinitions: Association[]
+  readonly presetFootnoteDefinitions: Association[]
 }
 
 /**

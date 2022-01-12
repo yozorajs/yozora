@@ -1,4 +1,4 @@
-import type { Heading, IYastLiteral, IYastNode, IYastParent, Root } from '@yozora/ast'
+import type { Heading, Literal, Node, Parent, Root } from '@yozora/ast'
 import { HeadingType } from '@yozora/ast'
 import { foldCase } from '@yozora/character'
 
@@ -27,7 +27,7 @@ export interface IHeadingTocNode {
   /**
    * Toc node contents.
    */
-  contents: IYastNode[]
+  contents: Node[]
   /**
    * Sub toc nodes.
    */
@@ -81,14 +81,14 @@ export function calcHeadingToc(ast: Root, identifierPrefix = 'heading-'): IHeadi
 }
 
 /**
- * Calc link identifier for IYastNode list.
+ * Calc link identifier for Node list.
  */
-export function calcIdentifierFromYastNodes(nodes: ReadonlyArray<IYastNode>): string {
+export function calcIdentifierFromYastNodes(nodes: ReadonlyArray<Node>): string {
   const textList: string[] = []
 
-  const resolveText = (nodes: ReadonlyArray<IYastNode>): void => {
+  const resolveText = (nodes: ReadonlyArray<Node>): void => {
     for (const o of nodes) {
-      const { value, children } = o as IYastLiteral & IYastParent
+      const { value, children } = o as Literal & Parent
       if (typeof value === 'string') {
         const text: string = value.trim()
         if (text) textList.push(text)

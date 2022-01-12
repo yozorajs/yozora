@@ -1,4 +1,4 @@
-import type { IYastParent } from '../ast'
+import type { Parent } from '../ast'
 import type { ListItem } from './list-item'
 
 export const ListType = 'list'
@@ -9,7 +9,7 @@ export type ListType = typeof ListType
  * @see https://github.com/syntax-tree/mdast#list
  * @see https://github.github.com/gfm/#list
  */
-export interface List extends IYastParent<ListType> {
+export interface List extends Parent<ListType> {
   /**
    * Whether it is an ordered lit.
    */

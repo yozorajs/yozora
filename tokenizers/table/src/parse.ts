@@ -1,4 +1,4 @@
-import type { IYastNode, TableCell, TableRow } from '@yozora/ast'
+import type { Node, TableCell, TableRow } from '@yozora/ast'
 import { TableCellType, TableRowType, TableType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
@@ -32,7 +32,7 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = api => ({
             }
           }
 
-          const children: IYastNode[] = api.processInlines(contents)
+          const children: Node[] = api.processInlines(contents)
           const tableCell: TableCell = api.shouldReservePosition
             ? { type: TableCellType, position: cell.position, children }
             : { type: TableCellType, children }

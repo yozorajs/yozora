@@ -1,4 +1,4 @@
-import type { YastNodeType } from '@yozora/ast'
+import type { NodeType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { calcTrimBoundaryOfCodePoints, isSpaceCharacter } from '@yozora/character'
 import type {
@@ -18,7 +18,7 @@ import {
 import type { IFencedBlockHookContext, IToken } from './types'
 
 export function match<
-  T extends YastNodeType = YastNodeType,
+  T extends NodeType = NodeType,
   IThis extends IFencedBlockHookContext<T> = IFencedBlockHookContext<T>,
 >(this: IThis, _api: IMatchBlockPhaseApi): IMatchBlockHook<T, IToken<T>> {
   const { nodeType, markers, markersRequired, checkInfoString } = this

@@ -1,4 +1,4 @@
-import type { IYastParent } from '../ast'
+import type { Parent } from '../ast'
 
 export const HeadingType = 'heading'
 export type HeadingType = typeof HeadingType
@@ -8,7 +8,7 @@ export type HeadingType = typeof HeadingType
  * @see https://github.com/syntax-tree/mdast#heading
  * @see https://github.github.com/gfm/#atx-heading
  */
-export interface Heading extends IYastParent<HeadingType> {
+export interface Heading extends Parent<HeadingType> {
   /**
    * HTML anchor identifier.
    */

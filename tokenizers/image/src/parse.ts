@@ -1,4 +1,4 @@
-import type { IYastNode } from '@yozora/ast'
+import type { Node } from '@yozora/ast'
 import { ImageType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcEscapedStringFromNodePoints } from '@yozora/character'
@@ -31,7 +31,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
         }
 
         // calc alt
-        const children: IYastNode[] = api.parseInlineTokens(token.children)
+        const children: Node[] = api.parseInlineTokens(token.children)
         const alt = calcImageAlt(children)
 
         // calc title

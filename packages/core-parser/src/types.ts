@@ -1,4 +1,4 @@
-import type { IYastAssociation, Root } from '@yozora/ast'
+import type { Association, Root } from '@yozora/ast'
 import type {
   IBlockFallbackTokenizer,
   IInlineFallbackTokenizer,
@@ -7,19 +7,19 @@ import type {
 
 export interface IParseOptions {
   /**
-   * Whether it is necessary to reserve the position in the IYastNode produced.
+   * Whether it is necessary to reserve the position in the Node produced.
    */
   readonly shouldReservePosition?: boolean
 
   /**
    * Preset definition meta data list.
    */
-  readonly presetDefinitions?: IYastAssociation[]
+  readonly presetDefinitions?: Association[]
 
   /**
    * Preset footnote definition meta data list.
    */
-  readonly presetFootnoteDefinitions?: IYastAssociation[]
+  readonly presetFootnoteDefinitions?: Association[]
 }
 
 /**
