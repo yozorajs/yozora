@@ -51,18 +51,10 @@ export class DefaultParser implements IParser {
     this.setDefaultParseOptions(props.defaultParseOptions)
 
     // Resolve block fallback tokenizer.
-    const blockFallbackTokenizer =
-      props.blockFallbackTokenizer != null ? props.blockFallbackTokenizer : null
-    if (blockFallbackTokenizer != null) {
-      this.useFallbackTokenizer(blockFallbackTokenizer)
-    }
+    if (props.blockFallbackTokenizer) this.useFallbackTokenizer(props.blockFallbackTokenizer)
 
     // Resolve inline fallback tokenizer.
-    const inlineFallbackTokenizer =
-      props.inlineFallbackTokenizer != null ? props.inlineFallbackTokenizer : null
-    if (inlineFallbackTokenizer != null) {
-      this.useFallbackTokenizer(inlineFallbackTokenizer)
-    }
+    if (props.inlineFallbackTokenizer) this.useFallbackTokenizer(props.inlineFallbackTokenizer)
   }
 
   public useTokenizer(tokenizer: ITokenizer, registerBeforeTokenizer?: string): this {
@@ -95,7 +87,7 @@ export class DefaultParser implements IParser {
     switch (fallbackTokenizer.type) {
       case TokenizerType.BLOCK:
         // Unmount old fallback tokenizer
-        if (this.blockFallbackTokenizer != null) {
+        if (this.blockFallbackTokenizer) {
           this.unmountTokenizer(this.blockFallbackTokenizer)
         }
 
@@ -105,7 +97,7 @@ export class DefaultParser implements IParser {
         break
       case TokenizerType.INLINE:
         // Unmount old fallback tokenizer
-        if (this.inlineFallbackTokenizer != null) {
+        if (this.inlineFallbackTokenizer) {
           this.unmountTokenizer(this.inlineFallbackTokenizer)
         }
 
