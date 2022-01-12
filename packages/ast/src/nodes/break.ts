@@ -9,7 +9,7 @@ export type BreakType = typeof BreakType
  * @see https://github.github.com/gfm/#hard-line-breaks
  * @see https://github.github.com/gfm/#soft-line-breaks
  */
-export type IBreak = IYastNode<BreakType>
+export type Break = IYastNode<BreakType>
 
 /**
  * Example:

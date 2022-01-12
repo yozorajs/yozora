@@ -8,7 +8,7 @@ export type AdmonitionType = typeof AdmonitionType
  * the body can include any block markdown except another admonition.
  * @see https://github.com/elviswolcott/remark-admonitions
  */
-export interface IAdmonition extends IYastParent<AdmonitionType> {
+export interface Admonition extends IYastParent<AdmonitionType> {
   /**
    * Keyword of an admonition.
    */

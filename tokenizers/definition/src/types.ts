@@ -1,4 +1,4 @@
-import type { DefinitionType, IDefinition } from '@yozora/ast'
+import type { Definition, DefinitionType } from '@yozora/ast'
 import type {
   IBaseBlockTokenizerProps,
   IPartialYastBlockToken,
@@ -10,7 +10,7 @@ import type { LinkLabelCollectingState } from './util/link-label'
 import type { LinkTitleCollectingState } from './util/link-title'
 
 export type T = DefinitionType
-export type INode = IDefinition
+export type INode = Definition
 export const uniqueName = '@yozora/tokenizer-definition'
 
 export interface IToken extends IPartialYastBlockToken<T> {

@@ -1,4 +1,4 @@
-import type { ILink, LinkType } from '@yozora/ast'
+import type { Link, LinkType } from '@yozora/ast'
 import type { INodeInterval } from '@yozora/character'
 import type {
   IBaseInlineTokenizerProps,
@@ -8,7 +8,7 @@ import type {
 } from '@yozora/core-tokenizer'
 
 export type T = LinkType
-export type INode = ILink
+export type INode = Link
 export const uniqueName = '@yozora/tokenizer-link'
 
 export interface IToken extends IPartialYastInlineToken<T> {

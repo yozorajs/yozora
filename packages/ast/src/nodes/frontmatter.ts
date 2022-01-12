@@ -9,7 +9,7 @@ export type FrontmatterType = typeof FrontmatterType
  * @see https://github.com/syntax-tree/mdast#yaml
  * @see https://github.github.com/gfm/#code-fence
  */
-export interface IFrontmatter extends IYastLiteral<FrontmatterType> {
+export interface Frontmatter extends IYastLiteral<FrontmatterType> {
   /**
    * Language of the frontmatter
    * @default 'yaml'

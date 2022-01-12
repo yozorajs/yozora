@@ -6,7 +6,7 @@ export type InlineMathType = typeof InlineMathType
 /**
  * Inline math content.
  */
-export type IInlineMath = IYastLiteral<InlineMathType>
+export type InlineMath = IYastLiteral<InlineMathType>
 
 /**
  * Example:

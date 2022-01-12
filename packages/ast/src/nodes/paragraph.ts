@@ -9,7 +9,7 @@ export type ParagraphType = typeof ParagraphType
  * @see https://github.com/syntax-tree/mdast#paragraph
  * @see https://github.github.com/gfm/#paragraphs
  */
-export type IParagraph = IYastParent<ParagraphType>
+export type Paragraph = IYastParent<ParagraphType>
 
 /**
  * Example:

@@ -1,12 +1,12 @@
-import type { IDefinition, IRoot } from '@yozora/ast'
+import type { Definition, Root } from '@yozora/ast'
 import { DefinitionType } from '@yozora/ast'
 import { loadJSONFixture } from 'jest.setup'
 import { calcDefinitionMap, calcIdentifierSet, collectDefinitions } from '../src'
 
 describe('calcIdentifierSet', function () {
   describe('basic1', function () {
-    const originalAst: Readonly<IRoot> = loadJSONFixture('basic1.ast.json')
-    const ast: IRoot = loadJSONFixture('basic1.ast.json')
+    const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
+    const ast: Root = loadJSONFixture('basic1.ast.json')
 
     test('default', function () {
       const result = calcIdentifierSet(ast, [DefinitionType])
@@ -33,8 +33,8 @@ describe('calcIdentifierSet', function () {
 
 describe('collectDefinitions', function () {
   test('basic1', function () {
-    const originalAst: Readonly<IRoot> = loadJSONFixture('basic1.ast.json')
-    const ast: IRoot = loadJSONFixture('basic1.ast.json')
+    const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
+    const ast: Root = loadJSONFixture('basic1.ast.json')
 
     const result = collectDefinitions(ast)
     expect(result).toMatchSnapshot()
@@ -44,8 +44,8 @@ describe('collectDefinitions', function () {
 
 describe('calcDefinitionMap', function () {
   test('basic1', function () {
-    const originalAst: Readonly<IRoot> = loadJSONFixture('basic1.ast.json')
-    const ast: IRoot = loadJSONFixture('basic1.ast.json')
+    const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
+    const ast: Root = loadJSONFixture('basic1.ast.json')
 
     const { root, definitionMap } = calcDefinitionMap(ast)
     expect(root).toBe(ast)
@@ -54,9 +54,9 @@ describe('calcDefinitionMap', function () {
   })
 
   test('presetDefinitions', function () {
-    const originalAst: Readonly<IRoot> = loadJSONFixture('basic1.ast.json')
-    const ast: IRoot = loadJSONFixture('basic1.ast.json')
-    const presetDefinitions: IDefinition[] = [
+    const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
+    const ast: Root = loadJSONFixture('basic1.ast.json')
+    const presetDefinitions: Definition[] = [
       {
         type: DefinitionType,
         identifier: 'yozora__test_identifier',

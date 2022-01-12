@@ -1,4 +1,4 @@
-import type { EmphasisType, IEmphasis, IStrong, StrongType } from '@yozora/ast'
+import type { Emphasis, EmphasisType, Strong, StrongType } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
   IPartialYastInlineToken,
@@ -7,7 +7,7 @@ import type {
 } from '@yozora/core-tokenizer'
 
 export type T = EmphasisType | StrongType
-export type INode = IEmphasis | IStrong
+export type INode = Emphasis | Strong
 export const uniqueName = '@yozora/tokenizer-emphasis'
 
 export interface IToken extends IPartialYastInlineToken<T> {

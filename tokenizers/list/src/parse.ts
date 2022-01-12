@@ -1,4 +1,4 @@
-import type { IListItem, IParagraph, IYastNode, IYastNodePosition } from '@yozora/ast'
+import type { IYastNode, IYastNodePosition, ListItem, Paragraph } from '@yozora/ast'
 import { ListItemType, ListType, ParagraphType } from '@yozora/ast'
 import type { IParseBlockHookCreator, IParseBlockPhaseApi } from '@yozora/core-tokenizer'
 import type { INode, IThis, IToken, T } from './types'
@@ -83,16 +83,16 @@ const resolveList = (tokens: IToken[], api: IParseBlockPhaseApi): INode | null =
     }
   }
 
-  const children: IListItem[] = tokens.map((listItemToken): IListItem => {
+  const children: ListItem[] = tokens.map((listItemToken): ListItem => {
     // Make list tighter if spread is false.
     const nodes: IYastNode[] = api.parseBlockTokens(listItemToken.children)
     const children: IYastNode[] = spread
       ? nodes
       : nodes
-          .map(node => (node.type === ParagraphType ? (node as IParagraph).children : node))
+          .map(node => (node.type === ParagraphType ? (node as Paragraph).children : node))
           .flat()
 
-    const listItem: IListItem = api.shouldReservePosition
+    const listItem: ListItem = api.shouldReservePosition
       ? {
           type: ListItemType,
           position: listItemToken.position,

@@ -1,4 +1,4 @@
-import type { IRoot, IYastAssociation } from '@yozora/ast'
+import type { IYastAssociation, Root } from '@yozora/ast'
 import type {
   IBlockFallbackTokenizer,
   IBlockTokenizer,
@@ -34,7 +34,7 @@ export interface IProcessor {
    * Parse phrasing lines into Yozora AST Root.
    * @param lines
    */
-  process(lines: Iterable<IPhrasingContentLine[]>): IRoot
+  process(lines: Iterable<IPhrasingContentLine[]>): Root
 }
 
 /**

@@ -8,7 +8,7 @@ export type LinkType = typeof LinkType
  * @see https://github.com/syntax-tree/mdast#link
  * @see https://github.github.com/gfm/#inline-link
  */
-export interface ILink extends IYastParent<LinkType>, IYastResource {}
+export interface Link extends IYastParent<LinkType>, IYastResource {}
 
 /**
  * Example:

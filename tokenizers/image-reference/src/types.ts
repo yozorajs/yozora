@@ -1,7 +1,7 @@
 import type {
-  IImageReference,
   IYastAssociation,
   IYastReference,
+  ImageReference,
   ImageReferenceType,
 } from '@yozora/ast'
 import type {
@@ -15,7 +15,7 @@ import type { ILinkReferenceDelimiterBracket } from '@yozora/tokenizer-link-refe
 export const uniqueName = '@yozora/tokenizer-image-reference'
 
 export type T = ImageReferenceType
-export type INode = IImageReference
+export type INode = ImageReference
 
 export interface IToken extends IPartialYastInlineToken<T>, IYastAssociation, IYastReference {}
 

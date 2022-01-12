@@ -1,10 +1,10 @@
-import type { IRoot, IYastLiteral } from '@yozora/ast'
+import type { IYastLiteral, Root } from '@yozora/ast'
 import { loadJSONFixture } from 'jest.setup'
 import { searchNode } from '../src'
 
 describe('basic1', function () {
-  const originalAst: Readonly<IRoot> = loadJSONFixture('basic1.ast.json')
-  const ast: IRoot = loadJSONFixture('basic1.ast.json')
+  const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
+  const ast: Root = loadJSONFixture('basic1.ast.json')
 
   test('first node', function () {
     expect(searchNode(ast, node => true)).toEqual([0])

@@ -1,4 +1,4 @@
-import type { CodeType, ICode } from '@yozora/ast'
+import type { Code, CodeType } from '@yozora/ast'
 import type {
   IBaseBlockTokenizerProps,
   IPartialYastBlockToken,
@@ -7,7 +7,7 @@ import type {
 } from '@yozora/core-tokenizer'
 
 export type T = CodeType
-export type INode = ICode
+export type INode = Code
 export const uniqueName = '@yozora/tokenizer-indented-code'
 
 export interface IToken extends IPartialYastBlockToken<T> {

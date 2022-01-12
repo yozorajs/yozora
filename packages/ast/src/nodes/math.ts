@@ -6,7 +6,7 @@ export type MathType = typeof MathType
 /**
  * Math content.
  */
-export type IMath = IYastLiteral<MathType>
+export type Math = IYastLiteral<MathType>
 
 /**
  * Example:

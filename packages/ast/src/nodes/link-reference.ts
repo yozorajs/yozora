@@ -9,7 +9,7 @@ export type LinkReferenceType = typeof LinkReferenceType
  * @see https://github.com/syntax-tree/mdast#linkreference
  * @see https://github.github.com/gfm/#reference-link
  */
-export interface ILinkReference
+export interface LinkReference
   extends IYastParent<LinkReferenceType>,
     IYastAssociation,
     IYastReference {}

@@ -1,8 +1,8 @@
 import type {
-  ITable,
-  ITableColumn,
   IYastNodePosition,
+  Table,
   TableCellType,
+  TableColumn,
   TableRowType,
   TableType,
 } from '@yozora/ast'
@@ -14,14 +14,14 @@ import type {
 } from '@yozora/core-tokenizer'
 
 export type T = TableType
-export type INode = ITable
+export type INode = Table
 export const uniqueName = '@yozora/tokenizer-table'
 
 export interface IToken extends IPartialYastBlockToken<TableType> {
   /**
    * Table column configuration items
    */
-  columns: ITableColumn[]
+  columns: TableColumn[]
   /**
    * Table rows
    */

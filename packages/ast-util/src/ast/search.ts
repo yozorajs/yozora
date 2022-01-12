@@ -1,4 +1,4 @@
-import type { IRoot, IYastNode, IYastParent } from '@yozora/ast'
+import type { IYastNode, IYastParent, Root } from '@yozora/ast'
 
 /**
  * Search a node from Yozora AST in pre-order traversing.
@@ -12,7 +12,7 @@ import type { IRoot, IYastNode, IYastParent } from '@yozora/ast'
  * @returns
  */
 export function searchNode(
-  immutableRoot: Readonly<IRoot>,
+  immutableRoot: Readonly<Root>,
   isTarget: (
     immutableNode: Readonly<IYastNode>,
     immutableParent: Readonly<IYastParent>,

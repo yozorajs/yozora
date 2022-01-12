@@ -1,4 +1,4 @@
-import type { IRoot, IYastNode, IYastParent, YastNodeType } from '@yozora/ast'
+import type { IYastNode, IYastParent, Root, YastNodeType } from '@yozora/ast'
 import type { INodeMatcher } from './util'
 import { createNodeMatcher, createShallowNodeCollector } from './util'
 
@@ -25,14 +25,14 @@ import { createNodeMatcher, createShallowNodeCollector } from './util'
  * @param replace
  */
 export function shallowMutateAstInPostorder(
-  immutableRoot: Readonly<IRoot>,
+  immutableRoot: Readonly<Root>,
   aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | INodeMatcher | null,
   replace: (
     immutableNode: Readonly<IYastNode>,
     immutableParent: Readonly<IYastParent>,
     childIndex: number,
   ) => IYastNode | IYastNode[] | null,
-): Readonly<IRoot> {
+): Readonly<Root> {
   const isMatched: INodeMatcher = createNodeMatcher(aimTypesOrNodeMatcher)
 
   const traverse = (
@@ -64,5 +64,5 @@ export function shallowMutateAstInPostorder(
       finalChildren === children ? parent : { ...parent, children: finalChildren }
     return result
   }
-  return traverse(immutableRoot.children, immutableRoot) as IRoot
+  return traverse(immutableRoot.children, immutableRoot) as Root
 }

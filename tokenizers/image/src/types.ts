@@ -1,4 +1,4 @@
-import type { IImage, ImageType } from '@yozora/ast'
+import type { Image, ImageType } from '@yozora/ast'
 import type { INodeInterval } from '@yozora/character'
 import type {
   IBaseInlineTokenizerProps,
@@ -8,7 +8,7 @@ import type {
 } from '@yozora/core-tokenizer'
 
 export type T = ImageType
-export type INode = IImage
+export type INode = Image
 export const uniqueName = '@yozora/tokenizer-image'
 
 /**

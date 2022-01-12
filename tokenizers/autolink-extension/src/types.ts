@@ -1,4 +1,4 @@
-import type { ILink, LinkType } from '@yozora/ast'
+import type { Link, LinkType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import type {
   IBaseInlineTokenizerProps,
@@ -10,7 +10,7 @@ import type {
 import type { AutolinkContentType } from '@yozora/tokenizer-autolink'
 
 export type T = LinkType
-export type INode = ILink
+export type INode = Link
 export const uniqueName = '@yozora/tokenizer-autolink-extension'
 
 // Content type of autolink

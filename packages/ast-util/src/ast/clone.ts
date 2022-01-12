@@ -1,4 +1,4 @@
-import type { IRoot, IYastNode, IYastParent } from '@yozora/ast'
+import type { IYastNode, IYastParent, Root } from '@yozora/ast'
 
 /**
  * Shallow clone ast until the match reaches the termination condition.
@@ -10,9 +10,9 @@ import type { IRoot, IYastNode, IYastParent } from '@yozora/ast'
  * @returns
  */
 export function shallowCloneAst(
-  root: IRoot,
+  root: Root,
   endCondition: (node: IYastNode, parent: IYastParent, childIndex: number) => boolean,
-): IRoot {
+): Root {
   const clone = (u: IYastParent): IYastParent => {
     const nextChildren = []
     const { children } = u
@@ -25,5 +25,5 @@ export function shallowCloneAst(
     }
     return { ...u, children: nextChildren }
   }
-  return clone(root) as IRoot
+  return clone(root) as Root
 }

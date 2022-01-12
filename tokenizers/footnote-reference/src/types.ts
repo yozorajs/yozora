@@ -1,4 +1,4 @@
-import type { FootnoteReferenceType, IFootnoteReference, IYastAssociation } from '@yozora/ast'
+import type { FootnoteReference, FootnoteReferenceType, IYastAssociation } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
   IPartialYastInlineToken,
@@ -9,7 +9,7 @@ import type {
 export const uniqueName = '@yozora/tokenizer-footnote-reference'
 
 export type T = FootnoteReferenceType
-export type INode = IFootnoteReference
+export type INode = FootnoteReference
 
 export interface IToken extends IPartialYastInlineToken<T>, IYastAssociation {}
 

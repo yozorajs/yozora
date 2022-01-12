@@ -1,4 +1,4 @@
-import type { ITableCell, ITableRow, IYastNode } from '@yozora/ast'
+import type { IYastNode, TableCell, TableRow } from '@yozora/ast'
 import { TableCellType, TableRowType, TableType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
@@ -9,8 +9,8 @@ import type { INode, IThis, IToken, T } from './types'
 export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = api => ({
   parse: tokens =>
     tokens.map(token => {
-      const tableRows: ITableRow[] = token.rows.map((row): ITableRow => {
-        const tableCells: ITableCell[] = row.cells.map((cell): ITableCell => {
+      const tableRows: TableRow[] = token.rows.map((row): TableRow => {
+        const tableCells: TableCell[] = row.cells.map((cell): TableCell => {
           /**
            * Include a pipe in a cell’s content by escaping it, including inside
            * other inline spans
@@ -33,13 +33,13 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = api => ({
           }
 
           const children: IYastNode[] = api.processInlines(contents)
-          const tableCell: ITableCell = api.shouldReservePosition
+          const tableCell: TableCell = api.shouldReservePosition
             ? { type: TableCellType, position: cell.position, children }
             : { type: TableCellType, children }
           return tableCell
         })
 
-        const tableRow: ITableRow = api.shouldReservePosition
+        const tableRow: TableRow = api.shouldReservePosition
           ? { type: TableRowType, position: row.position, children: tableCells }
           : { type: TableRowType, children: tableCells }
         return tableRow

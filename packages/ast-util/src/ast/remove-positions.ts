@@ -1,6 +1,6 @@
-import type { IRoot, IYastNode, IYastParent } from '@yozora/ast'
+import type { IYastNode, IYastParent, Root } from '@yozora/ast'
 
-export function removePositions(immutableAst: Readonly<IRoot>): IRoot {
+export function removePositions(immutableAst: Readonly<Root>): Root {
   function remove(node: IYastNode): IYastNode {
     const { position, children, ...nextNode } = node as IYastParent
     for (const key of Object.keys(nextNode)) {
@@ -11,6 +11,6 @@ export function removePositions(immutableAst: Readonly<IRoot>): IRoot {
     }
     return nextNode
   }
-  const tidyAst = remove(immutableAst) as IRoot
+  const tidyAst = remove(immutableAst) as Root
   return tidyAst
 }

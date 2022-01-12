@@ -1,14 +1,38 @@
-import type {
-  IHeading,
-  IHeadingToc,
-  IHeadingTocNode,
-  IRoot,
-  IYastLiteral,
-  IYastNode,
-  IYastParent,
-} from '@yozora/ast'
+import type { Heading, IYastLiteral, IYastNode, IYastParent, Root } from '@yozora/ast'
 import { HeadingType } from '@yozora/ast'
 import { foldCase } from '@yozora/character'
+
+/**
+ * Document toc (table of contents).
+ */
+export interface IHeadingToc {
+  /**
+   * Toc nodes.
+   */
+  children: IHeadingTocNode[]
+}
+
+/**
+ * Toc node.
+ */
+export interface IHeadingTocNode {
+  /**
+   * Identifier of the toc node (referer to the Heading.identifier)
+   */
+  identifier: string
+  /**
+   * Level of heading
+   */
+  depth: 1 | 2 | 3 | 4 | 5 | 6
+  /**
+   * Toc node contents.
+   */
+  contents: IYastNode[]
+  /**
+   * Sub toc nodes.
+   */
+  children: IHeadingTocNode[]
+}
 
 /**
  * Generate heading toc.
@@ -16,12 +40,12 @@ import { foldCase } from '@yozora/character'
  * @param identifierPrefix  prefix of identifier
  * @returns
  */
-export function calcHeadingToc(ast: IRoot, identifierPrefix = 'heading-'): IHeadingToc {
+export function calcHeadingToc(ast: Root, identifierPrefix = 'heading-'): IHeadingToc {
   const duplicated: Record<string, true> = {}
 
   // Generate toc
   const nodes: IHeadingTocNode[] = []
-  const headings = ast.children.filter(o => o.type === HeadingType) as IHeading[]
+  const headings = ast.children.filter(o => o.type === HeadingType) as Heading[]
   for (const heading of headings) {
     let identifier: string = identifierPrefix + calcIdentifierFromYastNodes(heading.children)
 

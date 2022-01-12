@@ -8,7 +8,7 @@ export type BlockquoteType = typeof BlockquoteType
  * @see https://github.com/syntax-tree/mdast#blockquote
  * @see https://github.github.com/gfm/#block-quotes
  */
-export type IBlockquote = IYastParent<BlockquoteType>
+export type Blockquote = IYastParent<BlockquoteType>
 
 /**
  * Example:

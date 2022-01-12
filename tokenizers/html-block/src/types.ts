@@ -1,4 +1,4 @@
-import type { HtmlType, IHtml } from '@yozora/ast'
+import type { Html, HtmlType } from '@yozora/ast'
 import type {
   IBaseBlockTokenizerProps,
   IPartialYastBlockToken,
@@ -7,7 +7,7 @@ import type {
 } from '@yozora/core-tokenizer'
 
 export type T = HtmlType
-export type INode = IHtml
+export type INode = Html
 export const uniqueName = '@yozora/tokenizer-html-block'
 
 export type HtmlBlockConditionType = 1 | 2 | 3 | 4 | 5 | 6 | 7

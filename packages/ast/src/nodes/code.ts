@@ -9,7 +9,7 @@ export type CodeType = typeof CodeType
  * @see https://github.com/syntax-tree/mdast#code
  * @see https://github.github.com/gfm/#code-fence
  */
-export interface ICode extends IYastLiteral<CodeType> {
+export interface Code extends IYastLiteral<CodeType> {
   /**
    * Language of the codes
    */

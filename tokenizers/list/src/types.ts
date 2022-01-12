@@ -1,4 +1,4 @@
-import type { IList, ListType, TaskStatus, YastNodeType } from '@yozora/ast'
+import type { List, ListType, TaskStatus, YastNodeType } from '@yozora/ast'
 import type {
   IBaseBlockTokenizerProps,
   IPartialYastBlockToken,
@@ -7,7 +7,7 @@ import type {
 } from '@yozora/core-tokenizer'
 
 export type T = ListType
-export type INode = IList
+export type INode = List
 export const uniqueName = '@yozora/tokenizer-list'
 
 export interface IToken extends IPartialYastBlockToken<T> {

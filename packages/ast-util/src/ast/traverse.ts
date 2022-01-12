@@ -1,4 +1,4 @@
-import type { IRoot, IYastNode, IYastParent, YastNodeType } from '@yozora/ast'
+import type { IYastNode, IYastParent, Root, YastNodeType } from '@yozora/ast'
 import type { INodeMatcher } from './util'
 import { createNodeMatcher } from './util'
 
@@ -14,7 +14,7 @@ import { createNodeMatcher } from './util'
  * @param touch
  */
 export function traverseAst(
-  immutableRoot: IRoot,
+  immutableRoot: Root,
   aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | INodeMatcher | null,
   touch: (
     immutableNode: Readonly<IYastNode>,

@@ -9,7 +9,7 @@ export type ThematicBreakType = typeof ThematicBreakType
  * @see https://github.com/syntax-tree/mdast#thematicbreak
  * @see https://github.github.com/gfm/#thematic-break
  */
-export type IThematicBreak = IYastNode<ThematicBreakType>
+export type ThematicBreak = IYastNode<ThematicBreakType>
 
 /**
  * Example:

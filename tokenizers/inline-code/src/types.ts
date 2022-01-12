@@ -1,4 +1,4 @@
-import type { IInlineCode, InlineCodeType } from '@yozora/ast'
+import type { InlineCode, InlineCodeType } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
   IPartialYastInlineToken,
@@ -7,7 +7,7 @@ import type {
 } from '@yozora/core-tokenizer'
 
 export type T = InlineCodeType
-export type INode = IInlineCode
+export type INode = InlineCode
 export const uniqueName = '@yozora/tokenizer-inline-code'
 
 export interface IToken extends IPartialYastInlineToken<T> {

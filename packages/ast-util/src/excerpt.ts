@@ -1,14 +1,11 @@
-import type { IRoot, IYastLiteral, IYastParent } from '@yozora/ast'
+import type { IYastLiteral, IYastParent, Root } from '@yozora/ast'
 import { TextType } from '@yozora/ast'
 import { shallowCloneAst } from './ast/clone'
 
 /**
  * Calc excerpt ast from the original ast.
  */
-export function calcExcerptAst(
-  immutableRoot: Readonly<IRoot>,
-  pruneLength: number,
-): Readonly<IRoot> {
+export function calcExcerptAst(immutableRoot: Readonly<Root>, pruneLength: number): Readonly<Root> {
   if (immutableRoot.children.length <= 0) return immutableRoot
 
   let totalExcerptLengthSoFar = 0

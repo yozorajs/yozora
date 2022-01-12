@@ -1,11 +1,11 @@
-import type { IRoot } from '@yozora/ast'
+import type { Root } from '@yozora/ast'
 import { loadJSONFixture } from 'jest.setup'
 import { calcHeadingToc, calcIdentifierFromYastNodes } from '../src'
 
 describe('calcHeadingToc', function () {
   describe('basic1', function () {
-    const originalAst: Readonly<IRoot> = loadJSONFixture('basic1.ast.json')
-    const ast: IRoot = loadJSONFixture('basic1.ast.json')
+    const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
+    const ast: Root = loadJSONFixture('basic1.ast.json')
 
     test('default', function () {
       expect(calcHeadingToc(ast)).toMatchSnapshot()
@@ -20,7 +20,7 @@ describe('calcHeadingToc', function () {
     })
 
     test('duplicated heading', function () {
-      const ast: IRoot = {
+      const ast: Root = {
         type: 'root',
         children: [
           {
@@ -64,8 +64,8 @@ describe('calcHeadingToc', function () {
 
 describe('calcIdentifierFromYastNodes', function () {
   test('basic1', function () {
-    const originalAst: Readonly<IRoot> = loadJSONFixture('basic1.ast.json')
-    const ast: IRoot = loadJSONFixture('basic1.ast.json')
+    const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
+    const ast: Root = loadJSONFixture('basic1.ast.json')
     expect(calcIdentifierFromYastNodes(ast.children)).toMatchSnapshot()
     expect(ast).toEqual(originalAst)
   })

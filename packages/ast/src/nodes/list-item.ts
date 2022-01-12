@@ -27,7 +27,7 @@ export enum TaskStatus {
  * @see https://github.com/syntax-tree/mdast#listitem
  * @see https://github.github.com/gfm/#list-items
  */
-export interface IListItem extends IYastParent<ListItemType> {
+export interface ListItem extends IYastParent<ListItemType> {
   /**
    * Status of a todo task.
    */

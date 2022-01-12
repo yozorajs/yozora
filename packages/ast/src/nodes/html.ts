@@ -9,7 +9,7 @@ export type HtmlType = typeof HtmlType
  * @see https://github.github.com/gfm/#html-blocks
  * @see https://github.github.com/gfm/#raw-html
  */
-export type IHtml = IYastLiteral<HtmlType>
+export type Html = IYastLiteral<HtmlType>
 
 export enum HtmlContentType {
   CDATA = 'cdata',

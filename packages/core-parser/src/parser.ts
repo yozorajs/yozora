@@ -1,4 +1,4 @@
-import type { IRoot } from '@yozora/ast'
+import type { Root } from '@yozora/ast'
 import { createNodePointGenerator } from '@yozora/character'
 import type {
   IBlockFallbackTokenizer,
@@ -126,7 +126,7 @@ export class DefaultParser implements IParser {
     }
   }
 
-  public parse(contents: Iterable<string> | string, options: IParseOptions = {}): IRoot {
+  public parse(contents: Iterable<string> | string, options: IParseOptions = {}): Root {
     const { shouldReservePosition, presetDefinitions, presetFootnoteDefinitions } = {
       ...this.defaultParseOptions,
       ...options,
@@ -146,7 +146,7 @@ export class DefaultParser implements IParser {
       presetDefinitions,
       presetFootnoteDefinitions,
     })
-    const root: IRoot = processor.process(linesIterator)
+    const root: Root = processor.process(linesIterator)
     return root
   }
 

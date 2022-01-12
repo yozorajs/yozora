@@ -1,4 +1,4 @@
-import type { HeadingType, IHeading } from '@yozora/ast'
+import type { Heading, HeadingType } from '@yozora/ast'
 import type {
   IBaseBlockTokenizerProps,
   IPartialYastBlockToken,
@@ -7,7 +7,7 @@ import type {
 } from '@yozora/core-tokenizer'
 
 export type T = HeadingType
-export type INode = IHeading
+export type INode = Heading
 export const uniqueName = '@yozora/tokenizer-heading'
 
 export interface IToken extends IPartialYastBlockToken<T> {

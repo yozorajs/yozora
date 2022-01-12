@@ -1,4 +1,4 @@
-import type { IInlineMath, InlineMathType } from '@yozora/ast'
+import type { InlineMath, InlineMathType } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
   IPartialYastInlineToken,
@@ -7,7 +7,7 @@ import type {
 } from '@yozora/core-tokenizer'
 
 export type T = InlineMathType
-export type INode = IInlineMath
+export type INode = InlineMath
 export const uniqueName = '@yozora/tokenizer-inline-math'
 
 export interface IToken extends IPartialYastInlineToken<T> {

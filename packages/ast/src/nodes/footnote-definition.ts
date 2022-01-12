@@ -8,9 +8,7 @@ export type FootnoteDefinitionType = typeof FootnoteDefinitionType
  * outside its flow.
  * @see https://github.com/syntax-tree/mdast#footnotedefinition
  */
-export interface IFootnoteDefinition
-  extends IYastParent<FootnoteDefinitionType>,
-    IYastAssociation {}
+export interface FootnoteDefinition extends IYastParent<FootnoteDefinitionType>, IYastAssociation {}
 
 /**
  * Example:

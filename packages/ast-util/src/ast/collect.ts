@@ -1,4 +1,4 @@
-import type { IRoot, IYastNode, IYastParent, YastNodeType } from '@yozora/ast'
+import type { IYastNode, IYastParent, Root, YastNodeType } from '@yozora/ast'
 import type { INodeMatcher } from './util'
 import { createNodeMatcher } from './util'
 
@@ -14,7 +14,7 @@ import { createNodeMatcher } from './util'
  * @param aimTypesOrNodeMatcher
  */
 export function collectNodes<T extends YastNodeType, O extends IYastNode<T>>(
-  root: Readonly<IRoot>,
+  root: Readonly<Root>,
   aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | INodeMatcher | null,
 ): O[] {
   const isMatched: INodeMatcher = createNodeMatcher(aimTypesOrNodeMatcher)

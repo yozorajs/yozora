@@ -9,7 +9,7 @@ export type ImageReferenceType = typeof ImageReferenceType
  * @see https://github.github.com/gfm/#images
  * @see https://github.com/syntax-tree/mdast#imagereference
  */
-export interface IImageReference
+export interface ImageReference
   extends IYastNode<ImageReferenceType>,
     IYastAssociation,
     IYastReference,

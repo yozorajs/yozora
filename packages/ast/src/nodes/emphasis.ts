@@ -8,7 +8,7 @@ export type EmphasisType = typeof EmphasisType
  * @see https://github.com/syntax-tree/mdast#emphasis
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
-export type IEmphasis = IYastParent<EmphasisType>
+export type Emphasis = IYastParent<EmphasisType>
 
 /**
  * Example:

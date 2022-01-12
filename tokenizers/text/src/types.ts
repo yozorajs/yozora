@@ -1,4 +1,4 @@
-import type { IText, TextType } from '@yozora/ast'
+import type { Text, TextType } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
   IPartialYastInlineToken,
@@ -7,7 +7,7 @@ import type {
 } from '@yozora/core-tokenizer'
 
 export type T = TextType
-export type INode = IText
+export type INode = Text
 export const uniqueName = '@yozora/tokenizer-text'
 
 export type IToken = IPartialYastInlineToken<T>

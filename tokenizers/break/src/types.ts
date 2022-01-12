@@ -1,4 +1,4 @@
-import type { BreakType, IBreak } from '@yozora/ast'
+import type { Break, BreakType } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
   IPartialYastInlineToken,
@@ -7,7 +7,7 @@ import type {
 } from '@yozora/core-tokenizer'
 
 export type T = BreakType
-export type INode = IBreak
+export type INode = Break
 export const uniqueName = '@yozora/tokenizer-break'
 
 export type IToken = IPartialYastInlineToken<T>

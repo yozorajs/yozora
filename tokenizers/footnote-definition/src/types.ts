@@ -1,4 +1,4 @@
-import type { FootnoteDefinitionType, IFootnoteDefinition } from '@yozora/ast'
+import type { FootnoteDefinition, FootnoteDefinitionType } from '@yozora/ast'
 import type { INodeInterval, INodePoint } from '@yozora/character'
 import type {
   IBaseBlockTokenizerProps,
@@ -8,7 +8,7 @@ import type {
 } from '@yozora/core-tokenizer'
 
 export type T = FootnoteDefinitionType
-export type INode = IFootnoteDefinition
+export type INode = FootnoteDefinition
 export const uniqueName = '@yozora/tokenizer-footnote-definition'
 
 export interface IToken extends IPartialYastBlockToken<T> {

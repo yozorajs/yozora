@@ -1,4 +1,4 @@
-import type { ITableColumn, IYastAlignType, IYastNodePoint } from '@yozora/ast'
+import type { IYastAlignType, IYastNodePoint, TableColumn } from '@yozora/ast'
 import { TableCellType, TableRowType, TableType } from '@yozora/ast'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
@@ -52,7 +52,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
     const { nodePoints, endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex >= endIndex) return null
 
-    const columns: ITableColumn[] = []
+    const columns: TableColumn[] = []
 
     /**
      * eat leading optional pipe
@@ -108,7 +108,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
       if (leftColon && rightColon) align = 'center'
       else if (leftColon) align = 'left'
       else if (rightColon) align = 'right'
-      const column: ITableColumn = { align }
+      const column: TableColumn = { align }
       columns.push(column)
     }
 
@@ -183,7 +183,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
   }
 
   // process table row
-  function calcTableRow(line: IPhrasingContentLine, columns: ITableColumn[]): ITableRowToken {
+  function calcTableRow(line: IPhrasingContentLine, columns: TableColumn[]): ITableRowToken {
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
 
     // eat leading pipe
@@ -306,7 +306,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
 //   nodePoints: ReadonlyArray<INodePoint>,
 //   currentLine: IPhrasingContentLine,
 //   previousLine: IPhrasingContentLine,
-// ): ITableColumn[] | null {
+// ): TableColumn[] | null {
 //   /**
 //    * The previous line of the delimiter line must not be blank line
 //    */
@@ -320,7 +320,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
 //    */
 //   if (currentLine.firstNonWhitespaceIndex - currentLine.startIndex >= 4) return null
 
-//   const columns: ITableColumn[] = []
+//   const columns: TableColumn[] = []
 
 //   /**
 //    * eat leading optional pipe
@@ -379,7 +379,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
 //     if (leftColon && rightColon) align = 'center'
 //     else if (leftColon) align = 'left'
 //     else if (rightColon) align = 'right'
-//     const column: ITableColumn = { align }
+//     const column: TableColumn = { align }
 //     columns.push(column)
 //   }
 

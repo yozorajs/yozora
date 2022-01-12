@@ -1,4 +1,4 @@
-import type { HtmlType, IHtml } from '@yozora/ast'
+import type { Html, HtmlType } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
   IPartialYastInlineToken,
@@ -21,7 +21,7 @@ import type {
 } from './util/open'
 
 export type T = HtmlType
-export type INode = IHtml
+export type INode = Html
 export const uniqueName = '@yozora/tokenizer-html-inline'
 
 /**

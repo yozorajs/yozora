@@ -9,7 +9,7 @@ export type TableCellType = typeof TableCellType
  * @see https://github.com/syntax-tree/mdast#tablecell
  * @see https://github.github.com/gfm/#tables-extension-
  */
-export type ITableCell = IYastParent<TableCellType>
+export type TableCell = IYastParent<TableCellType>
 
 /**
  * Example:

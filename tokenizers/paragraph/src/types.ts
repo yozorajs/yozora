@@ -1,4 +1,4 @@
-import type { IParagraph, ParagraphType } from '@yozora/ast'
+import type { Paragraph, ParagraphType } from '@yozora/ast'
 import type {
   IBaseBlockTokenizerProps,
   IPartialYastBlockToken,
@@ -7,7 +7,7 @@ import type {
 } from '@yozora/core-tokenizer'
 
 export type T = ParagraphType
-export type INode = IParagraph
+export type INode = Paragraph
 export const uniqueName = '@yozora/tokenizer-paragraph'
 
 export interface IToken extends IPartialYastBlockToken<T> {

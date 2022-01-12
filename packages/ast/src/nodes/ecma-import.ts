@@ -24,7 +24,7 @@ export type EcmaImportType = typeof EcmaImportType
  *    } from '@yozora/parser'
  *    ```
  */
-export interface IEcmaImport extends IYastNode<EcmaImportType> {
+export interface EcmaImport extends IYastNode<EcmaImportType> {
   /**
    * import Parser from '@yozora/parser'
    * ==> { moduleName: '@yozora/parser' }

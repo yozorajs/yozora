@@ -1,4 +1,4 @@
-import type { IHeading, IYastNode } from '@yozora/ast'
+import type { Heading, IYastNode } from '@yozora/ast'
 import { HeadingType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
@@ -10,7 +10,7 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
   return {
     parse: tokens =>
       tokens.map(token => {
-        let depth: IHeading['depth'] = 1
+        let depth: Heading['depth'] = 1
         switch (token.marker) {
           /**
            * The heading is a level 1 heading if '=' characters are used

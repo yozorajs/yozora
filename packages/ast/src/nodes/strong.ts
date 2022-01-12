@@ -9,7 +9,7 @@ export type StrongType = typeof StrongType
  * @see https://github.com/syntax-tree/mdast#strong
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
-export type IStrong = IYastParent<StrongType>
+export type Strong = IYastParent<StrongType>
 
 /**
  * Example:

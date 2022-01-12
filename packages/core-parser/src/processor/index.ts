@@ -1,4 +1,4 @@
-import type { IRoot, IYastNode } from '@yozora/ast'
+import type { IYastNode, Root } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import type {
   IParseBlockHook,
@@ -110,7 +110,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
    * @param lines
    * @returns
    */
-  function process(lines: Iterable<ReadonlyArray<IPhrasingContentLine>>): IRoot {
+  function process(lines: Iterable<ReadonlyArray<IPhrasingContentLine>>): Root {
     definitionIdentifierSet.clear()
     footnoteIdentifierSet.clear()
 
@@ -127,7 +127,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     }
 
     const children: IYastNode[] = parseBlockTokens(blockTokenTree.children)
-    const ast: IRoot = shouldReservePosition
+    const ast: Root = shouldReservePosition
       ? { type: 'root', position: blockTokenTree.position, children }
       : { type: 'root', children }
     return ast

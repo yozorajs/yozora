@@ -8,7 +8,7 @@ export type TextType = typeof TextType
  * @see https://github.com/syntax-tree/mdast#text
  * @see https://github.github.com/gfm/#textual-content
  */
-export type IText = IYastLiteral<TextType>
+export type Text = IYastLiteral<TextType>
 
 /**
  * Example:

@@ -8,7 +8,7 @@ export type DeleteType = typeof DeleteType
  * @see https://github.com/syntax-tree/mdast#delete
  * @see https://github.github.com/gfm/#strikethrough-extension-
  */
-export type IDelete = IYastParent<DeleteType>
+export type Delete = IYastParent<DeleteType>
 
 /**
  * Example:

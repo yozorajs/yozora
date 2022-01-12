@@ -1,4 +1,4 @@
-import type { IRoot, IYastAssociation } from '@yozora/ast'
+import type { IYastAssociation, Root } from '@yozora/ast'
 import type {
   IBlockFallbackTokenizer,
   IInlineFallbackTokenizer,
@@ -65,5 +65,5 @@ export interface IParser {
    * @param startIndex  start index of content
    * @param endIndex    end index of contents
    */
-  parse(contents: Iterable<string> | string, options?: IParseOptions): IRoot
+  parse(contents: Iterable<string> | string, options?: IParseOptions): Root
 }

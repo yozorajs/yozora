@@ -1,11 +1,11 @@
-import type { IFootnoteDefinition, IRoot, IText } from '@yozora/ast'
+import type { FootnoteDefinition, Root, Text } from '@yozora/ast'
 import { loadJSONFixture } from 'jest.setup'
 import { calcFootnoteDefinitionMap, collectFootnoteDefinitions } from '../src'
 
 describe('collectFootnoteDefinitions', function () {
   test('basic1', function () {
-    const originalAst: Readonly<IRoot> = loadJSONFixture('basic1.ast.json')
-    const ast: IRoot = loadJSONFixture('basic1.ast.json')
+    const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
+    const ast: Root = loadJSONFixture('basic1.ast.json')
 
     const result = collectFootnoteDefinitions(ast)
     expect(result).toMatchSnapshot()
@@ -15,8 +15,8 @@ describe('collectFootnoteDefinitions', function () {
 
 describe('calcFootnoteDefinitionMap', function () {
   describe('basic1', function () {
-    const originalAst: Readonly<IRoot> = loadJSONFixture('basic1.ast.json')
-    const ast: IRoot = loadJSONFixture('basic1.ast.json')
+    const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
+    const ast: Root = loadJSONFixture('basic1.ast.json')
 
     test('default', function () {
       const { root, footnoteDefinitionMap } = calcFootnoteDefinitionMap(ast)
@@ -26,7 +26,7 @@ describe('calcFootnoteDefinitionMap', function () {
     })
 
     test('presetFootnoteDefinitions', function () {
-      const presetFootnoteDefinition: IFootnoteDefinition[] = [
+      const presetFootnoteDefinition: FootnoteDefinition[] = [
         {
           type: 'footnoteDefinition',
           identifier: 'bravo',
@@ -35,7 +35,7 @@ describe('calcFootnoteDefinitionMap', function () {
             {
               type: 'text',
               value: 'bravo and charlie.',
-            } as IText,
+            } as Text,
           ],
         },
       ]

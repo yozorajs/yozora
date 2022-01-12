@@ -9,7 +9,7 @@ export type InlineCodeType = typeof InlineCodeType
  * @see https://github.com/syntax-tree/mdast#inline-code
  * @see https://github.github.com/gfm/#code-span
  */
-export type IInlineCode = IYastLiteral<InlineCodeType>
+export type InlineCode = IYastLiteral<InlineCodeType>
 
 /**
  * Example:
