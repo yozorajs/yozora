@@ -7,9 +7,10 @@ import type {
   IInlineTokenizer,
   ITokenizer,
 } from '@yozora/core-tokenizer'
-import { TokenizerType, createPhrasingLineGenerator } from '@yozora/core-tokenizer'
+import { TokenizerType } from '@yozora/core-tokenizer'
 import { createProcessor } from './processor'
 import type { IParseOptions, IParser } from './types'
+import { createPhrasingLineGenerator } from './util/phrasing-line'
 
 /**
  * Parameters for constructing a DefaultParser.
