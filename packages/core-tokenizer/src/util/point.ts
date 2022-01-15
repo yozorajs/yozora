@@ -1,4 +1,4 @@
-import type { NodePoint } from '@yozora/ast'
+import type { Point } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 
 /**
@@ -12,10 +12,7 @@ import type { INodePoint } from '@yozora/character'
  *
  * @see https://github.com/syntax-tree/unist#position
  */
-export function calcStartYastNodePoint(
-  nodePoints: ReadonlyArray<INodePoint>,
-  index: number,
-): NodePoint {
+export function calcStartPoint(nodePoints: ReadonlyArray<INodePoint>, index: number): Point {
   const { line, column, offset } = nodePoints[index]
   return { line, column, offset }
 }
@@ -31,10 +28,7 @@ export function calcStartYastNodePoint(
  *
  * @see https://github.com/syntax-tree/unist#position
  */
-export function calcEndYastNodePoint(
-  nodePoints: ReadonlyArray<INodePoint>,
-  index: number,
-): NodePoint {
+export function calcEndPoint(nodePoints: ReadonlyArray<INodePoint>, index: number): Point {
   const { line, column, offset } = nodePoints[index]
   return { line, column: column + 1, offset: offset + 1 }
 }

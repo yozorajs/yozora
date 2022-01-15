@@ -3,9 +3,9 @@ import type { INodePoint } from '@yozora/character'
 import { createNodePointGenerator } from '@yozora/character'
 import type { IPhrasingContentLine } from '@yozora/core-tokenizer'
 import {
-  calcEndYastNodePoint,
+  calcEndPoint,
   calcPositionFromPhrasingContentLines,
-  calcStartYastNodePoint,
+  calcStartPoint,
 } from '@yozora/core-tokenizer'
 import type { IParagraphToken } from '../src'
 import { ParagraphTokenizer, ParagraphTokenizerName } from '../src'
@@ -52,8 +52,8 @@ describe('paragraph patch test', function () {
       nodeType: ParagraphType,
       lines: nextLines,
       position: {
-        start: calcStartYastNodePoint(nodePoints, nextLines[0].startIndex),
-        end: calcEndYastNodePoint(nodePoints, nextLines[0].endIndex - 1),
+        start: calcStartPoint(nodePoints, nextLines[0].startIndex),
+        end: calcEndPoint(nodePoints, nextLines[0].endIndex - 1),
       },
     })
   })

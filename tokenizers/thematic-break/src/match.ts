@@ -7,7 +7,7 @@ import type {
   IResultOfEatOpener,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
-import { calcEndYastNodePoint, calcStartYastNodePoint } from '@yozora/core-tokenizer'
+import { calcEndPoint, calcStartPoint } from '@yozora/core-tokenizer'
 import type { IThis, IToken, T } from './types'
 
 /**
@@ -103,8 +103,8 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
     const token: IToken = {
       nodeType: ThematicBreakType,
       position: {
-        start: calcStartYastNodePoint(nodePoints, startIndex),
-        end: calcEndYastNodePoint(nodePoints, endIndex - 1),
+        start: calcStartPoint(nodePoints, startIndex),
+        end: calcEndPoint(nodePoints, endIndex - 1),
       },
       marker: marker!,
       continuous,

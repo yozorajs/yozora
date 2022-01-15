@@ -7,7 +7,7 @@ import type {
   IYastBlockToken,
   IYastInlineToken,
 } from '@yozora/core-tokenizer'
-import { calcEndYastNodePoint, calcStartYastNodePoint } from '@yozora/core-tokenizer'
+import { calcEndPoint, calcStartPoint } from '@yozora/core-tokenizer'
 import invariant from '@yozora/invariant'
 import { createBlockContentProcessor } from './block'
 import type { IMatchBlockPhaseHook, IYastBlockTokenTree } from './block/types'
@@ -69,8 +69,8 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       hasFootnoteDefinition: identifier => footnoteIdentifierSet.has(identifier),
       parseInlineTokens,
       calcPosition: token => ({
-        start: calcStartYastNodePoint(_nodePoints, token.startIndex),
-        end: calcEndYastNodePoint(_nodePoints, token.endIndex - 1),
+        start: calcStartPoint(_nodePoints, token.startIndex),
+        end: calcEndPoint(_nodePoints, token.endIndex - 1),
       }),
     },
   })

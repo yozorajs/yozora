@@ -1,4 +1,4 @@
-import type { AlignType, NodePoint, TableColumn } from '@yozora/ast'
+import type { AlignType, Point, TableColumn } from '@yozora/ast'
 import { TableCellType, TableRowType, TableType } from '@yozora/ast'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
@@ -9,7 +9,7 @@ import type {
   IResultOfEatOpener,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
-import { calcEndYastNodePoint, calcStartYastNodePoint } from '@yozora/core-tokenizer'
+import { calcEndPoint, calcStartPoint } from '@yozora/core-tokenizer'
 import type { ITableCellToken, ITableRowToken, IThis, IToken, T } from './types'
 
 /**
@@ -151,8 +151,8 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
     const token: IToken = {
       nodeType: TableType,
       position: {
-        start: calcStartYastNodePoint(previousLine.nodePoints, previousLine.startIndex),
-        end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
+        start: calcStartPoint(previousLine.nodePoints, previousLine.startIndex),
+        end: calcEndPoint(nodePoints, nextIndex - 1),
       },
       columns,
       rows: [row],
@@ -205,10 +205,8 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
       }
 
       // Start point of the table-cell.
-      const startPoint: NodePoint =
-        i < endIndex
-          ? calcStartYastNodePoint(nodePoints, i)
-          : calcEndYastNodePoint(nodePoints, endIndex - 1)
+      const startPoint: Point =
+        i < endIndex ? calcStartPoint(nodePoints, i) : calcEndPoint(nodePoints, endIndex - 1)
 
       // Eating cell contents.
       const cellStartIndex = i,
@@ -234,7 +232,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
       }
 
       // End point of the table-cell
-      const endPoint: NodePoint = calcEndYastNodePoint(nodePoints, i - 1)
+      const endPoint: Point = calcEndPoint(nodePoints, i - 1)
 
       const lines: IPhrasingContentLine[] =
         cellFirstNonWhitespaceIndex >= cellEndIndex
@@ -264,10 +262,10 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
     }
 
     // Start point of the table-row
-    const startPoint: NodePoint = calcStartYastNodePoint(nodePoints, startIndex)
+    const startPoint: Point = calcStartPoint(nodePoints, startIndex)
 
     // End point of the table-row
-    const endPoint: NodePoint = calcEndYastNodePoint(nodePoints, endIndex - 1)
+    const endPoint: Point = calcEndPoint(nodePoints, endIndex - 1)
 
     /**
      * The remainder of the table’s rows may vary in the number of cells.

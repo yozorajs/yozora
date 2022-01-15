@@ -7,11 +7,7 @@ import type {
   IResultOfEatOpener,
   IResultOfOnClose,
 } from '@yozora/core-tokenizer'
-import {
-  calcEndYastNodePoint,
-  calcStartYastNodePoint,
-  resolveLabelToIdentifier,
-} from '@yozora/core-tokenizer'
+import { calcEndPoint, calcStartPoint, resolveLabelToIdentifier } from '@yozora/core-tokenizer'
 import type { IThis, IToken, T } from './types'
 import { eatFootnoteLabel } from './util'
 
@@ -61,8 +57,8 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
     const token: IToken = {
       nodeType: FootnoteDefinitionType,
       position: {
-        start: calcStartYastNodePoint(nodePoints, startIndex),
-        end: calcEndYastNodePoint(nodePoints, nextIndex),
+        start: calcStartPoint(nodePoints, startIndex),
+        end: calcEndPoint(nodePoints, nextIndex),
       },
       label: {
         nodePoints,

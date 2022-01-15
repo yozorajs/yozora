@@ -7,11 +7,7 @@ import type {
   IResultOfEatOpener,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
-import {
-  calcEndYastNodePoint,
-  calcStartYastNodePoint,
-  eatOptionalCharacters,
-} from '@yozora/core-tokenizer'
+import { calcEndPoint, calcStartPoint, eatOptionalCharacters } from '@yozora/core-tokenizer'
 import type { IThis, IToken, T } from './types'
 
 /**
@@ -81,8 +77,8 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
     const token: IToken = {
       nodeType: HeadingType,
       position: {
-        start: calcStartYastNodePoint(nodePoints, startIndex),
-        end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
+        start: calcStartPoint(nodePoints, startIndex),
+        end: calcEndPoint(nodePoints, nextIndex - 1),
       },
       depth: depth as IToken['depth'],
       line,

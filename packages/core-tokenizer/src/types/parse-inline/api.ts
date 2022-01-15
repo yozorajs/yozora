@@ -1,4 +1,4 @@
-import type { Node, NodePosition } from '@yozora/ast'
+import type { Node, Position } from '@yozora/ast'
 import type { INodeInterval, INodePoint } from '@yozora/character'
 import type { IYastInlineToken } from '../token'
 
@@ -18,7 +18,7 @@ export interface IParseInlinePhaseApi {
    * Calculate position of token.
    * @param interval
    */
-  calcPosition(interval: Readonly<INodeInterval>): NodePosition
+  calcPosition(interval: Readonly<INodeInterval>): Position
   /**
    * Check if there is exists a definition with the given identifier.
    * @param identifier

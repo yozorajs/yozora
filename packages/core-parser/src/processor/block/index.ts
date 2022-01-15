@@ -1,4 +1,4 @@
-import type { NodePoint } from '@yozora/ast'
+import type { Point } from '@yozora/ast'
 import { isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
 import type {
   IPartialYastBlockToken,
@@ -6,7 +6,7 @@ import type {
   IResultOfEatContinuationText,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
-import { calcEndYastNodePoint } from '@yozora/core-tokenizer'
+import { calcEndPoint } from '@yozora/core-tokenizer'
 import invariant from '@yozora/invariant'
 import type {
   IBlockContentProcessor,
@@ -47,7 +47,7 @@ export const createBlockContentProcessor = (
    * @param endPoint
    */
   let currentStackIndex = 0
-  const refreshPosition = (endPoint: NodePoint): void => {
+  const refreshPosition = (endPoint: Point): void => {
     for (let sIndex = currentStackIndex; sIndex >= 0; --sIndex) {
       const o = stateStack[sIndex]
       o.token.position.end = { ...endPoint }
@@ -214,7 +214,7 @@ export const createBlockContentProcessor = (
       )
 
       if (shouldRefreshPosition) {
-        const endPoint = calcEndYastNodePoint(nodePoints, nextIndex - 1)
+        const endPoint = calcEndPoint(nodePoints, nextIndex - 1)
         refreshPosition(endPoint)
       }
       if (i === nextIndex) return

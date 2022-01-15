@@ -1,5 +1,5 @@
 import type {
-  NodePosition,
+  Position,
   Table,
   TableCellType,
   TableColumn,
@@ -37,6 +37,6 @@ export interface ITableRowToken extends IPartialYastBlockToken<TableRowType> {
 }
 
 export interface ITableCellToken extends IPartialYastBlockToken<TableCellType> {
-  position: NodePosition
+  position: Position
   lines: IPhrasingContentLine[]
 }

@@ -1,4 +1,4 @@
-import type { ListItem, Node, NodePosition, Paragraph } from '@yozora/ast'
+import type { ListItem, Node, Paragraph, Position } from '@yozora/ast'
 import { ListItemType, ListType, ParagraphType } from '@yozora/ast'
 import type { IParseBlockHookCreator, IParseBlockPhaseApi } from '@yozora/core-tokenizer'
 import type { INode, IThis, IToken, T } from './types'
@@ -57,9 +57,9 @@ const resolveList = (tokens: IToken[], api: IParseBlockPhaseApi): INode | null =
   let spread = tokens.some((item): boolean => {
     if (item.children == null || item.children.length <= 1) return false
 
-    let previousPosition: NodePosition = item.children[0].position
+    let previousPosition: Position = item.children[0].position
     for (let j = 1; j < item.children.length; ++j) {
-      const currentPosition: NodePosition = item.children[j].position
+      const currentPosition: Position = item.children[j].position
       if (previousPosition.end.line + 1 < currentPosition.start.line) {
         return true
       }

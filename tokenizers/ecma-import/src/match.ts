@@ -1,4 +1,4 @@
-import type { NodePosition } from '@yozora/ast'
+import type { Position } from '@yozora/ast'
 import { EcmaImportType } from '@yozora/ast'
 import {
   AsciiCodePoint,
@@ -10,7 +10,7 @@ import type {
   IPhrasingContentLine,
   IResultOfEatOpener,
 } from '@yozora/core-tokenizer'
-import { calcEndYastNodePoint, calcStartYastNodePoint } from '@yozora/core-tokenizer'
+import { calcEndPoint, calcStartPoint } from '@yozora/core-tokenizer'
 import type { IThis, IToken, T } from './types'
 import { regex1, regex2, regex3, resolveNameImports } from './util'
 
@@ -60,9 +60,9 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
     let m: RegExpExecArray | null
 
     let token: IToken | null = null
-    const position = (): NodePosition => ({
-      start: calcStartYastNodePoint(nodePoints, startIndex),
-      end: calcEndYastNodePoint(nodePoints, endIndex - 1),
+    const position = (): Position => ({
+      start: calcStartPoint(nodePoints, startIndex),
+      end: calcEndPoint(nodePoints, endIndex - 1),
     })
 
     // eslint-disable-next-line no-cond-assign

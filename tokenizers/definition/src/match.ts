@@ -9,8 +9,8 @@ import type {
   IResultOfOnClose,
 } from '@yozora/core-tokenizer'
 import {
-  calcEndYastNodePoint,
-  calcStartYastNodePoint,
+  calcEndPoint,
+  calcStartPoint,
   eatOptionalWhitespaces,
   resolveLabelToIdentifier,
 } from '@yozora/core-tokenizer'
@@ -69,8 +69,8 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
       const token: IToken = {
         nodeType: DefinitionType,
         position: {
-          start: calcStartYastNodePoint(nodePoints, startIndex),
-          end: calcEndYastNodePoint(nodePoints, endIndex - 1),
+          start: calcStartPoint(nodePoints, startIndex),
+          end: calcEndPoint(nodePoints, endIndex - 1),
         },
         label: labelState,
         destination: null,
@@ -273,7 +273,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
       // eslint-disable-next-line no-param-reassign
       token.title = null
       // eslint-disable-next-line no-param-reassign
-      token.position.end = calcEndYastNodePoint(lastLine.nodePoints, lastLine.endIndex - 1)
+      token.position.end = calcEndPoint(lastLine.nodePoints, lastLine.endIndex - 1)
       return {
         status: 'closingAndRollback',
         lines: token.lines.slice(token.lineNoOfTitle - 1),
@@ -311,7 +311,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
         // eslint-disable-next-line no-param-reassign
         token.title = null
         // eslint-disable-next-line no-param-reassign
-        token.position.end = calcEndYastNodePoint(lastLine.nodePoints, lastLine.endIndex - 1)
+        token.position.end = calcEndPoint(lastLine.nodePoints, lastLine.endIndex - 1)
 
         result = { status: 'closingAndRollback', lines }
       }

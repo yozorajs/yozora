@@ -9,11 +9,7 @@ import type {
   IResultOfEatOpener,
   IYastBlockToken,
 } from '@yozora/core-tokenizer'
-import {
-  calcEndYastNodePoint,
-  calcStartYastNodePoint,
-  eatOptionalWhitespaces,
-} from '@yozora/core-tokenizer'
+import { calcEndPoint, calcStartPoint, eatOptionalWhitespaces } from '@yozora/core-tokenizer'
 import { eatEndCondition1, eatStartCondition1 } from './conditions/c1'
 import { eatEndCondition2, eatStartCondition2 } from './conditions/c2'
 import { eatEndCondition3, eatStartCondition3 } from './conditions/c3'
@@ -74,8 +70,8 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
     const token: IToken = {
       nodeType: HtmlType,
       position: {
-        start: calcStartYastNodePoint(nodePoints, startIndex),
-        end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
+        start: calcStartPoint(nodePoints, startIndex),
+        end: calcEndPoint(nodePoints, nextIndex - 1),
       },
       condition,
       lines: [line],

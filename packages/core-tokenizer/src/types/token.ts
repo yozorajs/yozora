@@ -1,4 +1,4 @@
-import type { NodePosition, NodeType } from '@yozora/ast'
+import type { NodeType, Position } from '@yozora/ast'
 import type { INodeInterval } from '@yozora/character'
 
 /**
@@ -42,7 +42,7 @@ export interface IYastBlockToken<T extends NodeType = NodeType> extends IYastTok
   /**
    * Location of a node in the source contents.
    */
-  position: NodePosition
+  position: Position
   /**
    * List of child node of current token node
    */

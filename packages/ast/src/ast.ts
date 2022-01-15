@@ -16,7 +16,7 @@ export interface Node<T extends NodeType = NodeType> {
    * Location of a node in a source document.
    * Must not be present if a node is generated.
    */
-  position?: NodePosition
+  position?: Position
 }
 
 /**
@@ -102,7 +102,7 @@ export interface Alternative {
  * One place in the source file.
  * @see https://github.com/syntax-tree/unist#point
  */
-export interface NodePoint {
+export interface Point {
   /**
    * Line in a source file.
    * @minimum 1
@@ -124,15 +124,15 @@ export interface NodePoint {
  * Location of a node in a source file.
  * @see https://github.com/syntax-tree/unist#position
  */
-export interface NodePosition {
+export interface Position {
   /**
    * Place of the first character of the parsed source region.
    */
-  start: NodePoint
+  start: Point
   /**
    * Place of the first character after the parsed source region.
    */
-  end: NodePoint
+  end: Point
   /**
    * start column at each index (plus start line) in the source region,
    * for elements that span multiple lines
