@@ -8,7 +8,7 @@ import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
  *
  * @see https://github.github.com/gfm/#link-title
  */
-export interface LinkTitleCollectingState {
+export interface ILinkTitleCollectingState {
   /**
    * Whether the current token has collected a legal LinkDestination
    */
@@ -35,8 +35,8 @@ export function eatAndCollectLinkTitle(
   nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-  state: LinkTitleCollectingState | null,
-): { nextIndex: number; state: LinkTitleCollectingState } {
+  state: ILinkTitleCollectingState | null,
+): { nextIndex: number; state: ILinkTitleCollectingState } {
   let i = startIndex
 
   // init token

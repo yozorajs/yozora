@@ -6,7 +6,7 @@ import { createNodeMatcher, createShallowNodeCollector } from './util'
  * Traverse AST and replace nodes in pre-order.
  *
  * Note that the root node will not be traversed, that is, the root node will
- * never be passed into the `replace` function as the first paramter.
+ * never be passed into the `replace` function as the first parameter.
  *
  * 需要注意的是，尽管此函数不会直接操作原AST，但它会尽可能地复用未改变的节点；
  * 此外它依赖于 replace 函数将传入的节点视作不可修改的，所以在使用时，需要注意不

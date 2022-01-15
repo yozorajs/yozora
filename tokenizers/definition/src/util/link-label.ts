@@ -8,7 +8,7 @@ import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
  *
  * @see https://github.github.com/gfm/#link-label
  */
-export interface LinkLabelCollectingState {
+export interface ILinkLabelCollectingState {
   /**
    * Whether the current token has collected a legal LinkDestination
    */
@@ -46,8 +46,8 @@ export function eatAndCollectLinkLabel(
   nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-  state: LinkLabelCollectingState | null,
-): { nextIndex: number; state: LinkLabelCollectingState } {
+  state: ILinkLabelCollectingState | null,
+): { nextIndex: number; state: ILinkLabelCollectingState } {
   let i = startIndex
 
   // init token

@@ -39,6 +39,7 @@
     "@yozora/character": "^2.0.0-alpha.3",
     "@yozora/core-tokenizer": "^2.0.0-alpha.3",
     "@yozora/tokenizer-image": "^2.0.0-alpha.3",
-    "@yozora/tokenizer-link": "^2.0.0-alpha.3"
+    "@yozora/tokenizer-link": "^2.0.0-alpha.3",
+    "@yozora/tokenizer-link-reference": "^2.0.0-alpha.3"
   }
 }

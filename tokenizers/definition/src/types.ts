@@ -5,9 +5,9 @@ import type {
   IPhrasingContentLine,
   ITokenizer,
 } from '@yozora/core-tokenizer'
-import type { LinkDestinationCollectingState } from './util/link-destination'
-import type { LinkLabelCollectingState } from './util/link-label'
-import type { LinkTitleCollectingState } from './util/link-title'
+import type { ILinkDestinationCollectingState } from './util/link-destination'
+import type { ILinkLabelCollectingState } from './util/link-label'
+import type { ILinkTitleCollectingState } from './util/link-title'
 
 export type T = DefinitionType
 export type INode = Definition
@@ -22,15 +22,15 @@ export interface IToken extends IPartialYastBlockToken<T> {
    * Link label
    * Trimmed, Case-Insensitive
    */
-  label: LinkLabelCollectingState
+  label: ILinkLabelCollectingState
   /**
    * Link destination
    */
-  destination: LinkDestinationCollectingState | null
+  destination: ILinkDestinationCollectingState | null
   /**
    * Link title
    */
-  title: LinkTitleCollectingState | null
+  title: ILinkTitleCollectingState | null
   /**
    * The line number of the first matched character of the link label
    */

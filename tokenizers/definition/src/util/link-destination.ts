@@ -13,7 +13,7 @@ import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
  *
  * @see https://github.github.com/gfm/#link-destination
  */
-export interface LinkDestinationCollectingState {
+export interface ILinkDestinationCollectingState {
   /**
    * Whether the current token has collected a legal LinkDestination
    */
@@ -44,8 +44,8 @@ export function eatAndCollectLinkDestination(
   nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-  state: LinkDestinationCollectingState | null,
-): { nextIndex: number; state: LinkDestinationCollectingState } {
+  state: ILinkDestinationCollectingState | null,
+): { nextIndex: number; state: ILinkDestinationCollectingState } {
   let i = startIndex
 
   // init token
