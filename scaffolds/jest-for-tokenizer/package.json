@@ -40,7 +40,7 @@
     "globby": "^11.0.4"
   },
   "peerDependencies": {
-    "fs-extra": "^9.1.0",
-    "jest": "^26.6.3"
+    "fs-extra": "^10.0.0",
+    "jest": "^27.4.7"
   }
 }
