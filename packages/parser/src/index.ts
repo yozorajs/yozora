@@ -79,17 +79,11 @@ export type IYozoraParserProps = IDefaultParserProps
  */
 export class YozoraParser extends DefaultParser {
   constructor(props: IYozoraParserProps = {}) {
-    super(props)
-
-    // Set block fallback tokenizer.
-    if (this.blockFallbackTokenizer == null) {
-      this.useFallbackTokenizer(new ParagraphTokenizer())
-    }
-
-    // Set inline fallback tokenizer.
-    if (this.inlineFallbackTokenizer == null) {
-      this.useFallbackTokenizer(new TextTokenizer())
-    }
+    super({
+      ...props,
+      blockFallbackTokenizer: props.blockFallbackTokenizer ?? new ParagraphTokenizer(),
+      inlineFallbackTokenizer: props.inlineFallbackTokenizer ?? new TextTokenizer(),
+    })
 
     this
 
