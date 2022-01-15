@@ -1,5 +1,26 @@
 # Changelog
 
+<a name="2.0.0"></a>
+## 2.0.0 (2022-01-15)
+
+### Changed
+
+- ⬆️ chore: upgrade dependencies [[96d7c0c](https://github.com/yozorajs/yozora/commit/96d7c0c3fd0efa6b4d242c9618485fa0a9a0d084)]
+- 🎨 improve: update types [[29b6ba8](https://github.com/yozorajs/yozora/commit/29b6ba8bd48b3b36619b7b176548a11a4b7dc508)]
+- 🎨 improve: move &#x27;createPhrasingLineGenerator&#x27; from @yozora/core-tokenizer to @yozora/core-parser [[f2d5ab4](https://github.com/yozorajs/yozora/commit/f2d5ab456a32b0c700b76c331a6ad445ab62a8ce)]
+- 🎨 improve: simplify codes [[00435ec](https://github.com/yozorajs/yozora/commit/00435ecf39842952830a6bf108b0b8e493d597a0)]
+- 🚨 improve: fix lint warnings [[a66df81](https://github.com/yozorajs/yozora/commit/a66df81106ce9c0c0974d912fbd0bcf66aac9329)]
+
+### Breaking changes
+
+- 💥 improve: [breaking] rename &#x27;NodePoint&#x27; and &#x27;NodePosition&#x27; [[76692a2](https://github.com/yozorajs/yozora/commit/76692a211a82260bb81acffa5e9e9d41b569f673)]
+
+### Miscellaneous
+
+- 📝 docs: update READMEs [[d6e6eeb](https://github.com/yozorajs/yozora/commit/d6e6eeb4c2d88f737c6cbdde4602d1f8cc151f1e)]
+- 📝 docs: update CHANGELOG [[fbbaf36](https://github.com/yozorajs/yozora/commit/fbbaf365ad9a16130cc14d40da845908e0099549)]
+
+
 <a name="2.0.0-alpha.3"></a>
 ## 2.0.0-alpha.3 (2022-01-12)
 
