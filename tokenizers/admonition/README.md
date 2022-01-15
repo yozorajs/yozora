@@ -180,7 +180,7 @@ Name              | Type        | Required  | Default
 ### Node Type
 
 ```typescript
-export interface Admonition extends YastParent<'admonition'> {
+export interface Admonition extends Parent<'admonition'> {
   type: 'admonition'
   /**
   * Keyword of an admonition.
@@ -189,11 +189,11 @@ export interface Admonition extends YastParent<'admonition'> {
   /**
   * Admonition title.
   */
-  title: YastNode[]
+  title: Node[]
   /**
    * Admonition body.
    */
-  children: YastNode[]
+  children: Node[]
 }
 ```
 

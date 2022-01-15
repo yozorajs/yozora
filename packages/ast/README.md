@@ -63,14 +63,14 @@ See [@yozora/ast documentation](https://yozora.guanghechen.com/docs/package/ast)
 
 ## Core Types
 
-### YastNode
+### Node
 
 ```typescript
 /**
  * Syntactic units of the yozora AST.
  * @see https://github.com/syntax-tree/unist#node
  */
-export interface YastNode<T extends NodeType = NodeType> {
+export interface Node<T extends NodeType = NodeType> {
   /**
    * The variant of a node.
    */
@@ -79,34 +79,34 @@ export interface YastNode<T extends NodeType = NodeType> {
    * Location of a node in a source document.
    * Must not be present if a node is generated.
    */
-  position?: YastNodePosition
+  position?: Position
 }
 ```
 
-### YastParent
+### Parent
 
 ```typescript
 /**
  * Nodes containing other nodes.
  * @see https://github.com/syntax-tree/mdast#parent
  */
-export interface YastParent<T extends NodeType = NodeType>
-  extends YastNode<T> {
+export interface Parent<T extends NodeType = NodeType>
+  extends Node<T> {
   /**
    * List representing the children of a node.
    */
-  children: YastNode[]
+  children: Node[]
 }
 ```
 
-### YastAlternative
+### Alternative
 
 ```typescript
 /**
  * Alternative represents a node with a fallback.
  * @see https://github.com/syntax-tree/mdast#alternative
  */
-export interface YastAlternative {
+export interface Alternative {
   /**
    * Equivalent content for environments that cannot represent the
    * node as intended.
@@ -115,14 +115,14 @@ export interface YastAlternative {
 }
 ```
 
-### YastAssociation
+### Association
 
 ```typescript
 /**
  * An internal relation from one node to another.
  * @see https://github.com/syntax-tree/mdast#association
  */
-export interface YastAssociation {
+export interface Association {
   /**
    * It can match an identifier field on another node.
    */
@@ -134,14 +134,14 @@ export interface YastAssociation {
 }
 ```
 
-### YastLiteral
+### Literal
 
 ```typescript
 /**
  * Nodes containing a value.
  */
-export interface YastLiteral<T extends NodeType = NodeType>
-  extends YastNode<T> {
+export interface Literal<T extends NodeType = NodeType>
+  extends Node<T> {
   /**
    * Literal value.
    */
@@ -149,14 +149,14 @@ export interface YastLiteral<T extends NodeType = NodeType>
 }
 ```
 
-### YastReference
+### Reference
 
 ```typescript
 /**
  * A marker that is associated to another node.
  * @see https://github.com/syntax-tree/mdast#reference
  */
-export interface YastReference {
+export interface Reference {
   /**
    * The explicitness of a reference:
    *  - shortcut: the reference is implicit, its identifier inferred from its content
@@ -169,14 +169,14 @@ export interface YastReference {
 
 ```
 
-### YastResource
+### Resource
 
 ```typescript
 /**
  * A reference to resource.
  * @see https://github.com/syntax-tree/mdast#resource
  */
-export interface YastResource {
+export interface Resource {
   /**
    * A URL to the referenced resource.
    */
@@ -189,14 +189,14 @@ export interface YastResource {
 }
 ```
 
-### YastNodePoint
+### Point
 
 ```typescript
 /**
  * One place in the source file.
  * @see https://github.com/syntax-tree/unist#point
  */
-export interface YastNodePoint {
+export interface Point {
   /**
    * Line in a source file.
    * @minimum 1
@@ -215,22 +215,22 @@ export interface YastNodePoint {
 }
 ```
 
-### YastNodePosition
+### Position
 
 ```typescript
 /**
  * Location of a node in a source file.
  * @see https://github.com/syntax-tree/unist#position
  */
-export interface YastNodePosition {
+export interface Position {
   /**
    * Place of the first character of the parsed source region.
    */
-  start: YastNodePoint
+  start: Point
   /**
    * Place of the first character after the parsed source region.
    */
-  end: YastNodePoint
+  end: Point
   /**
    * start column at each index (plus start line) in the source region,
    * for elements that span multiple lines
@@ -248,14 +248,14 @@ export interface YastNodePosition {
 export type NodeType = string
 ```
 
-### YastAlignType
+### AlignType
 
 ```typescript
 /**
  * AlignType represents how phrasing content is aligned
  * @see https://github.com/syntax-tree/mdast#aligntype
  */
-export type YastAlignType = 'left' | 'right' | 'center' | null
+export type AlignType = 'left' | 'right' | 'center' | null
 ```
 
 
@@ -272,7 +272,7 @@ export type AdmonitionType = typeof AdmonitionType
  * the body can include any block markdown except another admonition.
  * @see https://github.com/elviswolcott/remark-admonitions
  */
-export interface Admonition extends YastParent<AdmonitionType> {
+export interface Admonition extends Parent<AdmonitionType> {
   /**
    * Keyword of an admonition.
    */
@@ -280,7 +280,7 @@ export interface Admonition extends YastParent<AdmonitionType> {
   /**
    * Admonition title.
    */
-  title: YastNode[]
+  title: Node[]
 }
 ```
 
@@ -295,7 +295,7 @@ export type BlockquoteType = typeof BlockquoteType
  * @see https://github.com/syntax-tree/mdast#blockquote
  * @see https://github.github.com/gfm/#block-quotes
  */
-export type Blockquote = YastParent<BlockquoteType>
+export type Blockquote = Parent<BlockquoteType>
 ```
 
 ### Break
@@ -310,7 +310,7 @@ export type BreakType = typeof BreakType
  * @see https://github.github.com/gfm/#hard-line-breaks
  * @see https://github.github.com/gfm/#soft-line-breaks
  */
-export type Break = YastNode<BreakType>
+export type Break = Node<BreakType>
 ```
 
 ### Code
@@ -325,7 +325,7 @@ export type CodeType = typeof CodeType
  * @see https://github.com/syntax-tree/mdast#code
  * @see https://github.github.com/gfm/#code-fence
  */
-export interface Code extends YastLiteral<CodeType> {
+export interface Code extends Literal<CodeType> {
   /**
    * Language of the codes
    */
@@ -349,9 +349,9 @@ export type DefinitionType = typeof DefinitionType
  * @see https://github.github.com/gfm/#link-reference-definitions
  */
 export interface Definition
-  extends YastNode<DefinitionType>,
-    YastAssociation,
-    YastResource {}
+  extends Node<DefinitionType>,
+    Association,
+    Resource {}
 ```
 
 ### Delete
@@ -365,7 +365,7 @@ export type DeleteType = typeof DeleteType
  * @see https://github.com/syntax-tree/mdast#delete
  * @see https://github.github.com/gfm/#strikethrough-extension-
  */
-export type Delete = YastParent<DeleteType>
+export type Delete = Parent<DeleteType>
 ```
 
 ### EcmaImport
@@ -395,7 +395,7 @@ export type EcmaImportType = typeof EcmaImportType
  *    } from '@yozora/parser'
  *    ```
  */
-export interface EcmaImport extends YastNode<EcmaImportType> {
+export interface EcmaImport extends Node<EcmaImportType> {
   /**
    * import Parser from '@yozora/parser'
    * ==> { moduleName: '@yozora/parser' }
@@ -439,7 +439,7 @@ export type EmphasisType = typeof EmphasisType
  * @see https://github.com/syntax-tree/mdast#emphasis
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
-export type Emphasis = YastParent<EmphasisType>
+export type Emphasis = Parent<EmphasisType>
 ```
 
 ### Footnote
@@ -452,7 +452,7 @@ export type FootnoteType = typeof FootnoteType
  * Footnote represents content relating to the document that is outside its flow.
  * @see https://github.com/syntax-tree/mdast#footnote
  */
-export type Footnote = YastParent<FootnoteType>
+export type Footnote = Parent<FootnoteType>
 ```
 
 ### FootnoteDefinition
@@ -467,7 +467,7 @@ export type FootnoteDefinitionType = typeof FootnoteDefinitionType
  * @see https://github.com/syntax-tree/mdast#footnotedefinition
  */
 export interface FootnoteDefinition
-  extends YastParent<FootnoteDefinitionType>, YastAssociation {}
+  extends Parent<FootnoteDefinitionType>, Association {}
 ```
 
 ### FootnoteReference
@@ -486,7 +486,7 @@ export type FootnoteReferenceType = typeof FootnoteReferenceType
  * @see https://github.com/syntax-tree/mdast#linkreference
  */
 export interface FootnoteReference
-  extends YastNode<FootnoteReferenceType>, YastAssociation {}
+  extends Node<FootnoteReferenceType>, Association {}
 ```
 
 ### Frontmatter (not supportted yet)
@@ -501,7 +501,7 @@ export type FrontmatterType = typeof FrontmatterType
  * @see https://github.com/syntax-tree/mdast#yaml
  * @see https://github.github.com/gfm/#code-fence
  */
-export interface Frontmatter extends YastLiteral<FrontmatterType> {
+export interface Frontmatter extends Literal<FrontmatterType> {
   /**
    * Language of the frontmatter
    * @default 'yaml'
@@ -525,7 +525,7 @@ export type HeadingType = typeof HeadingType
  * @see https://github.com/syntax-tree/mdast#heading
  * @see https://github.github.com/gfm/#atx-heading
  */
-export interface Heading extends YastParent<HeadingType> {
+export interface Heading extends Parent<HeadingType> {
   /**
    * level of heading
    */
@@ -545,7 +545,7 @@ export type HtmlType = typeof HtmlType
  * @see https://github.github.com/gfm/#html-blocks
  * @see https://github.github.com/gfm/#raw-html
  */
-export type Html = YastLiteral<HtmlType>
+export type Html = Literal<HtmlType>
 ```
 
 ### Image
@@ -560,9 +560,9 @@ export type ImageType = typeof ImageType
  * @see https://github.github.com/gfm/#images
  */
 export interface Image
-  extends YastNode<ImageType>,
-    YastResource,
-    YastAlternative {}
+  extends Node<ImageType>,
+    Resource,
+    Alternative {}
 ```
 
 ### ImageReference
@@ -578,10 +578,10 @@ export type ImageReferenceType = typeof ImageReferenceType
  * @see https://github.com/syntax-tree/mdast#imagereference
  */
 export interface ImageReference
-  extends YastNode<ImageReferenceType>,
-    YastAssociation,
-    YastReference,
-    YastAlternative {}
+  extends Node<ImageReferenceType>,
+    Association,
+    Reference,
+    Alternative {}
 ```
 
 ### InlineCode
@@ -596,7 +596,7 @@ export type InlineCodeType = typeof InlineCodeType
  * @see https://github.com/syntax-tree/mdast#inline-code
  * @see https://github.github.com/gfm/#code-span
  */
-export type InlineCode = YastLiteral<InlineCodeType>
+export type InlineCode = Literal<InlineCodeType>
 ```
 
 ### InlineMath
@@ -608,7 +608,7 @@ export type InlineMathType = typeof InlineMathType
 /**
  * Inline math content.
  */
-export type InlineMath = YastLiteral<InlineMathType>
+export type InlineMath = Literal<InlineMathType>
 ```
 
 ### Link
@@ -622,7 +622,7 @@ export type LinkType = typeof LinkType
  * @see https://github.com/syntax-tree/mdast#link
  * @see https://github.github.com/gfm/#inline-link
  */
-export interface Link extends YastParent<LinkType>, YastResource {}
+export interface Link extends Parent<LinkType>, Resource {}
 ```
 
 ### LinkReference
@@ -638,9 +638,9 @@ export type LinkReferenceType = typeof LinkReferenceType
  * @see https://github.github.com/gfm/#reference-link
  */
 export interface LinkReference
-  extends YastParent<LinkReferenceType>,
-    YastAssociation,
-    YastReference {}
+  extends Parent<LinkReferenceType>,
+    Association,
+    Reference {}
 ```
 
 ### List
@@ -654,7 +654,7 @@ export type ListType = typeof ListType
  * @see https://github.com/syntax-tree/mdast#list
  * @see https://github.github.com/gfm/#list
  */
-export interface List extends YastParent<ListType> {
+export interface List extends Parent<ListType> {
   /**
    * Whether it is an ordered lit.
    */
@@ -716,7 +716,7 @@ export enum TaskStatus {
  * @see https://github.com/syntax-tree/mdast#listitem
  * @see https://github.github.com/gfm/#list-items
  */
-export interface ListItem extends YastParent<ListItemType> {
+export interface ListItem extends Parent<ListItemType> {
   /**
    * Status of a todo task.
    */
@@ -733,7 +733,7 @@ export type MathType = typeof MathType
 /**
  * Math content.
  */
-export type Math = YastLiteral<MathType>
+export type Math = Literal<MathType>
 ```
 
 ### Paragraph
@@ -748,7 +748,7 @@ export type ParagraphType = typeof ParagraphType
  * @see https://github.com/syntax-tree/mdast#paragraph
  * @see https://github.github.com/gfm/#paragraphs
  */
-export type Paragraph = YastParent<ParagraphType>
+export type Paragraph = Parent<ParagraphType>
 ```
 
 ### Root
@@ -761,7 +761,7 @@ export type RootType = typeof RootType
  * Root node of the AST.
  * @see https://github.com/syntax-tree/unist#root
  */
-export type Root = YastParent<RootType>
+export type Root = Parent<RootType>
 ```
 
 ### Strong
@@ -776,7 +776,7 @@ export type StrongType = typeof StrongType
  * @see https://github.com/syntax-tree/mdast#strong
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
-export type Strong = YastParent<StrongType>
+export type Strong = Parent<StrongType>
 ```
 
 ### Table
@@ -793,14 +793,14 @@ export interface TableColumn {
    * An align field can be present. If present, it must be a list of alignTypes.
    * It represents how cells in columns are aligned.
    */
-  align: YastAlignType
+  align: AlignType
 }
 
 /**
  * @see https://github.github.com/gfm/#table
  * @see https://github.com/syntax-tree/mdast#table
  */
-export interface Table extends YastParent<TableType> {
+export interface Table extends Parent<TableType> {
   /**
    * Table column configuration items
    */
@@ -824,7 +824,7 @@ export type TableCellType = typeof TableCellType
  * @see https://github.com/syntax-tree/mdast#tablecell
  * @see https://github.github.com/gfm/#tables-extension-
  */
-export type TableCell = YastParent<TableCellType>
+export type TableCell = Parent<TableCellType>
 ```
 
 ### TableRow
@@ -838,7 +838,7 @@ export type TableRowType = typeof TableRowType
  * @see https://github.com/syntax-tree/mdast#tablerow
  * @see https://github.github.com/gfm/#tables-extension-
  */
-export interface TableRow extends YastParent<TableRowType> {
+export interface TableRow extends Parent<TableRowType> {
   /**
    * Table cells
    */
@@ -857,7 +857,7 @@ export type TextType = typeof TextType
  * @see https://github.com/syntax-tree/mdast#text
  * @see https://github.github.com/gfm/#textual-content
  */
-export type Text = YastLiteral<TextType>
+export type Text = Literal<TextType>
 ```
 
 ### ThematicBreak
@@ -872,7 +872,7 @@ export type ThematicBreakType = typeof ThematicBreakType
  * @see https://github.com/syntax-tree/mdast#thematicbreak
  * @see https://github.github.com/gfm/#thematic-break
  */
-export type ThematicBreak = YastNode<ThematicBreakType>
+export type ThematicBreak = Node<ThematicBreakType>
 ```
 
 ## Related

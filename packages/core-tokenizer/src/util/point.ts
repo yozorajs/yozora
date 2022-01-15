@@ -2,7 +2,7 @@ import type { Point } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 
 /**
- * Resolve a start YastNodePoint from EnhancedNodePoint list.
+ * Resolve a start Point from INodePoint list.
  *
  * The start field of Position represents the place of the first character of
  * the parsed source region.
@@ -18,7 +18,7 @@ export function calcStartPoint(nodePoints: ReadonlyArray<INodePoint>, index: num
 }
 
 /**
- * Resolve a start YastNodePoint from EnhancedNodePoint list.
+ * Resolve a start Point from INodePoint list.
  *
  * The start field of Position represents the place of the first character of
  * the parsed source region.

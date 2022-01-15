@@ -128,7 +128,7 @@ See [@yozora/parser documentation][docpage] for details.
 
   Name                        | Type                                      | Required  | Description
   :---------------------------|:------------------------------------------|:----------|:------------
-  `shouldReservePosition`     | `boolean`                                 | `false`   | Whether it is necessary to reserve the position in the YastNode produced
+  `shouldReservePosition`     | `boolean`                                 | `false`   | Whether it is necessary to reserve the position in the Node produced
   `presetDefinitions`         | `Array<Omit<Definition, 'type'>`          | `false`   | Preset definitions
   `presetFootnoteDefinitions` | `Array<Omit<FootnoteDefinition, 'type'>`  | `false`   | Preset footnote definition
 

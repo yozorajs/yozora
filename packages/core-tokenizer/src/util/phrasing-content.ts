@@ -5,7 +5,7 @@ import type { IPhrasingContentLine } from '../types/phrasing-content'
 import { calcEndPoint, calcStartPoint } from './point'
 
 /**
- * Calculate YastNodePosition from an array of IPhrasingContentLine.
+ * Calculate Position from an array of IPhrasingContentLine.
  * @param lines Not empty array of IPhrasingContentLine
  */
 export function calcPositionFromPhrasingContentLines(
