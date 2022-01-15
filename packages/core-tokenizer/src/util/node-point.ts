@@ -1,6 +1,5 @@
-import type { NodePoint, NodePosition } from '@yozora/ast'
+import type { NodePoint } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
-import type { IYastBlockToken } from '../types/token'
 
 /**
  * Resolve a start YastNodePoint from EnhancedNodePoint list.
