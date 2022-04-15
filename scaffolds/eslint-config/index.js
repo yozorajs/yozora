@@ -13,6 +13,9 @@ module.exports = {
     {
       files: ['**/*.ts'],
       extends: ['@guanghechen', '@guanghechen/ts', 'prettier'],
+      rules: {
+        '@typescript-eslint/no-unnecessary-type-arguments': 0,
+      },
     },
     {
       files: ['**/__test__/*.spec.ts'],
