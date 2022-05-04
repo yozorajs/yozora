@@ -1,5 +1,5 @@
 import type { Break } from '@yozora/ast'
-import type { IMarkup, IMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
  * Break represents a line break, such as in poems or addresses.
@@ -10,11 +10,11 @@ import type { IMarkup, IMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#break
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/break
  */
-export class BreakMarkupWeaver implements IMarkupWeaver<Break> {
+export class BreakMarkupWeaver implements INodeMarkupWeaver<Break> {
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = false
 
-  public weave(): IMarkup | string {
+  public weave(): INodeMarkup | string {
     return '\\\n'
   }
 }

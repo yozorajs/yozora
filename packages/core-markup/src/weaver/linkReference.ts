@@ -1,5 +1,5 @@
 import type { LinkReference } from '@yozora/ast'
-import type { IMarkup, IMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
  * LinkReference represents a hyperlink through association, or its original
@@ -10,11 +10,11 @@ import type { IMarkup, IMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#linkreference
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/link-reference
  */
-export class LinkReferenceMarkupWeaver implements IMarkupWeaver<LinkReference> {
+export class LinkReferenceMarkupWeaver implements INodeMarkupWeaver<LinkReference> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = false
 
-  public weave(node: LinkReference): IMarkup | string {
+  public weave(node: LinkReference): INodeMarkup | string {
     return {
       opener: '[',
       closer: `][${node.label}]`,

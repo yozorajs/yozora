@@ -1,5 +1,5 @@
 import type { List, ListItem, Node } from '@yozora/ast'
-import type { IMarkup, IMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 const LOWERCASE_A: number = 'a'.codePointAt(0)!
 const UPPERCASE_A: number = 'A'.codePointAt(0)!
@@ -13,11 +13,11 @@ const UPPERCASE_A: number = 'A'.codePointAt(0)!
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#listItem
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/list
  */
-export class ListItemMarkupWeaver implements IMarkupWeaver<ListItem> {
+export class ListItemMarkupWeaver implements INodeMarkupWeaver<ListItem> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = true
 
-  public weave(node: ListItem, parent: Node, childIndex: number): IMarkup | string {
+  public weave(node: ListItem, parent: Node, childIndex: number): INodeMarkup | string {
     const { ordered, marker } = parent as List
     let opener: string = marker + ' '
     let indent = '  '

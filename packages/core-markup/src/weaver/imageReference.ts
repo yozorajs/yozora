@@ -1,5 +1,5 @@
 import type { ImageReference } from '@yozora/ast'
-import type { IMarkup, IMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
  * ImageReference represents an image through association, or its original
@@ -10,11 +10,11 @@ import type { IMarkup, IMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#imagereference
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/image-reference
  */
-export class ImageReferenceMarkupWeaver implements IMarkupWeaver<ImageReference> {
+export class ImageReferenceMarkupWeaver implements INodeMarkupWeaver<ImageReference> {
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = false
 
-  public weave(node: ImageReference): IMarkup | string {
+  public weave(node: ImageReference): INodeMarkup | string {
     if (node.alt === node.label) return `![${node.alt}][]`
     return `![${node.alt}][${node.label}]`
   }

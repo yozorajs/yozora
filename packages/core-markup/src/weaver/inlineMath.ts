@@ -1,5 +1,5 @@
 import type { InlineMath } from '@yozora/ast'
-import type { IMarkup, IMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 const symbolRegex = /(\$[`]+)/g
 
@@ -9,11 +9,11 @@ const symbolRegex = /(\$[`]+)/g
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#inlinemath
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/inline-math
  */
-export class InlineMathMarkupWeaver implements IMarkupWeaver<InlineMath> {
+export class InlineMathMarkupWeaver implements INodeMarkupWeaver<InlineMath> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = false
 
-  public weave(node: InlineMath): IMarkup | string {
+  public weave(node: InlineMath): INodeMarkup | string {
     const { value } = node
 
     let symbolCnt = 2

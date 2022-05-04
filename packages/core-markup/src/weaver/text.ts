@@ -1,5 +1,5 @@
 import type { Text } from '@yozora/ast'
-import type { IMarkup, IMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
  * Text represents everything that is just text.
@@ -9,11 +9,11 @@ import type { IMarkup, IMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#text
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/text
  */
-export class TextMarkupWeaver implements IMarkupWeaver<Text> {
+export class TextMarkupWeaver implements INodeMarkupWeaver<Text> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = false
 
-  public weave(node: Text): IMarkup | string {
+  public weave(node: Text): INodeMarkup | string {
     return node.value
   }
 }

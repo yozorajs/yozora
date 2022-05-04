@@ -1,5 +1,5 @@
 import type { Code } from '@yozora/ast'
-import type { IMarkup, IMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
  * Code represents a block of preformatted text, such as ASCII art or computer code.
@@ -10,11 +10,11 @@ import type { IMarkup, IMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/fenced-code
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/indented-code
  */
-export class CodeMarkupWeaver implements IMarkupWeaver<Code> {
+export class CodeMarkupWeaver implements INodeMarkupWeaver<Code> {
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = true
 
-  public weave(node: Code): string | IMarkup {
+  public weave(node: Code): string | INodeMarkup {
     const { lang = '', meta = ' ' } = node
     return {
       opener: '```' + `${lang} ${meta}\n`,

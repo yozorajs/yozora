@@ -1,6 +1,6 @@
-import type { Node } from '@yozora/ast'
+import type { Node, NodeType, Root } from '@yozora/ast'
 
-export interface IMarkup {
+export interface INodeMarkup {
   /**
    * Opener markers.
    * @param node
@@ -22,15 +22,15 @@ export interface IMarkup {
   content?: string
 }
 
-export interface IMarkupWeaveContext {
+export interface INodeMarkupWeaveContext {
   /**
    * Weave AST nodes into a content string or markup structure.
    * @param nodes
    */
-  weaveNodes(nodes: Node[]): IMarkup
+  weaveNodes(nodes: Node[]): INodeMarkup
 }
 
-export interface IMarkupWeaver<T extends Node = Node> {
+export interface INodeMarkupWeaver<T extends Node = Node> {
   /**
    * Whether the content can be wrapped.
    */
@@ -45,5 +45,19 @@ export interface IMarkupWeaver<T extends Node = Node> {
    * @param parent
    * @param childIndex
    */
-  weave(node: T, parent: Node, childIndex: number): IMarkup | string
+  weave(node: T, parent: Node, childIndex: number): INodeMarkup | string
+}
+
+export interface IMarkupWeaver {
+  /**
+   *
+   * @param type
+   * @param weaver
+   */
+  useWeaver(type: NodeType, weaver: INodeMarkupWeaver): IMarkupWeaver
+  /**
+   *
+   * @param ast
+   */
+  weave(ast: Root): string
 }

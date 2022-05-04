@@ -1,5 +1,5 @@
 import type { Strong } from '@yozora/ast'
-import type { IMarkup, IMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
  * Strong represents strong importance, seriousness, or urgency for its contents.
@@ -9,11 +9,11 @@ import type { IMarkup, IMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#strong
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/strong
  */
-export class StrongMarkupWeaver implements IMarkupWeaver<Strong> {
+export class StrongMarkupWeaver implements INodeMarkupWeaver<Strong> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = false
 
-  public weave(): IMarkup | string {
+  public weave(): INodeMarkup | string {
     return {
       opener: '**',
       closer: '**',

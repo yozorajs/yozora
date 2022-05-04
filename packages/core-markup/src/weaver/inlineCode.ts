@@ -1,5 +1,5 @@
 import type { InlineCode } from '@yozora/ast'
-import type { IMarkup, IMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 const symbolRegex = /([`]+)/g
 
@@ -12,11 +12,11 @@ const symbolRegex = /([`]+)/g
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#inlinecode
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/inline-code
  */
-export class InlineCodeMarkupWeaver implements IMarkupWeaver<InlineCode> {
+export class InlineCodeMarkupWeaver implements INodeMarkupWeaver<InlineCode> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = false
 
-  public weave(node: InlineCode): IMarkup | string {
+  public weave(node: InlineCode): INodeMarkup | string {
     const { value } = node
 
     let symbolCnt = 1

@@ -1,5 +1,5 @@
 import type { Delete } from '@yozora/ast'
-import type { IMarkup, IMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
  * Delete represents contents that are no longer accurate or no longer relevant.
@@ -9,11 +9,11 @@ import type { IMarkup, IMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#delete
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/delete
  */
-export class DeleteMarkupWeaver implements IMarkupWeaver<Delete> {
+export class DeleteMarkupWeaver implements INodeMarkupWeaver<Delete> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = false
 
-  public weave(): IMarkup | string {
+  public weave(): INodeMarkup | string {
     return {
       opener: '~~',
       closer: '~~',

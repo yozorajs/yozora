@@ -1,5 +1,5 @@
 import type { Paragraph } from '@yozora/ast'
-import type { IMarkup, IMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
  * Paragraph represents a unit of discourse dealing with a particular point or idea.
@@ -9,11 +9,11 @@ import type { IMarkup, IMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#paragraph
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/paragraph
  */
-export class ParagraphMarkupWeaver implements IMarkupWeaver<Paragraph> {
+export class ParagraphMarkupWeaver implements INodeMarkupWeaver<Paragraph> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = true
 
-  public weave(): string | IMarkup {
+  public weave(): string | INodeMarkup {
     return {}
   }
 }

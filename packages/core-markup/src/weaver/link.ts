@@ -1,5 +1,5 @@
 import type { Link } from '@yozora/ast'
-import type { IMarkup, IMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
  * Link represents a hyperlink.
@@ -11,11 +11,11 @@ import type { IMarkup, IMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/autolink-extension
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/link
  */
-export class LinkMarkupWeaver implements IMarkupWeaver<Link> {
+export class LinkMarkupWeaver implements INodeMarkupWeaver<Link> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = false
 
-  public weave(node: Link): IMarkup | string {
+  public weave(node: Link): INodeMarkup | string {
     return {
       opener: '[',
       closer: node.title ? `](${node.url} title="${node.title}")` : `](${node.url})`,

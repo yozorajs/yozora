@@ -1,5 +1,5 @@
 import type { Heading } from '@yozora/ast'
-import type { IMarkup, IMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
  * Heading represents a heading of a section.
@@ -10,11 +10,11 @@ import type { IMarkup, IMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/heading
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/setext-heading
  */
-export class HeadingMarkupWeaver implements IMarkupWeaver<Heading> {
+export class HeadingMarkupWeaver implements INodeMarkupWeaver<Heading> {
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = true
 
-  public weave(node: Heading): string | IMarkup {
+  public weave(node: Heading): string | INodeMarkup {
     return {
       opener: '#'.repeat(node.depth) + ' ',
     }

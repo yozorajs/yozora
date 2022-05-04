@@ -1,5 +1,5 @@
 import type { EcmaImport } from '@yozora/ast'
-import type { IMarkup, IMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
  * ECMAScript import statement (single-line).
@@ -7,11 +7,11 @@ import type { IMarkup, IMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#ecmaimport
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/ecma-import
  */
-export class EcmaImportMarkupWeaver implements IMarkupWeaver<EcmaImport> {
+export class EcmaImportMarkupWeaver implements INodeMarkupWeaver<EcmaImport> {
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = true
 
-  public weave(node: EcmaImport): IMarkup | string {
+  public weave(node: EcmaImport): INodeMarkup | string {
     const namedImportStatement: string = node.namedImports
       .map(item => (item.alias ? `${item.src} as ${item.alias}` : item.src))
       .join(', ')

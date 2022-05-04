@@ -1,5 +1,5 @@
 import type { Definition } from '@yozora/ast'
-import type { IMarkup, IMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
  * Definition represents a resource.
@@ -9,11 +9,11 @@ import type { IMarkup, IMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#definition
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/definition
  */
-export class DefinitionMarkupWeaver implements IMarkupWeaver<Definition> {
+export class DefinitionMarkupWeaver implements INodeMarkupWeaver<Definition> {
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = true
 
-  public weave(node: Definition): string | IMarkup {
+  public weave(node: Definition): string | INodeMarkup {
     return {
       opener: `[${node.label}]: `,
       content: node.title

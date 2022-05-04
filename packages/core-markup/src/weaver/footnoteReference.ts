@@ -1,5 +1,5 @@
 import type { FootnoteReference } from '@yozora/ast'
-import type { IMarkup, IMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
  * FootnoteReference represents a marker through association.
@@ -13,11 +13,11 @@ import type { IMarkup, IMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#footnotereference
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/footnote-reference
  */
-export class FootnoteReferenceMarkupWeaver implements IMarkupWeaver<FootnoteReference> {
+export class FootnoteReferenceMarkupWeaver implements INodeMarkupWeaver<FootnoteReference> {
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = false
 
-  public weave(node: FootnoteReference): string | IMarkup {
+  public weave(node: FootnoteReference): string | INodeMarkup {
     return `[^${node.label}]`
   }
 }

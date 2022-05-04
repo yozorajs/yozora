@@ -1,5 +1,5 @@
 import type { Math } from '@yozora/ast'
-import type { IMarkup, IMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
  * Math content.
@@ -7,11 +7,11 @@ import type { IMarkup, IMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#math
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/math
  */
-export class MathMarkupWeaver implements IMarkupWeaver<Math> {
+export class MathMarkupWeaver implements INodeMarkupWeaver<Math> {
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = true
 
-  public weave(node: Math): string | IMarkup {
+  public weave(node: Math): string | INodeMarkup {
     return `$$${node.value}$$`
   }
 }

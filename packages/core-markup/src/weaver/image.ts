@@ -1,5 +1,5 @@
 import type { Image } from '@yozora/ast'
-import type { IMarkup, IMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
  * Image represents an image.
@@ -8,11 +8,11 @@ import type { IMarkup, IMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#image
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/image
  */
-export class ImageMarkupWeaver implements IMarkupWeaver<Image> {
+export class ImageMarkupWeaver implements INodeMarkupWeaver<Image> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = false
 
-  public weave(node: Image): IMarkup | string {
+  public weave(node: Image): INodeMarkup | string {
     return {
       opener: '![',
       closer: node.title ? `](${node.url} title="${node.title}")` : `](${node.url})`,
