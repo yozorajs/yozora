@@ -36,10 +36,11 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
    * @param filepath
    */
   protected override _testCase(useCase: IYozoraUseCase<T>, filepath: string): void {
-    const { description, input } = useCase
+    const { description, input, markupAnswer } = useCase
 
     test(description, async () => {
       const { markup, ast, ast2 } = this._weaveAndFormat(input, filepath)
+      expect(markup).toEqual(markupAnswer)
       expect(ast).toEqual(ast2)
     })
   }

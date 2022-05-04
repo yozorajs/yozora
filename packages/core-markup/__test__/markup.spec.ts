@@ -5,7 +5,6 @@ import { defaultMarkupWeaver } from '../src'
 
 createMarkupTester(defaultMarkupWeaver)
   .scan(['gfm/break/*.json'])
-  .scan(['gfm/emphasis/*.json'])
+  .scan(['gfm/delete/*.json'])
   .scan(['gfm/text/*.json'])
-  .scan(['gfm/thematic-break/*.json'])
   .runTest()

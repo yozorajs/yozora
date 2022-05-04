@@ -87,7 +87,8 @@
             ]
           }
         ]
-      }
+      },
+      "markupAnswer": "This ~~has a\n\nnew paragraph~~."
     }
   ]
 }

@@ -80,9 +80,14 @@ export class MarkupWeaver implements IMarkupWeaver {
         }
       }
 
-      if (weaver.isBlockLevel) {
+      if (weaver.isBlockLevel && childIndex + 1 < parent.node.children.length) {
         if (lines[idx] === indent || lines[idx] === parent.indent) {
           lines[idx] = parent.indent
+          // eslint-disable-next-line no-plusplus
+          lines[++idx] = parent.indent
+        } else {
+          // eslint-disable-next-line no-plusplus
+          lines[++idx] = parent.indent
           // eslint-disable-next-line no-plusplus
           lines[++idx] = parent.indent
         }

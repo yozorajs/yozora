@@ -87,7 +87,8 @@
             ]
           }
         ]
-      }
+      },
+      "markupAnswer": "~~Hi~~ Hello, world!"
     }
   ]
 }

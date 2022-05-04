@@ -209,6 +209,7 @@ export abstract class BaseTester<T = unknown> {
         input: c.input,
         htmlAnswer: c.htmlAnswer,
         parseAnswer: c.parseAnswer,
+        markupAnswer: c.markupAnswer,
       }),
     )
 

@@ -54,7 +54,8 @@
             ]
           }
         ]
-      }
+      },
+      "markupAnswer": "hello $.;'there"
     }
   ]
 }
