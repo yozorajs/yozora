@@ -5,7 +5,7 @@ import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
 import { parsers } from 'jest.setup'
 import { createMarkupTester, createTokenizerTester } from '../src'
 
-async function handle(): Promise<void> {
+async function answerTokenizers(): Promise<void> {
   // Generate answers for gfm cases (without gfm extensions)
   await createTokenizerTester(parsers.gfm)
     .scan(['gfm/**/#616.json', 'gfm/**/#619.json', 'gfm/**/#620.json'])
@@ -31,15 +31,20 @@ async function handle(): Promise<void> {
     .scan(['custom/inline-math/backtick-required'])
     .runAnswer()
 
-  // await createMarkupTester(defaultMarkupWeaver)
-  //   .scan(['custom/**/*.json'])
-  //   .scan(['gfm/**/*.json'])
-  //   .runAnswer()
   await createMarkupTester(defaultMarkupWeaver)
-    .scan(['gfm/break/*.json'])
-    .scan(['gfm/delete/*.json'])
-    .scan(['gfm/text/*.json'])
+    .scan(['custom/**/*.json'])
+    .scan(['gfm/**/*.json'])
     .runAnswer()
 }
 
-void handle()
+async function answerWeavers(): Promise<void> {
+  await createMarkupTester(defaultMarkupWeaver)
+    .scan(['gfm/break/**/*.json'])
+    // .scan(['gfm/emphasis/**/*.json'])
+    .scan(['gfm/delete/**/*.json'])
+    .scan(['gfm/text/**/*.json'])
+    .runAnswer()
+}
+
+// void answerTokenizers()
+void answerWeavers()

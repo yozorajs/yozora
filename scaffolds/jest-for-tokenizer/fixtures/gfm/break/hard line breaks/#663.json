@@ -4,6 +4,7 @@
     {
       "description": "or HTML tags",
       "input": "<a href=\"foo  \nbar\">",
+      "markupAnswer": "<a href=\"foo  \nbar\">",
       "htmlAnswer": "<p><a href=\"foo  \nbar\"></p>",
       "parseAnswer": {
         "type": "root",

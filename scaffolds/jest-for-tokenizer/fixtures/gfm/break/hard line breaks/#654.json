@@ -4,6 +4,7 @@
     {
       "description": "A line break (not in a code span or HTML tag) that is preceded by two or more spaces and does not occur at the end of a block is parsed as a hard line break (rendered in HTML as a <br /> tag)",
       "input": "foo  \nbaz",
+      "markupAnswer": "foo\\\n\nbaz",
       "htmlAnswer": "<p>foo<br />\nbaz</p>",
       "parseAnswer": {
         "type": "root",

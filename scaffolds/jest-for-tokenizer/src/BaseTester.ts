@@ -95,10 +95,13 @@ export abstract class BaseTester<T = unknown> {
 
       const result = {
         title: caseGroup.title || caseGroup.dirpath.slice(parentDir.length),
-        cases: caseGroup.cases.map(c => ({
-          ...c,
-          ...this._answerCase(c, caseGroup.filepath),
-        })),
+        cases: caseGroup.cases.map(c => {
+          const { description, input, markupAnswer, htmlAnswer, parseAnswer } = {
+            ...c,
+            ...this._answerCase(c, caseGroup.filepath),
+          }
+          return { description, input, markupAnswer, htmlAnswer, parseAnswer }
+        }),
       }
       const content = this.stringify(result)
       await fs.writeFile(caseGroup.filepath, content, 'utf-8')

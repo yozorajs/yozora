@@ -24,10 +24,16 @@ export class MarkupWeaver implements IMarkupWeaver {
     return this
   }
 
-  public weave(ast: Root): string {
+  public weave(ast: Readonly<Root>): string {
+    let lineIdx = 0
     const lines: string[] = ['']
     const { weaverMap } = this
-    const process = (node: Node, parent: IMarkupToken, childIndex: number): void => {
+
+    const process = (
+      node: Readonly<Node>,
+      parent: Readonly<IMarkupToken>,
+      childIndex: number,
+    ): void => {
       const weaver = weaverMap.get(node.type)
       if (weaver === undefined) {
         throw new TypeError(`[MarkupWeaver.weave] Cannot recognize node type(${node.type})`)
@@ -36,16 +42,15 @@ export class MarkupWeaver implements IMarkupWeaver {
       let markup: INodeMarkup | string = weaver.weave(node, parent.node, childIndex)
       if (typeof markup === 'string') markup = { content: markup }
 
-      const indent: string = parent.indent + markup.indent ?? ''
-      let idx: number = lines.length - 1
+      const indent: string = parent.indent + (markup.indent ?? '')
 
       if (markup.opener) {
         const openerLines: string[] = markup.opener.split(lineRegex)
         if (openerLines.length > 0) {
-          lines[idx] += openerLines[0]
+          lines[lineIdx] += openerLines[0]
           for (let i = 1; i < openerLines.length; ++i) {
             // eslint-disable-next-line no-plusplus
-            lines[++idx] = indent + openerLines[i]
+            lines[++lineIdx] = indent + openerLines[i]
           }
         }
       }
@@ -61,10 +66,10 @@ export class MarkupWeaver implements IMarkupWeaver {
       } else {
         const subLines: string[] = markup.content.split(lineRegex)
         if (subLines.length > 0) {
-          lines[idx] += subLines[0]
+          lines[lineIdx] += subLines[0]
           for (let i = 1; i < subLines.length; ++i) {
             // eslint-disable-next-line no-plusplus
-            lines[++idx] = indent + subLines[i]
+            lines[++lineIdx] = indent + subLines[i]
           }
         }
       }
@@ -72,24 +77,24 @@ export class MarkupWeaver implements IMarkupWeaver {
       if (markup.closer) {
         const closerLines: string[] = markup.closer.split(lineRegex)
         if (closerLines.length > 0) {
-          lines[idx] += closerLines[0]
+          lines[lineIdx] += closerLines[0]
           for (let i = 1; i < closerLines.length; ++i) {
             // eslint-disable-next-line no-plusplus
-            lines[++idx] = indent + closerLines[i]
+            lines[++lineIdx] = indent + closerLines[i]
           }
         }
       }
 
       if (weaver.isBlockLevel && childIndex + 1 < parent.node.children.length) {
-        if (lines[idx] === indent || lines[idx] === parent.indent) {
-          lines[idx] = parent.indent
+        if (lines[lineIdx] === indent || lines[lineIdx] === parent.indent) {
+          lines[lineIdx] = parent.indent
           // eslint-disable-next-line no-plusplus
-          lines[++idx] = parent.indent
+          lines[++lineIdx] = parent.indent
         } else {
           // eslint-disable-next-line no-plusplus
-          lines[++idx] = parent.indent
+          lines[++lineIdx] = parent.indent
           // eslint-disable-next-line no-plusplus
-          lines[++idx] = parent.indent
+          lines[++lineIdx] = parent.indent
         }
       }
     }

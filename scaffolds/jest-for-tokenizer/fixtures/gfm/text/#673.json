@@ -4,6 +4,7 @@
     {
       "description": "Internal spaces are preserved verbatim",
       "input": "Multiple     spaces",
+      "markupAnswer": "Multiple     spaces",
       "htmlAnswer": "<p>Multiple     spaces</p>",
       "parseAnswer": {
         "type": "root",
@@ -54,8 +55,7 @@
             ]
           }
         ]
-      },
-      "markupAnswer": "Multiple     spaces"
+      }
     }
   ]
 }

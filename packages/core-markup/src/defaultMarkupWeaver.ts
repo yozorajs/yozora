@@ -6,11 +6,13 @@ import {
   DefinitionType,
   DeleteType,
   EcmaImportType,
+  EmphasisType,
   FootnoteDefinitionType,
   FootnoteReferenceType,
   FootnoteType,
   FrontmatterType,
   HeadingType,
+  HtmlType,
   ImageReferenceType,
   ImageType,
   InlineCodeType,
@@ -34,11 +36,13 @@ import { CodeMarkupWeaver } from './weaver/code'
 import { DefinitionMarkupWeaver } from './weaver/definition'
 import { DeleteMarkupWeaver } from './weaver/delete'
 import { EcmaImportMarkupWeaver } from './weaver/ecmaImport'
+import { EmphasisMarkupWeaver } from './weaver/emphasis'
 import { FootnoteMarkupWeaver } from './weaver/footnote'
 import { FootnoteDefinitionMarkupWeaver } from './weaver/footnoteDefinition'
 import { FootnoteReferenceMarkupWeaver } from './weaver/footnoteReference'
 import { FrontmatterMarkupWeaver } from './weaver/frontmatter'
 import { HeadingMarkupWeaver } from './weaver/heading'
+import { HtmlMarkupWeaver } from './weaver/html'
 import { ImageMarkupWeaver } from './weaver/image'
 import { ImageReferenceMarkupWeaver } from './weaver/imageReference'
 import { InlineCodeMarkupWeaver } from './weaver/inlineCode'
@@ -61,11 +65,13 @@ export const defaultMarkupWeaver: IMarkupWeaver = new MarkupWeaver()
   .useWeaver(DefinitionType, new DefinitionMarkupWeaver())
   .useWeaver(DeleteType, new DeleteMarkupWeaver())
   .useWeaver(EcmaImportType, new EcmaImportMarkupWeaver())
+  .useWeaver(EmphasisType, new EmphasisMarkupWeaver())
   .useWeaver(FootnoteType, new FootnoteMarkupWeaver())
   .useWeaver(FootnoteDefinitionType, new FootnoteDefinitionMarkupWeaver())
   .useWeaver(FootnoteReferenceType, new FootnoteReferenceMarkupWeaver())
   .useWeaver(FrontmatterType, new FrontmatterMarkupWeaver())
   .useWeaver(HeadingType, new HeadingMarkupWeaver())
+  .useWeaver(HtmlType, new HtmlMarkupWeaver())
   .useWeaver(ImageType, new ImageMarkupWeaver())
   .useWeaver(ImageReferenceType, new ImageReferenceMarkupWeaver())
   .useWeaver(InlineCodeType, new InlineCodeMarkupWeaver())
