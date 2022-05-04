@@ -1,9 +1,12 @@
+import type { IMarkupWeaver } from '@yozora/core-markup'
 import type { IParser } from '@yozora/core-parser'
 import fs from 'fs-extra'
 import path from 'path'
-import { TokenizerTester } from './tester'
+import { MarkupTester } from './MarkupTester'
+import { TokenizerTester } from './TokenizerTester'
 
-export * from './tester'
+export * from './MarkupTester'
+export * from './TokenizerTester'
 export * from './types'
 
 const findPackageLocation = (p: string): string | never => {
@@ -32,3 +35,9 @@ export const createTokenizerTester = (parser: IParser): TokenizerTester =>
 // Create testers with the specific parsers.
 export const createTokenizerTesters = (...parsers: IParser[]): TokenizerTester[] =>
   parsers.map(createTokenizerTester)
+
+export const createMarkupTester = (weaver: IMarkupWeaver): MarkupTester =>
+  new MarkupTester({
+    caseRootDirectory: fixtureRootDirectory,
+    weaver,
+  })
