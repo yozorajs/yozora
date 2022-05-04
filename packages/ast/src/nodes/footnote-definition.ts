@@ -4,8 +4,7 @@ export const FootnoteDefinitionType = 'footnoteDefinition'
 export type FootnoteDefinitionType = typeof FootnoteDefinitionType
 
 /**
- * FootnoteDefinition represents content relating to the document that is
- * outside its flow.
+ * FootnoteDefinition represents content relating to the document that is outside its flow.
  * @see https://github.com/syntax-tree/mdast#footnotedefinition
  */
 export interface FootnoteDefinition extends Parent<FootnoteDefinitionType>, Association {}

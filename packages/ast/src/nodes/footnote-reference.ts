@@ -18,7 +18,7 @@ export interface FootnoteReference extends Node<FootnoteReferenceType>, Associat
  * Example:
  *
  *    ````markdown
- *    ^[bravo]
+ *    [^bravo]
  *
  *    [^bravo]: bravo and charlie.
  *    ````

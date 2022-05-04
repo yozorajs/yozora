@@ -1,0 +1,39 @@
+{
+  "name": "@yozora/core-markup",
+  "version": "2.0.0",
+  "author": {
+    "name": "guanghechen",
+    "url": "https://github.com/guanghechen/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yozorajs/yozora.git",
+    "directory": "packages/core-markup"
+  },
+  "homepage": "https://github.com/yozorajs/yozora/tree/main/packages/core-markup#readme",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/types/index.d.ts",
+  "source": "src/index.ts",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 14.15.0"
+  },
+  "files": [
+    "lib/",
+    "!lib/**/*.js.map",
+    "!lib/**/*.d.ts.map",
+    "package.json",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.js",
+    "prebuild": "rimraf lib/ && tsc -p tsconfig.src.json --emitDeclarationOnly",
+    "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build"
+  },
+  "dependencies": {
+    "@yozora/ast": "^2.0.0"
+  }
+}

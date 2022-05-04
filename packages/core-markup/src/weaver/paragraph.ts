@@ -1,0 +1,19 @@
+import type { Paragraph } from '@yozora/ast'
+import type { IMarkup, IMarkupWeaver } from '../types'
+
+/**
+ * Paragraph represents a unit of discourse dealing with a particular point or idea.
+ *
+ * @see https://github.com/syntax-tree/mdast#paragraph
+ * @see https://github.github.com/gfm/#paragraphs
+ * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#paragraph
+ * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/paragraph
+ */
+export class ParagraphMarkupWeaver implements IMarkupWeaver<Paragraph> {
+  public readonly couldBeWrapped = true
+  public readonly isBlockLevel = true
+
+  public weave(): string | IMarkup {
+    return {}
+  }
+}
