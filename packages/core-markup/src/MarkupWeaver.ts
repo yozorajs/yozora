@@ -1,8 +1,9 @@
 import type { Node, NodeType, Parent, Root } from '@yozora/ast'
 import type { IMarkupWeaver, INodeMarkup, INodeMarkupWeaver } from './types'
 
+const lineRegex = /\r\n|\n|\r/g
+
 export interface IMarkupToken {
-  opener: string
   indent: string
   node: Parent
 }
@@ -24,7 +25,7 @@ export class MarkupWeaver implements IMarkupWeaver {
   }
 
   public weave(ast: Root): string {
-    let content = ''
+    const lines: string[] = ['']
     const { weaverMap } = this
     const process = (node: Node, parent: IMarkupToken, childIndex: number): void => {
       const weaver = weaverMap.get(node.type)
@@ -35,32 +36,63 @@ export class MarkupWeaver implements IMarkupWeaver {
       let markup: INodeMarkup | string = weaver.weave(node, parent.node, childIndex)
       if (typeof markup === 'string') markup = { content: markup }
 
-      const opener: string = parent.opener + markup.opener ?? ''
       const indent: string = parent.indent + markup.indent ?? ''
+      let idx: number = lines.length - 1
 
-      if (markup.content === undefined) {
-        const { children } = node as Parent
-        if (children && children.length >= 0) {
-          const token: IMarkupToken = { opener, indent, node: node as Parent }
-          for (let i = 0; i < children.length; ++i) {
-            process(children[i], token, i)
+      if (markup.opener) {
+        const openerLines: string[] = markup.opener.split(lineRegex)
+        if (openerLines.length > 0) {
+          lines[idx] += openerLines[0]
+          for (let i = 1; i < openerLines.length; ++i) {
+            // eslint-disable-next-line no-plusplus
+            lines[++idx] = indent + openerLines[i]
           }
         }
       }
 
-      if (markup.closer) content += markup.closer
+      if (markup.content === undefined) {
+        const { children } = node as Parent
+        if (children && children.length >= 0) {
+          const token: IMarkupToken = { indent, node: node as Parent }
+          for (let i = 0; i < children.length; ++i) {
+            process(children[i], token, i)
+          }
+        }
+      } else {
+        const subLines: string[] = markup.content.split(lineRegex)
+        if (subLines.length > 0) {
+          lines[idx] += subLines[0]
+          for (let i = 1; i < subLines.length; ++i) {
+            // eslint-disable-next-line no-plusplus
+            lines[++idx] = indent + subLines[i]
+          }
+        }
+      }
+
+      if (markup.closer) {
+        const closerLines: string[] = markup.closer.split(lineRegex)
+        if (closerLines.length > 0) {
+          lines[idx] += closerLines[0]
+          for (let i = 1; i < closerLines.length; ++i) {
+            // eslint-disable-next-line no-plusplus
+            lines[++idx] = indent + closerLines[i]
+          }
+        }
+      }
+
       if (weaver.isBlockLevel) {
-        if (!/\n$/.test(content)) content += '\n'
-        if (childIndex < parent.node.children.length) {
-          content += /^\s*$/.test(parent.indent) ? '\n' : parent.indent + '\n'
+        if (lines[idx] === indent || lines[idx] === parent.indent) {
+          lines[idx] = parent.indent
+          // eslint-disable-next-line no-plusplus
+          lines[++idx] = parent.indent
         }
       }
     }
 
-    const rootToken: IMarkupToken = { opener: '', indent: '', node: ast }
+    const rootToken: IMarkupToken = { indent: '', node: ast }
     for (let i = 0; i < ast.children.length; ++i) {
       process(ast.children[i], rootToken, i)
     }
-    return content
+    return lines.join('\n')
   }
 }

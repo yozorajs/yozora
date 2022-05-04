@@ -1,3 +1,4 @@
+import type { Root } from '@yozora/ast'
 import type { IMarkupWeaver } from '@yozora/core-markup'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import YozoraParser from '@yozora/parser'
@@ -36,9 +37,10 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
    */
   protected override _testCase(useCase: IYozoraUseCase<T>, filepath: string): void {
     const { description, input } = useCase
+
     test(description, async () => {
-      const markup: string = this._weaveAndFormat(input, filepath)
-      expect(input).toEqual(markup)
+      const { markup, ast, ast2 } = this._weaveAndFormat(input, filepath)
+      expect(ast).toEqual(ast2)
     })
   }
 
@@ -52,9 +54,8 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
     useCase: IYozoraUseCase<T>,
     filepath: string,
   ): Partial<IYozoraUseCase<T>> {
-    // const parseAnswer = this._parseAndFormat(useCase.input, filepath)
-    // return { parseAnswer }
-    return {}
+    const { markup } = this._weaveAndFormat(useCase.input, filepath)
+    return { markupAnswer: markup }
   }
 
   /**
@@ -64,11 +65,15 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
    * @param input
    * @param filepath
    */
-  protected _weaveAndFormat(input: string, filepath: string): string {
-    return this.carefulProcess<string>(filepath, () => {
+  protected _weaveAndFormat(
+    input: string,
+    filepath: string,
+  ): { markup: string; ast: Root; ast2: Root } {
+    return this.carefulProcess(filepath, () => {
       const ast = parser.parse(input)
       const markup = this.weaver.weave(ast)
-      return markup
+      const ast2 = parser.parse(markup)
+      return { markup, ast, ast2 }
     })
   }
 }

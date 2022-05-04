@@ -19,7 +19,7 @@ export class ListItemMarkupWeaver implements INodeMarkupWeaver<ListItem> {
 
   public weave(node: ListItem, parent: Node, childIndex: number): INodeMarkup | string {
     const { ordered, marker } = parent as List
-    let opener: string = marker + ' '
+    let opener: string = String.fromCodePoint(marker) + ' '
     let indent = '  '
 
     if (ordered) {
