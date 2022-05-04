@@ -1,4 +1,4 @@
-import { createTester } from '@yozora/jest-for-tokenizer'
+import { createTokenizerTester } from '@yozora/jest-for-tokenizer'
 import YozoraParser from '@yozora/parser'
 import {{{pascalCase tokenizerName}}}Tokenizer from '../src'
 
@@ -10,7 +10,7 @@ const parser = new YozoraParser({
   .useTokenizer(new {{{pascalCase tokenizerName}}}Tokenizer())
 
 // Run official test cases
-void createTester(parser)
+void createTokenizerTester(parser)
   .scan([
     'gfm/**/*.json',
     // The following cases are conflict when enabled GFM autolink (extension)
@@ -23,6 +23,6 @@ void createTester(parser)
   .runTest()
 
 // Run custom test cases
-void createTester(parser)
+void createTokenizerTester(parser)
   .scan('fixtures', __dirname)
   .runTest()

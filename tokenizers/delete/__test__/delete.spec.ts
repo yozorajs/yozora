@@ -1,8 +1,8 @@
-import { createTesters } from '@yozora/jest-for-tokenizer'
+import { createTokenizerTesters } from '@yozora/jest-for-tokenizer'
 import { parsers } from 'jest.setup'
 import DeleteTokenizer from '../src'
 
-createTesters(
+createTokenizerTesters(
   parsers.gfm.useTokenizer(new DeleteTokenizer()),
   parsers.gfmEx,
   parsers.yozora,

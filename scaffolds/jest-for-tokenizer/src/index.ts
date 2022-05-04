@@ -23,11 +23,12 @@ const findPackageLocation = (p: string): string | never => {
 export const fixtureRootDirectory = path.join(findPackageLocation(__dirname), 'fixtures')
 
 // Create a tester with the specific parser.
-export const createTester = (parser: IParser): TokenizerTester =>
+export const createTokenizerTester = (parser: IParser): TokenizerTester =>
   new TokenizerTester({
     caseRootDirectory: fixtureRootDirectory,
     parser,
   })
 
 // Create testers with the specific parsers.
-export const createTesters = (...parsers: IParser[]): TokenizerTester[] => parsers.map(createTester)
+export const createTokenizerTesters = (...parsers: IParser[]): TokenizerTester[] =>
+  parsers.map(createTokenizerTester)

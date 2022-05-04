@@ -1,8 +1,8 @@
-import { createTesters } from '@yozora/jest-for-tokenizer'
+import { createTokenizerTesters } from '@yozora/jest-for-tokenizer'
 import { parsers } from 'jest.setup'
 import AutolinkExtensionTokenizer from '../src'
 
-createTesters(
+createTokenizerTesters(
   parsers.gfm.useTokenizer(new AutolinkExtensionTokenizer()),
   parsers.gfmEx,
   parsers.yozora,

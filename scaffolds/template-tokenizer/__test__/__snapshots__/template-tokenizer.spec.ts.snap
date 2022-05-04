@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`new-tokenizer monorepo block: __test__/answer.ts 1`] = `
-"import { createTester } from '@yozora/jest-for-tokenizer'
+"import { createTokenizerTester } from '@yozora/jest-for-tokenizer'
 import YozoraParser from '@yozora/parser'
 import WawTokenizer from '../src'
 
@@ -13,7 +13,7 @@ const parser = new YozoraParser({
   .useTokenizer(new WawTokenizer())
 
 // Generate answers for custom test cases
-void createTester(parser)
+void createTokenizerTester(parser)
   .scan('fixtures', __dirname)
   .runAnswer()
 "
@@ -64,7 +64,7 @@ exports[`new-tokenizer monorepo block: __test__/fixtures/basic.json 1`] = `
 `;
 
 exports[`new-tokenizer monorepo block: __test__/waw.spec.ts 1`] = `
-"import { createTester } from '@yozora/jest-for-tokenizer'
+"import { createTokenizerTester } from '@yozora/jest-for-tokenizer'
 import YozoraParser from '@yozora/parser'
 import WawTokenizer from '../src'
 
@@ -76,7 +76,7 @@ const parser = new YozoraParser({
   .useTokenizer(new WawTokenizer())
 
 // Run official test cases
-void createTester(parser)
+void createTokenizerTester(parser)
   .scan([
     'gfm/**/*.json',
     // The following cases are conflict when enabled GFM autolink (extension)
@@ -89,7 +89,7 @@ void createTester(parser)
   .runTest()
 
 // Run custom test cases
-void createTester(parser)
+void createTokenizerTester(parser)
   .scan('fixtures', __dirname)
   .runTest()
 "
@@ -512,7 +512,7 @@ Array [
 `;
 
 exports[`new-tokenizer monorepo inline: __test__/answer.ts 1`] = `
-"import { createTester } from '@yozora/jest-for-tokenizer'
+"import { createTokenizerTester } from '@yozora/jest-for-tokenizer'
 import YozoraParser from '@yozora/parser'
 import InlineWawTokenizer from '../src'
 
@@ -524,7 +524,7 @@ const parser = new YozoraParser({
   .useTokenizer(new InlineWawTokenizer())
 
 // Generate answers for custom test cases
-void createTester(parser)
+void createTokenizerTester(parser)
   .scan('fixtures', __dirname)
   .runAnswer()
 "
@@ -593,7 +593,7 @@ exports[`new-tokenizer monorepo inline: __test__/fixtures/basic.json 1`] = `
 `;
 
 exports[`new-tokenizer monorepo inline: __test__/inline-waw.spec.ts 1`] = `
-"import { createTester } from '@yozora/jest-for-tokenizer'
+"import { createTokenizerTester } from '@yozora/jest-for-tokenizer'
 import YozoraParser from '@yozora/parser'
 import InlineWawTokenizer from '../src'
 
@@ -605,7 +605,7 @@ const parser = new YozoraParser({
   .useTokenizer(new InlineWawTokenizer())
 
 // Run official test cases
-void createTester(parser)
+void createTokenizerTester(parser)
   .scan([
     'gfm/**/*.json',
     // The following cases are conflict when enabled GFM autolink (extension)
@@ -618,7 +618,7 @@ void createTester(parser)
   .runTest()
 
 // Run custom test cases
-void createTester(parser)
+void createTokenizerTester(parser)
   .scan('fixtures', __dirname)
   .runTest()
 "
@@ -1079,7 +1079,7 @@ useTabs: false
 `;
 
 exports[`new-tokenizer not a monorepo block: __test__/answer.ts 1`] = `
-"import { createTester } from '@yozora/jest-for-tokenizer'
+"import { createTokenizerTester } from '@yozora/jest-for-tokenizer'
 import YozoraParser from '@yozora/parser'
 import WawTokenizer from '../src'
 
@@ -1091,7 +1091,7 @@ const parser = new YozoraParser({
   .useTokenizer(new WawTokenizer())
 
 // Generate answers for custom test cases
-void createTester(parser)
+void createTokenizerTester(parser)
   .scan('fixtures', __dirname)
   .runAnswer()
 "
@@ -1142,7 +1142,7 @@ exports[`new-tokenizer not a monorepo block: __test__/fixtures/basic.json 1`] = 
 `;
 
 exports[`new-tokenizer not a monorepo block: __test__/waw.spec.ts 1`] = `
-"import { createTester } from '@yozora/jest-for-tokenizer'
+"import { createTokenizerTester } from '@yozora/jest-for-tokenizer'
 import YozoraParser from '@yozora/parser'
 import WawTokenizer from '../src'
 
@@ -1154,7 +1154,7 @@ const parser = new YozoraParser({
   .useTokenizer(new WawTokenizer())
 
 // Run official test cases
-void createTester(parser)
+void createTokenizerTester(parser)
   .scan([
     'gfm/**/*.json',
     // The following cases are conflict when enabled GFM autolink (extension)
@@ -1167,7 +1167,7 @@ void createTester(parser)
   .runTest()
 
 // Run custom test cases
-void createTester(parser)
+void createTokenizerTester(parser)
   .scan('fixtures', __dirname)
   .runTest()
 "
@@ -1775,7 +1775,7 @@ useTabs: false
 `;
 
 exports[`new-tokenizer not a monorepo inline: __test__/answer.ts 1`] = `
-"import { createTester } from '@yozora/jest-for-tokenizer'
+"import { createTokenizerTester } from '@yozora/jest-for-tokenizer'
 import YozoraParser from '@yozora/parser'
 import InlineWawTokenizer from '../src'
 
@@ -1787,7 +1787,7 @@ const parser = new YozoraParser({
   .useTokenizer(new InlineWawTokenizer())
 
 // Generate answers for custom test cases
-void createTester(parser)
+void createTokenizerTester(parser)
   .scan('fixtures', __dirname)
   .runAnswer()
 "
@@ -1856,7 +1856,7 @@ exports[`new-tokenizer not a monorepo inline: __test__/fixtures/basic.json 1`] =
 `;
 
 exports[`new-tokenizer not a monorepo inline: __test__/inline-waw.spec.ts 1`] = `
-"import { createTester } from '@yozora/jest-for-tokenizer'
+"import { createTokenizerTester } from '@yozora/jest-for-tokenizer'
 import YozoraParser from '@yozora/parser'
 import InlineWawTokenizer from '../src'
 
@@ -1868,7 +1868,7 @@ const parser = new YozoraParser({
   .useTokenizer(new InlineWawTokenizer())
 
 // Run official test cases
-void createTester(parser)
+void createTokenizerTester(parser)
   .scan([
     'gfm/**/*.json',
     // The following cases are conflict when enabled GFM autolink (extension)
@@ -1881,7 +1881,7 @@ void createTester(parser)
   .runTest()
 
 // Run custom test cases
-void createTester(parser)
+void createTokenizerTester(parser)
   .scan('fixtures', __dirname)
   .runTest()
 "

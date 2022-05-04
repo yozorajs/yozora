@@ -1,14 +1,14 @@
-import { createTester } from '@yozora/jest-for-tokenizer'
+import { createTokenizerTester } from '@yozora/jest-for-tokenizer'
 import { InlineCodeTokenizerName } from '@yozora/tokenizer-inline-code'
 import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
 import { loadFixtures, parsers } from 'jest.setup'
 
-createTester(parsers.yozora)
+createTokenizerTester(parsers.yozora)
   .scan(['custom/**/*.json', '!custom/inline-math/backtick-required'])
   .scan(['gfm/**/*.json', '!gfm/**/#616.json', '!gfm/**/#619.json', '!gfm/**/#620.json'])
   .runTest()
 
-createTester(
+createTokenizerTester(
   parsers.yozora.replaceTokenizer(
     new InlineMathTokenizer({ backtickRequired: true }),
     InlineCodeTokenizerName,
