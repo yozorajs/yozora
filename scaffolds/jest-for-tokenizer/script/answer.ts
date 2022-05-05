@@ -30,14 +30,14 @@ async function answerTokenizers(): Promise<void> {
   )
     .scan(['custom/inline-math/backtick-required'])
     .runAnswer()
-
-  await createMarkupTester(defaultMarkupWeaver)
-    .scan(['custom/**/*.json'])
-    .scan(['gfm/**/*.json'])
-    .runAnswer()
 }
 
 async function answerWeavers(): Promise<void> {
+  // await createMarkupTester(defaultMarkupWeaver)
+  //   .scan(['custom/**/*.json'])
+  //   .scan(['gfm/**/*.json'])
+  //   .runAnswer()
+
   await createMarkupTester(defaultMarkupWeaver)
     .scan(['gfm/break/**/*.json'])
     // .scan(['gfm/emphasis/**/*.json'])
@@ -46,5 +46,5 @@ async function answerWeavers(): Promise<void> {
     .runAnswer()
 }
 
-// void answerTokenizers()
-void answerWeavers()
+void answerTokenizers()
+// void answerWeavers()

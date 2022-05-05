@@ -36,7 +36,7 @@
             },
             "lang": null,
             "meta": null,
-            "value": "foo\tbaz\t\tbim"
+            "value": "foo\tbaz\t\tbim\n"
           }
         ]
       }

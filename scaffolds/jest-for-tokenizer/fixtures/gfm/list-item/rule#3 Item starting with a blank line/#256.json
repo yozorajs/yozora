@@ -137,7 +137,7 @@
                     },
                     "lang": null,
                     "meta": null,
-                    "value": "baz"
+                    "value": "baz\n"
                   }
                 ]
               }

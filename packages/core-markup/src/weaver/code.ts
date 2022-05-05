@@ -16,8 +16,14 @@ export class CodeMarkupWeaver implements INodeMarkupWeaver<Code> {
 
   public weave(node: Code): string | INodeMarkup {
     const { lang = '', meta = ' ' } = node
+    let infoString = ''
+    if (node.lang) {
+      infoString += node.lang
+      if (node.meta) infoString += ' ' + node.meta
+    }
+
     return {
-      opener: '```' + `${lang} ${meta}\n`,
+      opener: '```' + infoString + '\n',
       closer: '\n```',
       content: node.value,
     }

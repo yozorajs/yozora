@@ -23,13 +23,16 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
           if (isUnicodeWhitespaceCharacter(p.codePoint)) break
           langInfo.push(p)
         }
+        const lang: string = calcEscapedStringFromNodePoints(langInfo, 0, langInfo.length, true)
 
         // match meta
         i = eatOptionalWhitespaces(infoString, i, infoString.length)
-        const contents: INodePoint[] = mergeContentLinesFaithfully(token.lines)
-
-        const lang: string = calcEscapedStringFromNodePoints(langInfo, 0, langInfo.length, true)
         const meta: string = calcEscapedStringFromNodePoints(infoString, i, infoString.length, true)
+
+        // match content
+        const contents: INodePoint[] = mergeContentLinesFaithfully(token.lines)
+        let value: string = calcStringFromNodePoints(contents)
+        if (!/\n$/.test(value)) value += '\n'
 
         /**
          * Backslash escape works in info strings in fenced code blocks.
@@ -41,13 +44,13 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
               position: token.position,
               lang: lang.length > 0 ? lang : null,
               meta: meta.length > 0 ? meta : null,
-              value: calcStringFromNodePoints(contents),
+              value,
             }
           : {
               type: CodeType,
               lang: lang.length > 0 ? lang : null,
               meta: meta.length > 0 ? meta : null,
-              value: calcStringFromNodePoints(contents),
+              value,
             }
         return node
       }),
