@@ -1,4 +1,4 @@
-import type { Node, NodeType, Root } from '@yozora/ast'
+import type { Node, NodeType, Parent, Root } from '@yozora/ast'
 
 export interface INodeMarkup {
   /**
@@ -45,7 +45,7 @@ export interface INodeMarkupWeaver<T extends Node = Node> {
    * @param parent
    * @param childIndex
    */
-  weave(node: T, parent: Node, childIndex: number): INodeMarkup | string
+  weave(node: T, parent: Parent, childIndex: number): INodeMarkup | string
 }
 
 export interface IMarkupWeaver {

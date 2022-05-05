@@ -1,4 +1,4 @@
-import type { ThematicBreak } from '@yozora/ast'
+import type { Parent, ThematicBreak } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
@@ -14,7 +14,7 @@ export class ThematicBreakMarkupWeaver implements INodeMarkupWeaver<ThematicBrea
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = true
 
-  public weave(): INodeMarkup | string {
+  public weave(_node: ThematicBreak, parent: Parent): INodeMarkup | string {
     return '---'
   }
 }

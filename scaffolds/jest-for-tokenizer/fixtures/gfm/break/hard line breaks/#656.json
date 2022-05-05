@@ -4,7 +4,7 @@
     {
       "description": "More than two spaces can be used",
       "input": "foo       \nbaz",
-      "markupAnswer": "foo\\\n\nbaz",
+      "markupAnswer": "foo\\\nbaz",
       "htmlAnswer": "<p>foo<br />\nbaz</p>",
       "parseAnswer": {
         "type": "root",

@@ -4,7 +4,7 @@
     {
       "description": "Line breaks can occur inside emphasis, links, and other constructs that allow inline content",
       "input": "*foo\\\nbar*",
-      "markupAnswer": "*foo\\\n\nbar*",
+      "markupAnswer": "*foo\\\nbar*",
       "htmlAnswer": "<p><em>foo<br />\nbar</em></p>",
       "parseAnswer": {
         "type": "root",
