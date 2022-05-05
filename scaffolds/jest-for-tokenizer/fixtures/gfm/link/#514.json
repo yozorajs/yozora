@@ -4,6 +4,7 @@
     {
       "description": "Backslash escapes and entity and numeric character references may be used in titles",
       "input": "[link](/url \"title \\\"&quot;\")",
+      "markupAnswer": "[link](/url \"title \\\"\\\"\")",
       "htmlAnswer": "<p><a href=\"/url\" title=\"title &quot;&quot;\">link</a></p>",
       "parseAnswer": {
         "type": "root",

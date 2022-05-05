@@ -4,6 +4,7 @@
     {
       "description": "Parentheses and other symbols can also be escaped, as usual in Markdown",
       "input": "[link](foo\\)\\:)",
+      "markupAnswer": "[link](foo\\):)",
       "htmlAnswer": "<p><a href=\"foo):\">link</a></p>",
       "parseAnswer": {
         "type": "root",

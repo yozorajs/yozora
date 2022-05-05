@@ -4,6 +4,7 @@
     {
       "description": "Both the title and the destination may be omitted",
       "input": "[link]()",
+      "markupAnswer": "[link]()",
       "htmlAnswer": "<p><a href=\"\">link</a></p>",
       "parseAnswer": {
         "type": "root",

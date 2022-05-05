@@ -4,6 +4,7 @@
     {
       "description": "Note that brackets that aren’t part of links do not take precedence",
       "input": "*foo [bar* baz]",
+      "markupAnswer": "*foo [bar* baz]",
       "htmlAnswer": "<p><em>foo [bar</em> baz]</p>",
       "parseAnswer": {
         "type": "root",

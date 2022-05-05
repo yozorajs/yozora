@@ -20,6 +20,8 @@ void createMarkupTester(defaultMarkupWeaver)
     '!gfm/emphasis/**/#479.json',
   ])
   .scan(['gfm/delete/**/*.json'])
+  // .scan(['gfm/fenced-code/**/*.json'])
+  .scan(['gfm/link/**/*.json', '!gfm/link/**/#502.json', '!gfm/link/**/#528.json'])
   .scan(['gfm/text/**/*.json'])
   .scan([
     'gfm/thematic-break/**/*.json',

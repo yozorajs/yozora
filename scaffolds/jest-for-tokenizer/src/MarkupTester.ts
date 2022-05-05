@@ -39,9 +39,9 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
     const { description, input, markupAnswer } = useCase
 
     test(description, async () => {
-      const { markup, ast, ast2 } = this._weaveAndFormat(input, filepath)
+      const { markup, expectedAst, receivedAst } = this._weaveAndFormat(input, filepath)
       expect(markup).toEqual(markupAnswer)
-      expect(ast).toEqual(ast2)
+      expect(receivedAst).toEqual(expectedAst)
     })
   }
 
@@ -69,12 +69,12 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
   protected _weaveAndFormat(
     input: string,
     filepath: string,
-  ): { markup: string; ast: Root; ast2: Root } {
+  ): { markup: string; expectedAst: Root; receivedAst: Root } {
     return this.carefulProcess(filepath, () => {
-      const ast = parser.parse(input)
-      const markup = this.weaver.weave(ast)
-      const ast2 = parser.parse(markup)
-      return { markup, ast, ast2 }
+      const expectedAst = parser.parse(input)
+      const markup = this.weaver.weave(expectedAst)
+      const receivedAst = parser.parse(markup)
+      return { markup, expectedAst, receivedAst }
     })
   }
 }

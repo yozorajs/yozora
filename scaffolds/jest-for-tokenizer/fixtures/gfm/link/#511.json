@@ -4,6 +4,7 @@
     {
       "description": "URL-escaping should be left alone inside the destination, as all URL-escaped characters are also valid URL characters. Entity and numerical character references in the destination will be parsed into the corresponding Unicode code points, as usual. These may be optionally URL-escaped when written as HTML, but this spec does not enforce any particular policy for rendering URLs in HTML or other formats. Renderers may make different decisions about how to escape or normalize URLs in the output.",
       "input": "[link](foo%20b&auml;)",
+      "markupAnswer": "[link](foo%20b%C3%A4)",
       "htmlAnswer": "<p><a href=\"foo%20b%C3%A4\">link</a></p>",
       "parseAnswer": {
         "type": "root",

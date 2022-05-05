@@ -4,6 +4,7 @@
     {
       "description": "These cases illustrate the precedence of HTML tags, code spans, and autolinks over link grouping",
       "input": "[foo <bar attr=\"](baz)\">",
+      "markupAnswer": "[foo <bar attr=\"](baz)\">",
       "htmlAnswer": "<p>[foo <bar attr=\"](baz)\"></p>",
       "parseAnswer": {
         "type": "root",

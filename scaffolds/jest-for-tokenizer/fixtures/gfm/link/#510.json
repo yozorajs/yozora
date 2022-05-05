@@ -4,6 +4,7 @@
     {
       "description": "Note that a backslash before a non-escapable character is just a backslash",
       "input": "[link](foo\\bar)",
+      "markupAnswer": "[link](foo%5Cbar)",
       "htmlAnswer": "<p><a href=\"foo%5Cbar\">link</a></p>",
       "parseAnswer": {
         "type": "root",

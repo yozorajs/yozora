@@ -4,6 +4,7 @@
     {
       "description": "A link can contain fragment identifiers and queries",
       "input": "[link](#fragment)\n\n[link](http://example.com#fragment)\n\n[link](http://example.com?foo=3#frag)",
+      "markupAnswer": "[link](#fragment)\n\n[link](http://example.com#fragment)\n\n[link](http://example.com?foo=3#frag)",
       "htmlAnswer": "<p><a href=\"#fragment\">link</a></p>\n<p><a href=\"http://example.com#fragment\">link</a></p>\n<p><a href=\"http://example.com?foo=3#frag\">link</a></p>",
       "parseAnswer": {
         "type": "root",

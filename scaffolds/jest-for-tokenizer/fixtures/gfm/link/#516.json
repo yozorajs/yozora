@@ -4,6 +4,7 @@
     {
       "description": "Nested balanced quotes are not allowed without escaping",
       "input": "[link](/url \"title \"and\" title\")",
+      "markupAnswer": "[link](/url \"title \"and\" title\")",
       "htmlAnswer": "<p>[link](/url &quot;title &quot;and&quot; title&quot;)</p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "Note that, because titles can often be parsed as destinations, if you try to omit the destination and keep the title, you’ll get unexpected results",
       "input": "[link](\"title\")",
+      "markupAnswer": "[link](%22title%22)",
       "htmlAnswer": "<p><a href=\"%22title%22\">link</a></p>",
       "parseAnswer": {
         "type": "root",

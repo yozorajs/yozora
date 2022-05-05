@@ -4,6 +4,7 @@
     {
       "description": "The title may be omitted",
       "input": "[link](/uri)",
+      "markupAnswer": "[link](/uri)",
       "htmlAnswer": "<p><a href=\"/uri\">link</a></p>",
       "parseAnswer": {
         "type": "root",
