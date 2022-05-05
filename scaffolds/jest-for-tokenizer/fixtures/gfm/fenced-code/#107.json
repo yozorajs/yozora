@@ -34,8 +34,8 @@
                 "offset": 15
               }
             },
-            "lang": "",
-            "meta": "",
+            "lang": null,
+            "meta": null,
             "value": "aaa\n    ```"
           }
         ]

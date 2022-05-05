@@ -35,7 +35,7 @@
               }
             },
             "lang": "foo+bar",
-            "meta": "",
+            "meta": null,
             "value": "foo\n"
           }
         ]

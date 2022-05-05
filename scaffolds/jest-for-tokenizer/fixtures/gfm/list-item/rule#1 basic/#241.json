@@ -102,8 +102,8 @@
                         "offset": 33
                       }
                     },
-                    "lang": "",
-                    "meta": "",
+                    "lang": null,
+                    "meta": null,
                     "value": "bar\n"
                   },
                   {

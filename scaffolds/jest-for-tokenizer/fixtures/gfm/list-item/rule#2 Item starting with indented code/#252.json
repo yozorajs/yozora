@@ -69,6 +69,8 @@
                         "offset": 23
                       }
                     },
+                    "lang": null,
+                    "meta": null,
                     "value": " indented code\n"
                   },
                   {
@@ -118,6 +120,8 @@
                         "offset": 53
                       }
                     },
+                    "lang": null,
+                    "meta": null,
                     "value": "more code"
                   }
                 ]

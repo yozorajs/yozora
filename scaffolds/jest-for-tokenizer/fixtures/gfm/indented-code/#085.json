@@ -68,6 +68,8 @@
                 "offset": 18
               }
             },
+            "lang": null,
+            "meta": null,
             "value": "foo\n"
           },
           {
@@ -118,6 +120,8 @@
                 "offset": 41
               }
             },
+            "lang": null,
+            "meta": null,
             "value": "foo\n"
           },
           {

@@ -49,6 +49,8 @@
                     "offset": 10
                   }
                 },
+                "lang": null,
+                "meta": null,
                 "value": "foo\n"
               }
             ]
@@ -67,6 +69,8 @@
                 "offset": 17
               }
             },
+            "lang": null,
+            "meta": null,
             "value": "bar"
           }
         ]

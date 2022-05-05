@@ -12,11 +12,11 @@ export interface Code extends Literal<CodeType> {
   /**
    * Language of the codes
    */
-  lang?: string
+  lang: string | null
   /**
    * Meta info string
    */
-  meta?: string
+  meta: string | null
 }
 
 /**

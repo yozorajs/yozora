@@ -34,6 +34,8 @@
                 "offset": 30
               }
             },
+            "lang": null,
+            "meta": null,
             "value": "chunk1\n  \n  chunk2"
           }
         ]

@@ -133,8 +133,8 @@
                         "offset": 26
                       }
                     },
-                    "lang": "",
-                    "meta": "",
+                    "lang": null,
+                    "meta": null,
                     "value": "c\n"
                   }
                 ]

@@ -34,8 +34,8 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
 
         const value: string = calcStringFromNodePoints(contents)
         const node: INode = api.shouldReservePosition
-          ? { type: CodeType, position: token.position, value }
-          : { type: CodeType, value }
+          ? { type: CodeType, lang: null, meta: null, position: token.position, value }
+          : { type: CodeType, lang: null, meta: null, value }
         return node
       }),
   }

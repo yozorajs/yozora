@@ -50,6 +50,8 @@
                 "offset": 32
               }
             },
+            "lang": null,
+            "meta": null,
             "value": "<!-- foo -->"
           }
         ]
