@@ -4,6 +4,7 @@
     {
       "description": "However, the first line may be indented at most three spaces, or an indented code block will be triggered",
       "input": "   aaa\nbbb",
+      "markupAnswer": "aaa\nbbb",
       "htmlAnswer": "<p>aaa\nbbb</p>",
       "parseAnswer": {
         "type": "root",

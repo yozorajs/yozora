@@ -4,6 +4,7 @@
     {
       "description": "Multiple blank lines between paragraph have no effect",
       "input": "aaa\n\n\nbbb",
+      "markupAnswer": "aaa\n\nbbb",
       "htmlAnswer": "<p>aaa</p>\n<p>bbb</p>",
       "parseAnswer": {
         "type": "root",

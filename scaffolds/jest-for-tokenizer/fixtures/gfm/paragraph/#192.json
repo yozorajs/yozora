@@ -4,6 +4,7 @@
     {
       "description": "Leading spaces are skipped",
       "input": "  aaa\n bbb",
+      "markupAnswer": "aaa\nbbb",
       "htmlAnswer": "<p>aaa\nbbb</p>",
       "parseAnswer": {
         "type": "root",

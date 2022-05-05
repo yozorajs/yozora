@@ -4,6 +4,7 @@
     {
       "description": "Paragraphs can contain multiple lines, but no blank lines",
       "input": "aaa\nbbb\n\nccc\nddd",
+      "markupAnswer": "aaa\nbbb\n\nccc\nddd",
       "htmlAnswer": "<p>aaa\nbbb</p>\n<p>ccc\nddd</p>",
       "parseAnswer": {
         "type": "root",

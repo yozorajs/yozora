@@ -4,6 +4,7 @@
     {
       "description": "A simple example with two paragraphs",
       "input": "aaa\n\nbbb",
+      "markupAnswer": "aaa\n\nbbb",
       "htmlAnswer": "<p>aaa</p>\n<p>bbb</p>",
       "parseAnswer": {
         "type": "root",
