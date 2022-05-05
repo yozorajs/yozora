@@ -8,6 +8,7 @@ import { defaultMarkupWeaver } from '../src'
 
 void createMarkupTester(defaultMarkupWeaver)
   .scan(['gfm/autolink/**/*.json', '!gfm/autolink/**/#614.json'])
+  .scan(['gfm/blockquote/**/*.json'])
   .scan(['gfm/break/**/*.json'])
   .scan([
     'gfm/emphasis/**/*.json',

@@ -4,6 +4,7 @@
     {
       "description": "It is a consequence of the Laziness rule that any number of initial >s may be omitted on a continuation line of a nested block quote",
       "input": "> > > foo\nbar",
+      "markupAnswer": "> > > foo\n> > > bar",
       "htmlAnswer": "<blockquote>\n<blockquote>\n<blockquote>\n<p>foo\nbar</p>\n</blockquote>\n</blockquote>\n</blockquote>",
       "parseAnswer": {
         "type": "root",

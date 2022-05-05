@@ -12,7 +12,11 @@ import type { IEscape, INodeMarkup, INodeMarkupWeaver } from '../types'
 export class TextMarkupWeaver implements INodeMarkupWeaver<Text> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = false
-  public readonly escape: IEscape = content => content.replace(/\\/g, '\\\\')
+  public readonly escape: IEscape = content =>
+    content
+      .replace(/\\/g, '\\\\')
+      .replace(/\n([>])/g, '\n    $1')
+      .replace(/\n([-*]+(?:[ \t]+\S))/g, '\n    $1')
 
   public weave(node: Text): INodeMarkup | string {
     return node.value

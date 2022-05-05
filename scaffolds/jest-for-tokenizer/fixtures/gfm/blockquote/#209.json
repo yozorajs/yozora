@@ -4,6 +4,7 @@
     {
       "description": "Four spaces gives us a code block",
       "input": "    > # Foo\n    > bar\n    > baz",
+      "markupAnswer": "```\n> # Foo\n> bar\n> baz\n```",
       "htmlAnswer": "<pre><code>&gt; # Foo\n&gt; bar\n&gt; baz\n</code></pre>",
       "parseAnswer": {
         "type": "root",

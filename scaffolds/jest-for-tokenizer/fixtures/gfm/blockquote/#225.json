@@ -4,6 +4,7 @@
     {
       "description": "However, because of laziness, a blank line is needed between a block quote and a following paragraph",
       "input": "> bar\nbaz",
+      "markupAnswer": "> bar\n> baz",
       "htmlAnswer": "<blockquote>\n<p>bar\nbaz</p>\n</blockquote>",
       "parseAnswer": {
         "type": "root",

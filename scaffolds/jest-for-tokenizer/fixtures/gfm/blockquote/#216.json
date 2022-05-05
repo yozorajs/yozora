@@ -4,6 +4,7 @@
     {
       "description": "Note that in the following case, we have a lazy continuation line",
       "input": "> foo\n    - bar",
+      "markupAnswer": "> foo\n>     - bar",
       "htmlAnswer": "<blockquote>\n<p>foo\n- bar</p>\n</blockquote>",
       "parseAnswer": {
         "type": "root",
