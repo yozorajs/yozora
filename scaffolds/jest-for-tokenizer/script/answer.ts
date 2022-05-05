@@ -39,6 +39,7 @@ async function answerWeavers(): Promise<void> {
   //   .runAnswer()
 
   await createMarkupTester(defaultMarkupWeaver)
+    .scan(['gfm/autolink/**/*.json', '!gfm/autolink/**/#614.json'])
     .scan(['gfm/break/**/*.json'])
     .scan([
       'gfm/emphasis/**/*.json',

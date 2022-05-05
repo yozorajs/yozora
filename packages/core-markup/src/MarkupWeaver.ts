@@ -1,5 +1,5 @@
 import type { Node, NodeType, Parent, Root } from '@yozora/ast'
-import type { IMarkupWeaver, INodeMarkup, INodeMarkupWeaver } from './types'
+import type { IEscape, IMarkupWeaver, INodeMarkup, INodeMarkupWeaver } from './types'
 
 const lineRegex = /\r\n|\n|\r/g
 
@@ -27,6 +27,17 @@ export class MarkupWeaver implements IMarkupWeaver {
   public weave(ast: Readonly<Root>): string {
     let lineIdx = 0
     const lines: string[] = ['']
+
+    const escapes: IEscape[] = []
+    const escapeCountMap: Record<NodeType, number> = {}
+    const escape: IEscape = content => {
+      let result = content
+      for (let i = escapes.length - 1; i >= 0; --i) {
+        result = escapes[i](result)
+      }
+      return result
+    }
+
     const { weaverMap } = this
 
     const process = (
@@ -37,6 +48,13 @@ export class MarkupWeaver implements IMarkupWeaver {
       const weaver = weaverMap.get(node.type)
       if (weaver === undefined) {
         throw new TypeError(`[MarkupWeaver.weave] Cannot recognize node type(${node.type})`)
+      }
+
+      if (escapeCountMap[node.type] === undefined) {
+        escapeCountMap[node.type] = 1
+        if (weaver.escape) escapes.push(weaver.escape)
+      } else {
+        escapeCountMap[node.type] += 1
       }
 
       let markup: INodeMarkup | string = weaver.weave(node, parent.node, childIndex)
@@ -64,7 +82,8 @@ export class MarkupWeaver implements IMarkupWeaver {
           }
         }
       } else {
-        const subLines: string[] = markup.content.split(lineRegex)
+        const content: string = escape(markup.content)
+        const subLines: string[] = content.split(lineRegex)
         if (subLines.length > 0) {
           lines[lineIdx] += subLines[0]
           for (let i = 1; i < subLines.length; ++i) {
@@ -97,6 +116,9 @@ export class MarkupWeaver implements IMarkupWeaver {
           lines[++lineIdx] = parent.indent
         }
       }
+
+      // eslint-disable-next-line no-plusplus
+      if (--escapeCountMap[node.type] <= 0) escapes.pop()
     }
 
     const rootToken: IMarkupToken = { indent: '', node: ast }

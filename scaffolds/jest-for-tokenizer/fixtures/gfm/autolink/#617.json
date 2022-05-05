@@ -4,6 +4,7 @@
     {
       "description": "These are not autolinks",
       "input": "<m:abc>",
+      "markupAnswer": "<m:abc>",
       "htmlAnswer": "<p>&lt;m:abc&gt;</p>",
       "parseAnswer": {
         "type": "root",

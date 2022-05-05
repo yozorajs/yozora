@@ -4,6 +4,7 @@
     {
       "description": "Examples of email autolinks",
       "input": "<foo@bar.example.com>",
+      "markupAnswer": "[foo@bar.example.com](mailto:foo@bar.example.com)",
       "htmlAnswer": "<p><a href=\"mailto:foo@bar.example.com\">foo@bar.example.com</a></p>",
       "parseAnswer": {
         "type": "root",

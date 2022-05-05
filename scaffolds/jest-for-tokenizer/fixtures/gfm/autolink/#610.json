@@ -4,6 +4,7 @@
     {
       "description": "Spaces are not allowed in autolinks",
       "input": "<http://foo.bar/baz bim>",
+      "markupAnswer": "<http://foo.bar/baz bim>",
       "htmlAnswer": "<p>&lt;http://foo.bar/baz bim&gt;</p>",
       "parseAnswer": {
         "type": "root",

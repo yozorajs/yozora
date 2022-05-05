@@ -4,6 +4,7 @@
     {
       "description": "Uppercase is also fine",
       "input": "<MAILTO:FOO@BAR.BAZ>",
+      "markupAnswer": "[MAILTO:FOO@BAR.BAZ](MAILTO:FOO@BAR.BAZ)",
       "htmlAnswer": "<p><a href=\"MAILTO:FOO@BAR.BAZ\">MAILTO:FOO@BAR.BAZ</a></p>",
       "parseAnswer": {
         "type": "root",

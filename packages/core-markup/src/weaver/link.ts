@@ -1,5 +1,5 @@
 import type { Link } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { IEscape, INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
  * Link represents a hyperlink.
@@ -14,6 +14,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 export class LinkMarkupWeaver implements INodeMarkupWeaver<Link> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = false
+  public readonly escape: IEscape = (content): string => content.replace(/([[\]])/g, '\\$1')
 
   public weave(node: Link): INodeMarkup | string {
     return {

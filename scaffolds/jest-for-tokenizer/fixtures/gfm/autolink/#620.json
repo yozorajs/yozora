@@ -4,6 +4,7 @@
     {
       "description": "These are not autolinks",
       "input": "foo@bar.example.com",
+      "markupAnswer": "[foo@bar.example.com](mailto:foo@bar.example.com)",
       "htmlAnswer": "<p>foo@bar.example.com</p>",
       "parseAnswer": {
         "type": "root",

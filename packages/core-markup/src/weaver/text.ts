@@ -1,5 +1,5 @@
 import type { Text } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { IEscape, INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
  * Text represents everything that is just text.
@@ -12,6 +12,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 export class TextMarkupWeaver implements INodeMarkupWeaver<Text> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = false
+  public readonly escape: IEscape = content => content.replace(/\\/g, '\\\\')
 
   public weave(node: Text): INodeMarkup | string {
     return node.value

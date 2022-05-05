@@ -1,9 +1,13 @@
 import { createMarkupTester } from '@yozora/jest-for-tokenizer'
 import { defaultMarkupWeaver } from '../src'
 
-// createMarkupTester(defaultMarkupWeaver).scan(['custom/**/*.json']).scan(['gfm/**/*.json']).runTest()
+// void createMarkupTester(defaultMarkupWeaver)
+//   .scan(['custom/**/*.json'])
+//   .scan(['gfm/**/*.json'])
+//   .runTest()
 
-createMarkupTester(defaultMarkupWeaver)
+void createMarkupTester(defaultMarkupWeaver)
+  .scan(['gfm/autolink/**/*.json', '!gfm/autolink/**/#614.json'])
   .scan(['gfm/break/**/*.json'])
   .scan([
     'gfm/emphasis/**/*.json',
