@@ -4,6 +4,7 @@
     {
       "description": "A line consisting of 0-3 spaces of indentation, followed by a sequence of three or more matching -, _, or * characters, each followed optionally by any number of spaces or tabs, forms a thematic break.",
       "input": "***\n---\n___",
+      "markupAnswer": "---\n\n---\n\n---",
       "htmlAnswer": "<hr />\n<hr />\n<hr />",
       "parseAnswer": {
         "type": "root",

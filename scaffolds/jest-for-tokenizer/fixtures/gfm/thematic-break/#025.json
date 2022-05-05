@@ -4,6 +4,7 @@
     {
       "description": "However, no other characters may occur in the line",
       "input": "_ _ _ _ a\n\na------\n\n---a---",
+      "markupAnswer": "_ _ _ _ a\n\na------\n\n---a---",
       "htmlAnswer": "<p>_ _ _ _ a</p>\n<p>a------</p>\n<p>---a---</p>",
       "parseAnswer": {
         "type": "root",

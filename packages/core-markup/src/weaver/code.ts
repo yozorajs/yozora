@@ -15,7 +15,6 @@ export class CodeMarkupWeaver implements INodeMarkupWeaver<Code> {
   public readonly isBlockLevel = true
 
   public weave(node: Code): string | INodeMarkup {
-    const { lang = '', meta = ' ' } = node
     let infoString = ''
     if (node.lang) {
       infoString += node.lang
@@ -24,7 +23,7 @@ export class CodeMarkupWeaver implements INodeMarkupWeaver<Code> {
 
     return {
       opener: '```' + infoString + '\n',
-      closer: '\n```',
+      closer: '```',
       content: node.value,
     }
   }

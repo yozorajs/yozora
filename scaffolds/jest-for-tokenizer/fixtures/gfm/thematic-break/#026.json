@@ -4,6 +4,7 @@
     {
       "description": "It is required that all of the non-whitespace characters be the same. So, this is not a thematic break",
       "input": " *-*",
+      "markupAnswer": "*-*",
       "htmlAnswer": "<p><em>-</em></p>",
       "parseAnswer": {
         "type": "root",

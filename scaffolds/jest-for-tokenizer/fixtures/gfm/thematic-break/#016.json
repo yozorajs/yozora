@@ -4,6 +4,7 @@
     {
       "description": "Not enough characters",
       "input": "--\n**\n__",
+      "markupAnswer": "--\n**\n__",
       "htmlAnswer": "<p>--\n**\n__</p>",
       "parseAnswer": {
         "type": "root",

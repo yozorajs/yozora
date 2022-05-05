@@ -8,4 +8,9 @@ createMarkupTester(defaultMarkupWeaver)
   // .scan(['gfm/emphasis/**/*.json'])
   .scan(['gfm/delete/**/*.json'])
   .scan(['gfm/text/**/*.json'])
+  .scan([
+    'gfm/thematic-break/**/*.json',
+    '!gfm/thematic-break/#019.json',
+    '!gfm/thematic-break/#031.json',
+  ])
   .runTest()
