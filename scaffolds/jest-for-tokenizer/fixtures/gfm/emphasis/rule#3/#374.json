@@ -4,6 +4,7 @@
     {
       "description": "This is not emphasis, because the closing delimiter does not match the opening delimiter",
       "input": "_foo*",
+      "markupAnswer": "_foo*",
       "htmlAnswer": "<p>_foo*</p>",
       "parseAnswer": {
         "type": "root",

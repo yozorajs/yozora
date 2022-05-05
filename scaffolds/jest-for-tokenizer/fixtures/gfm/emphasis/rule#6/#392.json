@@ -4,6 +4,7 @@
     {
       "description": "This is not strong emphasis, because the opening delimiter is followed by whitespace",
       "input": "__ foo bar__",
+      "markupAnswer": "__ foo bar__",
       "htmlAnswer": "<p>__ foo bar__</p>",
       "parseAnswer": {
         "type": "root",

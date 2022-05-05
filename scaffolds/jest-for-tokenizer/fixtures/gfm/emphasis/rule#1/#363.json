@@ -4,6 +4,7 @@
     {
       "description": "Unicode nonbreaking spaces count as whitespace, too",
       "input": "* a *",
+      "markupAnswer": "* a *",
       "htmlAnswer": "<p>* a *</p>",
       "parseAnswer": {
         "type": "root",

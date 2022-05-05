@@ -4,6 +4,7 @@
     {
       "description": "This is not emphasis, because the closing _ is preceded by whitespace",
       "input": "_foo bar _",
+      "markupAnswer": "_foo bar _",
       "htmlAnswer": "<p>_foo bar _</p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "Intraword strong emphasis is forbidden with __",
       "input": "foo__bar__",
+      "markupAnswer": "foo__bar__",
       "htmlAnswer": "<p>foo__bar__</p>",
       "parseAnswer": {
         "type": "root",

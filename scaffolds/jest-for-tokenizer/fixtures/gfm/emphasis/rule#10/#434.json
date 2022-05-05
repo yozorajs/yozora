@@ -4,6 +4,7 @@
     {
       "description": "In particular, emphasis and strong emphasis can be nested inside strong emphasis",
       "input": "__foo __bar__ baz__",
+      "markupAnswer": "**foo **bar** baz**",
       "htmlAnswer": "<p><strong>foo <strong>bar</strong> baz</strong></p>",
       "parseAnswer": {
         "type": "root",

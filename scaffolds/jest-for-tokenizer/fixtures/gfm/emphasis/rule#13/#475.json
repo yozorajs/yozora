@@ -4,6 +4,7 @@
     {
       "description": "Rule 13 can be applied to arbitrarily long sequences of delimiters",
       "input": "******foo******",
+      "markupAnswer": "******foo******",
       "htmlAnswer": "<p><strong><strong><strong>foo</strong></strong></strong></p>",
       "parseAnswer": {
         "type": "root",

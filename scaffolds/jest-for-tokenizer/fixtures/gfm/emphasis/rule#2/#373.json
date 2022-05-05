@@ -4,6 +4,7 @@
     {
       "description": "This is emphasis, even though the opening delimiter is both left- and right-flanking, because it is preceded by punctuation",
       "input": "foo-_(bar)_",
+      "markupAnswer": "foo-*(bar)*",
       "htmlAnswer": "<p>foo-<em>(bar)</em></p>",
       "parseAnswer": {
         "type": "root",

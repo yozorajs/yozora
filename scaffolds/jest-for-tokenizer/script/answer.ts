@@ -40,7 +40,16 @@ async function answerWeavers(): Promise<void> {
 
   await createMarkupTester(defaultMarkupWeaver)
     .scan(['gfm/break/**/*.json'])
-    // .scan(['gfm/emphasis/**/*.json'])
+    .scan([
+      'gfm/emphasis/**/*.json',
+      '!gfm/emphasis/**/#446.json',
+      '!gfm/emphasis/**/#449.json',
+      '!gfm/emphasis/**/#459.json',
+      '!gfm/emphasis/**/#462.json',
+      '!gfm/emphasis/**/#470.json',
+      '!gfm/emphasis/**/#472.json',
+      '!gfm/emphasis/**/#479.json',
+    ])
     .scan(['gfm/delete/**/*.json'])
     .scan(['gfm/text/**/*.json'])
     .scan([

@@ -4,6 +4,7 @@
     {
       "description": "This is emphasis, even though the closing delimiter is both left- and right-flanking, because it is followed by punctuation",
       "input": "_(bar)_.",
+      "markupAnswer": "*(bar)*.",
       "htmlAnswer": "<p><em>(bar)</em>.</p>",
       "parseAnswer": {
         "type": "root",

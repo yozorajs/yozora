@@ -4,6 +4,7 @@
     {
       "description": "Indefinite levels of nesting are possible",
       "input": "**foo [*bar*](/url)**",
+      "markupAnswer": "**foo [*bar*](/url)**",
       "htmlAnswer": "<p><strong>foo <a href=\"/url\"><em>bar</em></a></strong></p>",
       "parseAnswer": {
         "type": "root",

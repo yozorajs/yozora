@@ -4,6 +4,7 @@
     {
       "description": "Rule 17",
       "input": "*a `*`*",
+      "markupAnswer": "*a `*`*",
       "htmlAnswer": "<p><em>a <code>*</code></em></p>",
       "parseAnswer": {
         "type": "root",

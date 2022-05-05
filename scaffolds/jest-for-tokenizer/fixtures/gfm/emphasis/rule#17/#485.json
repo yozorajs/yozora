@@ -4,6 +4,7 @@
     {
       "description": "Rule 17",
       "input": "**<a href=\"**\">",
+      "markupAnswer": "**<a href=\"**\">",
       "htmlAnswer": "<p>**<a href=\"**\"></p>",
       "parseAnswer": {
         "type": "root",

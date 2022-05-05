@@ -4,6 +4,7 @@
     {
       "description": "There can be no empty emphasis or strong emphasis",
       "input": "**** is not an empty strong emphasis",
+      "markupAnswer": "**** is not an empty strong emphasis",
       "htmlAnswer": "<p>**** is not an empty strong emphasis</p>",
       "parseAnswer": {
         "type": "root",

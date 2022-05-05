@@ -4,6 +4,7 @@
     {
       "description": "Rule 17",
       "input": "*<img src=\"foo\" title=\"*\"/>",
+      "markupAnswer": "*<img src=\"foo\" title=\"*\"/>",
       "htmlAnswer": "<p>*<img src=\"foo\" title=\"*\"/></p>",
       "parseAnswer": {
         "type": "root",

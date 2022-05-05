@@ -4,6 +4,7 @@
     {
       "description": "Rule 12",
       "input": "foo _____",
+      "markupAnswer": "foo _____",
       "htmlAnswer": "<p>foo _____</p>",
       "parseAnswer": {
         "type": "root",

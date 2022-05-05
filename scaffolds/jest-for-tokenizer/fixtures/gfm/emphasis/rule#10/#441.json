@@ -4,6 +4,7 @@
     {
       "description": "Indefinite levels of nesting are possible",
       "input": "**foo *bar **baz**\nbim* bop**",
+      "markupAnswer": "**foo *bar **baz**\nbim* bop**",
       "htmlAnswer": "<p><strong>foo <em>bar <strong>baz</strong>\nbim</em> bop</strong></p>",
       "parseAnswer": {
         "type": "root",

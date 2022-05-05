@@ -4,6 +4,7 @@
     {
       "description": "The point of this restriction is more easily appreciated with these examples",
       "input": "**Gomphocarpus (*Gomphocarpus physocarpus*, syn.\n*Asclepias physocarpa*)**",
+      "markupAnswer": "**Gomphocarpus (*Gomphocarpus physocarpus*, syn.\n*Asclepias physocarpa*)**",
       "htmlAnswer": "<p><strong>Gomphocarpus (<em>Gomphocarpus physocarpus</em>, syn.\n<em>Asclepias physocarpa</em>)</strong></p>",
       "parseAnswer": {
         "type": "root",

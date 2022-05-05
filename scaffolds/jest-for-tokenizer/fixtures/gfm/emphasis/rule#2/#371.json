@@ -4,6 +4,7 @@
     {
       "description": "Emphasis with _ is not allowed inside words",
       "input": "пристаням_стремятся_",
+      "markupAnswer": "пристаням_стремятся_",
       "htmlAnswer": "<p>пристаням_стремятся_</p>",
       "parseAnswer": {
         "type": "root",

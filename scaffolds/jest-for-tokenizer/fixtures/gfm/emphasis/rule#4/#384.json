@@ -4,6 +4,7 @@
     {
       "description": "Intraword emphasis is disallowed for _",
       "input": "_пристаням_стремятся",
+      "markupAnswer": "_пристаням_стремятся",
       "htmlAnswer": "<p>_пристаням_стремятся</p>",
       "parseAnswer": {
         "type": "root",
