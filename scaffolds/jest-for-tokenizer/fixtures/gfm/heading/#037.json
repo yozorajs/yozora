@@ -4,6 +4,7 @@
     {
       "description": "Leading and trailing whitespace is ignored in parsing inline content",
       "input": "#                  foo                     ",
+      "markupAnswer": "# foo",
       "htmlAnswer": "<h1>foo</h1>",
       "parseAnswer": {
         "type": "root",

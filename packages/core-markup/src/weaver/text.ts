@@ -1,5 +1,5 @@
 import type { Text } from '@yozora/ast'
-import type { IEscape, INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
  * Text represents everything that is just text.
@@ -12,11 +12,14 @@ import type { IEscape, INodeMarkup, INodeMarkupWeaver } from '../types'
 export class TextMarkupWeaver implements INodeMarkupWeaver<Text> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = false
-  public readonly escape: IEscape = content =>
+  public readonly escapeContent: IEscaper = content =>
     content
       .replace(/\\/g, '\\\\')
-      .replace(/\n([>])/g, '\n    $1')
-      .replace(/\n([-*]+(?:[ \t]+\S))/g, '\n    $1')
+      // .replace(/([*_])/g, '\\$1')
+      .replace(/(^|\n)([>])/g, '$1\\$2')
+      .replace(/([ \t])([#]+(?:\n|$))/g, '$1\\$2')
+      .replace(/(^|\n)([#]{1,6}[ \t]+\S)/g, '$1\\$2')
+      .replace(/(^|\n)([-*][ \t]+\S)/g, '$1\\$2')
 
   public weave(node: Text): INodeMarkup | string {
     return node.value

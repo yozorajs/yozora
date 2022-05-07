@@ -1,6 +1,6 @@
 import type { Node, NodeType, Parent, Root } from '@yozora/ast'
 
-export type IEscape = (text: string) => string
+export type IEscaper = (text: string) => string
 
 export interface INodeMarkup {
   /**
@@ -45,7 +45,7 @@ export interface INodeMarkupWeaver<T extends Node = Node> {
    * Escape contents.
    * @param content
    */
-  readonly escape?: IEscape
+  readonly escapeContent?: IEscaper
   /**
    * Weave AST node into a content string or markup structure.
    * @param node

@@ -4,6 +4,7 @@
     {
       "description": "ATX headings can be empty",
       "input": "## \n#\n### ###",
+      "markupAnswer": "## \n\n# \n\n### ",
       "htmlAnswer": "<h2></h2>\n<h1></h1>\n<h3></h3>",
       "parseAnswer": {
         "type": "root",

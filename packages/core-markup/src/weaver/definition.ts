@@ -14,11 +14,12 @@ export class DefinitionMarkupWeaver implements INodeMarkupWeaver<Definition> {
   public readonly isBlockLevel = true
 
   public weave(node: Definition): string | INodeMarkup {
-    return {
-      opener: `[${node.label}]: `,
-      content: node.title
-        ? `[${node.label}]: ${node.url} "${node.title}"`
-        : `[${node.label}]: ${node.url}`,
-    }
+    const url: string = node.url
+    const title: string | null = node.title ? this.escapeTitle(node.title) : null
+    return title ? `[${node.label}]: ${url} "${title}"` : `[${node.label}]: ${url}`
+  }
+
+  protected escapeTitle(title: string): string {
+    return title.replace(/(["])/g, '\\$1')
   }
 }

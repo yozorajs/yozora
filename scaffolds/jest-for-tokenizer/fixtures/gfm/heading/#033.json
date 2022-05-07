@@ -4,6 +4,7 @@
     {
       "description": "More than six # characters is not a heading",
       "input": "####### foo",
+      "markupAnswer": "####### foo",
       "htmlAnswer": "<p>####### foo</p>",
       "parseAnswer": {
         "type": "root",

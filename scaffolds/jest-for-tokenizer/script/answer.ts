@@ -54,6 +54,7 @@ async function answerWeavers(): Promise<void> {
     ])
     .scan(['gfm/delete/**/*.json'])
     // .scan(['gfm/fenced-code/**/*.json'])
+    .scan(['gfm/heading/**/*.json', '!gfm/heading/**/#036.json'])
     .scan(['gfm/link/**/*.json', '!gfm/link/**/#502.json', '!gfm/link/**/#528.json'])
     .scan(['gfm/paragraph/**/*.json'])
     .scan(['gfm/text/**/*.json'])

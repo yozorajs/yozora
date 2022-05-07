@@ -1,5 +1,5 @@
 import type { Node, NodeType, Parent, Root } from '@yozora/ast'
-import type { IEscape, IMarkupWeaver, INodeMarkup, INodeMarkupWeaver } from './types'
+import type { IEscaper, IMarkupWeaver, INodeMarkup, INodeMarkupWeaver } from './types'
 
 const lineRegex = /\r\n|\n|\r/g
 
@@ -28,12 +28,13 @@ export class MarkupWeaver implements IMarkupWeaver {
     let lineIdx = 0
     const lines: string[] = ['']
 
-    const escapes: IEscape[] = []
-    const escapeCountMap: Record<NodeType, number> = {}
-    const escape: IEscape = content => {
+    const escapers: IEscaper[] = []
+    const escaperIndexMap: Record<NodeType, number | undefined> = {}
+    const escapeContent: IEscaper = content => {
       let result = content
-      for (let i = escapes.length - 1; i >= 0; --i) {
-        result = escapes[i](result)
+      for (let i = escapers.length - 1; i >= 0; --i) {
+        const escape: IEscaper = escapers[i]
+        result = escape(result)
       }
       return result
     }
@@ -50,11 +51,9 @@ export class MarkupWeaver implements IMarkupWeaver {
         throw new TypeError(`[MarkupWeaver.weave] Cannot recognize node type(${node.type})`)
       }
 
-      if (escapeCountMap[node.type] === undefined) {
-        escapeCountMap[node.type] = 1
-        if (weaver.escape) escapes.push(weaver.escape)
-      } else {
-        escapeCountMap[node.type] += 1
+      if (weaver.escapeContent && escaperIndexMap[node.type] === undefined) {
+        escaperIndexMap[node.type] = escapers.length
+        escapers.push(weaver.escapeContent)
       }
 
       let markup: INodeMarkup | string = weaver.weave(node, parent.node, childIndex)
@@ -82,7 +81,7 @@ export class MarkupWeaver implements IMarkupWeaver {
           }
         }
       } else {
-        const content: string = escape(markup.content)
+        const content: string = escapeContent(markup.content)
         const subLines: string[] = content.split(lineRegex)
         if (subLines.length > 0) {
           lines[lineIdx] += subLines[0]
@@ -117,8 +116,10 @@ export class MarkupWeaver implements IMarkupWeaver {
         }
       }
 
-      // eslint-disable-next-line no-plusplus
-      if (--escapeCountMap[node.type] <= 0) escapes.pop()
+      if (escaperIndexMap[node.type] === escapers.length - 1) {
+        escaperIndexMap[node.type] = undefined
+        escapers.pop()
+      }
     }
 
     const rootToken: IMarkupToken = { indent: '', node: ast }

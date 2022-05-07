@@ -1,5 +1,5 @@
 import type { LinkReference } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
  * LinkReference represents a hyperlink through association, or its original
@@ -13,6 +13,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 export class LinkReferenceMarkupWeaver implements INodeMarkupWeaver<LinkReference> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = false
+  public readonly escapeContent: IEscaper = content => content.replace(/([[\]()])/g, '\\$1')
 
   public weave(node: LinkReference): INodeMarkup | string {
     return {

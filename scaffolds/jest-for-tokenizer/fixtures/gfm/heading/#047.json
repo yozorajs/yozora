@@ -4,6 +4,7 @@
     {
       "description": "ATX headings need not be separated from surrounding content by blank lines, and they can interrupt paragraphs",
       "input": "****\n## foo\n****",
+      "markupAnswer": "---\n\n## foo\n\n---",
       "htmlAnswer": "<hr />\n<h2>foo</h2>\n<hr />",
       "parseAnswer": {
         "type": "root",

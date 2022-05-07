@@ -4,6 +4,7 @@
     {
       "description": "Backslash-escaped # characters do not count as part of the closing sequence",
       "input": "### foo \\###\n## foo #\\##\n# foo \\#",
+      "markupAnswer": "### foo \\###\n\n## foo \\###\n\n# foo \\#",
       "htmlAnswer": "<h3>foo ###</h3>\n<h2>foo ###</h2>\n<h1>foo #</h1>",
       "parseAnswer": {
         "type": "root",
