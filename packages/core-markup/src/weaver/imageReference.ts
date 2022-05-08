@@ -13,11 +13,14 @@ import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
 export class ImageReferenceMarkupWeaver implements INodeMarkupWeaver<ImageReference> {
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = false
-  public readonly escapeContent: IEscaper = content => content.replace(/([[\]()])/g, '\\$1')
 
   public weave(node: ImageReference): INodeMarkup | string {
-    const alt: string = this.escapeContent(node.alt)
+    const alt: string = this._escapeAlt(node.alt)
     if (node.alt === node.label) return `![${alt}][]`
     return `![${alt}][${node.label}]`
+  }
+
+  protected _escapeAlt(title: string): string {
+    return title.replace(/(["])/g, '\\$1')
   }
 }

@@ -15,7 +15,7 @@ export class ImageMarkupWeaver implements INodeMarkupWeaver<Image> {
 
   public weave(node: Image): INodeMarkup | string {
     const url: string = this.escapeContent(node.url)
-    const title: string | null = node.title ? this.escapeTitle(node.title) : null
+    const title: string | null = node.title ? this._escapeTitle(node.title) : null
     return {
       opener: '![',
       closer: title ? `](${url} "${title}")` : `](${url})`,
@@ -23,7 +23,7 @@ export class ImageMarkupWeaver implements INodeMarkupWeaver<Image> {
     }
   }
 
-  protected escapeTitle(title: string): string {
+  protected _escapeTitle(title: string): string {
     return title.replace(/(["])/g, '\\$1')
   }
 }
