@@ -4,6 +4,7 @@
     {
       "description": "Here are some simple open tags",
       "input": "<a><bab><c2c>",
+      "markupAnswer": "<a><bab><c2c>",
       "htmlAnswer": "<p><a><bab><c2c></p>",
       "parseAnswer": {
         "type": "root",

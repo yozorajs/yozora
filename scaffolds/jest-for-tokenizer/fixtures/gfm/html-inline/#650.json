@@ -4,6 +4,7 @@
     {
       "description": "Entity and numeric character references are preserved in HTML attributes",
       "input": "foo <a href=\"&ouml;\">",
+      "markupAnswer": "foo <a href=\"&ouml;\">",
       "htmlAnswer": "<p>foo <a href=\"&ouml;\"></p>",
       "parseAnswer": {
         "type": "root",

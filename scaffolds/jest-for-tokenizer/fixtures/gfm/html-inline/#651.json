@@ -4,6 +4,7 @@
     {
       "description": "Backslash escapes do not work in HTML attributes",
       "input": "foo <a href=\"\\*\">",
+      "markupAnswer": "foo <a href=\"\\*\">",
       "htmlAnswer": "<p>foo <a href=\"\\*\"></p>",
       "parseAnswer": {
         "type": "root",

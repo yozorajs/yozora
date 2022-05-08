@@ -4,6 +4,7 @@
     {
       "description": "Whitespace is allowed",
       "input": "<a  /><b2\ndata=\"foo\" >",
+      "markupAnswer": "<a  /><b2\ndata=\"foo\" >",
       "htmlAnswer": "<p><a  /><b2\ndata=\"foo\" ></p>",
       "parseAnswer": {
         "type": "root",

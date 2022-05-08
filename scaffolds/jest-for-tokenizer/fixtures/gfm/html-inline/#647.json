@@ -4,6 +4,7 @@
     {
       "description": "Processing instructions",
       "input": "foo <?php echo $a; ?>",
+      "markupAnswer": "foo <?php echo $a; ?>",
       "htmlAnswer": "<p>foo <?php echo $a; ?></p>",
       "parseAnswer": {
         "type": "root",

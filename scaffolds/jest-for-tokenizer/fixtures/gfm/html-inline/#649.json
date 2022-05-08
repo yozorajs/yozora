@@ -4,6 +4,7 @@
     {
       "description": "CDATA sections",
       "input": "foo <![CDATA[>&<]]>",
+      "markupAnswer": "foo <![CDATA[>&<]]>",
       "htmlAnswer": "<p>foo <![CDATA[>&<]]></p>",
       "parseAnswer": {
         "type": "root",

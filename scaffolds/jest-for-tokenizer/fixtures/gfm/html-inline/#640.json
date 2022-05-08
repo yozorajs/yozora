@@ -4,6 +4,7 @@
     {
       "description": "Illegal whitespace",
       "input": "< a><\nfoo><bar/ >\n<foo bar=baz\nbim!bop />",
+      "markupAnswer": "< a><\nfoo><bar/ >\n<foo bar=baz\nbim!bop />",
       "htmlAnswer": "<p>&lt; a&gt;&lt;\nfoo&gt;&lt;bar/ &gt;\n&lt;foo bar=baz\nbim!bop /&gt;</p>",
       "parseAnswer": {
         "type": "root",
