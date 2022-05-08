@@ -4,6 +4,7 @@
     {
       "description": "The link destination may not be omitted",
       "input": "[foo]:\n\n[foo]",
+      "markupAnswer": "[foo]:\n\n[foo]",
       "htmlAnswer": "<p>[foo]:</p>\n<p>[foo]</p>",
       "parseAnswer": {
         "type": "root",

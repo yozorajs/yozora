@@ -4,6 +4,7 @@
     {
       "description": "The title may be omitted",
       "input": "[foo]:\n/url\n\n[foo]",
+      "markupAnswer": "[foo]: /url\n\n[foo][foo]",
       "htmlAnswer": "<p><a href=\"/url\">foo</a></p>",
       "parseAnswer": {
         "type": "root",

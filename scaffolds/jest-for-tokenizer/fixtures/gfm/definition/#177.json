@@ -4,6 +4,7 @@
     {
       "description": "Here is another one",
       "input": "[\nfoo\n]: /url\nbar",
+      "markupAnswer": "[\nfoo\n]: /url\n\nbar",
       "htmlAnswer": "<p>bar</p>",
       "parseAnswer": {
         "type": "root",

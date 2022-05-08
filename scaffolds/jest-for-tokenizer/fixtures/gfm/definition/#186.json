@@ -4,6 +4,7 @@
     {
       "description": "Several link reference definitions can occur one after another, without intervening blank lines.",
       "input": "[foo]: /foo-url \"foo\"\n[bar]: /bar-url\n  \"bar\"\n[baz]: /baz-url\n\n[foo],\n[bar],\n[baz]",
+      "markupAnswer": "[foo]: /foo-url \"foo\"\n\n[bar]: /bar-url \"bar\"\n\n[baz]: /baz-url\n\n[foo][foo],\n[bar][bar],\n[baz][baz]",
       "htmlAnswer": "<p><a href=\"/foo-url\" title=\"foo\">foo</a>,\n<a href=\"/bar-url\" title=\"bar\">bar</a>,\n<a href=\"/baz-url\">baz</a></p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "This is not a link reference definition, because there are non-whitespace characters after the title",
       "input": "[foo]: /url \"title\" ok",
+      "markupAnswer": "[foo]: /url \"title\" ok",
       "htmlAnswer": "<p>[foo]: /url &quot;title&quot; ok</p>",
       "parseAnswer": {
         "type": "root",

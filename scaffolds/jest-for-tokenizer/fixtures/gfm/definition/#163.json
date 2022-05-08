@@ -4,6 +4,7 @@
     {
       "description": "A link reference definition does not correspond to a structural element of a document. Instead, it defines a label which can be used in reference links and reference-style images elsewhere in the document. Link reference definitions can come either before or after the links that use them.",
       "input": "[Foo*bar\\]]:my_(url) 'title (with parens)'\n\n[Foo*bar\\]]",
+      "markupAnswer": "[Foo*bar\\]]: my_(url) \"title (with parens)\"\n\n[Foo*bar\\]][Foo*bar\\]]",
       "htmlAnswer": "<p><a href=\"my_(url)\" title=\"title (with parens)\">Foo*bar]</a></p>",
       "parseAnswer": {
         "type": "root",

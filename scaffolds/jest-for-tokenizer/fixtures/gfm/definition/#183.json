@@ -4,6 +4,7 @@
     {
       "description": "However, it can directly follow other block elements, such as headings and thematic breaks, and it need not be followed by a blank line.",
       "input": "# [Foo]\n[foo]: /url\n> bar",
+      "markupAnswer": "# [Foo][Foo]\n\n[foo]: /url\n\n> bar",
       "htmlAnswer": "<h1><a href=\"/url\">Foo</a></h1>\n<blockquote>\n<p>bar</p>\n</blockquote>",
       "parseAnswer": {
         "type": "root",

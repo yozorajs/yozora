@@ -42,6 +42,7 @@ async function answerWeavers(): Promise<void> {
     .scan(['gfm/autolink/**/*.json', '!gfm/autolink/**/#614.json'])
     .scan(['gfm/blockquote/**/*.json'])
     .scan(['gfm/break/**/*.json'])
+    .scan(['gfm/definition/**/*.json'])
     .scan([
       'gfm/emphasis/**/*.json',
       '!gfm/emphasis/**/#446.json',

@@ -14,7 +14,7 @@ export class DefinitionMarkupWeaver implements INodeMarkupWeaver<Definition> {
   public readonly isBlockLevel = true
 
   public weave(node: Definition): string | INodeMarkup {
-    const url: string = node.url
+    const url: string = node.url || '<>'
     const title: string | null = node.title ? this.escapeTitle(node.title) : null
     return title ? `[${node.label}]: ${url} "${title}"` : `[${node.label}]: ${url}`
   }
