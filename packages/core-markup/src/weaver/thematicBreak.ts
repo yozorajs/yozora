@@ -1,5 +1,6 @@
-import type { Parent, ThematicBreak } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { List, ThematicBreak } from '@yozora/ast'
+import { ListItemType } from '@yozora/ast'
+import type { INodeMarkup, INodeMarkupWeaveContext, INodeMarkupWeaver } from '../types'
 
 /**
  * ThematicBreak represents a thematic break, such as a scene change in
@@ -14,7 +15,20 @@ export class ThematicBreakMarkupWeaver implements INodeMarkupWeaver<ThematicBrea
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = true
 
-  public weave(_node: ThematicBreak, parent: Parent): INodeMarkup | string {
+  public weave(_node: ThematicBreak, ctx: INodeMarkupWeaveContext): INodeMarkup | string {
+    const { ancestors } = ctx
+    if (ancestors.length >= 2) {
+      const parent = ancestors[ancestors.length - 1]
+      if (parent.type === ListItemType) {
+        const gradeParent = ancestors[ancestors.length - 2] as List
+        switch (String.fromCodePoint(gradeParent.marker)) {
+          case '*':
+            return '---'
+          case '-':
+            return '****'
+        }
+      }
+    }
     return '---'
   }
 }

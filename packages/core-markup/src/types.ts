@@ -26,10 +26,14 @@ export interface INodeMarkup {
 
 export interface INodeMarkupWeaveContext {
   /**
-   * Weave AST nodes into a content string or markup structure.
-   * @param nodes
+   * Ancestor nodes.
    */
-  weaveNodes(nodes: Node[]): INodeMarkup
+  ancestors: ReadonlyArray<Parent>
+  // /**
+  //  * Weave AST nodes into a content string or markup structure.
+  //  * @param nodes
+  //  */
+  // weaveNodes(nodes: Node[]): INodeMarkup
 }
 
 export interface INodeMarkupWeaver<T extends Node = Node> {
@@ -48,11 +52,12 @@ export interface INodeMarkupWeaver<T extends Node = Node> {
   readonly escapeContent?: IEscaper
   /**
    * Weave AST node into a content string or markup structure.
+   *
    * @param node
-   * @param parent
+   * @param ctx
    * @param childIndex
    */
-  weave(node: T, parent: Parent, childIndex: number): INodeMarkup | string
+  weave(node: T, ctx: INodeMarkupWeaveContext, childIndex: number): INodeMarkup | string
 }
 
 export interface IMarkupWeaver {

@@ -28,9 +28,5 @@ void createMarkupTester(defaultMarkupWeaver)
   .scan(['gfm/link/**/*.json', '!gfm/link/**/#502.json', '!gfm/link/**/#528.json'])
   .scan(['gfm/paragraph/**/*.json'])
   .scan(['gfm/text/**/*.json'])
-  .scan([
-    'gfm/thematic-break/**/*.json',
-    '!gfm/thematic-break/#019.json',
-    '!gfm/thematic-break/#031.json',
-  ])
+  .scan(['gfm/thematic-break/**/*.json'])
   .runTest()

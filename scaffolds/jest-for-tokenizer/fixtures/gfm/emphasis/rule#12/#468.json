@@ -4,7 +4,7 @@
     {
       "description": "Note that when delimiters do not match evenly, Rule 12 determines that the excess literal _ characters will appear outside of the emphasis, rather than inside it",
       "input": "_foo____",
-      "markupAnswer": "*foo*___",
+      "markupAnswer": "*foo*\\___",
       "htmlAnswer": "<p><em>foo</em>___</p>",
       "parseAnswer": {
         "type": "root",

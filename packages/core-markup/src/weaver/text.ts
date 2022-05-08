@@ -20,6 +20,7 @@ export class TextMarkupWeaver implements INodeMarkupWeaver<Text> {
       .replace(/([ \t])([#]+(?:\n|$))/g, '$1\\$2')
       .replace(/(^|\n)([#]{1,6}[ \t]+\S)/g, '$1\\$2')
       .replace(/(^|\n)([-*][ \t]+\S)/g, '$1\\$2')
+      .replace(/(^|\n)([-_*])([ \t]*\2[ \t]*\2(?:[ \t]|\2)*(?:\n|$))/g, '$1\\$2$3')
 
   public weave(node: Text): INodeMarkup | string {
     return node.value

@@ -1,5 +1,12 @@
-import type { Node, NodeType, Parent, Root } from '@yozora/ast'
-import type { IEscaper, IMarkupWeaver, INodeMarkup, INodeMarkupWeaver } from './types'
+import type { List, Node, NodeType, Parent, Root } from '@yozora/ast'
+import { ListItemType } from '@yozora/ast'
+import type {
+  IEscaper,
+  IMarkupWeaver,
+  INodeMarkup,
+  INodeMarkupWeaveContext,
+  INodeMarkupWeaver,
+} from './types'
 
 const lineRegex = /\r\n|\n|\r/g
 
@@ -25,8 +32,7 @@ export class MarkupWeaver implements IMarkupWeaver {
   }
 
   public weave(ast: Readonly<Root>): string {
-    let lineIdx = 0
-    const lines: string[] = ['']
+    const { weaverMap } = this
 
     const escapers: IEscaper[] = []
     const escaperIndexMap: Record<NodeType, number | undefined> = {}
@@ -39,7 +45,11 @@ export class MarkupWeaver implements IMarkupWeaver {
       return result
     }
 
-    const { weaverMap } = this
+    const ancestors: Parent[] = []
+    const ctx: INodeMarkupWeaveContext = { ancestors }
+
+    let lineIdx = 0
+    const lines: string[] = ['']
 
     const process = (
       node: Readonly<Node>,
@@ -55,8 +65,9 @@ export class MarkupWeaver implements IMarkupWeaver {
         escaperIndexMap[node.type] = escapers.length
         escapers.push(weaver.escapeContent)
       }
+      ancestors.push(parent.node)
 
-      let markup: INodeMarkup | string = weaver.weave(node, parent.node, childIndex)
+      let markup: INodeMarkup | string = weaver.weave(node, ctx, childIndex)
       if (typeof markup === 'string') markup = { content: markup }
 
       const indent: string = parent.indent + (markup.indent ?? '')
@@ -106,11 +117,14 @@ export class MarkupWeaver implements IMarkupWeaver {
       if (weaver.isBlockLevel && childIndex + 1 < parent.node.children.length) {
         if (lines[lineIdx] === indent || lines[lineIdx] === parent.indent) {
           lines[lineIdx] = parent.indent
-          // eslint-disable-next-line no-plusplus
-          lines[++lineIdx] = parent.indent
         } else {
           // eslint-disable-next-line no-plusplus
           lines[++lineIdx] = parent.indent
+        }
+
+        // Output a blank line for block level nodes.
+        // Note: ListItem is an exception
+        if (node.type !== ListItemType || (parent.node as List).spread) {
           // eslint-disable-next-line no-plusplus
           lines[++lineIdx] = parent.indent
         }
@@ -120,6 +134,7 @@ export class MarkupWeaver implements IMarkupWeaver {
         escaperIndexMap[node.type] = undefined
         escapers.pop()
       }
+      ancestors.pop()
     }
 
     const rootToken: IMarkupToken = { indent: '', node: ast }

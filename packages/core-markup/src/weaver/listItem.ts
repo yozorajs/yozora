@@ -1,5 +1,5 @@
-import type { List, ListItem, Parent } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { List, ListItem } from '@yozora/ast'
+import type { INodeMarkup, INodeMarkupWeaveContext, INodeMarkupWeaver } from '../types'
 
 const LOWERCASE_A: number = 'a'.codePointAt(0)!
 const UPPERCASE_A: number = 'A'.codePointAt(0)!
@@ -17,13 +17,18 @@ export class ListItemMarkupWeaver implements INodeMarkupWeaver<ListItem> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = true
 
-  public weave(node: ListItem, parent: Parent, childIndex: number): INodeMarkup | string {
-    const { ordered, marker } = parent as List
+  public weave(
+    node: ListItem,
+    ctx: INodeMarkupWeaveContext,
+    childIndex: number,
+  ): INodeMarkup | string {
+    const parent = ctx.ancestors[ctx.ancestors.length - 1] as List
+    const { ordered, marker } = parent
     let opener: string = String.fromCodePoint(marker) + ' '
     let indent = '  '
 
     if (ordered) {
-      const { orderType = '1', start = 1, marker } = parent as List
+      const { orderType = '1', start = 1, marker } = parent
       const order: number = Math.max(0, start + childIndex - 1)
       switch (orderType) {
         case '1':
