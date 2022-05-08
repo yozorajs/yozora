@@ -4,6 +4,7 @@
     {
       "description": "Info strings for tilde code blocks can contain backticks and tildes",
       "input": "~~~ aa ``` ~~~\nfoo\n~~~",
+      "markupAnswer": "~~~aa ``` ~~~\nfoo\n~~~",
       "htmlAnswer": "<pre><code class=\"language-aa\">foo\n</code></pre>",
       "parseAnswer": {
         "type": "root",

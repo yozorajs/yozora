@@ -19,18 +19,18 @@ export class InlineCodeMarkupWeaver implements INodeMarkupWeaver<InlineCode> {
   public weave(node: InlineCode): INodeMarkup | string {
     const { value } = node
 
-    let symbolCnt = 1
+    let symbolCnt = 0
     for (let match: RegExpExecArray | null = null; ; ) {
       match = symbolRegex.exec(value)
       if (match == null) break
 
       const len: number = match[1].length ?? 0
-      if (symbolCnt <= len) symbolCnt = len + 1
+      if (symbolCnt < len) symbolCnt = len
     }
 
-    if (symbolCnt === 1) return '`' + value + '`'
+    if (symbolCnt === 0) return '`' + value + '`'
 
-    const symbol: string = '`'.repeat(symbolCnt)
+    const symbol: string = '`'.repeat(symbolCnt + 1)
     return {
       opener: symbol + ' ',
       closer: ' ' + symbol,

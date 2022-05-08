@@ -4,6 +4,7 @@
     {
       "description": "Fences can be indented. If the opening fence is indented, content lines will have equivalent opening indentation removed, if present",
       "input": "  ```\naaa\n  aaa\naaa\n  ```",
+      "markupAnswer": "```\naaa\naaa\naaa\n```",
       "htmlAnswer": "<pre><code>aaa\naaa\naaa\n</code></pre>",
       "parseAnswer": {
         "type": "root",

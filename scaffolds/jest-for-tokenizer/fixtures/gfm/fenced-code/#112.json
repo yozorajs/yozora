@@ -4,6 +4,7 @@
     {
       "description": "An info string can be provided after the opening code fence. Although this spec doesn’t mandate any particular treatment of the info string, the first word is typically used to specify the language of the code block. In HTML output, the language is normally indicated by adding a class to the code element consisting of language- followed by the language name.",
       "input": "```ruby\ndef foo(x)\n  return 3\nend\n```",
+      "markupAnswer": "```ruby\ndef foo(x)\n  return 3\nend\n```",
       "htmlAnswer": "<pre><code class=\"language-ruby\">def foo(x)\n  return 3\nend\n</code></pre>",
       "parseAnswer": {
         "type": "root",

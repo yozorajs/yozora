@@ -4,6 +4,7 @@
     {
       "description": "Other blocks can also occur before and after fenced code blocks without an intervening blank line",
       "input": "foo\n---\n~~~\nbar\n~~~\n# baz",
+      "markupAnswer": "## foo\n\n```\nbar\n```\n\n# baz",
       "htmlAnswer": "<h2>foo</h2>\n<pre><code>bar\n</code></pre>\n<h1>baz</h1>",
       "parseAnswer": {
         "type": "root",

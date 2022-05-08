@@ -1,6 +1,9 @@
 import type { Code } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
+const backtickSymbolRegex = /(?:\n|^)([`]+)/g
+const tildeSymbolRegex = /(?:\n|^)([~]+)/g
+
 /**
  * Code represents a block of preformatted text, such as ASCII art or computer code.
  *
@@ -15,16 +18,47 @@ export class CodeMarkupWeaver implements INodeMarkupWeaver<Code> {
   public readonly isBlockLevel = true
 
   public weave(node: Code): string | INodeMarkup {
+    const { value } = node
+
     let infoString = ''
     if (node.lang) {
       infoString += node.lang
       if (node.meta) infoString += ' ' + node.meta
     }
 
-    return {
-      opener: '```' + infoString + '\n',
-      closer: '```',
-      content: node.value,
+    let symbol = '```'
+
+    /**
+     * - Info strings for backtick code blocks cannot contain backticks.
+     * - Info strings for tilde code blocks can contain backticks and tildes:
+     *
+     * @see https://github.github.com/gfm/#example-115
+     * @see https://github.github.com/gfm/#example-116
+     */
+    if (/[`]/.test(infoString)) {
+      const symbolCnt = this._findSymbolCnt(value, tildeSymbolRegex)
+      symbol = '~'.repeat(symbolCnt)
+    } else {
+      const symbolCnt = this._findSymbolCnt(value, backtickSymbolRegex)
+      symbol = '`'.repeat(symbolCnt)
     }
+
+    return {
+      opener: `${symbol}${infoString}\n`,
+      closer: symbol,
+      content: value,
+    }
+  }
+
+  protected _findSymbolCnt(value: string, symbolRegex: RegExp): number {
+    let symbolCnt = 0
+    for (let match: RegExpExecArray | null = null; ; ) {
+      match = symbolRegex.exec(value)
+      if (match == null) break
+
+      const len: number = match[1].length ?? 0
+      if (symbolCnt < len) symbolCnt = len
+    }
+    return symbolCnt === 0 ? 3 : symbolCnt + 1
   }
 }

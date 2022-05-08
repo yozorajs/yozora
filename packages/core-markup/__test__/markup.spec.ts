@@ -11,6 +11,7 @@ void createMarkupTester(defaultMarkupWeaver)
   .scan(['gfm/blockquote/**/*.json'])
   .scan(['gfm/break/**/*.json'])
   .scan(['gfm/definition/**/*.json'])
+  .scan(['gfm/delete/**/*.json'])
   .scan([
     'gfm/emphasis/**/*.json',
     '!gfm/emphasis/**/#446.json',
@@ -21,8 +22,7 @@ void createMarkupTester(defaultMarkupWeaver)
     '!gfm/emphasis/**/#472.json',
     '!gfm/emphasis/**/#479.json',
   ])
-  .scan(['gfm/delete/**/*.json'])
-  // .scan(['gfm/fenced-code/**/*.json'])
+  .scan(['gfm/fenced-code/**/*.json'])
   .scan(['gfm/heading/**/*.json', '!gfm/heading/**/#036.json'])
   .scan(['gfm/link/**/*.json', '!gfm/link/**/#502.json', '!gfm/link/**/#528.json'])
   .scan(['gfm/paragraph/**/*.json'])

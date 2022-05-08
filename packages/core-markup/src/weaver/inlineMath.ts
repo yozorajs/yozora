@@ -16,16 +16,16 @@ export class InlineMathMarkupWeaver implements INodeMarkupWeaver<InlineMath> {
   public weave(node: InlineMath): INodeMarkup | string {
     const { value } = node
 
-    let symbolCnt = 2
+    let symbolCnt = 0
     for (let match: RegExpExecArray | null = null; ; ) {
       match = symbolRegex.exec(value)
       if (match == null) break
 
       const len: number = match[1].length ?? 0
-      if (symbolCnt <= len) symbolCnt = len + 1
+      if (symbolCnt < len) symbolCnt = len
     }
 
-    if (symbolCnt === 2) return '`$' + value + '$`'
+    if (symbolCnt === 0) return '`$' + value + '$`'
 
     const symbol: string = '`'.repeat(symbolCnt - 1)
     return {
