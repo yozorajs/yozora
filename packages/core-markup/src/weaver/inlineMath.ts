@@ -3,6 +3,10 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 const symbolRegex = /(\$[`]+)/g
 
+export interface IInlineMathMarkupWeaverOptions {
+  readonly preferBackTick: boolean
+}
+
 /**
  * Inline math content.
  *
@@ -12,25 +16,37 @@ const symbolRegex = /(\$[`]+)/g
 export class InlineMathMarkupWeaver implements INodeMarkupWeaver<InlineMath> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = false
+  protected readonly preferBackTick: boolean
 
-  public weave(node: InlineMath): INodeMarkup | string {
+  constructor(options?: IInlineMathMarkupWeaverOptions) {
+    this.preferBackTick = options?.preferBackTick ?? true
+  }
+
+  public weave(node: InlineMath): INodeMarkup {
     const { value } = node
 
-    let symbolCnt = 0
+    let backtickCnt = 0
     for (let match: RegExpExecArray | null = null; ; ) {
       match = symbolRegex.exec(value)
       if (match == null) break
 
       const len: number = match[1].length ?? 0
-      if (symbolCnt < len) symbolCnt = len
+      if (backtickCnt < len) backtickCnt = len
     }
 
-    if (symbolCnt === 0) return '`$' + value + '$`'
+    if (backtickCnt === 0) {
+      return {
+        opener: this.preferBackTick ? '`$' : '$',
+        closer: this.preferBackTick ? '$`' : '$',
+        content: value,
+      }
+    }
 
-    const symbol: string = '`'.repeat(symbolCnt - 1)
+    const backticks: string =
+      backtickCnt === 0 ? (this.preferBackTick ? '`' : '') : '`'.repeat(backtickCnt - 1)
     return {
-      opener: symbol + '$ ',
-      closer: ' $' + symbol,
+      opener: backticks + '$ ',
+      closer: ' $' + backticks,
       content: value,
     }
   }

@@ -12,9 +12,11 @@ export class FootnoteDefinitionMarkupWeaver implements INodeMarkupWeaver<Footnot
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = true
 
-  public weave(node: FootnoteDefinition): string | INodeMarkup {
+  public weave(node: FootnoteDefinition): INodeMarkup {
     return {
-      opener: `[^${node.label}]: `,
+      opener: `[^`,
+      closer: ']: ',
+      content: node.label,
     }
   }
 }

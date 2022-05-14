@@ -13,7 +13,7 @@ export class BlockquoteMarkupWeaver implements INodeMarkupWeaver<Blockquote> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = true
 
-  public weave(): string | INodeMarkup {
+  public weave(): INodeMarkup {
     return {
       opener: '> ',
       indent: '> ',

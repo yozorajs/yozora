@@ -1,6 +1,14 @@
 import type { Text } from '@yozora/ast'
 import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
 
+const _escapeContent: IEscaper = content =>
+  content
+    .replace(/(^|\n)([>])/g, '$1\\$2')
+    .replace(/(^|\n)([#]{1,6}[ \t]+\S)/g, '$1\\$2')
+    .replace(/([ \t])([#]+(?:\n|$))/g, '$1\\$2')
+    .replace(/(\n)([-*][ \t]+\S)/g, '$1\\$2')
+    .replace(/(\n)([-_*])([ \t]*\2[ \t]*\2(?:[ \t]|\2)*(?:\n|$))/g, '$1\\$2$3')
+
 /**
  * Text represents everything that is just text.
  *
@@ -12,17 +20,9 @@ import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
 export class TextMarkupWeaver implements INodeMarkupWeaver<Text> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = false
-  public readonly escapeContent: IEscaper = content =>
-    content
-      .replace(/\\/g, '\\\\')
-      // .replace(/([*_])/g, '\\$1')
-      .replace(/(^|\n)([>])/g, '$1\\$2')
-      .replace(/([ \t])([#]+(?:\n|$))/g, '$1\\$2')
-      .replace(/(^|\n)([#]{1,6}[ \t]+\S)/g, '$1\\$2')
-      .replace(/(^|\n)([-*][ \t]+\S)/g, '$1\\$2')
-      .replace(/(^|\n)([-_*])([ \t]*\2[ \t]*\2(?:[ \t]|\2)*(?:\n|$))/g, '$1\\$2$3')
+  public readonly escapeContent: IEscaper = _escapeContent
 
-  public weave(node: Text): INodeMarkup | string {
-    return node.value
+  public weave(node: Text): INodeMarkup {
+    return { content: node.value }
   }
 }

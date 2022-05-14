@@ -4,7 +4,7 @@
     {
       "description": "Any number of parentheses are allowed without escaping, as long as they are balanced",
       "input": "[link](foo(and(bar)))",
-      "markupAnswer": "[link](foo\\(and\\(bar\\)\\))",
+      "markupAnswer": "[link](<foo(and(bar))>)",
       "htmlAnswer": "<p><a href=\"foo(and(bar))\">link</a></p>",
       "parseAnswer": {
         "type": "root",

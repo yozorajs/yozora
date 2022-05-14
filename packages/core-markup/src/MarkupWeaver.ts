@@ -67,9 +67,7 @@ export class MarkupWeaver implements IMarkupWeaver {
       }
       ancestors.push(parent.node)
 
-      let markup: INodeMarkup | string = weaver.weave(node, ctx, childIndex)
-      if (typeof markup === 'string') markup = { content: markup }
-
+      const markup: INodeMarkup = weaver.weave(node, ctx, childIndex)
       const indent: string = parent.indent + (markup.indent ?? '')
 
       if (markup.opener) {
@@ -104,6 +102,14 @@ export class MarkupWeaver implements IMarkupWeaver {
       }
 
       if (markup.closer) {
+        // The terminal backslash of inline node could cause issues when its parent is inline node
+        // and the parent has a closer symbol.
+        if (!weaver.isBlockLevel) {
+          lines[lineIdx] = lines[lineIdx].replace(/([\\]+)$/, (_m, p1) =>
+            p1.length & 1 ? p1 + '\\' : p1,
+          )
+        }
+
         const closerLines: string[] = markup.closer.split(lineRegex)
         if (closerLines.length > 0) {
           lines[lineIdx] += closerLines[0]

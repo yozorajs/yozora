@@ -13,7 +13,7 @@ export class ParagraphMarkupWeaver implements INodeMarkupWeaver<Paragraph> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = true
 
-  public weave(): string | INodeMarkup {
+  public weave(): INodeMarkup {
     return {}
   }
 }

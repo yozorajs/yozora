@@ -15,7 +15,7 @@ export class ThematicBreakMarkupWeaver implements INodeMarkupWeaver<ThematicBrea
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = true
 
-  public weave(_node: ThematicBreak, ctx: INodeMarkupWeaveContext): INodeMarkup | string {
+  public weave(_node: ThematicBreak, ctx: INodeMarkupWeaveContext): INodeMarkup {
     const { ancestors } = ctx
     if (ancestors.length >= 2) {
       const parent = ancestors[ancestors.length - 1]
@@ -23,12 +23,12 @@ export class ThematicBreakMarkupWeaver implements INodeMarkupWeaver<ThematicBrea
         const gradeParent = ancestors[ancestors.length - 2] as List
         switch (String.fromCodePoint(gradeParent.marker)) {
           case '*':
-            return '---'
+            return { opener: '---' }
           case '-':
-            return '****'
+            return { opener: '****' }
         }
       }
     }
-    return '---'
+    return { opener: '---' }
   }
 }

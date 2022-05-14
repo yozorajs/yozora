@@ -19,7 +19,9 @@ export class HtmlMarkupWeaver implements INodeMarkupWeaver<Html> {
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = false
 
-  public weave(node: Html): INodeMarkup | string {
-    return node.value
+  public weave(node: Html): INodeMarkup {
+    return {
+      opener: node.value,
+    }
   }
 }

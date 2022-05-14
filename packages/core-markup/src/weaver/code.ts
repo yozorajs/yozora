@@ -17,7 +17,7 @@ export class CodeMarkupWeaver implements INodeMarkupWeaver<Code> {
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = true
 
-  public weave(node: Code): string | INodeMarkup {
+  public weave(node: Code): INodeMarkup {
     const { value } = node
 
     let infoString = ''

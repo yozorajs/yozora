@@ -14,7 +14,7 @@ export class HeadingMarkupWeaver implements INodeMarkupWeaver<Heading> {
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = true
 
-  public weave(node: Heading): string | INodeMarkup {
+  public weave(node: Heading): INodeMarkup {
     return {
       opener: '#'.repeat(node.depth) + ' ',
     }

@@ -11,7 +11,11 @@ export class MathMarkupWeaver implements INodeMarkupWeaver<Math> {
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = true
 
-  public weave(node: Math): string | INodeMarkup {
-    return `$$${node.value}$$`
+  public weave(node: Math): INodeMarkup {
+    return {
+      opener: '`$$',
+      closer: '$$`',
+      content: node.value,
+    }
   }
 }

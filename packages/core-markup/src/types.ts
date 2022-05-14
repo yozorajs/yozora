@@ -57,7 +57,7 @@ export interface INodeMarkupWeaver<T extends Node = Node> {
    * @param ctx
    * @param childIndex
    */
-  weave(node: T, ctx: INodeMarkupWeaveContext, childIndex: number): INodeMarkup | string
+  weave(node: T, ctx: INodeMarkupWeaveContext, childIndex: number): INodeMarkup
 }
 
 export interface IMarkupWeaver {

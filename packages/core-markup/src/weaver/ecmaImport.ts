@@ -11,7 +11,7 @@ export class EcmaImportMarkupWeaver implements INodeMarkupWeaver<EcmaImport> {
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = true
 
-  public weave(node: EcmaImport): INodeMarkup | string {
+  public weave(node: EcmaImport): INodeMarkup {
     const namedImportStatement: string = node.namedImports
       .map(item => (item.alias ? `${item.src} as ${item.alias}` : item.src))
       .join(', ')
@@ -22,6 +22,8 @@ export class EcmaImportMarkupWeaver implements INodeMarkupWeaver<EcmaImport> {
         ? node.defaultImport + ', ' + importStatement
         : node.defaultImport
     }
-    return `import ${importStatement} from "${node.moduleName}";`
+    return {
+      opener: `import ${importStatement} from "${node.moduleName}";`,
+    }
   }
 }

@@ -1,5 +1,9 @@
 import type { Definition } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
+import { createCharacterEscaper } from '../util'
+
+const _escapeContent: IEscaper = createCharacterEscaper('[]()'.split(''))
+const _escapeTitle: IEscaper = createCharacterEscaper('"'.split(''))
 
 /**
  * Definition represents a resource.
@@ -12,14 +16,16 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 export class DefinitionMarkupWeaver implements INodeMarkupWeaver<Definition> {
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = true
+  public readonly escapeContent: IEscaper = _escapeContent
+  protected readonly escapeTitle = _escapeTitle
 
-  public weave(node: Definition): string | INodeMarkup {
+  public weave(node: Definition): INodeMarkup {
     const url: string = node.url || '<>'
-    const title: string | null = node.title ? this.escapeTitle(node.title) : null
-    return title ? `[${node.label}]: ${url} "${title}"` : `[${node.label}]: ${url}`
-  }
-
-  protected escapeTitle(title: string): string {
-    return title.replace(/(["])/g, '\\$1')
+    const title = node.title ? this.escapeTitle(node.title) : undefined
+    return {
+      opener: '[',
+      closer: title ? `]: ${url} "${title}"` : `]: ${url}`,
+      content: node.label,
+    }
   }
 }

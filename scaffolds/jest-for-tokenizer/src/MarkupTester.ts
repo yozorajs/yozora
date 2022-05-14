@@ -1,5 +1,13 @@
-import type { Admonition, ImageReference, LinkReference, Node, Parent, Root } from '@yozora/ast'
-import { AdmonitionType, ImageReferenceType, LinkReferenceType } from '@yozora/ast'
+import type {
+  Admonition,
+  ImageReference,
+  LinkReference,
+  Node,
+  Parent,
+  Root,
+  Text,
+} from '@yozora/ast'
+import { AdmonitionType, ImageReferenceType, LinkReferenceType, TextType } from '@yozora/ast'
 import type { IMarkupWeaver } from '@yozora/core-markup'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import YozoraParser from '@yozora/parser'
@@ -77,7 +85,11 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
       const expectedAst = parser.parse(input)
       const markup = this.weaver.weave(expectedAst)
       const receivedAst = parser.parse(markup)
-      return { markup, expectedAst, receivedAst }
+      return {
+        markup,
+        expectedAst: this._normalizeAst(expectedAst),
+        receivedAst: this._normalizeAst(receivedAst),
+      }
     })
   }
 
@@ -104,6 +116,13 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
         if (!this._areSomeObject(o1, o2)) return false
         break
       }
+      case TextType: {
+        const { value: v1 } = node1 as Text
+        const { value: v2 } = node2 as Text
+        const normalize = (v: string): string => v.replace(/\\([\s\S])/g, '$1')
+        if (normalize(v1) === normalize(v2)) return true
+        return false
+      }
       default:
         if (!this._areSomeObject(data1, data2)) return false
         break
@@ -127,5 +146,10 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
       if (o1[key] !== o2[key]) return false
     }
     return true
+  }
+
+  protected _normalizeAst(ast: Root): Root {
+    const content = JSON.stringify(ast)
+    return JSON.parse(content)
   }
 }

@@ -17,7 +17,11 @@ export class FootnoteReferenceMarkupWeaver implements INodeMarkupWeaver<Footnote
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = false
 
-  public weave(node: FootnoteReference): string | INodeMarkup {
-    return `[^${node.label}]`
+  public weave(node: FootnoteReference): INodeMarkup {
+    return {
+      opener: '[^',
+      closer: ']',
+      content: node.label,
+    }
   }
 }

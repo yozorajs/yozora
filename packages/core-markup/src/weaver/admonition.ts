@@ -13,7 +13,7 @@ export class AdmonitionMarkupWeaver implements INodeMarkupWeaver<Admonition> {
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = true
 
-  public weave(node: Admonition): string | INodeMarkup {
+  public weave(node: Admonition): INodeMarkup {
     return {
       opener: `:::${node.keyword}\n`,
       closer: '\n:::',

@@ -14,7 +14,7 @@ export class FrontmatterMarkupWeaver implements INodeMarkupWeaver<Frontmatter> {
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = true
 
-  public weave(node: Frontmatter): INodeMarkup | string {
+  public weave(node: Frontmatter): INodeMarkup {
     return {
       opener: '---\n',
       closer: '\n---',

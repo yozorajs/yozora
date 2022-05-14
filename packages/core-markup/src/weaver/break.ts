@@ -14,7 +14,9 @@ export class BreakMarkupWeaver implements INodeMarkupWeaver<Break> {
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = false
 
-  public weave(): INodeMarkup | string {
-    return '\\'
+  public weave(): INodeMarkup {
+    return {
+      opener: '\\',
+    }
   }
 }

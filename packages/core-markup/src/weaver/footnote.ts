@@ -12,7 +12,7 @@ export class FootnoteMarkupWeaver implements INodeMarkupWeaver<Footnote> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = false
 
-  public weave(): string | INodeMarkup {
+  public weave(): INodeMarkup {
     return {
       opener: '^[',
       closer: ']',

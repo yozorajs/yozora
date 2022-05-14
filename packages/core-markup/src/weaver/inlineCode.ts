@@ -16,21 +16,27 @@ export class InlineCodeMarkupWeaver implements INodeMarkupWeaver<InlineCode> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = false
 
-  public weave(node: InlineCode): INodeMarkup | string {
+  public weave(node: InlineCode): INodeMarkup {
     const { value } = node
 
-    let symbolCnt = 0
+    let backtickCnt = 0
     for (let match: RegExpExecArray | null = null; ; ) {
       match = symbolRegex.exec(value)
       if (match == null) break
 
       const len: number = match[1].length ?? 0
-      if (symbolCnt < len) symbolCnt = len
+      if (backtickCnt < len) backtickCnt = len
     }
 
-    if (symbolCnt === 0) return '`' + value + '`'
+    if (backtickCnt === 0) {
+      return {
+        opener: '`',
+        closer: '`',
+        content: value,
+      }
+    }
 
-    const symbol: string = '`'.repeat(symbolCnt + 1)
+    const symbol: string = '`'.repeat(backtickCnt + 1)
     return {
       opener: symbol + ' ',
       closer: ' ' + symbol,

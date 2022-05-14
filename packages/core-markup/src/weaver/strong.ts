@@ -13,7 +13,7 @@ export class StrongMarkupWeaver implements INodeMarkupWeaver<Strong> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = false
 
-  public weave(): INodeMarkup | string {
+  public weave(): INodeMarkup {
     return {
       opener: '**',
       closer: '**',

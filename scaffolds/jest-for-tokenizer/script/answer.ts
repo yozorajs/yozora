@@ -39,13 +39,24 @@ async function answerWeavers(): Promise<void> {
   //   .runAnswer()
 
   await createMarkupTester(defaultMarkupWeaver)
-    .scan(['gfm/autolink/**/*.json', '!gfm/autolink/**/#614.json'])
-    .scan(['gfm/blockquote/**/*.json'])
-    .scan(['gfm/break/**/*.json'])
-    .scan(['gfm/definition/**/*.json'])
-    .scan(['gfm/delete/**/*.json'])
     .scan([
+      'gfm/autolink/**/*.json',
+      'gfm/blockquote/**/*.json',
+      'gfm/break/**/*.json',
+      'gfm/definition/**/*.json',
+      'gfm/delete/**/*.json',
       'gfm/emphasis/**/*.json',
+      'gfm/fenced-code/**/*.json',
+      'gfm/heading/**/*.json',
+      'gfm/html-inline/**/*.json',
+      'gfm/image/**/*.json',
+      'gfm/link/**/*.json',
+      'gfm/paragraph/**/*.json',
+      'gfm/text/**/*.json',
+      'gfm/thematic-break/**/*.json',
+
+      // Skipped cases.
+      '!gfm/autolink/**/#614.json',
       '!gfm/emphasis/**/#446.json',
       '!gfm/emphasis/**/#449.json',
       '!gfm/emphasis/**/#459.json',
@@ -53,16 +64,10 @@ async function answerWeavers(): Promise<void> {
       '!gfm/emphasis/**/#470.json',
       '!gfm/emphasis/**/#472.json',
       '!gfm/emphasis/**/#479.json',
+      '!gfm/heading/**/#036.json',
+      '!gfm/link/**/#502.json',
+      '!gfm/link/**/#534.json',
     ])
-    .scan(['gfm/fenced-code/**/*.json'])
-    .scan(['gfm/heading/**/*.json', '!gfm/heading/**/#036.json'])
-    .scan(['gfm/html-inline/**/*.json'])
-    .scan(['gfm/image/**/*.json'])
-    .scan(['gfm/link/**/*.json', '!gfm/link/**/#502.json', '!gfm/link/**/#528.json'])
-    // .scan(['gfm/list/**/*.json'])
-    .scan(['gfm/paragraph/**/*.json'])
-    .scan(['gfm/text/**/*.json'])
-    .scan(['gfm/thematic-break/**/*.json'])
     .runAnswer()
 }
 

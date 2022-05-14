@@ -1,5 +1,9 @@
 import type { Link } from '@yozora/ast'
 import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
+import { createCharacterEscaper } from '../util'
+
+const _escapeContent: IEscaper = createCharacterEscaper('[]()'.split(''))
+const _escapeTitle: IEscaper = createCharacterEscaper('"'.split(''))
 
 /**
  * Link represents a hyperlink.
@@ -14,18 +18,15 @@ import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
 export class LinkMarkupWeaver implements INodeMarkupWeaver<Link> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = false
-  public readonly escapeContent: IEscaper = content => content.replace(/([[\]()])/g, '\\$1')
+  public readonly escapeContent: IEscaper = _escapeContent
+  protected readonly escapeTitle = _escapeTitle
 
-  public weave(node: Link): INodeMarkup | string {
-    const url: string = this.escapeContent(node.url)
-    const title: string | null = node.title ? this._escapeTitle(node.title) : null
+  public weave(node: Link): INodeMarkup {
+    const url: string = /[()]/.test(node.url) ? `<${node.url}>` : node.url
+    const title = node.title ? this.escapeTitle(node.title) : undefined
     return {
       opener: '[',
       closer: title ? `](${url} "${title}")` : `](${url})`,
     }
-  }
-
-  protected _escapeTitle(title: string): string {
-    return title.replace(/(["])/g, '\\$1')
   }
 }

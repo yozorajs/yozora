@@ -17,11 +17,7 @@ export class ListItemMarkupWeaver implements INodeMarkupWeaver<ListItem> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = true
 
-  public weave(
-    node: ListItem,
-    ctx: INodeMarkupWeaveContext,
-    childIndex: number,
-  ): INodeMarkup | string {
+  public weave(node: ListItem, ctx: INodeMarkupWeaveContext, childIndex: number): INodeMarkup {
     const parent = ctx.ancestors[ctx.ancestors.length - 1] as List
     const { ordered, marker } = parent
     let opener: string = String.fromCodePoint(marker) + ' '
