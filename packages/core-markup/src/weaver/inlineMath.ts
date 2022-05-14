@@ -1,7 +1,7 @@
 import type { InlineMath } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
-const symbolRegex = /(\$[`]+)/g
+const closerLikeSymbolRegex = /\$([`]*)/g
 
 export interface IInlineMathMarkupWeaverOptions {
   readonly preferBackTick: boolean
@@ -26,28 +26,23 @@ export class InlineMathMarkupWeaver implements INodeMarkupWeaver<InlineMath> {
     const { value } = node
 
     let backtickCnt = 0
+    let nonCloserLikeSymbol = true
     for (let match: RegExpExecArray | null = null; ; ) {
-      match = symbolRegex.exec(value)
+      match = closerLikeSymbolRegex.exec(value)
       if (match == null) break
 
-      const len: number = match[1].length ?? 0
+      nonCloserLikeSymbol = false
+      const len: number = match[1].length
       if (backtickCnt < len) backtickCnt = len
     }
 
     if (backtickCnt === 0) {
-      return {
-        opener: this.preferBackTick ? '`$' : '$',
-        closer: this.preferBackTick ? '$`' : '$',
-        content: value,
-      }
+      return nonCloserLikeSymbol && this.preferBackTick
+        ? { opener: `$${value}$` }
+        : { opener: '`$' + value + '$`' }
     }
 
-    const backticks: string =
-      backtickCnt === 0 ? (this.preferBackTick ? '`' : '') : '`'.repeat(backtickCnt - 1)
-    return {
-      opener: backticks + '$ ',
-      closer: ' $' + backticks,
-      content: value,
-    }
+    const backticks: string = '`'.repeat(backtickCnt - 1)
+    return { opener: `${backticks}$ ${value} $${backticks}` }
   }
 }

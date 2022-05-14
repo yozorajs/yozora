@@ -43,11 +43,7 @@ export class CodeMarkupWeaver implements INodeMarkupWeaver<Code> {
       symbol = '`'.repeat(symbolCnt)
     }
 
-    return {
-      opener: `${symbol}${infoString}\n`,
-      closer: symbol,
-      content: value,
-    }
+    return { opener: `${symbol}${infoString}\n${value}${symbol}` }
   }
 
   protected _findSymbolCnt(value: string, symbolRegex: RegExp): number {

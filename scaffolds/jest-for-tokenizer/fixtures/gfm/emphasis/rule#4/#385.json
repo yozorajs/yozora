@@ -4,7 +4,7 @@
     {
       "description": "Intraword emphasis is disallowed for _",
       "input": "_foo_bar_baz_",
-      "markupAnswer": "*foo_bar_baz*",
+      "markupAnswer": "*foo\\_bar\\_baz*",
       "htmlAnswer": "<p><em>foo_bar_baz</em></p>",
       "parseAnswer": {
         "type": "root",

@@ -4,7 +4,7 @@
     {
       "description": "Rule 15",
       "input": "*foo _bar* baz_",
-      "markupAnswer": "*foo _bar* baz_",
+      "markupAnswer": "*foo \\_bar* baz_",
       "htmlAnswer": "<p><em>foo _bar</em> baz_</p>",
       "parseAnswer": {
         "type": "root",

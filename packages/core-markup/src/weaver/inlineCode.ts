@@ -30,17 +30,11 @@ export class InlineCodeMarkupWeaver implements INodeMarkupWeaver<InlineCode> {
 
     if (backtickCnt === 0) {
       return {
-        opener: '`',
-        closer: '`',
-        content: value,
+        opener: '`' + value + '`',
       }
     }
 
-    const symbol: string = '`'.repeat(backtickCnt + 1)
-    return {
-      opener: symbol + ' ',
-      closer: ' ' + symbol,
-      content: value,
-    }
+    const backticks: string = '`'.repeat(backtickCnt + 1)
+    return { opener: `${backticks} ${value} ${backticks}` }
   }
 }

@@ -25,13 +25,10 @@ void createMarkupTester(defaultMarkupWeaver)
 
     // Skipped cases.
     '!gfm/autolink/**/#614.json',
-    '!gfm/emphasis/**/#446.json',
     '!gfm/emphasis/**/#449.json',
-    '!gfm/emphasis/**/#459.json',
     '!gfm/emphasis/**/#462.json',
     '!gfm/emphasis/**/#470.json',
     '!gfm/emphasis/**/#472.json',
-    '!gfm/emphasis/**/#479.json',
     '!gfm/heading/**/#036.json',
     '!gfm/link/**/#502.json',
     '!gfm/link/**/#534.json',

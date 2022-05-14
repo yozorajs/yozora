@@ -4,7 +4,7 @@
     {
       "description": "Rule 11",
       "input": "foo *_*",
-      "markupAnswer": "foo *_*",
+      "markupAnswer": "foo *\\_*",
       "htmlAnswer": "<p>foo <em>_</em></p>",
       "parseAnswer": {
         "type": "root",
