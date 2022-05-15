@@ -4,6 +4,7 @@
     {
       "description": "Changing the bullet or ordered list delimiter starts a new list",
       "input": "- foo\n- bar\n+ baz",
+      "markupAnswer": "- foo\n- bar\n\n+ baz",
       "htmlAnswer": "<ul>\n<li>foo</li>\n<li>bar</li>\n</ul>\n<ul>\n<li>baz</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

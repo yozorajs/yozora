@@ -4,6 +4,7 @@
     {
       "description": "These are loose lists, even though there is no space between the items, because one of the items directly contains two block-level elements with a blank line between them",
       "input": "- a\n- b\n\n  c\n- d",
+      "markupAnswer": "- a\n\n- b\n  \n  c\n\n- d",
       "htmlAnswer": "<ul>\n<li>\n<p>a</p>\n</li>\n<li>\n<p>b</p>\n<p>c</p>\n</li>\n<li>\n<p>d</p>\n</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

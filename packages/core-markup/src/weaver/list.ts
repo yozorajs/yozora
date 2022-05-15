@@ -13,7 +13,7 @@ export class ListMarkupWeaver implements INodeMarkupWeaver<List> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = true
 
-  public weave(): INodeMarkup {
-    return {}
+  public weave(node: List): INodeMarkup {
+    return { spread: node.spread }
   }
 }

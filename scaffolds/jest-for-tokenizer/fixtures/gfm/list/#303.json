@@ -4,6 +4,7 @@
     {
       "description": "A single-paragraph list is tight",
       "input": "- a\n  - b",
+      "markupAnswer": "- a\n  - b",
       "htmlAnswer": "<ul>\n<li>a\n<ul>\n<li>b</li>\n</ul>\n</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

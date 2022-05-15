@@ -4,6 +4,7 @@
     {
       "description": "There can be any number of blank lines between items",
       "input": "- foo\n\n- bar\n\n\n- baz",
+      "markupAnswer": "- foo\n\n- bar\n\n- baz",
       "htmlAnswer": "<ul>\n<li>\n<p>foo</p>\n</li>\n<li>\n<p>bar</p>\n</li>\n<li>\n<p>baz</p>\n</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

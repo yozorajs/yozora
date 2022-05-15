@@ -19,16 +19,16 @@ export class ListItemMarkupWeaver implements INodeMarkupWeaver<ListItem> {
 
   public weave(node: ListItem, ctx: INodeMarkupWeaveContext, childIndex: number): INodeMarkup {
     const parent = ctx.ancestors[ctx.ancestors.length - 1] as List
-    const { ordered, marker } = parent
-    let opener: string = String.fromCodePoint(marker) + ' '
+    const marker = String.fromCodePoint(parent.marker)
+    let opener: string = marker + ' '
     let indent = '  '
 
-    if (ordered) {
-      const { orderType = '1', start = 1, marker } = parent
+    if (parent.ordered) {
+      const { orderType = '1', start = 1 } = parent
       const order: number = Math.max(0, start + childIndex - 1)
       switch (orderType) {
         case '1':
-          opener = String(childIndex + 1)
+          opener = String(order + 1)
           break
         case 'a':
           opener = String.fromCodePoint(LOWERCASE_A + Math.min(order, 25))

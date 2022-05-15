@@ -4,6 +4,7 @@
     {
       "description": "So is this, with a empty second item",
       "input": "* a\n*\n\n* c",
+      "markupAnswer": "* a\n\n* \n\n* c",
       "htmlAnswer": "<ul>\n<li>\n<p>a</p>\n</li>\n<li></li>\n<li>\n<p>c</p>\n</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

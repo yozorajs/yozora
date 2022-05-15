@@ -4,6 +4,7 @@
     {
       "description": "This is a loose list, because there is a blank line between two of the list items",
       "input": "- a\n- b\n\n- c",
+      "markupAnswer": "- a\n\n- b\n\n- c",
       "htmlAnswer": "<ul>\n<li>\n<p>a</p>\n</li>\n<li>\n<p>b</p>\n</li>\n<li>\n<p>c</p>\n</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

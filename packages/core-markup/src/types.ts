@@ -22,6 +22,11 @@ export interface INodeMarkup {
    * Source contents between `opener` and `closer`.
    */
   content?: string
+  /**
+   * Output a blank line for block level nodes.
+   * @default true
+   */
+  spread?: boolean
 }
 
 export interface INodeMarkupWeaveContext {

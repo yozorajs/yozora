@@ -4,6 +4,7 @@
     {
       "description": "Here the outer list is loose, the inner list tight",
       "input": "* foo\n  * bar\n\n  baz",
+      "markupAnswer": "* foo\n  \n  * bar\n  \n  baz",
       "htmlAnswer": "<ul>\n<li>\n<p>foo</p>\n<ul>\n<li>bar</li>\n</ul>\n<p>baz</p>\n</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

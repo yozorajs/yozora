@@ -1,5 +1,4 @@
-import type { List, Node, NodeType, Parent, Root } from '@yozora/ast'
-import { ListItemType } from '@yozora/ast'
+import type { Node, NodeType, Parent, Root } from '@yozora/ast'
 import type {
   IEscaper,
   IMarkupWeaver,
@@ -10,9 +9,10 @@ import type {
 
 const lineRegex = /\r\n|\n|\r/g
 
-export interface IMarkupToken {
-  indent: string
+interface IMarkupToken {
   node: Parent
+  indent: string
+  spread: boolean
 }
 
 export class MarkupWeaver implements IMarkupWeaver {
@@ -84,8 +84,19 @@ export class MarkupWeaver implements IMarkupWeaver {
       if (markup.content === undefined) {
         const { children } = node as Parent
         if (children && children.length >= 0) {
-          const token: IMarkupToken = { indent, node: node as Parent }
+          const token: IMarkupToken = {
+            indent,
+            node: node as Parent,
+            spread: markup.spread ?? parent.spread,
+          }
+          let prevChildWeaver: INodeMarkupWeaver | undefined
           for (let i = 0; i < children.length; ++i) {
+            const nextChildWeaver = weaverMap.get(children[i].type)!
+            if (i > 0 && nextChildWeaver?.isBlockLevel && !prevChildWeaver!.isBlockLevel) {
+              // eslint-disable-next-line no-plusplus
+              lines[++lineIdx] = indent
+            }
+            prevChildWeaver = nextChildWeaver
             process(children[i], token, i)
           }
         }
@@ -129,8 +140,7 @@ export class MarkupWeaver implements IMarkupWeaver {
         }
 
         // Output a blank line for block level nodes.
-        // Note: ListItem is an exception
-        if (node.type !== ListItemType || (parent.node as List).spread) {
+        if (parent.spread) {
           // eslint-disable-next-line no-plusplus
           lines[++lineIdx] = parent.indent
         }
@@ -143,10 +153,12 @@ export class MarkupWeaver implements IMarkupWeaver {
       ancestors.pop()
     }
 
-    const rootToken: IMarkupToken = { indent: '', node: ast }
-    for (let i = 0; i < ast.children.length; ++i) {
-      process(ast.children[i], rootToken, i)
+    const rootToken: IMarkupToken = {
+      node: ast,
+      indent: '',
+      spread: true,
     }
+    for (let i = 0; i < ast.children.length; ++i) process(ast.children[i], rootToken, i)
     return lines.join('\n')
   }
 }
