@@ -4,6 +4,7 @@
     {
       "description": "If there are no rows in the body, no <tbody> is generated in HTML output",
       "input": "| abc | def |\n| --- | --- |",
+      "markupAnswer": "abc | def\n----|-----\n",
       "htmlAnswer": "<table>\n<thead>\n<tr>\n<th>abc</th>\n<th>def</th>\n</tr>\n</thead>\n</table>",
       "parseAnswer": {
         "type": "root",

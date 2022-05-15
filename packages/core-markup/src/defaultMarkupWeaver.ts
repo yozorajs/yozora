@@ -24,6 +24,7 @@ import {
   MathType,
   ParagraphType,
   StrongType,
+  TableType,
   TextType,
   ThematicBreakType,
 } from '@yozora/ast'
@@ -54,6 +55,7 @@ import { ListItemMarkupWeaver } from './weaver/listItem'
 import { MathMarkupWeaver } from './weaver/math'
 import { ParagraphMarkupWeaver } from './weaver/paragraph'
 import { StrongMarkupWeaver } from './weaver/strong'
+import { TableMarkupWeaver } from './weaver/table'
 import { TextMarkupWeaver } from './weaver/text'
 import { ThematicBreakMarkupWeaver } from './weaver/thematicBreak'
 
@@ -83,5 +85,6 @@ export const defaultMarkupWeaver: IMarkupWeaver = new MarkupWeaver()
   .useWeaver(MathType, new MathMarkupWeaver())
   .useWeaver(ParagraphType, new ParagraphMarkupWeaver())
   .useWeaver(StrongType, new StrongMarkupWeaver())
+  .useWeaver(TableType, new TableMarkupWeaver())
   .useWeaver(TextType, new TextMarkupWeaver())
   .useWeaver(ThematicBreakType, new ThematicBreakMarkupWeaver())

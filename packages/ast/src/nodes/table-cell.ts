@@ -4,8 +4,7 @@ export const TableCellType = 'tableCell'
 export type TableCellType = typeof TableCellType
 
 /**
- * TableCell represents a header cell in a Table, if its parent is a head,
- * or a data cell otherwise.
+ * TableCell represents a header cell in a Table, if its parent is a head, or a data cell otherwise.
  * @see https://github.com/syntax-tree/mdast#tablecell
  * @see https://github.github.com/gfm/#tables-extension-
  */

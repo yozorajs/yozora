@@ -34,11 +34,11 @@ export interface INodeMarkupWeaveContext {
    * Ancestor nodes.
    */
   ancestors: ReadonlyArray<Parent>
-  // /**
-  //  * Weave AST nodes into a content string or markup structure.
-  //  * @param nodes
-  //  */
-  // weaveNodes(nodes: Node[]): INodeMarkup
+  /**
+   * Weave AST inline nodes into markup source content.
+   * @param nodes
+   */
+  weaveInlineNodes(nodes: ReadonlyArray<Readonly<Node>>): string
 }
 
 export interface INodeMarkupWeaver<T extends Node = Node> {

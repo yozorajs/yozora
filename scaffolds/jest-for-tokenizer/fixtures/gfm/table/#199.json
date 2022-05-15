@@ -4,6 +4,7 @@
     {
       "description": "Cells in one column don’t need to match length, though it’s easier to read if they are. Likewise, use of leading and trailing pipes may be inconsistent",
       "input": "| abc | defghi |\n:-: | -----------:\nbar | baz",
+      "markupAnswer": "abc | defghi\n:--:|--------:\nbar | baz",
       "htmlAnswer": "<table>\n<thead>\n<tr>\n<th align=\"center\">abc</th>\n<th align=\"right\">defghi</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td align=\"center\">bar</td>\n<td align=\"right\">baz</td>\n</tr>\n</tbody>\n</table>",
       "parseAnswer": {
         "type": "root",
