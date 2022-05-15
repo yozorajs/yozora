@@ -4,6 +4,7 @@
     {
       "description": "And indented code can occur immediately before and after other kinds of blocks",
       "input": "# Heading\n    foo\nHeading\n------\n    foo\n----",
+      "markupAnswer": "# Heading\n\n```\nfoo\n```\n\n## Heading\n\n```\nfoo\n```\n\n---",
       "htmlAnswer": "<h1>Heading</h1>\n<pre><code>foo\n</code></pre>\n<h2>Heading</h2>\n<pre><code>foo\n</code></pre>\n<hr />",
       "parseAnswer": {
         "type": "root",

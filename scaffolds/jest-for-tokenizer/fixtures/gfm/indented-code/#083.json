@@ -4,6 +4,7 @@
     {
       "description": "An indented code block cannot interrupt a paragraph. (This allows hanging indents and the like.)",
       "input": "Foo\n    bar",
+      "markupAnswer": "Foo\nbar",
       "htmlAnswer": "<p>Foo\nbar</p>",
       "parseAnswer": {
         "type": "root",

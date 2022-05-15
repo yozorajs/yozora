@@ -19,6 +19,7 @@ void createMarkupTester(defaultMarkupWeaver)
     'gfm/html-inline/**/*.json',
     'gfm/image/**/*.json',
     'gfm/image-reference/**/*.json',
+    'gfm/indented-code/**/*.json',
     'gfm/inline-code/**/*.json',
     'gfm/link/**/*.json',
     'gfm/link-reference/**/*.json',

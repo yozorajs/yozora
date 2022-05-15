@@ -4,6 +4,7 @@
     {
       "description": "An indented code block cannot interrupt a paragraph, so there must be a blank line between a paragraph and a following indented code block. (A blank line is not needed, however, between a code block and a following paragraph.)",
       "input": "    a simple\n      indented code block",
+      "markupAnswer": "```\na simple\n  indented code block\n```",
       "htmlAnswer": "<pre><code>a simple\n  indented code block\n</code></pre>",
       "parseAnswer": {
         "type": "root",

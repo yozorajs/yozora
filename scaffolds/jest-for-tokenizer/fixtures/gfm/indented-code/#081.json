@@ -4,6 +4,7 @@
     {
       "description": "Here we have three chunks separated by blank lines",
       "input": "    chunk1\n\n    chunk2\n  \n \n \n    chunk3",
+      "markupAnswer": "```\nchunk1\n\nchunk2\n\n\n\nchunk3\n```",
       "htmlAnswer": "<pre><code>chunk1\n\nchunk2\n\n\n\nchunk3\n</code></pre>",
       "parseAnswer": {
         "type": "root",
