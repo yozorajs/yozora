@@ -4,6 +4,7 @@
     {
       "description": "Three is not enough",
       "input": "10) foo\n   - bar",
+      "markupAnswer": "10) foo\n\n- bar",
       "htmlAnswer": "<ol start=\"10\">\n<li>foo</li>\n</ol>\n<ul>\n<li>bar</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "When the list item starts with a blank line, the number of spaces following the list marker doesn’t change the required indentation",
       "input": "-   \n  foo",
+      "markupAnswer": "- foo",
       "htmlAnswer": "<ul>\n<li>foo</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

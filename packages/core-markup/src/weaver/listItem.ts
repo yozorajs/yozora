@@ -1,5 +1,6 @@
 import type { List, ListItem } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaveContext, INodeMarkupWeaver } from '../types'
+import { minmax } from '../util'
 
 const LOWERCASE_A: number = 'a'.codePointAt(0)!
 const UPPERCASE_A: number = 'A'.codePointAt(0)!
@@ -25,16 +26,17 @@ export class ListItemMarkupWeaver implements INodeMarkupWeaver<ListItem> {
 
     if (parent.ordered) {
       const { orderType = '1', start = 1 } = parent
-      const order: number = Math.max(0, start + childIndex - 1)
+      const order: number = start + childIndex
       switch (orderType) {
         case '1':
-          opener = String(order + 1)
+          opener = String(Math.max(order, 0))
           break
         case 'a':
-          opener = String.fromCodePoint(LOWERCASE_A + Math.min(order, 25))
+          opener = String.fromCodePoint(LOWERCASE_A + minmax(order - 1, 0, 25))
           break
+
         case 'A':
-          opener = String.fromCodePoint(UPPERCASE_A + Math.min(order, 25))
+          opener = String.fromCodePoint(UPPERCASE_A + minmax(order - 1, 0, 25))
           break
         case 'i':
         case 'I':

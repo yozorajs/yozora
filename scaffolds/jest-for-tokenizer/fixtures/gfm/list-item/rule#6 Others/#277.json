@@ -4,6 +4,7 @@
     {
       "description": "A list may be the first block in a list item",
       "input": "1. - 2. foo",
+      "markupAnswer": "1. - 2. foo",
       "htmlAnswer": "<ol>\n<li>\n<ul>\n<li>\n<ol start=\"2\">\n<li>foo</li>\n</ol>\n</li>\n</ul>\n</li>\n</ol>",
       "parseAnswer": {
         "type": "root",

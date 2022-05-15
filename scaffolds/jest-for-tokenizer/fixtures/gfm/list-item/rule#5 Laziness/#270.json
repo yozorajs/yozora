@@ -4,6 +4,7 @@
     {
       "description": "These examples show how laziness can work in nested structures",
       "input": "> 1. > Blockquote\ncontinued here.",
+      "markupAnswer": "> 1. > Blockquote\n>    > continued here.",
       "htmlAnswer": "<blockquote>\n<ol>\n<li>\n<blockquote>\n<p>Blockquote\ncontinued here.</p>\n</blockquote>\n</li>\n</ol>\n</blockquote>",
       "parseAnswer": {
         "type": "root",

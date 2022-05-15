@@ -4,6 +4,7 @@
     {
       "description": "Note that ordered list start numbers must be nine digits or less",
       "input": "1234567890. not ok",
+      "markupAnswer": "1234567890. not ok",
       "htmlAnswer": "<p>1234567890. not ok</p>",
       "parseAnswer": {
         "type": "root",

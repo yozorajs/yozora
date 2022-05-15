@@ -4,6 +4,7 @@
     {
       "description": "Here are some examples showing how far content must be indented to be put under the list item",
       "input": "- one\n\n two",
+      "markupAnswer": "- one\n\ntwo",
       "htmlAnswer": "<ul>\n<li>one</li>\n</ul>\n<p>two</p>",
       "parseAnswer": {
         "type": "root",

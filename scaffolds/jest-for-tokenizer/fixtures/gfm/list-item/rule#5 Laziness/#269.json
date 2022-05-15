@@ -4,6 +4,7 @@
     {
       "description": "Indentation can be partially deleted",
       "input": "  1.  A paragraph\n    with two lines.",
+      "markupAnswer": "1. A paragraph\n   with two lines.",
       "htmlAnswer": "<ol>\n<li>A paragraph\nwith two lines.</li>\n</ol>",
       "parseAnswer": {
         "type": "root",

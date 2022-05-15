@@ -52,6 +52,7 @@ async function answerWeavers(): Promise<void> {
       'gfm/image/**/*.json',
       'gfm/link/**/*.json',
       'gfm/list/**/*.json',
+      'gfm/list-item/**/*.json',
       'gfm/paragraph/**/*.json',
       'gfm/text/**/*.json',
       'gfm/thematic-break/**/*.json',

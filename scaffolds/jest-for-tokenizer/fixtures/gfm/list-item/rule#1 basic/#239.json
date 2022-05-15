@@ -4,6 +4,7 @@
     {
       "description": "Note that at least one space is needed between the list marker and any following content, so these are not list items",
       "input": "-one\n\n2.two",
+      "markupAnswer": "-one\n\n2.two",
       "htmlAnswer": "<p>-one</p>\n<p>2.two</p>",
       "parseAnswer": {
         "type": "root",

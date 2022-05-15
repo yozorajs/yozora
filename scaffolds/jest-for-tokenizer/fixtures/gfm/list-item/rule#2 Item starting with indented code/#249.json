@@ -4,6 +4,7 @@
     {
       "description": "And in this case it is 11 spaces",
       "input": "  10.  foo\n\n           bar",
+      "markupAnswer": "10. foo\n    \n    ```\n    bar\n    ```",
       "htmlAnswer": "<ol start=\"10\">\n<li>\n<p>foo</p>\n<pre><code>bar\n</code></pre>\n</li>\n</ol>",
       "parseAnswer": {
         "type": "root",

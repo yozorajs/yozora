@@ -4,6 +4,7 @@
     {
       "description": "For example, let Ls be the lines",
       "input": "A paragraph\nwith two lines.\n\n    indented code\n\n> A block quote.",
+      "markupAnswer": "A paragraph\nwith two lines.\n\n```\nindented code\n```\n\n> A block quote.",
       "htmlAnswer": "<p>A paragraph\nwith two lines.</p>\n<pre><code>indented code\n</code></pre>\n<blockquote>\n<p>A block quote.</p>\n</blockquote>",
       "parseAnswer": {
         "type": "root",
