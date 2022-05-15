@@ -9,12 +9,9 @@ import type {
 } from '@yozora/ast'
 import { AdmonitionType, ImageReferenceType, LinkReferenceType, TextType } from '@yozora/ast'
 import type { IMarkupWeaver } from '@yozora/core-markup'
-// eslint-disable-next-line import/no-extraneous-dependencies
-import YozoraParser from '@yozora/parser'
+import type { IParser } from '@yozora/core-parser'
 import { BaseTester } from './BaseTester'
 import type { IYozoraUseCase } from './types'
-
-const parser = new YozoraParser({ defaultParseOptions: { shouldReservePosition: false } })
 
 /**
  * Params for construct TokenizerTester
@@ -25,16 +22,22 @@ interface IMarkupTesterProps {
    */
   caseRootDirectory: string
   /**
+   * Parser
+   */
+  parser: IParser
+  /**
    * Markup weaver
    */
   weaver: IMarkupWeaver
 }
 
 export class MarkupTester<T = unknown> extends BaseTester<T> {
+  public readonly parser: IParser
   public readonly weaver: IMarkupWeaver
 
   constructor(props: IMarkupTesterProps) {
     super(props)
+    this.parser = props.parser
     this.weaver = props.weaver
   }
 
@@ -82,9 +85,9 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
     filepath: string,
   ): { markup: string; expectedAst: Root; receivedAst: Root } {
     return this.carefulProcess(filepath, () => {
-      const expectedAst = parser.parse(input)
+      const expectedAst = this.parser.parse(input, { shouldReservePosition: false })
       const markup = this.weaver.weave(expectedAst)
-      const receivedAst = parser.parse(markup)
+      const receivedAst = this.parser.parse(markup, { shouldReservePosition: false })
       return {
         markup,
         expectedAst: this._normalizeAst(expectedAst),

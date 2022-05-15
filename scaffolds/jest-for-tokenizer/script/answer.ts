@@ -38,7 +38,7 @@ async function answerWeavers(): Promise<void> {
   //   .scan(['gfm/**/*.json'])
   //   .runAnswer()
 
-  await createMarkupTester(defaultMarkupWeaver)
+  await createMarkupTester(parsers.yozora, defaultMarkupWeaver)
     .scan([
       'gfm/autolink/**/*.json',
       'gfm/blockquote/**/*.json',

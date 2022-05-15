@@ -36,8 +36,9 @@ export const createTokenizerTester = (parser: IParser): TokenizerTester =>
 export const createTokenizerTesters = (...parsers: IParser[]): TokenizerTester[] =>
   parsers.map(createTokenizerTester)
 
-export const createMarkupTester = (weaver: IMarkupWeaver): MarkupTester =>
+export const createMarkupTester = (parser: IParser, weaver: IMarkupWeaver): MarkupTester =>
   new MarkupTester({
     caseRootDirectory: fixtureRootDirectory,
+    parser,
     weaver,
   })
