@@ -4,6 +4,7 @@
     {
       "description": "Matching is case-insensitive",
       "input": "[foo][BaR]\n\n[bar]: /url \"title\"",
+      "markupAnswer": "[foo][BaR]\n\n[bar]: /url \"title\"",
       "htmlAnswer": "<p><a href=\"/url\" title=\"title\">foo</a></p>",
       "parseAnswer": {
         "type": "root",

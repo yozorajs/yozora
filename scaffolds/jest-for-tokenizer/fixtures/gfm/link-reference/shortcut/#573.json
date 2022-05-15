@@ -4,6 +4,7 @@
     {
       "description": "Full and compact references take precedence over shortcut references",
       "input": "[foo][bar]\n\n[foo]: /url1\n[bar]: /url2",
+      "markupAnswer": "[foo][bar]\n\n[foo]: /url1\n\n[bar]: /url2",
       "htmlAnswer": "<p><a href=\"/url2\">foo</a></p>",
       "parseAnswer": {
         "type": "root",

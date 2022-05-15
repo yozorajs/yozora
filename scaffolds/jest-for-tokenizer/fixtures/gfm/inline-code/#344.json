@@ -4,6 +4,7 @@
     {
       "description": "No stripping occurs if the code span contains only spaces",
       "input": "` `\n`  `",
+      "markupAnswer": "` `\n`  `",
       "htmlAnswer": "<p><code> </code>\n<code>  </code></p>",
       "parseAnswer": {
         "type": "root",

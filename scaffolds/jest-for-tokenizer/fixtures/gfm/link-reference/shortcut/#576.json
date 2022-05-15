@@ -4,6 +4,7 @@
     {
       "description": "Inline links also take precedence",
       "input": "[foo](not a link)\n\n[foo]: /url1",
+      "markupAnswer": "[foo][foo](not a link)\n\n[foo]: /url1",
       "htmlAnswer": "<p><a href=\"/url1\">foo</a>(not a link)</p>",
       "parseAnswer": {
         "type": "root",

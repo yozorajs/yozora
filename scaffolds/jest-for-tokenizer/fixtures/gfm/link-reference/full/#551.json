@@ -4,6 +4,7 @@
     {
       "description": "No whitespace is allowed between the link text and the link label",
       "input": "[foo]\n[bar]\n\n[bar]: /url \"title\"",
+      "markupAnswer": "[foo]\n[bar][bar]\n\n[bar]: /url \"title\"",
       "htmlAnswer": "<p>[foo]\n<a href=\"/url\" title=\"title\">bar</a></p>",
       "parseAnswer": {
         "type": "root",

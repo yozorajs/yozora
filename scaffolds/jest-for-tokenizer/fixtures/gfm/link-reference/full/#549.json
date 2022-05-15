@@ -4,6 +4,7 @@
     {
       "description": "Consecutive internal whitespace is treated as one space for purposes of determining matching",
       "input": "[Foo\n  bar]: /url\n\n[Baz][Foo bar]",
+      "markupAnswer": "[Foo\nbar]: /url\n\n[Baz][Foo bar]",
       "htmlAnswer": "<p><a href=\"/url\">Baz</a></p>",
       "parseAnswer": {
         "type": "root",

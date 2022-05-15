@@ -4,6 +4,7 @@
     {
       "description": "The stripping only happens if the space is on both sides of the string",
       "input": "` a`",
+      "markupAnswer": "` a`",
       "htmlAnswer": "<p><code> a</code></p>",
       "parseAnswer": {
         "type": "root",

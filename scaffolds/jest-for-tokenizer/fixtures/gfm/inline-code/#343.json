@@ -4,6 +4,7 @@
     {
       "description": "Only spaces, and not unicode whitespace in general, are stripped in this way",
       "input": "` b `",
+      "markupAnswer": "` b `",
       "htmlAnswer": "<p><code> b </code></p>",
       "parseAnswer": {
         "type": "root",

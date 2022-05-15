@@ -4,6 +4,7 @@
     {
       "description": "Reference-style",
       "input": "![foo][bar]\n\n[BAR]: /url",
+      "markupAnswer": "![foo][bar]\n\n[BAR]: /url",
       "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" /></p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "The link labels are case-insensitive",
       "input": "[Foo]\n\n[foo]: /url \"title\"",
+      "markupAnswer": "[Foo][Foo]\n\n[foo]: /url \"title\"",
       "htmlAnswer": "<p><a href=\"/url\" title=\"title\">Foo</a></p>",
       "parseAnswer": {
         "type": "root",

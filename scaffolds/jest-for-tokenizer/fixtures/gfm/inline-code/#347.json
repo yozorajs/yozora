@@ -4,6 +4,7 @@
     {
       "description": "Interior spaces are not collapsed",
       "input": "`foo   bar \nbaz`",
+      "markupAnswer": "`foo   bar  baz`",
       "htmlAnswer": "<p><code>foo   bar  baz</code></p>",
       "parseAnswer": {
         "type": "root",

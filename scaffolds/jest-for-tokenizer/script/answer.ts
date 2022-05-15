@@ -50,7 +50,10 @@ async function answerWeavers(): Promise<void> {
       'gfm/heading/**/*.json',
       'gfm/html-inline/**/*.json',
       'gfm/image/**/*.json',
+      'gfm/image-reference/**/*.json',
+      'gfm/inline-code/**/*.json',
       'gfm/link/**/*.json',
+      'gfm/link-reference/**/*.json',
       'gfm/list/**/*.json',
       'gfm/list-item/**/*.json',
       'gfm/paragraph/**/*.json',
@@ -64,8 +67,14 @@ async function answerWeavers(): Promise<void> {
       '!gfm/emphasis/**/#470.json',
       '!gfm/emphasis/**/#472.json',
       '!gfm/heading/**/#036.json',
+      '!gfm/image-reference/**/#600.json',
+      '!gfm/image-reference/**/#601.json',
+      '!gfm/inline-code/**/#356.json',
+      '!gfm/inline-code/**/#359.json',
       '!gfm/link/**/#502.json',
       '!gfm/link/**/#534.json',
+      '!gfm/link-reference/**/#553.json',
+      '!gfm/link-reference/**/#571.json',
     ])
     .runAnswer()
 }

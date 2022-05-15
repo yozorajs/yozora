@@ -4,6 +4,7 @@
     {
       "description": "As with reference links, whitespace is not allowed between the two sets of brackets",
       "input": "![foo] \n[]\n\n[foo]: /url \"title\"",
+      "markupAnswer": "![foo][]\n[]\n\n[foo]: /url \"title\"",
       "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" />\n[]</p>",
       "parseAnswer": {
         "type": "root",

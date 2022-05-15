@@ -4,6 +4,7 @@
     {
       "description": "Here is a simple example",
       "input": "[foo][bar]\n\n[bar]: /url \"title\"",
+      "markupAnswer": "[foo][bar]\n\n[bar]: /url \"title\"",
       "htmlAnswer": "<p><a href=\"/url\" title=\"title\">foo</a></p>",
       "parseAnswer": {
         "type": "root",

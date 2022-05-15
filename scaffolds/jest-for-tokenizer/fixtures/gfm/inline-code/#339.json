@@ -4,6 +4,7 @@
     {
       "description": "Here two backticks are used, because the code contains a backtick. This example also illustrates stripping of a single leading and trailing space",
       "input": "`` foo ` bar ``",
+      "markupAnswer": "`` foo ` bar ``",
       "htmlAnswer": "<p><code>foo ` bar</code></p>",
       "parseAnswer": {
         "type": "root",

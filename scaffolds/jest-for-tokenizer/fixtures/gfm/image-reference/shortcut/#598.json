@@ -4,6 +4,7 @@
     {
       "description": "Note that link labels cannot contain unescaped brackets",
       "input": "![[foo]]\n\n[[foo]]: /url \"title\"",
+      "markupAnswer": "![[foo]]\n\n[[foo]]: /url \"title\"",
       "htmlAnswer": "<p>![[foo]]</p>\n<p>[[foo]]: /url &quot;title&quot;</p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "A collapsed reference link consists of a link label that matches a link reference definition elsewhere in the document, followed by the string []. The contents of the first link label are parsed as inlines, which are used as the link’s text. The link’s URI and title are provided by the matching reference link definition. Thus, [foo][] is equivalent to [foo][foo].",
       "input": "[*foo* bar][]\n\n[*foo* bar]: /url \"title\"",
+      "markupAnswer": "[*foo* bar][*foo* bar]\n\n[*foo* bar]: /url \"title\"",
       "htmlAnswer": "<p><a href=\"/url\" title=\"title\"><em>foo</em> bar</a></p>",
       "parseAnswer": {
         "type": "root",
