@@ -4,6 +4,7 @@
     {
       "description": "Thus, for example, a tab can be used instead of four spaces in an indented code block. (Note, however, that internal tabs are passed through as literal tabs, not expanded to spaces.)",
       "input": "    a\ta\n    ὐ\ta",
+      "markupAnswer": "```\na\ta\nὐ\ta\n```",
       "htmlAnswer": "<pre><code>a\ta\nὐ\ta\n</code></pre>",
       "parseAnswer": {
         "type": "root",

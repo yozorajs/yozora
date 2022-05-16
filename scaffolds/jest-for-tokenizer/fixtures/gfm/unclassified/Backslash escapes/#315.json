@@ -4,6 +4,7 @@
     {
       "description": "Backslash escapes do not work in code blocks, code spans, autolinks, or raw HTML",
       "input": "~~~\n\\[\\]\n~~~",
+      "markupAnswer": "```\n\\[\\]\n```",
       "htmlAnswer": "<pre><code>\\[\\]\n</code></pre>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "The setext heading underline can be indented up to three spaces, and may have trailing spaces",
       "input": "Foo\n   ----      ",
+      "markupAnswer": "## Foo",
       "htmlAnswer": "<h2>Foo</h2>",
       "parseAnswer": {
         "type": "root",

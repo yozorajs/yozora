@@ -4,6 +4,7 @@
     {
       "description": "An HTML block of types 1–6 can interrupt a paragraph, and need not be preceded by a blank line.",
       "input": "Foo\n<div>\nbar\n</div>",
+      "markupAnswer": "Foo\n\n<div>\nbar\n</div>",
       "htmlAnswer": "<p>Foo</p>\n<div>\nbar\n</div>",
       "parseAnswer": {
         "type": "root",

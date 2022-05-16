@@ -4,6 +4,7 @@
     {
       "description": "The underlining can be any length",
       "input": "Foo\n-------------------------\n\nFoo\n=",
+      "markupAnswer": "## Foo\n\n# Foo",
       "htmlAnswer": "<h2>Foo</h2>\n<h1>Foo</h1>",
       "parseAnswer": {
         "type": "root",

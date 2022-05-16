@@ -4,6 +4,7 @@
     {
       "description": "If you want a heading with > foo as its literal text, you can use backslash escapes",
       "input": "\\> foo\n------",
+      "markupAnswer": "## \\> foo",
       "htmlAnswer": "<h2>&gt; foo</h2>",
       "parseAnswer": {
         "type": "root",

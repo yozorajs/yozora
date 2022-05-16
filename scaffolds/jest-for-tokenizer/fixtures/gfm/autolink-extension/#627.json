@@ -4,6 +4,7 @@
     {
       "description": "< immediately ends an autolink.",
       "input": "www.commonmark.org/he<lp",
+      "markupAnswer": "[www.commonmark.org/he](http://www.commonmark.org/he)<lp",
       "htmlAnswer": "<p><a href=\"http://www.commonmark.org/he\">www.commonmark.org/he</a>&lt;lp</p>",
       "parseAnswer": {
         "type": "root",

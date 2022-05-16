@@ -4,6 +4,7 @@
     {
       "description": "or use a thematic break that cannot count as a setext heading underline, such as",
       "input": "Foo\nbar\n* * *\nbaz",
+      "markupAnswer": "Foo\nbar\n\n---\n\nbaz",
       "htmlAnswer": "<p>Foo\nbar</p>\n<hr />\n<p>baz</p>",
       "parseAnswer": {
         "type": "root",

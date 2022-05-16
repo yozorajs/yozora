@@ -4,6 +4,7 @@
     {
       "description": "If there is no matching end tag, the block will end at the end of the document (or the enclosing block quote or list item)",
       "input": "> <div>\n> foo\n\nbar",
+      "markupAnswer": "> <div>\n> foo\n\nbar",
       "htmlAnswer": "<blockquote>\n<div>\nfoo\n</blockquote>\n<p>bar</p>",
       "parseAnswer": {
         "type": "root",

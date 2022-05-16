@@ -4,6 +4,7 @@
     {
       "description": "The opening tag can be indented 1-3 spaces, but not 4",
       "input": "  <!-- foo -->\n\n    <!-- foo -->",
+      "markupAnswer": "  <!-- foo -->\n```\n<!-- foo -->\n```",
       "htmlAnswer": "  <!-- foo -->\n<pre><code>&lt;!-- foo --&gt;\n</code></pre>",
       "parseAnswer": {
         "type": "root",

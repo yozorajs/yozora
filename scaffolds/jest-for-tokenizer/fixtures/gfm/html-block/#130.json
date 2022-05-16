@@ -4,6 +4,7 @@
     {
       "description": "In type 6 blocks, the initial tag need not be on a line by itself",
       "input": "<table><tr><td>\nfoo\n</td></tr></table>",
+      "markupAnswer": "<table><tr><td>\nfoo\n</td></tr></table>",
       "htmlAnswer": "<table><tr><td>\nfoo\n</td></tr></table>",
       "parseAnswer": {
         "type": "root",

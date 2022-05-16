@@ -4,6 +4,7 @@
     {
       "description": "Setext headings cannot be empty",
       "input": "\n====",
+      "markupAnswer": "====",
       "htmlAnswer": "<p>====</p>",
       "parseAnswer": {
         "type": "root",

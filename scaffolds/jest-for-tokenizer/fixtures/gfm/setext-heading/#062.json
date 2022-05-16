@@ -4,6 +4,7 @@
     {
       "description": "The setext heading underline cannot be a lazy continuation line in a list item or block quote",
       "input": "> Foo\n---",
+      "markupAnswer": "> Foo\n\n---",
       "htmlAnswer": "<blockquote>\n<p>Foo</p>\n</blockquote>\n<hr />",
       "parseAnswer": {
         "type": "root",

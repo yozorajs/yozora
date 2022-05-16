@@ -4,6 +4,7 @@
     {
       "description": "But in general a blank line is not required before or after setext headings",
       "input": "---\nFoo\n---\nBar\n---\nBaz",
+      "markupAnswer": "---\n\n## Foo\n\n## Bar\n\nBaz",
       "htmlAnswer": "<hr />\n<h2>Foo</h2>\n<h2>Bar</h2>\n<p>Baz</p>",
       "parseAnswer": {
         "type": "root",

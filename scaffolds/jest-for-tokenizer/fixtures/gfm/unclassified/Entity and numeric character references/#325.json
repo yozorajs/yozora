@@ -4,6 +4,7 @@
     {
       "description": "Although HTML5 does accept some entity references without a trailing semicolon (such as &copy), these are not recognized here, because it makes the grammar too ambiguous",
       "input": "&copy",
+      "markupAnswer": "&copy",
       "htmlAnswer": "<p>&amp;copy</p>",
       "parseAnswer": {
         "type": "root",

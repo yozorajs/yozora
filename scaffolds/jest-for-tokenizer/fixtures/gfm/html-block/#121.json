@@ -4,6 +4,7 @@
     {
       "description": "A block can also start with a closing tag",
       "input": "</div>\n*foo*",
+      "markupAnswer": "</div>\n*foo*",
       "htmlAnswer": "</div>\n*foo*",
       "parseAnswer": {
         "type": "root",

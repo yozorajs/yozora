@@ -4,6 +4,7 @@
     {
       "description": "Nor does a backslash at the end",
       "input": "Foo\\\n----",
+      "markupAnswer": "## Foo\\",
       "htmlAnswer": "<h2>Foo\\</h2>",
       "parseAnswer": {
         "type": "root",

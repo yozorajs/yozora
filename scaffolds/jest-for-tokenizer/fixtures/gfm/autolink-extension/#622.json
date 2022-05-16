@@ -4,6 +4,7 @@
     {
       "description": "After a valid domain, zero or more non-space non-< characters may follow",
       "input": "Visit www.commonmark.org/help for more information.",
+      "markupAnswer": "Visit [www.commonmark.org/help](http://www.commonmark.org/help) for more information.",
       "htmlAnswer": "<p>Visit <a href=\"http://www.commonmark.org/help\">www.commonmark.org/help</a> for more information.</p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "Finally, in this case, the <del> tags are interpreted as raw HTML inside the CommonMark paragraph. (Because the tag is not on a line by itself, we get inline HTML rather than an HTML block.)",
       "input": "<del>*foo*</del>",
+      "markupAnswer": "<del>*foo*</del>",
       "htmlAnswer": "<p><del><em>foo</em></del></p>",
       "parseAnswer": {
         "type": "root",

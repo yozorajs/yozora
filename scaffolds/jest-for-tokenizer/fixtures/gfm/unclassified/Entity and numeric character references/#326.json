@@ -4,6 +4,7 @@
     {
       "description": "Strings that are not on the list of HTML5 named entities are not recognized as entity references either",
       "input": "&MadeUpEntity;",
+      "markupAnswer": "&MadeUpEntity;",
       "htmlAnswer": "<p>&amp;MadeUpEntity;</p>",
       "parseAnswer": {
         "type": "root",

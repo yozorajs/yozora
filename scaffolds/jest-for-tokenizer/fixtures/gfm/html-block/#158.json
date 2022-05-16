@@ -4,6 +4,7 @@
     {
       "description": "Compare",
       "input": "<div>\n*Emphasized* text.\n</div>",
+      "markupAnswer": "<div>\n*Emphasized* text.\n</div>",
       "htmlAnswer": "<div>\n*Emphasized* text.\n</div>",
       "parseAnswer": {
         "type": "root",

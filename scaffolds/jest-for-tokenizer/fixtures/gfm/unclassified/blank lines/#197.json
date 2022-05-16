@@ -4,6 +4,7 @@
     {
       "description": "Blank lines at the beginning and end of the document are also ignored.",
       "input": "  \n\naaa\n  \n\n# aaa\n\n  ",
+      "markupAnswer": "aaa\n\n# aaa",
       "htmlAnswer": "<p>aaa</p>\n<h1>aaa</h1>",
       "parseAnswer": {
         "type": "root",

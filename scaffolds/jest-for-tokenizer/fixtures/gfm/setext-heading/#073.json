@@ -4,6 +4,7 @@
     {
       "description": "We find interpretation 4 most natural, and interpretation 4 increases the expressive power of CommonMark, by allowing multiline headings. Authors who want interpretation 1 can put a blank line after the first paragraph",
       "input": "Foo\n\nbar\n---\nbaz",
+      "markupAnswer": "Foo\n\n## bar\n\nbaz",
       "htmlAnswer": "<p>Foo</p>\n<h2>bar</h2>\n<p>baz</p>",
       "parseAnswer": {
         "type": "root",

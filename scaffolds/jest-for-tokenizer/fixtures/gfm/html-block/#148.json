@@ -4,6 +4,7 @@
     {
       "description": "A comment (type 2)",
       "input": "<!-- Foo\n\nbar\n   baz -->\nokay",
+      "markupAnswer": "<!-- Foo\n\nbar\n   baz -->\nokay",
       "htmlAnswer": "<!-- Foo\n\nbar\n   baz -->\n<p>okay</p>",
       "parseAnswer": {
         "type": "root",

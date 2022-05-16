@@ -4,6 +4,7 @@
     {
       "description": "Trailing punctuation (specifically, ?, !, ., ,, :, *, _, and ~) will not be considered part of the autolink, though they may be included in the interior of the link",
       "input": "Visit www.commonmark.org.\n\nVisit www.commonmark.org/a.b.",
+      "markupAnswer": "Visit [www.commonmark.org](http://www.commonmark.org).\n\nVisit [www.commonmark.org/a.b](http://www.commonmark.org/a.b).",
       "htmlAnswer": "<p>Visit <a href=\"http://www.commonmark.org\">www.commonmark.org</a>.</p>\n<p>Visit <a href=\"http://www.commonmark.org/a.b\">www.commonmark.org/a.b</a>.</p>",
       "parseAnswer": {
         "type": "root",
