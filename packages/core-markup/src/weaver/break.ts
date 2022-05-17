@@ -12,7 +12,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  */
 export class BreakMarkupWeaver implements INodeMarkupWeaver<Break> {
   public readonly couldBeWrapped = false
-  public readonly isBlockLevel = false
+  public readonly isBlockLevel = (): boolean => false
 
   public weave(): INodeMarkup {
     return {

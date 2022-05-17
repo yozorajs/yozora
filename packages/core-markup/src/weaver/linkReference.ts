@@ -15,7 +15,7 @@ const _escapeContent: IEscaper = createCharacterEscaper('[]()'.split(''))
  */
 export class LinkReferenceMarkupWeaver implements INodeMarkupWeaver<LinkReference> {
   public readonly couldBeWrapped = true
-  public readonly isBlockLevel = false
+  public readonly isBlockLevel = (): boolean => false
   public readonly escapeContent: IEscaper = _escapeContent
 
   public weave(node: LinkReference): INodeMarkup {

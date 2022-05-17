@@ -14,7 +14,7 @@ const _escapeContent: IEscaper = createCharacterEscaper('*_'.split(''))
  */
 export class EmphasisMarkupWeaver implements INodeMarkupWeaver<Emphasis> {
   public readonly couldBeWrapped = true
-  public readonly isBlockLevel = false
+  public readonly isBlockLevel = (): boolean => false
   public readonly escapeContent: IEscaper = _escapeContent
 
   public weave(): INodeMarkup {

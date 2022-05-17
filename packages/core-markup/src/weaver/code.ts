@@ -15,7 +15,7 @@ const tildeSymbolRegex = /(?:\n|^)([~]+)/g
  */
 export class CodeMarkupWeaver implements INodeMarkupWeaver<Code> {
   public readonly couldBeWrapped = false
-  public readonly isBlockLevel = true
+  public readonly isBlockLevel = (): boolean => true
 
   public weave(node: Code): INodeMarkup {
     const { value } = node

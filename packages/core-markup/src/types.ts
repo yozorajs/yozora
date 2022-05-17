@@ -47,17 +47,19 @@ export interface INodeMarkupWeaver<T extends Node = Node> {
    */
   readonly couldBeWrapped: boolean
   /**
-   * Whether the accepted node is block level.
-   */
-  readonly isBlockLevel: boolean
-  /**
    * Escape contents.
    * @param content
    */
   readonly escapeContent?: IEscaper
   /**
+   * Whether the accepted node is block level.
+   * @param node
+   * @param ctx
+   * @param childIndex
+   */
+  isBlockLevel(node: T, ctx: INodeMarkupWeaveContext, childIndex: number): boolean
+  /**
    * Weave AST node into a content string or markup structure.
-   *
    * @param node
    * @param ctx
    * @param childIndex

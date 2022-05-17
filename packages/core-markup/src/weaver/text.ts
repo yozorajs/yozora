@@ -20,7 +20,7 @@ const _escapeContent: IEscaper = content =>
  */
 export class TextMarkupWeaver implements INodeMarkupWeaver<Text> {
   public readonly couldBeWrapped = true
-  public readonly isBlockLevel = false
+  public readonly isBlockLevel = (): boolean => false
   public readonly escapeContent: IEscaper = _escapeContent
 
   public weave(node: Text): INodeMarkup {

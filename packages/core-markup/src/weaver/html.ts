@@ -1,7 +1,6 @@
 import type { Html } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaver } from '../types'
-
-const symbolRegex = /([`]+)/g
+import { lineRegex } from '../util'
 
 /**
  * HTML (Literal) represents a fragment of raw HTML.
@@ -17,11 +16,10 @@ const symbolRegex = /([`]+)/g
  */
 export class HtmlMarkupWeaver implements INodeMarkupWeaver<Html> {
   public readonly couldBeWrapped = false
-  public readonly isBlockLevel = false
+  // public readonly isBlockLevel = (node: Html): boolean => lineRegex.test(node.value)
+  public readonly isBlockLevel = (): boolean => false
 
   public weave(node: Html): INodeMarkup {
-    return {
-      opener: node.value,
-    }
+    return { opener: node.value }
   }
 }

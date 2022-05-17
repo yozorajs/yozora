@@ -6,8 +6,8 @@ import type {
   INodeMarkupWeaveContext,
   INodeMarkupWeaver,
 } from './types'
+import { lineRegex } from './util'
 
-const lineRegex = /\r\n|\n|\r/g
 const escapeEndBackslash: IEscaper = content =>
   content.replace(/([\\]+)$/, (_m, p1) => (p1.length & 1 ? p1 + '\\' : p1))
 
@@ -34,8 +34,6 @@ export class MarkupWeaver implements IMarkupWeaver {
   }
 
   public weave(ast: Readonly<Root>): string {
-    const { weaverMap } = this
-
     const escapers: IEscaper[] = []
     const escaperIndexMap: Record<NodeType, number | undefined> = {}
     const escapeContent: IEscaper = content => {
@@ -47,8 +45,26 @@ export class MarkupWeaver implements IMarkupWeaver {
       return result
     }
 
-    const ancestors: Array<Readonly<Parent>> = []
-    const ctx: INodeMarkupWeaveContext = { ancestors, weaveInlineNodes: weaveInlineNodes }
+    const enqueue = (node: Readonly<Node>, weaver: INodeMarkupWeaver): void => {
+      if (weaver.escapeContent && escaperIndexMap[node.type] === undefined) {
+        escaperIndexMap[node.type] = escapers.length
+        escapers.push(weaver.escapeContent)
+      }
+    }
+
+    const dequeue = (node: Readonly<Node>): void => {
+      if (escaperIndexMap[node.type] === escapers.length - 1) {
+        escaperIndexMap[node.type] = undefined
+        escapers.pop()
+      }
+    }
+
+    const { weaverMap } = this
+    const ancestors: Array<Readonly<Parent>> = [ast]
+    const ctx: INodeMarkupWeaveContext = {
+      ancestors,
+      weaveInlineNodes,
+    }
     return weaveNodes()
 
     function weaveNodes(): string {
@@ -62,6 +78,7 @@ export class MarkupWeaver implements IMarkupWeaver {
       }
       for (let i = 0; i < ast.children.length; ++i) process(ast.children[i], rootToken, i)
       return lines.join('\n')
+
       function process(
         node: Readonly<Node>,
         parent: Readonly<IMarkupToken>,
@@ -72,12 +89,8 @@ export class MarkupWeaver implements IMarkupWeaver {
           throw new TypeError(`[MarkupWeaver.weave] Cannot recognize node type(${node.type})`)
         }
 
-        if (weaver.escapeContent && escaperIndexMap[node.type] === undefined) {
-          escaperIndexMap[node.type] = escapers.length
-          escapers.push(weaver.escapeContent)
-        }
-        ancestors.push(parent.node)
-
+        enqueue(node, weaver)
+        const isBlockLevel: boolean = weaver.isBlockLevel(node, ctx, childIndex)
         const markup: INodeMarkup = weaver.weave(node, ctx, childIndex)
         const indent: string = parent.indent + (markup.indent ?? '')
 
@@ -100,16 +113,23 @@ export class MarkupWeaver implements IMarkupWeaver {
               node: node as Parent,
               spread: markup.spread ?? parent.spread,
             }
-            let prevChildWeaver: INodeMarkupWeaver | undefined
+            ancestors.push(token.node)
+
+            let isPrevNodeBlockLevel = true
             for (let i = 0; i < children.length; ++i) {
               const nextChildWeaver = weaverMap.get(children[i].type)!
-              if (i > 0 && nextChildWeaver?.isBlockLevel && !prevChildWeaver!.isBlockLevel) {
-                // eslint-disable-next-line no-plusplus
-                lines[++lineIdx] = indent
-              }
-              prevChildWeaver = nextChildWeaver
+              const isNextNodeBlockLevel: boolean = nextChildWeaver?.isBlockLevel?.(
+                children[i],
+                ctx,
+                i,
+              )
+              // eslint-disable-next-line no-plusplus
+              if (isNextNodeBlockLevel && !isPrevNodeBlockLevel) lines[++lineIdx] = indent
+              isPrevNodeBlockLevel = isNextNodeBlockLevel
               process(children[i], token, i)
             }
+
+            ancestors.pop()
           }
         } else {
           const content: string = escapeContent(markup.content)
@@ -126,7 +146,7 @@ export class MarkupWeaver implements IMarkupWeaver {
         if (markup.closer) {
           // The terminal backslash of inline node could cause issues when its parent is inline node
           // and the parent has a closer symbol.
-          if (!weaver.isBlockLevel) lines[lineIdx] = escapeEndBackslash(lines[lineIdx])
+          if (!isBlockLevel) lines[lineIdx] = escapeEndBackslash(lines[lineIdx])
 
           const closerLines: string[] = markup.closer.split(lineRegex)
           if (closerLines.length > 0) {
@@ -138,7 +158,7 @@ export class MarkupWeaver implements IMarkupWeaver {
           }
         }
 
-        if (weaver.isBlockLevel && childIndex + 1 < parent.node.children.length) {
+        if (isBlockLevel && childIndex + 1 < parent.node.children.length) {
           if (lines[lineIdx] === indent || lines[lineIdx] === parent.indent) {
             lines[lineIdx] = parent.indent
           } else {
@@ -153,11 +173,7 @@ export class MarkupWeaver implements IMarkupWeaver {
           }
         }
 
-        if (escaperIndexMap[node.type] === escapers.length - 1) {
-          escaperIndexMap[node.type] = undefined
-          escapers.pop()
-        }
-        ancestors.pop()
+        dequeue(node)
       }
     }
 
@@ -174,26 +190,25 @@ export class MarkupWeaver implements IMarkupWeaver {
           throw new TypeError(`[MarkupWeaver.weave] Cannot recognize node type(${node.type})`)
         }
 
-        if (weaver.isBlockLevel) {
+        enqueue(node, weaver)
+        const isBlockLevel: boolean = weaver.isBlockLevel(node, ctx, childIndex)
+        if (isBlockLevel) {
+          dequeue(node)
           throw new TypeError(`[MarkupWeaver.weave] Cannot processInline for block-level node.`)
         }
-
-        if (weaver.escapeContent && escaperIndexMap[node.type] === undefined) {
-          escaperIndexMap[node.type] = escapers.length
-          escapers.push(weaver.escapeContent)
-        }
-        ancestors.push(node as Parent)
 
         let result = ''
         const markup: INodeMarkup = weaver.weave(node, ctx, childIndex)
         if (markup.opener) result += markup.opener
         if (markup.content === undefined) {
           const { children } = node as Parent
+          ancestors.push(node as Parent)
           if (children && children.length >= 0) {
             for (let i = 0; i < children.length; ++i) {
               result += process(children[i], i)
             }
           }
+          ancestors.pop()
         } else {
           result += escapeContent(markup.content)
         }
@@ -201,15 +216,11 @@ export class MarkupWeaver implements IMarkupWeaver {
         if (markup.closer) {
           // The terminal backslash of inline node could cause issues when its parent is inline node
           // and the parent has a closer symbol.
-          if (!weaver.isBlockLevel) result = escapeEndBackslash(result)
+          if (!isBlockLevel) result = escapeEndBackslash(result)
           result += markup.closer
         }
 
-        if (escaperIndexMap[node.type] === escapers.length - 1) {
-          escaperIndexMap[node.type] = undefined
-          escapers.pop()
-        }
-        ancestors.pop()
+        dequeue(node)
         return result
       }
     }

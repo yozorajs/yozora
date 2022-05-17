@@ -13,7 +13,7 @@ import type { INodeMarkup, INodeMarkupWeaveContext, INodeMarkupWeaver } from '..
  */
 export class ThematicBreakMarkupWeaver implements INodeMarkupWeaver<ThematicBreak> {
   public readonly couldBeWrapped = false
-  public readonly isBlockLevel = true
+  public readonly isBlockLevel = (): boolean => true
 
   public weave(_node: ThematicBreak, ctx: INodeMarkupWeaveContext): INodeMarkup {
     const { ancestors } = ctx

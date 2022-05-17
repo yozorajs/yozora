@@ -16,7 +16,7 @@ const UPPERCASE_A: number = 'A'.codePointAt(0)!
  */
 export class ListItemMarkupWeaver implements INodeMarkupWeaver<ListItem> {
   public readonly couldBeWrapped = true
-  public readonly isBlockLevel = true
+  public readonly isBlockLevel = (): boolean => true
 
   public weave(node: ListItem, ctx: INodeMarkupWeaveContext, childIndex: number): INodeMarkup {
     const parent = ctx.ancestors[ctx.ancestors.length - 1] as List

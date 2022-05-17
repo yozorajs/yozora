@@ -11,7 +11,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  */
 export class BlockquoteMarkupWeaver implements INodeMarkupWeaver<Blockquote> {
   public readonly couldBeWrapped = true
-  public readonly isBlockLevel = true
+  public readonly isBlockLevel = (): boolean => true
 
   public weave(): INodeMarkup {
     return {

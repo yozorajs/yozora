@@ -14,7 +14,7 @@ const _escapeTitle: IEscaper = createCharacterEscaper('"'.split(''))
  */
 export class ImageMarkupWeaver implements INodeMarkupWeaver<Image> {
   public readonly couldBeWrapped = true
-  public readonly isBlockLevel = false
+  public readonly isBlockLevel = (): boolean => false
   public readonly escapeContent: IEscaper = _escapeContent
   protected readonly escapeTitle = _escapeTitle
 

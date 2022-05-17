@@ -32,7 +32,7 @@ const calcTableSeparateCell = (align: AlignType, w: number): string => {
  */
 export class TableMarkupWeaver implements INodeMarkupWeaver<Table> {
   public readonly couldBeWrapped = false
-  public readonly isBlockLevel = true
+  public readonly isBlockLevel = (): boolean => true
 
   public weave(node: Table, ctx: INodeMarkupWeaveContext): INodeMarkup {
     const tableHead: string[] = node.children[0].children.map(cell =>

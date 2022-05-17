@@ -1,5 +1,7 @@
 import type { IEscaper } from './types'
 
+export const lineRegex = /\r\n|\n|\r/g
+
 /**
  * Create character escaper.
  * @param characters

@@ -12,7 +12,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  */
 export class FrontmatterMarkupWeaver implements INodeMarkupWeaver<Frontmatter> {
   public readonly couldBeWrapped = false
-  public readonly isBlockLevel = true
+  public readonly isBlockLevel = (): boolean => true
 
   public weave(node: Frontmatter): INodeMarkup {
     return {
