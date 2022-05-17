@@ -4,6 +4,7 @@
     {
       "description": "If a backslash is itself escaped, the following character is not",
       "input": "\\\\*emphasis*",
+      "markupAnswer": "\\\\*emphasis*",
       "htmlAnswer": "<p>\\<em>emphasis</em></p>",
       "parseAnswer": {
         "type": "root",

@@ -99,7 +99,6 @@ async function answerWeavers(): Promise<void> {
       '!gfm/setext-heading/**/#063.json',
       '!gfm/setext-heading/**/#065.json',
       '!gfm/unclassified/**/#310.json',
-      '!gfm/unclassified/**/#311.json',
       '!gfm/unclassified/**/#333.json',
       '!gfm/unclassified/**/#334.json',
       '!gfm/unclassified/**/#335.json',

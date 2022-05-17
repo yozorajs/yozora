@@ -8,6 +8,7 @@ const _escapeContent: IEscaper = content =>
     .replace(/([ \t])([#]+(?:\n|$))/g, '$1\\$2') // for heading
     .replace(/(\n)([-*+][ \t]+\S)/g, '$1\\$2') // for list
     .replace(/(\n)([-_*])([ \t]*\2[ \t]*\2(?:[ \t]|\2)*(?:\n|$))/g, '$1\\$2$3') // for thematicBreak
+    .replace(/(\\+)$/, m => (m.length & 1 ? m + '\\' : m))
 
 /**
  * Text represents everything that is just text.
