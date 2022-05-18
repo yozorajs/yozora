@@ -8,9 +8,6 @@ import type {
 } from './types'
 import { lineRegex } from './util'
 
-const escapeEndBackslash: IEscaper = content =>
-  content.replace(/([\\]+)$/, (_m, p1) => (p1.length & 1 ? p1 + '\\' : p1))
-
 interface IMarkupToken {
   node: Parent
   indent: string
@@ -144,10 +141,6 @@ export class MarkupWeaver implements IMarkupWeaver {
         }
 
         if (markup.closer) {
-          // The terminal backslash of inline node could cause issues when its parent is inline node
-          // and the parent has a closer symbol.
-          if (!isBlockLevel) lines[lineIdx] = escapeEndBackslash(lines[lineIdx])
-
           const closerLines: string[] = markup.closer.split(lineRegex)
           if (closerLines.length > 0) {
             lines[lineIdx] += closerLines[0]
@@ -214,9 +207,6 @@ export class MarkupWeaver implements IMarkupWeaver {
         }
 
         if (markup.closer) {
-          // The terminal backslash of inline node could cause issues when its parent is inline node
-          // and the parent has a closer symbol.
-          if (!isBlockLevel) result = escapeEndBackslash(result)
           result += markup.closer
         }
 
