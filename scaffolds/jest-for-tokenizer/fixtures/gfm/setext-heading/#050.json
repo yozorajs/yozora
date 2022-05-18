@@ -4,7 +4,7 @@
     {
       "description": "Simple examples",
       "input": "Foo *bar*\n=========\n\nFoo *bar*\n---------",
-      "markupAnswer": "# Foo *bar*\n\n## Foo *bar*",
+      "markupAnswer": "Foo *bar*\n===\n\nFoo *bar*\n---",
       "htmlAnswer": "<h1>Foo <em>bar</em></h1>\n<h2>Foo <em>bar</em></h2>",
       "parseAnswer": {
         "type": "root",

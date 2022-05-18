@@ -15,8 +15,10 @@ export class HeadingMarkupWeaver implements INodeMarkupWeaver<Heading> {
   public readonly isBlockLevel = (): boolean => true
 
   public weave(node: Heading): INodeMarkup {
-    return {
-      opener: '#'.repeat(node.depth) + ' ',
+    if (node.position?.start.line !== node.position?.end.line) {
+      if (node.depth === 1) return { closer: '\n===' }
+      if (node.depth === 2) return { closer: '\n---' }
     }
+    return { opener: '#'.repeat(node.depth) + ' ' }
   }
 }

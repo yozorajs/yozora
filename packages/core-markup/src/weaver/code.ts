@@ -1,5 +1,6 @@
 import type { Code } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import { findMaxContinuousSymbol } from '../util'
 
 const backtickSymbolRegex = /(?:\n|^)([`]+)/g
 const tildeSymbolRegex = /(?:\n|^)([~]+)/g
@@ -36,25 +37,13 @@ export class CodeMarkupWeaver implements INodeMarkupWeaver<Code> {
      * @see https://github.github.com/gfm/#example-116
      */
     if (/[`]/.test(infoString)) {
-      const symbolCnt = this._findSymbolCnt(value, tildeSymbolRegex)
-      symbol = '~'.repeat(symbolCnt)
+      const symbolCnt = findMaxContinuousSymbol(value, tildeSymbolRegex)
+      symbol = '~'.repeat(symbolCnt === 0 ? 3 : symbolCnt + 1)
     } else {
-      const symbolCnt = this._findSymbolCnt(value, backtickSymbolRegex)
-      symbol = '`'.repeat(symbolCnt)
+      const symbolCnt = findMaxContinuousSymbol(value, backtickSymbolRegex)
+      symbol = '`'.repeat(symbolCnt === 0 ? 3 : symbolCnt + 1)
     }
 
     return { opener: `${symbol}${infoString}\n${value}${symbol}` }
-  }
-
-  protected _findSymbolCnt(value: string, symbolRegex: RegExp): number {
-    let symbolCnt = 0
-    for (let match: RegExpExecArray | null = null; ; ) {
-      match = symbolRegex.exec(value)
-      if (match == null) break
-
-      const len: number = match[1].length ?? 0
-      if (symbolCnt < len) symbolCnt = len
-    }
-    return symbolCnt === 0 ? 3 : symbolCnt + 1
   }
 }

@@ -29,3 +29,15 @@ export const minmax = (v: number, min: number, max: number): number => {
   if (result > max) result = max
   return result
 }
+
+export const findMaxContinuousSymbol = (value: string, symbolRegex: RegExp): number => {
+  let symbolCnt = 0
+  for (let match: RegExpExecArray | null = null; ; ) {
+    match = symbolRegex.exec(value)
+    if (match == null) break
+
+    const len: number = match[1].length ?? 0
+    if (symbolCnt < len) symbolCnt = len
+  }
+  return symbolCnt
+}

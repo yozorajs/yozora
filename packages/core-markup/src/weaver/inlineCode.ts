@@ -1,5 +1,6 @@
 import type { InlineCode } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import { findMaxContinuousSymbol } from '../util'
 
 const symbolRegex = /([`]+)/g
 
@@ -19,15 +20,7 @@ export class InlineCodeMarkupWeaver implements INodeMarkupWeaver<InlineCode> {
   public weave(node: InlineCode): INodeMarkup {
     const { value } = node
 
-    let backtickCnt = 0
-    for (let match: RegExpExecArray | null = null; ; ) {
-      match = symbolRegex.exec(value)
-      if (match == null) break
-
-      const len: number = match[1].length ?? 0
-      if (backtickCnt < len) backtickCnt = len
-    }
-
+    const backtickCnt = findMaxContinuousSymbol(value, symbolRegex)
     if (backtickCnt === 0) {
       return {
         opener: '`' + value + '`',
