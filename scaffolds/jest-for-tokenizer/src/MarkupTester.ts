@@ -8,6 +8,7 @@ import type {
   Text,
 } from '@yozora/ast'
 import { AdmonitionType, ImageReferenceType, LinkReferenceType, TextType } from '@yozora/ast'
+import { removePositions } from '@yozora/ast-util'
 import type { IMarkupWeaver } from '@yozora/core-markup'
 import type { IParser } from '@yozora/core-parser'
 import { BaseTester } from './BaseTester'
@@ -85,9 +86,9 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
     filepath: string,
   ): { markup: string; expectedAst: Root; receivedAst: Root } {
     return this.carefulProcess(filepath, () => {
-      const expectedAst = this.parser.parse(input, { shouldReservePosition: false })
+      const expectedAst = this.parser.parse(input, { shouldReservePosition: true })
       const markup = this.weaver.weave(expectedAst)
-      const receivedAst = this.parser.parse(markup, { shouldReservePosition: false })
+      const receivedAst = this.parser.parse(markup, { shouldReservePosition: true })
       return {
         markup,
         expectedAst: this._normalizeAst(expectedAst),
@@ -152,7 +153,8 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
   }
 
   protected _normalizeAst(ast: Root): Root {
-    const content = JSON.stringify(ast)
+    const root: Root = removePositions(ast)
+    const content = JSON.stringify(root)
     return JSON.parse(content)
   }
 }

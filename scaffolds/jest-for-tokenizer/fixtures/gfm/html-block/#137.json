@@ -4,6 +4,7 @@
     {
       "description": "In this case, we get a raw HTML block that just includes the <del> tag (because it ends with the following blank line). So the contents get interpreted as CommonMark",
       "input": "<del>\n\n*foo*\n\n</del>",
+      "markupAnswer": "<del>\n\n*foo*\n\n</del>",
       "htmlAnswer": "<del>\n<p><em>foo</em></p>\n</del>",
       "parseAnswer": {
         "type": "root",

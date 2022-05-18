@@ -4,7 +4,7 @@
     {
       "description": "To separate consecutive lists of the same type, or to separate a list from an indented code block that would otherwise be parsed as a subparagraph of the final list item, you can insert a blank HTML comment",
       "input": "-   foo\n\n    notcode\n\n-   foo\n\n<!-- -->\n\n    code",
-      "markupAnswer": "- foo\n  \n  notcode\n\n- foo\n\n<!-- -->\n```\ncode\n```",
+      "markupAnswer": "- foo\n  \n  notcode\n\n- foo\n\n<!-- -->\n\n```\ncode\n```",
       "htmlAnswer": "<ul>\n<li>\n<p>foo</p>\n<p>notcode</p>\n</li>\n<li>\n<p>foo</p>\n</li>\n</ul>\n<!-- -->\n<pre><code>code\n</code></pre>",
       "parseAnswer": {
         "type": "root",
