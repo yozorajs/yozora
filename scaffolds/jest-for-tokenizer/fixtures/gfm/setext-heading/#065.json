@@ -4,6 +4,7 @@
     {
       "description": "A blank line is needed between a paragraph and a following setext heading, since otherwise the paragraph becomes part of the heading’s content",
       "input": "Foo\nBar\n---",
+      "markupAnswer": "Foo\nBar\n---",
       "htmlAnswer": "<h2>Foo\nBar</h2>",
       "parseAnswer": {
         "type": "root",

@@ -3,8 +3,9 @@ import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
 
 const _escapeContent: IEscaper = content =>
   content
-    .replace(/(^|\n)([>])/g, '$1\\$2') // for blockquote
-    .replace(/(^|\n)([#]{1,6}[ \t]+\S)/g, '$1\\$2') // for heading
+    .replace(/((?:^|\n)[ \t]*)([>])/g, '$1\\$2') // for blockquote
+    .replace(/((?:^|\n)[ \t]*)([#]{1,6}[ \t]+\S)/g, '$1\\$2') // for heading
+    .replace(/((?:^|\n)[ \t]*)([=]{3,})[ \t]*(\n|$)/g, '$1\\$2$3') // for setext heading
     .replace(/([ \t])([#]+(?:\n|$))/g, '$1\\$2') // for heading
     .replace(/(\n)([-*+][ \t]+\S)/g, '$1\\$2') // for list
     .replace(/(\n)([-_*])([ \t]*\2[ \t]*\2(?:[ \t]|\2)*(?:\n|$))/g, '$1\\$2$3') // for thematicBreak

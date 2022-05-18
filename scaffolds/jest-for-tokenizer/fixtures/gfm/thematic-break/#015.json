@@ -4,7 +4,7 @@
     {
       "description": "Wrong characters",
       "input": "===",
-      "markupAnswer": "===",
+      "markupAnswer": "\\===",
       "htmlAnswer": "<p>===</p>",
       "parseAnswer": {
         "type": "root",
