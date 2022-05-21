@@ -29,15 +29,15 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
         i = eatOptionalWhitespaces(infoString, i, infoString.length)
         const meta: string = calcEscapedStringFromNodePoints(infoString, i, infoString.length, true)
 
-        // match content
+        /**
+         * match content
+         * Backslash escape works in info strings in fenced code blocks.
+         * @see https://github.github.com/gfm/#example-320
+         */
         const contents: INodePoint[] = mergeContentLinesFaithfully(token.lines)
         let value: string = calcStringFromNodePoints(contents)
         if (!/\n$/.test(value)) value += '\n'
 
-        /**
-         * Backslash escape works in info strings in fenced code blocks.
-         * @see https://github.github.com/gfm/#example-320
-         */
         const node: INode = api.shouldReservePosition
           ? {
               type: CodeType,

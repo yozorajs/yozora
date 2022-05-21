@@ -4,6 +4,7 @@
     {
       "description": "Basic",
       "input": "$$\nf(x)=\\left\\lbrace\\begin{aligned}\n&x^2, &x < 0\\\\\n&0, &x = 0\\\\\n&x^3, &x > 0\n\\end{aligned}\\right.\n$$",
+      "markupAnswer": "$$\nf(x)=\\left\\lbrace\\begin{aligned}\n&x^2, &x < 0\\\\\n&0, &x = 0\\\\\n&x^3, &x > 0\n\\end{aligned}\\right.\n$$",
       "parseAnswer": {
         "type": "root",
         "position": {

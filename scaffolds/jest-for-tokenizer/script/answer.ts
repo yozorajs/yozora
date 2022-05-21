@@ -68,16 +68,12 @@ async function answerWeavers(): Promise<void> {
       '!custom/inline-math/backtick-optional/#008.json',
       '!custom/inline-math/backtick-required/#001.json',
       '!custom/inline-math/backtick-required/#008.json',
-      '!custom/math/multiple-line/#1.json',
-      '!custom/math/multiple-line/#2.json',
-      '!custom/math/multiple-line/#3.json',
-      '!custom/math/multiple-line/#4.json',
     ])
     .runAnswer()
 }
 
 void answer()
 async function answer(): Promise<void> {
-  // await answerTokenizers()
+  await answerTokenizers()
   await answerWeavers()
 }

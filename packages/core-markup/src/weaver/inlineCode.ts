@@ -19,14 +19,9 @@ export class InlineCodeMarkupWeaver implements INodeMarkupWeaver<InlineCode> {
   public readonly isBlockLevel = (): boolean => false
 
   public weave(node: InlineCode): INodeMarkup {
-    const { value } = node
-
+    const value: string = node.value
     const backtickCnt = findMaxContinuousSymbol(value, symbolRegex)
-    if (backtickCnt === 0) {
-      return {
-        opener: '`' + value + '`',
-      }
-    }
+    if (backtickCnt === 0) return { opener: '`' + value + '`' }
 
     const backticks: string = '`'.repeat(backtickCnt + 1)
     return { opener: `${backticks} ${value} ${backticks}` }

@@ -1,12 +1,9 @@
 import type { InlineMath } from '@yozora/ast'
 import { InlineMathType } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaver } from '../types'
-import { findMaxContinuousSymbol } from '../util'
-
-const closerLikeSymbolRegex = /\$([`]*)/g
 
 export interface IInlineMathMarkupWeaverOptions {
-  readonly preferBackTick: boolean
+  readonly preferBacktick: boolean
 }
 
 /**
@@ -21,18 +18,12 @@ export class InlineMathMarkupWeaver implements INodeMarkupWeaver<InlineMath> {
   protected readonly preferBackTick: boolean
 
   constructor(options?: IInlineMathMarkupWeaverOptions) {
-    this.preferBackTick = options?.preferBackTick ?? true
+    this.preferBackTick = options?.preferBacktick ?? false
   }
 
   public weave(node: InlineMath): INodeMarkup {
-    const { value } = node
-
-    const backtickCnt = findMaxContinuousSymbol(value, closerLikeSymbolRegex)
-    if (backtickCnt === 0) {
-      return this.preferBackTick ? { opener: `$${value}$` } : { opener: '`$' + value + '$`' }
-    }
-
-    const backticks: string = '`'.repeat(backtickCnt - 1)
-    return { opener: `${backticks}$ ${value} $${backticks}` }
+    const value = node.value.trim()
+    if (this.preferBackTick) return { opener: '`$' + value + '$`' }
+    return { opener: `$${value}$` }
   }
 }

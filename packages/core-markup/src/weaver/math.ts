@@ -1,12 +1,12 @@
 import type { Math } from '@yozora/ast'
 import { MathType } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaver } from '../types'
-import { findMaxContinuousSymbol } from '../util'
+import { findMaxContinuousSymbol, lineRegex } from '../util'
 
-const closerLikeSymbolRegex = /(\$\$[`]*)/g
+const closerLikeSymbolRegex = /(\${1,})/g
 
 export interface IMathMarkupWeaverOptions {
-  readonly preferBackTick: boolean
+  readonly preferBacktick?: boolean
 }
 
 /**
@@ -21,18 +21,22 @@ export class MathMarkupWeaver implements INodeMarkupWeaver<Math> {
   protected readonly preferBackTick: boolean
 
   constructor(options?: IMathMarkupWeaverOptions) {
-    this.preferBackTick = options?.preferBackTick ?? true
+    this.preferBackTick = options?.preferBacktick ?? false
   }
 
   public weave(node: Math): INodeMarkup {
-    const { value } = node
-
-    const backtickCnt = findMaxContinuousSymbol(value, closerLikeSymbolRegex)
-    if (backtickCnt === 0) {
-      return this.preferBackTick ? { opener: `$$${value}$$` } : { opener: '`$$' + value + '$$`' }
+    const value = node.value.trim()
+    const isMultipleLine: boolean = lineRegex.test(value)
+    const dollarCnt: number = findMaxContinuousSymbol(value, closerLikeSymbolRegex)
+    if (dollarCnt === 0) {
+      return { opener: isMultipleLine ? `$$\n${value}\n$$` : `$$${value}$$` }
     }
 
-    const backticks: string = '`'.repeat(backtickCnt - 1)
-    return { opener: `${backticks}$$ ${value} $$${backticks}` }
+    const dollars: string = '$'.repeat(dollarCnt + 1)
+    return {
+      opener: isMultipleLine
+        ? `${dollars}\n${value}\n${dollars}`
+        : `${dollars} ${value} ${dollars}`,
+    }
   }
 }

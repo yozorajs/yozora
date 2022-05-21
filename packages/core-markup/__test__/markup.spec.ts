@@ -37,9 +37,5 @@ void createMarkupTester(parsers.yozora, defaultMarkupWeaver)
     '!custom/inline-math/backtick-optional/#008.json',
     '!custom/inline-math/backtick-required/#001.json',
     '!custom/inline-math/backtick-required/#008.json',
-    '!custom/math/multiple-line/#1.json',
-    '!custom/math/multiple-line/#2.json',
-    '!custom/math/multiple-line/#3.json',
-    '!custom/math/multiple-line/#4.json',
   ])
   .runTest()
