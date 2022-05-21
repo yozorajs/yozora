@@ -2,16 +2,19 @@ import type { IEcmaImportNamedImport } from '@yozora/ast'
 
 const namedImportItemRegex = /^(\w+)(?:\s+as\s+(\w+))?$/
 const namedImportRegex = /\{\s*((?:[\w]+(?:\s+as\s+[\w]+)?\s*,\s*)*[\w]+(?:\s+as\s+[\w]+)?)\s*\}\s*/
+const endRegex = /\s*;*\s*$/
 
 /**
  * import '@yozora.parser'
  */
-export const regex1 = /^import\s+(['"])([^'"]+)\1$/
+export const regex1 = new RegExp(/^import\s+(['"])([^'"]+)\1/.source + endRegex.source)
 
 /**
  * import Parser from '@yozora/parser'
  */
-export const regex2 = /^import\s+([\w]+)\s+from\s+(['"])([^'"]+)\2$/
+export const regex2 = new RegExp(
+  /^import\s+([\w]+)\s+from\s+(['"])([^'"]+)\2/.source + endRegex.source,
+)
 
 /**
  * import Parser, { YozoraParser } from '@yozora/parser'
@@ -24,7 +27,8 @@ export const regex2 = /^import\s+([\w]+)\s+from\s+(['"])([^'"]+)\2$/
 export const regex3 = new RegExp(
   /^import\s+(?:([\w]+)\s*,\s*)?/.source +
     namedImportRegex.source +
-    /from\s+(['"])([^'"]+)\3$/.source,
+    /from\s+(['"])([^'"]+)\3/.source +
+    endRegex.source,
 )
 
 /**
