@@ -4,8 +4,7 @@ export const CodeType = 'code'
 export type CodeType = typeof CodeType
 
 /**
- * Code represents a block of preformatted text, such as ASCII art or computer
- * code.
+ * Code represents a block of preformatted text, such as ASCII art or computer code.
  * @see https://github.com/syntax-tree/mdast#code
  * @see https://github.github.com/gfm/#code-fence
  */
@@ -13,11 +12,11 @@ export interface Code extends Literal<CodeType> {
   /**
    * Language of the codes
    */
-  lang?: string
+  lang: string | null
   /**
    * Meta info string
    */
-  meta?: string
+  meta: string | null
 }
 
 /**

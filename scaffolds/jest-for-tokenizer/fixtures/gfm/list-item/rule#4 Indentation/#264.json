@@ -102,6 +102,8 @@
                         "offset": 63
                       }
                     },
+                    "lang": null,
+                    "meta": null,
                     "value": "indented code\n"
                   },
                   {

@@ -49,9 +49,9 @@
                     "offset": 6
                   }
                 },
-                "lang": "",
-                "meta": "",
-                "value": ""
+                "lang": null,
+                "meta": null,
+                "value": "\n"
               }
             ]
           },
@@ -102,9 +102,9 @@
                 "offset": 13
               }
             },
-            "lang": "",
-            "meta": "",
-            "value": ""
+            "lang": null,
+            "meta": null,
+            "value": "\n"
           }
         ]
       }

@@ -34,7 +34,9 @@
                 "offset": 96
               }
             },
-            "value": "1.  A paragraph\n    with two lines.\n\n        indented code\n\n    > A block quote."
+            "lang": null,
+            "meta": null,
+            "value": "1.  A paragraph\n    with two lines.\n\n        indented code\n\n    > A block quote.\n"
           }
         ]
       }

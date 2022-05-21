@@ -69,8 +69,8 @@
                         "offset": 21
                       }
                     },
-                    "lang": "",
-                    "meta": "",
+                    "lang": null,
+                    "meta": null,
                     "value": "foo\n"
                   },
                   {

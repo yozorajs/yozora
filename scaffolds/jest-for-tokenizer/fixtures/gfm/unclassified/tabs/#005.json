@@ -100,7 +100,9 @@
                         "offset": 12
                       }
                     },
-                    "value": "  bar"
+                    "lang": null,
+                    "meta": null,
+                    "value": "  bar\n"
                   }
                 ]
               }

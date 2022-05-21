@@ -35,7 +35,7 @@
               }
             },
             "lang": "ruby",
-            "meta": "",
+            "meta": null,
             "value": "def foo(x)\n  return 3\nend\n"
           }
         ]

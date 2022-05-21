@@ -87,7 +87,9 @@
                 "offset": 19
               }
             },
-            "value": " two"
+            "lang": null,
+            "meta": null,
+            "value": " two\n"
           }
         ]
       }

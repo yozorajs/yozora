@@ -4,8 +4,7 @@ export const StrongType = 'strong'
 export type StrongType = typeof StrongType
 
 /**
- * Strong represents strong importance, seriousness, or urgency for its
- * contents.
+ * Strong represents strong importance, seriousness, or urgency for its contents.
  * @see https://github.com/syntax-tree/mdast#strong
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */

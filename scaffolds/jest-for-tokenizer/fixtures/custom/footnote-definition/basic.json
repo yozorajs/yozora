@@ -300,6 +300,8 @@
                     "offset": 409
                   }
                 },
+                "lang": null,
+                "meta": null,
                 "value": "{ some.code }\n"
               },
               {

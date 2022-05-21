@@ -102,7 +102,9 @@
                         "offset": 26
                       }
                     },
-                    "value": "bar"
+                    "lang": null,
+                    "meta": null,
+                    "value": "bar\n"
                   }
                 ]
               }

@@ -34,7 +34,9 @@
                 "offset": 38
               }
             },
-            "value": "a simple\n  indented code block"
+            "lang": null,
+            "meta": null,
+            "value": "a simple\n  indented code block\n"
           }
         ]
       }

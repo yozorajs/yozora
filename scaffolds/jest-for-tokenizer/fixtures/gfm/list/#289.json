@@ -203,7 +203,9 @@
                 "offset": 49
               }
             },
-            "value": "code"
+            "lang": null,
+            "meta": null,
+            "value": "code\n"
           }
         ]
       }

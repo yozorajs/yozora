@@ -100,8 +100,8 @@
                         "offset": 22
                       }
                     },
-                    "lang": "",
-                    "meta": "",
+                    "lang": null,
+                    "meta": null,
                     "value": "b\n\n\n"
                   }
                 ]

@@ -68,7 +68,7 @@
               }
             },
             "lang": "tsx",
-            "meta": "",
+            "meta": null,
             "value": "import React, { useEffect, useRef } from 'react'\nimport isEqual from 'fast-deep-equal/react'\n\nexport function useDeepCompareEffect(\n  fn: React.EffectCallback,\n  deps: React.DependencyList,\n): void {\n  const signal = useRef<number>(0)\n  const prevDeps = useRef<React.DependencyList>(deps)\n\n  if (!isEqual(prevDeps.current, deps)) {\n    signal.current += 1\n  }\n  prevDeps.current = deps\n\n  useEffect(fn, [signal.current])\n}\n"
           }
         ]

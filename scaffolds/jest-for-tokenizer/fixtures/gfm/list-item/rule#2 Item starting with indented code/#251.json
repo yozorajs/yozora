@@ -69,6 +69,8 @@
                         "offset": 22
                       }
                     },
+                    "lang": null,
+                    "meta": null,
                     "value": "indented code\n"
                   },
                   {
@@ -118,7 +120,9 @@
                         "offset": 52
                       }
                     },
-                    "value": "more code"
+                    "lang": null,
+                    "meta": null,
+                    "value": "more code\n"
                   }
                 ]
               }
