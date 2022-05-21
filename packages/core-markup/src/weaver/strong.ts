@@ -1,5 +1,8 @@
 import type { Strong } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
+import { createCharacterEscaper } from '../util'
+
+const _escapeContent: IEscaper = createCharacterEscaper(['*'])
 
 /**
  * Strong represents strong importance, seriousness, or urgency for its contents.
@@ -12,6 +15,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 export class StrongMarkupWeaver implements INodeMarkupWeaver<Strong> {
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = (): boolean => false
+  public readonly escapeContent: IEscaper = _escapeContent
 
   public weave(): INodeMarkup {
     return {

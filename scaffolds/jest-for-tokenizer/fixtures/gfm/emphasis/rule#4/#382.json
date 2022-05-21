@@ -4,7 +4,7 @@
     {
       "description": "This is emphasis within emphasis",
       "input": "_(_foo_)_",
-      "markupAnswer": "*(*foo*)*",
+      "markupAnswer": "*(_foo_)*",
       "htmlAnswer": "<p><em>(<em>foo</em>)</em></p>",
       "parseAnswer": {
         "type": "root",

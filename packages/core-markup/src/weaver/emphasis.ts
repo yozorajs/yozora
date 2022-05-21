@@ -1,8 +1,9 @@
 import type { Emphasis } from '@yozora/ast'
-import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
+import { EmphasisType } from '@yozora/ast'
+import type { IEscaper, INodeMarkup, INodeMarkupWeaveContext, INodeMarkupWeaver } from '../types'
 import { createCharacterEscaper } from '../util'
 
-const _escapeContent: IEscaper = createCharacterEscaper('*_'.split(''))
+const _escapeContent: IEscaper = createCharacterEscaper(['*', '_'])
 
 /**
  * Emphasis represents stress emphasis of its contents.
@@ -17,10 +18,17 @@ export class EmphasisMarkupWeaver implements INodeMarkupWeaver<Emphasis> {
   public readonly isBlockLevel = (): boolean => false
   public readonly escapeContent: IEscaper = _escapeContent
 
-  public weave(): INodeMarkup {
+  public weave(_node: Emphasis, ctx: INodeMarkupWeaveContext): INodeMarkup {
+    let bit = 0
+    for (let ancestors = ctx.ancestors, i = ancestors.length - 1; i >= 0; --i) {
+      if (ancestors[i].type === EmphasisType) bit ^= 1
+      else break
+    }
+    const symbol = bit ? '_' : '*'
+
     return {
-      opener: '*',
-      closer: '*',
+      opener: symbol,
+      closer: symbol,
     }
   }
 }
