@@ -1,7 +1,7 @@
-import { createTester } from '@yozora/jest-for-tokenizer'
+import { createTokenizerTester } from '@yozora/jest-for-tokenizer'
 import { parsers } from 'jest.setup'
 
-createTester(parsers.gfm)
+createTokenizerTester(parsers.gfm)
   .scan([
     'gfm/**/*.json',
     '!gfm/autolink-extension/**/*',

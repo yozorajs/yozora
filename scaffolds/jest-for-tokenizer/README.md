@@ -66,7 +66,7 @@ Jest util for testing yozora tokenizers.
 * Test with [@yozora/parser]
 
   ```typescript
-  import { createTester } from '@yozora/jest-for-tokenizer'
+  import { createTokenizerTester } from '@yozora/jest-for-tokenizer'
   import YozoraParser from '@yozora/parser'
   import CustomTokenizer from '../src'
 
@@ -78,7 +78,7 @@ Jest util for testing yozora tokenizers.
     .useTokenizer(new CustomTokenizer())
 
   // Run official test cases
-  createTester(parser)
+  createTokenizerTester(parser)
     .scan([
       'gfm/**/*.json',
       // The following cases are conflict when enabled GFM autolink (extension)
@@ -91,7 +91,7 @@ Jest util for testing yozora tokenizers.
     .runTest()
 
   // Run custom test cases
-  createTester(parser)
+  createTokenizerTester(parser)
     .scan('fixtures', __dirname)
     .runTest()
   ```
@@ -99,7 +99,7 @@ Jest util for testing yozora tokenizers.
 * Test with [@yozora/parser-gfm]
 
   ```typescript
-  import { createTester } from '@yozora/jest-for-tokenizer'
+  import { createTokenizerTester } from '@yozora/jest-for-tokenizer'
   import GfmParser from '@yozora/parser-gfm'
   import CustomTokenizer from '../src'
 
@@ -111,7 +111,7 @@ Jest util for testing yozora tokenizers.
     .useTokenizer(new CustomTokenizer())
 
   // Run official test cases
-  createTester(parser)
+  createTokenizerTester(parser)
     .scan([
       'gfm/**/*.json',
       // The following cases only works when GFM extensions enabled.
@@ -128,7 +128,7 @@ Jest util for testing yozora tokenizers.
     .runTest()
 
   // Run custom test cases
-  createTester(parser)
+  createTokenizerTester(parser)
     .scan('fixtures', __dirname)
     .runTest()
   ```
@@ -136,7 +136,7 @@ Jest util for testing yozora tokenizers.
 * Test with [@yozora/parser-gfm-ex]
 
   ```typescript
-  import { createTester } from '@yozora/jest-for-tokenizer'
+  import { createTokenizerTester } from '@yozora/jest-for-tokenizer'
   import GfmExParser from '@yozora/parser-gfm-ex'
   import CustomTokenizer from '../src'
 
@@ -148,7 +148,7 @@ Jest util for testing yozora tokenizers.
     .useTokenizer(new CustomTokenizer())
 
   // Run official test cases
-  createTester(parser)
+  createTokenizerTester(parser)
     .scan([
       'gfm/**/*.json',
       // The following cases are conflict when enabled GFM autolink (extension)
@@ -160,7 +160,7 @@ Jest util for testing yozora tokenizers.
     .runTest()
 
   // Run custom test cases
-  createTester(parser)
+  createTokenizerTester(parser)
     .scan('fixtures', __dirname)
     .runTest()
   ```

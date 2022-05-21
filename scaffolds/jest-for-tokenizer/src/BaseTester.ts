@@ -1,35 +1,27 @@
-/* eslint-disable jest/no-export, jest/valid-title */
-import type { IParser } from '@yozora/core-parser'
 import invariant from '@yozora/invariant'
 import fs from 'fs-extra'
 import globby from 'globby'
 import path from 'path'
-import type { ITokenizerUseCase, ITokenizerUseCaseGroup } from './types'
+import type { IYozoraUseCase, IYozoraUseCaseGroup } from './types'
 
 /**
- * Params for construct TokenizerTester
+ * Params for construct BaseTester
  */
-export interface ITokenizerTesterProps {
+export interface IBaseTesterProps {
   /**
    * Root directory of the use cases located
    */
   caseRootDirectory: string
-  /**
-   * Parser
-   */
-  parser: IParser
 }
 
-export class TokenizerTester<T = unknown> {
-  public readonly parser: IParser
+export abstract class BaseTester<T = unknown> {
   protected readonly caseRootDirectory: string
   protected readonly formattedCaseRootDirectory: string
-  protected readonly caseGroups: Array<ITokenizerUseCaseGroup<T>>
+  protected readonly caseGroups: Array<IYozoraUseCaseGroup<T>>
   protected readonly visitedFilepathSet: Set<string>
 
-  constructor(props: ITokenizerTesterProps) {
-    const { caseRootDirectory, parser } = props
-    this.parser = parser
+  constructor(props: IBaseTesterProps) {
+    const { caseRootDirectory } = props
     this.caseRootDirectory = path.normalize(caseRootDirectory)
     this.formattedCaseRootDirectory = this._formatDirpath(caseRootDirectory)
     this.caseGroups = []
@@ -39,7 +31,7 @@ export class TokenizerTester<T = unknown> {
   /**
    * Get the list of TestCaseGroup
    */
-  public collect(): Array<ITokenizerUseCaseGroup<T>> {
+  public collect(): Array<IYozoraUseCaseGroup<T>> {
     return this.caseGroups.slice()
   }
 
@@ -91,7 +83,7 @@ export class TokenizerTester<T = unknown> {
   public runAnswer(): Promise<void | void[]> {
     const answerUseCaseGroup = async (
       parentDir: string,
-      caseGroup: ITokenizerUseCaseGroup<T>,
+      caseGroup: IYozoraUseCaseGroup<T>,
     ): Promise<void> => {
       if (caseGroup.dirpath === caseGroup.filepath) {
         // Test sub groups
@@ -103,10 +95,13 @@ export class TokenizerTester<T = unknown> {
 
       const result = {
         title: caseGroup.title || caseGroup.dirpath.slice(parentDir.length),
-        cases: caseGroup.cases.map(c => ({
-          ...c,
-          ...this._answerCase(c, caseGroup.filepath),
-        })),
+        cases: caseGroup.cases.map(c => {
+          const { description, input, htmlAnswer, parseAnswer } = {
+            ...c,
+            ...this._answerCase(c, caseGroup.filepath),
+          }
+          return { description, input, htmlAnswer, parseAnswer }
+        }),
       }
       const content = this.stringify(result)
       await fs.writeFile(caseGroup.filepath, content, 'utf-8')
@@ -127,7 +122,7 @@ export class TokenizerTester<T = unknown> {
    * Run all use cases
    */
   public runTest(): void {
-    const testUseCaseGroup = (parentDir: string, caseGroup: ITokenizerUseCaseGroup<T>): void => {
+    const testUseCaseGroup = (parentDir: string, caseGroup: IYozoraUseCaseGroup<T>): void => {
       const self = this
       const title = caseGroup.title || caseGroup.dirpath.slice(parentDir.length)
       describe(title, function () {
@@ -186,7 +181,7 @@ export class TokenizerTester<T = unknown> {
    * @param filepath
    * @param fn
    */
-  public trackHandle<T = unknown>(filepath: string, fn: () => T): T {
+  public carefulProcess<T = unknown>(filepath: string, fn: () => T): T {
     try {
       const result = fn()
       return result
@@ -211,8 +206,8 @@ export class TokenizerTester<T = unknown> {
     this.visitedFilepathSet.add(filepath)
 
     const data = fs.readJSONSync(filepath)
-    const cases: Array<ITokenizerUseCase<T>> = (data.cases || []).map(
-      (c: ITokenizerUseCase<T>, index: number): ITokenizerUseCase<T> => ({
+    const cases: Array<IYozoraUseCase<T>> = (data.cases || []).map(
+      (c: IYozoraUseCase<T>, index: number): IYozoraUseCase<T> => ({
         description: c.description || 'case#' + index,
         input: c.input,
         htmlAnswer: c.htmlAnswer,
@@ -221,8 +216,8 @@ export class TokenizerTester<T = unknown> {
     )
 
     const dirpath = this._formatDirpath(path.dirname(filepath))
-    const createCaseGroup = (parentDirpath: string): ITokenizerUseCaseGroup<T> => {
-      const caseGroup: ITokenizerUseCaseGroup<T> = {
+    const createCaseGroup = (parentDirpath: string): IYozoraUseCaseGroup<T> => {
+      const caseGroup: IYozoraUseCaseGroup<T> = {
         dirpath,
         filepath,
         title: data.title,
@@ -232,7 +227,7 @@ export class TokenizerTester<T = unknown> {
 
       if (caseGroup.dirpath === parentDirpath) return caseGroup
 
-      const wrapper: ITokenizerUseCaseGroup<T> = {
+      const wrapper: IYozoraUseCaseGroup<T> = {
         dirpath: caseGroup.dirpath,
         filepath: caseGroup.dirpath,
         title: undefined,
@@ -245,7 +240,7 @@ export class TokenizerTester<T = unknown> {
     // Try to merge `result` into existing caseGroup
     const traverseCaseGroup = (
       parentDirpath: string,
-      caseGroups: Array<ITokenizerUseCaseGroup<T>>,
+      caseGroups: Array<IYozoraUseCaseGroup<T>>,
     ): boolean => {
       for (const caseGroup of caseGroups) {
         if (caseGroup.dirpath !== caseGroup.filepath) continue
@@ -279,7 +274,7 @@ export class TokenizerTester<T = unknown> {
       )
 
       // try to create a new common parent
-      const parentGroup: ITokenizerUseCaseGroup<T> = {
+      const parentGroup: IYozoraUseCaseGroup<T> = {
         dirpath: longestCommonDirpath,
         filepath: longestCommonDirpath,
         title: undefined,
@@ -331,14 +326,7 @@ export class TokenizerTester<T = unknown> {
    * @param useCase
    * @param filepath
    */
-  protected _testCase(useCase: ITokenizerUseCase<T>, filepath: string): void {
-    const self = this
-    const { description, input } = useCase
-    test(description, async function () {
-      const parseAnswer = self._parseAndFormat(input, filepath)
-      expect(useCase.parseAnswer).toEqual(parseAnswer)
-    })
-  }
+  protected abstract _testCase(useCase: IYozoraUseCase<T>, filepath: string): void
 
   /**
    * Create an answer for a single use case
@@ -346,26 +334,8 @@ export class TokenizerTester<T = unknown> {
    * @param useCase
    * @param filepath
    */
-  protected _answerCase(
-    useCase: ITokenizerUseCase<T>,
+  protected abstract _answerCase(
+    useCase: IYozoraUseCase<T>,
     filepath: string,
-  ): Partial<ITokenizerUseCase<T>> {
-    const parseAnswer = this._parseAndFormat(useCase.input, filepath)
-    return { parseAnswer }
-  }
-
-  /**
-   * Parse and format.
-   * Print case filepath when it failed.
-   *
-   * @param input
-   * @param filepath
-   */
-  protected _parseAndFormat(input: string, filepath: string): any {
-    return this.trackHandle<any>(filepath, () => {
-      const output = this.parser.parse(input)
-      const formattedOutput = this.format(output)
-      return formattedOutput
-    })
-  }
+  ): Partial<IYozoraUseCase<T>>
 }

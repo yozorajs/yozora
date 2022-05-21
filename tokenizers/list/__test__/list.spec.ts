@@ -1,10 +1,10 @@
-import { createTester, createTesters } from '@yozora/jest-for-tokenizer'
+import { createTokenizerTester, createTokenizerTesters } from '@yozora/jest-for-tokenizer'
 import { parsers } from 'jest.setup'
 
-createTester(parsers.gfm)
+createTokenizerTester(parsers.gfm)
   .scan(['gfm/list', 'gfm/list-item', '!gfm/list-item/task list items\\(extension\\)/**/*'])
   .runTest()
 
-createTesters(parsers.gfmEx, parsers.yozora).forEach(tester =>
+createTokenizerTesters(parsers.gfmEx, parsers.yozora).forEach(tester =>
   tester.scan(['gfm/list', 'gfm/list-item', 'custom/list']).runTest(),
 )

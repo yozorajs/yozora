@@ -1,4 +1,4 @@
-import { createTester } from '@yozora/jest-for-tokenizer'
+import { createTokenizerTester } from '@yozora/jest-for-tokenizer'
 import YozoraParser from '@yozora/parser'
 import {{{pascalCase tokenizerName}}}Tokenizer from '../src'
 
@@ -10,6 +10,6 @@ const parser = new YozoraParser({
   .useTokenizer(new {{{pascalCase tokenizerName}}}Tokenizer())
 
 // Generate answers for custom test cases
-void createTester(parser)
+void createTokenizerTester(parser)
   .scan('fixtures', __dirname)
   .runAnswer()

@@ -1,7 +1,7 @@
 /**
  * ITokenizer UseCase
  */
-export interface ITokenizerUseCase<T = unknown> {
+export interface IYozoraUseCase<T = unknown> {
   /**
    * Description of the use case
    */
@@ -21,9 +21,9 @@ export interface ITokenizerUseCase<T = unknown> {
 }
 
 /**
- * Group of ITokenizerUseCase
+ * Group of IYozoraUseCase
  */
-export interface ITokenizerUseCaseGroup<T = unknown> {
+export interface IYozoraUseCaseGroup<T = unknown> {
   /**
    * Directory path of the use case located
    */
@@ -39,9 +39,9 @@ export interface ITokenizerUseCaseGroup<T = unknown> {
   /**
    * Use cases of current group
    */
-  readonly cases: Array<ITokenizerUseCase<T>>
+  readonly cases: Array<IYozoraUseCase<T>>
   /**
    * Sub use case group
    */
-  readonly subGroups: Array<ITokenizerUseCaseGroup<T>>
+  readonly subGroups: Array<IYozoraUseCaseGroup<T>>
 }

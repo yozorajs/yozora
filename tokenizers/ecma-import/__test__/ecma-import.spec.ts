@@ -1,9 +1,9 @@
-import { createTesters } from '@yozora/jest-for-tokenizer'
+import { createTokenizerTesters } from '@yozora/jest-for-tokenizer'
 import { parsers } from 'jest.setup'
 import EcmaImportTokenizer from '../src'
 import { regex1, regex2, regex3 } from '../src/util'
 
-createTesters(
+createTokenizerTesters(
   parsers.gfm.useTokenizer(new EcmaImportTokenizer()),
   parsers.gfmEx.useTokenizer(new EcmaImportTokenizer()),
   parsers.yozora,
