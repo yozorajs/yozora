@@ -1,4 +1,5 @@
 import type { Math } from '@yozora/ast'
+import { MathType } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 import { findMaxContinuousSymbol } from '../util'
 
@@ -15,6 +16,7 @@ export interface IMathMarkupWeaverOptions {
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/math
  */
 export class MathMarkupWeaver implements INodeMarkupWeaver<Math> {
+  public readonly type = MathType
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = (): boolean => true
   protected readonly preferBackTick: boolean

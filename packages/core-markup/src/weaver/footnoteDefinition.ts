@@ -1,4 +1,5 @@
 import type { FootnoteDefinition } from '@yozora/ast'
+import { FootnoteDefinitionType } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
@@ -9,6 +10,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/footnote-definition
  */
 export class FootnoteDefinitionMarkupWeaver implements INodeMarkupWeaver<FootnoteDefinition> {
+  public readonly type = FootnoteDefinitionType
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = (): boolean => true
 

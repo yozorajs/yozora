@@ -1,5 +1,5 @@
 import type { List, ThematicBreak } from '@yozora/ast'
-import { ListItemType } from '@yozora/ast'
+import { ListItemType, ThematicBreakType } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaveContext, INodeMarkupWeaver } from '../types'
 
 /**
@@ -12,6 +12,7 @@ import type { INodeMarkup, INodeMarkupWeaveContext, INodeMarkupWeaver } from '..
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/thematic-break
  */
 export class ThematicBreakMarkupWeaver implements INodeMarkupWeaver<ThematicBreak> {
+  public readonly type = ThematicBreakType
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = (): boolean => true
 

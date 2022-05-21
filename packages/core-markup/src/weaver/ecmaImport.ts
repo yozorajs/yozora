@@ -1,4 +1,5 @@
 import type { EcmaImport } from '@yozora/ast'
+import { EcmaImportType } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
@@ -8,6 +9,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/ecma-import
  */
 export class EcmaImportMarkupWeaver implements INodeMarkupWeaver<EcmaImport> {
+  public readonly type = EcmaImportType
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = (): boolean => true
 

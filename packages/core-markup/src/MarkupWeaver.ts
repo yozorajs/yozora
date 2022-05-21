@@ -21,12 +21,17 @@ export class MarkupWeaver implements IMarkupWeaver {
     this.weaverMap = new Map()
   }
 
-  public useWeaver(type: NodeType, weaver: INodeMarkupWeaver): this {
-    if (this.weaverMap.has(type)) {
-      console.error(`[useWeaver] Type(${type}) has been registered.`)
-      return this
+  public useWeaver(weaver: INodeMarkupWeaver): this {
+    const types: string[] = Array.isArray(weaver.type)
+      ? Array.from(new Set(weaver.type))
+      : [weaver.type]
+    for (const type of types) {
+      if (this.weaverMap.has(type)) {
+        console.error(`[useWeaver] Type(${type}) has been registered.`)
+        return this
+      }
+      this.weaverMap.set(type, weaver)
     }
-    this.weaverMap.set(type, weaver)
     return this
   }
 

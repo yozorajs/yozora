@@ -1,4 +1,5 @@
 import type { ImageReference } from '@yozora/ast'
+import { ImageReferenceType } from '@yozora/ast'
 import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
 import { createCharacterEscaper } from '../util'
 
@@ -14,6 +15,7 @@ const _escapeAlt: IEscaper = createCharacterEscaper('[]()'.split(''))
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/image-reference
  */
 export class ImageReferenceMarkupWeaver implements INodeMarkupWeaver<ImageReference> {
+  public readonly type = ImageReferenceType
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = (): boolean => false
   protected readonly escapeAlt = _escapeAlt

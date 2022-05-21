@@ -43,6 +43,10 @@ export interface INodeMarkupWeaveContext {
 
 export interface INodeMarkupWeaver<T extends Node = Node> {
   /**
+   * Node type
+   */
+  readonly type: T['type'] | Array<T['type']>
+  /**
    * Whether the content can be wrapped.
    */
   readonly couldBeWrapped: boolean
@@ -70,10 +74,9 @@ export interface INodeMarkupWeaver<T extends Node = Node> {
 export interface IMarkupWeaver {
   /**
    *
-   * @param type
    * @param weaver
    */
-  useWeaver(type: NodeType, weaver: INodeMarkupWeaver): IMarkupWeaver
+  useWeaver(weaver: INodeMarkupWeaver): IMarkupWeaver
   /**
    *
    * @param ast

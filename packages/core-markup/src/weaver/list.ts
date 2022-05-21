@@ -1,4 +1,5 @@
 import type { List } from '@yozora/ast'
+import { ListType } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
@@ -10,6 +11,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/list
  */
 export class ListMarkupWeaver implements INodeMarkupWeaver<List> {
+  public readonly type = ListType
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = (): boolean => true
 

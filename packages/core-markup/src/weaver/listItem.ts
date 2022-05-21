@@ -1,4 +1,5 @@
 import type { List, ListItem } from '@yozora/ast'
+import { ListItemType } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaveContext, INodeMarkupWeaver } from '../types'
 import { minmax } from '../util'
 
@@ -15,6 +16,7 @@ const UPPERCASE_A: number = 'A'.codePointAt(0)!
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/list
  */
 export class ListItemMarkupWeaver implements INodeMarkupWeaver<ListItem> {
+  public readonly type = ListItemType
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = (): boolean => true
 

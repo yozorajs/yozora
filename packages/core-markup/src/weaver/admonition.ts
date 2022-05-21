@@ -1,3 +1,4 @@
+import { AdmonitionType } from '@yozora/ast'
 import type { Admonition } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
@@ -10,6 +11,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/admonition
  */
 export class AdmonitionMarkupWeaver implements INodeMarkupWeaver<Admonition> {
+  public readonly type = AdmonitionType
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = (): boolean => true
 

@@ -1,4 +1,5 @@
 import type { Heading } from '@yozora/ast'
+import { HeadingType } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
@@ -11,6 +12,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/setext-heading
  */
 export class HeadingMarkupWeaver implements INodeMarkupWeaver<Heading> {
+  public readonly type = HeadingType
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = (): boolean => true
 

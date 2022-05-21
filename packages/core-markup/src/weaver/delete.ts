@@ -1,4 +1,5 @@
 import type { Delete } from '@yozora/ast'
+import { DeleteType } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
@@ -10,6 +11,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/delete
  */
 export class DeleteMarkupWeaver implements INodeMarkupWeaver<Delete> {
+  public readonly type = DeleteType
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = (): boolean => false
 

@@ -1,4 +1,5 @@
 import type { InlineCode } from '@yozora/ast'
+import { InlineCodeType } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 import { findMaxContinuousSymbol } from '../util'
 
@@ -14,6 +15,7 @@ const symbolRegex = /([`]+)/g
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/inline-code
  */
 export class InlineCodeMarkupWeaver implements INodeMarkupWeaver<InlineCode> {
+  public readonly type = InlineCodeType
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = (): boolean => false
 

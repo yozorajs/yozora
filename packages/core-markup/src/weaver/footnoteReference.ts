@@ -1,4 +1,5 @@
 import type { FootnoteReference } from '@yozora/ast'
+import { FootnoteReferenceType } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
@@ -14,6 +15,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/footnote-reference
  */
 export class FootnoteReferenceMarkupWeaver implements INodeMarkupWeaver<FootnoteReference> {
+  public readonly type = FootnoteReferenceType
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = (): boolean => false
 

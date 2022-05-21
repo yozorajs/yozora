@@ -1,4 +1,5 @@
 import type { Paragraph } from '@yozora/ast'
+import { ParagraphType } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
@@ -10,6 +11,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/paragraph
  */
 export class ParagraphMarkupWeaver implements INodeMarkupWeaver<Paragraph> {
+  public readonly type = ParagraphType
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = (): boolean => true
 

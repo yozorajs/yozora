@@ -1,4 +1,5 @@
 import type { LinkReference } from '@yozora/ast'
+import { LinkReferenceType } from '@yozora/ast'
 import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
 import { createCharacterEscaper } from '../util'
 
@@ -14,6 +15,7 @@ const _escapeContent: IEscaper = createCharacterEscaper('[]()'.split(''))
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/link-reference
  */
 export class LinkReferenceMarkupWeaver implements INodeMarkupWeaver<LinkReference> {
+  public readonly type = LinkReferenceType
   public readonly couldBeWrapped = true
   public readonly isBlockLevel = (): boolean => false
   public readonly escapeContent: IEscaper = _escapeContent

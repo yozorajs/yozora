@@ -1,4 +1,5 @@
 import type { Frontmatter } from '@yozora/ast'
+import { FrontmatterType } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
@@ -11,6 +12,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/frontmatter
  */
 export class FrontmatterMarkupWeaver implements INodeMarkupWeaver<Frontmatter> {
+  public readonly type = FrontmatterType
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = (): boolean => true
 

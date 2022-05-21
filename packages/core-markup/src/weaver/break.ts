@@ -1,4 +1,5 @@
 import type { Break } from '@yozora/ast'
+import { BreakType } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaver } from '../types'
 
 /**
@@ -11,6 +12,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/break
  */
 export class BreakMarkupWeaver implements INodeMarkupWeaver<Break> {
+  public readonly type = BreakType
   public readonly couldBeWrapped = false
   public readonly isBlockLevel = (): boolean => false
 
