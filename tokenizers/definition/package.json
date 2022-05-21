@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-definition",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -35,8 +35,8 @@
     "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir ."
   },
   "dependencies": {
-    "@yozora/ast": "^2.0.0",
-    "@yozora/character": "^2.0.0",
-    "@yozora/core-tokenizer": "^2.0.0"
+    "@yozora/ast": "^2.0.1",
+    "@yozora/character": "^2.0.1",
+    "@yozora/core-tokenizer": "^2.0.1"
   }
 }
