@@ -64,9 +64,7 @@ async function answerWeavers(): Promise<void> {
       '!gfm/unclassified/**/#336.json',
       '!gfm/unclassified/**/#337.json',
       '!custom/footnote/escape.json',
-      '!custom/inline-math/backtick-optional/#001.json',
       '!custom/inline-math/backtick-optional/#008.json',
-      '!custom/inline-math/backtick-required/#001.json',
       '!custom/inline-math/backtick-required/#008.json',
     ])
     .runAnswer()
