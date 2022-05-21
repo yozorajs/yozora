@@ -23,8 +23,11 @@ export class EcmaImportMarkupWeaver implements INodeMarkupWeaver<EcmaImport> {
         ? node.defaultImport + ', ' + importStatement
         : node.defaultImport
     }
+
     return {
-      opener: `import ${importStatement} from "${node.moduleName}";`,
+      opener: importStatement
+        ? `import ${importStatement} from "${node.moduleName}";`
+        : `import "${node.moduleName}";`,
     }
   }
 }

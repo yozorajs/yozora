@@ -63,9 +63,6 @@ async function answerWeavers(): Promise<void> {
       '!gfm/unclassified/**/#335.json',
       '!gfm/unclassified/**/#336.json',
       '!gfm/unclassified/**/#337.json',
-      '!custom/ecma-import/condition1.json',
-      '!custom/ecma-import/condition2.json',
-      '!custom/ecma-import/condition3.json',
       '!custom/footnote-definition/basic.json',
       '!custom/footnote-definition/basic2.json',
       '!custom/footnote/basic.json',
@@ -85,6 +82,6 @@ async function answerWeavers(): Promise<void> {
 
 void answer()
 async function answer(): Promise<void> {
-  await answerTokenizers()
+  // await answerTokenizers()
   await answerWeavers()
 }

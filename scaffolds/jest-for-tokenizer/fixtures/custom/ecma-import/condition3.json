@@ -4,6 +4,7 @@
     {
       "description": "basic",
       "input": "import Parser, { a as b, x, c as d } from '@yozora/parser'",
+      "markupAnswer": "import Parser, { a as b, x, c as d } from \"@yozora/parser\";",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -56,6 +57,7 @@
     {
       "description": "multiple line",
       "input": "import Parser, { a as b,\n x, c as d } from '@yozora/parser'",
+      "markupAnswer": "import Parser, { a as b,\nx, c as d } from '@yozora/parser'",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -110,6 +112,7 @@
     {
       "description": "multiple import statements",
       "input": "import Parser, { a as b } from '@yozora/parser'\n import { x, c as d } from '@yozora/parser'",
+      "markupAnswer": "import Parser, { a as b } from \"@yozora/parser\";\n\nimport { x, c as d } from \"@yozora/parser\";",
       "parseAnswer": {
         "type": "root",
         "position": {
