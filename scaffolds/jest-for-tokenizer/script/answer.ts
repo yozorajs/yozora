@@ -63,8 +63,6 @@ async function answerWeavers(): Promise<void> {
       '!gfm/unclassified/**/#335.json',
       '!gfm/unclassified/**/#336.json',
       '!gfm/unclassified/**/#337.json',
-      // '!custom/footnote-definition/basic.json',
-      // '!custom/footnote-definition/basic2.json',
       '!custom/footnote/escape.json',
       '!custom/inline-math/backtick-optional/#001.json',
       '!custom/inline-math/backtick-optional/#008.json',
@@ -74,7 +72,6 @@ async function answerWeavers(): Promise<void> {
       '!custom/math/multiple-line/#2.json',
       '!custom/math/multiple-line/#3.json',
       '!custom/math/multiple-line/#4.json',
-      '!custom/table/backslash.json',
     ])
     .runAnswer()
 }

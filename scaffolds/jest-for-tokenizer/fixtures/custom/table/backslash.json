@@ -4,6 +4,7 @@
     {
       "description": "Basic case",
       "input": "\\# | name  | age\n:-:|:-----:|:----------:\n1  | Alice | 18\n2  | Bob   | 20",
+      "markupAnswer": "\\#  | name  | age\n:--:|:-----:|:---:\n1   | Alice | 18\n2   | Bob   | 20",
       "parseAnswer": {
         "type": "root",
         "position": {

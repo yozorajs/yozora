@@ -3,7 +3,7 @@ import { TableType } from '@yozora/ast'
 import type { IEscaper, INodeMarkup, INodeMarkupWeaveContext, INodeMarkupWeaver } from '../types'
 import { createCharacterEscaper } from '../util'
 
-const escapeTableCell: IEscaper = createCharacterEscaper(['|', '\\'])
+const escapeTableCell: IEscaper = createCharacterEscaper(['|'])
 const calcTableSeparateCell = (align: AlignType, w: number): string => {
   switch (align) {
     case 'center':
