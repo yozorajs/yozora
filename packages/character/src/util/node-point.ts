@@ -198,8 +198,10 @@ export function calcEscapedStringFromNodePoints(
       if (isAsciiPunctuationCharacter(d)) {
         i += 1
         result += String.fromCodePoint(d)
-        continue
+      } else {
+        result += '\\'
       }
+      continue
     }
 
     switch (c) {

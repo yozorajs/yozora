@@ -1230,7 +1230,8 @@ console.log('This is a typescript code snippets')
         },
       },
       "type": "math",
-      "value": "\\\\lvert f(x)-A \\\\rvert = \\\\left\\\\lvert \\\\frac{x^2-1}{x-1}-2 \\\\right\\\\rvert = \\\\lvert x+1-2 \\\\rvert = \\\\lvert x-1 \\\\rvert  < \\\\epsilon",
+      "value": "\\\\lvert f(x)-A \\\\rvert = \\\\left\\\\lvert \\\\frac{x^2-1}{x-1}-2 \\\\right\\\\rvert = \\\\lvert x+1-2 \\\\rvert = \\\\lvert x-1 \\\\rvert  < \\\\epsilon
+",
     },
     Object {
       "position": Object {
@@ -2512,7 +2513,8 @@ console.log('This is a typescript code snippets')
     },
     Object {
       "type": "math",
-      "value": "\\\\lvert f(x)-A \\\\rvert = \\\\left\\\\lvert \\\\frac{x^2-1}{x-1}-2 \\\\right\\\\rvert = \\\\lvert x+1-2 \\\\rvert = \\\\lvert x-1 \\\\rvert  < \\\\epsilon",
+      "value": "\\\\lvert f(x)-A \\\\rvert = \\\\left\\\\lvert \\\\frac{x^2-1}{x-1}-2 \\\\right\\\\rvert = \\\\lvert x+1-2 \\\\rvert = \\\\lvert x-1 \\\\rvert  < \\\\epsilon
+",
     },
     Object {
       "type": "thematicBreak",

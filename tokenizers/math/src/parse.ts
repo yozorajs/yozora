@@ -10,12 +10,9 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
     parse: tokens =>
       tokens.map(token => {
         const contents: INodePoint[] = mergeContentLinesFaithfully(token.lines)
+        let value: string = calcStringFromNodePoints(contents)
+        if (!/\n$/.test(value)) value += '\n'
 
-        /**
-         * Backslash escape works in info strings in fenced code blocks.
-         * @see https://github.github.com/gfm/#example-320
-         */
-        const value: string = calcStringFromNodePoints(contents)
         const node: INode = api.shouldReservePosition
           ? { type: MathType, position: token.position, value }
           : { type: MathType, value }
