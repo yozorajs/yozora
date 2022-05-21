@@ -34,7 +34,6 @@ void createMarkupTester(parsers.yozora, defaultMarkupWeaver)
     '!gfm/unclassified/**/#337.json',
     '!custom/footnote-definition/basic.json',
     '!custom/footnote-definition/basic2.json',
-    '!custom/footnote/basic.json',
     '!custom/footnote/escape.json',
     '!custom/inline-math/backtick-optional/#001.json',
     '!custom/inline-math/backtick-optional/#008.json',
