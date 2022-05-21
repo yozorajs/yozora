@@ -1,5 +1,30 @@
 # Changelog
 
+<a name="2.0.1"></a>
+## 2.0.1 (2022-05-21)
+
+### Added
+
+- ✅ test: refactor test utils &amp; rename createTester to createTokenizerTester [[7f2ce75](https://github.com/yozorajs/yozora/commit/7f2ce7571a336370d419aa01073bf8054783cfd9)]
+
+### Changed
+
+- 🎨 improve: tweak tokenizers [[2e14175](https://github.com/yozorajs/yozora/commit/2e141752d3b937161d5dcc33113e55896ae39ec3)]
+- 🎨 feat(fenced-code, indent-code): set &#x27;lang&#x27; and &#x27;meta&#x27; to null if it is empty &amp; add tainling line ending [[5d1aa19](https://github.com/yozorajs/yozora/commit/5d1aa193b1ff0e9782f661e1ba6e759334a1f31a)]
+- ⬆️ chore: ugprade dependencies [[1565eff](https://github.com/yozorajs/yozora/commit/1565effc04fc18cc5f99015441be650d5f89d3ff)]
+- 🔧 chore: update yarn.lock [[f3e29d1](https://github.com/yozorajs/yozora/commit/f3e29d1695453e7d3dd4e3a3e5e322c10d7a4a44)]
+- ⬆️ chore: upgrade dependencies [[2be80f2](https://github.com/yozorajs/yozora/commit/2be80f2f582a8cb4cd2df8b55e31e21fb5bc269b)]
+
+### Fixed
+
+- 🐛 fix(inline-math): replace line-ending to whitespace [[1ed9857](https://github.com/yozorajs/yozora/commit/1ed9857f618d8ef7742432d3bb1d8317fc9186f2)]
+- 🐛 fix(emca-import): fix the trailing semicolon cannot be recognized [[e0184e4](https://github.com/yozorajs/yozora/commit/e0184e45d9c78bd4236218a2588c9373c85ef45d)]
+
+### Miscellaneous
+
+- 📝 docs: update CHANGELOG [[50251e5](https://github.com/yozorajs/yozora/commit/50251e5e3460e7f3da21e9514851d4dd6806efbd)]
+
+
 <a name="2.0.0"></a>
 ## 2.0.0 (2022-01-15)
 
