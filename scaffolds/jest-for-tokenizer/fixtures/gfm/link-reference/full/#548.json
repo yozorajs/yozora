@@ -4,7 +4,7 @@
     {
       "description": "Unicode case fold is used",
       "input": "[ẞ]\n\n[SS]: /url",
-      "markupAnswer": "[ẞ][ẞ]\n\n[SS]: /url",
+      "markupAnswer": "[ẞ][]\n\n[SS]: /url",
       "htmlAnswer": "<p><a href=\"/url\">ẞ</a></p>",
       "parseAnswer": {
         "type": "root",

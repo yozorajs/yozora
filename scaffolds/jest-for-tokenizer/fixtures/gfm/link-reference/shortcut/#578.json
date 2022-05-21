@@ -4,7 +4,7 @@
     {
       "description": "Here, though, [foo][bar] is parsed as a reference, since [bar] is defined",
       "input": "[foo][bar][baz]\n\n[baz]: /url1\n[bar]: /url2",
-      "markupAnswer": "[foo][bar][baz][baz]\n\n[baz]: /url1\n\n[bar]: /url2",
+      "markupAnswer": "[foo][bar][baz][]\n\n[baz]: /url1\n\n[bar]: /url2",
       "htmlAnswer": "<p><a href=\"/url2\">foo</a><a href=\"/url1\">baz</a></p>",
       "parseAnswer": {
         "type": "root",

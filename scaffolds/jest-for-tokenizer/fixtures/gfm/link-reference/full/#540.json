@@ -4,7 +4,7 @@
     {
       "description": "However, links may not contain other links, at any level of nesting.",
       "input": "[foo [bar](/uri)][ref]\n\n[ref]: /uri",
-      "markupAnswer": "[foo [bar](/uri)][ref][ref]\n\n[ref]: /uri",
+      "markupAnswer": "[foo [bar](/uri)][ref][]\n\n[ref]: /uri",
       "htmlAnswer": "<p>[foo <a href=\"/uri\">bar</a>]<a href=\"/uri\">ref</a></p>",
       "parseAnswer": {
         "type": "root",

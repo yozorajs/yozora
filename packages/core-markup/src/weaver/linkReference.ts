@@ -1,6 +1,6 @@
 import type { LinkReference } from '@yozora/ast'
 import { LinkReferenceType } from '@yozora/ast'
-import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { IEscaper, INodeMarkup, INodeMarkupWeaveContext, INodeMarkupWeaver } from '../types'
 import { createCharacterEscaper } from '../util'
 
 const _escapeContent: IEscaper = createCharacterEscaper('[]()`'.split(''))
@@ -19,10 +19,11 @@ export class LinkReferenceMarkupWeaver implements INodeMarkupWeaver<LinkReferenc
   public readonly isBlockLevel = (): boolean => false
   public readonly escapeContent: IEscaper = _escapeContent
 
-  public weave(node: LinkReference): INodeMarkup {
+  public weave(node: LinkReference, ctx: INodeMarkupWeaveContext): INodeMarkup {
+    const content: string = ctx.weaveInlineNodes(node.children)
     return {
       opener: '[',
-      closer: `][${node.label}]`,
+      closer: content === node.label ? '][]' : `][${node.label}]`,
     }
   }
 }

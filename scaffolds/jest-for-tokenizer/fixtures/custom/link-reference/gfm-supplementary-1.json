@@ -4,7 +4,7 @@
     {
       "description": "A collapsed link also could include whitespaces",
       "input": "[foo][  ]\n\n[foo]: #alpha",
-      "markupAnswer": "[foo][foo]\n\n[foo]: #alpha",
+      "markupAnswer": "[foo][]\n\n[foo]: #alpha",
       "parseAnswer": {
         "type": "root",
         "position": {

@@ -4,7 +4,7 @@
     {
       "description": "As noted in the section on Links, matching of labels is case-insensitive (see matches).",
       "input": "[FOO]: /url\n\n[Foo]",
-      "markupAnswer": "[FOO]: /url\n\n[Foo][Foo]",
+      "markupAnswer": "[FOO]: /url\n\n[Foo][]",
       "htmlAnswer": "<p><a href=\"/url\">Foo</a></p>",
       "parseAnswer": {
         "type": "root",
