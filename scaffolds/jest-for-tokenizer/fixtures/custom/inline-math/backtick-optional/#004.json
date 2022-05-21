@@ -4,6 +4,7 @@
     {
       "description": "Although the backticks are optional, it's still need to match the number of backticks on the left and right sides.",
       "input": "``$x^2+y^2=z^2$`",
+      "markupAnswer": "``$x^2+y^2=z^2$`",
       "parseAnswer": {
         "type": "root",
         "position": {

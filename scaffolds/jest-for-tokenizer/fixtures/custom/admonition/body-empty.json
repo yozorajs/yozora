@@ -4,6 +4,7 @@
     {
       "description": "body could be empty",
       "input": ":::important\n:::",
+      "markupAnswer": ":::important\n\n:::",
       "parseAnswer": {
         "type": "root",
         "position": {

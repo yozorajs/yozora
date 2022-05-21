@@ -4,6 +4,7 @@
     {
       "description": "case#0",
       "input": "``$",
+      "markupAnswer": "``$",
       "parseAnswer": {
         "type": "root",
         "position": {

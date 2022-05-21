@@ -10,7 +10,7 @@ import { defaultMarkupWeaver } from '../src'
 void createMarkupTester(parsers.yozora, defaultMarkupWeaver)
   .scan([
     'gfm/**/*.json',
-    // 'custom/**/*.json',
+    'custom/**/*.json',
 
     // Skipped cases.
     '!gfm/autolink/**/#614.json',
@@ -32,5 +32,21 @@ void createMarkupTester(parsers.yozora, defaultMarkupWeaver)
     '!gfm/unclassified/**/#335.json',
     '!gfm/unclassified/**/#336.json',
     '!gfm/unclassified/**/#337.json',
+    '!custom/ecma-import/condition1.json',
+    '!custom/ecma-import/condition2.json',
+    '!custom/ecma-import/condition3.json',
+    '!custom/footnote-definition/basic.json',
+    '!custom/footnote-definition/basic2.json',
+    '!custom/footnote/basic.json',
+    '!custom/footnote/escape.json',
+    '!custom/inline-math/backtick-optional/#001.json',
+    '!custom/inline-math/backtick-optional/#008.json',
+    '!custom/inline-math/backtick-required/#001.json',
+    '!custom/inline-math/backtick-required/#008.json',
+    '!custom/math/multiple-line/#1.json',
+    '!custom/math/multiple-line/#2.json',
+    '!custom/math/multiple-line/#3.json',
+    '!custom/math/multiple-line/#4.json',
+    '!custom/table/backslash.json',
   ])
   .runTest()

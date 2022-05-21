@@ -4,6 +4,7 @@
     {
       "description": "title could include inlines",
       "input": ":::tip title could `include` **inline contents**\nsome content\n:::",
+      "markupAnswer": ":::tip title could `include` **inline contents**\nsome content\n:::",
       "parseAnswer": {
         "type": "root",
         "position": {

@@ -4,6 +4,7 @@
     {
       "description": "#1",
       "input": "^[cat `[`]",
+      "markupAnswer": "^[cat `[`]",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -91,6 +92,7 @@
     {
       "description": "#1",
       "input": "^[cat `[` dog]",
+      "markupAnswer": "^[cat `[` dog]",
       "parseAnswer": {
         "type": "root",
         "position": {

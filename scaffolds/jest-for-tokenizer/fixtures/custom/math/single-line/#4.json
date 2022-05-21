@@ -4,6 +4,7 @@
     {
       "description": "The closing fence must be at least as long as the opening fence",
       "input": "$$x^2 + y^2=z^2$$$",
+      "markupAnswer": "$$x^2 + y^2=z^2$$$",
       "parseAnswer": {
         "type": "root",
         "position": {

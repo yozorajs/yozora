@@ -4,6 +4,7 @@
     {
       "description": "letters order type",
       "input": "a. apple\nb. banana\n\n1. This is a new list\n\nA. Apple\n B. Banana",
+      "markupAnswer": "a. apple\nb. banana\n\n1. This is a new list\n\nA. Apple\nB. Banana",
       "parseAnswer": {
         "type": "root",
         "position": {
