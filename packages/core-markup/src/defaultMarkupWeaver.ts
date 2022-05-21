@@ -24,12 +24,14 @@ import { ListMarkupWeaver } from './weaver/list'
 import { ListItemMarkupWeaver } from './weaver/listItem'
 import { MathMarkupWeaver } from './weaver/math'
 import { ParagraphMarkupWeaver } from './weaver/paragraph'
+import { RootMarkupWeaver } from './weaver/root'
 import { StrongMarkupWeaver } from './weaver/strong'
 import { TableMarkupWeaver } from './weaver/table'
 import { TextMarkupWeaver } from './weaver/text'
 import { ThematicBreakMarkupWeaver } from './weaver/thematicBreak'
 
 export const defaultMarkupWeaver: IMarkupWeaver = new MarkupWeaver()
+  .useWeaver(new RootMarkupWeaver())
   .useWeaver(new AdmonitionMarkupWeaver())
   .useWeaver(new BlockquoteMarkupWeaver())
   .useWeaver(new BreakMarkupWeaver())

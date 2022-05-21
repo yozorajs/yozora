@@ -1,4 +1,5 @@
 import type { Node, NodeType, Parent, Root } from '@yozora/ast'
+import { RootType } from '@yozora/ast'
 import type {
   IEscaper,
   IMarkupWeaver,
@@ -21,22 +22,24 @@ export class MarkupWeaver implements IMarkupWeaver {
     this.weaverMap = new Map()
   }
 
-  public useWeaver(weaver: INodeMarkupWeaver): this {
+  public useWeaver(weaver: INodeMarkupWeaver, forceReplace = false): this {
     const types: string[] = Array.isArray(weaver.type)
       ? Array.from(new Set(weaver.type))
       : [weaver.type]
     for (const type of types) {
-      if (this.weaverMap.has(type)) {
+      if (forceReplace || !this.weaverMap.has(type)) {
+        this.weaverMap.set(type, weaver)
+      } else {
         console.error(`[useWeaver] Type(${type}) has been registered.`)
-        return this
       }
-      this.weaverMap.set(type, weaver)
     }
     return this
   }
 
   public weave(ast: Readonly<Root>): string {
-    const escapers: IEscaper[] = []
+    const { weaverMap } = this
+    const rootWeaver = weaverMap.get(RootType)
+    const escapers: IEscaper[] = rootWeaver?.escapeContent ? [rootWeaver.escapeContent] : []
     const escaperIndexMap: Record<NodeType, number | undefined> = {}
     const escapeContent: IEscaper = content => {
       let result = content
@@ -61,7 +64,6 @@ export class MarkupWeaver implements IMarkupWeaver {
       }
     }
 
-    const { weaverMap } = this
     const ancestors: Array<Readonly<Parent>> = [ast]
     const ctx: INodeMarkupWeaveContext = {
       ancestors,

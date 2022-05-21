@@ -75,8 +75,9 @@ export interface IMarkupWeaver {
   /**
    *
    * @param weaver
+   * @param forceReplace
    */
-  useWeaver(weaver: INodeMarkupWeaver): IMarkupWeaver
+  useWeaver(weaver: INodeMarkupWeaver, forceReplace?: boolean): IMarkupWeaver
   /**
    *
    * @param ast

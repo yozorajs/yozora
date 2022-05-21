@@ -44,8 +44,6 @@ void createMarkupTester(parsers.yozora, defaultMarkupWeaver)
     '!gfm/heading/**/#036.json',
     '!gfm/image-reference/**/#600.json',
     '!gfm/image-reference/**/#601.json',
-    '!gfm/inline-code/**/#356.json',
-    '!gfm/inline-code/**/#359.json',
     '!gfm/link/**/#502.json',
     '!gfm/link/**/#534.json',
     '!gfm/link-reference/**/#553.json',
