@@ -91,5 +91,8 @@ async function answerWeavers(): Promise<void> {
     .runAnswer()
 }
 
-// void answerTokenizers()
-void answerWeavers()
+void answer()
+async function answer(): Promise<void> {
+  await answerTokenizers()
+  await answerWeavers()
+}

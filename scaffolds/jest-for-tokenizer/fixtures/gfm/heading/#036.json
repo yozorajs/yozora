@@ -4,7 +4,6 @@
     {
       "description": "Contents are parsed as inlines",
       "input": "# foo *bar* \\*baz\\*",
-      "markupAnswer": "# foo *bar* *baz*",
       "htmlAnswer": "<h1>foo <em>bar</em> *baz*</h1>",
       "parseAnswer": {
         "type": "root",
