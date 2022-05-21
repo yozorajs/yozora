@@ -4,6 +4,7 @@
     {
       "description": "footnote definitions take precedence over definitions",
       "input": "[^1]: /url",
+      "markupAnswer": "[^1]: /url",
       "parseAnswer": {
         "type": "root",
         "position": {

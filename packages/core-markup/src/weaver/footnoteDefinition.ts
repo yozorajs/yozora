@@ -14,10 +14,6 @@ export class FootnoteDefinitionMarkupWeaver implements INodeMarkupWeaver<Footnot
   public readonly isBlockLevel = (): boolean => true
 
   public weave(node: FootnoteDefinition): INodeMarkup {
-    return {
-      opener: `[^`,
-      closer: ']: ',
-      content: node.label,
-    }
+    return { opener: `[^${node.label}]: `, indent: '    ' }
   }
 }
