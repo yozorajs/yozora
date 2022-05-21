@@ -3,7 +3,7 @@ import { ImageReferenceType } from '@yozora/ast'
 import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
 import { createCharacterEscaper } from '../util'
 
-const _escapeAlt: IEscaper = createCharacterEscaper('[]()'.split(''))
+const _escapeAlt: IEscaper = createCharacterEscaper('[]()`'.split(''))
 
 /**
  * ImageReference represents an image through association, or its original

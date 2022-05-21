@@ -4,7 +4,6 @@
     {
       "description": "The following case also illustrates the need for opening and closing backtick strings to be equal in length",
       "input": "`foo``bar``",
-      "markupAnswer": "\\`foo`bar`",
       "htmlAnswer": "<p>`foo<code>bar</code></p>",
       "parseAnswer": {
         "type": "root",

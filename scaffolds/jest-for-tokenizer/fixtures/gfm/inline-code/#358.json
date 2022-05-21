@@ -4,7 +4,7 @@
     {
       "description": "When a backtick string is not closed by a matching backtick string, we just have literal backticks",
       "input": "`foo",
-      "markupAnswer": "\\`foo",
+      "markupAnswer": "`foo",
       "htmlAnswer": "<p>`foo</p>",
       "parseAnswer": {
         "type": "root",

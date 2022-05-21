@@ -3,7 +3,7 @@ import { LinkReferenceType } from '@yozora/ast'
 import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
 import { createCharacterEscaper } from '../util'
 
-const _escapeContent: IEscaper = createCharacterEscaper('[]()'.split(''))
+const _escapeContent: IEscaper = createCharacterEscaper('[]()`'.split(''))
 
 /**
  * LinkReference represents a hyperlink through association, or its original

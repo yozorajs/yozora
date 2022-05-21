@@ -1,11 +1,9 @@
 import type { Root } from '@yozora/ast'
 import { RootType } from '@yozora/ast'
 import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
-import { createCharacterEscaper } from '../util'
 
-const _escapeCharacters: IEscaper = createCharacterEscaper('`'.split(''))
 const _escapeContent: IEscaper = content => {
-  return _escapeCharacters(content)
+  return content
     .replace(/((?:^|\n)[ \t]*)([>])/g, '$1\\$2') // for blockquote
     .replace(/((?:^|\n)[ \t]*)([#]{1,6}[ \t]+\S)/g, '$1\\$2') // for heading
     .replace(/((?:^|\n)[ \t]*)([=]{3,})[ \t]*(\n|$)/g, '$1\\$2$3') // for setext heading

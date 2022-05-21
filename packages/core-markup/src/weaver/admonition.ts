@@ -1,6 +1,6 @@
 import { AdmonitionType } from '@yozora/ast'
 import type { Admonition } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaveContext, INodeMarkupWeaver } from '../types'
 
 /**
  * Admonitions are block elements. The titles can include inline markdown and
@@ -14,9 +14,10 @@ export class AdmonitionMarkupWeaver implements INodeMarkupWeaver<Admonition> {
   public readonly type = AdmonitionType
   public readonly isBlockLevel = (): boolean => true
 
-  public weave(node: Admonition): INodeMarkup {
+  public weave(node: Admonition, ctx: INodeMarkupWeaveContext): INodeMarkup {
+    const title: string = ctx.weaveInlineNodes(node.title)
     return {
-      opener: `:::${node.keyword}\n`,
+      opener: title ? `:::${node.keyword} ${title}\n` : `:::${node.keyword}\n`,
       closer: '\n:::',
     }
   }

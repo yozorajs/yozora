@@ -4,7 +4,7 @@
     {
       "description": "And this is code",
       "input": "`<http://foo.bar.`baz>`",
-      "markupAnswer": "`<http://foo.bar.`baz>\\`",
+      "markupAnswer": "`<http://foo.bar.`baz>`",
       "htmlAnswer": "<p><code>&lt;http://foo.bar.</code>baz&gt;`</p>",
       "parseAnswer": {
         "type": "root",

@@ -4,7 +4,7 @@
     {
       "description": "Since indicators of block structure take precedence over indicators of inline structure, the following are setext headings",
       "input": "`Foo\n----\n`\n\n<a title=\"a lot\n---\nof dashes\"/>",
-      "markupAnswer": "\\`Foo\n---\n\n\\`\n\n<a title=\"a lot\n---\n\nof dashes\"/>",
+      "markupAnswer": "`Foo\n---\n\n`\n\n<a title=\"a lot\n---\n\nof dashes\"/>",
       "htmlAnswer": "<h2>`Foo</h2>\n<p>`</p>\n<h2>&lt;a title=&quot;a lot</h2>\n<p>of dashes&quot;/&gt;</p>",
       "parseAnswer": {
         "type": "root",
