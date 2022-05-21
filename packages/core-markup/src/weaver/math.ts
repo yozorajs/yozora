@@ -17,7 +17,6 @@ export interface IMathMarkupWeaverOptions {
  */
 export class MathMarkupWeaver implements INodeMarkupWeaver<Math> {
   public readonly type = MathType
-  public readonly couldBeWrapped = false
   public readonly isBlockLevel = (): boolean => true
   protected readonly preferBackTick: boolean
 

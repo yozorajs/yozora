@@ -10,7 +10,6 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  */
 export class EcmaImportMarkupWeaver implements INodeMarkupWeaver<EcmaImport> {
   public readonly type = EcmaImportType
-  public readonly couldBeWrapped = false
   public readonly isBlockLevel = (): boolean => true
 
   public weave(node: EcmaImport): INodeMarkup {

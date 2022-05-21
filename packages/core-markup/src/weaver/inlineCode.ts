@@ -16,7 +16,6 @@ const symbolRegex = /([`]+)/g
  */
 export class InlineCodeMarkupWeaver implements INodeMarkupWeaver<InlineCode> {
   public readonly type = InlineCodeType
-  public readonly couldBeWrapped = true
   public readonly isBlockLevel = (): boolean => false
 
   public weave(node: InlineCode): INodeMarkup {

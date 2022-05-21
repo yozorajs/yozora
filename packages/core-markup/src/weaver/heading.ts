@@ -13,7 +13,6 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  */
 export class HeadingMarkupWeaver implements INodeMarkupWeaver<Heading> {
   public readonly type = HeadingType
-  public readonly couldBeWrapped = false
   public readonly isBlockLevel = (): boolean => true
 
   public weave(node: Heading): INodeMarkup {

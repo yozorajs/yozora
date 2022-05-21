@@ -16,7 +16,6 @@ const _escapeAlt: IEscaper = createCharacterEscaper('[]()'.split(''))
  */
 export class ImageReferenceMarkupWeaver implements INodeMarkupWeaver<ImageReference> {
   public readonly type = ImageReferenceType
-  public readonly couldBeWrapped = false
   public readonly isBlockLevel = (): boolean => false
   protected readonly escapeAlt = _escapeAlt
 

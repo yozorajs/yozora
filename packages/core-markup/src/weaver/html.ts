@@ -16,7 +16,6 @@ import type { INodeMarkup, INodeMarkupWeaveContext, INodeMarkupWeaver } from '..
  */
 export class HtmlMarkupWeaver implements INodeMarkupWeaver<Html> {
   public readonly type = HtmlType
-  public readonly couldBeWrapped = false
   public readonly isBlockLevel = _isBlockLevel
 
   public weave(node: Html): INodeMarkup {

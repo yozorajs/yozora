@@ -12,7 +12,6 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  */
 export class AdmonitionMarkupWeaver implements INodeMarkupWeaver<Admonition> {
   public readonly type = AdmonitionType
-  public readonly couldBeWrapped = false
   public readonly isBlockLevel = (): boolean => true
 
   public weave(node: Admonition): INodeMarkup {

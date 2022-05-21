@@ -22,7 +22,6 @@ const _escapeContent: IEscaper = content => {
  */
 export class RootMarkupWeaver implements INodeMarkupWeaver<Root> {
   public readonly type = RootType
-  public readonly couldBeWrapped = true
   public readonly isBlockLevel = (): boolean => true
   public readonly escapeContent: IEscaper = _escapeContent
 

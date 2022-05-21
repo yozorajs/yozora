@@ -15,7 +15,6 @@ const _escapeContent: IEscaper = createCharacterEscaper(['*'])
  */
 export class StrongMarkupWeaver implements INodeMarkupWeaver<Strong> {
   public readonly type = StrongType
-  public readonly couldBeWrapped = true
   public readonly isBlockLevel = (): boolean => false
   public readonly escapeContent: IEscaper = _escapeContent
 

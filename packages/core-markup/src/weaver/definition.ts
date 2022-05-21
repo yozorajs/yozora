@@ -16,7 +16,6 @@ const _escapeTitle: IEscaper = createCharacterEscaper('"'.split(''))
  */
 export class DefinitionMarkupWeaver implements INodeMarkupWeaver<Definition> {
   public readonly type = DefinitionType
-  public readonly couldBeWrapped = false
   public readonly isBlockLevel = (): boolean => true
   public readonly escapeContent: IEscaper = _escapeContent
   protected readonly escapeTitle = _escapeTitle

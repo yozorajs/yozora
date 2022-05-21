@@ -12,7 +12,6 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  */
 export class DeleteMarkupWeaver implements INodeMarkupWeaver<Delete> {
   public readonly type = DeleteType
-  public readonly couldBeWrapped = true
   public readonly isBlockLevel = (): boolean => false
 
   public weave(): INodeMarkup {

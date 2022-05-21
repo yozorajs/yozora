@@ -47,10 +47,6 @@ export interface INodeMarkupWeaver<T extends Node = Node> {
    */
   readonly type: T['type'] | Array<T['type']>
   /**
-   * Whether the content can be wrapped.
-   */
-  readonly couldBeWrapped: boolean
-  /**
    * Escape contents.
    * @param content
    */

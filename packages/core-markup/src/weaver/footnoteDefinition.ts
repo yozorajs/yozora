@@ -11,7 +11,6 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  */
 export class FootnoteDefinitionMarkupWeaver implements INodeMarkupWeaver<FootnoteDefinition> {
   public readonly type = FootnoteDefinitionType
-  public readonly couldBeWrapped = true
   public readonly isBlockLevel = (): boolean => true
 
   public weave(node: FootnoteDefinition): INodeMarkup {

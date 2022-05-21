@@ -12,7 +12,6 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  */
 export class ParagraphMarkupWeaver implements INodeMarkupWeaver<Paragraph> {
   public readonly type = ParagraphType
-  public readonly couldBeWrapped = true
   public readonly isBlockLevel = (): boolean => true
 
   public weave(): INodeMarkup {

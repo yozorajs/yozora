@@ -17,7 +17,6 @@ export interface IInlineMathMarkupWeaverOptions {
  */
 export class InlineMathMarkupWeaver implements INodeMarkupWeaver<InlineMath> {
   public readonly type = InlineMathType
-  public readonly couldBeWrapped = true
   public readonly isBlockLevel = (): boolean => false
   protected readonly preferBackTick: boolean
 
