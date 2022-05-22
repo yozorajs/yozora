@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { defaultMarkupWeaver } from '@yozora/core-markup'
+import { defaultMarkupWeaver } from '@yozora/core-weaver'
 import { InlineCodeTokenizerName } from '@yozora/tokenizer-inline-code'
 import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
 import { parsers } from 'jest.setup'

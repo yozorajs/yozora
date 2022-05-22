@@ -9,8 +9,8 @@ import type {
 } from '@yozora/ast'
 import { AdmonitionType, ImageReferenceType, LinkReferenceType, TextType } from '@yozora/ast'
 import { removePositions } from '@yozora/ast-util'
-import type { IMarkupWeaver } from '@yozora/core-markup'
 import type { IParser } from '@yozora/core-parser'
+import type { IMarkupWeaver } from '@yozora/core-weaver'
 import { BaseTester } from './BaseTester'
 import type { IYozoraUseCase } from './types'
 

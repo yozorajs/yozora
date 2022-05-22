@@ -1,5 +1,5 @@
 {
-  "name": "@yozora/core-markup",
+  "name": "@yozora/core-weaver",
   "version": "2.0.1",
   "author": {
     "name": "guanghechen",
@@ -8,9 +8,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/yozorajs/yozora.git",
-    "directory": "packages/core-markup"
+    "directory": "packages/core-weaver"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/main/packages/core-markup#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/main/packages/core-weaver#readme",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",
