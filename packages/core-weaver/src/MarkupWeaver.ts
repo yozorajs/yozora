@@ -36,6 +36,11 @@ export class MarkupWeaver implements IMarkupWeaver {
     return this
   }
 
+  public unmountWeaver(type: string): this {
+    this.weaverMap.delete(type)
+    return this
+  }
+
   public weave(ast: Readonly<Root>): string {
     const { weaverMap } = this
     const rootWeaver = weaverMap.get(RootType)

@@ -1,4 +1,23 @@
-import type { Node, Parent, Root } from '@yozora/ast'
+import type { Node, NodeType, Parent, Root } from '@yozora/ast'
+
+export interface IMarkupWeaver {
+  /**
+   * Register ast node weaver into weave context.
+   * @param weaver
+   * @param forceReplace
+   */
+  useWeaver(weaver: INodeWeaver, forceReplace?: boolean): this
+  /**
+   * Remove ast node weaver by the node type.
+   * @param type
+   */
+  unmountWeaver(type: NodeType): this
+  /**
+   * Resolve the ast node into markup content.
+   * @param ast
+   */
+  weave(ast: Root): string
+}
 
 export type IEscaper = (text: string) => string
 
@@ -65,18 +84,4 @@ export interface INodeWeaver<T extends Node = Node> {
    * @param childIndex
    */
   weave(node: T, ctx: INodeMarkupWeaveContext, childIndex: number): INodeMarkup
-}
-
-export interface IMarkupWeaver {
-  /**
-   *
-   * @param weaver
-   * @param forceReplace
-   */
-  useWeaver(weaver: INodeWeaver, forceReplace?: boolean): IMarkupWeaver
-  /**
-   *
-   * @param ast
-   */
-  weave(ast: Root): string
 }
