@@ -64,66 +64,101 @@ This package is designed to weave the markup-like AST into markup contents.
 
 [@yozora/markup-weaver][] provide a `DefaultMarkupWeaver` to weave markup-like AST into markup contents.
 
-Here is a simple example, note that `position` is optional.
-
 BTW, You can convert a piece of text into markup AST via [@yozora/parser][] or at https://yozora.guanghechen.com.
 
-```typescript
-import { DefaultMarkupWeaver } from '@yozora/markup-weaver'
+* Here is a simple example to weave AST into markup contents, note that `position` is optional.
 
-const weaver = new DefaultMarkupWeaver()
-weaver.weave({
-  "type": "root",
-  "children": [
-    {
-      "type": "paragraph",
-      "children": [
-        {
-          "type": "text",
-          "value": "emphasis: "
-        },
-        {
-          "type": "strong",
-          "children": [
-            {
-              "type": "text",
-              "value": "foo \""
-            },
-            {
-              "type": "emphasis",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "bar"
-                }
-              ]
-            },
-            {
-              "type": "text",
-              "value": "\" foo"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "heading",
-      "depth": 1,
-      "children": [
-        {
-          "type": "text",
-          "value": "Setext headings"
-        }
-      ]
+  ```typescript
+  import { DefaultMarkupWeaver } from '@yozora/markup-weaver'
+
+  const weaver = new DefaultMarkupWeaver()
+  weaver.weave({
+    "type": "root",
+    "children": [
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "text",
+            "value": "emphasis: "
+          },
+          {
+            "type": "strong",
+            "children": [
+              {
+                "type": "text",
+                "value": "foo \""
+              },
+              {
+                "type": "emphasis",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "bar"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": "\" foo"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "depth": 1,
+        "children": [
+          {
+            "type": "text",
+            "value": "Setext headings"
+          }
+        ]
+      }
+    ]
+  })
+
+  // => 
+  // emphasis: **foo "*bar*" foo**
+  // # Setext headings
+  ```
+
+* Use custom weaver
+
+  ```typescript
+  import type { Literal } from '@yozora/ast'
+  import type { INodeMarkup, INodeWeaver } from '@yozora/markup-weaver'
+  import { DefaultMarkupWeaver } from '@yozora/markup-weaver'
+
+  type Mention = Literal<'mention'> 
+  class MentionWeaver implements INodeWeaver<Mention> {
+    public readonly type = 'mention'
+    public readonly isBlockLevel = (): boolean => false
+    public weave(node: Mention): INodeMarkup {
+      return { opener: '@' + node.value }
     }
-  ]
-})
+  }
 
-// => 
-// emphasis: **foo "*bar*" foo**
-// # Setext headings
-```
+  const weaver = new DefaultMarkupWeaver()
+  weaver.use(new MentionWeaver)
 
+  weaver.weave({
+    "type": "root",
+    "children": [
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "mention",
+            "value": "xfe"
+          }
+        ]
+      }
+    ]
+  })
+  // => @xfe
+  ```
 
 ## Related
 

@@ -150,6 +150,51 @@
   parser.parse('github flavor markdown contents (with gfm extensions enabled)')
   ```
 
+* 将 AST 转换成标记语言（类似markdown）内容
+
+  ```typescript
+  import { DefaultMarkupWeaver } from '@yozora/markup-weaver'
+
+  const weaver = new DefaultMarkupWeaver()
+  weaver.weave({
+    "type": "root",
+    "children": [
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "text",
+            "value": "emphasis: "
+          },
+          {
+            "type": "strong",
+            "children": [
+              {
+                "type": "text",
+                "value": "foo \""
+              },
+              {
+                "type": "emphasis",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "bar"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": "\" foo"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  })
+  // => emphasis: **foo "*bar*" foo**
+  ```
+
 
 ### Overview
 
@@ -160,6 +205,12 @@
   [@yozora/parser][]        | 内置了本仓库所有分词器的 Markdown 解析器
   [@yozora/parser-gfm][]    | 内置了支持 [GFM 规范][gfm-spec] 中提到的所有语法（不包含规范中提到的扩展语法，如 [table][@yozora/tokenizer-table]）的分词器
   [@yozora/parser-gfm-ex][] | 内置了支持 [GFM 规范][gfm-spec] 中提到的所有语法（包括规范中提到的扩展语法，如 [table][@yozora/tokenizer-table]）的分词器
+
+* Weavers
+
+  Weaver                    | Description
+  :-------------------------|:-------------------------------------
+  [@yozora/markup-weaver][] | Weave AST into markup content.
 
 * Tokenizers
 
@@ -282,6 +333,7 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/main/LICEN
 [@yozora/core-parser]:                        https://github.com/yozorajs/yozora/tree/main/packages/core-parser#readme
 [@yozora/core-tokenizer]:                     https://github.com/yozorajs/yozora/tree/main/packages/core-tokenizer#readme
 [@yozora/invariant]:                          https://github.com/yozorajs/yozora/tree/main/packages/invariant#readme
+[@yozora/markup-weaver]:                      https://github.com/yozorajs/yozora/tree/main/packages/markup-weaver#readme
 [@yozora/jest-for-tokenizer]:                 https://github.com/yozorajs/yozora/tree/main/packages/jest-for-tokenizer#readme
 [@yozora/parser]:                             https://github.com/yozorajs/yozora/tree/main/packages/parser#readme
 [@yozora/parser-gfm]:                         https://github.com/yozorajs/yozora/tree/main/packages/parser-gfm#readme
