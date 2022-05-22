@@ -1,24 +1,24 @@
 <header>
   <h1 align="center">
-    <a href="https://github.com/yozorajs/yozora/tree/main/packages/core-weaver#readme">@yozora/core-weaver</a>
+    <a href="https://github.com/yozorajs/yozora/tree/main/packages/markup-weaver#readme">@yozora/markup-weaver</a>
   </h1>
   <div align="center">
-    <a href="https://www.npmjs.com/package/@yozora/core-weaver">
+    <a href="https://www.npmjs.com/package/@yozora/markup-weaver">
       <img
         alt="Npm Version"
-        src="https://img.shields.io/npm/v/@yozora/core-weaver.svg"
+        src="https://img.shields.io/npm/v/@yozora/markup-weaver.svg"
       />
     </a>
-    <a href="https://www.npmjs.com/package/@yozora/core-weaver">
+    <a href="https://www.npmjs.com/package/@yozora/markup-weaver">
       <img
         alt="Npm Download"
-        src="https://img.shields.io/npm/dm/@yozora/core-weaver.svg"
+        src="https://img.shields.io/npm/dm/@yozora/markup-weaver.svg"
       />
     </a>
-    <a href="https://www.npmjs.com/package/@yozora/core-weaver">
+    <a href="https://www.npmjs.com/package/@yozora/markup-weaver">
       <img
         alt="Npm License"
-        src="https://img.shields.io/npm/l/@yozora/core-weaver.svg"
+        src="https://img.shields.io/npm/l/@yozora/markup-weaver.svg"
       />
     </a>
     <a href="#install">
@@ -30,7 +30,7 @@
     <a href="https://github.com/nodejs/node">
       <img
         alt="Node.js Version"
-        src="https://img.shields.io/node/v/@yozora/core-weaver"
+        src="https://img.shields.io/node/v/@yozora/markup-weaver"
       />
     </a>
     <a href="https://github.com/prettier/prettier">
@@ -51,25 +51,25 @@ This package is designed to weave the markup-like AST into markup contents.
 * npm
 
   ```bash
-  npm install --save @yozora/core-weaver
+  npm install --save @yozora/markup-weaver
   ```
 
 * yarn
 
   ```bash
-  yarn add @yozora/core-weaver
+  yarn add @yozora/markup-weaver
   ```
 
 ## Usage
 
-[@yozora/core-weaver][] provide a `DefaultMarkupWeaver` to weave markup-like AST into markup contents.
+[@yozora/markup-weaver][] provide a `DefaultMarkupWeaver` to weave markup-like AST into markup contents.
 
 Here is a simple example, note that `position` is optional.
 
 BTW, You can convert a piece of text into markup AST via [@yozora/parser][] or at https://yozora.guanghechen.com.
 
 ```typescript
-import { DefaultMarkupWeaver } from '@yozora/core-weaver'
+import { DefaultMarkupWeaver } from '@yozora/markup-weaver'
 
 const weaver = new DefaultMarkupWeaver()
 weaver.weave({
@@ -135,12 +135,12 @@ weaver.weave({
 
 
 [doc-yozora]: https://yozora.guanghechen.com
-[docpage]: https://yozora.guanghechen.com/docs/package/core-weaver
-[homepage]: https://github.com/yozorajs/yozora/tree/main/packages/core-weaver#readme
+[docpage]: https://yozora.guanghechen.com/docs/package/markup-weaver
+[homepage]: https://github.com/yozorajs/yozora/tree/main/packages/markup-weaver#readme
 
 <!-- yozora package link definitions -->
 [@yozora/ast]:                          https://github.com/yozorajs/yozora/tree/main/packages/ast#readme
-[@yozora/core-weaver]:                  https://github.com/yozorajs/yozora/tree/main/packages/core-weaver#readme
+[@yozora/markup-weaver]:                  https://github.com/yozorajs/yozora/tree/main/packages/markup-weaver#readme
 [@yozora/parser]:                       https://github.com/yozorajs/yozora/tree/main/packages/parser#readme
 [@yozora/parser-gfm]:                   https://github.com/yozorajs/yozora/tree/main/packages/parser-gfm#readme
 [@yozora/parser-gfm-ex]:                https://github.com/yozorajs/yozora/tree/main/packages/parser-gfm-ex#readme

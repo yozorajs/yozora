@@ -1,5 +1,5 @@
 import type { IParser } from '@yozora/core-parser'
-import type { IMarkupWeaver } from '@yozora/core-weaver'
+import type { IMarkupWeaver } from '@yozora/markup-weaver'
 import fs from 'fs-extra'
 import path from 'path'
 import { MarkupTester } from './MarkupTester'

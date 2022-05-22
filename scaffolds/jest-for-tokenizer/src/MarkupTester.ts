@@ -10,7 +10,7 @@ import type {
 import { AdmonitionType, ImageReferenceType, LinkReferenceType, TextType } from '@yozora/ast'
 import { removePositions } from '@yozora/ast-util'
 import type { IParser } from '@yozora/core-parser'
-import type { IMarkupWeaver } from '@yozora/core-weaver'
+import type { IMarkupWeaver } from '@yozora/markup-weaver'
 import { BaseTester } from './BaseTester'
 import type { IYozoraUseCase } from './types'
 
