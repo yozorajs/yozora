@@ -1,6 +1,6 @@
 import { CodeType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
-import { VirtualCodePoint, calcStringFromNodePoints } from '@yozora/character'
+import { calcStringFromNodePoints } from '@yozora/character'
 import type { IParseBlockHookCreator } from '@yozora/core-tokenizer'
 import { mergeContentLinesFaithfully } from '@yozora/core-tokenizer'
 import type { INode, IThis, IToken, T } from './types'

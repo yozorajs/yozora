@@ -1,4 +1,4 @@
-import type { Node, NodeType, Parent, Root } from '@yozora/ast'
+import type { Node, Parent, Root } from '@yozora/ast'
 
 export type IEscaper = (text: string) => string
 
