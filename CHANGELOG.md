@@ -1,5 +1,14 @@
 # Changelog
 
+<a name="2.0.2-alpha.0"></a>
+## 2.0.2-alpha.0 (2022-05-22)
+
+### Miscellaneous
+
+-  Support markup weaver. ([#12](https://github.com/yozorajs/yozora/issues/12)) [[189524d](https://github.com/yozorajs/yozora/commit/189524d6877a8b2fbce5632cf422efececd9cc93)]
+- 📝 docs: update CHANGELOG [[3e58d00](https://github.com/yozorajs/yozora/commit/3e58d00292332951d8c8a0c9aa32d9602865dd1b)]
+
+
 <a name="2.0.1"></a>
 ## 2.0.1 (2022-05-21)
 
