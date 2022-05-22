@@ -4,6 +4,7 @@
     {
       "description": "Entity and numeric character references are recognized in any context besides code spans or code blocks, including URLs, link titles, and fenced code block info strings",
       "input": "``` f&ouml;&ouml;\nfoo\n```",
+      "markupAnswer": "```föö\nfoo\n```",
       "htmlAnswer": "<pre><code class=\"language-föö\">foo\n</code></pre>",
       "parseAnswer": {
         "type": "root",

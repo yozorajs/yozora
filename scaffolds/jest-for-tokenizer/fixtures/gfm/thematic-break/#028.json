@@ -4,6 +4,7 @@
     {
       "description": "Thematic breaks can interrupt a paragraph",
       "input": "Foo\n***\nbar",
+      "markupAnswer": "Foo\n\n---\n\nbar",
       "htmlAnswer": "<p>Foo</p>\n<hr />\n<p>bar</p>",
       "parseAnswer": {
         "type": "root",

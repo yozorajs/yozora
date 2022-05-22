@@ -4,6 +4,7 @@
     {
       "description": "This is not emphasis, because the second _ is preceded by punctuation and followed by an alphanumeric",
       "input": "_(_foo)",
+      "markupAnswer": "_(_foo)",
       "htmlAnswer": "<p>_(_foo)</p>",
       "parseAnswer": {
         "type": "root",

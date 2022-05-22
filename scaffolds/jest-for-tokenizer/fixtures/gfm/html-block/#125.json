@@ -4,6 +4,7 @@
     {
       "description": "An open tag need not be closed",
       "input": "<div>\n*foo*\n\n*bar*",
+      "markupAnswer": "<div>\n*foo*\n\n*bar*",
       "htmlAnswer": "<div>\n*foo*\n<p><em>bar</em></p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "Spaces are allowed between the characters",
       "input": "-     -      -      -",
+      "markupAnswer": "---",
       "htmlAnswer": "<hr />",
       "parseAnswer": {
         "type": "root",

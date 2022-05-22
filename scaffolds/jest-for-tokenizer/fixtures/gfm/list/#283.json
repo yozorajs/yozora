@@ -4,6 +4,7 @@
     {
       "description": "In CommonMark, a list can interrupt a paragraph. That is, no blank line is needed to separate a paragraph from a following list",
       "input": "Foo\n- bar\n- baz",
+      "markupAnswer": "Foo\n\n- bar\n- baz",
       "htmlAnswer": "<p>Foo</p>\n<ul>\n<li>bar</li>\n<li>baz</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

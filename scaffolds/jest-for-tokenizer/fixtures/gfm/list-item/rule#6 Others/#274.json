@@ -4,6 +4,7 @@
     {
       "description": "Here we need four, because the list marker is wider",
       "input": "10) foo\n    - bar",
+      "markupAnswer": "10) foo\n    - bar",
       "htmlAnswer": "<ol start=\"10\">\n<li>foo\n<ul>\n<li>bar</li>\n</ul>\n</li>\n</ol>",
       "parseAnswer": {
         "type": "root",

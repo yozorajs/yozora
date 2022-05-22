@@ -4,6 +4,7 @@
     {
       "description": "A start number may begin with 0s",
       "input": "003. ok",
+      "markupAnswer": "3. ok",
       "htmlAnswer": "<ol start=\"3\">\n<li>ok</li>\n</ol>",
       "parseAnswer": {
         "type": "root",

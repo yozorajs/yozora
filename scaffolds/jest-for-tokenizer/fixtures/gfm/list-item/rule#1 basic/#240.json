@@ -4,6 +4,7 @@
     {
       "description": "A list item may contain blocks that are separated by more than one blank line.",
       "input": "- foo\n\n\n  bar",
+      "markupAnswer": "- foo\n  \n  bar",
       "htmlAnswer": "<ul>\n<li>\n<p>foo</p>\n<p>bar</p>\n</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

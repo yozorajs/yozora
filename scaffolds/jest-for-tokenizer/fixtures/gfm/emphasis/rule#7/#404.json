@@ -4,6 +4,7 @@
     {
       "description": "The point of this restriction is more easily appreciated with these examples",
       "input": "**foo \"*bar*\" foo**",
+      "markupAnswer": "**foo \"*bar*\" foo**",
       "htmlAnswer": "<p><strong>foo &quot;<em>bar</em>&quot; foo</strong></p>",
       "parseAnswer": {
         "type": "root",

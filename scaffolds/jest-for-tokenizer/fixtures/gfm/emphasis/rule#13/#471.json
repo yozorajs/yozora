@@ -4,6 +4,7 @@
     {
       "description": "Rule 13 implies that if you want emphasis nested directly inside emphasis, you must use different delimiters",
       "input": "__foo__",
+      "markupAnswer": "**foo**",
       "htmlAnswer": "<p><strong>foo</strong></p>",
       "parseAnswer": {
         "type": "root",

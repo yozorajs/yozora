@@ -4,6 +4,7 @@
     {
       "description": "Authors who want interpretation 3 can use backslash escapes",
       "input": "Foo\nbar\n\\---\nbaz",
+      "markupAnswer": "Foo\nbar\n\\---\nbaz",
       "htmlAnswer": "<p>Foo\nbar\n---\nbaz</p>",
       "parseAnswer": {
         "type": "root",

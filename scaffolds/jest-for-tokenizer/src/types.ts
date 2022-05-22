@@ -18,6 +18,10 @@ export interface IYozoraUseCase<T = unknown> {
    * Parsed answer in json format
    */
   readonly parseAnswer?: T
+  /**
+   * Markup content.
+   */
+  readonly markupAnswer?: string
 }
 
 /**

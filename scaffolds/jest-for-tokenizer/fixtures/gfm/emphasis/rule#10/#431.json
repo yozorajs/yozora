@@ -4,6 +4,7 @@
     {
       "description": "Any nonempty sequence of inline elements can be the contents of an strongly emphasized span.",
       "input": "**foo [bar](/url)**",
+      "markupAnswer": "**foo [bar](/url)**",
       "htmlAnswer": "<p><strong>foo <a href=\"/url\">bar</a></strong></p>",
       "parseAnswer": {
         "type": "root",

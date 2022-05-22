@@ -4,6 +4,7 @@
     {
       "description": "Shortcut",
       "input": "![*foo* bar]\n\n[*foo* bar]: /url \"title\"",
+      "markupAnswer": "![foo bar][*foo* bar]\n\n[*foo* bar]: /url \"title\"",
       "htmlAnswer": "<p><img src=\"/url\" alt=\"foo bar\" title=\"title\" /></p>",
       "parseAnswer": {
         "type": "root",

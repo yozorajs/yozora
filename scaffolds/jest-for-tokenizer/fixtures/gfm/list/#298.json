@@ -4,6 +4,7 @@
     {
       "description": "This is a tight list, because the blank lines are in a code block",
       "input": "- a\n- ```\n  b\n\n\n  ```\n- c",
+      "markupAnswer": "- a\n- ```\n  b\n  \n  \n  ```\n- c",
       "htmlAnswer": "<ul>\n<li>a</li>\n<li>\n<pre><code>b\n\n\n</code></pre>\n</li>\n<li>c</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

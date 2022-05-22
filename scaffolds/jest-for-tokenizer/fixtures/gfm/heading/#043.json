@@ -4,6 +4,7 @@
     {
       "description": "Spaces are allowed after the closing sequence",
       "input": "### foo ###     ",
+      "markupAnswer": "### foo",
       "htmlAnswer": "<h3>foo</h3>",
       "parseAnswer": {
         "type": "root",

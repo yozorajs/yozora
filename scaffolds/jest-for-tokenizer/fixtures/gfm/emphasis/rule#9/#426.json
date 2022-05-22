@@ -4,6 +4,7 @@
     {
       "description": "When the lengths of the interior closing and opening delimiter runs are both multiples of 3, though, they can match to create emphasis",
       "input": "foo******bar*********baz",
+      "markupAnswer": "foo******bar*********baz",
       "htmlAnswer": "<p>foo<strong><strong><strong>bar</strong></strong></strong>***baz</p>",
       "parseAnswer": {
         "type": "root",

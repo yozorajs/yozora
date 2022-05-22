@@ -4,6 +4,7 @@
     {
       "description": "A processing instruction (type 3)",
       "input": "<?php\n\n  echo '>';\n\n?>\nokay",
+      "markupAnswer": "<?php\n\n  echo '>';\n\n?>\n\nokay",
       "htmlAnswer": "<?php\n\n  echo '>';\n\n?>\n<p>okay</p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "This is not strong emphasis, because the second ** is preceded by punctuation and followed by an alphanumeric",
       "input": "**(**foo)",
+      "markupAnswer": "**(**foo)",
       "htmlAnswer": "<p>**(**foo)</p>",
       "parseAnswer": {
         "type": "root",

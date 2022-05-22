@@ -4,6 +4,7 @@
     {
       "description": "A newline also counts as whitespace",
       "input": "*foo bar\n*",
+      "markupAnswer": "*foo bar\n*",
       "htmlAnswer": "<p>*foo bar\n*</p>",
       "parseAnswer": {
         "type": "root",

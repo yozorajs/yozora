@@ -4,6 +4,7 @@
     {
       "description": "The labels are case-insensitive",
       "input": "![Foo][]\n\n[foo]: /url \"title\"",
+      "markupAnswer": "![Foo][]\n\n[foo]: /url \"title\"",
       "htmlAnswer": "<p><img src=\"/url\" alt=\"Foo\" title=\"title\" /></p>",
       "parseAnswer": {
         "type": "root",

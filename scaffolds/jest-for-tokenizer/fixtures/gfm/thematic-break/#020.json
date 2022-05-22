@@ -4,6 +4,7 @@
     {
       "description": "More than three characters may be used",
       "input": "_____________________________________",
+      "markupAnswer": "---",
       "htmlAnswer": "<hr />",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "Declarations",
       "input": "foo <!ELEMENT br EMPTY>",
+      "markupAnswer": "foo <!ELEMENT br EMPTY>",
       "htmlAnswer": "<p>foo <!ELEMENT br EMPTY></p>",
       "parseAnswer": {
         "type": "root",

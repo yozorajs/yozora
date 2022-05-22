@@ -4,6 +4,7 @@
     {
       "description": "Intraword strong emphasis with ** is permitted",
       "input": "foo**bar**",
+      "markupAnswer": "foo**bar**",
       "htmlAnswer": "<p>foo<strong>bar</strong></p>",
       "parseAnswer": {
         "type": "root",

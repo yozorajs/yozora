@@ -4,6 +4,7 @@
     {
       "description": "Four spaces are too much",
       "input": "    # foo",
+      "markupAnswer": "```\n# foo\n```",
       "htmlAnswer": "<pre><code># foo\n</code></pre>",
       "parseAnswer": {
         "type": "root",

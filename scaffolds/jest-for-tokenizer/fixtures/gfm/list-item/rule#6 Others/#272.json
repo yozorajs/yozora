@@ -4,6 +4,7 @@
     {
       "description": "So, in this case we need two spaces indent",
       "input": "- foo\n  - bar\n    - baz\n      - boo",
+      "markupAnswer": "- foo\n  - bar\n    - baz\n      - boo",
       "htmlAnswer": "<ul>\n<li>foo\n<ul>\n<li>bar\n<ul>\n<li>baz\n<ul>\n<li>boo</li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

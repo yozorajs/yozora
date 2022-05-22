@@ -4,6 +4,7 @@
     {
       "description": "footnote could contain links",
       "input": "[This is a short cut link reference] ^[[google](https://www.google.com) `inline code` *emphasis* **strong** literal text.] additional thing. \n\n [This is a short cut link reference]: /url",
+      "markupAnswer": "[This is a short cut link reference][] ^[[google](https://www.google.com) `inline code` *emphasis* **strong** literal text.] additional thing.\n\n[This is a short cut link reference]: /url",
       "parseAnswer": {
         "type": "root",
         "position": {

@@ -4,6 +4,7 @@
     {
       "description": "Collapsed",
       "input": "![foo][]\n\n[foo]: /url \"title\"",
+      "markupAnswer": "![foo][]\n\n[foo]: /url \"title\"",
       "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" /></p>",
       "parseAnswer": {
         "type": "root",

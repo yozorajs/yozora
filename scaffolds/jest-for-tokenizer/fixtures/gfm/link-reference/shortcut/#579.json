@@ -4,6 +4,7 @@
     {
       "description": "Here [foo] is not parsed as a shortcut reference, because it is followed by a link label (even though [bar] is not defined)",
       "input": "[foo][bar][baz]\n\n[baz]: /url1\n[foo]: /url2",
+      "markupAnswer": "[foo][bar][baz]\n\n[baz]: /url1\n\n[foo]: /url2",
       "htmlAnswer": "<p>[foo]<a href=\"/url1\">bar</a></p>",
       "parseAnswer": {
         "type": "root",

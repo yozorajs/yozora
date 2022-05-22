@@ -4,6 +4,7 @@
     {
       "description": "The converse is also possible. In the following example, the word two occurs far to the right of the initial text of the list item, one, but it is not considered part of the list item, because it is not indented far enough past the blockquote marker",
       "input": ">>- one\n>>\n  >  > two",
+      "markupAnswer": "> > - one\n> > \n> > two",
       "htmlAnswer": "<blockquote>\n<blockquote>\n<ul>\n<li>one</li>\n</ul>\n<p>two</p>\n</blockquote>\n</blockquote>",
       "parseAnswer": {
         "type": "root",

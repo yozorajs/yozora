@@ -4,6 +4,7 @@
     {
       "description": "The destination can only contain spaces if it is enclosed in pointy brackets",
       "input": "[link](/my uri)",
+      "markupAnswer": "[link](/my uri)",
       "htmlAnswer": "<p>[link](/my uri)</p>",
       "parseAnswer": {
         "type": "root",

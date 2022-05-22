@@ -4,6 +4,7 @@
     {
       "description": "But this is an autolink",
       "input": "<http://foo.bar.`baz>`",
+      "markupAnswer": "[http://foo.bar.\\`baz](http://foo.bar.%60baz)`",
       "htmlAnswer": "<p><a href=\"http://foo.bar.%60baz\">http://foo.bar.`baz</a>`</p>",
       "parseAnswer": {
         "type": "root",

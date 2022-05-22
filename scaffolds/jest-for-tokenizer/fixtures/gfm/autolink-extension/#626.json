@@ -4,6 +4,7 @@
     {
       "description": "If an autolink ends in a semicolon (;), we check to see if it appears to resemble an entity reference; if the preceding text is & followed by one or more alphanumeric characters. If so, it is excluded from the autolink",
       "input": "www.google.com/search?q=commonmark&hl=en\n\nwww.google.com/search?q=commonmark&hl;",
+      "markupAnswer": "[www.google.com/search?q=commonmark&hl=en](http://www.google.com/search?q=commonmark&hl=en)\n\n[www.google.com/search?q=commonmark](http://www.google.com/search?q=commonmark)&hl;",
       "htmlAnswer": "<p><a href=\"http://www.google.com/search?q=commonmark&amp;hl=en\">www.google.com/search?q=commonmark&amp;hl=en</a></p>\n<p><a href=\"http://www.google.com/search?q=commonmark\">www.google.com/search?q=commonmark</a>&amp;hl;</p>",
       "parseAnswer": {
         "type": "root",

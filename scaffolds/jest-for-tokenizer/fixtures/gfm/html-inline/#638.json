@@ -4,6 +4,7 @@
     {
       "description": "Illegal attribute names",
       "input": "<a h*#ref=\"hi\">",
+      "markupAnswer": "<a h*#ref=\"hi\">",
       "htmlAnswer": "<p>&lt;a h*#ref=&quot;hi&quot;&gt;</p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "And this is not parsed as a link",
       "input": "[not a `link](/foo`)",
+      "markupAnswer": "[not a `link](/foo`)",
       "htmlAnswer": "<p>[not a <code>link](/foo</code>)</p>",
       "parseAnswer": {
         "type": "root",

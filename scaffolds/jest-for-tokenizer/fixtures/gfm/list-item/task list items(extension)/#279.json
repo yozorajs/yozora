@@ -4,6 +4,7 @@
     {
       "description": "This spec does not define how the checkbox elements are interacted with: in practice, implementors are free to render the checkboxes as disabled or inmutable elements, or they may dynamically handle dynamic interactions (i.e. checking, unchecking) in the final rendered document.",
       "input": "- [ ] foo\n- [x] bar",
+      "markupAnswer": "- [ ] foo\n- [x] bar",
       "htmlAnswer": "<ul>\n<li><input disabled=\"\" type=\"checkbox\"> foo</li>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> bar</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

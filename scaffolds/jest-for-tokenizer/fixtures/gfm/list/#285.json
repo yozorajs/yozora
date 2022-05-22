@@ -4,6 +4,7 @@
     {
       "description": "We may still get an unintended result in cases like",
       "input": "The number of windows in my house is\n1.  The number of doors is 6.",
+      "markupAnswer": "The number of windows in my house is\n\n1. The number of doors is 6.",
       "htmlAnswer": "<p>The number of windows in my house is</p>\n<ol>\n<li>The number of doors is 6.</li>\n</ol>",
       "parseAnswer": {
         "type": "root",

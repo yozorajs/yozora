@@ -4,6 +4,7 @@
     {
       "description": "For the same reason, we can’t omit the > in front of subsequent lines of an indented or fenced code block",
       "input": ">     foo\n    bar",
+      "markupAnswer": "> ```\n> foo\n> ```\n\n```\nbar\n```",
       "htmlAnswer": "<blockquote>\n<pre><code>foo\n</code></pre>\n</blockquote>\n<pre><code>bar\n</code></pre>",
       "parseAnswer": {
         "type": "root",

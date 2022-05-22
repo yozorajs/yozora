@@ -4,6 +4,7 @@
     {
       "description": "Comments",
       "input": "foo <!-- not a comment -- two hyphens -->",
+      "markupAnswer": "foo <!-- not a comment -- two hyphens -->",
       "htmlAnswer": "<p>foo &lt;!-- not a comment -- two hyphens --&gt;</p>",
       "parseAnswer": {
         "type": "root",

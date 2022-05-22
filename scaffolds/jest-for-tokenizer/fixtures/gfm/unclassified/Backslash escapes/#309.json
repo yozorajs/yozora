@@ -4,6 +4,7 @@
     {
       "description": "Backslashes before other characters are treated as literal backslashes",
       "input": "\\\t\\A\\a\\ \\3\\φ\\«",
+      "markupAnswer": "\\\t\\A\\a\\ \\3\\φ\\«",
       "htmlAnswer": "<p>\\\t\\A\\a\\ \\3\\φ\\«</p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "But they work in all other contexts, including URLs and link titles, link references, and info strings in fenced code blocks",
       "input": "[foo](/bar\\* \"ti\\*tle\")",
+      "markupAnswer": "[foo](/bar* \"ti*tle\")",
       "htmlAnswer": "<p><a href=\"/bar*\" title=\"ti*tle\">foo</a></p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "These cases illustrate the precedence of HTML tags, code spans, and autolinks over link grouping",
       "input": "[foo<http://example.com/?search=](uri)>",
+      "markupAnswer": "[foo[http://example.com/?search=\\]\\(uri\\)](http://example.com/?search=%5D\\(uri\\))",
       "htmlAnswer": "<p>[foo<a href=\"http://example.com/?search=%5D(uri)\">http://example.com/?search=](uri)</a></p>",
       "parseAnswer": {
         "type": "root",

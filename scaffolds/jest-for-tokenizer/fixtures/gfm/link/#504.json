@@ -4,6 +4,7 @@
     {
       "description": "Parentheses inside the link destination may be escaped",
       "input": "[link](\\(foo\\))",
+      "markupAnswer": "[link](<(foo)>)",
       "htmlAnswer": "<p><a href=\"(foo)\">link</a></p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "Simple headings",
       "input": "# foo\n## foo\n### foo\n#### foo\n##### foo\n###### foo",
+      "markupAnswer": "# foo\n\n## foo\n\n### foo\n\n#### foo\n\n##### foo\n\n###### foo",
       "htmlAnswer": "<h1>foo</h1>\n<h2>foo</h2>\n<h3>foo</h3>\n<h4>foo</h4>\n<h5>foo</h5>\n<h6>foo</h6>",
       "parseAnswer": {
         "type": "root",

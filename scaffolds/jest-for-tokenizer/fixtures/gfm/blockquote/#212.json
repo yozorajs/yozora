@@ -4,6 +4,7 @@
     {
       "description": "without changing the meaning",
       "input": "> foo\n---",
+      "markupAnswer": "> foo\n\n---",
       "htmlAnswer": "<blockquote>\n<p>foo</p>\n</blockquote>\n<hr />",
       "parseAnswer": {
         "type": "root",

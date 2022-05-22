@@ -4,6 +4,7 @@
     {
       "description": "Rule 16",
       "input": "**foo **bar baz**",
+      "markupAnswer": "**foo **bar baz**",
       "htmlAnswer": "<p>**foo <strong>bar baz</strong></p>",
       "parseAnswer": {
         "type": "root",

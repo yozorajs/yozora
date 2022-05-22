@@ -4,6 +4,7 @@
     {
       "description": "These are not autolinks",
       "input": "< http://foo.bar >",
+      "markupAnswer": "< [http://foo.bar](http://foo.bar) \\>",
       "htmlAnswer": "<p>&lt; http://foo.bar &gt;</p>",
       "parseAnswer": {
         "type": "root",

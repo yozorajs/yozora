@@ -4,6 +4,7 @@
     {
       "description": "Unexpected close1",
       "input": "[foo]: /url \n\"foo\nbar",
+      "markupAnswer": "[foo]: /url\n\n\"foo\nbar",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -76,6 +77,7 @@
     {
       "description": "Unexpected close2",
       "input": "   [foo]: \n      /url  \n           'the \n foo",
+      "markupAnswer": "[foo]: /url\n\n```\n       'the \n```\n\nfoo",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -166,6 +168,7 @@
     {
       "description": "parentheses link title",
       "input": "[link]: /url (foo and bar)",
+      "markupAnswer": "[link]: /url \"foo and bar\"",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -206,6 +209,7 @@
     {
       "description": "parentheses link title (escape allowed)",
       "input": "[link]: /url (foo \\( and \\) bar)",
+      "markupAnswer": "[link]: /url \"foo ( and ) bar\"",
       "parseAnswer": {
         "type": "root",
         "position": {

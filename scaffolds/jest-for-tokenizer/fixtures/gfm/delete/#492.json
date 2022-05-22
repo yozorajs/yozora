@@ -4,6 +4,7 @@
     {
       "description": "As with regular emphasis delimiters, a new paragraph will cause strikethrough parsing to cease",
       "input": "This ~~has a\n\nnew paragraph~~.",
+      "markupAnswer": "This ~~has a\n\nnew paragraph~~.",
       "htmlAnswer": "<p>This ~~has a</p>\n<p>new paragraph~~.</p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "Illegal attribute values",
       "input": "<a href=\"hi'> <a href=hi'>",
+      "markupAnswer": "<a href=\"hi'> <a href=hi'>",
       "htmlAnswer": "<p>&lt;a href=&quot;hi'&gt; &lt;a href=hi'&gt;</p>",
       "parseAnswer": {
         "type": "root",

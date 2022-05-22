@@ -4,6 +4,7 @@
     {
       "description": "The link text may contain inline content",
       "input": "[![moon](moon.jpg)](/uri)",
+      "markupAnswer": "[![moon](moon.jpg)](/uri)",
       "htmlAnswer": "<p><a href=\"/uri\"><img src=\"moon.jpg\" alt=\"moon\" /></a></p>",
       "parseAnswer": {
         "type": "root",

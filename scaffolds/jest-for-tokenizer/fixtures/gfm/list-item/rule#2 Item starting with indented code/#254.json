@@ -4,6 +4,7 @@
     {
       "description": "Note that rules #1 and #2 only apply to two cases: (a) cases in which the lines to be included in a list item begin with a non-whitespace character, and (b) cases in which they begin with an indented code block. In a case like the following, where the first block begins with a three-space indent, the rules do not allow us to form a list item by indenting the whole thing and prepending a list marker",
       "input": "-    foo\n\n  bar",
+      "markupAnswer": "- foo\n\nbar",
       "htmlAnswer": "<ul>\n<li>foo</li>\n</ul>\n<p>bar</p>",
       "parseAnswer": {
         "type": "root",

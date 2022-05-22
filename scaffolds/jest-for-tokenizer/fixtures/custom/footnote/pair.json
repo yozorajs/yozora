@@ -4,6 +4,7 @@
     {
       "description": "Not paired brackets",
       "input": "^[invalid footnote []\n\n^[invalid footnote[[[]\n\n^[valid []footnote[]]",
+      "markupAnswer": "^[invalid footnote []\n\n^[invalid footnote[[[]\n\n^[valid []footnote[]]",
       "parseAnswer": {
         "type": "root",
         "position": {

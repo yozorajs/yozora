@@ -4,6 +4,7 @@
     {
       "description": "This example shows the motivation for stripping leading and trailing spaces",
       "input": "` `` `",
+      "markupAnswer": "``` `` ```",
       "htmlAnswer": "<p><code>``</code></p>",
       "parseAnswer": {
         "type": "root",

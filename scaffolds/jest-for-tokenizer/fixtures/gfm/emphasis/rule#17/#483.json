@@ -4,6 +4,7 @@
     {
       "description": "Rule 17",
       "input": "_foo [bar_](/url)",
+      "markupAnswer": "_foo [bar_](/url)",
       "htmlAnswer": "<p>_foo <a href=\"/url\">bar_</a></p>",
       "parseAnswer": {
         "type": "root",

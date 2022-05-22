@@ -4,6 +4,7 @@
     {
       "description": "However, a following blank line is needed, except at the end of a document, and except for blocks of types 1–5, above",
       "input": "<div>\nbar\n</div>\n*foo*",
+      "markupAnswer": "<div>\nbar\n</div>\n*foo*",
       "htmlAnswer": "<div>\nbar\n</div>\n*foo*",
       "parseAnswer": {
         "type": "root",

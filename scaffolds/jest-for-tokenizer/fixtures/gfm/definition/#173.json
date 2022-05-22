@@ -4,6 +4,7 @@
     {
       "description": "If there are several matching definitions, the first one takes precedence",
       "input": "[foo]\n\n[foo]: first\n[foo]: second",
+      "markupAnswer": "[foo][]\n\n[foo]: first\n\n[foo]: second",
       "htmlAnswer": "<p><a href=\"first\">foo</a></p>",
       "parseAnswer": {
         "type": "root",

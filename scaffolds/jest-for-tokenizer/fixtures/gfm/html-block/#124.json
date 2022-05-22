@@ -4,6 +4,7 @@
     {
       "description": "The tag on the first line can be partial, as long as it is split where there would be whitespace",
       "input": "<div id=\"foo\" class=\"bar\n  baz\">\n</div>",
+      "markupAnswer": "<div id=\"foo\" class=\"bar\n  baz\">\n</div>",
       "htmlAnswer": "<div id=\"foo\" class=\"bar\n  baz\">\n</div>",
       "parseAnswer": {
         "type": "root",

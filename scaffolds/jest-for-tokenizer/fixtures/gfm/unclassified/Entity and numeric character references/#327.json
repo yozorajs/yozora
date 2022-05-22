@@ -4,6 +4,7 @@
     {
       "description": "Entity and numeric character references are recognized in any context besides code spans or code blocks, including URLs, link titles, and fenced code block info strings",
       "input": "<a href=\"&ouml;&ouml;.html\">",
+      "markupAnswer": "<a href=\"&ouml;&ouml;.html\">",
       "htmlAnswer": "<a href=\"&ouml;&ouml;.html\">",
       "parseAnswer": {
         "type": "root",

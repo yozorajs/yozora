@@ -4,6 +4,7 @@
     {
       "description": "The title may extend over multiple lines",
       "input": "[foo]: /url '\ntitle\nline1\nline2\n'\n\n[foo]",
+      "markupAnswer": "[foo]: /url \"\ntitle\nline1\nline2\n\"\n\n[foo][]",
       "htmlAnswer": "<p><a href=\"/url\" title=\"\ntitle\nline1\nline2\n\">foo</a></p>",
       "parseAnswer": {
         "type": "root",

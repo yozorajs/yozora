@@ -4,6 +4,7 @@
     {
       "description": "Indicators of block structure always take precedence over indicators of inline structure. So, for example, the following is a list with two items, not a list with one item containing a code span",
       "input": "- `one\n- two`",
+      "markupAnswer": "- `one\n- two`",
       "htmlAnswer": "<ul>\n<li>`one</li>\n<li>two`</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

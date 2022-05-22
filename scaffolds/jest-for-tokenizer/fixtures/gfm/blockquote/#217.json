@@ -4,6 +4,7 @@
     {
       "description": "A block quote can be empty",
       "input": ">",
+      "markupAnswer": "> ",
       "htmlAnswer": "<blockquote>\n</blockquote>",
       "parseAnswer": {
         "type": "root",

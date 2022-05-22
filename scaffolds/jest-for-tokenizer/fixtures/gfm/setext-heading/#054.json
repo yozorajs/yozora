@@ -4,6 +4,7 @@
     {
       "description": "The heading content can be indented up to three spaces, and need not line up with the underlining",
       "input": "   Foo\n---\n\n  Foo\n-----\n\n  Foo\n  ===",
+      "markupAnswer": "Foo\n---\n\nFoo\n---\n\nFoo\n===",
       "htmlAnswer": "<h2>Foo</h2>\n<h2>Foo</h2>\n<h1>Foo</h1>",
       "parseAnswer": {
         "type": "root",

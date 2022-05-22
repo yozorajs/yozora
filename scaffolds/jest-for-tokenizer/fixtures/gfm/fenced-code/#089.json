@@ -4,6 +4,7 @@
     {
       "description": "Here is a simple example with backticks",
       "input": "```\n<\n >\n```",
+      "markupAnswer": "```\n<\n >\n```",
       "htmlAnswer": "<pre><code>&lt;\n &gt;\n</code></pre>",
       "parseAnswer": {
         "type": "root",

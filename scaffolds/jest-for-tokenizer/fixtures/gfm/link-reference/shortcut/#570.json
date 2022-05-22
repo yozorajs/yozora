@@ -4,6 +4,7 @@
     {
       "description": "A space after the link text should be preserved",
       "input": "[foo] bar\n\n[foo]: /url",
+      "markupAnswer": "[foo][] bar\n\n[foo]: /url",
       "htmlAnswer": "<p><a href=\"/url\">foo</a> bar</p>",
       "parseAnswer": {
         "type": "root",

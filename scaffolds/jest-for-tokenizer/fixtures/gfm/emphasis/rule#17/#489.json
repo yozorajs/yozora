@@ -4,6 +4,7 @@
     {
       "description": "Rule 17",
       "input": "**a<http://foo.bar/?q=**>",
+      "markupAnswer": "**a[http://foo.bar/?q=**](http://foo.bar/?q=**)",
       "htmlAnswer": "<p>**a<a href=\"http://foo.bar/?q=**\">http://foo.bar/?q=**</a></p>",
       "parseAnswer": {
         "type": "root",

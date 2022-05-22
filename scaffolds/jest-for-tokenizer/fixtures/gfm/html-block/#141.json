@@ -4,6 +4,7 @@
     {
       "description": "A style tag (type 1)",
       "input": "<style\n  type=\"text/css\">\nh1 {color:red;}\n\np {color:blue;}\n</style>\nokay",
+      "markupAnswer": "<style\n  type=\"text/css\">\nh1 {color:red;}\n\np {color:blue;}\n</style>\n\nokay",
       "htmlAnswer": "<style\n  type=\"text/css\">\nh1 {color:red;}\n\np {color:blue;}\n</style>\n<p>okay</p>",
       "parseAnswer": {
         "type": "root",

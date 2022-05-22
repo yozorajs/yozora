@@ -4,6 +4,7 @@
     {
       "description": "The delimiter row consists of cells whose only content are hyphens (-), and optionally, a leading or trailing colon (:), or both, to indicate left, right, or center alignment respectively.",
       "input": "| foo | bar |\n| --- | --- |\n| baz | bim |",
+      "markupAnswer": "foo | bar\n----|-----\nbaz | bim",
       "htmlAnswer": "<table>\n<thead>\n<tr>\n<th>foo</th>\n<th>bar</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>baz</td>\n<td>bim</td>\n</tr>\n</tbody>\n</table>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "A block quote can contain some lazy and some non-lazy continuation lines",
       "input": "> bar\nbaz\n> foo",
+      "markupAnswer": "> bar\n> baz\n> foo",
       "htmlAnswer": "<blockquote>\n<p>bar\nbaz\nfoo</p>\n</blockquote>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "Whitespaces are not allowed between caret and open bracket",
       "input": "^ [This is not a footnote]",
+      "markupAnswer": "^ [This is not a footnote]",
       "parseAnswer": {
         "type": "root",
         "position": {

@@ -4,6 +4,7 @@
     {
       "description": "basic",
       "input": ":::note Hello, [guanghechen][]. Nice to meet you!\n\n[guanghechen]: https://github.com/guanghechen.com\n\n `include` **inline contents**\nsome content\n:::",
+      "markupAnswer": ":::note Hello, [guanghechen][]. Nice to meet you!\n[guanghechen]: https://github.com/guanghechen.com\n\n`include` **inline contents**\nsome content\n:::",
       "parseAnswer": {
         "type": "root",
         "position": {

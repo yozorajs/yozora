@@ -4,6 +4,7 @@
     {
       "description": "The contents are the result of parsing the headings’s raw content as inlines. The heading’s raw content is formed by concatenating the lines and removing initial and final whitespace.",
       "input": "  Foo *bar\nbaz*\t\n====",
+      "markupAnswer": "Foo *bar\nbaz*\n===",
       "htmlAnswer": "<h1>Foo <em>bar\nbaz</em></h1>",
       "parseAnswer": {
         "type": "root",

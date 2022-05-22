@@ -4,6 +4,7 @@
     {
       "description": "However, any non-blank line with fewer than four leading spaces ends the code block immediately. So a paragraph may occur immediately after indented code",
       "input": "    foo\nbar",
+      "markupAnswer": "```\nfoo\n```\n\nbar",
       "htmlAnswer": "<pre><code>foo\n</code></pre>\n<p>bar</p>",
       "parseAnswer": {
         "type": "root",

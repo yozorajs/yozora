@@ -4,6 +4,7 @@
     {
       "description": "Spaces at the end of the line and beginning of the next line are removed",
       "input": "foo \n baz",
+      "markupAnswer": "foo\nbaz",
       "htmlAnswer": "<p>foo\nbaz</p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "The end tag can occur on the same line as the start tag",
       "input": "<!-- foo -->*bar*\n*baz*",
+      "markupAnswer": "<!-- foo -->*bar*\n\n*baz*",
       "htmlAnswer": "<!-- foo -->*bar*\n<p><em>baz</em></p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "This list is tight, because the consecutive block elements are not separated by blank lines",
       "input": "- a\n  > b\n  ```\n  c\n  ```\n- d",
+      "markupAnswer": "- a\n  > b\n  ```\n  c\n  ```\n- d",
       "htmlAnswer": "<ul>\n<li>a\n<blockquote>\n<p>b</p>\n</blockquote>\n<pre><code>c\n</code></pre>\n</li>\n<li>d</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

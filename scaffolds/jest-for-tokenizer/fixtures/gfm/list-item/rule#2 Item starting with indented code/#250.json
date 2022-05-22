@@ -4,6 +4,7 @@
     {
       "description": "If the first block in the list item is an indented code block, then by rule #2, the contents must be indented one space after the list marker",
       "input": "    indented code\n\nparagraph\n\n    more code",
+      "markupAnswer": "```\nindented code\n```\n\nparagraph\n\n```\nmore code\n```",
       "htmlAnswer": "<pre><code>indented code\n</code></pre>\n<p>paragraph</p>\n<pre><code>more code\n</code></pre>",
       "parseAnswer": {
         "type": "root",

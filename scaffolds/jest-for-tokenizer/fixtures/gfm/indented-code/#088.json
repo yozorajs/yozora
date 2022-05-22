@@ -4,6 +4,7 @@
     {
       "description": "Trailing spaces are included in the code block’s content",
       "input": "    foo  ",
+      "markupAnswer": "```\nfoo  \n```",
       "htmlAnswer": "<pre><code>foo  \n</code></pre>",
       "parseAnswer": {
         "type": "root",

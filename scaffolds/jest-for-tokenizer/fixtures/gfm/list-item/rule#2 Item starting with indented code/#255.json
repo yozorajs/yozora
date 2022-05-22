@@ -4,6 +4,7 @@
     {
       "description": "This is not a significant restriction, because when a block begins with 1-3 spaces indent, the indentation can always be removed without a change in interpretation, allowing rule #1 to be applied. So, in the above case",
       "input": "-  foo\n\n   bar",
+      "markupAnswer": "- foo\n  \n  bar",
       "htmlAnswer": "<ul>\n<li>\n<p>foo</p>\n<p>bar</p>\n</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

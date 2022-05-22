@@ -4,6 +4,7 @@
     {
       "description": "A link can come before its corresponding definition",
       "input": "[foo]\n\n[foo]: url",
+      "markupAnswer": "[foo][]\n\n[foo]: url",
       "htmlAnswer": "<p><a href=\"url\">foo</a></p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "Here we have two HTML blocks with a Markdown paragraph between them",
       "input": "<DIV CLASS=\"foo\">\n\n*Markdown*\n\n</DIV>",
+      "markupAnswer": "<DIV CLASS=\"foo\">\n\n*Markdown*\n\n</DIV>",
       "htmlAnswer": "<DIV CLASS=\"foo\">\n<p><em>Markdown</em></p>\n</DIV>",
       "parseAnswer": {
         "type": "root",

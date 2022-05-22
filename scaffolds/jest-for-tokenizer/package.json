@@ -35,11 +35,16 @@
     "test:update": "node --unhandled-rejections=strict -r ts-node/register -r tsconfig-paths/register script/answer.ts"
   },
   "dependencies": {
+    "@yozora/ast": "^2.0.1",
+    "@yozora/ast-util": "^2.0.1",
     "@yozora/invariant": "^2.0.1",
     "globby": "^11.0.4"
   },
   "peerDependencies": {
     "fs-extra": "^10.0.0",
     "jest": "^27.4.7"
+  },
+  "devDependencies": {
+    "@yozora/core-parser": "^2.0.1"
   }
 }

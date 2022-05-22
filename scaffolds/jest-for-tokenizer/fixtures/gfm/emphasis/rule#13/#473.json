@@ -4,6 +4,7 @@
     {
       "description": "However, strong emphasis within strong emphasis is possible without switching delimiters",
       "input": "****foo****",
+      "markupAnswer": "****foo****",
       "htmlAnswer": "<p><strong><strong>foo</strong></strong></p>",
       "parseAnswer": {
         "type": "root",

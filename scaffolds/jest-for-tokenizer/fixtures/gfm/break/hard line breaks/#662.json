@@ -4,6 +4,7 @@
     {
       "description": "Line breaks do not occur inside code spans",
       "input": "`code\\\nspan`",
+      "markupAnswer": "`code\\ span`",
       "htmlAnswer": "<p><code>code\\ span</code></p>",
       "parseAnswer": {
         "type": "root",

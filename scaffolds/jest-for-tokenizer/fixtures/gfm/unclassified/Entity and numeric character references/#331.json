@@ -4,6 +4,7 @@
     {
       "description": "Entity and numeric character references are treated as literal text in code spans and code blocks",
       "input": "`f&ouml;&ouml;`",
+      "markupAnswer": "`f&ouml;&ouml;`",
       "htmlAnswer": "<p><code>f&amp;ouml;&amp;ouml;</code></p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "This is not emphasis, because the second * is preceded by punctuation and followed by an alphanumeric (hence it is not part of a right-flanking delimiter run",
       "input": "*(*foo)",
+      "markupAnswer": "*(*foo)",
       "htmlAnswer": "<p>*(*foo)</p>",
       "parseAnswer": {
         "type": "root",

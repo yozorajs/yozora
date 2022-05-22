@@ -4,6 +4,7 @@
     {
       "description": "Both title and destination can contain backslash escapes and literal backslashes",
       "input": "[foo]: /url\\bar\\*baz \"foo\\\"bar\\baz\"\n\n[foo]",
+      "markupAnswer": "[foo]: /url%5Cbar*baz \"foo\\\"bar\\baz\"\n\n[foo][]",
       "htmlAnswer": "<p><a href=\"/url%5Cbar*baz\" title=\"foo&quot;bar\\baz\">foo</a></p>",
       "parseAnswer": {
         "type": "root",

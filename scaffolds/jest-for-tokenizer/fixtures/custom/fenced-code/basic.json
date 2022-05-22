@@ -4,6 +4,7 @@
     {
       "description": "blank line",
       "input": "papa\n\n\n  ```tsx\n  import React, { useEffect, useRef } from 'react'\n  import isEqual from 'fast-deep-equal/react'\n\n  export function useDeepCompareEffect(\n    fn: React.EffectCallback,\n    deps: React.DependencyList,\n  ): void {\n    const signal = useRef<number>(0)\n    const prevDeps = useRef<React.DependencyList>(deps)\n\n    if (!isEqual(prevDeps.current, deps)) {\n      signal.current += 1\n    }\n    prevDeps.current = deps\n\n    useEffect(fn, [signal.current])\n  }\n  ```",
+      "markupAnswer": "papa\n\n```tsx\nimport React, { useEffect, useRef } from 'react'\nimport isEqual from 'fast-deep-equal/react'\n\nexport function useDeepCompareEffect(\n  fn: React.EffectCallback,\n  deps: React.DependencyList,\n): void {\n  const signal = useRef<number>(0)\n  const prevDeps = useRef<React.DependencyList>(deps)\n\n  if (!isEqual(prevDeps.current, deps)) {\n    signal.current += 1\n  }\n  prevDeps.current = deps\n\n  useEffect(fn, [signal.current])\n}\n```",
       "htmlAnswer": "<p>papa</pa>\n\n<pre><code>&lt;\n &gt;\n</code></pre>",
       "parseAnswer": {
         "type": "root",
@@ -77,6 +78,7 @@
     {
       "description": "Tildes and backticks cannot be mixed",
       "input": "``~\nfoo\n~``",
+      "markupAnswer": "`~ foo ~`",
       "htmlAnswer": "<p><code>~foo~</code></p>",
       "parseAnswer": {
         "type": "root",

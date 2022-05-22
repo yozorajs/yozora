@@ -4,6 +4,7 @@
     {
       "description": "+ can occur before the @, but not after.",
       "input": "hello@mail+xyz.example isn't valid, but hello+xyz@mail.example is.",
+      "markupAnswer": "hello@mail+xyz.example isn't valid, but [hello+xyz@mail.example](mailto:hello+xyz@mail.example) is.",
       "htmlAnswer": "<p>hello@mail+xyz.example isn't valid, but <a href=\"mailto:hello+xyz@mail.example\">hello+xyz@mail.example</a> is.</p>",
       "parseAnswer": {
         "type": "root",

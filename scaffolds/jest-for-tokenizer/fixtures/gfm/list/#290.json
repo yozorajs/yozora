@@ -4,6 +4,7 @@
     {
       "description": "List items need not be indented to the same level. The following list items will be treated as items at the same list level, since none is indented enough to belong to the previous list item",
       "input": "- a\n - b\n  - c\n   - d\n  - e\n - f\n- g",
+      "markupAnswer": "- a\n- b\n- c\n- d\n- e\n- f\n- g",
       "htmlAnswer": "<ul>\n<li>a</li>\n<li>b</li>\n<li>c</li>\n<li>d</li>\n<li>e</li>\n<li>f</li>\n<li>g</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

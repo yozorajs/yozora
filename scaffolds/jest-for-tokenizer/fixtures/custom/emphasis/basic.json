@@ -4,6 +4,7 @@
     {
       "description": "Stick to a inner token with a higher priority",
       "input": "*`x`*",
+      "markupAnswer": "*`x`*",
       "parseAnswer": {
         "type": "root",
         "position": {

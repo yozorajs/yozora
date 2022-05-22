@@ -96,11 +96,11 @@ export abstract class BaseTester<T = unknown> {
       const result = {
         title: caseGroup.title || caseGroup.dirpath.slice(parentDir.length),
         cases: caseGroup.cases.map(c => {
-          const { description, input, htmlAnswer, parseAnswer } = {
+          const { description, input, markupAnswer, htmlAnswer, parseAnswer } = {
             ...c,
             ...this._answerCase(c, caseGroup.filepath),
           }
-          return { description, input, htmlAnswer, parseAnswer }
+          return { description, input, markupAnswer, htmlAnswer, parseAnswer }
         }),
       }
       const content = this.stringify(result)
@@ -212,6 +212,7 @@ export abstract class BaseTester<T = unknown> {
         input: c.input,
         htmlAnswer: c.htmlAnswer,
         parseAnswer: c.parseAnswer,
+        markupAnswer: c.markupAnswer,
       }),
     )
 

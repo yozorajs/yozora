@@ -4,6 +4,7 @@
     {
       "description": "This is a link reference definition, but it has no title",
       "input": "[foo]: /url\n\"title\" ok",
+      "markupAnswer": "[foo]: /url\n\n\"title\" ok",
       "htmlAnswer": "<p>&quot;title&quot; ok</p>",
       "parseAnswer": {
         "type": "root",

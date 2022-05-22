@@ -4,6 +4,7 @@
     {
       "description": "Here is a link reference definition with no corresponding link. It contributes nothing to the document.",
       "input": "[foo]: /url",
+      "markupAnswer": "[foo]: /url",
       "htmlAnswer": "",
       "parseAnswer": {
         "type": "root",

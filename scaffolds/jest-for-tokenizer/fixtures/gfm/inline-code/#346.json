@@ -4,6 +4,7 @@
     {
       "description": "Line endings are treated like spaces",
       "input": "``\nfoo \n``",
+      "markupAnswer": "`foo `",
       "htmlAnswer": "<p><code>foo </code></p>",
       "parseAnswer": {
         "type": "root",

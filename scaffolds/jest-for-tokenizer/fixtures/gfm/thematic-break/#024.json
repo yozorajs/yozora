@@ -4,6 +4,7 @@
     {
       "description": "Spaces are allowed at the end",
       "input": "- - - -    ",
+      "markupAnswer": "---",
       "htmlAnswer": "<hr />",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "In type 7 blocks, the tag name can be anything",
       "input": "<i class=\"foo\">\n*bar*\n</i>",
+      "markupAnswer": "<i class=\"foo\">\n*bar*\n</i>",
       "htmlAnswer": "<i class=\"foo\">\n*bar*\n</i>",
       "parseAnswer": {
         "type": "root",

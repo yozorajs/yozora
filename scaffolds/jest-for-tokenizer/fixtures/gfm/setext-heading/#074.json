@@ -4,6 +4,7 @@
     {
       "description": "Authors who want interpretation 2 can put blank lines around the thematic break,",
       "input": "Foo\nbar\n\n---\n\nbaz",
+      "markupAnswer": "Foo\nbar\n\n---\n\nbaz",
       "htmlAnswer": "<p>Foo\nbar</p>\n<hr />\n<p>baz</p>",
       "parseAnswer": {
         "type": "root",

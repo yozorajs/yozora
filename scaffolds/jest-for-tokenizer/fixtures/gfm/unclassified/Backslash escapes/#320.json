@@ -4,6 +4,7 @@
     {
       "description": "But they work in all other contexts, including URLs and link titles, link references, and info strings in fenced code blocks",
       "input": "``` foo\\+bar\nfoo\n```",
+      "markupAnswer": "```foo+bar\nfoo\n```",
       "htmlAnswer": "<pre><code class=\"language-foo+bar\">foo\n</code></pre>",
       "parseAnswer": {
         "type": "root",

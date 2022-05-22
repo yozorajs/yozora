@@ -4,6 +4,7 @@
     {
       "description": "Fewer than three backticks is not enough",
       "input": "``\nfoo\n``",
+      "markupAnswer": "`foo`",
       "htmlAnswer": "<p><code>foo</code></p>",
       "parseAnswer": {
         "type": "root",

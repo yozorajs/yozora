@@ -4,6 +4,7 @@
     {
       "description": "One to three spaces indent are allowed",
       "input": " ***\n  ***\n   ***",
+      "markupAnswer": "---\n\n---\n\n---",
       "htmlAnswer": "<hr />\n<hr />\n<hr />",
       "parseAnswer": {
         "type": "root",

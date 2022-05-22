@@ -4,6 +4,7 @@
     {
       "description": "Closing tags",
       "input": "</a></foo >",
+      "markupAnswer": "</a></foo >",
       "htmlAnswer": "<p></a></foo ></p>",
       "parseAnswer": {
         "type": "root",

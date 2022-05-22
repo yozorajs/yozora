@@ -4,6 +4,7 @@
     {
       "description": "In general, blank lines are not needed before or after block quotes",
       "input": "> aaa\n***\n> bbb",
+      "markupAnswer": "> aaa\n\n---\n\n> bbb",
       "htmlAnswer": "<blockquote>\n<p>aaa</p>\n</blockquote>\n<hr />\n<blockquote>\n<p>bbb</p>\n</blockquote>",
       "parseAnswer": {
         "type": "root",

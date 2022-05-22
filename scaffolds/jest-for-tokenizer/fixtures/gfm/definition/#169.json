@@ -4,6 +4,7 @@
     {
       "description": "However, an empty link destination may be specified using angle brackets",
       "input": "[foo]: <>\n\n[foo]",
+      "markupAnswer": "[foo]: <>\n\n[foo][]",
       "htmlAnswer": "<p><a href=\"\">foo</a></p>",
       "parseAnswer": {
         "type": "root",

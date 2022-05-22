@@ -4,6 +4,7 @@
     {
       "description": "A list may start or end with an empty list item",
       "input": "*",
+      "markupAnswer": "* ",
       "htmlAnswer": "<ul>\n<li></li>\n</ul>",
       "parseAnswer": {
         "type": "root",

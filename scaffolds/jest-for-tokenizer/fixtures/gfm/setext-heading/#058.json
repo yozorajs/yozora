@@ -4,6 +4,7 @@
     {
       "description": "The setext heading underline cannot contain internal spaces",
       "input": "Foo\n= =\n\nFoo\n--- -",
+      "markupAnswer": "Foo\n= =\n\nFoo\n\n---",
       "htmlAnswer": "<p>Foo\n= =</p>\n<p>Foo</p>\n<hr />",
       "parseAnswer": {
         "type": "root",

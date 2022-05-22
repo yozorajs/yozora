@@ -4,6 +4,7 @@
     {
       "description": "When including an indented code block in a block quote, remember that the block quote marker includes both the > and a following space. So five spaces are needed after the >",
       "input": ">     code\n\n>    not code",
+      "markupAnswer": "> ```\n> code\n> ```\n\n> not code",
       "htmlAnswer": "<blockquote>\n<pre><code>code\n</code></pre>\n</blockquote>\n<blockquote>\n<p>not code</p>\n</blockquote>",
       "parseAnswer": {
         "type": "root",

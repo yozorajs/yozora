@@ -4,6 +4,7 @@
     {
       "description": "In the following case [bar][baz] is parsed as a reference, [foo] as normal text",
       "input": "[foo][bar][baz]\n\n[baz]: /url",
+      "markupAnswer": "[foo][bar][baz]\n\n[baz]: /url",
       "htmlAnswer": "<p>[foo]<a href=\"/url\">bar</a></p>",
       "parseAnswer": {
         "type": "root",

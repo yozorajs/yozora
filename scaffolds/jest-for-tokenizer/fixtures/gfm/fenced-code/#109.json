@@ -4,6 +4,7 @@
     {
       "description": "Code fences (opening and closing) cannot contain internal spaces",
       "input": "~~~~~~\naaa\n~~~ ~~",
+      "markupAnswer": "```\naaa\n~~~ ~~\n```",
       "htmlAnswer": "<pre><code>aaa\n~~~ ~~\n</code></pre>",
       "parseAnswer": {
         "type": "root",

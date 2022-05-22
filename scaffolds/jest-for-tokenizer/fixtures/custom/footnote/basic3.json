@@ -4,6 +4,7 @@
     {
       "description": "With higher priority token as the first element",
       "input": "^[`a` This is a footnote]",
+      "markupAnswer": "^[`a` This is a footnote]",
       "parseAnswer": {
         "type": "root",
         "position": {

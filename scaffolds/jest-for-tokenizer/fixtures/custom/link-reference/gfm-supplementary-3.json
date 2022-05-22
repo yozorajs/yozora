@@ -4,6 +4,7 @@
     {
       "description": "A shortcut reference link could not followed by a [] or a link label",
       "input": "[foo][bar]\n\n[foo]: #alpha",
+      "markupAnswer": "[foo][bar]\n\n[foo]: #alpha",
       "parseAnswer": {
         "type": "root",
         "position": {

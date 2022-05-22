@@ -4,6 +4,7 @@
     {
       "description": "It is tempting to think of this in terms of columns: the continuation blocks must be indented at least to the column of the first non-whitespace character after the list marker. However, that is not quite right. The spaces after the list marker determine how much relative indentation is needed. Which column this indentation reaches will depend on how the list item is embedded in other constructions, as shown by this example",
       "input": "   > > 1.  one\n>>\n>>     two",
+      "markupAnswer": "> > 1. one\n> >    \n> >    two",
       "htmlAnswer": "<blockquote>\n<blockquote>\n<ol>\n<li>\n<p>one</p>\n<p>two</p>\n</li>\n</ol>\n</blockquote>\n</blockquote>",
       "parseAnswer": {
         "type": "root",

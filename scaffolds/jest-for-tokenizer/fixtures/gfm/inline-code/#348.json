@@ -4,6 +4,7 @@
     {
       "description": "Note that backslash escapes do not work in code spans. All backslashes are treated literally",
       "input": "`foo\\`bar`",
+      "markupAnswer": "`foo\\`bar`",
       "htmlAnswer": "<p><code>foo\\</code>bar`</p>",
       "parseAnswer": {
         "type": "root",

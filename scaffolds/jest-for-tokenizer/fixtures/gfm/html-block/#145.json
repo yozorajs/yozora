@@ -4,6 +4,7 @@
     {
       "description": "The end tag can occur on the same line as the start tag",
       "input": "<style>p{color:red;}</style>\n*foo*",
+      "markupAnswer": "<style>p{color:red;}</style>\n\n*foo*",
       "htmlAnswer": "<style>p{color:red;}</style>\n<p><em>foo</em></p>",
       "parseAnswer": {
         "type": "root",

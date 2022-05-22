@@ -4,6 +4,7 @@
     {
       "description": "However, links may not contain other links, at any level of nesting.",
       "input": "![[[foo](uri1)](uri2)](uri3)",
+      "markupAnswer": "![\\[foo\\]\\(uri2\\)](uri3)",
       "htmlAnswer": "<p><img src=\"uri3\" alt=\"[foo](uri2)\" /></p>",
       "parseAnswer": {
         "type": "root",

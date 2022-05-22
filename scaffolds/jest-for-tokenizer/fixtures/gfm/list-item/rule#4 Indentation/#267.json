@@ -4,6 +4,7 @@
     {
       "description": "Four spaces indent gives a code block",
       "input": "    1.  A paragraph\n        with two lines.\n\n            indented code\n\n        > A block quote.",
+      "markupAnswer": "```\n1.  A paragraph\n    with two lines.\n\n        indented code\n\n    > A block quote.\n```",
       "htmlAnswer": "<pre><code>1.  A paragraph\n    with two lines.\n\n        indented code\n\n    &gt; A block quote.\n</code></pre>",
       "parseAnswer": {
         "type": "root",

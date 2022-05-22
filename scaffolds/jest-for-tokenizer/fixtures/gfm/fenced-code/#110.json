@@ -4,6 +4,7 @@
     {
       "description": "Fenced code blocks can interrupt paragraphs, and can be followed directly by paragraphs, without a blank line between",
       "input": "foo\n```\nbar\n```\nbaz",
+      "markupAnswer": "foo\n\n```\nbar\n```\n\nbaz",
       "htmlAnswer": "<p>foo</p>\n<pre><code>bar\n</code></pre>\n<p>baz</p>",
       "parseAnswer": {
         "type": "root",

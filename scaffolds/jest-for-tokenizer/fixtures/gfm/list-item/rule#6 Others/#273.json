@@ -4,6 +4,7 @@
     {
       "description": "One is not enough",
       "input": "- foo\n - bar\n  - baz\n   - boo",
+      "markupAnswer": "- foo\n- bar\n- baz\n- boo",
       "htmlAnswer": "<ul>\n<li>foo</li>\n<li>bar</li>\n<li>baz</li>\n<li>boo</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "The scheme mailto: will automatically be added to the generated link",
       "input": "foo@bar.baz",
+      "markupAnswer": "[foo@bar.baz](mailto:foo@bar.baz)",
       "htmlAnswer": "<p><a href=\"mailto:foo@bar.baz\">foo@bar.baz</a></p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "Empty elements",
       "input": "<a/><b2/>",
+      "markupAnswer": "<a/><b2/>",
       "htmlAnswer": "<p><a/><b2/></p>",
       "parseAnswer": {
         "type": "root",

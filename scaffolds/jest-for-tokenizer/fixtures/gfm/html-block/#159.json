@@ -4,6 +4,7 @@
     {
       "description": "The main potential drawback is that one can no longer paste HTML blocks into Markdown documents with 100% reliability. However, in most cases this will work fine, because the blank lines in HTML are usually followed by HTML block tags. For example",
       "input": "<table>\n\n<tr>\n\n<td>\nHi\n</td>\n\n</tr>\n\n</table>",
+      "markupAnswer": "<table>\n\n<tr>\n\n<td>\nHi\n</td>\n\n</tr>\n\n</table>",
       "htmlAnswer": "<table>\n<tr>\n<td>\nHi\n</td>\n</tr>\n</table>",
       "parseAnswer": {
         "type": "root",

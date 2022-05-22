@@ -4,6 +4,7 @@
     {
       "description": "Not comments",
       "input": "foo <!--> foo -->\n\nfoo <!-- foo--->",
+      "markupAnswer": "foo <!--> foo -->\n\nfoo <!-- foo--->",
       "htmlAnswer": "<p>foo &lt;!--&gt; foo --&gt;</p>\n<p>foo &lt;!-- foo---&gt;</p>",
       "parseAnswer": {
         "type": "root",

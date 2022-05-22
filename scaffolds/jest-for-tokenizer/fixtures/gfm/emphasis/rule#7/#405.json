@@ -4,6 +4,7 @@
     {
       "description": "Intraword emphasis",
       "input": "**foo**bar",
+      "markupAnswer": "**foo**bar",
       "htmlAnswer": "<p><strong>foo</strong>bar</p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "The content of the header may span more than one line",
       "input": "Foo *bar\nbaz*\n====",
+      "markupAnswer": "Foo *bar\nbaz*\n===",
       "htmlAnswer": "<h1>Foo <em>bar\nbaz</em></h1>",
       "parseAnswer": {
         "type": "root",

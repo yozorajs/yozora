@@ -4,6 +4,7 @@
     {
       "description": "In type 6 blocks, the initial tag need not be on a line by itself",
       "input": "<div><a href=\"bar\">*foo*</a></div>",
+      "markupAnswer": "<div><a href=\"bar\">*foo*</a></div>",
       "htmlAnswer": "<div><a href=\"bar\">*foo*</a></div>",
       "parseAnswer": {
         "type": "root",

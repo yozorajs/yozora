@@ -4,6 +4,7 @@
     {
       "description": "basic",
       "input": ":::note optional title\nsome content\n:::",
+      "markupAnswer": ":::note optional title\nsome content\n:::",
       "parseAnswer": {
         "type": "root",
         "position": {

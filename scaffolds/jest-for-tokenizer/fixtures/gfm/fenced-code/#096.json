@@ -4,6 +4,7 @@
     {
       "description": "Unclosed code blocks are closed by the end of the document (or the enclosing block quote or list item)",
       "input": "```",
+      "markupAnswer": "```\n\n```",
       "htmlAnswer": "<pre><code></code></pre>",
       "parseAnswer": {
         "type": "root",

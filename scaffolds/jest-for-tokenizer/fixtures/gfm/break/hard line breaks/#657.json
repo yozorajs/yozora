@@ -4,6 +4,7 @@
     {
       "description": "Leading spaces at the beginning of the next line are ignored",
       "input": "foo  \n     bar",
+      "markupAnswer": "foo\\\nbar",
       "htmlAnswer": "<p>foo<br />\nbar</p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "A declaration (type 4)",
       "input": "<!DOCTYPE html>",
+      "markupAnswer": "<!DOCTYPE html>",
       "htmlAnswer": "<!DOCTYPE html>",
       "parseAnswer": {
         "type": "root",

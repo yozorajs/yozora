@@ -4,6 +4,7 @@
     {
       "description": "This is not a link reference definition, because it occurs inside a code block",
       "input": "```\n[foo]: /url\n```\n\n[foo]",
+      "markupAnswer": "```\n[foo]: /url\n```\n\n[foo]",
       "htmlAnswer": "<pre><code>[foo]: /url\n</code></pre>\n<p>[foo]</p>",
       "parseAnswer": {
         "type": "root",

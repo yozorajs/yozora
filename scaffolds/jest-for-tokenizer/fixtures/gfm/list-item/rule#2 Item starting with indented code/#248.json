@@ -4,6 +4,7 @@
     {
       "description": "An indented code block will have to be indented four spaces beyond the edge of the region where text will be included in the list item. In the following case that is 6 spaces",
       "input": "- foo\n\n      bar",
+      "markupAnswer": "- foo\n  \n  ```\n  bar\n  ```",
       "htmlAnswer": "<ul>\n<li>\n<p>foo</p>\n<pre><code>bar\n</code></pre>\n</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

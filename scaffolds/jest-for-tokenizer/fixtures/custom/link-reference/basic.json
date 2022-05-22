@@ -4,6 +4,7 @@
     {
       "description": "mdast# https://github.com/syntax-tree/mdast#linkreference",
       "input": "[alpha][Bravo]\n\n[bravo]: #alpha",
+      "markupAnswer": "[alpha][Bravo]\n\n[bravo]: #alpha",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -96,6 +97,7 @@
     {
       "description": "A full reference link could preceded by ]",
       "input": "a][foo][bar]\n\n[foo]: #alpha\n[bar]: #beta",
+      "markupAnswer": "a][foo][bar]\n\n[foo]: #alpha\n\n[bar]: #beta",
       "parseAnswer": {
         "type": "root",
         "position": {

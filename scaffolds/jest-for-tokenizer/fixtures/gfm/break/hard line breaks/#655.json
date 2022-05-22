@@ -4,6 +4,7 @@
     {
       "description": "For a more visible alternative, a backslash before the line ending may be used instead of two spaces",
       "input": "foo\\\nbaz",
+      "markupAnswer": "foo\\\nbaz",
       "htmlAnswer": "<p>foo<br />\nbaz</p>",
       "parseAnswer": {
         "type": "root",

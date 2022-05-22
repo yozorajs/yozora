@@ -4,6 +4,7 @@
     {
       "description": "This is not strong emphasis, because the opening ** is preceded by an alphanumeric and followed by punctuation, and hence not part of a left-flanking delimiter run",
       "input": "a**\"foo\"**",
+      "markupAnswer": "a**\"foo\"**",
       "htmlAnswer": "<p>a**&quot;foo&quot;**</p>",
       "parseAnswer": {
         "type": "root",

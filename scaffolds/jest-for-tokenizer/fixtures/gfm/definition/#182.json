@@ -4,6 +4,7 @@
     {
       "description": "A link reference definition cannot interrupt a paragraph.",
       "input": "Foo\n[bar]: /baz\n\n[bar]",
+      "markupAnswer": "Foo\n[bar]: /baz\n\n[bar]",
       "htmlAnswer": "<p>Foo\n[bar]: /baz</p>\n<p>[bar]</p>",
       "parseAnswer": {
         "type": "root",

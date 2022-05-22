@@ -4,6 +4,7 @@
     {
       "description": "However, it may not contain a blank line",
       "input": "[foo]: /url 'title\n\nwith blank line'\n\n[foo]",
+      "markupAnswer": "[foo]: /url 'title\n\nwith blank line'\n\n[foo]",
       "htmlAnswer": "<p>[foo]: /url 'title</p>\n<p>with blank line'</p>\n<p>[foo]</p>",
       "parseAnswer": {
         "type": "root",

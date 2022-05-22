@@ -4,6 +4,7 @@
     {
       "description": "Backslash escapes do not work in code blocks, code spans, autolinks, or raw HTML",
       "input": "<http://example.com?find=\\*>",
+      "markupAnswer": "[http://example.com?find=*](http://example.com?find=%5C*)",
       "htmlAnswer": "<p><a href=\"http://example.com?find=%5C*\">http://example.com?find=\\*</a></p>",
       "parseAnswer": {
         "type": "root",

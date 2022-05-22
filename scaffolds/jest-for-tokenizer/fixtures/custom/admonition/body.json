@@ -4,6 +4,7 @@
     {
       "description": "body of admonition supported full features of markdown",
       "input": ":::important\nsome content\n- list item\n- list item 2\n> blockquote\n## heading\n:::",
+      "markupAnswer": ":::important\nsome content\n\n- list item\n- list item 2\n\n> blockquote\n\n## heading\n:::",
       "parseAnswer": {
         "type": "root",
         "position": {

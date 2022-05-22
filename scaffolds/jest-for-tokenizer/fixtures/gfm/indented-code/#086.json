@@ -4,6 +4,7 @@
     {
       "description": "The first line can be indented more than four spaces",
       "input": "        foo\n    bar",
+      "markupAnswer": "```\n    foo\nbar\n```",
       "htmlAnswer": "<pre><code>    foo\nbar\n</code></pre>",
       "parseAnswer": {
         "type": "root",

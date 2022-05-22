@@ -4,6 +4,7 @@
     {
       "description": "basic",
       "input": "import '@yozora/parser'",
+      "markupAnswer": "import \"@yozora/parser\";",
       "parseAnswer": {
         "type": "root",
         "position": {

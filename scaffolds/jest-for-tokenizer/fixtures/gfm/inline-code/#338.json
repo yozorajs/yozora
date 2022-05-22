@@ -4,6 +4,7 @@
     {
       "description": "This is a simple code span",
       "input": "`foo`",
+      "markupAnswer": "`foo`",
       "htmlAnswer": "<p><code>foo</code></p>",
       "parseAnswer": {
         "type": "root",

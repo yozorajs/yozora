@@ -4,6 +4,7 @@
     {
       "description": "footnote could contain links",
       "input": "^[a[foo][bar]]\n\n[bar]: /url",
+      "markupAnswer": "^[a[foo][bar]]\n\n[bar]: /url",
       "parseAnswer": {
         "type": "root",
         "position": {

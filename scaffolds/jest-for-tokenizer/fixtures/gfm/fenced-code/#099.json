@@ -4,6 +4,7 @@
     {
       "description": "A code block can have all empty lines as its content",
       "input": "```\n\n  \n```",
+      "markupAnswer": "```\n\n  \n```",
       "htmlAnswer": "<pre><code>\n  \n</code></pre>",
       "parseAnswer": {
         "type": "root",

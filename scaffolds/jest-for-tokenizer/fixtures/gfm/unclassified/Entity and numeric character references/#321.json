@@ -4,6 +4,7 @@
     {
       "description": "Entity references consist of & + any of the valid HTML5 entity names + ;. The document https://html.spec.whatwg.org/multipage/entities.json is used as an authoritative source for the valid entity references and their corresponding code points.",
       "input": "&nbsp; &amp; &copy; &AElig; &Dcaron;\n&frac34; &HilbertSpace; &DifferentialD;\n&ClockwiseContourIntegral; &ngE;",
+      "markupAnswer": "  & © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸",
       "htmlAnswer": "<p>  &amp; © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸</p>",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "A sequence of # characters with anything but spaces following it is not a closing sequence, but counts as part of the contents of the heading",
       "input": "### foo ### b",
+      "markupAnswer": "### foo ### b",
       "htmlAnswer": "<h3>foo ### b</h3>",
       "parseAnswer": {
         "type": "root",

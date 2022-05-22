@@ -8,6 +8,8 @@
       "@yozora/character": ["./packages/character/src"],
       "@yozora/core-parser": ["./packages/core-parser/src"],
       "@yozora/core-tokenizer": ["./packages/core-tokenizer/src"],
+      "@yozora/invariant": ["./packages/invariant/src"],
+      "@yozora/markup-weaver": ["./packages/markup-weaver/src"],
       "@yozora/parser": ["./packages/parser/src"],
       "@yozora/parser-gfm": ["./packages/parser-gfm/src"],
       "@yozora/parser-gfm-ex": ["./packages/parser-gfm-ex/src"],

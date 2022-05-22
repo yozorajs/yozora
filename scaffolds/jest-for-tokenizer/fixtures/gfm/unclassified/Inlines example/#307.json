@@ -4,6 +4,7 @@
     {
       "description": "Inlines are parsed sequentially from the beginning of the character stream to the end (left to right, in left-to-right languages). Thus, for example, in",
       "input": "`hi`lo`",
+      "markupAnswer": "`hi`lo`",
       "htmlAnswer": "<p><code>hi</code>lo`</p>",
       "parseAnswer": {
         "type": "root",

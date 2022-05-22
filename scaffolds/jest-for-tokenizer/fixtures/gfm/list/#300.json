@@ -4,6 +4,7 @@
     {
       "description": "This is a tight list, because the blank line is inside the block quote",
       "input": "* a\n  > b\n  >\n* c",
+      "markupAnswer": "* a\n  > b\n* c",
       "htmlAnswer": "<ul>\n<li>a\n<blockquote>\n<p>b</p>\n</blockquote>\n</li>\n<li>c</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

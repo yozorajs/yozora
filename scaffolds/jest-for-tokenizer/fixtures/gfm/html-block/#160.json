@@ -4,6 +4,7 @@
     {
       "description": "There are problems, however, if the inner tags are indented and separated by spaces, as then they will be interpreted as an indented code block",
       "input": "<table>\n\n  <tr>\n\n    <td>\n      Hi\n    </td>\n\n  </tr>\n\n</table>",
+      "markupAnswer": "<table>\n\n  <tr>\n\n```\n<td>\n  Hi\n</td>\n```\n\n  </tr>\n\n</table>",
       "htmlAnswer": "<table>\n  <tr>\n<pre><code>&lt;td&gt;\n  Hi\n&lt;/td&gt;\n</code></pre>\n  </tr>\n</table>",
       "parseAnswer": {
         "type": "root",

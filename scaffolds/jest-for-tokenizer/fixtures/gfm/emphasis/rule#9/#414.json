@@ -4,6 +4,7 @@
     {
       "description": "Any nonempty sequence of inline elements can be the contents of an emphasized span.",
       "input": "*foo\nbar*",
+      "markupAnswer": "*foo\nbar*",
       "htmlAnswer": "<p><em>foo\nbar</em></p>",
       "parseAnswer": {
         "type": "root",

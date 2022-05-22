@@ -4,6 +4,7 @@
     {
       "description": "But it is not allowed between the link text and the following parenthesis",
       "input": "[link] (/uri)",
+      "markupAnswer": "[link] (/uri)",
       "htmlAnswer": "<p>[link] (/uri)</p>",
       "parseAnswer": {
         "type": "root",

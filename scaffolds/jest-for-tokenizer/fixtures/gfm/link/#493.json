@@ -4,6 +4,7 @@
     {
       "description": "Here is a simple inline link",
       "input": "[link](/uri \"title\")",
+      "markupAnswer": "[link](/uri \"title\")",
       "htmlAnswer": "<p><a href=\"/uri\" title=\"title\">link</a></p>",
       "parseAnswer": {
         "type": "root",

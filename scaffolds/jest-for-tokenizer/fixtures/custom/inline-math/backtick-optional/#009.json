@@ -4,6 +4,7 @@
     {
       "description": "Backslash escapes works in inline-math",
       "input": "`$x^2+y^2\\$`",
+      "markupAnswer": "`$x^2+y^2\\$`",
       "parseAnswer": {
         "type": "root",
         "position": {

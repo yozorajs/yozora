@@ -4,6 +4,7 @@
     {
       "description": "A partial tag need not even be completed (garbage in, garbage out)",
       "input": "<div class\nfoo",
+      "markupAnswer": "<div class\nfoo",
       "htmlAnswer": "<div class\nfoo",
       "parseAnswer": {
         "type": "root",

@@ -4,6 +4,7 @@
     {
       "description": "Thematic breaks do not need blank lines before or after",
       "input": "- foo\n***\n- bar",
+      "markupAnswer": "- foo\n\n---\n\n- bar",
       "htmlAnswer": "<ul>\n<li>foo</li>\n</ul>\n<hr />\n<ul>\n<li>bar</li>\n</ul>",
       "parseAnswer": {
         "type": "root",

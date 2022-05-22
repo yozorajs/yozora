@@ -4,6 +4,7 @@
     {
       "description": "Rule 12",
       "input": "foo _\\__",
+      "markupAnswer": "foo *\\_*",
       "htmlAnswer": "<p>foo <em>_</em></p>",
       "parseAnswer": {
         "type": "root",
