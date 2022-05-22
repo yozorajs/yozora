@@ -141,7 +141,7 @@ BTW, You can convert a piece of text into markup AST via [@yozora/parser][] or a
   }
 
   const weaver = new DefaultMarkupWeaver()
-  weaver.use(new MentionWeaver)
+  weaver.useWeaver(new MentionWeaver)
 
   weaver.weave({
     "type": "root",
@@ -151,13 +151,13 @@ BTW, You can convert a piece of text into markup AST via [@yozora/parser][] or a
         "children": [
           {
             "type": "mention",
-            "value": "xfe"
+            "value": "guanghechen"
           }
         ]
       }
     ]
   })
-  // => @xfe
+  // => @guanghechen
   ```
 
 ## Related
