@@ -1,5 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import type { IParser } from '@yozora/core-parser'
+import type { IMarkupWeaver } from '@yozora/core-weaver'
+import { DefaultMarkupWeaver } from '@yozora/core-weaver'
 import YozoraParser from '@yozora/parser'
 import GfmParser from '@yozora/parser-gfm'
 import GfmExParser from '@yozora/parser-gfm-ex'
@@ -21,6 +23,12 @@ export const parsers = {
     return new YozoraParser({
       defaultParseOptions: { shouldReservePosition: true },
     })
+  },
+}
+
+export const weavers = {
+  get yozora(): IMarkupWeaver {
+    return new DefaultMarkupWeaver()
   },
 }
 

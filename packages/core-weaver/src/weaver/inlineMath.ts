@@ -1,6 +1,6 @@
 import type { InlineMath } from '@yozora/ast'
 import { InlineMathType } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeWeaver } from '../types'
 
 export interface IInlineMathMarkupWeaverOptions {
   readonly preferBacktick: boolean
@@ -12,7 +12,7 @@ export interface IInlineMathMarkupWeaverOptions {
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#inlinemath
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/inline-math
  */
-export class InlineMathMarkupWeaver implements INodeMarkupWeaver<InlineMath> {
+export class InlineMathWeaver implements INodeWeaver<InlineMath> {
   public readonly type = InlineMathType
   public readonly isBlockLevel = (): boolean => false
   protected readonly preferBackTick: boolean

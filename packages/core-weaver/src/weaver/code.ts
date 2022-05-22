@@ -1,6 +1,6 @@
 import type { Code } from '@yozora/ast'
 import { CodeType } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeWeaver } from '../types'
 import { findMaxContinuousSymbol } from '../util'
 
 const backtickSymbolRegex = /(?:\n|^)([`]+)/g
@@ -15,7 +15,7 @@ const tildeSymbolRegex = /(?:\n|^)([~]+)/g
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/fenced-code
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/indented-code
  */
-export class CodeMarkupWeaver implements INodeMarkupWeaver<Code> {
+export class CodeWeaver implements INodeWeaver<Code> {
   public readonly type = CodeType
   public readonly isBlockLevel = (): boolean => true
 

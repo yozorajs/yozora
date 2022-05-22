@@ -1,13 +1,13 @@
 import type { Root } from '@yozora/ast'
 import { RootType } from '@yozora/ast'
-import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { IEscaper, INodeMarkup, INodeWeaver } from '../types'
 
 /**
  * Root node of the AST.
  * @see https://github.com/syntax-tree/unist#root
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#root
  */
-export class RootMarkupWeaver implements INodeMarkupWeaver<Root> {
+export class RootWeaver implements INodeWeaver<Root> {
   public readonly type = RootType
   public readonly isBlockLevel = (): boolean => true
   public readonly escapeContent: IEscaper = _escapeContent

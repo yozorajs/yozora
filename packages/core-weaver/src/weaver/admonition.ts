@@ -1,6 +1,6 @@
 import { AdmonitionType } from '@yozora/ast'
 import type { Admonition } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaveContext, INodeMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaveContext, INodeWeaver } from '../types'
 
 /**
  * Admonitions are block elements. The titles can include inline markdown and
@@ -10,7 +10,7 @@ import type { INodeMarkup, INodeMarkupWeaveContext, INodeMarkupWeaver } from '..
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#admonition
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/admonition
  */
-export class AdmonitionMarkupWeaver implements INodeMarkupWeaver<Admonition> {
+export class AdmonitionWeaver implements INodeWeaver<Admonition> {
   public readonly type = AdmonitionType
   public readonly isBlockLevel = (): boolean => true
 

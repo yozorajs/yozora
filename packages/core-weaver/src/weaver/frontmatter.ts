@@ -1,6 +1,6 @@
 import type { Frontmatter } from '@yozora/ast'
 import { FrontmatterType } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeWeaver } from '../types'
 
 /**
  * Frontmatter content represent out-of-band information about the document.
@@ -11,7 +11,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#frontmatter
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/frontmatter
  */
-export class FrontmatterMarkupWeaver implements INodeMarkupWeaver<Frontmatter> {
+export class FrontmatterWeaver implements INodeWeaver<Frontmatter> {
   public readonly type = FrontmatterType
   public readonly isBlockLevel = (): boolean => true
 

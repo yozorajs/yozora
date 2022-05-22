@@ -1,6 +1,6 @@
 import type { Blockquote } from '@yozora/ast'
 import { BlockquoteType } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeWeaver } from '../types'
 
 /**
  * Blockquote represents a section quoted from somewhere else.
@@ -10,7 +10,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#blockquote
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/blockquote
  */
-export class BlockquoteMarkupWeaver implements INodeMarkupWeaver<Blockquote> {
+export class BlockquoteWeaver implements INodeWeaver<Blockquote> {
   public readonly type = BlockquoteType
   public readonly isBlockLevel = (): boolean => true
 

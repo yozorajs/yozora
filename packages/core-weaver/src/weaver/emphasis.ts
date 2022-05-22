@@ -1,6 +1,6 @@
 import type { Emphasis } from '@yozora/ast'
 import { EmphasisType } from '@yozora/ast'
-import type { IEscaper, INodeMarkup, INodeMarkupWeaveContext, INodeMarkupWeaver } from '../types'
+import type { IEscaper, INodeMarkup, INodeMarkupWeaveContext, INodeWeaver } from '../types'
 import { createCharacterEscaper } from '../util'
 
 const _escapeContent: IEscaper = createCharacterEscaper(['*', '_'])
@@ -13,7 +13,7 @@ const _escapeContent: IEscaper = createCharacterEscaper(['*', '_'])
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#emphasis
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/emphasis
  */
-export class EmphasisMarkupWeaver implements INodeMarkupWeaver<Emphasis> {
+export class EmphasisWeaver implements INodeWeaver<Emphasis> {
   public readonly type = EmphasisType
   public readonly isBlockLevel = (): boolean => false
   public readonly escapeContent: IEscaper = _escapeContent

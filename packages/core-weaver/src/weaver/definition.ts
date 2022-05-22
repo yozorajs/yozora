@@ -1,6 +1,6 @@
 import type { Definition } from '@yozora/ast'
 import { DefinitionType } from '@yozora/ast'
-import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { IEscaper, INodeMarkup, INodeWeaver } from '../types'
 import { createCharacterEscaper } from '../util'
 
 const _escapeContent: IEscaper = createCharacterEscaper('[]()'.split(''))
@@ -14,7 +14,7 @@ const _escapeTitle: IEscaper = createCharacterEscaper('"'.split(''))
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#definition
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/definition
  */
-export class DefinitionMarkupWeaver implements INodeMarkupWeaver<Definition> {
+export class DefinitionWeaver implements INodeWeaver<Definition> {
   public readonly type = DefinitionType
   public readonly isBlockLevel = (): boolean => true
   public readonly escapeContent: IEscaper = _escapeContent

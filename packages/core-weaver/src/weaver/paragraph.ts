@@ -1,6 +1,6 @@
 import type { Paragraph } from '@yozora/ast'
 import { ParagraphType } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeWeaver } from '../types'
 
 /**
  * Paragraph represents a unit of discourse dealing with a particular point or idea.
@@ -10,7 +10,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#paragraph
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/paragraph
  */
-export class ParagraphMarkupWeaver implements INodeMarkupWeaver<Paragraph> {
+export class ParagraphWeaver implements INodeWeaver<Paragraph> {
   public readonly type = ParagraphType
   public readonly isBlockLevel = (): boolean => true
 

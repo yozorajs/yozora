@@ -1,6 +1,6 @@
 import type { Link } from '@yozora/ast'
 import { LinkType } from '@yozora/ast'
-import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { IEscaper, INodeMarkup, INodeWeaver } from '../types'
 import { createCharacterEscaper } from '../util'
 
 const _escapeContent: IEscaper = createCharacterEscaper('[]()`'.split(''))
@@ -16,7 +16,7 @@ const _escapeTitle: IEscaper = createCharacterEscaper('"`'.split(''))
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/autolink-extension
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/link
  */
-export class LinkMarkupWeaver implements INodeMarkupWeaver<Link> {
+export class LinkWeaver implements INodeWeaver<Link> {
   public readonly type = LinkType
   public readonly isBlockLevel = (): boolean => false
   public readonly escapeContent: IEscaper = _escapeContent

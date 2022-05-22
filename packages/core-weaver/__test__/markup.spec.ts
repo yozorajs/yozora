@@ -1,13 +1,7 @@
 import { createMarkupTester } from '@yozora/jest-for-tokenizer'
-import { parsers } from 'jest.setup'
-import { defaultMarkupWeaver } from '../src'
+import { parsers, weavers } from 'jest.setup'
 
-// void createMarkupTester(defaultMarkupWeaver)
-//   .scan(['custom/**/*.json'])
-//   .scan(['gfm/**/*.json'])
-//   .runTest()
-
-void createMarkupTester(parsers.yozora, defaultMarkupWeaver)
+void createMarkupTester(parsers.yozora, weavers.yozora)
   .scan([
     'gfm/**/*.json',
     'custom/**/*.json',

@@ -1,6 +1,6 @@
 import type { Html, Node } from '@yozora/ast'
 import { HtmlType, ParagraphType } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaveContext, INodeMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaveContext, INodeWeaver } from '../types'
 
 /**
  * HTML (Literal) represents a fragment of raw HTML.
@@ -14,7 +14,7 @@ import type { INodeMarkup, INodeMarkupWeaveContext, INodeMarkupWeaver } from '..
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/html-block
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/html-inline
  */
-export class HtmlMarkupWeaver implements INodeMarkupWeaver<Html> {
+export class HtmlWeaver implements INodeWeaver<Html> {
   public readonly type = HtmlType
   public readonly isBlockLevel = _isBlockLevel
 

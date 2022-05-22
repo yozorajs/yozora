@@ -1,6 +1,6 @@
 import type { AlignType, Table } from '@yozora/ast'
 import { TableType } from '@yozora/ast'
-import type { IEscaper, INodeMarkup, INodeMarkupWeaveContext, INodeMarkupWeaver } from '../types'
+import type { IEscaper, INodeMarkup, INodeMarkupWeaveContext, INodeWeaver } from '../types'
 import { createCharacterEscaper } from '../util'
 
 const escapeTableCell: IEscaper = createCharacterEscaper(['|'])
@@ -31,7 +31,7 @@ const calcTableSeparateCell = (align: AlignType, w: number): string => {
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#tablecell
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/table
  */
-export class TableMarkupWeaver implements INodeMarkupWeaver<Table> {
+export class TableWeaver implements INodeWeaver<Table> {
   public readonly type = TableType
   public readonly isBlockLevel = (): boolean => true
 

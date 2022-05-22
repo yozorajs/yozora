@@ -1,6 +1,6 @@
 import type { Footnote } from '@yozora/ast'
 import { FootnoteType } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeWeaver } from '../types'
 
 /**
  * Footnote represents content relating to the document that is outside its flow.
@@ -9,7 +9,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#footnote
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/footnote
  */
-export class FootnoteMarkupWeaver implements INodeMarkupWeaver<Footnote> {
+export class FootnoteWeaver implements INodeWeaver<Footnote> {
   public readonly type = FootnoteType
   public readonly isBlockLevel = (): boolean => false
 

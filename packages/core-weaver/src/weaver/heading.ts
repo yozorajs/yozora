@@ -1,6 +1,6 @@
 import type { Heading } from '@yozora/ast'
 import { HeadingType } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeWeaver } from '../types'
 
 /**
  * Heading represents a heading of a section.
@@ -11,7 +11,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/heading
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/setext-heading
  */
-export class HeadingMarkupWeaver implements INodeMarkupWeaver<Heading> {
+export class HeadingWeaver implements INodeWeaver<Heading> {
   public readonly type = HeadingType
   public readonly isBlockLevel = (): boolean => true
 

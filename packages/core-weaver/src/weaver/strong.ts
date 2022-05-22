@@ -1,6 +1,6 @@
 import type { Strong } from '@yozora/ast'
 import { StrongType } from '@yozora/ast'
-import type { IEscaper, INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { IEscaper, INodeMarkup, INodeWeaver } from '../types'
 import { createCharacterEscaper } from '../util'
 
 const _escapeContent: IEscaper = createCharacterEscaper(['*'])
@@ -13,7 +13,7 @@ const _escapeContent: IEscaper = createCharacterEscaper(['*'])
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#strong
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/strong
  */
-export class StrongMarkupWeaver implements INodeMarkupWeaver<Strong> {
+export class StrongWeaver implements INodeWeaver<Strong> {
   public readonly type = StrongType
   public readonly isBlockLevel = (): boolean => false
   public readonly escapeContent: IEscaper = _escapeContent

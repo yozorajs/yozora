@@ -1,6 +1,6 @@
 import type { List } from '@yozora/ast'
 import { ListType } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeWeaver } from '../types'
 
 /**
  * List represents a list of items.
@@ -10,7 +10,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#list
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/list
  */
-export class ListMarkupWeaver implements INodeMarkupWeaver<List> {
+export class ListWeaver implements INodeWeaver<List> {
   public readonly type = ListType
   public readonly isBlockLevel = (): boolean => true
 

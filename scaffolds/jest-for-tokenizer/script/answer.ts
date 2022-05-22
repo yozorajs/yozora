@@ -1,8 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { defaultMarkupWeaver } from '@yozora/core-weaver'
 import { InlineCodeTokenizerName } from '@yozora/tokenizer-inline-code'
 import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
-import { parsers } from 'jest.setup'
+import { parsers, weavers } from 'jest.setup'
 import { createMarkupTester, createTokenizerTester } from '../src'
 
 async function answerTokenizers(): Promise<void> {
@@ -33,12 +32,7 @@ async function answerTokenizers(): Promise<void> {
 }
 
 async function answerWeavers(): Promise<void> {
-  // await createMarkupTester(defaultMarkupWeaver)
-  //   .scan(['custom/**/*.json'])
-  //   .scan(['gfm/**/*.json'])
-  //   .runAnswer()
-
-  await createMarkupTester(parsers.yozora, defaultMarkupWeaver)
+  await createMarkupTester(parsers.yozora, weavers.yozora)
     .scan([
       'gfm/**/*.json',
       'custom/**/*.json',

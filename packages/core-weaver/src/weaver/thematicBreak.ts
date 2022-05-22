@@ -1,6 +1,6 @@
 import type { List, ThematicBreak } from '@yozora/ast'
 import { ListItemType, ThematicBreakType } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaveContext, INodeMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeMarkupWeaveContext, INodeWeaver } from '../types'
 
 /**
  * ThematicBreak represents a thematic break, such as a scene change in
@@ -11,7 +11,7 @@ import type { INodeMarkup, INodeMarkupWeaveContext, INodeMarkupWeaver } from '..
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#thematicbreak
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/thematic-break
  */
-export class ThematicBreakMarkupWeaver implements INodeMarkupWeaver<ThematicBreak> {
+export class ThematicBreakWeaver implements INodeWeaver<ThematicBreak> {
   public readonly type = ThematicBreakType
   public readonly isBlockLevel = (): boolean => true
 

@@ -1,6 +1,6 @@
 import type { EcmaImport } from '@yozora/ast'
 import { EcmaImportType } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeWeaver } from '../types'
 
 /**
  * ECMAScript import statement (single-line).
@@ -8,7 +8,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#ecmaimport
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/ecma-import
  */
-export class EcmaImportMarkupWeaver implements INodeMarkupWeaver<EcmaImport> {
+export class EcmaImportWeaver implements INodeWeaver<EcmaImport> {
   public readonly type = EcmaImportType
   public readonly isBlockLevel = (): boolean => true
 

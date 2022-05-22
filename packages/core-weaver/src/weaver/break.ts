@@ -1,6 +1,6 @@
 import type { Break } from '@yozora/ast'
 import { BreakType } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeWeaver } from '../types'
 
 /**
  * Break represents a line break, such as in poems or addresses.
@@ -11,7 +11,7 @@ import type { INodeMarkup, INodeMarkupWeaver } from '../types'
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#break
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/break
  */
-export class BreakMarkupWeaver implements INodeMarkupWeaver<Break> {
+export class BreakWeaver implements INodeWeaver<Break> {
   public readonly type = BreakType
   public readonly isBlockLevel = (): boolean => false
 

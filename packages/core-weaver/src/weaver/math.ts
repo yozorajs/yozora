@@ -1,6 +1,6 @@
 import type { Math } from '@yozora/ast'
 import { MathType } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaver } from '../types'
+import type { INodeMarkup, INodeWeaver } from '../types'
 import { findMaxContinuousSymbol, lineRegex } from '../util'
 
 const closerLikeSymbolRegex = /(\${1,})/g
@@ -15,7 +15,7 @@ export interface IMathMarkupWeaverOptions {
  * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#math
  * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/math
  */
-export class MathMarkupWeaver implements INodeMarkupWeaver<Math> {
+export class MathWeaver implements INodeWeaver<Math> {
   public readonly type = MathType
   public readonly isBlockLevel = (): boolean => true
   protected readonly preferBackTick: boolean

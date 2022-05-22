@@ -41,7 +41,7 @@ export interface INodeMarkupWeaveContext {
   weaveInlineNodes(nodes: ReadonlyArray<Readonly<Node>>): string
 }
 
-export interface INodeMarkupWeaver<T extends Node = Node> {
+export interface INodeWeaver<T extends Node = Node> {
   /**
    * Node type
    */
@@ -73,7 +73,7 @@ export interface IMarkupWeaver {
    * @param weaver
    * @param forceReplace
    */
-  useWeaver(weaver: INodeMarkupWeaver, forceReplace?: boolean): IMarkupWeaver
+  useWeaver(weaver: INodeWeaver, forceReplace?: boolean): IMarkupWeaver
   /**
    *
    * @param ast

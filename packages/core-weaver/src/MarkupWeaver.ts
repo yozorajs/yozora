@@ -5,7 +5,7 @@ import type {
   IMarkupWeaver,
   INodeMarkup,
   INodeMarkupWeaveContext,
-  INodeMarkupWeaver,
+  INodeWeaver,
 } from './types'
 import { lineRegex } from './util'
 
@@ -16,13 +16,13 @@ interface IMarkupToken {
 }
 
 export class MarkupWeaver implements IMarkupWeaver {
-  protected readonly weaverMap: Map<string, INodeMarkupWeaver>
+  protected readonly weaverMap: Map<string, INodeWeaver>
 
   constructor() {
     this.weaverMap = new Map()
   }
 
-  public useWeaver(weaver: INodeMarkupWeaver, forceReplace = false): this {
+  public useWeaver(weaver: INodeWeaver, forceReplace = false): this {
     const types: string[] = Array.isArray(weaver.type)
       ? Array.from(new Set(weaver.type))
       : [weaver.type]
@@ -50,7 +50,7 @@ export class MarkupWeaver implements IMarkupWeaver {
       return result
     }
 
-    const enqueue = (node: Readonly<Node>, weaver: INodeMarkupWeaver): void => {
+    const enqueue = (node: Readonly<Node>, weaver: INodeWeaver): void => {
       if (weaver.escapeContent && escaperIndexMap[node.type] === undefined) {
         escaperIndexMap[node.type] = escapers.length
         escapers.push(weaver.escapeContent)
