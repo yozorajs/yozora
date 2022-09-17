@@ -16,7 +16,7 @@
   "source": "src/index.ts",
   "license": "MIT",
   "engines": {
-    "node": ">= 14.15.0"
+    "node": ">= 16.0.0"
   },
   "files": [
     "fixtures/",
@@ -42,7 +42,7 @@
   },
   "peerDependencies": {
     "fs-extra": "^10.0.0",
-    "jest": "^27.4.7"
+    "jest": "^29.0.0"
   },
   "devDependencies": {
     "@yozora/core-parser": "^2.0.2-alpha.0"

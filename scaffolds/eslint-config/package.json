@@ -18,7 +18,7 @@
   "main": "index.js",
   "license": "MIT",
   "engines": {
-    "node": ">= 14.15.0"
+    "node": ">= 16.0.0"
   },
   "files": [
     "index.js",
@@ -32,7 +32,7 @@
     "@guanghechen/eslint-config": "^2.0.0",
     "@guanghechen/eslint-config-ts": "^2.0.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-jest": "^26.1.5",
+    "eslint-plugin-jest": "^27.0.4",
     "eslint-plugin-prettier": "^4.0.0"
   },
   "peerDependencies": {
