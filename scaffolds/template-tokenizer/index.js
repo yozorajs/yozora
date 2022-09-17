@@ -1,9 +1,10 @@
-const { toKebabCase, toTrim, convertToBoolean } = require('@guanghechen/option-helper')
+const { convertToBoolean } = require('@guanghechen/helper-option')
 const {
   createNpmPackagePrompts,
   resolveNpmPackageAnswers,
   resolveNpmPackagePreAnswers,
-} = require('@guanghechen/plop-helper')
+} = require('@guanghechen/helper-plop')
+const { toKebabCase, toTrim } = require('@guanghechen/helper-string')
 const path = require('path')
 const manifest = require('./package.json')
 

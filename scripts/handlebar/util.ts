@@ -13,7 +13,7 @@ import {
   toTitleCase,
   toTrim,
   toUpperCase,
-} from '@guanghechen/option-helper'
+} from '@guanghechen/helper-string'
 import fs from 'fs-extra'
 import Handlebars from 'handlebars'
 import path from 'path'

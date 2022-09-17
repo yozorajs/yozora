@@ -1,4 +1,4 @@
-import type { Desensitizer } from '@guanghechen/jest-helper'
+import type { IDesensitizer } from '@guanghechen/helper-jest'
 import {
   composeStringDesensitizers,
   createConsoleMock,
@@ -6,9 +6,9 @@ import {
   createJsonDesensitizer,
   createPackageVersionDesensitizer,
   fileSnapshot,
-} from '@guanghechen/jest-helper'
-import { toKebabCase } from '@guanghechen/option-helper'
-import { runPlopWithMock } from '@guanghechen/plop-helper'
+} from '@guanghechen/helper-jest'
+import { runPlopWithMock } from '@guanghechen/helper-plop'
+import { toKebabCase } from '@guanghechen/helper-string'
 import fs from 'fs-extra'
 import path from 'path'
 import manifest from '../package.json'
@@ -67,7 +67,7 @@ describe('new-tokenizer', function () {
     async function runTest(options: TestOptions): Promise<void> {
       const consoleMock = createConsoleMock(
         ['log', 'debug'],
-        jsonDesensitizer as Desensitizer<unknown[]>,
+        jsonDesensitizer as IDesensitizer<unknown[]>,
       )
       await runPlopWithMock(
         templateConfig,
@@ -159,7 +159,7 @@ describe('new-tokenizer', function () {
     async function runTest(options: TestOptions): Promise<void> {
       const consoleMock = createConsoleMock(
         ['log', 'debug'],
-        jsonDesensitizer as Desensitizer<unknown[]>,
+        jsonDesensitizer as IDesensitizer<unknown[]>,
       )
       await runPlopWithMock(
         templateConfig,
