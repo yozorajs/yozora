@@ -372,73 +372,73 @@
     lodash "^4.17.11"
     semver "^5.6.0"
 
-"@guanghechen/eslint-config-ts@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@guanghechen/eslint-config-ts/-/eslint-config-ts-2.0.0.tgz#24c87eebe90a17f81a692b6da0439e106df01585"
-  integrity sha512-S00NcWghIUKtoy0GxPwOzeEPXZH77DNfQxjP7SlRCIw52xReNT6J84rI9QiETIbSf+saFwC5LZVWnhYA56npPw==
+"@guanghechen/eslint-config-ts@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@guanghechen/eslint-config-ts/-/eslint-config-ts-2.1.0.tgz#1926311384144093a870768f76ee849e71796e7e"
+  integrity sha512-KNIOFJOhrGYID7OiIkofgbomygIoY7LynePRLDdJqBxBEWGnJalewf0RiPGMxbBL//lgOP9qDkGGGvzYR+iEZA==
   dependencies:
-    "@guanghechen/eslint-config" "^2.0.0"
+    "@guanghechen/eslint-config" "^2.1.0"
     "@typescript-eslint/eslint-plugin" "^5.37.0"
     "@typescript-eslint/parser" "^5.37.0"
 
-"@guanghechen/eslint-config@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@guanghechen/eslint-config/-/eslint-config-2.0.0.tgz#2ef4e6fdab94c60822595afaaf46996164e47682"
-  integrity sha512-LrlDNl/Dfnu/muS8qNG8N18NjLYg474ddjEgM/2ewVNZQTZMNNexSdTtcUG8EF9Ff4TsjXnk32ZsnpBeUplbHQ==
+"@guanghechen/eslint-config@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@guanghechen/eslint-config/-/eslint-config-2.1.0.tgz#c9721b37e29963017c23204f403c6c44f6260c8e"
+  integrity sha512-VBzecUbcySEXsE9sPrnDMVTER8o1L4Ry4+fRaLGozkVKj0fdo4kgApNiFpx30NMoKzdZUbWWdio86klxpq6BFg==
   dependencies:
     eslint-plugin-import "^2.26.0"
 
-"@guanghechen/helper-func@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@guanghechen/helper-func/-/helper-func-2.0.0.tgz#7822341332bdcdb8f1982073362203a7e42bebb4"
-  integrity sha512-mCE7joVX2WleFf4g6mxw672052FRNUP/F40GwMb0+6Ans2BH4qsocnHVkhy8vc+eWIJRWWmg0mJH//eSJMdSOw==
+"@guanghechen/helper-func@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@guanghechen/helper-func/-/helper-func-2.1.0.tgz#2600b5d3fef3a229fa8f343c89b4baea22af1ef2"
+  integrity sha512-OAg3cy5dm770ls4Y/6I5YJgs/c0eWXMyptgYVq+lwHHg8hRc0HnRdYe9irFAXzq025600ZLbKQwvzl6IMZXHew==
 
-"@guanghechen/helper-is@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@guanghechen/helper-is/-/helper-is-2.0.0.tgz#93212387dd832532a6c06e7dde4064d0acfc80b0"
-  integrity sha512-VK6J8uy1XyieK5JQxeOa4BI25I0WRt8dyNeM0adNfKry0iWe+/HmXMGDAc43thpYS+6wpyHGqEs4hohKkXZzPw==
+"@guanghechen/helper-is@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@guanghechen/helper-is/-/helper-is-2.1.0.tgz#4c0fec09f3929d8faed8962a84bf8ebd33c8b5c7"
+  integrity sha512-zG5Z3itOuH5y+HTUxFXw4B/QN/rapH2UmtjN2F/yX3ig6VJK1DogHV0YzvFCbnKTdyi6CikE0JpLvQVbhBY4+Q==
 
-"@guanghechen/helper-jest@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@guanghechen/helper-jest/-/helper-jest-2.0.0.tgz#b3df440193916bc1070a9cebcc1a2128effe9ee8"
-  integrity sha512-7Y//pXtoEKMbz7EXmy6XWNniASsHuYZEfqUaMkhHamNNCyOM8ukcvSmvAbdiTCQ7X/gs4WgYR9oYVkfTPFq4Xg==
+"@guanghechen/helper-jest@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@guanghechen/helper-jest/-/helper-jest-2.1.0.tgz#14870bcf2fad5680a144162f2ebd709474bf68e5"
+  integrity sha512-Ucx83cmVYmelsolKgpgPdp2fhQmWlnc417tt3vKX1UUJYPLRsosjarywJvDps3gJZJcJ0iO+6rTq9ZM98XrNKQ==
   dependencies:
-    "@guanghechen/helper-func" "^2.0.0"
-    "@guanghechen/helper-is" "^2.0.0"
+    "@guanghechen/helper-func" "^2.1.0"
+    "@guanghechen/helper-is" "^2.1.0"
     fs-extra "^10.1.0"
 
-"@guanghechen/helper-npm@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@guanghechen/helper-npm/-/helper-npm-2.0.0.tgz#7d64ea5e12ab9424527b5627abfa0d9af746f72e"
-  integrity sha512-YguKwssEfbsbzgMwhwBPo68k4P/t1iMRWPKGCQUh6YwyQJxqHp1yrobeFHXd3ABnl26LqxSgnBxukXhD/WJHDA==
+"@guanghechen/helper-npm@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@guanghechen/helper-npm/-/helper-npm-2.1.0.tgz#1bb55a59434df45ec04c396291d0ef05a18fae92"
+  integrity sha512-Z6IO+m3mugcvxhsHinGo22361G9ZPnpX2L8y+JzaJDbLiGyIphLDWGtvCX1Jx/dRyI03wIYT+vVqwO6hsqRGHg==
   dependencies:
-    "@guanghechen/helper-path" "^2.0.0"
+    "@guanghechen/helper-path" "^2.1.0"
 
-"@guanghechen/helper-option@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@guanghechen/helper-option/-/helper-option-2.0.0.tgz#4b690db84a2bcff864f089d6f5066ea70677c9f8"
-  integrity sha512-qF18OGB6IaoaVZHLFk0x3sXurWY/CJhHHmN4iK4k4mpTWbQc0ocPtpTm5Otqy9vaIpYSiDLaFCoMslKe7UiRfw==
+"@guanghechen/helper-option@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@guanghechen/helper-option/-/helper-option-2.1.0.tgz#52066a2bd1c10743d4b825f58634f3a768ea9a9c"
+  integrity sha512-yvHsq06Srj8Qx6SlZXjID4opcmUY9VyVAgemfu7031TS2whJyQRc9tBWNlUkqMeHy/Azdi/Zsqu/vVQsmWURvQ==
   dependencies:
-    "@guanghechen/helper-is" "^2.0.0"
-    "@guanghechen/helper-string" "^2.0.0"
+    "@guanghechen/helper-is" "^2.1.0"
+    "@guanghechen/helper-string" "^2.1.0"
 
-"@guanghechen/helper-path@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@guanghechen/helper-path/-/helper-path-2.0.0.tgz#57f671ac0956056e93f921aa2a8d0ce01a9229e3"
-  integrity sha512-Dk1zT20+AWhxooAYv6jfOmay6NVxaDhDZJMkIHLG/NPjIQqphweV5WJFGTaKxm/jC+mniOS/2KSkPTRLwQv8xA==
+"@guanghechen/helper-path@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@guanghechen/helper-path/-/helper-path-2.1.0.tgz#c5c8f17031c77951b82baeec4ffaf0368051e6a5"
+  integrity sha512-3n5INrNuLL2xLgjG4TcXxnKvEE2AvEU+NSNRclBYKTU5ly8qEYTgcXyo+Ifk6ca1pmd1iM2fmMm54QVXSVgurA==
   dependencies:
-    "@guanghechen/invariant" "^2.0.0"
+    "@guanghechen/invariant" "^2.1.0"
 
-"@guanghechen/helper-plop@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@guanghechen/helper-plop/-/helper-plop-2.0.0.tgz#398d281c3b076463a8322b526b4971867da88af3"
-  integrity sha512-C3BLTtW3ptp8Dwkh/Pi7hbar80X+EtLmKplUNXcIGgbqmZvLxoysGXbuperEuTqFlNo6v6QlMW9EfOpoIES7AQ==
+"@guanghechen/helper-plop@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@guanghechen/helper-plop/-/helper-plop-2.1.0.tgz#5239927bbebe1c8e27885ff5896d6643e1f34ae6"
+  integrity sha512-PGtpkoStM5CltG+ZE0wbRoxXnHxn0dAwzZyfe8BQaBZHrI4xFkErqkD9OsZrkAxP8doX+hmiOf5lInfP0pgPiA==
   dependencies:
-    "@guanghechen/helper-is" "^2.0.0"
-    "@guanghechen/helper-npm" "^2.0.0"
-    "@guanghechen/helper-option" "^2.0.0"
-    "@guanghechen/helper-string" "^2.0.0"
-    "@guanghechen/invariant" "^2.0.0"
+    "@guanghechen/helper-is" "^2.1.0"
+    "@guanghechen/helper-npm" "^2.1.0"
+    "@guanghechen/helper-option" "^2.1.0"
+    "@guanghechen/helper-string" "^2.1.0"
+    "@guanghechen/invariant" "^2.1.0"
     chalk "^4.1.2"
     minimist "^1.2.6"
     mock-stdin "^1.0.0"
@@ -446,30 +446,30 @@
     ora "^5.4.1"
     plop "^2.7.6"
 
-"@guanghechen/helper-string@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@guanghechen/helper-string/-/helper-string-2.0.0.tgz#4b818763054b429e780a27cb1408616cbbb3fd48"
-  integrity sha512-76vw8ZpklfmGtUJX5VB8oPJx5Y9fiFwNjGul7MyJPXVU8so5uL0YT6285tw23VPa3g+Oy2gofx+A04mKiHm6xA==
+"@guanghechen/helper-string@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@guanghechen/helper-string/-/helper-string-2.1.0.tgz#4a43fe9ed4a94ca423753cc96bad9adaadb23a3d"
+  integrity sha512-FZXEdhvJRBjSZquVLwtjMgIaQaTKgzQSJouBlFMSg4L7F7QpDTgzLvXbHRYYgHbjvaDoJlBcz1tJRmC7AnWjDg==
   dependencies:
     change-case "^4.1.1"
     lower-case "^2.0.1"
     title-case "^3.0.2"
     upper-case "^2.0.1"
 
-"@guanghechen/invariant@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@guanghechen/invariant/-/invariant-2.0.0.tgz#0c41a24133eccde1ae9ea038b1f03b23d9ad55e4"
-  integrity sha512-S0bZAoa/ANhIH6F2LOzuiffd+OgQB5Qc8VQ4KtGFzut84uZBm+TMUXtXzcQ6NqCpcxz3a4vEpdh14cmJ29/sQw==
+"@guanghechen/invariant@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@guanghechen/invariant/-/invariant-2.1.0.tgz#a5cfc7f543f7150cb9971bbb09c138fd435f25af"
+  integrity sha512-Y/SuzpXUjjHdRR8bmc6rtZR4C2ap8ihDDn/XebahQuekMyvT7+JLaqQUaSCgHS55hUQJ3MEdL5WvgVLbOv3noQ==
 
-"@guanghechen/jest-config@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@guanghechen/jest-config/-/jest-config-2.0.0.tgz#0d1bb15e88386fe7bedbc4e9d96b8d52689878fc"
-  integrity sha512-L3/MpLedfVGFNv23wJgz5LjnjyIk0cRHrn15Rkt2qwDV+bOuQX6YDITAKTcM7wrXcqBNdrXEQuS2gglWsvErUQ==
+"@guanghechen/jest-config@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@guanghechen/jest-config/-/jest-config-2.1.0.tgz#bea81e731397c2d0ce44bb5e65d0dd6fd65d3f95"
+  integrity sha512-5lNsdVbONiEwUlWSkACdhe8odXFJDo9zsfKQbe3pdEpM2/kAsyouVu4NdgjNMJPEcrc2Ewgh7/8fzfywOvZYgQ==
 
-"@guanghechen/rollup-config@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@guanghechen/rollup-config/-/rollup-config-2.0.0.tgz#337e27ceca32dadf6d217e12e1c0ba0118692171"
-  integrity sha512-O9AcWyDucZVR16Wkd9zhiofhIKnyQCfPTBhzGMDMvxJ1YDN/2pZWES+hTtIp1GJCO9JOo3CfBMDbRrUH7dg5yw==
+"@guanghechen/rollup-config@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@guanghechen/rollup-config/-/rollup-config-2.1.0.tgz#9fc12b699860e0642e96ed0216082354a7a1aef8"
+  integrity sha512-xTSt5K+QbXJajutsnmJkSsiT7mXxXumtHyHXECTJATRjRFPnbjLGbL0c4Y9/3T2/awqARbVos91ISZNBiz89mQ==
   dependencies:
     "@rollup/plugin-commonjs" "22.0.2"
     "@rollup/plugin-json" "4.1.0"

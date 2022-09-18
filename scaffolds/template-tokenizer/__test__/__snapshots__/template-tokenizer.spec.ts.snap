@@ -21,40 +21,40 @@ void createTokenizerTester(parser)
 
 exports[`new-tokenizer monorepo block: __test__/fixtures/basic.json 1`] = `
 "{
-  \\"title\\": \\"\\",
-  \\"cases\\": [
+  "title": "",
+  "cases": [
     {
-      \\"description\\": \\"case#0\\",
-      \\"input\\": \\"???????\\",
-      \\"parseAnswer\\": {
-        \\"type\\": \\"root\\",
-        \\"children\\": [
+      "description": "case#0",
+      "input": "???????",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
           {
-            \\"type\\": \\"thematicBreak\\",
-            \\"position\\": {
-              \\"start\\": {
-                \\"line\\": 1,
-                \\"column\\": 1,
-                \\"offset\\": 0
+            "type": "thematicBreak",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
               },
-              \\"end\\": {
-                \\"line\\": 1,
-                \\"column\\": 8,
-                \\"offset\\": 7
+              "end": {
+                "line": 1,
+                "column": 8,
+                "offset": 7
               }
             }
           }
         ],
-        \\"position\\": {
-          \\"start\\": {
-            \\"line\\": 1,
-            \\"column\\": 1,
-            \\"offset\\": 0
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
           },
-          \\"end\\": {
-            \\"line\\": 1,
-            \\"column\\": 8,
-            \\"offset\\": 7
+          "end": {
+            "line": 1,
+            "column": 8,
+            "offset": 7
           }
         }
       }
@@ -97,50 +97,50 @@ void createTokenizerTester(parser)
 
 exports[`new-tokenizer monorepo block: README.md 1`] = `
 "<header>
-  <h1 align=\\"center\\">
-    <a href=\\"https://github.com/guanghechen/yozora/tree/main/tokenizers/waw#readme\\">@yozora/tokenizer-waw</a>
+  <h1 align="center">
+    <a href="https://github.com/guanghechen/yozora/tree/main/tokenizers/waw#readme">@yozora/tokenizer-waw</a>
   </h1>
-  <div align=\\"center\\">
-    <a href=\\"https://www.npmjs.com/package/@yozora/tokenizer-waw\\">
+  <div align="center">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-waw">
       <img
-        alt=\\"Npm Version\\"
-        src=\\"https://img.shields.io/npm/v/@yozora/tokenizer-waw.svg\\"
+        alt="Npm Version"
+        src="https://img.shields.io/npm/v/@yozora/tokenizer-waw.svg"
       />
     </a>
-    <a href=\\"https://www.npmjs.com/package/@yozora/tokenizer-waw\\">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-waw">
       <img
-        alt=\\"Npm Download\\"
-        src=\\"https://img.shields.io/npm/dm/@yozora/tokenizer-waw.svg\\"
+        alt="Npm Download"
+        src="https://img.shields.io/npm/dm/@yozora/tokenizer-waw.svg"
       />
     </a>
-    <a href=\\"https://www.npmjs.com/package/@yozora/tokenizer-waw\\">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-waw">
       <img
-        alt=\\"Npm License\\"
-        src=\\"https://img.shields.io/npm/l/@yozora/tokenizer-waw.svg\\"
+        alt="Npm License"
+        src="https://img.shields.io/npm/l/@yozora/tokenizer-waw.svg"
       />
     </a>
-    <a href=\\"#install\\">
+    <a href="#install">
       <img
-        alt=\\"Module Formats: cjs, esm\\"
-        src=\\"https://img.shields.io/badge/module_formats-cjs%2C%20esm-green.svg\\"
+        alt="Module Formats: cjs, esm"
+        src="https://img.shields.io/badge/module_formats-cjs%2C%20esm-green.svg"
       />
     </a>
-    <a href=\\"https://github.com/nodejs/node\\">
+    <a href="https://github.com/nodejs/node">
       <img
-        alt=\\"Node.js Version\\"
-        src=\\"https://img.shields.io/node/v/@yozora/tokenizer-waw\\"
+        alt="Node.js Version"
+        src="https://img.shields.io/node/v/@yozora/tokenizer-waw"
       />
     </a>
-    <a href=\\"https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer#readme\\">
+    <a href="https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer#readme">
       <img
-        alt=\\"Yozora Version\\"
-        src=\\"https://img.shields.io/npm/dependency-version/@yozora/tokenizer-waw/@yozora/core-tokenizer\\"
+        alt="Yozora Version"
+        src="https://img.shields.io/npm/dependency-version/@yozora/tokenizer-waw/@yozora/core-tokenizer"
       />
     </a>
-    <a href=\\"https://github.com/prettier/prettier\\">
+    <a href="https://github.com/prettier/prettier">
       <img
-        alt=\\"Code Style: prettier\\"
-        src=\\"https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square\\"
+        alt="Code Style: prettier"
+        src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square"
       />
     </a>
   </div>
@@ -177,10 +177,10 @@ Some descriptions.
 `;
 
 exports[`new-tokenizer monorepo block: console 1`] = `
-Array [
-  Array [
+[
+  [
     "answers:",
-    Object {
+    {
       "cwd": "<WORKSPACE>/output",
       "fallbackTokenizerName": "paragraph",
       "isBlockTokenizer": true,
@@ -206,54 +206,54 @@ Array [
 
 exports[`new-tokenizer monorepo block: package.json 1`] = `
 "{
-  \\"name\\": \\"@yozora/tokenizer-waw\\",
-  \\"version\\": \\"<LATEST>\\",
-  \\"author\\": {
-    \\"name\\": \\"guanghechen\\",
-    \\"url\\": \\"https://github.com/guanghechen/\\"
+  "name": "@yozora/tokenizer-waw",
+  "version": "<LATEST>",
+  "author": {
+    "name": "guanghechen",
+    "url": "https://github.com/guanghechen/"
   },
-  \\"repository\\": {
-    \\"type\\": \\"git\\",
-    \\"url\\": \\"https://github.com/guanghechen/yozora.git\\",
-    \\"directory\\": \\"tokenizers/waw\\"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/guanghechen/yozora.git",
+    "directory": "tokenizers/waw"
   },
-  \\"homepage\\": \\"https://github.com/guanghechen/yozora/tree/main/tokenizers/waw#readme\\",
-  \\"keywords\\": [],
-  \\"main\\": \\"lib/cjs/index.js\\",
-  \\"module\\": \\"lib/esm/index.js\\",
-  \\"types\\": \\"lib/types/index.d.ts\\",
-  \\"source\\": \\"src/index.ts\\",
-  \\"license\\": \\"MIT\\",
-  \\"engines\\": {
-    \\"node\\": \\">= 14.15.0\\"
+  "homepage": "https://github.com/guanghechen/yozora/tree/main/tokenizers/waw#readme",
+  "keywords": [],
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/types/index.d.ts",
+  "source": "src/index.ts",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 16.0.0"
   },
-  \\"files\\": [
-    \\"lib/\\",
-    \\"!lib/**/*.js.map\\",
-    \\"!lib/**/*.d.ts.map\\",
-    \\"package.json\\",
-    \\"CHANGELOG.md\\",
-    \\"LICENSE\\",
-    \\"README.md\\"
+  "files": [
+    "lib/",
+    "!lib/**/*.js.map",
+    "!lib/**/*.d.ts.map",
+    "package.json",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
   ],
-  \\"scripts\\": {
-    \\"build\\": \\"cross-env NODE_ENV=production rollup -c ../../rollup.config.js\\",
-    \\"prebuild\\": \\"rimraf lib/ && tsc -p tsconfig.src.json --emitDeclarationOnly\\",
-    \\"prepublishOnly\\": \\"cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build\\",
-    \\"test\\": \\"cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .\\",
-    \\"test:update\\": \\"node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts\\"
+  "scripts": {
+    "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.js",
+    "prebuild": "rimraf lib/ && tsc -p tsconfig.src.json --emitDeclarationOnly",
+    "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build",
+    "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .",
+    "test:update": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"
   },
-  \\"dependencies\\": {
-    \\"@yozora/ast\\": \\"^<LATEST>\\",
-    \\"@yozora/character\\": \\"^<LATEST>\\",
-    \\"@yozora/core-tokenizer\\": \\"^<LATEST>\\"
+  "dependencies": {
+    "@yozora/ast": "^<LATEST>",
+    "@yozora/character": "^<LATEST>",
+    "@yozora/core-tokenizer": "^<LATEST>"
   },
-  \\"devDependencies\\": {
-    \\"@yozora/eslint-config\\": \\"^<LATEST>\\",
-    \\"@yozora/jest-for-tokenizer\\": \\"^<LATEST>\\",
-    \\"@yozora/parser\\": \\"^<LATEST>\\",
-    \\"tsconfig-paths\\": \\"3.12.0\\",
-    \\"typescript\\": \\"4.5.3\\"
+  "devDependencies": {
+    "@yozora/eslint-config": "^<LATEST>",
+    "@yozora/jest-for-tokenizer": "^<LATEST>",
+    "@yozora/parser": "^<LATEST>",
+    "tsconfig-paths": "3.12.0",
+    "typescript": "4.5.3"
   }
 }
 "
@@ -462,32 +462,32 @@ export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>
 
 exports[`new-tokenizer monorepo block: tsconfig.json 1`] = `
 "{
-  \\"extends\\": \\"../../tsconfig\\",
-  \\"compilerOptions\\": {
-    \\"baseUrl\\": \\".\\"
+  "extends": "../../tsconfig",
+  "compilerOptions": {
+    "baseUrl": "."
   },
-  \\"include\\": [\\"src\\", \\"script\\", \\"__test__\\"]
+  "include": ["src", "script", "__test__"]
 }
 "
 `;
 
 exports[`new-tokenizer monorepo block: tsconfig.src.json 1`] = `
 "{
-  \\"extends\\": \\"../../tsconfig.settings\\",
-  \\"compilerOptions\\": {
-    \\"declarationDir\\": \\"lib/types\\",
-    \\"rootDir\\": \\"src\\"
+  "extends": "../../tsconfig.settings",
+  "compilerOptions": {
+    "declarationDir": "lib/types",
+    "rootDir": "src"
   },
-  \\"include\\": [\\"src\\"]
+  "include": ["src"]
 }
 "
 `;
 
 exports[`new-tokenizer monorepo default: console 1`] = `
-Array [
-  Array [
+[
+  [
     "answers:",
-    Object {
+    {
       "cwd": "<WORKSPACE>/output",
       "fallbackTokenizerName": "text",
       "isInlineTokenizer": true,
@@ -532,58 +532,58 @@ void createTokenizerTester(parser)
 
 exports[`new-tokenizer monorepo inline: __test__/fixtures/basic.json 1`] = `
 "{
-  \\"title\\": \\"\\",
-  \\"cases\\": [
+  "title": "",
+  "cases": [
     {
-      \\"description\\": \\"case#0\\",
-      \\"input\\": \\"???????\\",
-      \\"parseAnswer\\": {
-        \\"type\\": \\"root\\",
-        \\"children\\": [
+      "description": "case#0",
+      "input": "???????",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
           {
-            \\"type\\": \\"paragraph\\",
-            \\"children\\": [
+            "type": "paragraph",
+            "children": [
               {
-                \\"type\\": \\"inlineWaw\\",
-                \\"value\\": \\"???????\\",
-                \\"position\\": {
-                  \\"start\\": {
-                    \\"line\\": 1,
-                    \\"column\\": 1,
-                    \\"offset\\": 0
+                "type": "inlineWaw",
+                "value": "???????",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
                   },
-                  \\"end\\": {
-                    \\"line\\": 1,
-                    \\"column\\": 8,
-                    \\"offset\\": 7
+                  "end": {
+                    "line": 1,
+                    "column": 8,
+                    "offset": 7
                   }
                 }
               }
             ],
-            \\"position\\": {
-              \\"start\\": {
-                \\"line\\": 1,
-                \\"column\\": 1,
-                \\"offset\\": 0
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
               },
-              \\"end\\": {
-                \\"line\\": 1,
-                \\"column\\": 8,
-                \\"offset\\": 7
+              "end": {
+                "line": 1,
+                "column": 8,
+                "offset": 7
               }
             }
           }
         ],
-        \\"position\\": {
-          \\"start\\": {
-            \\"line\\": 1,
-            \\"column\\": 1,
-            \\"offset\\": 0
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
           },
-          \\"end\\": {
-            \\"line\\": 1,
-            \\"column\\": 8,
-            \\"offset\\": 7
+          "end": {
+            "line": 1,
+            "column": 8,
+            "offset": 7
           }
         }
       }
@@ -626,50 +626,50 @@ void createTokenizerTester(parser)
 
 exports[`new-tokenizer monorepo inline: README.md 1`] = `
 "<header>
-  <h1 align=\\"center\\">
-    <a href=\\"https://github.com/guanghechen/yozora/tree/main/tokenizers/inline-waw#readme\\">@yozora/tokenizer-inline-waw</a>
+  <h1 align="center">
+    <a href="https://github.com/guanghechen/yozora/tree/main/tokenizers/inline-waw#readme">@yozora/tokenizer-inline-waw</a>
   </h1>
-  <div align=\\"center\\">
-    <a href=\\"https://www.npmjs.com/package/@yozora/tokenizer-inline-waw\\">
+  <div align="center">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-inline-waw">
       <img
-        alt=\\"Npm Version\\"
-        src=\\"https://img.shields.io/npm/v/@yozora/tokenizer-inline-waw.svg\\"
+        alt="Npm Version"
+        src="https://img.shields.io/npm/v/@yozora/tokenizer-inline-waw.svg"
       />
     </a>
-    <a href=\\"https://www.npmjs.com/package/@yozora/tokenizer-inline-waw\\">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-inline-waw">
       <img
-        alt=\\"Npm Download\\"
-        src=\\"https://img.shields.io/npm/dm/@yozora/tokenizer-inline-waw.svg\\"
+        alt="Npm Download"
+        src="https://img.shields.io/npm/dm/@yozora/tokenizer-inline-waw.svg"
       />
     </a>
-    <a href=\\"https://www.npmjs.com/package/@yozora/tokenizer-inline-waw\\">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-inline-waw">
       <img
-        alt=\\"Npm License\\"
-        src=\\"https://img.shields.io/npm/l/@yozora/tokenizer-inline-waw.svg\\"
+        alt="Npm License"
+        src="https://img.shields.io/npm/l/@yozora/tokenizer-inline-waw.svg"
       />
     </a>
-    <a href=\\"#install\\">
+    <a href="#install">
       <img
-        alt=\\"Module Formats: cjs, esm\\"
-        src=\\"https://img.shields.io/badge/module_formats-cjs%2C%20esm-green.svg\\"
+        alt="Module Formats: cjs, esm"
+        src="https://img.shields.io/badge/module_formats-cjs%2C%20esm-green.svg"
       />
     </a>
-    <a href=\\"https://github.com/nodejs/node\\">
+    <a href="https://github.com/nodejs/node">
       <img
-        alt=\\"Node.js Version\\"
-        src=\\"https://img.shields.io/node/v/@yozora/tokenizer-inline-waw\\"
+        alt="Node.js Version"
+        src="https://img.shields.io/node/v/@yozora/tokenizer-inline-waw"
       />
     </a>
-    <a href=\\"https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer#readme\\">
+    <a href="https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer#readme">
       <img
-        alt=\\"Yozora Version\\"
-        src=\\"https://img.shields.io/npm/dependency-version/@yozora/tokenizer-inline-waw/@yozora/core-tokenizer\\"
+        alt="Yozora Version"
+        src="https://img.shields.io/npm/dependency-version/@yozora/tokenizer-inline-waw/@yozora/core-tokenizer"
       />
     </a>
-    <a href=\\"https://github.com/prettier/prettier\\">
+    <a href="https://github.com/prettier/prettier">
       <img
-        alt=\\"Code Style: prettier\\"
-        src=\\"https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square\\"
+        alt="Code Style: prettier"
+        src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square"
       />
     </a>
   </div>
@@ -706,10 +706,10 @@ Some descriptions.
 `;
 
 exports[`new-tokenizer monorepo inline: console 1`] = `
-Array [
-  Array [
+[
+  [
     "answers:",
-    Object {
+    {
       "cwd": "<WORKSPACE>/output",
       "fallbackTokenizerName": "text",
       "isInlineTokenizer": true,
@@ -735,54 +735,54 @@ Array [
 
 exports[`new-tokenizer monorepo inline: package.json 1`] = `
 "{
-  \\"name\\": \\"@yozora/tokenizer-inline-waw\\",
-  \\"version\\": \\"<LATEST>\\",
-  \\"author\\": {
-    \\"name\\": \\"guanghechen\\",
-    \\"url\\": \\"https://github.com/guanghechen/\\"
+  "name": "@yozora/tokenizer-inline-waw",
+  "version": "<LATEST>",
+  "author": {
+    "name": "guanghechen",
+    "url": "https://github.com/guanghechen/"
   },
-  \\"repository\\": {
-    \\"type\\": \\"git\\",
-    \\"url\\": \\"https://github.com/guanghechen/yozora.git\\",
-    \\"directory\\": \\"tokenizers/inline-waw\\"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/guanghechen/yozora.git",
+    "directory": "tokenizers/inline-waw"
   },
-  \\"homepage\\": \\"https://github.com/guanghechen/yozora/tree/main/tokenizers/inline-waw#readme\\",
-  \\"keywords\\": [],
-  \\"main\\": \\"lib/cjs/index.js\\",
-  \\"module\\": \\"lib/esm/index.js\\",
-  \\"types\\": \\"lib/types/index.d.ts\\",
-  \\"source\\": \\"src/index.ts\\",
-  \\"license\\": \\"MIT\\",
-  \\"engines\\": {
-    \\"node\\": \\">= 14.15.0\\"
+  "homepage": "https://github.com/guanghechen/yozora/tree/main/tokenizers/inline-waw#readme",
+  "keywords": [],
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/types/index.d.ts",
+  "source": "src/index.ts",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 16.0.0"
   },
-  \\"files\\": [
-    \\"lib/\\",
-    \\"!lib/**/*.js.map\\",
-    \\"!lib/**/*.d.ts.map\\",
-    \\"package.json\\",
-    \\"CHANGELOG.md\\",
-    \\"LICENSE\\",
-    \\"README.md\\"
+  "files": [
+    "lib/",
+    "!lib/**/*.js.map",
+    "!lib/**/*.d.ts.map",
+    "package.json",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
   ],
-  \\"scripts\\": {
-    \\"build\\": \\"cross-env NODE_ENV=production rollup -c ../../rollup.config.js\\",
-    \\"prebuild\\": \\"rimraf lib/ && tsc -p tsconfig.src.json --emitDeclarationOnly\\",
-    \\"prepublishOnly\\": \\"cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build\\",
-    \\"test\\": \\"cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .\\",
-    \\"test:update\\": \\"node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts\\"
+  "scripts": {
+    "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.js",
+    "prebuild": "rimraf lib/ && tsc -p tsconfig.src.json --emitDeclarationOnly",
+    "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build",
+    "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .",
+    "test:update": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"
   },
-  \\"dependencies\\": {
-    \\"@yozora/ast\\": \\"^<LATEST>\\",
-    \\"@yozora/character\\": \\"^<LATEST>\\",
-    \\"@yozora/core-tokenizer\\": \\"^<LATEST>\\"
+  "dependencies": {
+    "@yozora/ast": "^<LATEST>",
+    "@yozora/character": "^<LATEST>",
+    "@yozora/core-tokenizer": "^<LATEST>"
   },
-  \\"devDependencies\\": {
-    \\"@yozora/eslint-config\\": \\"^<LATEST>\\",
-    \\"@yozora/jest-for-tokenizer\\": \\"^<LATEST>\\",
-    \\"@yozora/parser\\": \\"^<LATEST>\\",
-    \\"tsconfig-paths\\": \\"3.12.0\\",
-    \\"typescript\\": \\"4.5.3\\"
+  "devDependencies": {
+    "@yozora/eslint-config": "^<LATEST>",
+    "@yozora/jest-for-tokenizer": "^<LATEST>",
+    "@yozora/parser": "^<LATEST>",
+    "tsconfig-paths": "3.12.0",
+    "typescript": "4.5.3"
   }
 }
 "
@@ -881,7 +881,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
         )
 
         // Remove the spaces at the end of the line and beginning of the next line.
-        value = value.replace(/[^\\\\S\\\\n]*\\\\n[^\\\\S\\\\n]*/g, '\\\\n')
+        value = value.replace(/[^\\S\\n]*\\n[^\\S\\n]*/g, '\\n')
         const children: Node[] = api.parseInlineTokens(token.children)
         const node: INode = {
           type: InlineWawType,
@@ -966,23 +966,23 @@ export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>
 
 exports[`new-tokenizer monorepo inline: tsconfig.json 1`] = `
 "{
-  \\"extends\\": \\"../../tsconfig\\",
-  \\"compilerOptions\\": {
-    \\"baseUrl\\": \\".\\"
+  "extends": "../../tsconfig",
+  "compilerOptions": {
+    "baseUrl": "."
   },
-  \\"include\\": [\\"src\\", \\"script\\", \\"__test__\\"]
+  "include": ["src", "script", "__test__"]
 }
 "
 `;
 
 exports[`new-tokenizer monorepo inline: tsconfig.src.json 1`] = `
 "{
-  \\"extends\\": \\"../../tsconfig.settings\\",
-  \\"compilerOptions\\": {
-    \\"declarationDir\\": \\"lib/types\\",
-    \\"rootDir\\": \\"src\\"
+  "extends": "../../tsconfig.settings",
+  "compilerOptions": {
+    "declarationDir": "lib/types",
+    "rootDir": "src"
   },
-  \\"include\\": [\\"src\\"]
+  "include": ["src"]
 }
 "
 `;
@@ -1011,10 +1011,10 @@ insert_final_newline = false
 
 exports[`new-tokenizer not a monorepo block: .eslintrc 1`] = `
 "{
-  \\"root\\": true,
-  \\"extends\\": [\\"@yozora\\"],
-  \\"rules\\": {},
-  \\"overrides\\": []
+  "root": true,
+  "extends": ["@yozora"],
+  "rules": {},
+  "overrides": []
 }
 "
 `;
@@ -1099,40 +1099,40 @@ void createTokenizerTester(parser)
 
 exports[`new-tokenizer not a monorepo block: __test__/fixtures/basic.json 1`] = `
 "{
-  \\"title\\": \\"\\",
-  \\"cases\\": [
+  "title": "",
+  "cases": [
     {
-      \\"description\\": \\"case#0\\",
-      \\"input\\": \\"???????\\",
-      \\"parseAnswer\\": {
-        \\"type\\": \\"root\\",
-        \\"children\\": [
+      "description": "case#0",
+      "input": "???????",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
           {
-            \\"type\\": \\"thematicBreak\\",
-            \\"position\\": {
-              \\"start\\": {
-                \\"line\\": 1,
-                \\"column\\": 1,
-                \\"offset\\": 0
+            "type": "thematicBreak",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
               },
-              \\"end\\": {
-                \\"line\\": 1,
-                \\"column\\": 8,
-                \\"offset\\": 7
+              "end": {
+                "line": 1,
+                "column": 8,
+                "offset": 7
               }
             }
           }
         ],
-        \\"position\\": {
-          \\"start\\": {
-            \\"line\\": 1,
-            \\"column\\": 1,
-            \\"offset\\": 0
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
           },
-          \\"end\\": {
-            \\"line\\": 1,
-            \\"column\\": 8,
-            \\"offset\\": 7
+          "end": {
+            "line": 1,
+            "column": 8,
+            "offset": 7
           }
         }
       }
@@ -1175,50 +1175,50 @@ void createTokenizerTester(parser)
 
 exports[`new-tokenizer not a monorepo block: README.md 1`] = `
 "<header>
-  <h1 align=\\"center\\">
-    <a href=\\"https://github.com/guanghechen/tokenizer-waw#readme\\">@yozora/tokenizer-waw</a>
+  <h1 align="center">
+    <a href="https://github.com/guanghechen/tokenizer-waw#readme">@yozora/tokenizer-waw</a>
   </h1>
-  <div align=\\"center\\">
-    <a href=\\"https://www.npmjs.com/package/@yozora/tokenizer-waw\\">
+  <div align="center">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-waw">
       <img
-        alt=\\"Npm Version\\"
-        src=\\"https://img.shields.io/npm/v/@yozora/tokenizer-waw.svg\\"
+        alt="Npm Version"
+        src="https://img.shields.io/npm/v/@yozora/tokenizer-waw.svg"
       />
     </a>
-    <a href=\\"https://www.npmjs.com/package/@yozora/tokenizer-waw\\">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-waw">
       <img
-        alt=\\"Npm Download\\"
-        src=\\"https://img.shields.io/npm/dm/@yozora/tokenizer-waw.svg\\"
+        alt="Npm Download"
+        src="https://img.shields.io/npm/dm/@yozora/tokenizer-waw.svg"
       />
     </a>
-    <a href=\\"https://www.npmjs.com/package/@yozora/tokenizer-waw\\">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-waw">
       <img
-        alt=\\"Npm License\\"
-        src=\\"https://img.shields.io/npm/l/@yozora/tokenizer-waw.svg\\"
+        alt="Npm License"
+        src="https://img.shields.io/npm/l/@yozora/tokenizer-waw.svg"
       />
     </a>
-    <a href=\\"#install\\">
+    <a href="#install">
       <img
-        alt=\\"Module Formats: cjs, esm\\"
-        src=\\"https://img.shields.io/badge/module_formats-cjs%2C%20esm-green.svg\\"
+        alt="Module Formats: cjs, esm"
+        src="https://img.shields.io/badge/module_formats-cjs%2C%20esm-green.svg"
       />
     </a>
-    <a href=\\"https://github.com/nodejs/node\\">
+    <a href="https://github.com/nodejs/node">
       <img
-        alt=\\"Node.js Version\\"
-        src=\\"https://img.shields.io/node/v/@yozora/tokenizer-waw\\"
+        alt="Node.js Version"
+        src="https://img.shields.io/node/v/@yozora/tokenizer-waw"
       />
     </a>
-    <a href=\\"https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer#readme\\">
+    <a href="https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer#readme">
       <img
-        alt=\\"Yozora Version\\"
-        src=\\"https://img.shields.io/npm/dependency-version/@yozora/tokenizer-waw/@yozora/core-tokenizer\\"
+        alt="Yozora Version"
+        src="https://img.shields.io/npm/dependency-version/@yozora/tokenizer-waw/@yozora/core-tokenizer"
       />
     </a>
-    <a href=\\"https://github.com/prettier/prettier\\">
+    <a href="https://github.com/prettier/prettier">
       <img
-        alt=\\"Code Style: prettier\\"
-        src=\\"https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square\\"
+        alt="Code Style: prettier"
+        src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square"
       />
     </a>
   </div>
@@ -1255,10 +1255,10 @@ Some descriptions.
 `;
 
 exports[`new-tokenizer not a monorepo block: console 1`] = `
-Array [
-  Array [
+[
+  [
     "answers:",
-    Object {
+    {
       "cwd": "<WORKSPACE>/output",
       "fallbackTokenizerName": "paragraph",
       "isBlockTokenizer": true,
@@ -1299,11 +1299,11 @@ module.exports = {
     },
   },
   transform: {
-    '^.+\\\\\\\\.tsx?$': 'ts-jest',
+    '^.+\\\\.tsx?$': 'ts-jest',
   },
   testURL: 'http://localhost/',
   testEnvironment: 'node',
-  testRegex: '/(__test__)/[^/]+\\\\\\\\.spec\\\\\\\\.[jt]sx?$',
+  testRegex: '/(__test__)/[^/]+\\\\.spec\\\\.[jt]sx?$',
   testPathIgnorePatterns: ['/coverage/', '/lib/', '/node_modules/'],
   collectCoverage: false,
   coverageDirectory: '<rootDir>/coverage/',
@@ -1327,67 +1327,67 @@ module.exports = {
 
 exports[`new-tokenizer not a monorepo block: package.json 1`] = `
 "{
-  \\"name\\": \\"@yozora/tokenizer-waw\\",
-  \\"version\\": \\"<LATEST>\\",
-  \\"author\\": {
-    \\"name\\": \\"guanghechen\\",
-    \\"url\\": \\"https://github.com/guanghechen/\\"
+  "name": "@yozora/tokenizer-waw",
+  "version": "<LATEST>",
+  "author": {
+    "name": "guanghechen",
+    "url": "https://github.com/guanghechen/"
   },
-  \\"repository\\": {
-    \\"type\\": \\"git\\",
-    \\"url\\": \\"https://github.com/guanghechen/tokenizer-waw.git\\"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/guanghechen/tokenizer-waw.git"
   },
-  \\"homepage\\": \\"https://github.com/guanghechen/tokenizer-waw#readme\\",
-  \\"keywords\\": [],
-  \\"main\\": \\"lib/cjs/index.js\\",
-  \\"module\\": \\"lib/esm/index.js\\",
-  \\"types\\": \\"lib/types/index.d.ts\\",
-  \\"source\\": \\"src/index.ts\\",
-  \\"license\\": \\"MIT\\",
-  \\"engines\\": {
-    \\"node\\": \\">= 14.15.0\\"
+  "homepage": "https://github.com/guanghechen/tokenizer-waw#readme",
+  "keywords": [],
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/types/index.d.ts",
+  "source": "src/index.ts",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 16.0.0"
   },
-  \\"files\\": [
-    \\"lib/\\",
-    \\"!lib/**/*.js.map\\",
-    \\"!lib/**/*.d.ts.map\\",
-    \\"package.json\\",
-    \\"CHANGELOG.md\\",
-    \\"LICENSE\\",
-    \\"README.md\\"
+  "files": [
+    "lib/",
+    "!lib/**/*.js.map",
+    "!lib/**/*.d.ts.map",
+    "package.json",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
   ],
-  \\"scripts\\": {
-    \\"build\\": \\"cross-env NODE_ENV=production rollup -c rollup.config.js\\",
-    \\"format\\": \\"run-s format:lint:fix format:prettier\\",
-    \\"format:prettier\\": \\"prettier --write .\\",
-    \\"format:lint:fix\\": \\"eslint . --fix\\",
-    \\"prebuild\\": \\"rimraf lib/ && tsc -p tsconfig.src.json --emitDeclarationOnly\\",
-    \\"prepublishOnly\\": \\"cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build\\",
-    \\"test\\": \\"cross-env TS_NODE_FILES=true jest --config jest.config.js --rootDir .\\",
-    \\"test:update\\": \\"node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts\\"
+  "scripts": {
+    "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
+    "format": "run-s format:lint:fix format:prettier",
+    "format:prettier": "prettier --write .",
+    "format:lint:fix": "eslint . --fix",
+    "prebuild": "rimraf lib/ && tsc -p tsconfig.src.json --emitDeclarationOnly",
+    "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build",
+    "test": "cross-env TS_NODE_FILES=true jest --config jest.config.js --rootDir .",
+    "test:update": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"
   },
-  \\"dependencies\\": {
-    \\"@yozora/ast\\": \\"^<LATEST>\\",
-    \\"@yozora/character\\": \\"^<LATEST>\\",
-    \\"@yozora/core-tokenizer\\": \\"^<LATEST>\\"
+  "dependencies": {
+    "@yozora/ast": "^<LATEST>",
+    "@yozora/character": "^<LATEST>",
+    "@yozora/core-tokenizer": "^<LATEST>"
   },
-  \\"devDependencies\\": {
-    \\"@guanghechen/rollup-config\\": \\"^2.0.0\\",
-    \\"@types/jest\\": \\"27.0.3\\",
-    \\"@yozora/eslint-config\\": \\"^<LATEST>\\",
-    \\"@yozora/jest-for-tokenizer\\": \\"^<LATEST>\\",
-    \\"@yozora/parser\\": \\"^<LATEST>\\",
-    \\"cross-env\\": \\"7.0.3\\",
-    \\"eslint\\": \\"8.4.1\\",
-    \\"jest\\": \\"27.4.4\\",
-    \\"npm-run-all\\": \\"4.1.5\\",
-    \\"prettier\\": \\"2.5.1\\",
-    \\"rimraf\\": \\"3.0.2\\",
-    \\"rollup\\": \\"2.78.1\\",
-    \\"ts-jest\\": \\"27.1.1\\",
-    \\"ts-node\\": \\"10.4.0\\",
-    \\"tsconfig-paths\\": \\"3.12.0\\",
-    \\"typescript\\": \\"4.5.3\\"
+  "devDependencies": {
+    "@guanghechen/rollup-config": "^2.1.0",
+    "@types/jest": "27.0.3",
+    "@yozora/eslint-config": "^<LATEST>",
+    "@yozora/jest-for-tokenizer": "^<LATEST>",
+    "@yozora/parser": "^<LATEST>",
+    "cross-env": "7.0.3",
+    "eslint": "8.4.1",
+    "jest": "27.4.4",
+    "npm-run-all": "4.1.5",
+    "prettier": "2.5.1",
+    "rimraf": "3.0.2",
+    "rollup": "2.78.1",
+    "ts-jest": "27.1.1",
+    "ts-node": "10.4.0",
+    "tsconfig-paths": "3.12.0",
+    "typescript": "4.5.3"
   }
 }
 "
@@ -1596,48 +1596,48 @@ export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>
 
 exports[`new-tokenizer not a monorepo block: tsconfig.json 1`] = `
 "{
-  \\"extends\\": \\"./tsconfig.settings\\",
-  \\"compilerOptions\\": {
-    \\"baseUrl\\": \\".\\"
+  "extends": "./tsconfig.settings",
+  "compilerOptions": {
+    "baseUrl": "."
   },
-  \\"include\\": [\\"src\\", \\"script\\", \\"__test__\\"]
+  "include": ["src", "script", "__test__"]
 }
 "
 `;
 
 exports[`new-tokenizer not a monorepo block: tsconfig.settings.json 1`] = `
 "{
-  \\"compilerOptions\\": {
-    \\"allowSyntheticDefaultImports\\": true,
-    \\"alwaysStrict\\": true,
-    \\"declaration\\": true,
-    \\"declarationMap\\": false,
-    \\"downlevelIteration\\": true,
-    \\"esModuleInterop\\": true,
-    \\"experimentalDecorators\\": true,
-    \\"forceConsistentCasingInFileNames\\": true,
-    \\"lib\\": [\\"esnext\\"],
-    \\"moduleResolution\\": \\"node\\",
-    \\"newLine\\": \\"LF\\",
-    \\"noEmit\\": false,
-    \\"noEmitOnError\\": true,
-    \\"noImplicitAny\\": true,
-    \\"noImplicitOverride\\": true,
-    \\"noImplicitReturns\\": false,
-    \\"noImplicitThis\\": true,
-    \\"noImplicitUseStrict\\": false,
-    \\"noUnusedLocals\\": false,
-    \\"noUnusedParameters\\": false,
-    \\"pretty\\": false,
-    \\"removeComments\\": false,
-    \\"resolveJsonModule\\": true,
-    \\"sourceMap\\": false,
-    \\"strict\\": true,
-    \\"strictFunctionTypes\\": true,
-    \\"strictNullChecks\\": true,
-    \\"strictPropertyInitialization\\": true,
-    \\"suppressImplicitAnyIndexErrors\\": true,
-    \\"target\\": \\"es2015\\"
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "alwaysStrict": true,
+    "declaration": true,
+    "declarationMap": false,
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["esnext"],
+    "moduleResolution": "node",
+    "newLine": "LF",
+    "noEmit": false,
+    "noEmitOnError": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": false,
+    "noImplicitThis": true,
+    "noImplicitUseStrict": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "pretty": false,
+    "removeComments": false,
+    "resolveJsonModule": true,
+    "sourceMap": false,
+    "strict": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "target": "es2015"
   }
 }
 "
@@ -1645,21 +1645,21 @@ exports[`new-tokenizer not a monorepo block: tsconfig.settings.json 1`] = `
 
 exports[`new-tokenizer not a monorepo block: tsconfig.src.json 1`] = `
 "{
-  \\"extends\\": \\"./tsconfig.settings\\",
-  \\"compilerOptions\\": {
-    \\"declarationDir\\": \\"lib/types\\",
-    \\"rootDir\\": \\"src\\"
+  "extends": "./tsconfig.settings",
+  "compilerOptions": {
+    "declarationDir": "lib/types",
+    "rootDir": "src"
   },
-  \\"include\\": [\\"src\\"]
+  "include": ["src"]
 }
 "
 `;
 
 exports[`new-tokenizer not a monorepo default: console 1`] = `
-Array [
-  Array [
+[
+  [
     "answers:",
-    Object {
+    {
       "cwd": "<WORKSPACE>/output",
       "fallbackTokenizerName": "text",
       "isInlineTokenizer": true,
@@ -1707,10 +1707,10 @@ insert_final_newline = false
 
 exports[`new-tokenizer not a monorepo inline: .eslintrc 1`] = `
 "{
-  \\"root\\": true,
-  \\"extends\\": [\\"@yozora\\"],
-  \\"rules\\": {},
-  \\"overrides\\": []
+  "root": true,
+  "extends": ["@yozora"],
+  "rules": {},
+  "overrides": []
 }
 "
 `;
@@ -1795,58 +1795,58 @@ void createTokenizerTester(parser)
 
 exports[`new-tokenizer not a monorepo inline: __test__/fixtures/basic.json 1`] = `
 "{
-  \\"title\\": \\"\\",
-  \\"cases\\": [
+  "title": "",
+  "cases": [
     {
-      \\"description\\": \\"case#0\\",
-      \\"input\\": \\"???????\\",
-      \\"parseAnswer\\": {
-        \\"type\\": \\"root\\",
-        \\"children\\": [
+      "description": "case#0",
+      "input": "???????",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
           {
-            \\"type\\": \\"paragraph\\",
-            \\"children\\": [
+            "type": "paragraph",
+            "children": [
               {
-                \\"type\\": \\"inlineWaw\\",
-                \\"value\\": \\"???????\\",
-                \\"position\\": {
-                  \\"start\\": {
-                    \\"line\\": 1,
-                    \\"column\\": 1,
-                    \\"offset\\": 0
+                "type": "inlineWaw",
+                "value": "???????",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
                   },
-                  \\"end\\": {
-                    \\"line\\": 1,
-                    \\"column\\": 8,
-                    \\"offset\\": 7
+                  "end": {
+                    "line": 1,
+                    "column": 8,
+                    "offset": 7
                   }
                 }
               }
             ],
-            \\"position\\": {
-              \\"start\\": {
-                \\"line\\": 1,
-                \\"column\\": 1,
-                \\"offset\\": 0
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
               },
-              \\"end\\": {
-                \\"line\\": 1,
-                \\"column\\": 8,
-                \\"offset\\": 7
+              "end": {
+                "line": 1,
+                "column": 8,
+                "offset": 7
               }
             }
           }
         ],
-        \\"position\\": {
-          \\"start\\": {
-            \\"line\\": 1,
-            \\"column\\": 1,
-            \\"offset\\": 0
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
           },
-          \\"end\\": {
-            \\"line\\": 1,
-            \\"column\\": 8,
-            \\"offset\\": 7
+          "end": {
+            "line": 1,
+            "column": 8,
+            "offset": 7
           }
         }
       }
@@ -1889,50 +1889,50 @@ void createTokenizerTester(parser)
 
 exports[`new-tokenizer not a monorepo inline: README.md 1`] = `
 "<header>
-  <h1 align=\\"center\\">
-    <a href=\\"https://github.com/guanghechen/tokenizer-inline-waw#readme\\">@yozora/tokenizer-inline-waw</a>
+  <h1 align="center">
+    <a href="https://github.com/guanghechen/tokenizer-inline-waw#readme">@yozora/tokenizer-inline-waw</a>
   </h1>
-  <div align=\\"center\\">
-    <a href=\\"https://www.npmjs.com/package/@yozora/tokenizer-inline-waw\\">
+  <div align="center">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-inline-waw">
       <img
-        alt=\\"Npm Version\\"
-        src=\\"https://img.shields.io/npm/v/@yozora/tokenizer-inline-waw.svg\\"
+        alt="Npm Version"
+        src="https://img.shields.io/npm/v/@yozora/tokenizer-inline-waw.svg"
       />
     </a>
-    <a href=\\"https://www.npmjs.com/package/@yozora/tokenizer-inline-waw\\">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-inline-waw">
       <img
-        alt=\\"Npm Download\\"
-        src=\\"https://img.shields.io/npm/dm/@yozora/tokenizer-inline-waw.svg\\"
+        alt="Npm Download"
+        src="https://img.shields.io/npm/dm/@yozora/tokenizer-inline-waw.svg"
       />
     </a>
-    <a href=\\"https://www.npmjs.com/package/@yozora/tokenizer-inline-waw\\">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-inline-waw">
       <img
-        alt=\\"Npm License\\"
-        src=\\"https://img.shields.io/npm/l/@yozora/tokenizer-inline-waw.svg\\"
+        alt="Npm License"
+        src="https://img.shields.io/npm/l/@yozora/tokenizer-inline-waw.svg"
       />
     </a>
-    <a href=\\"#install\\">
+    <a href="#install">
       <img
-        alt=\\"Module Formats: cjs, esm\\"
-        src=\\"https://img.shields.io/badge/module_formats-cjs%2C%20esm-green.svg\\"
+        alt="Module Formats: cjs, esm"
+        src="https://img.shields.io/badge/module_formats-cjs%2C%20esm-green.svg"
       />
     </a>
-    <a href=\\"https://github.com/nodejs/node\\">
+    <a href="https://github.com/nodejs/node">
       <img
-        alt=\\"Node.js Version\\"
-        src=\\"https://img.shields.io/node/v/@yozora/tokenizer-inline-waw\\"
+        alt="Node.js Version"
+        src="https://img.shields.io/node/v/@yozora/tokenizer-inline-waw"
       />
     </a>
-    <a href=\\"https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer#readme\\">
+    <a href="https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer#readme">
       <img
-        alt=\\"Yozora Version\\"
-        src=\\"https://img.shields.io/npm/dependency-version/@yozora/tokenizer-inline-waw/@yozora/core-tokenizer\\"
+        alt="Yozora Version"
+        src="https://img.shields.io/npm/dependency-version/@yozora/tokenizer-inline-waw/@yozora/core-tokenizer"
       />
     </a>
-    <a href=\\"https://github.com/prettier/prettier\\">
+    <a href="https://github.com/prettier/prettier">
       <img
-        alt=\\"Code Style: prettier\\"
-        src=\\"https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square\\"
+        alt="Code Style: prettier"
+        src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square"
       />
     </a>
   </div>
@@ -1969,10 +1969,10 @@ Some descriptions.
 `;
 
 exports[`new-tokenizer not a monorepo inline: console 1`] = `
-Array [
-  Array [
+[
+  [
     "answers:",
-    Object {
+    {
       "cwd": "<WORKSPACE>/output",
       "fallbackTokenizerName": "text",
       "isInlineTokenizer": true,
@@ -2013,11 +2013,11 @@ module.exports = {
     },
   },
   transform: {
-    '^.+\\\\\\\\.tsx?$': 'ts-jest',
+    '^.+\\\\.tsx?$': 'ts-jest',
   },
   testURL: 'http://localhost/',
   testEnvironment: 'node',
-  testRegex: '/(__test__)/[^/]+\\\\\\\\.spec\\\\\\\\.[jt]sx?$',
+  testRegex: '/(__test__)/[^/]+\\\\.spec\\\\.[jt]sx?$',
   testPathIgnorePatterns: ['/coverage/', '/lib/', '/node_modules/'],
   collectCoverage: false,
   coverageDirectory: '<rootDir>/coverage/',
@@ -2041,67 +2041,67 @@ module.exports = {
 
 exports[`new-tokenizer not a monorepo inline: package.json 1`] = `
 "{
-  \\"name\\": \\"@yozora/tokenizer-inline-waw\\",
-  \\"version\\": \\"<LATEST>\\",
-  \\"author\\": {
-    \\"name\\": \\"guanghechen\\",
-    \\"url\\": \\"https://github.com/guanghechen/\\"
+  "name": "@yozora/tokenizer-inline-waw",
+  "version": "<LATEST>",
+  "author": {
+    "name": "guanghechen",
+    "url": "https://github.com/guanghechen/"
   },
-  \\"repository\\": {
-    \\"type\\": \\"git\\",
-    \\"url\\": \\"https://github.com/guanghechen/tokenizer-inline-waw.git\\"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/guanghechen/tokenizer-inline-waw.git"
   },
-  \\"homepage\\": \\"https://github.com/guanghechen/tokenizer-inline-waw#readme\\",
-  \\"keywords\\": [],
-  \\"main\\": \\"lib/cjs/index.js\\",
-  \\"module\\": \\"lib/esm/index.js\\",
-  \\"types\\": \\"lib/types/index.d.ts\\",
-  \\"source\\": \\"src/index.ts\\",
-  \\"license\\": \\"MIT\\",
-  \\"engines\\": {
-    \\"node\\": \\">= 14.15.0\\"
+  "homepage": "https://github.com/guanghechen/tokenizer-inline-waw#readme",
+  "keywords": [],
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/types/index.d.ts",
+  "source": "src/index.ts",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 16.0.0"
   },
-  \\"files\\": [
-    \\"lib/\\",
-    \\"!lib/**/*.js.map\\",
-    \\"!lib/**/*.d.ts.map\\",
-    \\"package.json\\",
-    \\"CHANGELOG.md\\",
-    \\"LICENSE\\",
-    \\"README.md\\"
+  "files": [
+    "lib/",
+    "!lib/**/*.js.map",
+    "!lib/**/*.d.ts.map",
+    "package.json",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
   ],
-  \\"scripts\\": {
-    \\"build\\": \\"cross-env NODE_ENV=production rollup -c rollup.config.js\\",
-    \\"format\\": \\"run-s format:lint:fix format:prettier\\",
-    \\"format:prettier\\": \\"prettier --write .\\",
-    \\"format:lint:fix\\": \\"eslint . --fix\\",
-    \\"prebuild\\": \\"rimraf lib/ && tsc -p tsconfig.src.json --emitDeclarationOnly\\",
-    \\"prepublishOnly\\": \\"cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build\\",
-    \\"test\\": \\"cross-env TS_NODE_FILES=true jest --config jest.config.js --rootDir .\\",
-    \\"test:update\\": \\"node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts\\"
+  "scripts": {
+    "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
+    "format": "run-s format:lint:fix format:prettier",
+    "format:prettier": "prettier --write .",
+    "format:lint:fix": "eslint . --fix",
+    "prebuild": "rimraf lib/ && tsc -p tsconfig.src.json --emitDeclarationOnly",
+    "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build",
+    "test": "cross-env TS_NODE_FILES=true jest --config jest.config.js --rootDir .",
+    "test:update": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"
   },
-  \\"dependencies\\": {
-    \\"@yozora/ast\\": \\"^<LATEST>\\",
-    \\"@yozora/character\\": \\"^<LATEST>\\",
-    \\"@yozora/core-tokenizer\\": \\"^<LATEST>\\"
+  "dependencies": {
+    "@yozora/ast": "^<LATEST>",
+    "@yozora/character": "^<LATEST>",
+    "@yozora/core-tokenizer": "^<LATEST>"
   },
-  \\"devDependencies\\": {
-    \\"@guanghechen/rollup-config\\": \\"^2.0.0\\",
-    \\"@types/jest\\": \\"27.0.3\\",
-    \\"@yozora/eslint-config\\": \\"^<LATEST>\\",
-    \\"@yozora/jest-for-tokenizer\\": \\"^<LATEST>\\",
-    \\"@yozora/parser\\": \\"^<LATEST>\\",
-    \\"cross-env\\": \\"7.0.3\\",
-    \\"eslint\\": \\"8.4.1\\",
-    \\"jest\\": \\"27.4.4\\",
-    \\"npm-run-all\\": \\"4.1.5\\",
-    \\"prettier\\": \\"2.5.1\\",
-    \\"rimraf\\": \\"3.0.2\\",
-    \\"rollup\\": \\"2.78.1\\",
-    \\"ts-jest\\": \\"27.1.1\\",
-    \\"ts-node\\": \\"10.4.0\\",
-    \\"tsconfig-paths\\": \\"3.12.0\\",
-    \\"typescript\\": \\"4.5.3\\"
+  "devDependencies": {
+    "@guanghechen/rollup-config": "^2.1.0",
+    "@types/jest": "27.0.3",
+    "@yozora/eslint-config": "^<LATEST>",
+    "@yozora/jest-for-tokenizer": "^<LATEST>",
+    "@yozora/parser": "^<LATEST>",
+    "cross-env": "7.0.3",
+    "eslint": "8.4.1",
+    "jest": "27.4.4",
+    "npm-run-all": "4.1.5",
+    "prettier": "2.5.1",
+    "rimraf": "3.0.2",
+    "rollup": "2.78.1",
+    "ts-jest": "27.1.1",
+    "ts-node": "10.4.0",
+    "tsconfig-paths": "3.12.0",
+    "typescript": "4.5.3"
   }
 }
 "
@@ -2200,7 +2200,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
         )
 
         // Remove the spaces at the end of the line and beginning of the next line.
-        value = value.replace(/[^\\\\S\\\\n]*\\\\n[^\\\\S\\\\n]*/g, '\\\\n')
+        value = value.replace(/[^\\S\\n]*\\n[^\\S\\n]*/g, '\\n')
         const children: Node[] = api.parseInlineTokens(token.children)
         const node: INode = {
           type: InlineWawType,
@@ -2285,48 +2285,48 @@ export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>
 
 exports[`new-tokenizer not a monorepo inline: tsconfig.json 1`] = `
 "{
-  \\"extends\\": \\"./tsconfig.settings\\",
-  \\"compilerOptions\\": {
-    \\"baseUrl\\": \\".\\"
+  "extends": "./tsconfig.settings",
+  "compilerOptions": {
+    "baseUrl": "."
   },
-  \\"include\\": [\\"src\\", \\"script\\", \\"__test__\\"]
+  "include": ["src", "script", "__test__"]
 }
 "
 `;
 
 exports[`new-tokenizer not a monorepo inline: tsconfig.settings.json 1`] = `
 "{
-  \\"compilerOptions\\": {
-    \\"allowSyntheticDefaultImports\\": true,
-    \\"alwaysStrict\\": true,
-    \\"declaration\\": true,
-    \\"declarationMap\\": false,
-    \\"downlevelIteration\\": true,
-    \\"esModuleInterop\\": true,
-    \\"experimentalDecorators\\": true,
-    \\"forceConsistentCasingInFileNames\\": true,
-    \\"lib\\": [\\"esnext\\"],
-    \\"moduleResolution\\": \\"node\\",
-    \\"newLine\\": \\"LF\\",
-    \\"noEmit\\": false,
-    \\"noEmitOnError\\": true,
-    \\"noImplicitAny\\": true,
-    \\"noImplicitOverride\\": true,
-    \\"noImplicitReturns\\": false,
-    \\"noImplicitThis\\": true,
-    \\"noImplicitUseStrict\\": false,
-    \\"noUnusedLocals\\": false,
-    \\"noUnusedParameters\\": false,
-    \\"pretty\\": false,
-    \\"removeComments\\": false,
-    \\"resolveJsonModule\\": true,
-    \\"sourceMap\\": false,
-    \\"strict\\": true,
-    \\"strictFunctionTypes\\": true,
-    \\"strictNullChecks\\": true,
-    \\"strictPropertyInitialization\\": true,
-    \\"suppressImplicitAnyIndexErrors\\": true,
-    \\"target\\": \\"es2015\\"
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "alwaysStrict": true,
+    "declaration": true,
+    "declarationMap": false,
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["esnext"],
+    "moduleResolution": "node",
+    "newLine": "LF",
+    "noEmit": false,
+    "noEmitOnError": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": false,
+    "noImplicitThis": true,
+    "noImplicitUseStrict": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "pretty": false,
+    "removeComments": false,
+    "resolveJsonModule": true,
+    "sourceMap": false,
+    "strict": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "target": "es2015"
   }
 }
 "
@@ -2334,12 +2334,12 @@ exports[`new-tokenizer not a monorepo inline: tsconfig.settings.json 1`] = `
 
 exports[`new-tokenizer not a monorepo inline: tsconfig.src.json 1`] = `
 "{
-  \\"extends\\": \\"./tsconfig.settings\\",
-  \\"compilerOptions\\": {
-    \\"declarationDir\\": \\"lib/types\\",
-    \\"rootDir\\": \\"src\\"
+  "extends": "./tsconfig.settings",
+  "compilerOptions": {
+    "declarationDir": "lib/types",
+    "rootDir": "src"
   },
-  \\"include\\": [\\"src\\"]
+  "include": ["src"]
 }
 "
 `;

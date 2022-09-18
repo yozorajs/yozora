@@ -38,7 +38,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
   let _nodePoints: ReadonlyArray<INodePoint> = []
   let _blockStartIndex = -1
   let _blockEndIndex = -1
-  const apis: IProcessorApis = Object.freeze({
+  const apis: IProcessorApis = Object.freeze<IProcessorApis>({
     matchBlockApi: {
       extractPhrasingLines,
       rollbackPhrasingLines,

@@ -1,225 +1,225 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`collectNodes basic1 1`] = `
-Array [
-  Object {
+[
+  {
     "type": "text",
     "value": "将进酒",
   },
-  Object {
+  {
     "type": "text",
     "value": "君不见黄河之水天上来，奔流到海不复回。",
   },
-  Object {
+  {
     "type": "text",
     "value": "
 君不见高堂明镜悲白发，朝如青丝暮成雪。",
   },
-  Object {
+  {
     "type": "text",
     "value": "
 人生得意须尽欢，莫使金樽空对月。",
   },
-  Object {
+  {
     "type": "text",
     "value": "
 天生我材必有用，千金散尽还复来。",
   },
-  Object {
+  {
     "type": "text",
     "value": "
 烹羊宰牛且为乐，会须一饮三百杯。",
   },
-  Object {
+  {
     "type": "text",
     "value": "
 岑夫子，丹丘生，将进酒，杯莫停。",
   },
-  Object {
+  {
     "type": "text",
     "value": "
 与君歌一曲，请君为我倾耳听。",
   },
-  Object {
+  {
     "type": "text",
     "value": "
 钟鼓馔玉不足贵，但愿长醉不复醒。",
   },
-  Object {
+  {
     "type": "text",
     "value": "
 古来圣贤皆寂寞，惟有饮者留其名。",
   },
-  Object {
+  {
     "type": "text",
     "value": "
 陈王昔时宴平乐，斗酒十千恣欢谑。",
   },
-  Object {
+  {
     "type": "text",
     "value": "
 主人何为言少钱，径须沽取对君酌。",
   },
-  Object {
+  {
     "type": "text",
     "value": "
 五花马、千金裘，呼儿将出换美酒，与尔同销万古愁。",
   },
-  Object {
+  {
     "type": "text",
     "value": "emphasis: ",
   },
-  Object {
+  {
     "type": "text",
-    "value": "foo \\"",
+    "value": "foo "",
   },
-  Object {
+  {
     "type": "text",
     "value": "bar",
   },
-  Object {
+  {
     "type": "text",
-    "value": "\\" foo",
+    "value": "" foo",
   },
-  Object {
+  {
     "type": "text",
     "value": "autolink(extension): ",
   },
-  Object {
+  {
     "type": "text",
     "value": "http://example.com",
   },
-  Object {
+  {
     "type": "text",
     "value": "autolink: ",
   },
-  Object {
+  {
     "type": "text",
     "value": "foo@bar.example.com",
   },
-  Object {
+  {
     "type": "text",
     "value": "Setext headings",
   },
-  Object {
+  {
     "type": "text",
     "value": "Task List Items (extension):",
   },
-  Object {
+  {
     "type": "text",
     "value": "foo",
   },
-  Object {
+  {
     "type": "text",
     "value": "bar",
   },
-  Object {
+  {
     "type": "text",
     "value": "baz",
   },
-  Object {
+  {
     "type": "text",
     "value": "bim",
   },
-  Object {
+  {
     "type": "text",
     "value": "This is a blockquote",
   },
-  Object {
+  {
     "type": "text",
     "value": "with multiple lines.",
   },
-  Object {
+  {
     "type": "text",
     "value": "This is a math block:",
   },
-  Object {
+  {
     "type": "text",
     "value": "heading1",
   },
-  Object {
+  {
     "type": "text",
     "value": "heading2",
   },
-  Object {
+  {
     "type": "text",
     "value": "heading3",
   },
-  Object {
+  {
     "type": "text",
     "value": "heading4",
   },
-  Object {
+  {
     "type": "text",
     "value": "heading5",
   },
-  Object {
+  {
     "type": "text",
     "value": "heading6",
   },
-  Object {
+  {
     "type": "text",
     "value": "This is a footnote ",
   },
-  Object {
+  {
     "type": "text",
     "value": "something....",
   },
-  Object {
+  {
     "type": "text",
     "value": ".",
   },
-  Object {
+  {
     "type": "text",
     "value": "This is a footnote definition.",
   },
-  Object {
+  {
     "type": "text",
     "value": "This is a footnote reference ",
   },
-  Object {
+  {
     "type": "text",
     "value": "Definitions:",
   },
-  Object {
+  {
     "type": "text",
     "value": "logo",
   },
-  Object {
+  {
     "type": "text",
     "value": "baz",
   },
-  Object {
+  {
     "type": "text",
     "value": "
 ",
   },
-  Object {
+  {
     "type": "text",
     "value": "logo",
   },
-  Object {
+  {
     "type": "text",
     "value": " ",
   },
-  Object {
+  {
     "type": "text",
     "value": "bar",
   },
-  Object {
+  {
     "type": "text",
     "value": "
 ",
   },
-  Object {
+  {
     "type": "text",
     "value": "logo",
   },
-  Object {
+  {
     "type": "text",
     "value": "Guanghechen",
   },
-  Object {
+  {
     "type": "text",
     "value": " is the author of yozora.",
   },
@@ -227,97 +227,97 @@ Array [
 `;
 
 exports[`collectNodes basic1 2`] = `
-Array [
-  Object {
-    "children": Array [
-      Object {
+[
+  {
+    "children": [
+      {
         "type": "text",
         "value": "君不见黄河之水天上来，奔流到海不复回。",
       },
-      Object {
+      {
         "type": "break",
       },
-      Object {
+      {
         "type": "text",
         "value": "
 君不见高堂明镜悲白发，朝如青丝暮成雪。",
       },
-      Object {
+      {
         "type": "break",
       },
-      Object {
+      {
         "type": "text",
         "value": "
 人生得意须尽欢，莫使金樽空对月。",
       },
-      Object {
+      {
         "type": "break",
       },
-      Object {
+      {
         "type": "text",
         "value": "
 天生我材必有用，千金散尽还复来。",
       },
-      Object {
+      {
         "type": "break",
       },
-      Object {
+      {
         "type": "text",
         "value": "
 烹羊宰牛且为乐，会须一饮三百杯。",
       },
-      Object {
+      {
         "type": "break",
       },
-      Object {
+      {
         "type": "text",
         "value": "
 岑夫子，丹丘生，将进酒，杯莫停。",
       },
-      Object {
+      {
         "type": "break",
       },
-      Object {
+      {
         "type": "text",
         "value": "
 与君歌一曲，请君为我倾耳听。",
       },
-      Object {
+      {
         "type": "break",
       },
-      Object {
+      {
         "type": "text",
         "value": "
 钟鼓馔玉不足贵，但愿长醉不复醒。",
       },
-      Object {
+      {
         "type": "break",
       },
-      Object {
+      {
         "type": "text",
         "value": "
 古来圣贤皆寂寞，惟有饮者留其名。",
       },
-      Object {
+      {
         "type": "break",
       },
-      Object {
+      {
         "type": "text",
         "value": "
 陈王昔时宴平乐，斗酒十千恣欢谑。",
       },
-      Object {
+      {
         "type": "break",
       },
-      Object {
+      {
         "type": "text",
         "value": "
 主人何为言少钱，径须沽取对君酌。",
       },
-      Object {
+      {
         "type": "break",
       },
-      Object {
+      {
         "type": "text",
         "value": "
 五花马、千金裘，呼儿将出换美酒，与尔同销万古愁。",
@@ -325,9 +325,9 @@ Array [
     ],
     "type": "paragraph",
   },
-  Object {
-    "children": Array [
-      Object {
+  {
+    "children": [
+      {
         "alt": "logo",
         "identifier": "logo",
         "label": "logo",
@@ -337,30 +337,30 @@ Array [
     ],
     "type": "paragraph",
   },
-  Object {
-    "children": Array [
-      Object {
+  {
+    "children": [
+      {
         "type": "text",
         "value": "emphasis: ",
       },
-      Object {
-        "children": Array [
-          Object {
+      {
+        "children": [
+          {
             "type": "text",
-            "value": "foo \\"",
+            "value": "foo "",
           },
-          Object {
-            "children": Array [
-              Object {
+          {
+            "children": [
+              {
                 "type": "text",
                 "value": "bar",
               },
             ],
             "type": "emphasis",
           },
-          Object {
+          {
             "type": "text",
-            "value": "\\" foo",
+            "value": "" foo",
           },
         ],
         "type": "strong",
@@ -368,15 +368,15 @@ Array [
     ],
     "type": "paragraph",
   },
-  Object {
-    "children": Array [
-      Object {
+  {
+    "children": [
+      {
         "type": "text",
         "value": "autolink(extension): ",
       },
-      Object {
-        "children": Array [
-          Object {
+      {
+        "children": [
+          {
             "type": "text",
             "value": "http://example.com",
           },
@@ -387,15 +387,15 @@ Array [
     ],
     "type": "paragraph",
   },
-  Object {
-    "children": Array [
-      Object {
+  {
+    "children": [
+      {
         "type": "text",
         "value": "autolink: ",
       },
-      Object {
-        "children": Array [
-          Object {
+      {
+        "children": [
+          {
             "type": "text",
             "value": "foo@bar.example.com",
           },
@@ -406,28 +406,28 @@ Array [
     ],
     "type": "paragraph",
   },
-  Object {
-    "children": Array [
-      Object {
+  {
+    "children": [
+      {
         "type": "text",
         "value": "Task List Items (extension):",
       },
     ],
     "type": "paragraph",
   },
-  Object {
-    "children": Array [
-      Object {
-        "children": Array [
-          Object {
+  {
+    "children": [
+      {
+        "children": [
+          {
             "type": "text",
             "value": "foo",
           },
-          Object {
-            "children": Array [
-              Object {
-                "children": Array [
-                  Object {
+          {
+            "children": [
+              {
+                "children": [
+                  {
                     "type": "text",
                     "value": "bar",
                   },
@@ -435,9 +435,9 @@ Array [
                 "status": "doing",
                 "type": "listItem",
               },
-              Object {
-                "children": Array [
-                  Object {
+              {
+                "children": [
+                  {
                     "type": "text",
                     "value": "baz",
                   },
@@ -455,9 +455,9 @@ Array [
         "status": "done",
         "type": "listItem",
       },
-      Object {
-        "children": Array [
-          Object {
+      {
+        "children": [
+          {
             "type": "text",
             "value": "bim",
           },
@@ -471,71 +471,71 @@ Array [
     "spread": false,
     "type": "list",
   },
-  Object {
-    "children": Array [
-      Object {
+  {
+    "children": [
+      {
         "type": "text",
         "value": "This is a blockquote",
       },
     ],
     "type": "paragraph",
   },
-  Object {
-    "children": Array [
-      Object {
+  {
+    "children": [
+      {
         "type": "text",
         "value": "with multiple lines.",
       },
     ],
     "type": "paragraph",
   },
-  Object {
-    "children": Array [
-      Object {
+  {
+    "children": [
+      {
         "type": "text",
         "value": "This is a math block:",
       },
     ],
     "type": "paragraph",
   },
-  Object {
-    "children": Array [
-      Object {
+  {
+    "children": [
+      {
         "type": "text",
         "value": "This is a footnote ",
       },
-      Object {
-        "children": Array [
-          Object {
+      {
+        "children": [
+          {
             "type": "text",
             "value": "something....",
           },
         ],
         "type": "footnote",
       },
-      Object {
+      {
         "type": "text",
         "value": ".",
       },
     ],
     "type": "paragraph",
   },
-  Object {
-    "children": Array [
-      Object {
+  {
+    "children": [
+      {
         "type": "text",
         "value": "This is a footnote definition.",
       },
     ],
     "type": "paragraph",
   },
-  Object {
-    "children": Array [
-      Object {
+  {
+    "children": [
+      {
         "type": "text",
         "value": "This is a footnote reference ",
       },
-      Object {
+      {
         "identifier": "foo-2",
         "label": "foo-2",
         "type": "footnoteReference",
@@ -543,20 +543,20 @@ Array [
     ],
     "type": "paragraph",
   },
-  Object {
-    "children": Array [
-      Object {
+  {
+    "children": [
+      {
         "type": "text",
         "value": "Definitions:",
       },
     ],
     "type": "paragraph",
   },
-  Object {
-    "children": Array [
-      Object {
-        "children": Array [
-          Object {
+  {
+    "children": [
+      {
+        "children": [
+          {
             "type": "text",
             "value": "logo",
           },
@@ -566,9 +566,9 @@ Array [
         "referenceType": "full",
         "type": "linkReference",
       },
-      Object {
-        "children": Array [
-          Object {
+      {
+        "children": [
+          {
             "type": "text",
             "value": "baz",
           },
@@ -578,14 +578,14 @@ Array [
         "referenceType": "shortcut",
         "type": "linkReference",
       },
-      Object {
+      {
         "type": "text",
         "value": "
 ",
       },
-      Object {
-        "children": Array [
-          Object {
+      {
+        "children": [
+          {
             "type": "text",
             "value": "logo",
           },
@@ -595,13 +595,13 @@ Array [
         "referenceType": "shortcut",
         "type": "linkReference",
       },
-      Object {
+      {
         "type": "text",
         "value": " ",
       },
-      Object {
-        "children": Array [
-          Object {
+      {
+        "children": [
+          {
             "type": "text",
             "value": "bar",
           },
@@ -611,14 +611,14 @@ Array [
         "referenceType": "full",
         "type": "linkReference",
       },
-      Object {
+      {
         "type": "text",
         "value": "
 ",
       },
-      Object {
-        "children": Array [
-          Object {
+      {
+        "children": [
+          {
             "type": "text",
             "value": "logo",
           },
@@ -631,9 +631,9 @@ Array [
     ],
     "type": "paragraph",
   },
-  Object {
-    "children": Array [
-      Object {
+  {
+    "children": [
+      {
         "alt": "logo",
         "identifier": "logo",
         "label": "logo",
@@ -643,11 +643,11 @@ Array [
     ],
     "type": "paragraph",
   },
-  Object {
-    "children": Array [
-      Object {
-        "children": Array [
-          Object {
+  {
+    "children": [
+      {
+        "children": [
+          {
             "type": "text",
             "value": "Guanghechen",
           },
@@ -656,16 +656,16 @@ Array [
         "type": "link",
         "url": "https://github.com/guanghechen",
       },
-      Object {
+      {
         "type": "text",
         "value": " is the author of yozora.",
       },
     ],
     "type": "paragraph",
   },
-  Object {
-    "children": Array [
-      Object {
+  {
+    "children": [
+      {
         "alt": "foo",
         "title": "guanghechen",
         "type": "image",

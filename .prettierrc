@@ -1,9 +1,9 @@
 arrowParens: avoid
+bracketSameLine: false
 bracketSpacing: true
 embeddedLanguageFormatting: off
 endOfLine: lf
 htmlWhitespaceSensitivity: strict
-jsxBracketSameLine: false
 jsxSingleQuote: false
 printWidth: 100
 proseWrap: always

@@ -7,13 +7,13 @@
       "graphType": "all",
       "verifyAccess": false,
       "ignoreChanges": ["*.md", "*.txt", "test/**", "**/test**/"],
-      "message": ":bookmark:  chore(release): publish %s",
+      "message": ":bookmark:  release: publish %s",
       "push": false,
       "private": false,
       "forcePublish": true
     },
     "version": {
-      "allowBranch": "main",
+      "allowBranch": ["main", "release-*"],
       "forcePublish": true
     }
   }

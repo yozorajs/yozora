@@ -1,28 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`calcDefinitionMap basic1 1`] = `
-Object {
-  "bar": Object {
+{
+  "bar": {
     "identifier": "bar",
     "label": "bar",
     "title": "title2",
     "type": "definition",
     "url": "/bar",
   },
-  "baz": Object {
+  "baz": {
     "identifier": "baz",
     "label": "baz",
     "type": "definition",
     "url": "/waw",
   },
-  "logo": Object {
+  "logo": {
     "identifier": "logo",
     "label": "logo",
     "title": "The logo of Yozora",
     "type": "definition",
     "url": "/img/logo.png",
   },
-  "url2": Object {
+  "url2": {
     "identifier": "url2",
     "label": "url2",
     "type": "definition",
@@ -32,34 +32,34 @@ Object {
 `;
 
 exports[`calcDefinitionMap presetDefinitions 1`] = `
-Object {
-  "bar": Object {
+{
+  "bar": {
     "identifier": "bar",
     "label": "bar",
     "title": "title2",
     "type": "definition",
     "url": "/bar",
   },
-  "baz": Object {
+  "baz": {
     "identifier": "baz",
     "label": "baz",
     "type": "definition",
     "url": "/waw",
   },
-  "logo": Object {
+  "logo": {
     "identifier": "logo",
     "label": "logo",
     "title": "The logo of Yozora",
     "type": "definition",
     "url": "/img/logo.png",
   },
-  "url2": Object {
+  "url2": {
     "identifier": "url2",
     "label": "url2",
     "type": "definition",
     "url": "../url//ss/s/./../sd",
   },
-  "yozora__test_identifier": Object {
+  "yozora__test_identifier": {
     "identifier": "yozora__test_identifier",
     "label": "yozora test label",
     "title": "waw",
@@ -89,28 +89,28 @@ Set {
 `;
 
 exports[`collectDefinitions basic1 1`] = `
-Array [
-  Object {
+[
+  {
     "identifier": "logo",
     "label": "logo",
     "title": "The logo of Yozora",
     "type": "definition",
     "url": "/img/logo.png",
   },
-  Object {
+  {
     "identifier": "bar",
     "label": "bar",
     "title": "title2",
     "type": "definition",
     "url": "/bar",
   },
-  Object {
+  {
     "identifier": "baz",
     "label": "baz",
     "type": "definition",
     "url": "/waw",
   },
-  Object {
+  {
     "identifier": "url2",
     "label": "url2",
     "type": "definition",

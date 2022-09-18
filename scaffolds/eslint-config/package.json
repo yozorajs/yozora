@@ -28,9 +28,12 @@
     "LICENSE",
     "README.md"
   ],
+  "scripts": {
+    "test": "echo 'No test yet.'"
+  },
   "dependencies": {
-    "@guanghechen/eslint-config": "^2.0.0",
-    "@guanghechen/eslint-config-ts": "^2.0.0",
+    "@guanghechen/eslint-config": "^2.1.0",
+    "@guanghechen/eslint-config-ts": "^2.1.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-jest": "^27.0.4",
     "eslint-plugin-prettier": "^4.0.0"
