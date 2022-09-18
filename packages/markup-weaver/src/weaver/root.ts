@@ -5,7 +5,7 @@ import type { IEscaper, INodeMarkup, INodeWeaver } from '../types'
 /**
  * Root node of the AST.
  * @see https://github.com/syntax-tree/unist#root
- * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#root
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#root
  */
 export class RootWeaver implements INodeWeaver<Root> {
   public readonly type = RootType

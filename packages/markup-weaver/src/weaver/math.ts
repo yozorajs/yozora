@@ -12,8 +12,8 @@ export interface IMathMarkupWeaverOptions {
 /**
  * Math content.
  *
- * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#math
- * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/math
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#math
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/math
  */
 export class MathWeaver implements INodeWeaver<Math> {
   public readonly type = MathType

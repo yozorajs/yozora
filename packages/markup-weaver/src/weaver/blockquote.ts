@@ -7,8 +7,8 @@ import type { INodeMarkup, INodeWeaver } from '../types'
  *
  * @see https://github.com/syntax-tree/mdast#blockquote
  * @see https://github.github.com/gfm/#block-quotes
- * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#blockquote
- * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/blockquote
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#blockquote
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/blockquote
  */
 export class BlockquoteWeaver implements INodeWeaver<Blockquote> {
   public readonly type = BlockquoteType

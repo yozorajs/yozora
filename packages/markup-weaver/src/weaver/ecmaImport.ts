@@ -5,8 +5,8 @@ import type { INodeMarkup, INodeWeaver } from '../types'
 /**
  * ECMAScript import statement (single-line).
  *
- * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#ecmaimport
- * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/ecma-import
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#ecmaimport
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/ecma-import
  */
 export class EcmaImportWeaver implements INodeWeaver<EcmaImport> {
   public readonly type = EcmaImportType

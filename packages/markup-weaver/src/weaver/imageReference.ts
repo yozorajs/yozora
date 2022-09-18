@@ -11,8 +11,8 @@ const _escapeAlt: IEscaper = createCharacterEscaper('[]()`'.split(''))
  *
  * @see https://github.github.com/gfm/#images
  * @see https://github.com/syntax-tree/mdast#imagereference
- * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#imagereference
- * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/image-reference
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#imagereference
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/image-reference
  */
 export class ImageReferenceWeaver implements INodeWeaver<ImageReference> {
   public readonly type = ImageReferenceType

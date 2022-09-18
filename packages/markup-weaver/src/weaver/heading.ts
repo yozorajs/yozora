@@ -7,9 +7,9 @@ import type { INodeMarkup, INodeWeaver } from '../types'
  *
  * @see https://github.com/syntax-tree/mdast#heading
  * @see https://github.github.com/gfm/#atx-heading
- * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#heading
- * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/heading
- * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/setext-heading
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#heading
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/heading
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/setext-heading
  */
 export class HeadingWeaver implements INodeWeaver<Heading> {
   public readonly type = HeadingType

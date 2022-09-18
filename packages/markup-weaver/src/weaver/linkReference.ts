@@ -11,8 +11,8 @@ const _escapeContent: IEscaper = createCharacterEscaper('[]()`'.split(''))
  *
  * @see https://github.com/syntax-tree/mdast#linkreference
  * @see https://github.github.com/gfm/#reference-link
- * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#linkreference
- * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/link-reference
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#linkreference
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/link-reference
  */
 export class LinkReferenceWeaver implements INodeWeaver<LinkReference> {
   public readonly type = LinkReferenceType

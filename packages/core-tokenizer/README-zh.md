@@ -1,6 +1,6 @@
 <header>
   <h1 align="center">
-    <a href="https://github.com/yozorajs/yozora/tree/main/packages/core-tokenizer#readme">@yozora/core-tokenizer</a>
+    <a href="https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/core-tokenizer#readme">@yozora/core-tokenizer</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/core-tokenizer">
@@ -210,7 +210,7 @@ export interface PhrasingContentLine {
 
 
 
-[homepage]: https://github.com/yozorajs/yozora/tree/main/packages/core-tokenizer#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/core-tokenizer#readme
 [lifecycle-match-block]: https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/lifecycle/match-block.ts
 [lifecycle-match-inline]: https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/lifecycle/match-inline.ts
 [lifecycle-parse-block]: https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/lifecycle/parse-block.ts

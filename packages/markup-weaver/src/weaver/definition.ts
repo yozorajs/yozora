@@ -11,8 +11,8 @@ const _escapeTitle: IEscaper = createCharacterEscaper('"'.split(''))
  *
  * @see https://github.com/syntax-tree/mdast#definition
  * @see https://github.github.com/gfm/#link-reference-definitions
- * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#definition
- * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/definition
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#definition
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/definition
  */
 export class DefinitionWeaver implements INodeWeaver<Definition> {
   public readonly type = DefinitionType

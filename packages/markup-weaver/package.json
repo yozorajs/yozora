@@ -11,7 +11,7 @@
     "directory": "packages/markup-weaver"
   },
   "description": "Weave markup-like AST into markup content.",
-  "homepage": "https://github.com/yozorajs/yozora/tree/main/packages/markup-weaver#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/markup-weaver#readme",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",

@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "packages/core-tokenizer"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/main/packages/core-tokenizer#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/core-tokenizer#readme",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",

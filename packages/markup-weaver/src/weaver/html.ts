@@ -8,11 +8,11 @@ import type { INodeMarkup, INodeMarkupWeaveContext, INodeWeaver } from '../types
  * @see https://github.com/syntax-tree/mdast#html
  * @see https://github.github.com/gfm/#html-blocks
  * @see https://github.github.com/gfm/#raw-html
- * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#html
- * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/inline-code
- * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#html
- * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/html-block
- * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/html-inline
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#html
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/inline-code
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#html
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/html-block
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/html-inline
  */
 export class HtmlWeaver implements INodeWeaver<Html> {
   public readonly type = HtmlType

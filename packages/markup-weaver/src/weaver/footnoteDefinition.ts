@@ -6,8 +6,8 @@ import type { INodeMarkup, INodeWeaver } from '../types'
  * FootnoteDefinition represents content relating to the document that is outside its flow.
  *
  * @see https://github.com/syntax-tree/mdast#footnotedefinition
- * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#footnotedefinition
- * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/footnote-definition
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#footnotedefinition
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/footnote-definition
  */
 export class FootnoteDefinitionWeaver implements INodeWeaver<FootnoteDefinition> {
   public readonly type = FootnoteDefinitionType

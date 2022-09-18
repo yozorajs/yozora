@@ -12,8 +12,8 @@ const UPPERCASE_A: number = 'A'.codePointAt(0)!
  * @see https://github.com/syntax-tree/mdast#listitem
  * @see https://github.github.com/gfm/#list-items
  * @see https://github.github.com/gfm/#task-list-items-extension-
- * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#listItem
- * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/list
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#listItem
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/list
  */
 export class ListItemWeaver implements INodeWeaver<ListItem> {
   public readonly type = ListItemType

@@ -11,7 +11,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "scaffolds/eslint-config"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/main/scaffolds/eslint-config#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/release-2.x.x/scaffolds/eslint-config#readme",
   "keywords": [
     "eslintconfig"
   ],

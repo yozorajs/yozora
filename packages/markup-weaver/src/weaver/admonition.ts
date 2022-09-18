@@ -7,8 +7,8 @@ import type { INodeMarkup, INodeMarkupWeaveContext, INodeWeaver } from '../types
  * the body can include any block markdown except another admonition.
  *
  * @see https://github.com/elviswolcott/remark-admonitions
- * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#admonition
- * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/admonition
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#admonition
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/admonition
  */
 export class AdmonitionWeaver implements INodeWeaver<Admonition> {
   public readonly type = AdmonitionType

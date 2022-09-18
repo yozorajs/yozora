@@ -8,8 +8,8 @@ import type { INodeMarkup, INodeWeaver } from '../types'
  * @see https://github.com/syntax-tree/mdast#break
  * @see https://github.github.com/gfm/#hard-line-breaks
  * @see https://github.github.com/gfm/#soft-line-breaks
- * @see https://github.com/yozorajs/yozora/tree/main/packages/ast#break
- * @see https://github.com/yozorajs/yozora/tree/main/tokenizers/break
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#break
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/break
  */
 export class BreakWeaver implements INodeWeaver<Break> {
   public readonly type = BreakType
