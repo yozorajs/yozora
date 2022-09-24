@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "tokenizers/thematic-break"
   },
-  "homepage": "https://yozora.guanghechen.com/docs/package/tokenizer-thematic-break",
+  "homepage": "https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/thematic-break",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",

@@ -11,7 +11,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "tokenizers/admonition"
   },
-  "homepage": "https://yozora.guanghechen.com/docs/package/tokenizer-admonition",
+  "homepage": "https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/admonition",
   "keywords": [
     "yozora",
     "markdown",

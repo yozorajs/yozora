@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "tokenizers/definition"
   },
-  "homepage": "https://yozora.guanghechen.com/docs/package/tokenizer-definition",
+  "homepage": "https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/definition",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",

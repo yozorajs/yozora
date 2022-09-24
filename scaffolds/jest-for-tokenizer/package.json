@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "scaffolds/jest-for-tokenizer"
   },
-  "homepage": "https://yozora.guanghechen.com/docs/package/jest-for-tokenizer",
+  "homepage": "https://github.com/yozorajs/yozora/tree/release-2.x.x/scaffolds/jest-for-tokenizer#readme",
   "main": "lib/cjs/index.js",
   "types": "lib/types/index.d.ts",
   "source": "src/index.ts",
