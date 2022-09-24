@@ -10,6 +10,7 @@ import type { IDelimiter, IThis, IToken, T } from './types'
  * @see https://github.com/syntax-tree/mdast#text
  * @see https://github.github.com/gfm/#textual-content
  */
+/* istanbul ignore next */
 export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = function () {
   return {
     findDelimiter: () =>
