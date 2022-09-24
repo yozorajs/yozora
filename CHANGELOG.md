@@ -1,5 +1,24 @@
 # Changelog
 
+<a name="2.0.2"></a>
+## 2.0.2 (2022-09-24)
+
+### Added
+
+- ✅ test: fix test coverage [[aea557e](https://github.com/yozorajs/yozora/commit/aea557e4f430966362febf346b7ffea0290f5ccf)]
+
+### Changed
+
+- 🔧 chore: upgrade devDependencies &amp; update tests [[6edb917](https://github.com/yozorajs/yozora/commit/6edb917fa9414ffe82d6411e19c6b362f1b06007)]
+- 🔧 chore: support node@16.x.x [[eda301f](https://github.com/yozorajs/yozora/commit/eda301fe1047e380de5be915ae730206a026f07b)]
+- 🔧 chore: upgrade devDependencies [[282ed6f](https://github.com/yozorajs/yozora/commit/282ed6f620c0a6d5a3c086a2c78b759d03cb70ec)]
+
+### Miscellaneous
+
+- 📝 docs: fix invalid links [[eb304c9](https://github.com/yozorajs/yozora/commit/eb304c931b2e682cf156bbceae0a20655777381e)]
+- 📝 docs: update links [[4467fe6](https://github.com/yozorajs/yozora/commit/4467fe646e0a95fcc7206658189884f68872bc4e)]
+
+
 <a name="2.0.2-alpha.0"></a>
 ## 2.0.2-alpha.0 (2022-05-22)
 
