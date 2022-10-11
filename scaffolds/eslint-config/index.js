@@ -15,6 +15,7 @@ module.exports = {
       extends: ['@guanghechen', '@guanghechen/ts', 'prettier'],
       rules: {
         '@typescript-eslint/no-unnecessary-type-arguments': 0,
+        'import/no-named-as-default': 0,
       },
     },
     {
@@ -23,6 +24,7 @@ module.exports = {
       rules: {
         '@typescript-eslint/consistent-type-assertions': 0,
         'import/no-extraneous-dependencies': 0,
+        'import/no-named-as-default': 0,
         'jest/expect-expect': 0,
       },
     },
@@ -30,7 +32,9 @@ module.exports = {
       files: ['**/__test__/*.spec.js'],
       extends: ['@guanghechen', 'plugin:jest/recommended', 'prettier'],
       rules: {
+        '@typescript-eslint/ban-ts-comment': 0,
         'import/no-extraneous-dependencies': 0,
+        'import/no-named-as-default': 0,
         'jest/expect-expect': 0,
       },
     },

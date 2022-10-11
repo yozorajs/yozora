@@ -43,7 +43,7 @@ export interface IParser {
 
   /**
    * Remove tokenizer which with the `tokenizerName` from the context.
-   * @param tokenizer
+   * @param tokenizerName
    */
   unmountTokenizer(tokenizerName: string): this
 
