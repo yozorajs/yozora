@@ -1,5 +1,18 @@
 # Changelog
 
+<a name="2.0.3"></a>
+## 2.0.3 (2022-10-11)
+
+### Changed
+
+- ⬆️ chore: upgrade devDependencies [[0f93641](https://github.com/yozorajs/yozora/commit/0f9364188e190bb83b6a0dfa0d4cdfaedf19b6ec)]
+- 🔧 chore: update build script [[d934cad](https://github.com/yozorajs/yozora/commit/d934cad21a4ab763621ca6a72379cd4294caa605)]
+
+### Miscellaneous
+
+- 📄 doc: update LICENSE [[974edb8](https://github.com/yozorajs/yozora/commit/974edb879140d23e288ca643187c41ad3c1a08b2)]
+
+
 <a name="2.0.2"></a>
 ## 2.0.2 (2022-09-24)
 
