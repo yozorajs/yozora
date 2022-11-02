@@ -5,6 +5,18 @@ exports[`calcDefinitionMap basic1 1`] = `
   "bar": {
     "identifier": "bar",
     "label": "bar",
+    "position": {
+      "end": {
+        "column": 22,
+        "line": 83,
+        "offset": 1295,
+      },
+      "start": {
+        "column": 1,
+        "line": 83,
+        "offset": 1274,
+      },
+    },
     "title": "title2",
     "type": "definition",
     "url": "/bar",
@@ -12,12 +24,36 @@ exports[`calcDefinitionMap basic1 1`] = `
   "baz": {
     "identifier": "baz",
     "label": "baz",
+    "position": {
+      "end": {
+        "column": 13,
+        "line": 84,
+        "offset": 1307,
+      },
+      "start": {
+        "column": 1,
+        "line": 84,
+        "offset": 1295,
+      },
+    },
     "type": "definition",
     "url": "/waw",
   },
   "logo": {
     "identifier": "logo",
     "label": "logo",
+    "position": {
+      "end": {
+        "column": 44,
+        "line": 82,
+        "offset": 1274,
+      },
+      "start": {
+        "column": 1,
+        "line": 82,
+        "offset": 1231,
+      },
+    },
     "title": "The logo of Yozora",
     "type": "definition",
     "url": "/img/logo.png",
@@ -25,6 +61,18 @@ exports[`calcDefinitionMap basic1 1`] = `
   "url2": {
     "identifier": "url2",
     "label": "url2",
+    "position": {
+      "end": {
+        "column": 30,
+        "line": 85,
+        "offset": 1336,
+      },
+      "start": {
+        "column": 1,
+        "line": 85,
+        "offset": 1307,
+      },
+    },
     "type": "definition",
     "url": "../url//ss/s/./../sd",
   },
@@ -36,6 +84,18 @@ exports[`calcDefinitionMap presetDefinitions 1`] = `
   "bar": {
     "identifier": "bar",
     "label": "bar",
+    "position": {
+      "end": {
+        "column": 22,
+        "line": 83,
+        "offset": 1295,
+      },
+      "start": {
+        "column": 1,
+        "line": 83,
+        "offset": 1274,
+      },
+    },
     "title": "title2",
     "type": "definition",
     "url": "/bar",
@@ -43,12 +103,36 @@ exports[`calcDefinitionMap presetDefinitions 1`] = `
   "baz": {
     "identifier": "baz",
     "label": "baz",
+    "position": {
+      "end": {
+        "column": 13,
+        "line": 84,
+        "offset": 1307,
+      },
+      "start": {
+        "column": 1,
+        "line": 84,
+        "offset": 1295,
+      },
+    },
     "type": "definition",
     "url": "/waw",
   },
   "logo": {
     "identifier": "logo",
     "label": "logo",
+    "position": {
+      "end": {
+        "column": 44,
+        "line": 82,
+        "offset": 1274,
+      },
+      "start": {
+        "column": 1,
+        "line": 82,
+        "offset": 1231,
+      },
+    },
     "title": "The logo of Yozora",
     "type": "definition",
     "url": "/img/logo.png",
@@ -56,6 +140,18 @@ exports[`calcDefinitionMap presetDefinitions 1`] = `
   "url2": {
     "identifier": "url2",
     "label": "url2",
+    "position": {
+      "end": {
+        "column": 30,
+        "line": 85,
+        "offset": 1336,
+      },
+      "start": {
+        "column": 1,
+        "line": 85,
+        "offset": 1307,
+      },
+    },
     "type": "definition",
     "url": "../url//ss/s/./../sd",
   },
@@ -93,6 +189,18 @@ exports[`collectDefinitions basic1 1`] = `
   {
     "identifier": "logo",
     "label": "logo",
+    "position": {
+      "end": {
+        "column": 44,
+        "line": 82,
+        "offset": 1274,
+      },
+      "start": {
+        "column": 1,
+        "line": 82,
+        "offset": 1231,
+      },
+    },
     "title": "The logo of Yozora",
     "type": "definition",
     "url": "/img/logo.png",
@@ -100,6 +208,18 @@ exports[`collectDefinitions basic1 1`] = `
   {
     "identifier": "bar",
     "label": "bar",
+    "position": {
+      "end": {
+        "column": 22,
+        "line": 83,
+        "offset": 1295,
+      },
+      "start": {
+        "column": 1,
+        "line": 83,
+        "offset": 1274,
+      },
+    },
     "title": "title2",
     "type": "definition",
     "url": "/bar",
@@ -107,12 +227,36 @@ exports[`collectDefinitions basic1 1`] = `
   {
     "identifier": "baz",
     "label": "baz",
+    "position": {
+      "end": {
+        "column": 13,
+        "line": 84,
+        "offset": 1307,
+      },
+      "start": {
+        "column": 1,
+        "line": 84,
+        "offset": 1295,
+      },
+    },
     "type": "definition",
     "url": "/waw",
   },
   {
     "identifier": "url2",
     "label": "url2",
+    "position": {
+      "end": {
+        "column": 30,
+        "line": 85,
+        "offset": 1336,
+      },
+      "start": {
+        "column": 1,
+        "line": 85,
+        "offset": 1307,
+      },
+    },
     "type": "definition",
     "url": "../url//ss/s/./../sd",
   },

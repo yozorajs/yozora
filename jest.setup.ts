@@ -1,4 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
+import type { Root } from '@yozora/ast'
 import type { IParser } from '@yozora/core-parser'
 import type { IMarkupWeaver } from '@yozora/markup-weaver'
 import { DefaultMarkupWeaver } from '@yozora/markup-weaver'
@@ -24,6 +25,13 @@ export const parsers = {
       defaultParseOptions: { shouldReservePosition: true },
     })
   },
+}
+
+export const generateParseData = (filepath: string): void => {
+  const content = fs.readFileSync(filepath, 'utf8')
+  const result = parsers.yozora.parse(content)
+  const data = JSON.stringify(result, null, 2)
+  fs.writeFileSync(filepath + '.json', data, 'utf8')
 }
 
 export const weavers = {

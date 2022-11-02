@@ -69,6 +69,12 @@ This is a footnote ^[something....].
 
 This is a footnote reference [^foo-2]
 
+The mass-energy equation[^1] is awesome!
+
+[^1]: 
+    $$E=m\cdot c^2$$
+    The nested footnote is absolutely cool! ^[a nested footnote with formula $x^2+y^2=1$]
+
 ---
 
 Definitions:
