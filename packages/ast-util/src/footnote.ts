@@ -29,15 +29,21 @@ export function collectFootnoteDefinitions(
   immutableRoot: Readonly<Root>,
   aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher = [FootnoteDefinitionType],
 ): FootnoteDefinition[] {
-  const results: FootnoteDefinition[] = collectNodes(immutableRoot, aimTypesOrNodeMatcher)
+  const footnoteDefinitions: FootnoteDefinition[] = collectNodes(
+    immutableRoot,
+    aimTypesOrNodeMatcher,
+  )
 
   // filter duplicated footnote reference definitions with existed identifier.
   const existedSet: Set<string> = new Set<string>()
-  return results.filter(item => {
-    if (existedSet.has(item.identifier)) return false
+  const validFootnoteDefinitions: FootnoteDefinition[] = []
+  for (const item of footnoteDefinitions) {
+    if (existedSet.has(item.identifier)) continue
     existedSet.add(item.identifier)
-    return true
-  })
+    validFootnoteDefinitions.push(item)
+  }
+  existedSet.clear()
+  return validFootnoteDefinitions
 }
 
 /**
@@ -95,7 +101,7 @@ export function calcFootnoteDefinitionMap(
 
   // Append the preset footnote reference definitions to the end of the
   // root.children after the ones generated from footnotes appended.
-  let root: Root =
+  const root: Root =
     additionalDefinitions.length > 0
       ? {
           ...immutableRoot,
@@ -105,9 +111,11 @@ export function calcFootnoteDefinitionMap(
 
   // Replace footnotes into footnote references and footnote reference definitions.
   if (preferReferences) {
-    root = replaceFootnotesInReferences(root, footnoteDefinitionMap, identifierPrefix)
+    const root2 = replaceFootnotesInReferences(root, footnoteDefinitionMap, identifierPrefix)
+    // Re-collect footnoteDefinitions because previous find footnoteDefinition could be replaced by
+    // new built node while `replaceFootnotesInReferences`.
+    return calcFootnoteDefinitionMap(root2, aimTypesOrNodeMatcher, [], false, '')
   }
-
   return { root, footnoteDefinitionMap }
 }
 
@@ -130,7 +138,7 @@ export function replaceFootnotesInReferences(
   identifierPrefix = defaultFootnoteIdentifierPrefix,
 ): Root {
   let footnoteId = 1
-  const footnoteDefinitions: FootnoteDefinition[] = []
+  const newFootnoteDefinitions: FootnoteDefinition[] = []
 
   const nextIdentifier = (): { label: string; identifier: string } => {
     for (; ; footnoteId += 1) {
@@ -173,7 +181,7 @@ export function replaceFootnotesInReferences(
 
     // eslint-disable-next-line no-param-reassign
     footnoteDefinitionMap[identifier] = footnoteDefinition
-    footnoteDefinitions.push(footnoteDefinition)
+    newFootnoteDefinitions.push(footnoteDefinition)
 
     // Replace the inline footnote with a footnote reference,
     // the relevant created footnote reference definition will be appended to
@@ -182,7 +190,7 @@ export function replaceFootnotesInReferences(
   })
 
   // Append footnote definitions to the end of the root.children
-  return footnoteDefinitions.length > 0
-    ? { ...root, children: root.children.concat(footnoteDefinitions) }
+  return newFootnoteDefinitions.length > 0
+    ? { ...root, children: root.children.concat(newFootnoteDefinitions) }
     : root
 }
