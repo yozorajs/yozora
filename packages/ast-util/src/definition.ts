@@ -14,15 +14,18 @@ export const collectDefinitions = (
   root: Readonly<Root>,
   aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher = [DefinitionType],
 ): Definition[] => {
-  const results: Definition[] = collectNodes(root, aimTypesOrNodeMatcher)
+  const definitions: Definition[] = collectNodes(root, aimTypesOrNodeMatcher)
 
   // filter duplicated footnote reference definitions with existed identifier.
   const existedSet: Set<string> = new Set<string>()
-  return results.filter(item => {
-    if (existedSet.has(item.identifier)) return false
+  const validDefinitions: Definition[] = []
+  for (const item of definitions) {
+    if (existedSet.has(item.identifier)) continue
     existedSet.add(item.identifier)
-    return true
-  })
+    validDefinitions.push(item)
+  }
+  existedSet.clear()
+  return validDefinitions
 }
 
 /**
@@ -68,17 +71,16 @@ export const calcDefinitionMap = (
 } => {
   const definitionMap: Record<string, Readonly<Definition>> = {}
 
-  // Traverse Yozora AST and collect definitions.
+  /**
+   * Traverse Yozora AST and collect definitions.
+   *
+   * If there are several matching definitions, the first one takes precedence
+   * @see https://github.github.com/gfm/#example-173
+   */
   traverseAst(immutableRoot, aimTypesOrNodeMatcher, (node): void => {
     const definition = node as Definition
-    const { identifier } = definition
-
-    /**
-     * If there are several matching definitions, the first one takes precedence
-     * @see https://github.github.com/gfm/#example-173
-     */
-    if (definitionMap[identifier] === undefined) {
-      definitionMap[identifier] = definition
+    if (definitionMap[definition.identifier] === undefined) {
+      definitionMap[definition.identifier] = definition
     }
   })
 

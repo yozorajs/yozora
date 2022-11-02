@@ -1,9 +1,9 @@
 import type { Node, NodeType, Parent, Root } from '@yozora/ast'
-import type { INodeMatcher } from './util'
-import { createNodeMatcher, createShallowNodeCollector } from './util'
+import type { INodeMatcher } from '../util'
+import { createNodeMatcher, createShallowNodeCollector } from '../util'
 
 /**
- * Traverse AST and replace nodes in post-order.
+ * Traverse AST and replace nodes in pre-order.
  *
  * Note that the root node will not be traversed, that is, the root node will
  * never be passed into the `replace` function as the first parameter.
@@ -24,7 +24,7 @@ import { createNodeMatcher, createShallowNodeCollector } from './util'
  * @param aimTypesOrNodeMatcher
  * @param replace
  */
-export function shallowMutateAstInPostorder(
+export function shallowMutateAstInPreorder(
   immutableRoot: Readonly<Root>,
   aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher | null,
   replace: (
@@ -36,27 +36,25 @@ export function shallowMutateAstInPostorder(
   const isMatched: INodeMatcher = createNodeMatcher(aimTypesOrNodeMatcher)
 
   const traverse = (children: ReadonlyArray<Node>, parent: Readonly<Parent>): Node => {
-    // Recursively processing the descendant nodes in post-order traverse.
-    const collector0 = createShallowNodeCollector(children as Node[])
+    // Processing current layer of nodes.
+    const collector = createShallowNodeCollector(children as Node[])
     for (let i = 0; i < children.length; ++i) {
       const child = children[i] as Parent
-      const subChildren: ReadonlyArray<Node> = child.children
+      if (isMatched(child)) {
+        const nextChild = replace(child, parent, i)
+        collector.add(nextChild, child, i)
+      } else {
+        // Recursively processing the descendant nodes in pre-order traverse.
+        const subChildren: ReadonlyArray<Node> = child.children
 
-      // Whether to process the subtree recursively.
-      const nextChild = subChildren && subChildren.length > 0 ? traverse(subChildren, child) : child
-      collector0.add(nextChild, child, i)
+        // Whether to process the subtree recursively.
+        const nextChild: Node =
+          subChildren && subChildren.length > 0 ? traverse(subChildren, child) : child
+        collector.add(nextChild, child, i)
+      }
     }
 
-    // Processing current layer of nodes.
-    const nextChildren: Node[] = collector0.collect()
-    const collector1 = createShallowNodeCollector(nextChildren)
-    for (let i = 0; i < nextChildren.length; ++i) {
-      const child = nextChildren[i]
-      const nextChild = isMatched(child) ? replace(child, parent, i) : child
-      collector1.add(nextChild, child, i)
-    }
-
-    const finalChildren: Node[] = collector1.collect()
+    const finalChildren: Node[] = collector.collect()
     const result: Node =
       finalChildren === children ? parent : { ...parent, children: finalChildren }
     return result

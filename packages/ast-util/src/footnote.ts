@@ -13,7 +13,7 @@ import {
   ParagraphType,
 } from '@yozora/ast'
 import { collectNodes } from './ast/collect'
-import { shallowMutateAstInPostorder } from './ast/replace-post-order'
+import { shallowMutateAstInPostorder } from './ast/mutate/post-order'
 import { traverseAst } from './ast/traverse'
 import type { INodeMatcher } from './ast/util'
 
@@ -73,15 +73,15 @@ export function calcFootnoteDefinitionMap(
 } {
   const footnoteDefinitionMap: Record<string, Readonly<FootnoteDefinition>> = {}
 
-  // Traverse Yozora AST and collect footnote definitions.
+  /**
+   * Traverse Yozora AST and collect footnote definitions.
+   *
+   * If there are several matching definitions, the first one takes precedence.
+   * @see https://github.github.com/gfm/#example-173
+   */
   traverseAst(immutableRoot, aimTypesOrNodeMatcher, (node): void => {
     const footnoteDefinition = node as FootnoteDefinition
     const { identifier } = footnoteDefinition
-
-    /**
-     * If there are several matching definitions, the first one takes precedence.
-     * @see https://github.github.com/gfm/#example-173
-     */
     if (footnoteDefinitionMap[identifier] === undefined) {
       footnoteDefinitionMap[identifier] = footnoteDefinition
     }
