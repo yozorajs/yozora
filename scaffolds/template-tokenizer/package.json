@@ -31,9 +31,9 @@
     "test:update": "yarn test -u"
   },
   "dependencies": {
-    "@guanghechen/helper-option": "^2.1.0",
-    "@guanghechen/helper-plop": "^2.1.0",
-    "@guanghechen/helper-string": "^2.1.0",
+    "@guanghechen/helper-option": "^2.1.2",
+    "@guanghechen/helper-plop": "^2.1.2",
+    "@guanghechen/helper-string": "^2.1.2",
     "plop": "^2.7.6"
   }
 }
