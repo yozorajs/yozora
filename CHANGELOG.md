@@ -1,5 +1,22 @@
 # Changelog
 
+<a name="2.0.4"></a>
+## 2.0.4 (2022-11-02)
+
+### Added
+
+- ✅ test: update tests [[b9d1620](https://github.com/yozorajs/yozora/commit/b9d1620f9c8d14002056c191d43e4e5bedcae57e)]
+
+### Changed
+
+- 🎨 improve: re-organize codes [[732b49b](https://github.com/yozorajs/yozora/commit/732b49b1b3a4bbddf0ca2f18c5ba394ecd2c2347)]
+- ⬆️ chore: upgrade devDependencies [[b00c241](https://github.com/yozorajs/yozora/commit/b00c241e26661faa5260a3636ced50229c8eb59f)]
+
+### Fixed
+
+- 🐛 fix(yozora): footnoteDefinitionMap is not align with the ast [[cdd279c](https://github.com/yozorajs/yozora/commit/cdd279c84fe5a31d26b535316e1f5d74911f5183)]
+
+
 <a name="2.0.3"></a>
 ## 2.0.3 (2022-10-11)
 
