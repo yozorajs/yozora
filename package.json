@@ -18,12 +18,12 @@
   "scripts": {
     ":publish": "yarn test && lerna publish",
     ":publish-recover": "git stash && lerna publish from-package",
-    ":upgrade": "yarn upgrade-interactive --latest && run-s clean format build test",
+    ":upgrade": "yarn upgrade-interactive && run-s clean format build test",
     ":workspace:link": "lerna exec 'yarn link' --concurrency 1",
     ":workspace:unlink": "lerna exec 'yarn unlink' --concurrency 1",
     "build": "lerna run build --concurrency 1",
     "clean": "lerna clean --yes && yarn install",
-    "doc": "run-s doc:**",
+    "doc": "run-s doc:tokenizer doc:parser",
     "doc:tokenizer": "node -r ts-node/register -r tsconfig-paths/register scripts/handlebar/tokenizer.ts",
     "doc:parser": "node -r ts-node/register -r tsconfig-paths/register scripts/handlebar/parser.ts",
     "format": "run-s format:lintfix format:prettier",
@@ -31,18 +31,16 @@
     "format:lintfix": "eslint . --fix",
     "new:tokenizer": "node ./node_modules/@yozora/template-tokenizer/cli.js",
     "prepublishOnly": "pinst --disable",
-    "postinstall": "run-s postinstall:**",
-    "postinstall:main": "is-ci || yarn update:lock",
+    "postinstall": "run-s postinstall:dev",
     "postinstall:dev": "is-ci || husky install",
     "postpublish": "pinst --enable",
     "rebuild": "run-s clean build",
-    "test": "lerna exec 'echo && pwd && yarn test' --concurrency 1",
-    "test:coverage": "lerna exec 'echo && pwd && yarn test --coverage' --concurrency 1",
+    "test": "lerna run test --concurrency 1",
+    "test:coverage": "lerna run --concurrency 1 test -- --coverage",
     "test:parser": "lerna run test --concurrency 4 --scope @yozora/parser-*",
     "test:tokenizer": "lerna run test --concurrency 4 --scope @yozora/parser-*",
-    "test:update": "lerna exec 'echo && pwd && yarn test -u' --concurrency 1",
-    "update:changelog": "gitmoji-changelog update",
-    "update:lock": "yarn-deduplicate"
+    "test:update": "lerna run --concurrency 1 test -- -u",
+    "update:changelog": "gitmoji-changelog update"
   },
   "workspaces": [
     "packages/*",
@@ -88,5 +86,6 @@
     "*.{json,eslintrc}": [
       "prettier --write"
     ]
-  }
+  },
+  "packageManager": "yarn@3.3.1"
 }
