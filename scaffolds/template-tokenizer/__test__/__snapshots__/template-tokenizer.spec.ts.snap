@@ -219,8 +219,11 @@ exports[`new-tokenizer monorepo block: package.json 1`] = `
   },
   "homepage": "https://github.com/guanghechen/yozora/tree/main/tokenizers/waw#readme",
   "keywords": [],
-  "main": "lib/cjs/index.js",
-  "module": "lib/esm/index.js",
+  "type": "module",
+  "exports": {
+    "import": "./lib/esm/index.mjs",
+    "require": "./lib/cjs/index.cjs"
+  },
   "types": "lib/types/index.d.ts",
   "source": "src/index.ts",
   "license": "MIT",
@@ -229,15 +232,14 @@ exports[`new-tokenizer monorepo block: package.json 1`] = `
   },
   "files": [
     "lib/",
-    "!lib/**/*.js.map",
-    "!lib/**/*.d.ts.map",
+    "src/",
     "package.json",
     "CHANGELOG.md",
     "LICENSE",
     "README.md"
   ],
   "scripts": {
-    "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.js",
+    "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.mjs",
     "prebuild": "rimraf lib/ && tsc -p tsconfig.src.json --emitDeclarationOnly",
     "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build",
     "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .",
@@ -748,8 +750,11 @@ exports[`new-tokenizer monorepo inline: package.json 1`] = `
   },
   "homepage": "https://github.com/guanghechen/yozora/tree/main/tokenizers/inline-waw#readme",
   "keywords": [],
-  "main": "lib/cjs/index.js",
-  "module": "lib/esm/index.js",
+  "type": "module",
+  "exports": {
+    "import": "./lib/esm/index.mjs",
+    "require": "./lib/cjs/index.cjs"
+  },
   "types": "lib/types/index.d.ts",
   "source": "src/index.ts",
   "license": "MIT",
@@ -758,15 +763,14 @@ exports[`new-tokenizer monorepo inline: package.json 1`] = `
   },
   "files": [
     "lib/",
-    "!lib/**/*.js.map",
-    "!lib/**/*.d.ts.map",
+    "src/",
     "package.json",
     "CHANGELOG.md",
     "LICENSE",
     "README.md"
   ],
   "scripts": {
-    "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.js",
+    "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.mjs",
     "prebuild": "rimraf lib/ && tsc -p tsconfig.src.json --emitDeclarationOnly",
     "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build",
     "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .",
@@ -1339,8 +1343,11 @@ exports[`new-tokenizer not a monorepo block: package.json 1`] = `
   },
   "homepage": "https://github.com/guanghechen/tokenizer-waw#readme",
   "keywords": [],
-  "main": "lib/cjs/index.js",
-  "module": "lib/esm/index.js",
+  "type": "module",
+  "exports": {
+    "import": "./lib/esm/index.mjs",
+    "require": "./lib/cjs/index.cjs"
+  },
   "types": "lib/types/index.d.ts",
   "source": "src/index.ts",
   "license": "MIT",
@@ -1349,8 +1356,7 @@ exports[`new-tokenizer not a monorepo block: package.json 1`] = `
   },
   "files": [
     "lib/",
-    "!lib/**/*.js.map",
-    "!lib/**/*.d.ts.map",
+    "src/",
     "package.json",
     "CHANGELOG.md",
     "LICENSE",
@@ -1617,6 +1623,7 @@ exports[`new-tokenizer not a monorepo block: tsconfig.settings.json 1`] = `
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "lib": ["esnext"],
+    "module": "esnext",
     "moduleResolution": "node",
     "newLine": "LF",
     "noEmit": false,
@@ -1637,7 +1644,7 @@ exports[`new-tokenizer not a monorepo block: tsconfig.settings.json 1`] = `
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "suppressImplicitAnyIndexErrors": true,
-    "target": "es2015"
+    "target": "esnext"
   }
 }
 "
@@ -2053,8 +2060,11 @@ exports[`new-tokenizer not a monorepo inline: package.json 1`] = `
   },
   "homepage": "https://github.com/guanghechen/tokenizer-inline-waw#readme",
   "keywords": [],
-  "main": "lib/cjs/index.js",
-  "module": "lib/esm/index.js",
+  "type": "module",
+  "exports": {
+    "import": "./lib/esm/index.mjs",
+    "require": "./lib/cjs/index.cjs"
+  },
   "types": "lib/types/index.d.ts",
   "source": "src/index.ts",
   "license": "MIT",
@@ -2063,8 +2073,7 @@ exports[`new-tokenizer not a monorepo inline: package.json 1`] = `
   },
   "files": [
     "lib/",
-    "!lib/**/*.js.map",
-    "!lib/**/*.d.ts.map",
+    "src/",
     "package.json",
     "CHANGELOG.md",
     "LICENSE",
@@ -2306,6 +2315,7 @@ exports[`new-tokenizer not a monorepo inline: tsconfig.settings.json 1`] = `
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "lib": ["esnext"],
+    "module": "esnext",
     "moduleResolution": "node",
     "newLine": "LF",
     "noEmit": false,
@@ -2326,7 +2336,7 @@ exports[`new-tokenizer not a monorepo inline: tsconfig.settings.json 1`] = `
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "suppressImplicitAnyIndexErrors": true,
-    "target": "es2015"
+    "target": "esnext"
   }
 }
 "

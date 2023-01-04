@@ -10,10 +10,11 @@ import {
 import { runPlopWithMock } from '@guanghechen/helper-plop'
 import { toKebabCase } from '@guanghechen/helper-string'
 import fs from 'fs-extra'
-import path from 'path'
-import manifest from '../package.json'
+import path from 'node:path'
+import url from 'node:url'
+import manifest from '../package.json' assert { type: 'json' }
 
-interface TestOptions {
+interface ITestOptions {
   expectedPackageLocation: string
   defaultAnswers: Record<string, unknown>
   mockInputs: string[]
@@ -22,11 +23,11 @@ interface TestOptions {
   shouldGenerateFiles: boolean
 }
 
-const initialCwd = process.cwd()
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 const outputDir = path.join(__dirname, 'output')
+const initialCwd = process.cwd()
 
 beforeEach(async function () {
-  jest.setTimeout(10000)
   if (!fs.existsSync(outputDir)) fs.mkdirpSync(outputDir)
   process.chdir(outputDir)
 })
@@ -53,7 +54,7 @@ const jsonDesensitizer = createJsonDesensitizer({
 })
 
 describe('new-tokenizer', function () {
-  const templateConfig = path.join(__dirname, '../index.js')
+  const templateConfig = path.join(__dirname, '../index.mjs')
 
   describe('monorepo', function () {
     beforeAll(() => {
@@ -64,7 +65,7 @@ describe('new-tokenizer', function () {
       process.env.DEBUG_IS_MONOREPO = undefined
     })
 
-    async function runTest(options: TestOptions): Promise<void> {
+    async function runTest(options: ITestOptions): Promise<void> {
       const consoleMock = createConsoleMock(
         ['log', 'debug'],
         jsonDesensitizer as IDesensitizer<unknown[]>,
@@ -156,7 +157,7 @@ describe('new-tokenizer', function () {
       process.env.DEBUG_IS_MONOREPO = undefined
     })
 
-    async function runTest(options: TestOptions): Promise<void> {
+    async function runTest(options: ITestOptions): Promise<void> {
       const consoleMock = createConsoleMock(
         ['log', 'debug'],
         jsonDesensitizer as IDesensitizer<unknown[]>,

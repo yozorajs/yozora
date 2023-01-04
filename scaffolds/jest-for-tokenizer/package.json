@@ -21,25 +21,22 @@
   "files": [
     "fixtures/",
     "lib/",
-    "!lib/**/*.js.map",
-    "!lib/**/*.d.ts.map",
+    "src/",
     "package.json",
     "CHANGELOG.md",
     "LICENSE",
     "README.md"
   ],
   "scripts": {
-    "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.js",
-    "prebuild": "rimraf lib/",
+    "build": "rimraf lib/ && cross-env NODE_ENV=production rollup -c ../../rollup.config.mjs",
     "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build",
-    "test": "echo 'No test yet.'",
     "test:update": "node --unhandled-rejections=strict -r ts-node/register -r tsconfig-paths/register script/answer.ts"
   },
   "dependencies": {
     "@yozora/ast": "^2.0.4",
     "@yozora/ast-util": "^2.0.4",
     "@yozora/invariant": "^2.0.4",
-    "globby": "^11.0.4"
+    "globby": "^11.1.0"
   },
   "peerDependencies": {
     "fs-extra": "^10.0.0",

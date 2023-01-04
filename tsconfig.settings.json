@@ -9,6 +9,7 @@
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "lib": ["esnext"],
+    "module": "esnext",
     "moduleResolution": "node",
     "newLine": "LF",
     "noEmit": false,
@@ -29,6 +30,6 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "suppressImplicitAnyIndexErrors": true,
-    "target": "es2015"
+    "target": "esnext"
   }
 }

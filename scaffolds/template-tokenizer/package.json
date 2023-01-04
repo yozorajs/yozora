@@ -12,28 +12,32 @@
     "directory": "scaffolds/template-tokenizer"
   },
   "homepage": "https://github.com/yozorajs/yozora/tree/release-2.x.x/scaffolds/template-tokenizer#readme",
-  "main": "index.js",
+  "type": "module",
+  "exports": "./index.mjs",
   "license": "MIT",
   "files": [
     "boilerplate",
-    "cli.js",
-    "index.js",
+    "cli.mjs",
+    "index.mjs",
     "package.json",
     "CHANGELOG.md",
     "LICENSE",
     "README.md"
   ],
   "bin": {
-    "yozora-new-tokenizer": "./cli.js"
+    "yozora-new-tokenizer": "./cli.mjs"
   },
   "scripts": {
-    "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .",
+    "test": "cross-env TS_NODE_FILES=true NODE_OPTIONS=--experimental-vm-modules jest --config ../../jest.config.js --rootDir .",
     "test:update": "yarn test -u"
   },
   "dependencies": {
-    "@guanghechen/helper-option": "^2.1.2",
-    "@guanghechen/helper-plop": "^2.1.2",
-    "@guanghechen/helper-string": "^2.1.2",
-    "plop": "^2.7.6"
+    "@guanghechen/helper-option": "^3.0.0-alpha.4",
+    "@guanghechen/helper-plop": "^3.0.0-alpha.4",
+    "@guanghechen/helper-string": "^3.0.0-alpha.4"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "jest": "^29.3.1"
   }
 }

@@ -2,6 +2,7 @@
   "extends": "./tsconfig.settings.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "outDir": "lib",
     "paths": {
       "@yozora/ast": ["./packages/ast/src"],
       "@yozora/ast-util": ["./packages/ast-util/src"],

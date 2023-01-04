@@ -14,8 +14,11 @@
 {{/if}}
   "homepage": "{{{repositoryHomepage}}}",
   "keywords": [],
-  "main": "lib/cjs/index.js",
-  "module": "lib/esm/index.js",
+  "type": "module",
+  "exports": {
+    "import": "./lib/esm/index.mjs",
+    "require": "./lib/cjs/index.cjs"
+  },
   "types": "lib/types/index.d.ts",
   "source": "src/index.ts",
   "license": "MIT",
@@ -24,8 +27,7 @@
   },
   "files": [
     "lib/",
-    "!lib/**/*.js.map",
-    "!lib/**/*.d.ts.map",
+    "src/",
     "package.json",
     "CHANGELOG.md",
     "LICENSE",
@@ -33,7 +35,7 @@
   ],
   "scripts": {
 {{#if isMonorepo}}
-    "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.js",
+    "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.mjs",
 {{else}}
     "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
     "format": "run-s format:lint:fix format:prettier",

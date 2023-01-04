@@ -1,18 +1,21 @@
-const { convertToBoolean } = require('@guanghechen/helper-option')
-const {
+import { convertToBoolean } from '@guanghechen/helper-option'
+import {
   createNpmPackagePrompts,
   resolveNpmPackageAnswers,
   resolveNpmPackagePreAnswers,
-} = require('@guanghechen/helper-plop')
-const { toKebabCase, toTrim } = require('@guanghechen/helper-string')
-const path = require('path')
-const manifest = require('./package.json')
+} from '@guanghechen/helper-plop'
+import { toKebabCase, toTrim } from '@guanghechen/helper-string'
+import path from 'node:path'
+import url from 'node:url'
+import manifest from './package.json' assert { type: 'json' }
+
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
 const transformers = {
   tokenizerName: toTrim,
 }
 
-module.exports = function (plop) {
+export default function (plop) {
   const preAnswers = resolveNpmPackagePreAnswers({
     isMonorepo: convertToBoolean(process.env.DEBUG_IS_MONOREPO),
   })
@@ -99,8 +102,8 @@ module.exports = function (plop) {
         },
         !isMonorepo && {
           type: 'add',
-          path: resolveTargetPath('rollup.config.js'),
-          templateFile: resolveSourcePath('rollup.config.js.hbs'),
+          path: resolveTargetPath('rollup.config.mjs'),
+          templateFile: resolveSourcePath('rollup.config.mjs.hbs'),
         },
         !isMonorepo && {
           type: 'add',
