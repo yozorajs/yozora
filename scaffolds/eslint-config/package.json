@@ -15,7 +15,13 @@
   "keywords": [
     "eslintconfig"
   ],
-  "main": "index.js",
+  "type": "commonjs",
+  "exports": {
+    "import": "./index.mjs",
+    "require": "./index.cjs"
+  },
+  "main": "./index.js",
+  "module": "./index.js",
   "license": "MIT",
   "engines": {
     "node": ">= 16.0.0"

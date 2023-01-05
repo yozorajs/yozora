@@ -221,11 +221,14 @@ exports[`new-tokenizer monorepo block: package.json 1`] = `
   "keywords": [],
   "type": "module",
   "exports": {
+    "types": "./lib/types/index.d.ts",
     "import": "./lib/esm/index.mjs",
     "require": "./lib/cjs/index.cjs"
   },
-  "types": "lib/types/index.d.ts",
-  "source": "src/index.ts",
+  "source": "./src/index.ts",
+  "types": "./lib/types/index.d.ts",
+  "main": "./lib/cjs/index.cjs",
+  "module": "./lib/esm/index.mjs",
   "license": "MIT",
   "engines": {
     "node": ">= 16.0.0"
@@ -751,11 +754,14 @@ exports[`new-tokenizer monorepo inline: package.json 1`] = `
   "keywords": [],
   "type": "module",
   "exports": {
+    "types": "./lib/types/index.d.ts",
     "import": "./lib/esm/index.mjs",
     "require": "./lib/cjs/index.cjs"
   },
-  "types": "lib/types/index.d.ts",
-  "source": "src/index.ts",
+  "source": "./src/index.ts",
+  "types": "./lib/types/index.d.ts",
+  "main": "./lib/cjs/index.cjs",
+  "module": "./lib/esm/index.mjs",
   "license": "MIT",
   "engines": {
     "node": ">= 16.0.0"
@@ -1343,11 +1349,14 @@ exports[`new-tokenizer not a monorepo block: package.json 1`] = `
   "keywords": [],
   "type": "module",
   "exports": {
+    "types": "./lib/types/index.d.ts",
     "import": "./lib/esm/index.mjs",
     "require": "./lib/cjs/index.cjs"
   },
-  "types": "lib/types/index.d.ts",
-  "source": "src/index.ts",
+  "source": "./src/index.ts",
+  "types": "./lib/types/index.d.ts",
+  "main": "./lib/cjs/index.cjs",
+  "module": "./lib/esm/index.mjs",
   "license": "MIT",
   "engines": {
     "node": ">= 16.0.0"
@@ -2059,11 +2068,14 @@ exports[`new-tokenizer not a monorepo inline: package.json 1`] = `
   "keywords": [],
   "type": "module",
   "exports": {
+    "types": "./lib/types/index.d.ts",
     "import": "./lib/esm/index.mjs",
     "require": "./lib/cjs/index.cjs"
   },
-  "types": "lib/types/index.d.ts",
-  "source": "src/index.ts",
+  "source": "./src/index.ts",
+  "types": "./lib/types/index.d.ts",
+  "main": "./lib/cjs/index.cjs",
+  "module": "./lib/esm/index.mjs",
   "license": "MIT",
   "engines": {
     "node": ">= 16.0.0"

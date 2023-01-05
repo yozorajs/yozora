@@ -13,7 +13,9 @@
   },
   "homepage": "https://github.com/yozorajs/yozora/tree/release-2.x.x/scaffolds/template-tokenizer#readme",
   "type": "module",
-  "exports": "./index.mjs",
+  "exports": {
+    "import": "./index.mjs"
+  },
   "license": "MIT",
   "files": [
     "boilerplate",

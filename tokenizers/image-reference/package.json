@@ -13,11 +13,14 @@
   "homepage": "https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/image-reference",
   "type": "module",
   "exports": {
+    "types": "./lib/types/index.d.ts",
     "import": "./lib/esm/index.mjs",
     "require": "./lib/cjs/index.cjs"
   },
-  "types": "lib/types/index.d.ts",
-  "source": "src/index.ts",
+  "source": "./src/index.ts",
+  "types": "./lib/types/index.d.ts",
+  "main": "./lib/cjs/index.cjs",
+  "module": "./lib/esm/index.mjs",
   "license": "MIT",
   "engines": {
     "node": ">= 16.0.0"

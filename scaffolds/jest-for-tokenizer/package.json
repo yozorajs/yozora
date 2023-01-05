@@ -12,12 +12,13 @@
   },
   "homepage": "https://github.com/yozorajs/yozora/tree/release-2.x.x/scaffolds/jest-for-tokenizer#readme",
   "type": "module",
-  "main": "./lib/esm/index.mjs",
   "exports": {
+    "types": "./lib/types/index.d.ts",
     "import": "./lib/esm/index.mjs"
   },
-  "types": "lib/types/index.d.ts",
-  "source": "src/index.ts",
+  "source": "./src/index.ts",
+  "main": "./lib/cjs/index.cjs",
+  "types": "./lib/types/index.d.ts",
   "license": "MIT",
   "engines": {
     "node": ">= 16.0.0"
