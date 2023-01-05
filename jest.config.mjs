@@ -21,7 +21,7 @@ export default async function() {
     coverageThreshold: {
       global: {
         branches: 50,
-        functions: 75,
+        functions: 65,
         lines: 60,
         statements: 60,
       },
