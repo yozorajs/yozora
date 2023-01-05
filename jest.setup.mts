@@ -40,7 +40,7 @@ export const weavers = {
   },
 }
 
-// const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 export const workspaceRootDir = __dirname
 export const testRootDior = path.resolve()
 

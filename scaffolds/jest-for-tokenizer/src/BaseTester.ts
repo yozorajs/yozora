@@ -1,7 +1,7 @@
 import invariant from '@yozora/invariant'
 import fs from 'fs-extra'
-import globby from 'globby'
-import path from 'path'
+import { globbySync } from 'globby'
+import path from 'node:path'
 import type { IYozoraUseCase, IYozoraUseCaseGroup } from './types'
 
 /**
@@ -52,23 +52,21 @@ export abstract class BaseTester<T = unknown> {
     caseRootDirectory = this.caseRootDirectory,
     isDesiredFilepath: (filepath: string) => boolean = () => true,
   ): this {
-    const filepaths: string[] = globby
-      .sync(patterns, {
-        cwd: caseRootDirectory,
-        absolute: true,
-        onlyDirectories: false,
-        onlyFiles: true,
-        markDirectories: true,
-        unique: true,
-        braceExpansion: true,
-        caseSensitiveMatch: true,
-        dot: true,
-        extglob: true,
-        globstar: true,
-        objectMode: false,
-        stats: false,
-      })
-      .sort()
+    const filepaths: string[] = globbySync(patterns, {
+      cwd: caseRootDirectory,
+      absolute: true,
+      onlyDirectories: false,
+      onlyFiles: true,
+      markDirectories: true,
+      unique: true,
+      braceExpansion: true,
+      caseSensitiveMatch: true,
+      dot: true,
+      extglob: true,
+      globstar: true,
+      objectMode: false,
+      stats: false,
+    }).sort()
 
     for (const filepath of filepaths) {
       if (!isDesiredFilepath(filepath)) continue

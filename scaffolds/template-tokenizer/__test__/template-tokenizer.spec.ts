@@ -12,7 +12,7 @@ import { toKebabCase } from '@guanghechen/helper-string'
 import fs from 'fs-extra'
 import path from 'node:path'
 import url from 'node:url'
-import manifest from '../package.json' assert { type: 'json' }
+import manifest from '../package.json'
 
 interface ITestOptions {
   expectedPackageLocation: string

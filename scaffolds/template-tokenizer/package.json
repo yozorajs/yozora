@@ -28,13 +28,13 @@
     "yozora-new-tokenizer": "./cli.mjs"
   },
   "scripts": {
-    "test": "cross-env TS_NODE_FILES=true NODE_OPTIONS=--experimental-vm-modules jest --config ../../jest.config.js --rootDir .",
+    "test": "cross-env TS_NODE_FILES=true NODE_OPTIONS=--experimental-vm-modules jest --config ../../jest.config.mjs --rootDir .",
     "test:update": "yarn test -u"
   },
   "dependencies": {
-    "@guanghechen/helper-option": "^3.0.0-alpha.4",
-    "@guanghechen/helper-plop": "^3.0.0-alpha.4",
-    "@guanghechen/helper-string": "^3.0.0-alpha.4"
+    "@guanghechen/helper-option": "^3.0.0-alpha.5",
+    "@guanghechen/helper-plop": "^3.0.0-alpha.5",
+    "@guanghechen/helper-string": "^3.0.0-alpha.5"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",

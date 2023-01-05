@@ -1,7 +1,8 @@
 import type { IParser } from '@yozora/core-parser'
 import type { IMarkupWeaver } from '@yozora/markup-weaver'
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
+import url from 'node:url'
 import { MarkupTester } from './MarkupTester'
 import { TokenizerTester } from './TokenizerTester'
 
@@ -23,6 +24,7 @@ const findPackageLocation = (p: string): string | never => {
 }
 
 // Root directory of cases carried in this package.
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 export const fixtureRootDirectory = path.join(findPackageLocation(__dirname), 'fixtures')
 
 // Create a tester with the specific parser.
