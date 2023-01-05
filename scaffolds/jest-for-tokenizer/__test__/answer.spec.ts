@@ -64,8 +64,7 @@ async function answerWeavers(): Promise<void> {
     .runAnswer()
 }
 
-void answer()
-async function answer(): Promise<void> {
+test('update', async () => {
   await answerTokenizers()
   await answerWeavers()
-}
+})

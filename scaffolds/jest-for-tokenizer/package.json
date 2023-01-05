@@ -34,7 +34,7 @@
   "scripts": {
     "build": "rimraf lib/ && cross-env NODE_ENV=production rollup -c ../../rollup.config.mjs",
     "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build",
-    "test:update": "node --experimental-specifier-resolution=node --loader ts-node/esm -r ts-node/register script/answer.ts"
+    "test:update": "cross-env TS_NODE_FILES=true NODE_OPTIONS=--experimental-vm-modules jest --config ../../jest.config.mjs --rootDir ."
   },
   "dependencies": {
     "@yozora/ast": "^2.0.4",
@@ -45,6 +45,8 @@
     "jest": "^29.3.1"
   },
   "devDependencies": {
-    "@yozora/core-parser": "^2.0.4"
+    "@yozora/core-parser": "^2.0.4",
+    "cross-env": "^7.0.3",
+    "jest": "^29.3.1"
   }
 }
