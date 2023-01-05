@@ -1,5 +1,22 @@
 # Changelog
 
+<a name="2.0.5-alpha.0"></a>
+## 2.0.5-alpha.0 (2023-01-05)
+
+### Changed
+
+- 🔧 chore: update package entries [[2c94f27](https://github.com/yozorajs/yozora/commit/2c94f27ffb645119a863f2ceee68a6b1b7285a67)]
+- 🔧 chore: adjust coverage [[6735019](https://github.com/yozorajs/yozora/commit/67350193de6afee52e3a86980b759d9c064b29ad)]
+- 🔧 chore: fix ci [[fa3011d](https://github.com/yozorajs/yozora/commit/fa3011d6e88488259ad9076013fe5c5933bf5b44)]
+- 🔧 chore: fix test configuration [[f50b2d7](https://github.com/yozorajs/yozora/commit/f50b2d7600139e0ea54e042b025365d81f4518b5)]
+- ⬆️ chore: upgrade devDependencies [[13059a9](https://github.com/yozorajs/yozora/commit/13059a924f3ae3b7fd69080ec9e82cde34a0f097)]
+- 🔧 chore: use yarn@3 [[1d2f5a4](https://github.com/yozorajs/yozora/commit/1d2f5a4abb10c0d5c04e7bf199ddb05c9239ab86)]
+
+### Miscellaneous
+
+-  fix: use jest to run answer.ts since it&#x27;s hard to call it with jest.setup [[3ed837f](https://github.com/yozorajs/yozora/commit/3ed837f44c306bc6c36367e1ed0ee11fe49c28ec)]
+
+
 <a name="2.0.4"></a>
 ## 2.0.4 (2022-11-02)
 
