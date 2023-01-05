@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-admonition",
-  "version": "2.0.4",
+  "version": "2.0.5-alpha.0",
   "description": "Tokenizer for processing admonitions",
   "author": {
     "name": "guanghechen",
@@ -46,9 +46,9 @@
     "test": "cross-env TS_NODE_FILES=true NODE_OPTIONS=--experimental-vm-modules jest --config ../../jest.config.mjs --rootDir ."
   },
   "dependencies": {
-    "@yozora/ast": "^2.0.4",
-    "@yozora/character": "^2.0.4",
-    "@yozora/core-tokenizer": "^2.0.4",
-    "@yozora/tokenizer-fenced-block": "^2.0.4"
+    "@yozora/ast": "^2.0.5-alpha.0",
+    "@yozora/character": "^2.0.5-alpha.0",
+    "@yozora/core-tokenizer": "^2.0.5-alpha.0",
+    "@yozora/tokenizer-fenced-block": "^2.0.5-alpha.0"
   }
 }
