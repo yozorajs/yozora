@@ -40,7 +40,8 @@
     "test:parser": "lerna run test --concurrency 1 --scope @yozora/parser-*",
     "test:tokenizer": "lerna run test --concurrency 1 --scope @yozora/parser-*",
     "test:update": "lerna run 'test:update' --concurrency 1",
-    "update:changelog": "gitmoji-changelog update"
+    "update:changelog": "gitmoji-changelog update",
+    "version": "yarn && git stage yarn.lock"
   },
   "workspaces": [
     "packages/*",
