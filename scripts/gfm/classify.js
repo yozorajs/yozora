@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const chalk = require('chalk')
-const fs = require('fs-extra')
-const path = require('path')
+const fs = require('node:fs')
+const path = require('node:path')
 const gfmClassifyData = require('./data.json')
 
 class GFMExampleClassifier {
@@ -15,7 +15,7 @@ class GFMExampleClassifier {
     for (const group of groups) {
       const excluded = group.excluded || []
       const groupDir = path.resolve(caseRootDir, group.name)
-      if (!fs.existsSync(groupDir)) fs.mkdirpSync(groupDir)
+      if (!fs.existsSync(groupDir)) fs.mkdirSync(groupDir, { recursive: true })
       for (let i = group.start; i <= group.end; ++i) {
         if (excluded.includes(i)) continue
         const fileName = '#' + ('' + i).padStart(self.numberLength, '0') + '.json'

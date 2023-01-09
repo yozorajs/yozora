@@ -1,6 +1,6 @@
 import invariant from '@yozora/invariant'
-import fs from 'fs-extra'
 import { globbySync } from 'globby'
+import fs from 'node:fs'
 import path from 'node:path'
 import type { IYozoraUseCase, IYozoraUseCaseGroup } from './types'
 
@@ -102,7 +102,7 @@ export abstract class BaseTester<T = unknown> {
         }),
       }
       const content = this.stringify(result)
-      await fs.writeFile(caseGroup.filepath, content, 'utf-8')
+      fs.writeFileSync(caseGroup.filepath, content, 'utf-8')
     }
 
     // Generate answers
@@ -203,7 +203,9 @@ export abstract class BaseTester<T = unknown> {
     }
     this.visitedFilepathSet.add(filepath)
 
-    const data = fs.readJSONSync(filepath)
+    const content = fs.readFileSync(filepath, { encoding: 'utf8' })
+    const data = JSON.parse(content)
+
     const cases: Array<IYozoraUseCase<T>> = (data.cases || []).map(
       (c: IYozoraUseCase<T>, index: number): IYozoraUseCase<T> => ({
         description: c.description || 'case#' + index,

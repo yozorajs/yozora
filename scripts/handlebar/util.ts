@@ -14,9 +14,9 @@ import {
   toTrim,
   toUpperCase,
 } from '@guanghechen/helper-string'
-import fs from 'fs-extra'
 import Handlebars from 'handlebars'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 
 const transformers = {
   toCamelCase,

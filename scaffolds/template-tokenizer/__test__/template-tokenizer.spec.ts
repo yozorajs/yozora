@@ -9,7 +9,7 @@ import {
 } from '@guanghechen/helper-jest'
 import { runPlopWithMock } from '@guanghechen/helper-plop'
 import { toKebabCase } from '@guanghechen/helper-string'
-import fs from 'fs-extra'
+import fs from 'node:fs'
 import path from 'node:path'
 import url from 'node:url'
 import manifest from '../package.json'
@@ -28,12 +28,12 @@ const outputDir = path.join(__dirname, 'output')
 const initialCwd = process.cwd()
 
 beforeEach(async function () {
-  if (!fs.existsSync(outputDir)) fs.mkdirpSync(outputDir)
+  if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true })
   process.chdir(outputDir)
 })
 
 afterEach(async function () {
-  fs.removeSync(outputDir)
+  fs.rmSync(outputDir, { recursive: true })
   process.chdir(initialCwd)
 })
 

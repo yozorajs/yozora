@@ -5,7 +5,7 @@ import { DefaultMarkupWeaver } from '@yozora/markup-weaver'
 import YozoraParser from '@yozora/parser'
 import GfmParser from '@yozora/parser-gfm'
 import GfmExParser from '@yozora/parser-gfm-ex'
-import fs from 'fs-extra'
+import fs from 'node:fs'
 import path from 'node:path'
 import url from 'node:url'
 
@@ -62,5 +62,6 @@ export const loadFixtures = (...p: string[]): string =>
 
 export const loadJSONFixture = (...p: string[]): any => {
   const filepath = locateFixture(...p)
-  return fs.readJsonSync(filepath)
+  const content = fs.readFileSync(filepath, { encoding: 'utf8' })
+  return JSON.parse(content)
 }
