@@ -1,5 +1,15 @@
 # Changelog
 
+<a name="2.0.5"></a>
+## 2.0.5 (2023-01-09)
+
+### Changed
+
+- ⬆️ chore: upgrade dependencies [[2dafc32](https://github.com/yozorajs/yozora/commit/2dafc32fce7048a9931454fb17f033192d487de2)]
+- 🔧 chore: update yarn.lock when publish new release [[8bec5c5](https://github.com/yozorajs/yozora/commit/8bec5c5dd9d388ed51fffa1086dc4565c6d8a40e)]
+- 🔧 chore: update yarn.lock [[ebbb2b2](https://github.com/yozorajs/yozora/commit/ebbb2b2cfe92e8a9be447be27254396fc8ea3128)]
+
+
 <a name="2.0.5-alpha.0"></a>
 ## 2.0.5-alpha.0 (2023-01-05)
 
