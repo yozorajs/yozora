@@ -1,6 +1,6 @@
 {
   "name": "@yozora/markup-weaver",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Weave markup-like AST into markup content.",
   "author": {
     "name": "guanghechen",
@@ -41,7 +41,7 @@
     "test:update": "yarn test -u"
   },
   "dependencies": {
-    "@yozora/ast": "^2.0.5"
+    "@yozora/ast": "^2.0.6"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
