@@ -1,5 +1,14 @@
 # Changelog
 
+<a name="2.0.6"></a>
+## 2.0.6 (2023-03-05)
+
+### Changed
+
+- 🔧 chore: update yarn.lock [[c241812](https://github.com/yozorajs/yozora/commit/c2418128be7d3b93dcfbd4faee07cb1138584820)]
+- ⬆️ chore: upgrade devDependencies [[de6b465](https://github.com/yozorajs/yozora/commit/de6b4658d9d0ddf0f1575ab9eaf09b8a182d0b43)]
+
+
 <a name="2.0.5"></a>
 ## 2.0.5 (2023-01-09)
 
