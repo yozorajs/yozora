@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-blockquote",
-  "version": "2.0.6",
+  "version": "2.1.1",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -39,8 +39,8 @@
     "test": "cross-env TS_NODE_FILES=true NODE_OPTIONS=--experimental-vm-modules jest --config ../../jest.config.mjs --rootDir ."
   },
   "dependencies": {
-    "@yozora/ast": "^2.0.6",
-    "@yozora/character": "^2.0.6",
-    "@yozora/core-tokenizer": "^2.0.6"
+    "@yozora/ast": "^2.1.1",
+    "@yozora/character": "^2.1.1",
+    "@yozora/core-tokenizer": "^2.1.1"
   }
 }
