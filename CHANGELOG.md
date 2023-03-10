@@ -1,5 +1,19 @@
 # Changelog
 
+<a name="2.1.1"></a>
+## 2.1.1 (2023-03-10)
+
+### Changed
+
+- ⬆️ chore: upgrade devDependencies [[8c7c2c6](https://github.com/yozorajs/yozora/commit/8c7c2c6efc61c543c6d871ee081884dbd0df25a7)]
+
+### Breaking changes
+
+- 💥 improve: prefer shorter types [[b93307f](https://github.com/yozorajs/yozora/commit/b93307f3c2372598dd8ca4fcbf04e80ce58d903d)]
+  - `calcIdentifierFromYastNodes` --> `calcIdentifierFromNodes`
+  - `I<xx>Yast<yy>` --> `I<xx><yy>`
+
+
 <a name="2.0.6"></a>
 ## 2.0.6 (2023-03-05)
 
