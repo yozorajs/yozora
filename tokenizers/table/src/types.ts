@@ -8,7 +8,7 @@ import type {
 } from '@yozora/ast'
 import type {
   IBaseBlockTokenizerProps,
-  IPartialYastBlockToken,
+  IPartialBlockToken,
   IPhrasingContentLine,
   ITokenizer,
 } from '@yozora/core-tokenizer'
@@ -17,7 +17,7 @@ export type T = TableType
 export type INode = Table
 export const uniqueName = '@yozora/tokenizer-table'
 
-export interface IToken extends IPartialYastBlockToken<TableType> {
+export interface IToken extends IPartialBlockToken<TableType> {
   /**
    * Table column configuration items
    */
@@ -32,11 +32,11 @@ export type IThis = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>
 
-export interface ITableRowToken extends IPartialYastBlockToken<TableRowType> {
+export interface ITableRowToken extends IPartialBlockToken<TableRowType> {
   cells: ITableCellToken[]
 }
 
-export interface ITableCellToken extends IPartialYastBlockToken<TableCellType> {
+export interface ITableCellToken extends IPartialBlockToken<TableCellType> {
   position: Position
   lines: IPhrasingContentLine[]
 }

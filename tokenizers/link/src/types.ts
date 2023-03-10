@@ -2,16 +2,16 @@ import type { Link, LinkType } from '@yozora/ast'
 import type { INodeInterval } from '@yozora/character'
 import type {
   IBaseInlineTokenizerProps,
-  IPartialYastInlineToken,
+  IPartialInlineToken,
+  ITokenDelimiter,
   ITokenizer,
-  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
 export type T = LinkType
 export type INode = Link
 export const uniqueName = '@yozora/tokenizer-link'
 
-export interface IToken extends IPartialYastInlineToken<T> {
+export interface IToken extends IPartialInlineToken<T> {
   /**
    * Link destination interval.
    */
@@ -22,7 +22,7 @@ export interface IToken extends IPartialYastInlineToken<T> {
   titleContent?: INodeInterval
 }
 
-export interface IDelimiter extends IYastTokenDelimiter {
+export interface IDelimiter extends ITokenDelimiter {
   /**
    * IDelimiter type.
    */

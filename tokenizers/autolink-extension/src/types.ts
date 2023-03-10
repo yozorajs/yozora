@@ -2,10 +2,10 @@ import type { Link, LinkType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import type {
   IBaseInlineTokenizerProps,
-  IPartialYastInlineToken,
+  IPartialInlineToken,
   IResultOfRequiredEater,
+  ITokenDelimiter,
   ITokenizer,
-  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 import type { AutolinkContentType } from '@yozora/tokenizer-autolink'
 
@@ -16,14 +16,14 @@ export const uniqueName = '@yozora/tokenizer-autolink-extension'
 // Content type of autolink
 export type AutolinkExtensionContentType = AutolinkContentType | 'uri-www'
 
-export interface IToken extends IPartialYastInlineToken<T> {
+export interface IToken extends IPartialInlineToken<T> {
   /**
    * Autolink content type: absolute uri or email.
    */
   contentType: AutolinkExtensionContentType
 }
 
-export interface IDelimiter extends IYastTokenDelimiter {
+export interface IDelimiter extends ITokenDelimiter {
   type: 'full'
   /**
    * Autolink and autolink-extension content types.

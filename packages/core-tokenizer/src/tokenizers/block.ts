@@ -3,7 +3,7 @@ import { TokenizerType } from '../constant'
 import type { IMatchBlockHookCreator } from '../types/match-block/hook'
 import type { IParseBlockHookCreator } from '../types/parse-block/hook'
 import type { IPhrasingContentLine } from '../types/phrasing-content'
-import type { IPartialYastBlockToken } from '../types/token'
+import type { IPartialBlockToken } from '../types/token'
 import type { IBlockTokenizer, ITokenizer } from '../types/tokenizer'
 
 /**
@@ -25,7 +25,7 @@ export interface IBaseBlockTokenizerProps {
  */
 export abstract class BaseBlockTokenizer<
   T extends NodeType = NodeType,
-  IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
+  IToken extends IPartialBlockToken<T> = IPartialBlockToken<T>,
   INode extends Node<T> = Node<T>,
   IThis extends ITokenizer = ITokenizer,
 > implements IBlockTokenizer<T, IToken, INode, IThis>
@@ -51,7 +51,7 @@ export abstract class BaseBlockTokenizer<
   public buildBlockToken(
     _lines: ReadonlyArray<IPhrasingContentLine>,
     _originalToken: IToken,
-  ): (IToken & IPartialYastBlockToken) | null {
+  ): (IToken & IPartialBlockToken) | null {
     return null
   }
 

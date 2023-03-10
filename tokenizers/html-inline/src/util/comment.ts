@@ -1,6 +1,6 @@
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
-import type { IYastTokenDelimiter } from '@yozora/core-tokenizer'
+import type { ITokenDelimiter } from '@yozora/core-tokenizer'
 
 export interface IHtmlInlineCommentData {
   htmlType: 'comment'
@@ -10,9 +10,7 @@ export interface IHtmlInlineCommentTokenData {
   htmlType: 'comment'
 }
 
-export interface IHtmlInlineCommentDelimiter
-  extends IYastTokenDelimiter,
-    IHtmlInlineCommentTokenData {
+export interface IHtmlInlineCommentDelimiter extends ITokenDelimiter, IHtmlInlineCommentTokenData {
   type: 'full'
 }
 

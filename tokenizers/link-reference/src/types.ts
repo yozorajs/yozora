@@ -1,9 +1,9 @@
 import type { Association, LinkReference, LinkReferenceType, Reference } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
-  IPartialYastInlineToken,
+  IPartialInlineToken,
+  ITokenDelimiter,
   ITokenizer,
-  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
 export const uniqueName = '@yozora/tokenizer-link-reference'
@@ -11,7 +11,7 @@ export const uniqueName = '@yozora/tokenizer-link-reference'
 export type T = LinkReferenceType
 export type INode = LinkReference
 
-export interface IToken extends IPartialYastInlineToken<T>, Association, Reference {}
+export interface IToken extends IPartialInlineToken<T>, Association, Reference {}
 
 export interface ILinkReferenceDelimiterBracket {
   /**
@@ -32,7 +32,7 @@ export interface ILinkReferenceDelimiterBracket {
   identifier?: string
 }
 
-export interface IDelimiter extends IYastTokenDelimiter {
+export interface IDelimiter extends ITokenDelimiter {
   brackets: ILinkReferenceDelimiterBracket[]
 }
 

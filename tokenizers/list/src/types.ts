@@ -1,16 +1,16 @@
 import type { List, ListType, NodeType, TaskStatus } from '@yozora/ast'
 import type {
   IBaseBlockTokenizerProps,
-  IPartialYastBlockToken,
+  IBlockToken,
+  IPartialBlockToken,
   ITokenizer,
-  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 
 export type T = ListType
 export type INode = List
 export const uniqueName = '@yozora/tokenizer-list'
 
-export interface IToken extends IPartialYastBlockToken<T> {
+export interface IToken extends IPartialBlockToken<T> {
   /**
    * Is it an ordered list item.
    */
@@ -44,7 +44,7 @@ export interface IToken extends IPartialYastBlockToken<T> {
   /**
    * Child token nodes.
    */
-  children: IYastBlockToken[]
+  children: IBlockToken[]
 }
 
 export interface IThis extends ITokenizer {

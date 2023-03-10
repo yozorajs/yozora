@@ -1,23 +1,23 @@
 import type { InlineCode, InlineCodeType } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
-  IPartialYastInlineToken,
+  IPartialInlineToken,
+  ITokenDelimiter,
   ITokenizer,
-  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
 export type T = InlineCodeType
 export type INode = InlineCode
 export const uniqueName = '@yozora/tokenizer-inline-code'
 
-export interface IToken extends IPartialYastInlineToken<T> {
+export interface IToken extends IPartialInlineToken<T> {
   /**
    * Thickness of the InlineCodeDelimiter.
    */
   thickness: number
 }
 
-export interface IDelimiter extends IYastTokenDelimiter {
+export interface IDelimiter extends ITokenDelimiter {
   type: 'full'
   /**
    * Thickness of the InlineCodeDelimiter.

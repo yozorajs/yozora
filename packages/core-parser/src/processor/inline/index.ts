@@ -1,9 +1,9 @@
 import type {
+  IInlineToken,
   IInlineTokenizer,
   IMatchInlinePhaseApi,
   IResultOfFindDelimiters,
-  IYastInlineToken,
-  IYastTokenDelimiter,
+  ITokenDelimiter,
 } from '@yozora/core-tokenizer'
 import { createSinglePriorityDelimiterProcessor } from './single-priority'
 import type { IDelimiterItem, IDelimiterProcessorHook, IPhrasingContentProcessor } from './types'
@@ -110,12 +110,12 @@ export const createPhrasingContentProcessor = (
 
   const processor = createSinglePriorityDelimiterProcessor()
   const process = (
-    higherPriorityTokens: ReadonlyArray<IYastInlineToken>,
+    higherPriorityTokens: ReadonlyArray<IInlineToken>,
     _startIndex: number,
     _endIndex: number,
-  ): ReadonlyArray<IYastInlineToken> => {
+  ): ReadonlyArray<IInlineToken> => {
     // Process block phrasing content.
-    let tokens: ReadonlyArray<IYastInlineToken> = higherPriorityTokens
+    let tokens: ReadonlyArray<IInlineToken> = higherPriorityTokens
     for (let hgIndex = hookGroupIndex; hgIndex < hookGroups.length; ++hgIndex) {
       const hooks = hookGroups[hgIndex]
       for (const hook of hooks) hook.reset()
@@ -169,10 +169,10 @@ export const createProcessorHookGroups = (
   tokenizers: ReadonlyArray<IInlineTokenizer>,
   matchInlineApi: Readonly<Omit<IMatchInlinePhaseApi, 'resolveInternalTokens'>>,
   resolveFallbackTokens: (
-    tokens: ReadonlyArray<IYastInlineToken>,
+    tokens: ReadonlyArray<IInlineToken>,
     tokenStartIndex: number,
     tokenEndIndex: number,
-  ) => ReadonlyArray<IYastInlineToken>,
+  ) => ReadonlyArray<IInlineToken>,
 ): IDelimiterProcessorHook[][] => {
   const hookGroups: IDelimiterProcessorHook[][] = []
   for (let i = 0; i < tokenizers.length; ) {
@@ -185,10 +185,10 @@ export const createProcessorHookGroups = (
     const api: Readonly<IMatchInlinePhaseApi> = Object.freeze({
       ...matchInlineApi,
       resolveInternalTokens: (
-        higherPriorityTokens: ReadonlyArray<IYastInlineToken>,
+        higherPriorityTokens: ReadonlyArray<IInlineToken>,
         startIndex: number,
         endIndex: number,
-      ): ReadonlyArray<IYastInlineToken> => {
+      ): ReadonlyArray<IInlineToken> => {
         let tokens = processor.process(higherPriorityTokens, startIndex, endIndex)
         tokens = resolveFallbackTokens(tokens, startIndex, endIndex)
         return tokens
@@ -218,7 +218,7 @@ export const createProcessorHook = (
   tokenizer: IInlineTokenizer,
   api: Readonly<IMatchInlinePhaseApi>,
 ): IDelimiterProcessorHook => {
-  let _findDelimiter: IResultOfFindDelimiters<IYastTokenDelimiter>
+  let _findDelimiter: IResultOfFindDelimiters<ITokenDelimiter>
   const hook = tokenizer.match(api)
   return {
     isDelimiterPair: () => ({ paired: true }),

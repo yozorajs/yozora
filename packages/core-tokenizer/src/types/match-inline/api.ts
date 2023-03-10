@@ -1,5 +1,5 @@
 import type { INodePoint } from '@yozora/character'
-import type { IYastInlineToken } from '../token'
+import type { IInlineToken } from '../token'
 
 /**
  * Api in match-inline phase.
@@ -40,10 +40,10 @@ export interface IMatchInlinePhaseApi {
    * @param tokenEndIndex
    */
   resolveFallbackTokens(
-    tokens: ReadonlyArray<IYastInlineToken>,
+    tokens: ReadonlyArray<IInlineToken>,
     tokenStartIndex: number,
     tokenEndIndex: number,
-  ): ReadonlyArray<IYastInlineToken>
+  ): ReadonlyArray<IInlineToken>
 
   /**
    * Resolve raw contents with the fallback inline tokenizer.
@@ -53,8 +53,8 @@ export interface IMatchInlinePhaseApi {
    * @param endIndex
    */
   resolveInternalTokens(
-    higherPriorityTokens: ReadonlyArray<IYastInlineToken>,
+    higherPriorityTokens: ReadonlyArray<IInlineToken>,
     startIndex: number,
     endIndex: number,
-  ): ReadonlyArray<IYastInlineToken>
+  ): ReadonlyArray<IInlineToken>
 }

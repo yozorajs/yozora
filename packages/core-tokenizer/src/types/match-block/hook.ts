@@ -1,12 +1,12 @@
 import type { NodeType } from '@yozora/ast'
 import type { IPhrasingContentLine } from '../phrasing-content'
-import type { IPartialYastBlockToken, IYastBlockToken } from '../token'
+import type { IBlockToken, IPartialBlockToken } from '../token'
 import type { ITokenizer } from '../tokenizer'
 import type { IMatchBlockPhaseApi } from './api'
 
 export type IMatchBlockHookCreator<
   T extends NodeType = NodeType,
-  IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
+  IToken extends IPartialBlockToken<T> = IPartialBlockToken<T>,
   IThis extends ITokenizer = ITokenizer,
 > = (this: IThis, api: IMatchBlockPhaseApi) => IMatchBlockHook<T, IToken>
 
@@ -15,7 +15,7 @@ export type IMatchBlockHookCreator<
  */
 export interface IMatchBlockHook<
   T extends NodeType = NodeType,
-  IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
+  IToken extends IPartialBlockToken<T> = IPartialBlockToken<T>,
 > {
   /**
    * Whether if it is a container block.
@@ -31,7 +31,7 @@ export interface IMatchBlockHook<
    */
   eatOpener(
     line: Readonly<IPhrasingContentLine>,
-    parentToken: Readonly<IYastBlockToken>,
+    parentToken: Readonly<IBlockToken>,
   ): IResultOfEatOpener<T, IToken>
 
   /**
@@ -43,8 +43,8 @@ export interface IMatchBlockHook<
    */
   eatAndInterruptPreviousSibling?(
     line: Readonly<IPhrasingContentLine>,
-    prevSiblingToken: Readonly<IYastBlockToken>,
-    parentToken: Readonly<IYastBlockToken>,
+    prevSiblingToken: Readonly<IBlockToken>,
+    parentToken: Readonly<IBlockToken>,
   ): IResultOfEatAndInterruptPreviousSibling<T, IToken>
 
   /**
@@ -61,7 +61,7 @@ export interface IMatchBlockHook<
   eatContinuationText?(
     line: Readonly<IPhrasingContentLine>,
     token: IToken,
-    parentToken: Readonly<IYastBlockToken>,
+    parentToken: Readonly<IBlockToken>,
   ): IResultOfEatContinuationText
 
   /**
@@ -78,7 +78,7 @@ export interface IMatchBlockHook<
   eatLazyContinuationText?(
     line: Readonly<IPhrasingContentLine>,
     token: IToken,
-    parentToken: Readonly<IYastBlockToken>,
+    parentToken: Readonly<IBlockToken>,
   ): IResultOfEatLazyContinuationText
 
   /**
@@ -107,7 +107,7 @@ export interface IMatchBlockHook<
  */
 export type IResultOfEatOpener<
   T extends NodeType = NodeType,
-  IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
+  IToken extends IPartialBlockToken<T> = IPartialBlockToken<T>,
 > = {
   token: IToken
   nextIndex: number
@@ -137,12 +137,12 @@ export type IResultOfEatOpener<
  */
 export type IResultOfEatAndInterruptPreviousSibling<
   T extends NodeType = NodeType,
-  IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
+  IToken extends IPartialBlockToken<T> = IPartialBlockToken<T>,
 > = {
   token: IToken
   nextIndex: number
   saturated?: boolean
-  remainingSibling: IYastBlockToken[] | IYastBlockToken | null
+  remainingSibling: IBlockToken[] | IBlockToken | null
 } | null
 
 /**

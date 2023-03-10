@@ -5,7 +5,7 @@ import type {
   IMatchInlineHookCreator,
   IResultOfFindDelimiters,
   IResultOfProcessSingleDelimiter,
-  IYastTokenDelimiter,
+  ITokenDelimiter,
 } from '@yozora/core-tokenizer'
 import { eatOptionalCharacters } from '@yozora/core-tokenizer'
 import type { IDelimiter, IThis, IToken, T } from './types'
@@ -31,7 +31,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
     const blockStartIndex: number = api.getBlockStartIndex()
     const blockEndIndex: number = api.getBlockEndIndex()
 
-    const potentialDelimiters: IYastTokenDelimiter[] = []
+    const potentialDelimiters: ITokenDelimiter[] = []
     for (let i = blockStartIndex; i < blockEndIndex; ++i) {
       const c = nodePoints[i].codePoint
       switch (c) {

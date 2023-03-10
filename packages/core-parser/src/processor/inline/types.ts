@@ -1,13 +1,13 @@
 import type {
+  IInlineToken,
   IResultOfIsDelimiterPair,
   IResultOfProcessDelimiterPair,
   IResultOfProcessSingleDelimiter,
-  IYastInlineToken,
-  IYastTokenDelimiter,
+  ITokenDelimiter,
 } from '@yozora/core-tokenizer'
 
 /**
- * Processor for mapping phrasing contents to an array of IYastInlineToken.
+ * Processor for mapping phrasing contents to an array of IInlineToken.
  */
 export interface IPhrasingContentProcessor {
   /**
@@ -19,56 +19,56 @@ export interface IPhrasingContentProcessor {
    * @param endIndex
    */
   process(
-    higherPriorityTokens: ReadonlyArray<IYastInlineToken>,
+    higherPriorityTokens: ReadonlyArray<IInlineToken>,
     startIndex: number,
     endIndex: number,
-  ): ReadonlyArray<IYastInlineToken>
+  ): ReadonlyArray<IInlineToken>
 }
 
 /**
- * Processor for mapping IYastTokenDelimiter to IYastInlineToken.
+ * Processor for mapping ITokenDelimiter to IInlineToken.
  */
 export interface IDelimiterProcessor {
   /**
    * Consuming a token delimiter.
    */
-  process(hook: IDelimiterProcessorHook, delimiter: IYastTokenDelimiter): void
+  process(hook: IDelimiterProcessorHook, delimiter: ITokenDelimiter): void
 
   /**
    * Complete the processing operation.
    */
-  done(): ReadonlyArray<IYastInlineToken>
+  done(): ReadonlyArray<IInlineToken>
 
   /**
    * Reset processor.
    */
-  reset(higherPriorityTokens: ReadonlyArray<IYastInlineToken>): void
+  reset(higherPriorityTokens: ReadonlyArray<IInlineToken>): void
 
   /**
    *
    */
   findNearestPairedDelimiter(
     hook: IDelimiterProcessorHook,
-    closerDelimiter: IYastTokenDelimiter,
-  ): IYastTokenDelimiter | null
+    closerDelimiter: ITokenDelimiter,
+  ): ITokenDelimiter | null
 }
 
 export interface IDelimiterProcessorHook {
   name: string
   priority: number
   // [startIndex, endIndex]
-  findDelimiter(rangeIndex: [number, number]): IYastTokenDelimiter | null | void
+  findDelimiter(rangeIndex: [number, number]): ITokenDelimiter | null | void
   isDelimiterPair(
-    openerDelimiter: IYastTokenDelimiter,
-    closerDelimiter: IYastTokenDelimiter,
-    internalTokens: ReadonlyArray<IYastInlineToken>,
+    openerDelimiter: ITokenDelimiter,
+    closerDelimiter: ITokenDelimiter,
+    internalTokens: ReadonlyArray<IInlineToken>,
   ): IResultOfIsDelimiterPair
   processDelimiterPair(
-    openerDelimiter: IYastTokenDelimiter,
-    closerDelimiter: IYastTokenDelimiter,
-    internalTokens: ReadonlyArray<IYastInlineToken>,
+    openerDelimiter: ITokenDelimiter,
+    closerDelimiter: ITokenDelimiter,
+    internalTokens: ReadonlyArray<IInlineToken>,
   ): IResultOfProcessDelimiterPair
-  processSingleDelimiter(fullDelimiter: IYastTokenDelimiter): IResultOfProcessSingleDelimiter
+  processSingleDelimiter(fullDelimiter: ITokenDelimiter): IResultOfProcessSingleDelimiter
   reset(): void
 }
 
@@ -83,7 +83,7 @@ export interface IDelimiterItem {
   /**
    * Inline token delimiter.
    */
-  delimiter: IYastTokenDelimiter
+  delimiter: ITokenDelimiter
   /**
    * Whether if this delimiter is no longer active.
    */

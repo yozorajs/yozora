@@ -5,7 +5,7 @@ import type {
   IMatchInlineHookCreator,
   IResultOfFindDelimiters,
   IResultOfProcessSingleDelimiter,
-  IYastTokenDelimiter,
+  ITokenDelimiter,
 } from '@yozora/core-tokenizer'
 import { eatOptionalCharacters } from '@yozora/core-tokenizer'
 import type { IDelimiter, IThis, IToken, T } from './types'
@@ -19,7 +19,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
     const blockStartIndex: number = api.getBlockStartIndex()
     const blockEndIndex: number = api.getBlockEndIndex()
 
-    const potentialDelimiters: IYastTokenDelimiter[] = []
+    const potentialDelimiters: ITokenDelimiter[] = []
     for (let i = blockStartIndex; i < blockEndIndex; ++i) {
       const c = nodePoints[i].codePoint
       switch (c) {
@@ -56,7 +56,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
             break
           }
 
-          const delimiter: IYastTokenDelimiter = {
+          const delimiter: ITokenDelimiter = {
             type: 'opener',
             startIndex: _startIndex,
             endIndex: i + 1,
@@ -88,7 +88,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
           // No backtick character found after dollar
           if (thickness <= 1) {
             if (backtickRequired) break
-            const delimiter: IYastTokenDelimiter = {
+            const delimiter: ITokenDelimiter = {
               type: 'both',
               startIndex: _startIndex,
               endIndex: i,
@@ -97,7 +97,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
             break
           }
 
-          const delimiter: IYastTokenDelimiter = {
+          const delimiter: ITokenDelimiter = {
             type: 'closer',
             startIndex: _startIndex,
             endIndex: i,

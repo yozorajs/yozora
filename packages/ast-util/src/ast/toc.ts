@@ -1,6 +1,7 @@
-import type { Heading, Literal, Node, Parent, Root } from '@yozora/ast'
+import type { Heading, Node, Root } from '@yozora/ast'
 import { HeadingType } from '@yozora/ast'
 import { foldCase } from '@yozora/character'
+import { collectTexts } from './collect/text'
 
 /**
  * Document toc (table of contents).
@@ -47,7 +48,7 @@ export function calcHeadingToc(ast: Root, identifierPrefix = 'heading-'): IHeadi
   const nodes: IHeadingTocNode[] = []
   const headings = ast.children.filter(o => o.type === HeadingType) as Heading[]
   for (const heading of headings) {
-    let identifier: string = identifierPrefix + calcIdentifierFromYastNodes(heading.children)
+    let identifier: string = identifierPrefix + calcIdentifierFromNodes(heading.children)
 
     // Avoid duplicate identifier
     if (duplicated[identifier]) {
@@ -83,23 +84,9 @@ export function calcHeadingToc(ast: Root, identifierPrefix = 'heading-'): IHeadi
 /**
  * Calc link identifier for Node list.
  */
-export function calcIdentifierFromYastNodes(nodes: ReadonlyArray<Node>): string {
-  const textList: string[] = []
-
-  const resolveText = (nodes: ReadonlyArray<Node>): void => {
-    for (const o of nodes) {
-      const { value, children } = o as Literal & Parent
-      if (typeof value === 'string') {
-        const text: string = value.trim()
-        if (text) textList.push(text)
-      } else if (children) {
-        resolveText(children)
-      }
-    }
-  }
-
-  resolveText(nodes)
-  const content = textList.join('-').trim()
+export function calcIdentifierFromNodes(nodes: ReadonlyArray<Node>): string {
+  const texts: string[] = collectTexts(nodes)
+  const content = texts.join('-').trim()
   const identifier = content
     .toLowerCase()
     .replace(/(?:\s|\p{P})+/gu, '-')

@@ -2,10 +2,10 @@ import type { Link, LinkType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import type {
   IBaseInlineTokenizerProps,
-  IPartialYastInlineToken,
+  IPartialInlineToken,
   IResultOfRequiredEater,
+  ITokenDelimiter,
   ITokenizer,
-  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
 // Content type of autolink
@@ -15,14 +15,14 @@ export type T = LinkType
 export type INode = Link
 export const uniqueName = '@yozora/tokenizer-autolink'
 
-export interface IToken extends IPartialYastInlineToken<T> {
+export interface IToken extends IPartialInlineToken<T> {
   /**
    * Autolink content type: absolute uri or email.
    */
   contentType: AutolinkContentType
 }
 
-export interface IDelimiter extends IYastTokenDelimiter {
+export interface IDelimiter extends ITokenDelimiter {
   type: 'full'
   /**
    * Autolink content type: absolute uri or email.

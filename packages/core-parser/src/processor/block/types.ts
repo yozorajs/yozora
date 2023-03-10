@@ -1,12 +1,12 @@
 import type {
+  IBlockToken,
   IMatchBlockHook,
   IPhrasingContentLine,
   ITokenizer,
-  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 
 /**
- * Raw contents processor for generate YastBlockStateTree.
+ * Raw contents processor for generate BlockStateTree.
  */
 export interface IBlockContentProcessor {
   /**
@@ -18,12 +18,12 @@ export interface IBlockContentProcessor {
   /**
    * All the content has been processed and perform the final collation operation.
    */
-  done(): IYastBlockTokenTree
+  done(): IBlockTokenTree
 
   /**
-   * Get current IYastMatchBlockState stack.
+   * Get current IMatchBlockState stack.
    */
-  shallowSnapshot(): IYastMatchBlockState[]
+  shallowSnapshot(): IMatchBlockState[]
 }
 
 /**
@@ -34,7 +34,7 @@ export type IMatchBlockPhaseHook = IMatchBlockHook & Pick<ITokenizer, 'name' | '
 /**
  * Node on match-block phase.
  */
-export interface IYastMatchBlockState {
+export interface IMatchBlockState {
   /**
    *
    */
@@ -42,15 +42,15 @@ export interface IYastMatchBlockState {
   /**
    *
    */
-  token: IYastBlockToken
+  token: IBlockToken
 }
 
 /**
- * A tree consisted with IYastBlockToken type nodes.
+ * A tree consisted with IBlockToken type nodes.
  */
-export interface IYastBlockTokenTree extends IYastBlockToken<'root'> {
+export interface IBlockTokenTree extends IBlockToken<'root'> {
   /**
    * Child nodes.
    */
-  children: IYastBlockToken[]
+  children: IBlockToken[]
 }

@@ -12,10 +12,10 @@ import {
   FootnoteType,
   ParagraphType,
 } from '@yozora/ast'
-import { collectNodes } from './ast/collect'
-import { shallowMutateAstInPostorder } from './ast/mutate/post-order'
-import { traverseAst } from './ast/traverse'
-import type { INodeMatcher } from './ast/util'
+import { shallowMutateAstInPostorder } from '../mutate/post-order'
+import { traverseAst } from '../traverse'
+import type { INodeMatcher } from './misc'
+import { collectNodes } from './node'
 
 export const defaultFootnoteIdentifierPrefix = 'footnote-'
 

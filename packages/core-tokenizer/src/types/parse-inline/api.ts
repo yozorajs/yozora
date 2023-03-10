@@ -1,6 +1,6 @@
 import type { Node, Position } from '@yozora/ast'
 import type { INodeInterval, INodePoint } from '@yozora/character'
-import type { IYastInlineToken } from '../token'
+import type { IInlineToken } from '../token'
 
 /**
  * Api in parse-inline phase.
@@ -33,5 +33,5 @@ export interface IParseInlinePhaseApi {
    * Parse inline tokens to Yozora AST nodes.
    * @param tokens
    */
-  parseInlineTokens(tokens?: ReadonlyArray<IYastInlineToken>): Node[]
+  parseInlineTokens(tokens?: ReadonlyArray<IInlineToken>): Node[]
 }

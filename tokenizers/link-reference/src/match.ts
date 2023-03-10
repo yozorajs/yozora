@@ -3,11 +3,11 @@ import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import { eatLinkLabel, genFindDelimiter, isLinkToken } from '@yozora/core-tokenizer'
 import type {
+  IInlineToken,
   IMatchInlineHookCreator,
   IResultOfIsDelimiterPair,
   IResultOfProcessDelimiterPair,
   IResultOfProcessSingleDelimiter,
-  IYastInlineToken,
 } from '@yozora/core-tokenizer'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import type { IDelimiter, ILinkReferenceDelimiterBracket, IThis, IToken, T } from './types'
@@ -225,7 +225,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   function isDelimiterPair(
     openerDelimiter: IDelimiter,
     closerDelimiter: IDelimiter,
-    internalTokens: ReadonlyArray<IYastInlineToken>,
+    internalTokens: ReadonlyArray<IInlineToken>,
   ): IResultOfIsDelimiterPair {
     /**
      * Links may not contain other links, at any level of nesting.
@@ -270,7 +270,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   function processDelimiterPair(
     openerDelimiter: IDelimiter,
     closerDelimiter: IDelimiter,
-    internalTokens: ReadonlyArray<IYastInlineToken>,
+    internalTokens: ReadonlyArray<IInlineToken>,
   ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter> {
     const tokens: IToken[] = processSingleDelimiter(openerDelimiter)
 

@@ -1,7 +1,7 @@
 import type { Html, HtmlType } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
-  IPartialYastInlineToken,
+  IPartialInlineToken,
   ITokenizer,
 } from '@yozora/core-tokenizer'
 import type { IHtmlInlineCDataDelimiter, IHtmlInlineCDataTokenData } from './util/cdata'
@@ -15,10 +15,7 @@ import type {
   IHtmlInlineInstructionDelimiter,
   IHtmlInlineInstructionTokenData,
 } from './util/instruction'
-import type {
-  IHtmlInlineOpenDelimiter,
-  IHtmlInlineOpenTokenData as IHtmlInlineOpenTokenData,
-} from './util/open'
+import type { IHtmlInlineOpenDelimiter, IHtmlInlineOpenTokenData } from './util/open'
 
 export type T = HtmlType
 export type INode = Html
@@ -32,7 +29,7 @@ export const uniqueName = '@yozora/tokenizer-html-inline'
  *
  * @see https://github.github.com/gfm/#raw-html
  */
-export type IToken = IPartialYastInlineToken<T> &
+export type IToken = IPartialInlineToken<T> &
   (
     | IHtmlInlineOpenTokenData
     | IHtmlInlineClosingTokenData

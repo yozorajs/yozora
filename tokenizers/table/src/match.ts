@@ -2,12 +2,12 @@ import type { AlignType, Point, TableColumn } from '@yozora/ast'
 import { TableCellType, TableRowType, TableType } from '@yozora/ast'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
+  IBlockToken,
   IMatchBlockHookCreator,
   IPhrasingContentLine,
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatLazyContinuationText,
   IResultOfEatOpener,
-  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import { calcEndPoint, calcStartPoint } from '@yozora/core-tokenizer'
 import type { ITableCellToken, ITableRowToken, IThis, IToken, T } from './types'
@@ -41,7 +41,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
 
   function eatAndInterruptPreviousSibling(
     line: Readonly<IPhrasingContentLine>,
-    prevSiblingToken: Readonly<IYastBlockToken>,
+    prevSiblingToken: Readonly<IBlockToken>,
   ): IResultOfEatAndInterruptPreviousSibling<T, IToken> {
     /**
      * Four spaces is too much

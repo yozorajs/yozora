@@ -1,6 +1,6 @@
 import type { INodeInterval, INodePoint } from '@yozora/character'
 import { AsciiCodePoint, isAsciiUpperLetter, isWhitespaceCharacter } from '@yozora/character'
-import type { IYastTokenDelimiter } from '@yozora/core-tokenizer'
+import type { ITokenDelimiter } from '@yozora/core-tokenizer'
 
 export interface IHtmlInlineDeclarationData {
   htmlType: 'declaration'
@@ -12,7 +12,7 @@ export interface IHtmlInlineDeclarationTokenData {
 }
 
 export interface IHtmlInlineDeclarationDelimiter
-  extends IYastTokenDelimiter,
+  extends ITokenDelimiter,
     IHtmlInlineDeclarationTokenData {
   type: 'full'
 }

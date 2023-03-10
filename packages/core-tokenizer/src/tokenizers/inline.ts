@@ -2,7 +2,7 @@ import type { Node, NodeType } from '@yozora/ast'
 import { TokenizerType } from '../constant'
 import type { IMatchInlineHookCreator, IResultOfFindDelimiters } from '../types/match-inline/hook'
 import type { IParseInlineHookCreator } from '../types/parse-inline/hook'
-import type { IPartialYastInlineToken, IYastTokenDelimiter } from '../types/token'
+import type { IPartialInlineToken, ITokenDelimiter } from '../types/token'
 import type { IInlineTokenizer, ITokenizer } from '../types/tokenizer'
 
 /**
@@ -24,8 +24,8 @@ export interface IBaseInlineTokenizerProps {
  */
 export abstract class BaseInlineTokenizer<
   T extends NodeType = NodeType,
-  IDelimiter extends IYastTokenDelimiter = IYastTokenDelimiter,
-  IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
+  IDelimiter extends ITokenDelimiter = ITokenDelimiter,
+  IToken extends IPartialInlineToken<T> = IPartialInlineToken<T>,
   INode extends Node<T> = Node<T>,
   IThis extends ITokenizer = ITokenizer,
 > implements IInlineTokenizer<T, IDelimiter, IToken, INode, IThis>
@@ -51,7 +51,7 @@ export abstract class BaseInlineTokenizer<
   }
 }
 
-export function* genFindDelimiter<IDelimiter extends IYastTokenDelimiter>(
+export function* genFindDelimiter<IDelimiter extends ITokenDelimiter>(
   _findDelimiter: (startIndex: number, endIndex: number) => IDelimiter | null,
 ): IResultOfFindDelimiters<IDelimiter> {
   let lastEndIndex = -1

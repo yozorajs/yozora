@@ -1,12 +1,12 @@
 import { BlockquoteType } from '@yozora/ast'
 import { AsciiCodePoint, VirtualCodePoint, isSpaceCharacter } from '@yozora/character'
 import type {
+  IBlockToken,
   IMatchBlockHookCreator,
   IPhrasingContentLine,
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatContinuationText,
   IResultOfEatOpener,
-  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import { calcEndPoint, calcStartPoint } from '@yozora/core-tokenizer'
 import type { IThis, IToken, T } from './types'
@@ -89,7 +89,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
 
   function eatAndInterruptPreviousSibling(
     line: Readonly<IPhrasingContentLine>,
-    prevSiblingToken: Readonly<IYastBlockToken>,
+    prevSiblingToken: Readonly<IBlockToken>,
   ): IResultOfEatAndInterruptPreviousSibling<T, IToken> {
     const result = eatOpener(line)
     if (result == null) return null
@@ -103,7 +103,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
   function eatContinuationText(
     line: Readonly<IPhrasingContentLine>,
     token: IToken,
-    parentToken: Readonly<IYastBlockToken>,
+    parentToken: Readonly<IBlockToken>,
   ): IResultOfEatContinuationText {
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex, countOfPrecedeSpaces } = line
 

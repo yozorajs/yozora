@@ -2,10 +2,10 @@ import { FootnoteType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type {
+  IInlineToken,
   IMatchInlineHookCreator,
   IResultOfIsDelimiterPair,
   IResultOfProcessDelimiterPair,
-  IYastInlineToken,
 } from '@yozora/core-tokenizer'
 import { genFindDelimiter } from '@yozora/core-tokenizer'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
@@ -63,7 +63,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   function isDelimiterPair(
     openerDelimiter: IDelimiter,
     closerDelimiter: IDelimiter,
-    internalTokens: ReadonlyArray<IYastInlineToken>,
+    internalTokens: ReadonlyArray<IInlineToken>,
   ): IResultOfIsDelimiterPair {
     const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
@@ -85,7 +85,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   function processDelimiterPair(
     openerDelimiter: IDelimiter,
     closerDelimiter: IDelimiter,
-    internalTokens: ReadonlyArray<IYastInlineToken>,
+    internalTokens: ReadonlyArray<IInlineToken>,
   ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter> {
     const token: IToken = {
       nodeType: FootnoteType,

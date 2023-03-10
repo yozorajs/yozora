@@ -1,11 +1,11 @@
 import { HeadingType } from '@yozora/ast'
 import { AsciiCodePoint, VirtualCodePoint, isUnicodeWhitespaceCharacter } from '@yozora/character'
 import type {
+  IBlockToken,
   IMatchBlockHookCreator,
   IPhrasingContentLine,
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatOpener,
-  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import { calcEndPoint, calcStartPoint } from '@yozora/core-tokenizer'
 import type { IThis, IToken, T } from './types'
@@ -32,7 +32,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
 
   function eatAndInterruptPreviousSibling(
     line: Readonly<IPhrasingContentLine>,
-    prevSiblingToken: Readonly<IYastBlockToken>,
+    prevSiblingToken: Readonly<IBlockToken>,
   ): IResultOfEatAndInterruptPreviousSibling<T, IToken> {
     const { nodePoints, endIndex, firstNonWhitespaceIndex, countOfPrecedeSpaces } = line
 
@@ -47,7 +47,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
       hasPotentialInternalSpace = false
     for (let i = firstNonWhitespaceIndex; i < endIndex; ++i) {
       const c = nodePoints[i]
-      if (c.codePoint == VirtualCodePoint.LINE_END) break
+      if (c.codePoint === VirtualCodePoint.LINE_END) break
 
       /**
        * The setext heading underline can be indented up to three spaces,

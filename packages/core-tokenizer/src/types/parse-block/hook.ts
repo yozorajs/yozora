@@ -1,11 +1,11 @@
 import type { Node, NodeType } from '@yozora/ast'
-import type { IPartialYastBlockToken } from '../token'
+import type { IPartialBlockToken } from '../token'
 import type { ITokenizer } from '../tokenizer'
 import type { IParseBlockPhaseApi } from './api'
 
 export type IParseBlockHookCreator<
   T extends NodeType = NodeType,
-  IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
+  IToken extends IPartialBlockToken<T> = IPartialBlockToken<T>,
   INode extends Node<T> = Node<T>,
   IThis extends ITokenizer = ITokenizer,
 > = (this: IThis, api: IParseBlockPhaseApi) => IParseBlockHook<T, IToken, INode>
@@ -15,7 +15,7 @@ export type IParseBlockHookCreator<
  */
 export interface IParseBlockHook<
   T extends NodeType = NodeType,
-  IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
+  IToken extends IPartialBlockToken<T> = IPartialBlockToken<T>,
   INode extends Node<T> = Node<T>,
 > {
   /**

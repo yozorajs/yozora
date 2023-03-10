@@ -1,7 +1,6 @@
 import type { Node, NodeType, Resource, Root } from '@yozora/ast'
-import { DefinitionType, ImageType, LinkType } from '@yozora/ast'
+import type { INodeMatcher } from './ast/collect/misc'
 import { traverseAst } from './ast/traverse'
-import type { INodeMatcher } from './ast/util'
 
 /**
  * Resolve url.
@@ -11,8 +10,7 @@ export type IUrlResolver = (...pathPieces: Array<string | null | undefined>) => 
 /**
  * Join url path with `prefix` and normalize the result.
  *
- * @param prefix
- * @param path
+ * @param pathPieces
  * @returns
  */
 export const defaultUrlResolver: IUrlResolver = (...pathPieces): string => {
@@ -35,18 +33,20 @@ export const defaultUrlResolver: IUrlResolver = (...pathPieces): string => {
     .trim()
 }
 
+const defaultResourceMatcher: INodeMatcher = node => (node as Node & Resource).url != null
+
 /**
  * Traverse yozora ast and resolve urls for aim nodes.
  * @param ast
- * @param aimTypes
+ * @param aimTypesOrNodeMatcher
  * @param resolveUrl
  */
 export const resolveUrlsForAst = (
   ast: Root,
-  aimTypes: ReadonlyArray<NodeType> | INodeMatcher = [DefinitionType, LinkType, ImageType],
+  aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher = defaultResourceMatcher,
   resolveUrl: IUrlResolver = defaultUrlResolver,
 ): void => {
-  traverseAst(ast, aimTypes, node => {
+  traverseAst(ast, aimTypesOrNodeMatcher, node => {
     const o = node as Node & Resource
     if (o.url != null) o.url = resolveUrl(o.url)
   })

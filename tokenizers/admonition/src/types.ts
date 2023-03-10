@@ -1,5 +1,5 @@
 import type { Admonition, AdmonitionType } from '@yozora/ast'
-import type { IBaseBlockTokenizerProps, IYastBlockToken } from '@yozora/core-tokenizer'
+import type { IBaseBlockTokenizerProps, IBlockToken } from '@yozora/core-tokenizer'
 import type { IFencedBlockHookContext, IFencedBlockToken } from '@yozora/tokenizer-fenced-block'
 
 export type T = AdmonitionType
@@ -10,7 +10,7 @@ export interface IToken extends IFencedBlockToken<T> {
   /**
    *
    */
-  children?: IYastBlockToken[]
+  children?: IBlockToken[]
 }
 
 export type IThis = IFencedBlockHookContext<T>

@@ -2,13 +2,13 @@ import type { NodeType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { calcTrimBoundaryOfCodePoints, isSpaceCharacter } from '@yozora/character'
 import type {
+  IBlockToken,
   IMatchBlockHook,
   IMatchBlockPhaseApi,
   IPhrasingContentLine,
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatContinuationText,
   IResultOfEatOpener,
-  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import { calcEndPoint, calcStartPoint, eatOptionalCharacters } from '@yozora/core-tokenizer'
 import type { IFencedBlockHookContext, IToken } from './types'
@@ -89,7 +89,7 @@ export function match<
 
   function eatAndInterruptPreviousSibling(
     line: Readonly<IPhrasingContentLine>,
-    prevSiblingToken: Readonly<IYastBlockToken>,
+    prevSiblingToken: Readonly<IBlockToken>,
   ): IResultOfEatAndInterruptPreviousSibling<T, IToken<T>> {
     const result = eatOpener(line)
     if (result == null) return null

@@ -1,12 +1,12 @@
 import type { NodeType } from '@yozora/ast'
-import type { IPartialYastInlineToken, IYastInlineToken, IYastTokenDelimiter } from '../token'
+import type { IInlineToken, IPartialInlineToken, ITokenDelimiter } from '../token'
 import type { ITokenizer } from '../tokenizer'
 import type { IMatchInlinePhaseApi } from './api'
 
 export type IMatchInlineHookCreator<
   T extends NodeType = NodeType,
-  IDelimiter extends IYastTokenDelimiter = IYastTokenDelimiter,
-  IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
+  IDelimiter extends ITokenDelimiter = ITokenDelimiter,
+  IToken extends IPartialInlineToken<T> = IPartialInlineToken<T>,
   IThis extends ITokenizer = ITokenizer,
 > = (this: IThis, api: IMatchInlinePhaseApi) => IMatchInlineHook<T, IDelimiter, IToken>
 
@@ -15,8 +15,8 @@ export type IMatchInlineHookCreator<
  */
 export interface IMatchInlineHook<
   T extends NodeType = NodeType,
-  IDelimiter extends IYastTokenDelimiter = IYastTokenDelimiter,
-  IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
+  IDelimiter extends ITokenDelimiter = ITokenDelimiter,
+  IToken extends IPartialInlineToken<T> = IPartialInlineToken<T>,
 > {
   /**
    * Find an inline token delimiter.
@@ -39,7 +39,7 @@ export interface IMatchInlineHook<
   isDelimiterPair?(
     openerDelimiter: IDelimiter,
     closerDelimiter: IDelimiter,
-    internalTokens: ReadonlyArray<IYastInlineToken>,
+    internalTokens: ReadonlyArray<IInlineToken>,
   ): IResultOfIsDelimiterPair
 
   /**
@@ -52,7 +52,7 @@ export interface IMatchInlineHook<
   processDelimiterPair?(
     openerDelimiter: IDelimiter,
     closerDelimiter: IDelimiter,
-    internalTokens: ReadonlyArray<IYastInlineToken>,
+    internalTokens: ReadonlyArray<IInlineToken>,
   ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter>
 
   /**
@@ -69,7 +69,7 @@ export interface IMatchInlineHook<
  * Result of eatDelimiters.
  * @see IMatchInlineHook
  */
-export type IResultOfFindDelimiters<IDelimiter extends IYastTokenDelimiter> = Iterator<
+export type IResultOfFindDelimiters<IDelimiter extends ITokenDelimiter> = Iterator<
   IDelimiter | null,
   void,
   [number, number]
@@ -95,10 +95,10 @@ export type IResultOfIsDelimiterPair =
  */
 export interface IResultOfProcessDelimiterPair<
   T extends NodeType = NodeType,
-  IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
-  IDelimiter extends IYastTokenDelimiter = IYastTokenDelimiter,
+  IToken extends IPartialInlineToken<T> = IPartialInlineToken<T>,
+  IDelimiter extends ITokenDelimiter = ITokenDelimiter,
 > {
-  tokens: ReadonlyArray<IToken | IYastInlineToken>
+  tokens: ReadonlyArray<IToken | IInlineToken>
   remainOpenerDelimiter?: IDelimiter
   remainCloserDelimiter?: IDelimiter
 }
@@ -109,5 +109,5 @@ export interface IResultOfProcessDelimiterPair<
  */
 export type IResultOfProcessSingleDelimiter<
   T extends NodeType = NodeType,
-  IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
+  IToken extends IPartialInlineToken<T> = IPartialInlineToken<T>,
 > = IToken[]

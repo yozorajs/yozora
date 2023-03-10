@@ -1,6 +1,6 @@
 import type { Root } from '@yozora/ast'
 import { loadJSONFixture } from 'jest.setup'
-import { calcHeadingToc, calcIdentifierFromYastNodes } from '../src'
+import { calcHeadingToc, calcIdentifierFromNodes } from '../src'
 
 describe('calcHeadingToc', function () {
   describe('basic1', function () {
@@ -66,7 +66,7 @@ describe('calcIdentifierFromYastNodes', function () {
   test('basic1', function () {
     const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
     const ast: Root = loadJSONFixture('basic1.ast.json')
-    expect(calcIdentifierFromYastNodes(ast.children)).toMatchSnapshot()
+    expect(calcIdentifierFromNodes(ast.children)).toMatchSnapshot()
     expect(ast).toEqual(originalAst)
   })
 })

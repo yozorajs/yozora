@@ -2,16 +2,16 @@ import type { FootnoteDefinition, FootnoteDefinitionType } from '@yozora/ast'
 import type { INodeInterval, INodePoint } from '@yozora/character'
 import type {
   IBaseBlockTokenizerProps,
-  IPartialYastBlockToken,
+  IBlockToken,
+  IPartialBlockToken,
   ITokenizer,
-  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 
 export type T = FootnoteDefinitionType
 export type INode = FootnoteDefinition
 export const uniqueName = '@yozora/tokenizer-footnote-definition'
 
-export interface IToken extends IPartialYastBlockToken<T> {
+export interface IToken extends IPartialBlockToken<T> {
   /**
    * Footnote label
    */
@@ -19,7 +19,7 @@ export interface IToken extends IPartialYastBlockToken<T> {
   /**
    *
    */
-  children: IYastBlockToken[]
+  children: IBlockToken[]
   /**
    * Resolved definition label.
    */

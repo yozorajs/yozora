@@ -1,6 +1,6 @@
 import type { Node } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
-import type { IYastBlockToken } from '../token'
+import type { IBlockToken } from '../token'
 
 /**
  * Api in parse-block phase.
@@ -19,5 +19,5 @@ export interface IParseBlockPhaseApi {
    * Parse block tokens to Yozora AST nodes.
    * @param tokens
    */
-  parseBlockTokens(tokens?: ReadonlyArray<IYastBlockToken>): Node[]
+  parseBlockTokens(tokens?: ReadonlyArray<IBlockToken>): Node[]
 }

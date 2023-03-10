@@ -1,16 +1,16 @@
 import type { Node, Root } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import type {
+  IBlockToken,
+  IInlineToken,
   IParseBlockHook,
   IParseInlineHook,
   IPhrasingContentLine,
-  IYastBlockToken,
-  IYastInlineToken,
 } from '@yozora/core-tokenizer'
 import { calcEndPoint, calcStartPoint } from '@yozora/core-tokenizer'
 import invariant from '@yozora/invariant'
 import { createBlockContentProcessor } from './block'
-import type { IMatchBlockPhaseHook, IYastBlockTokenTree } from './block/types'
+import type { IBlockTokenTree, IMatchBlockPhaseHook } from './block/types'
 import { createPhrasingContentProcessor, createProcessorHookGroups } from './inline'
 import type { IDelimiterProcessorHook } from './inline/types'
 import type { IProcessor, IProcessorApis, IProcessorOptions } from './types'
@@ -133,9 +133,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return ast
   }
 
-  function extractPhrasingLines(
-    token: IYastBlockToken,
-  ): ReadonlyArray<IPhrasingContentLine> | null {
+  function extractPhrasingLines(token: IBlockToken): ReadonlyArray<IPhrasingContentLine> | null {
     const tokenizer = blockTokenizerMap.get(token._tokenizer)
     return tokenizer?.extractPhrasingContentLines(token) ?? null
   }
@@ -148,8 +146,8 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
    */
   function rollbackPhrasingLines(
     lines: ReadonlyArray<IPhrasingContentLine>,
-    originalToken?: Readonly<IYastBlockToken>,
-  ): IYastBlockToken[] {
+    originalToken?: Readonly<IBlockToken>,
+  ): IBlockToken[] {
     if (originalToken != null) {
       // Try to rematch through the original tokenizer.
       const tokenizer = blockTokenizerMap.get(originalToken._tokenizer)
@@ -157,7 +155,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
         const token = tokenizer.buildBlockToken(lines, originalToken)
         if (token !== null) {
           token._tokenizer = tokenizer.name
-          return [token as IYastBlockToken]
+          return [token as IBlockToken]
         }
       }
     }
@@ -168,14 +166,14 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
   }
 
   function resolveFallbackTokens(
-    tokens: ReadonlyArray<IYastInlineToken>,
+    tokens: ReadonlyArray<IInlineToken>,
     tokenStartIndex: number,
     tokenEndIndex: number,
-  ): ReadonlyArray<IYastInlineToken> {
+  ): ReadonlyArray<IInlineToken> {
     if (inlineFallbackTokenizer == null) return tokens
 
     let i = tokenStartIndex
-    const results: IYastInlineToken[] = []
+    const results: IInlineToken[] = []
     for (const token of tokens) {
       if (i < token.startIndex) {
         const fallbackToken = inlineFallbackTokenizer.findAndHandleDelimiter(
@@ -184,7 +182,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
           apis.matchInlineApi,
         )
         fallbackToken._tokenizer = inlineFallbackTokenizer.name
-        results.push(fallbackToken as IYastInlineToken)
+        results.push(fallbackToken as IInlineToken)
       }
       results.push(token)
       i = token.endIndex
@@ -197,14 +195,14 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
         apis.matchInlineApi,
       )
       fallbackToken._tokenizer = inlineFallbackTokenizer.name
-      results.push(fallbackToken as IYastInlineToken)
+      results.push(fallbackToken as IInlineToken)
     }
     return results
   }
 
   function matchBlockTokens(
     linesIterator: Iterable<ReadonlyArray<IPhrasingContentLine>>,
-  ): IYastBlockTokenTree {
+  ): IBlockTokenTree {
     const processor = createBlockContentProcessor(matchBlockHooks, blockFallbackHook)
 
     for (const lines of linesIterator) {
@@ -217,7 +215,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return root
   }
 
-  function parseBlockTokens(tokens?: ReadonlyArray<IYastBlockToken>): Node[] {
+  function parseBlockTokens(tokens?: ReadonlyArray<IBlockToken>): Node[] {
     if (tokens === undefined || tokens.length <= 0) return []
 
     const results: Node[] = []
@@ -247,18 +245,18 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     nodePoints: ReadonlyArray<INodePoint>,
     startIndexOfBlock: number,
     endIndexOfBlock: number,
-  ): ReadonlyArray<IYastInlineToken> {
+  ): ReadonlyArray<IInlineToken> {
     _nodePoints = nodePoints
     _blockStartIndex = startIndexOfBlock
     _blockEndIndex = endIndexOfBlock
 
-    const tokensStack: ReadonlyArray<IYastInlineToken> = phrasingContentProcessor.process(
+    const tokensStack: ReadonlyArray<IInlineToken> = phrasingContentProcessor.process(
       [],
       startIndexOfBlock,
       endIndexOfBlock,
     )
 
-    const tokens: ReadonlyArray<IYastInlineToken> = resolveFallbackTokens(
+    const tokens: ReadonlyArray<IInlineToken> = resolveFallbackTokens(
       tokensStack,
       startIndexOfBlock,
       endIndexOfBlock,
@@ -266,7 +264,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return tokens
   }
 
-  function parseInlineTokens(tokens?: ReadonlyArray<IYastInlineToken>): Node[] {
+  function parseInlineTokens(tokens?: ReadonlyArray<IInlineToken>): Node[] {
     if (tokens === undefined || tokens.length <= 0) return []
 
     const results: Node[] = []

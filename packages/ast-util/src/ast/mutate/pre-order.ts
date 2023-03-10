@@ -1,6 +1,6 @@
 import type { Node, NodeType, Parent, Root } from '@yozora/ast'
-import type { INodeMatcher } from '../util'
-import { createNodeMatcher, createShallowNodeCollector } from '../util'
+import type { INodeMatcher } from '../collect/misc'
+import { createNodeMatcher, createShallowNodeCollector } from '../collect/misc'
 
 /**
  * Traverse AST and replace nodes in pre-order.

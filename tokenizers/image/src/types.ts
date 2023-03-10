@@ -2,9 +2,9 @@ import type { Image, ImageType } from '@yozora/ast'
 import type { INodeInterval } from '@yozora/character'
 import type {
   IBaseInlineTokenizerProps,
-  IPartialYastInlineToken,
+  IPartialInlineToken,
+  ITokenDelimiter,
   ITokenizer,
-  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
 export type T = ImageType
@@ -14,7 +14,7 @@ export const uniqueName = '@yozora/tokenizer-image'
 /**
  * An image token.
  */
-export interface IToken extends IPartialYastInlineToken<T> {
+export interface IToken extends IPartialInlineToken<T> {
   /**
    * Link destination interval.
    */
@@ -25,7 +25,7 @@ export interface IToken extends IPartialYastInlineToken<T> {
   titleContent?: INodeInterval
 }
 
-export interface IDelimiter extends IYastTokenDelimiter {
+export interface IDelimiter extends ITokenDelimiter {
   /**
    * IDelimiter type.
    */

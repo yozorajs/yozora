@@ -1,7 +1,7 @@
 import { LinkReferenceType, LinkType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcStringFromNodePoints, foldCase } from '@yozora/character'
-import type { IYastInlineToken } from '../types/token'
+import type { IInlineToken } from '../types/token'
 
 /**
  * Encode link url.
@@ -116,7 +116,7 @@ export function eatLinkLabel(
  * @param token
  * @returns
  */
-export function isLinkToken(token: IYastInlineToken): boolean {
+export function isLinkToken(token: IInlineToken): boolean {
   return token.nodeType === LinkType || token.nodeType === LinkReferenceType
 }
 
@@ -152,7 +152,7 @@ export function isValidLinkText(
   nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-  internalTokens: ReadonlyArray<IYastInlineToken>,
+  internalTokens: ReadonlyArray<IInlineToken>,
 ): boolean {
   return false
 }

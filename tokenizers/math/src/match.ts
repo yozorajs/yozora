@@ -1,10 +1,10 @@
 import { calcTrimBoundaryOfCodePoints } from '@yozora/character'
 import type {
+  IBlockToken,
   IMatchBlockHook,
   IMatchBlockHookCreator,
   IPhrasingContentLine,
   IResultOfEatOpener,
-  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import { fencedBlockMatch } from '@yozora/tokenizer-fenced-block'
 import type { IThis, IToken, T } from './types'
@@ -41,7 +41,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
 
   function eatOpener(
     line: Readonly<IPhrasingContentLine>,
-    parentToken: Readonly<IYastBlockToken>,
+    parentToken: Readonly<IBlockToken>,
   ): IResultOfEatOpener<T, IToken> {
     const result = hook.eatOpener(line, parentToken)
     if (result == null) return null
@@ -60,7 +60,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
     const countOfTailingMarker = rht - i - 1
 
     // Not a valid one-line math block
-    if (countOfTailingMarker != token.markerCount) return null
+    if (countOfTailingMarker !== token.markerCount) return null
     const mathToken: IToken = {
       ...token,
       infoString: [],

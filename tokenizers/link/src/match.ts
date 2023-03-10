@@ -2,10 +2,10 @@ import { LinkType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type {
+  IInlineToken,
   IMatchInlineHookCreator,
   IResultOfIsDelimiterPair,
   IResultOfProcessDelimiterPair,
-  IYastInlineToken,
 } from '@yozora/core-tokenizer'
 import { eatOptionalWhitespaces, genFindDelimiter, isLinkToken } from '@yozora/core-tokenizer'
 import type { IDelimiter, IThis, IToken, T } from './types'
@@ -154,7 +154,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   function isDelimiterPair(
     openerDelimiter: IDelimiter,
     closerDelimiter: IDelimiter,
-    internalTokens: ReadonlyArray<IYastInlineToken>,
+    internalTokens: ReadonlyArray<IInlineToken>,
   ): IResultOfIsDelimiterPair {
     const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
 
@@ -187,9 +187,9 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   function processDelimiterPair(
     openerDelimiter: IDelimiter,
     closerDelimiter: IDelimiter,
-    internalTokens: ReadonlyArray<IYastInlineToken>,
+    internalTokens: ReadonlyArray<IInlineToken>,
   ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter> {
-    const children: ReadonlyArray<IYastInlineToken> = api.resolveInternalTokens(
+    const children: ReadonlyArray<IInlineToken> = api.resolveInternalTokens(
       internalTokens,
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,

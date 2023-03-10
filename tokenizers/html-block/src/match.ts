@@ -2,12 +2,12 @@ import { HtmlType } from '@yozora/ast'
 import type { INodeInterval, INodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
+  IBlockToken,
   IMatchBlockHookCreator,
   IPhrasingContentLine,
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatContinuationText,
   IResultOfEatOpener,
-  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import { calcEndPoint, calcStartPoint, eatOptionalWhitespaces } from '@yozora/core-tokenizer'
 import { eatEndCondition1, eatStartCondition1 } from './conditions/c1'
@@ -81,7 +81,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
 
   function eatAndInterruptPreviousSibling(
     line: Readonly<IPhrasingContentLine>,
-    prevSiblingToken: Readonly<IYastBlockToken>,
+    prevSiblingToken: Readonly<IBlockToken>,
   ): IResultOfEatAndInterruptPreviousSibling<T, IToken> {
     const result = eatOpener(line)
     if (result == null || result.token.condition === 7) return null

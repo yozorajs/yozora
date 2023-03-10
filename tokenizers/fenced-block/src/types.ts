@@ -2,7 +2,7 @@ import type { NodeType } from '@yozora/ast'
 import type { ICodePoint, INodePoint } from '@yozora/character'
 import type {
   IBaseBlockTokenizerProps,
-  IPartialYastBlockToken,
+  IPartialBlockToken,
   IPhrasingContentLine,
   ITokenizer,
 } from '@yozora/core-tokenizer'
@@ -11,7 +11,7 @@ export const FencedBlockType = 'fencedBlock'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type FencedBlockType = typeof FencedBlockType
 
-export interface IToken<T extends NodeType> extends IPartialYastBlockToken<T> {
+export interface IToken<T extends NodeType> extends IPartialBlockToken<T> {
   /**
    * Line indent of a fenced block.
    */

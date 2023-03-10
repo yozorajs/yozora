@@ -1,6 +1,6 @@
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
-import type { IYastTokenDelimiter } from '@yozora/core-tokenizer'
+import type { ITokenDelimiter } from '@yozora/core-tokenizer'
 
 export interface IHtmlInlineCDataData {
   htmlType: 'cdata'
@@ -10,7 +10,7 @@ export interface IHtmlInlineCDataTokenData {
   htmlType: 'cdata'
 }
 
-export interface IHtmlInlineCDataDelimiter extends IYastTokenDelimiter, IHtmlInlineCDataTokenData {
+export interface IHtmlInlineCDataDelimiter extends ITokenDelimiter, IHtmlInlineCDataTokenData {
   type: 'full'
 }
 

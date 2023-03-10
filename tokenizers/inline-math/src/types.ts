@@ -1,16 +1,16 @@
 import type { InlineMath, InlineMathType } from '@yozora/ast'
 import type {
   IBaseInlineTokenizerProps,
-  IPartialYastInlineToken,
+  IPartialInlineToken,
+  ITokenDelimiter,
   ITokenizer,
-  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
 export type T = InlineMathType
 export type INode = InlineMath
 export const uniqueName = '@yozora/tokenizer-inline-math'
 
-export interface IToken extends IPartialYastInlineToken<T> {
+export interface IToken extends IPartialInlineToken<T> {
   /**
    * Thickness of the InlineMathDelimiter
    */
@@ -20,7 +20,7 @@ export interface IToken extends IPartialYastInlineToken<T> {
 /**
  * IDelimiter of InlineMathToken.
  */
-export interface IDelimiter extends IYastTokenDelimiter {
+export interface IDelimiter extends ITokenDelimiter {
   type: 'full'
   /**
    * Thickness of the InlineMathDelimiter

@@ -1,11 +1,11 @@
 import type { Node, NodeType } from '@yozora/ast'
-import type { IPartialYastInlineToken } from '../token'
+import type { IPartialInlineToken } from '../token'
 import type { ITokenizer } from '../tokenizer'
 import type { IParseInlinePhaseApi } from './api'
 
 export type IParseInlineHookCreator<
   T extends NodeType = NodeType,
-  IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
+  IToken extends IPartialInlineToken<T> = IPartialInlineToken<T>,
   INode extends Node<T> = Node<T>,
   IThis extends ITokenizer = ITokenizer,
 > = (this: IThis, api: Readonly<IParseInlinePhaseApi>) => IParseInlineHook<T, IToken, INode>
@@ -15,7 +15,7 @@ export type IParseInlineHookCreator<
  */
 export interface IParseInlineHook<
   T extends NodeType = NodeType,
-  IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
+  IToken extends IPartialInlineToken<T> = IPartialInlineToken<T>,
   INode extends Node<T> = Node<T>,
 > {
   /**

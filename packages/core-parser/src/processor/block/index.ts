@@ -1,18 +1,18 @@
 import type { Point } from '@yozora/ast'
 import { isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
 import type {
-  IPartialYastBlockToken,
+  IBlockToken,
+  IPartialBlockToken,
   IPhrasingContentLine,
   IResultOfEatContinuationText,
-  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import { calcEndPoint } from '@yozora/core-tokenizer'
 import invariant from '@yozora/invariant'
 import type {
   IBlockContentProcessor,
+  IBlockTokenTree,
   IMatchBlockPhaseHook,
-  IYastBlockTokenTree,
-  IYastMatchBlockState,
+  IMatchBlockState,
 } from './types'
 
 /**
@@ -26,7 +26,7 @@ export const createBlockContentProcessor = (
   hooks: ReadonlyArray<IMatchBlockPhaseHook>,
   fallbackHook: IMatchBlockPhaseHook | null,
 ): IBlockContentProcessor => {
-  const root: IYastBlockTokenTree = {
+  const root: IBlockTokenTree = {
     _tokenizer: 'root',
     nodeType: 'root',
     position: {
@@ -36,7 +36,7 @@ export const createBlockContentProcessor = (
     children: [],
   }
 
-  const stateStack: IYastMatchBlockState[] = []
+  const stateStack: IMatchBlockState[] = []
   stateStack.push({
     hook: { isContainingBlock: true } as unknown as IMatchBlockPhaseHook,
     token: root,
@@ -65,7 +65,7 @@ export const createBlockContentProcessor = (
     if (lines.length <= 0) return null
 
     // Reprocess lines.
-    const candidateHooks = hooks.filter(h => h != hook)
+    const candidateHooks = hooks.filter(h => h !== hook)
     const processor = createBlockContentProcessor(candidateHooks, fallbackHook)
 
     for (const line of lines) {
@@ -77,10 +77,10 @@ export const createBlockContentProcessor = (
   }
 
   /**
-   * Pop the top element up from the IYastMatchBlockState stack.
+   * Pop the top element up from the IMatchBlockState stack.
    * @param item
    */
-  const popup = (): IYastMatchBlockState | undefined => {
+  const popup = (): IMatchBlockState | undefined => {
     const topState = stateStack.pop()
     if (topState == null) return undefined
 
@@ -132,18 +132,14 @@ export const createBlockContentProcessor = (
    * @param nextToken
    * @param saturated
    */
-  const push = (
-    hook: IMatchBlockPhaseHook,
-    nextToken: IYastBlockToken,
-    saturated: boolean,
-  ): void => {
+  const push = (hook: IMatchBlockPhaseHook, nextToken: IBlockToken, saturated: boolean): void => {
     cutStaleBranch(currentStackIndex + 1)
 
     const parent = stateStack[currentStackIndex]
     parent.token.children!.push(nextToken)
     refreshPosition(nextToken.position.end)
 
-    // Push into the IYastMatchBlockState stack.
+    // Push into the IMatchBlockState stack.
     currentStackIndex += 1
     stateStack.push({ hook, token: nextToken })
 
@@ -162,7 +158,7 @@ export const createBlockContentProcessor = (
   const rollback = (
     hook: IMatchBlockPhaseHook,
     lines: IPhrasingContentLine[],
-    parent: IYastMatchBlockState,
+    parent: IMatchBlockState,
   ): boolean => {
     const processor = createRollbackProcessor(hook, lines)
     if (processor == null) return false
@@ -252,9 +248,9 @@ export const createBlockContentProcessor = (
       // Move forward
       moveForward(result.nextIndex, false)
 
-      const nextToken: IPartialYastBlockToken = result.token
+      const nextToken: IPartialBlockToken = result.token
       nextToken._tokenizer = hook.name
-      push(hook, nextToken as IYastBlockToken, Boolean(result.saturated))
+      push(hook, nextToken as IBlockToken, Boolean(result.saturated))
       return true
     }
 
@@ -292,9 +288,9 @@ export const createBlockContentProcessor = (
       // Move forward
       moveForward(result.nextIndex, false)
 
-      const nextToken: IPartialYastBlockToken = result.token
+      const nextToken: IPartialBlockToken = result.token
       nextToken._tokenizer = hook.name
-      push(hook, nextToken as IYastBlockToken, Boolean(result.saturated))
+      push(hook, nextToken as IBlockToken, Boolean(result.saturated))
       return true
     }
 
@@ -335,7 +331,7 @@ export const createBlockContentProcessor = (
             // Removed from parent token.
             parentToken.children!.pop()
 
-            // Cut the stale branch from IYastMatchBlockState stack without call onClose.
+            // Cut the stale branch from IMatchBlockState stack without call onClose.
             stateStack.length = currentStackIndex
             currentStackIndex -= 1
 
@@ -510,7 +506,7 @@ export const createBlockContentProcessor = (
   /**
    * All the content has been processed and perform the final collation actions.
    */
-  const done = (): IYastBlockTokenTree => {
+  const done = (): IBlockTokenTree => {
     while (stateStack.length > 1) popup()
     return root
   }

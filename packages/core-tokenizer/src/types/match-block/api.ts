@@ -1,5 +1,5 @@
 import type { IPhrasingContentLine } from '../phrasing-content'
-import type { IYastBlockToken } from '../token'
+import type { IBlockToken } from '../token'
 
 /**
  * Api in match-block phase.
@@ -9,7 +9,7 @@ export interface IMatchBlockPhaseApi {
    * Extract phrasing content lines from block token.
    * @param token
    */
-  extractPhrasingLines(token: IYastBlockToken): ReadonlyArray<IPhrasingContentLine> | null
+  extractPhrasingLines(token: IBlockToken): ReadonlyArray<IPhrasingContentLine> | null
   /**
    * Re-match token from phrasing content lines.
    * @param lines
@@ -17,8 +17,8 @@ export interface IMatchBlockPhaseApi {
    */
   rollbackPhrasingLines(
     lines: ReadonlyArray<IPhrasingContentLine>,
-    originalToken?: Readonly<IYastBlockToken>,
-  ): IYastBlockToken[]
+    originalToken?: Readonly<IBlockToken>,
+  ): IBlockToken[]
   /**
    * Register a definition identifier.
    * @param identifier

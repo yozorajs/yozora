@@ -1,7 +1,7 @@
 import type { Definition, DefinitionType } from '@yozora/ast'
 import type {
   IBaseBlockTokenizerProps,
-  IPartialYastBlockToken,
+  IPartialBlockToken,
   IPhrasingContentLine,
   ITokenizer,
 } from '@yozora/core-tokenizer'
@@ -13,7 +13,7 @@ export type T = DefinitionType
 export type INode = Definition
 export const uniqueName = '@yozora/tokenizer-definition'
 
-export interface IToken extends IPartialYastBlockToken<T> {
+export interface IToken extends IPartialBlockToken<T> {
   /**
    *
    */

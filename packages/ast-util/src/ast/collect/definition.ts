@@ -1,8 +1,8 @@
 import type { Association, Definition, NodeType, Root } from '@yozora/ast'
 import { DefinitionType } from '@yozora/ast'
-import { collectNodes } from './ast/collect'
-import { traverseAst } from './ast/traverse'
-import type { INodeMatcher } from './ast/util'
+import { traverseAst } from '../traverse'
+import type { INodeMatcher } from './misc'
+import { collectNodes } from './node'
 
 /**
  * Collect link reference definitions in a pre-order traversal.

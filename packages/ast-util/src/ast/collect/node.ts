@@ -1,6 +1,6 @@
-import type { Node, NodeType, Parent, Root } from '@yozora/ast'
-import type { INodeMatcher } from './util'
-import { createNodeMatcher } from './util'
+import type { Node, NodeType, Parent } from '@yozora/ast'
+import type { INodeMatcher } from './misc'
+import { createNodeMatcher } from './misc'
 
 /**
  * Collect nodes of the specified type through pre-order traversal.
@@ -14,13 +14,15 @@ import { createNodeMatcher } from './util'
  * @param aimTypesOrNodeMatcher
  */
 export function collectNodes<T extends NodeType, O extends Node<T>>(
-  root: Readonly<Root>,
+  root: Readonly<Parent>,
   aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher | null,
 ): O[] {
   const isMatched: INodeMatcher = createNodeMatcher(aimTypesOrNodeMatcher)
-
   const nodes: O[] = []
-  const collect = (u: Parent): void => {
+  collect(root)
+  return nodes
+
+  function collect(u: Parent): void {
     if (isMatched(u)) {
       nodes.push(u as unknown as O)
       return
@@ -32,6 +34,4 @@ export function collectNodes<T extends NodeType, O extends Node<T>>(
       }
     }
   }
-  collect(root)
-  return nodes
 }

@@ -2,9 +2,9 @@ import { DeleteType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
+  IInlineToken,
   IMatchInlineHookCreator,
   IResultOfProcessDelimiterPair,
-  IYastInlineToken,
 } from '@yozora/core-tokenizer'
 import { eatOptionalCharacters, genFindDelimiter } from '@yozora/core-tokenizer'
 import type { IDelimiter, IThis, IToken, T } from './types'
@@ -78,7 +78,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   function processDelimiterPair(
     openerDelimiter: IDelimiter,
     closerDelimiter: IDelimiter,
-    internalTokens: ReadonlyArray<IYastInlineToken>,
+    internalTokens: ReadonlyArray<IInlineToken>,
   ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter> {
     // eslint-disable-next-line no-param-reassign
     internalTokens = api.resolveInternalTokens(

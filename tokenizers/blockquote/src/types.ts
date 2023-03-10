@@ -1,20 +1,20 @@
 import type { Blockquote, BlockquoteType } from '@yozora/ast'
 import type {
   IBaseBlockTokenizerProps,
-  IPartialYastBlockToken,
+  IBlockToken,
+  IPartialBlockToken,
   ITokenizer,
-  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 
 export type T = BlockquoteType
 export type INode = Blockquote
 export const uniqueName = '@yozora/tokenizer-blockquote'
 
-export interface IToken extends IPartialYastBlockToken<T> {
+export interface IToken extends IPartialBlockToken<T> {
   /**
    *
    */
-  children: IYastBlockToken[]
+  children: IBlockToken[]
 }
 
 export type IThis = ITokenizer

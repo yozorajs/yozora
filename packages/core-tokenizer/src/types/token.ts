@@ -10,7 +10,7 @@ declare type IPickPartial<T extends object, K extends keyof T> = Omit<T, K> & Pa
 /**
  * IToken delimiter.
  */
-export interface IYastTokenDelimiter extends INodeInterval {
+export interface ITokenDelimiter extends INodeInterval {
   /**
    * IDelimiter type.
    */
@@ -20,7 +20,7 @@ export interface IYastTokenDelimiter extends INodeInterval {
 /**
  * Potential Node.
  */
-export interface IYastToken<T extends NodeType = NodeType> {
+interface IToken<T extends NodeType = NodeType> {
   /**
    * Name of the tokenizer which produced this token.
    */
@@ -32,13 +32,13 @@ export interface IYastToken<T extends NodeType = NodeType> {
   /**
    * List of child node of current token node.
    */
-  children?: ReadonlyArray<IYastToken>
+  children?: ReadonlyArray<IToken>
 }
 
 /**
  * Block data type token.
  */
-export interface IYastBlockToken<T extends NodeType = NodeType> extends IYastToken<T> {
+export interface IBlockToken<T extends NodeType = NodeType> extends IToken<T> {
   /**
    * Location of a node in the source contents.
    */
@@ -46,33 +46,31 @@ export interface IYastBlockToken<T extends NodeType = NodeType> extends IYastTok
   /**
    * List of child node of current token node
    */
-  children?: IYastBlockToken[]
+  children?: IBlockToken[]
 }
 
 /**
  * Inline data type token.
  */
-export interface IYastInlineToken<T extends NodeType = NodeType>
-  extends IYastToken<T>,
-    INodeInterval {
+export interface IInlineToken<T extends NodeType = NodeType> extends IToken<T>, INodeInterval {
   /**
    * List of child node of current token node.
    */
-  children?: ReadonlyArray<IYastInlineToken>
+  children?: ReadonlyArray<IInlineToken>
 }
 
 /**
- * Make '_tokenizer' partial from IYastBlockToken.
+ * Make '_tokenizer' partial from IBlockToken.
  */
-export type IPartialYastBlockToken<T extends NodeType = NodeType> = IPickPartial<
-  IYastBlockToken<T>,
+export type IPartialBlockToken<T extends NodeType = NodeType> = IPickPartial<
+  IBlockToken<T>,
   '_tokenizer'
 >
 
 /**
- * Make '_tokenizer' partial from IYastInlineToken.
+ * Make '_tokenizer' partial from IInlineToken.
  */
-export type IPartialYastInlineToken<T extends NodeType = NodeType> = IPickPartial<
-  IYastInlineToken<T>,
+export type IPartialInlineToken<T extends NodeType = NodeType> = IPickPartial<
+  IInlineToken<T>,
   '_tokenizer'
 >
