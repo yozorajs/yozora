@@ -34,9 +34,9 @@
     "test:update": "yarn test -u"
   },
   "dependencies": {
-    "@guanghechen/helper-option": "^4.6.2",
-    "@guanghechen/helper-plop": "^4.6.2",
-    "@guanghechen/helper-string": "^4.6.2"
+    "@guanghechen/helper-option": "^4.6.3",
+    "@guanghechen/helper-plop": "^4.6.3",
+    "@guanghechen/helper-string": "^4.6.3"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
