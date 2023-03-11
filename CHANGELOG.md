@@ -1,5 +1,17 @@
 # Changelog
 
+<a name="2.1.2"></a>
+## 2.1.2 (2023-03-11)
+
+### Changed
+
+- ⬆️ chore: update DevDependencies [[bb7683e](https://github.com/yozorajs/yozora/commit/bb7683e1898de95890e7671d3fdfd1c58a8bd251)]
+
+### Miscellaneous
+
+- 📄 docs: update LICENSE [[4d88510](https://github.com/yozorajs/yozora/commit/4d885109c46eaa5b2d9f341aafd441716f1579e8)]
+
+
 <a name="2.1.1"></a>
 ## 2.1.1 (2023-03-10)
 
