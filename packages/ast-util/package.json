@@ -1,6 +1,6 @@
 {
   "name": "@yozora/ast-util",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "Utility functions to handle Yozora markdown ast",
   "author": {
     "name": "guanghechen",
@@ -41,8 +41,8 @@
     "test:update": "yarn test -u"
   },
   "dependencies": {
-    "@yozora/ast": "^2.1.2",
-    "@yozora/character": "^2.1.2"
+    "@yozora/ast": "^2.1.3",
+    "@yozora/character": "^2.1.3"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
