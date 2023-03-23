@@ -1,5 +1,13 @@
 # Changelog
 
+<a name="2.1.3"></a>
+## 2.1.3 (2023-03-23)
+
+### Changed
+
+- ⬆️ chore([#17](https://github.com/yozorajs/yozora/issues/17)): fix default export in cjs format bundle [[16b5a30](https://github.com/yozorajs/yozora/commit/16b5a3057c06b1139e953a62ff5c2350a7442d10)]
+
+
 <a name="2.1.2"></a>
 ## 2.1.2 (2023-03-11)
 
