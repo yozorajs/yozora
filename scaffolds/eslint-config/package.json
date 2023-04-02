@@ -35,8 +35,8 @@
     "README.md"
   ],
   "dependencies": {
-    "@guanghechen/eslint-config": "^4.7.2",
-    "@guanghechen/eslint-config-ts": "^4.7.2",
+    "@guanghechen/eslint-config": "^5.0.0-alpha.0",
+    "@guanghechen/eslint-config-ts": "^5.0.0-alpha.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-jest": "^27.2.1",
     "eslint-plugin-prettier": "^4.2.1"
