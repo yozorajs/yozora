@@ -1,5 +1,14 @@
 # Changelog
 
+<a name="2.1.4"></a>
+## 2.1.4 (2023-04-02)
+
+### Changed
+
+- 🔧 chore: don&#x27;t pack src/ folder into tarball [[c9fac38](https://github.com/yozorajs/yozora/commit/c9fac382e9a7a8d6454452b0c4d5b57dac16455f)]
+- ⬆️ chore: upgrade devDependencies [[6e76490](https://github.com/yozorajs/yozora/commit/6e7649056493038437e6b0f3f2d6150a573901ce)]
+
+
 <a name="2.1.3"></a>
 ## 2.1.3 (2023-03-23)
 
