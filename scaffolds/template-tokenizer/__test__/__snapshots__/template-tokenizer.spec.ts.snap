@@ -235,7 +235,7 @@ exports[`new-tokenizer monorepo block: package.json 1`] = `
   },
   "files": [
     "lib/",
-    "src/",
+    "lib/**/*.map",
     "package.json",
     "CHANGELOG.md",
     "LICENSE",
@@ -768,7 +768,7 @@ exports[`new-tokenizer monorepo inline: package.json 1`] = `
   },
   "files": [
     "lib/",
-    "src/",
+    "lib/**/*.map",
     "package.json",
     "CHANGELOG.md",
     "LICENSE",
@@ -1363,7 +1363,7 @@ exports[`new-tokenizer not a monorepo block: package.json 1`] = `
   },
   "files": [
     "lib/",
-    "src/",
+    "lib/**/*.map",
     "package.json",
     "CHANGELOG.md",
     "LICENSE",
@@ -2082,7 +2082,7 @@ exports[`new-tokenizer not a monorepo inline: package.json 1`] = `
   },
   "files": [
     "lib/",
-    "src/",
+    "lib/**/*.map",
     "package.json",
     "CHANGELOG.md",
     "LICENSE",

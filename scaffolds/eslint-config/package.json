@@ -27,8 +27,8 @@
     "node": ">= 16.0.0"
   },
   "files": [
-    "index.js",
-    "rule-*.js",
+    "index.cjs",
+    "index.mjs",
     "package.json",
     "CHANGELOG.md",
     "LICENSE",

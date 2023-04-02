@@ -142,7 +142,7 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
     return true
   }
 
-  protected _areSomeObject(o1: object, o2: object): boolean {
+  protected _areSomeObject(o1: Record<string, unknown>, o2: Record<string, unknown>): boolean {
     const keys1 = Object.keys(o1)
     const keys2 = Object.keys(o2)
     if (keys1.length !== keys2.length) return false
