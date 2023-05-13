@@ -61,7 +61,8 @@
     "unmount",
     "whitespaces",
     "Yast",
-    "yozora"
+    "yozora",
+    "yozorajs"
   ],
   "files.associations": {
     ".prettierrc": "yaml"
