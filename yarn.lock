@@ -653,20 +653,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@guanghechen/script-doc-link@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "@guanghechen/script-doc-link@npm:5.0.0"
+"@guanghechen/script-doc-link@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "@guanghechen/script-doc-link@npm:5.0.2"
   dependencies:
     "@guanghechen/chalk-logger": 5.0.0
     "@guanghechen/helper-fs": 5.0.0
     "@guanghechen/helper-func": 5.0.0
     "@guanghechen/helper-is": 5.0.0
     "@guanghechen/invariant": 5.0.0
+    "@guanghechen/utility-types": 5.0.0
     globby: ^13.1.4
     minimist: ^1.2.8
   bin:
     ghc-doc-link-rewrite: lib/esm/cli.mjs
-  checksum: a7918cf18bdf909833533767d5a86bef3ed57ef958c7b8b9589da4ac677442a9c869cef9e7b30bdb4e7e6702fa74fe79c2f1a45b52d795d67e58b95e680fb56a
+  checksum: 6268085fd84541a92382760b3b870893ce1d9850313d7ab870b533e748bfb915233e9a7cad11c59fbe3fea8bd0dc773da0a435f32e2b8c3f2cb871f64e104c74
   languageName: node
   linkType: hard
 
@@ -2763,7 +2764,7 @@ __metadata:
     "@guanghechen/helper-string": ^5.0.0
     "@guanghechen/jest-config": ^5.0.0
     "@guanghechen/rollup-config": ^5.0.0
-    "@guanghechen/script-doc-link": ^5.0.0
+    "@guanghechen/script-doc-link": ^5.0.2
     "@types/jest": 29.5.1
     "@types/node": ^18.16.8
     cross-env: ^7.0.3

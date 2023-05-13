@@ -40,7 +40,7 @@
     "test:parser": "lerna run test --concurrency 1 --scope @yozora/parser-*",
     "test:tokenizer": "lerna run test --concurrency 1 --scope @yozora/parser-*",
     "test:update": "lerna run 'test:update' --concurrency 1",
-    "version": "yarn && ghc-doc-link-rewrite --username=yozorajs --repository=yozora && git stage -u yarn.lock **/*/package.json **/*/README.md"
+    "version": "yarn && ghc-doc-link-rewrite --username=yozorajs --repository=yozora && git stage -u yarn.lock **/package.json **/*.md"
   },
   "workspaces": [
     "packages/*",
@@ -55,7 +55,7 @@
     "@guanghechen/helper-string": "^5.0.0",
     "@guanghechen/jest-config": "^5.0.0",
     "@guanghechen/rollup-config": "^5.0.0",
-    "@guanghechen/script-doc-link": "^5.0.0",
+    "@guanghechen/script-doc-link": "^5.0.2",
     "@types/jest": "29.5.1",
     "@types/node": "^18.16.8",
     "cross-env": "^7.0.3",
