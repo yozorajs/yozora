@@ -252,7 +252,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* 🐛 The first child of footnote could have higher poriority ([c6f947f](https://github.com/yozorajs/yozora/commit/c6f947fb3a515622b709ce4e693720062f7a17bf))
+* 🐛 The first child of footnote could have higher priority ([c6f947f](https://github.com/yozorajs/yozora/commit/c6f947fb3a515622b709ce4e693720062f7a17bf))
 
 
 ### Performance Improvements
@@ -384,7 +384,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Performance Improvements
 
 * 🔖 publish v1.0.0-alpha.28 ([f18d90a](https://github.com/yozorajs/yozora/commit/f18d90a116db508bf49c9a3338a262cb85faf792))
-* 🎨 rename variable names (use termnal 'internal' instead of 'inner') ([b374c26](https://github.com/yozorajs/yozora/commit/b374c2677a3b7cd0b13429c517e1f213419f2932))
+* 🎨 rename variable names (use terminal 'internal' instead of 'inner') ([b374c26](https://github.com/yozorajs/yozora/commit/b374c2677a3b7cd0b13429c517e1f213419f2932))
 
 
 
@@ -398,7 +398,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * ✅ update tests ([9917315](https://github.com/yozorajs/yozora/commit/99173151887611c8cb1d66ea7484bfcad3de0b18))
 * 🔖 publish v1.0.0-alpha.27 ([8efea07](https://github.com/yozorajs/yozora/commit/8efea07b2314c241c91fc113abdc8852f216c9d7))
 * ⬆️ upgrade dev dependencies ([d126ff4](https://github.com/yozorajs/yozora/commit/d126ff4c81ec09b366a0c60ba2a83e7f45fbe317))
-* 🎨 use @yozora/invariant instead of tiny-invairant ([78723ba](https://github.com/yozorajs/yozora/commit/78723ba367ade78ff06d59b7d9bd3d6673d024e6))
+* 🎨 use @yozora/invariant instead of tiny-invariant ([78723ba](https://github.com/yozorajs/yozora/commit/78723ba367ade78ff06d59b7d9bd3d6673d024e6))
 
 
 
@@ -419,7 +419,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * 🐛 fix GFM[#588](https://github.com/yozorajs/yozora/issues/588) ([7b8d430](https://github.com/yozorajs/yozora/commit/7b8d430a44863ddc894d179578cf8022351e2638))
 * 🐛 resolve closer delimiter when there is no closer delimiter in the front ([d399e14](https://github.com/yozorajs/yozora/commit/d399e140e42a8dfa9c4b9c3bad8ee2ceec648d7d))
 * 🐛 rewrite bad pairing logic ([eba796d](https://github.com/yozorajs/yozora/commit/eba796da154b181efc120843b2d780e8edccd5ed))
-* 🐛 there are no non-text token consistutes children of autolink or autolink-extension ([7125cbc](https://github.com/yozorajs/yozora/commit/7125cbc8136d305d4b4db933dfcf50b4bd2a645c))
+* 🐛 there are no non-text token constitutes children of autolink or autolink-extension ([7125cbc](https://github.com/yozorajs/yozora/commit/7125cbc8136d305d4b4db933dfcf50b4bd2a645c))
 
 
 ### Performance Improvements
@@ -559,7 +559,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Performance Improvements
 
 * 🔖 publish v1.0.0-alpha.14 ([3fcfffa](https://github.com/yozorajs/yozora/commit/3fcfffa0da0413449acf0d91d85400d0b31fa9a2))
-* 🎨 rename isContainerBlock to isContainingBlock & use enum TokenizerPriority instead of magic numbers to present tokenizer proirity ([940c50b](https://github.com/yozorajs/yozora/commit/940c50bb58b76a888a512539f3a4db6e8396d45b))
+* 🎨 rename isContainerBlock to isContainingBlock & use enum TokenizerPriority instead of magic numbers to present tokenizer priority ([940c50b](https://github.com/yozorajs/yozora/commit/940c50bb58b76a888a512539f3a4db6e8396d45b))
 * 🎨 support to specify which tokenizer to register before ([e8607f4](https://github.com/yozorajs/yozora/commit/e8607f41e2a52d3de91463080ac3ac52968e5f51))
 * 🎨 tweak parser interfaces ([218008e](https://github.com/yozorajs/yozora/commit/218008e5268da489b01306dfa0f871e8a6cc6c3c))
 
