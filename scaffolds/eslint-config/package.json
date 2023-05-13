@@ -1,6 +1,6 @@
 {
   "name": "@yozora/eslint-config",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "eslintconfig for yozora packages",
   "author": {
     "name": "guanghechen",
@@ -11,7 +11,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "scaffolds/eslint-config"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/release-2.x.x/scaffolds/eslint-config#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.1.5/scaffolds/eslint-config#readme",
   "keywords": [
     "eslintconfig"
   ],

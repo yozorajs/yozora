@@ -1,6 +1,6 @@
 <header>
   <h1 align="center">
-    <a href="https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/core-tokenizer#readme">@yozora/core-tokenizer</a>
+    <a href="https://github.com/yozorajs/yozora/tree/v2.1.5/packages/core-tokenizer#readme">@yozora/core-tokenizer</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/core-tokenizer">
@@ -227,8 +227,8 @@ The lifecycle methods at this stage is subdivided into the following methods
   - [parse-inline][lifecycle-parse-inline]
 
 
-[homepage]: https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/core-tokenizer#readme
-[homepage-zh]: https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/core-tokenizer/README-zh.md
+[homepage]: https://github.com/yozorajs/yozora/tree/v2.1.5/packages/core-tokenizer#readme
+[homepage-zh]: https://github.com/yozorajs/yozora/tree/v2.1.5/packages/core-tokenizer/README-zh.md
 [lifecycle-match-block]: https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/lifecycle/match-block.ts
 [lifecycle-match-inline]: https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/lifecycle/match-inline.ts
 [lifecycle-parse-block]: https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/lifecycle/parse-block.ts

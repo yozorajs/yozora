@@ -1,6 +1,6 @@
 {
   "name": "@yozora/markup-weaver",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "Weave markup-like AST into markup content.",
   "author": {
     "name": "guanghechen",
@@ -11,7 +11,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "packages/markup-weaver"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/markup-weaver#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.1.5/packages/markup-weaver#readme",
   "type": "module",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -41,7 +41,7 @@
     "test:update": "yarn test -u"
   },
   "dependencies": {
-    "@yozora/ast": "^2.1.4"
+    "@yozora/ast": "^2.1.5"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",

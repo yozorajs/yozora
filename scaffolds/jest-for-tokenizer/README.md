@@ -1,6 +1,6 @@
 <header>
   <h1 align="center">
-    <a href="https://github.com/yozorajs/yozora/tree/release-2.x.x/scaffolds/jest-for-tokenizer#readme">@yozora/jest-for-tokenizer</a>
+    <a href="https://github.com/yozorajs/yozora/tree/v2.1.5/scaffolds/jest-for-tokenizer#readme">@yozora/jest-for-tokenizer</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/jest-for-tokenizer">
@@ -174,7 +174,7 @@ Jest util for testing yozora tokenizers.
 * [@yozora/parser-gfm-ex][]
 
 
-[homepage]: https://github.com/yozorajs/yozora/tree/release-2.x.x/scaffolds/jest-for-tokenizer#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/v2.1.5/scaffolds/jest-for-tokenizer#readme
 [@yozora/parser]: https://www.npmjs.com/package/@yozora/parser
 [@yozora/parser-gfm]: https://www.npmjs.com/package/@yozora/parser-gfm
 [@yozora/parser-gfm-ex]: https://www.npmjs.com/package/@yozora/parser-gfm-ex
