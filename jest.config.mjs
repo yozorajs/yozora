@@ -1,12 +1,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { tsMonorepoConfig } from '@guanghechen/jest-config'
-import { resolve } from 'import-meta-resolve'
+import { createRequire } from 'node:module'
 import path from 'node:path'
 import url from 'node:url'
 
-export default async function() {
-  const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
-  const chalkLocation = url.fileURLToPath(await resolve('chalk', import.meta.url))
+const require = createRequire(import.meta.url)
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
+
+export default async function () {
   const baseConfig = await tsMonorepoConfig(__dirname, { useESM: true })
 
   return {
@@ -27,17 +28,6 @@ export default async function() {
       },
     },
     extensionsToTreatAsEsm: ['.ts', '.mts'],
-    moduleNameMapper: {
-      ...baseConfig.moduleNameMapper,
-      chalk: chalkLocation,
-      '#ansi-styles': path.join(
-        chalkLocation.split('chalk')[0],
-        'chalk/source/vendor/ansi-styles/index.js',
-      ),
-      '#supports-color': path.join(
-        chalkLocation.split('chalk')[0],
-        'chalk/source/vendor/supports-color/index.js',
-      ),
-    },
+    prettierPath: require.resolve('prettier-2'),
   }
 }

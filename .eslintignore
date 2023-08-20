@@ -4,6 +4,8 @@
 !**/*.js
 !**/*.jsx
 !**/*.json
+!**/*.mjs
+!**/*.mts
 !.eslintignore
 !.eslintrc
 

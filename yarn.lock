@@ -2669,7 +2669,6 @@ __metadata:
     eslint: 8.47.0
     handlebars: 4.7.8
     husky: 8.0.3
-    import-meta-resolve: ^3.0.0
     is-ci: 3.0.1
     jest: ^29.6.2
     lerna: 7.1.5
@@ -2677,6 +2676,7 @@ __metadata:
     npm-run-all: 4.1.5
     pinst: 3.0.0
     prettier: 3.0.2
+    prettier-2: "npm:prettier@^2"
     rimraf: ^5.0.1
     rollup: ^3.28.0
     ts-jest: 29.1.1
@@ -8882,6 +8882,15 @@ __metadata:
   version: 1.2.1
   resolution: "prelude-ls@npm:1.2.1"
   checksum: cd192ec0d0a8e4c6da3bb80e4f62afe336df3f76271ac6deb0e6a36187133b6073a19e9727a1ff108cd8b9982e4768850d413baa71214dd80c7979617dca827a
+  languageName: node
+  linkType: hard
+
+"prettier-2@npm:prettier@^2":
+  version: 2.8.8
+  resolution: "prettier@npm:2.8.8"
+  bin:
+    prettier: bin-prettier.js
+  checksum: b49e409431bf129dd89238d64299ba80717b57ff5a6d1c1a8b1a28b590d998a34e083fa13573bc732bb8d2305becb4c9a4407f8486c81fa7d55100eb08263cf8
   languageName: node
   linkType: hard
 
