@@ -1,6 +1,7 @@
 import type { Literal, Parent, Root } from '@yozora/ast'
 import { TextType } from '@yozora/ast'
 import { shallowCloneAst } from './ast/clone'
+import { searchNode } from './ast/search'
 
 /**
  * Calc excerpt ast from the original ast.
@@ -37,5 +38,37 @@ export function calcExcerptAst(immutableRoot: Readonly<Root>, pruneLength: numbe
       }
     })
   }
+  return excerptAst
+}
+
+/**
+ * Get excerpt ast from the full AST, if there is a matched excerptSeparator, then prune it until
+ * meet the separator, otherwise, use the `calcExcerptAst` to generate the excerpt.
+ * @returns
+ */
+export function getExcerptAst(fullAst: Root, pruneLength: number, excerptSeparator?: string): Root {
+  if (excerptSeparator != null) {
+    const separator = excerptSeparator.trim()
+
+    const childIndexList: number[] | null = searchNode(fullAst, node => {
+      const { value } = node as Literal
+      return typeof value === 'string' && value.trim() === separator
+    })
+
+    if (childIndexList != null) {
+      const excerptAst = { ...fullAst }
+      let node: Parent = excerptAst
+      for (const childIndex of childIndexList) {
+        const nextNode = { ...node.children[childIndex] } as unknown as Parent
+        node.children = node.children.slice(0, childIndex)
+        node.children.push(nextNode)
+        node = nextNode
+      }
+      return excerptAst
+    }
+  }
+
+  // Try to truncate excerpt.
+  const excerptAst = calcExcerptAst(fullAst, pruneLength)
   return excerptAst
 }
