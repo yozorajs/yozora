@@ -34,12 +34,12 @@
     "test:update": "yarn test -u"
   },
   "dependencies": {
-    "@guanghechen/helper-option": "^5.0.0",
-    "@guanghechen/helper-plop": "^5.0.0",
-    "@guanghechen/helper-string": "^5.0.0"
+    "@guanghechen/helper-option": "^5.0.5",
+    "@guanghechen/helper-plop": "^5.0.6",
+    "@guanghechen/helper-string": "^5.0.5"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "jest": "^29.5.0"
+    "jest": "^29.6.2"
   }
 }

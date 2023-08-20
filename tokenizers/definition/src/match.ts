@@ -286,7 +286,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
   }
 
   function onClose(token: IToken): IResultOfOnClose {
-    let result: IResultOfOnClose
+    let result: IResultOfOnClose = undefined
 
     // Not all parts of Definition have been matched.
     if (token.title == null || !token.title.saturated) {
