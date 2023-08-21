@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/yozorajs/yozora/compare/v2.1.5...v2.2.0) (2023-08-21)
+
+
+### Features
+
+* ✨ export async methods for mutate ast ([b52e30e](https://github.com/yozorajs/yozora/commit/b52e30ed9492c07243abef8193451680c36af7ba))
+
+
+### Performance Improvements
+
+* ⬆️ upgrade devDependencies ([bc46ce2](https://github.com/yozorajs/yozora/commit/bc46ce20cacb2eb46147d6129e42fe1390ee19fb))
+
+
+
+
+
 ## [2.1.5](https://github.com/yozorajs/yozora/compare/v2.1.4...v2.1.5) (2023-05-13)
 
 

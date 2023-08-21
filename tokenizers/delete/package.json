@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-delete",
-  "version": "2.1.5",
+  "version": "2.2.0",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "tokenizers/delete"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.1.5/tokenizers/delete",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.2.0/tokenizers/delete",
   "type": "module",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -39,8 +39,8 @@
     "test": "node --experimental-vm-modules ../../node_modules/.bin/jest --config ../../jest.config.mjs --rootDir ."
   },
   "dependencies": {
-    "@yozora/ast": "^2.1.5",
-    "@yozora/character": "^2.1.5",
-    "@yozora/core-tokenizer": "^2.1.5"
+    "@yozora/ast": "^2.2.0",
+    "@yozora/character": "^2.2.0",
+    "@yozora/core-tokenizer": "^2.2.0"
   }
 }

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/yozorajs/yozora/compare/v2.1.5...v2.2.0) (2023-08-21)
+
+
+### Performance Improvements
+
+* 📝 fix typos ([3deab05](https://github.com/yozorajs/yozora/commit/3deab0535c9e861a1e76de8c95ecc899e5ebde36))
+
+
+
+
+
 ## [2.1.5](https://github.com/yozorajs/yozora/compare/v2.1.4...v2.1.5) (2023-05-13)
 
 
