@@ -1,4 +1,4 @@
-export enum TokenizerType {
+export enum TokenizerCategory {
   // Block tokenizer
   BLOCK = 'block',
   // inline tokenizer

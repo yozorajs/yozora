@@ -7,7 +7,7 @@ import type {
   IInlineTokenizer,
   ITokenizer,
 } from '@yozora/core-tokenizer'
-import { TokenizerType } from '@yozora/core-tokenizer'
+import { TokenizerCategory } from '@yozora/core-tokenizer'
 import { createProcessor } from './processor'
 import type { IParseOptions, IParser } from './types'
 import { createPhrasingLineGenerator } from './util/phrasing-line'
@@ -60,18 +60,18 @@ export class DefaultParser implements IParser {
 
   public useTokenizer(tokenizer: ITokenizer, registerBeforeTokenizer?: string): this {
     const tokenizers: ITokenizer[] =
-      tokenizer.type === TokenizerType.BLOCK ? this.blockTokenizers : this.inlineTokenizers
+      tokenizer.category === TokenizerCategory.BLOCK ? this.blockTokenizers : this.inlineTokenizers
     const tokenizerMap: Map<string, ITokenizer> =
-      tokenizer.type === TokenizerType.BLOCK ? this.blockTokenizerMap : this.inlineTokenizerMap
+      tokenizer.category === TokenizerCategory.BLOCK ? this.blockTokenizerMap : this.inlineTokenizerMap
     this._registerTokenizer(tokenizers, tokenizerMap, tokenizer, registerBeforeTokenizer)
     return this
   }
 
   public replaceTokenizer(tokenizer: ITokenizer, registerBeforeTokenizer?: string): this {
     const tokenizers: ITokenizer[] =
-      tokenizer.type === TokenizerType.BLOCK ? this.blockTokenizers : this.inlineTokenizers
+      tokenizer.category === TokenizerCategory.BLOCK ? this.blockTokenizers : this.inlineTokenizers
     const tokenizerMap: Map<string, ITokenizer> =
-      tokenizer.type === TokenizerType.BLOCK ? this.blockTokenizerMap : this.inlineTokenizerMap
+      tokenizer.category === TokenizerCategory.BLOCK ? this.blockTokenizerMap : this.inlineTokenizerMap
     this._replaceTokenizer(tokenizers, tokenizerMap, tokenizer, registerBeforeTokenizer)
     return this
   }
@@ -85,8 +85,8 @@ export class DefaultParser implements IParser {
   public useFallbackTokenizer(
     fallbackTokenizer: IBlockFallbackTokenizer | IInlineFallbackTokenizer,
   ): this {
-    switch (fallbackTokenizer.type) {
-      case TokenizerType.BLOCK:
+    switch (fallbackTokenizer.category) {
+      case TokenizerCategory.BLOCK:
         // Unmount old fallback tokenizer
         if (this.blockFallbackTokenizer) {
           this.unmountTokenizer(this.blockFallbackTokenizer)
@@ -96,7 +96,7 @@ export class DefaultParser implements IParser {
         this.blockTokenizerMap.set(fallbackTokenizer.name, fallbackTokenizer)
         this.blockFallbackTokenizer = fallbackTokenizer
         break
-      case TokenizerType.INLINE:
+      case TokenizerCategory.INLINE:
         // Unmount old fallback tokenizer
         if (this.inlineFallbackTokenizer) {
           this.unmountTokenizer(this.inlineFallbackTokenizer)

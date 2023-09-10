@@ -1,5 +1,5 @@
 import type { Node, NodeType } from '@yozora/ast'
-import { TokenizerType } from '../constant'
+import { TokenizerCategory } from '../constant'
 import type { IMatchInlineHookCreator, IResultOfFindDelimiters } from '../types/match-inline/hook'
 import type { IParseInlineHookCreator } from '../types/parse-inline/hook'
 import type { IPartialInlineToken, ITokenDelimiter } from '../types/token'
@@ -30,7 +30,7 @@ export abstract class BaseInlineTokenizer<
   IThis extends ITokenizer = ITokenizer,
 > implements IInlineTokenizer<T, IDelimiter, IToken, INode, IThis>
 {
-  public readonly type = TokenizerType.INLINE
+  public readonly category = TokenizerCategory.INLINE
   public readonly name: string
   public readonly priority: number
 

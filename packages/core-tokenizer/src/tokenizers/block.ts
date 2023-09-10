@@ -1,5 +1,5 @@
 import type { Node, NodeType } from '@yozora/ast'
-import { TokenizerType } from '../constant'
+import { TokenizerCategory } from '../constant'
 import type { IMatchBlockHookCreator } from '../types/match-block/hook'
 import type { IParseBlockHookCreator } from '../types/parse-block/hook'
 import type { IPhrasingContentLine } from '../types/phrasing-content'
@@ -30,7 +30,7 @@ export abstract class BaseBlockTokenizer<
   IThis extends ITokenizer = ITokenizer,
 > implements IBlockTokenizer<T, IToken, INode, IThis>
 {
-  public readonly type = TokenizerType.BLOCK
+  public readonly category = TokenizerCategory.BLOCK
   public readonly name: string
   public readonly priority: number
 

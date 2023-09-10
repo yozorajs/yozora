@@ -1,5 +1,5 @@
 import type { Node, NodeType } from '@yozora/ast'
-import type { TokenizerType } from '../constant'
+import type { TokenizerCategory } from '../constant'
 import type { IMatchBlockHookCreator } from './match-block/hook'
 import type { IMatchInlinePhaseApi } from './match-inline/api'
 import type { IMatchInlineHookCreator } from './match-inline/hook'
@@ -12,7 +12,7 @@ export interface ITokenizer {
   /**
    * Tokenizer type
    */
-  readonly type: TokenizerType
+  readonly category: TokenizerCategory
   /**
    * Name of a tokenizer (in order to identify a unique Node ITokenizer)
    */
@@ -38,7 +38,7 @@ export interface IBlockTokenizer<
   INode extends Node<T> = Node<T>,
   IThis extends ITokenizer = ITokenizer,
 > extends ITokenizer {
-  readonly type: TokenizerType.BLOCK
+  readonly category: TokenizerCategory.BLOCK
   readonly match: IMatchBlockHookCreator<T, IToken, IThis>
   readonly parse: IParseBlockHookCreator<T, IToken, INode, IThis>
 
@@ -74,7 +74,7 @@ export interface IInlineTokenizer<
   INode extends Node<T> = Node<T>,
   IThis extends ITokenizer = ITokenizer,
 > extends ITokenizer {
-  readonly type: TokenizerType.INLINE
+  readonly category: TokenizerCategory.INLINE
   readonly match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis>
   readonly parse: IParseInlineHookCreator<T, IToken, INode, IThis>
 }
