@@ -8,7 +8,10 @@ const require = createRequire(import.meta.url)
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
 export default async function () {
-  const baseConfig = await tsMonorepoConfig(__dirname, { useESM: true })
+  const baseConfig = await tsMonorepoConfig(__dirname, {
+    useESM: true,
+    tsconfigFilepath: path.join(__dirname, 'tsconfig.test.esm.json'),
+  })
 
   return {
     ...baseConfig,
