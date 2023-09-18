@@ -1,6 +1,7 @@
 export * from './ast/clone'
 export * from './ast/collect/definition'
 export * from './ast/collect/footnote'
+export * from './ast/collect/inline'
 export * from './ast/collect/misc'
 export * from './ast/collect/node'
 export * from './ast/collect/text'
