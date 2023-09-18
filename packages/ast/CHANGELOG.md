@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/yozorajs/yozora/compare/v2.2.0...v2.3.0) (2023-09-18)
+
+
+### Performance Improvements
+
+* :fire:  remove 'tsconfig.json's in sub packages ([1e6a8b3](https://github.com/yozorajs/yozora/commit/1e6a8b39b1f4f4b84f01829b8956b1ef664e8743))
+
+
+
+
+
 # [2.2.0](https://github.com/yozorajs/yozora/compare/v2.1.5...v2.2.0) (2023-08-21)
 
 **Note:** Version bump only for package @yozora/ast

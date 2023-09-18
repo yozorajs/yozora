@@ -1,6 +1,6 @@
 {
   "name": "@yozora/core-tokenizer",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "packages/core-tokenizer"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.2.0/packages/core-tokenizer#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.0/packages/core-tokenizer#readme",
   "type": "module",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -38,7 +38,7 @@
     "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build"
   },
   "dependencies": {
-    "@yozora/ast": "^2.2.0",
-    "@yozora/character": "^2.2.0"
+    "@yozora/ast": "^2.3.0",
+    "@yozora/character": "^2.3.0"
   }
 }

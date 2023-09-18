@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/yozorajs/yozora/compare/v2.2.0...v2.3.0) (2023-09-18)
+
+
+### Performance Improvements
+
+* ⬆️ upgrade devDependencies ([0097a04](https://github.com/yozorajs/yozora/commit/0097a0459a9bfb89ac7157f86373d3232ac298a5))
+
+
+
+
+
 # [2.2.0](https://github.com/yozorajs/yozora/compare/v2.1.5...v2.2.0) (2023-08-21)
 
 
