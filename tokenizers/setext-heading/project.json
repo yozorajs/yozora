@@ -3,6 +3,7 @@
   "name": "setext-heading",
   "sourceRoot": "tokenizers/setext-heading/src",
   "projectType": "library",
+  "tags": ["tokenizer"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

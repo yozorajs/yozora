@@ -3,6 +3,7 @@
   "name": "parser",
   "sourceRoot": "packages/parser/src",
   "projectType": "library",
+  "tags": ["parser"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

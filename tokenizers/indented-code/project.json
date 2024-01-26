@@ -3,6 +3,7 @@
   "name": "indented-code",
   "sourceRoot": "tokenizers/indented-code/src",
   "projectType": "library",
+  "tags": ["tokenizer"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

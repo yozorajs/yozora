@@ -3,6 +3,7 @@
   "name": "ecma-import",
   "sourceRoot": "tokenizers/ecma-import/src",
   "projectType": "library",
+  "tags": ["tokenizer"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

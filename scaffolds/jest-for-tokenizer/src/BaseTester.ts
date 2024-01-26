@@ -102,7 +102,7 @@ export abstract class BaseTester<T = unknown> {
         }),
       }
       const content = this.stringify(result)
-      fs.writeFileSync(caseGroup.filepath, content, 'utf-8')
+      fs.writeFileSync(caseGroup.filepath, content + '\n', 'utf-8')
     }
 
     // Generate answers

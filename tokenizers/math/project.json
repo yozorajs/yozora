@@ -3,6 +3,7 @@
   "name": "math",
   "sourceRoot": "tokenizers/math/src",
   "projectType": "library",
+  "tags": ["tokenizer"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

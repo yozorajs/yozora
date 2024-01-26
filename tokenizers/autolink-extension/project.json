@@ -3,6 +3,7 @@
   "name": "autolink-extension",
   "sourceRoot": "tokenizers/autolink-extension/src",
   "projectType": "library",
+  "tags": ["tokenizer"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

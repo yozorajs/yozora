@@ -3,6 +3,7 @@
   "name": "invariant",
   "sourceRoot": "packages/invariant/src",
   "projectType": "library",
+  "tags": ["other"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

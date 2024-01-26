@@ -3,6 +3,7 @@
   "name": "parser-gfm",
   "sourceRoot": "packages/parser-gfm/src",
   "projectType": "library",
+  "tags": ["parser"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

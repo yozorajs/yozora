@@ -3,6 +3,7 @@
   "name": "paragraph",
   "sourceRoot": "tokenizers/paragraph/src",
   "projectType": "library",
+  "tags": ["tokenizer"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

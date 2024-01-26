@@ -3,6 +3,7 @@
   "name": "emphasis",
   "sourceRoot": "tokenizers/emphasis/src",
   "projectType": "library",
+  "tags": ["tokenizer"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

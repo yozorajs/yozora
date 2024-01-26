@@ -3,6 +3,7 @@
   "name": "inline-math",
   "sourceRoot": "tokenizers/inline-math/src",
   "projectType": "library",
+  "tags": ["tokenizer"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

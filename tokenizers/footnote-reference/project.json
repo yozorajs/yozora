@@ -3,6 +3,7 @@
   "name": "footnote-reference",
   "sourceRoot": "tokenizers/footnote-reference/src",
   "projectType": "library",
+  "tags": ["tokenizer"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

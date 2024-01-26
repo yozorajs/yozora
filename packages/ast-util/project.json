@@ -3,6 +3,7 @@
   "name": "ast-util",
   "sourceRoot": "packages/ast-util/src",
   "projectType": "library",
+  "tags": ["other"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

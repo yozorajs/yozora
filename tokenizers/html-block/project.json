@@ -3,6 +3,7 @@
   "name": "html-block",
   "sourceRoot": "tokenizers/html-block/src",
   "projectType": "library",
+  "tags": ["tokenizer"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

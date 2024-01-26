@@ -3,6 +3,7 @@
   "name": "image",
   "sourceRoot": "tokenizers/image/src",
   "projectType": "library",
+  "tags": ["tokenizer"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

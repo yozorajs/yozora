@@ -3,6 +3,7 @@
   "name": "inline-code",
   "sourceRoot": "tokenizers/inline-code/src",
   "projectType": "library",
+  "tags": ["tokenizer"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

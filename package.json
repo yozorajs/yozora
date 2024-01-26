@@ -37,9 +37,10 @@
     "rebuild": "run-s clean build",
     "test": "nx run-many --target=test --all=true",
     "test:coverage": "nx run-many --target=test --configuration=coverage --all=true",
+    "test:parser": "nx run-many --target=test --projects=tag:parser",
+    "test:other": "nx run-many --target=test --projects=tag:other",
+    "test:tokenizer": "nx run-many --target=test --projects=tag:tokenizer",
     "test:update": "nx run-many --target=test --configuration=update --all=true",
-    "test:parser": "lerna run test --concurrency 1 --scope @yozora/parser-*",
-    "test:tokenizer": "lerna run test --concurrency 1 --scope @yozora/parser-*",
     "version": "yarn && ghc-doc-link-rewrite --username=yozorajs --repository=yozora && git stage -u yarn.lock **/package.json **/*.md"
   },
   "workspaces": [

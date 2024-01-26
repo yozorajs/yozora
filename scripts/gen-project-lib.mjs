@@ -18,6 +18,7 @@ const WORKSPACE_ROOT = path.dirname(__dirname)
  * @typedef {Object} IGenNxProjectJsonParams
  * @property {string} projectName - project name
  * @property {string} projectDir - project dir from the workspace root.
+ * @property {string[]} tags
  * @property {"lib" | "cli" | undefined} projectType -- default lib
  */
 
@@ -60,14 +61,14 @@ const entries = [
     projectName,
     projectDir: 'tokenizers/' + projectName,
     projectType: 'lib',
+    tags: ['tokenizer'],
   })),
-  ...[
-    //
-    'jest-for-tokenizer',
-  ].map(projectName => ({
+  // parsers
+  ...['parser', 'parser-gfm', 'parser-gfm-ex'].map(projectName => ({
     projectName,
-    projectDir: 'scaffolds/' + projectName,
+    projectDir: 'packages/' + projectName,
     projectType: 'lib',
+    tags: ['parser'],
   })),
   // others
   ...[
@@ -78,13 +79,20 @@ const entries = [
     'core-tokenizer',
     'invariant',
     'markup-weaver',
-    'parser',
-    'parser-gfm',
-    'parser-gfm-ex',
   ].map(projectName => ({
     projectName,
     projectDir: 'packages/' + projectName,
     projectType: 'lib',
+    tags: ['other'],
+  })),
+  ...[
+    //
+    'jest-for-tokenizer',
+  ].map(projectName => ({
+    projectName,
+    projectDir: 'scaffolds/' + projectName,
+    projectType: 'lib',
+    tags: ['other'],
   })),
 ]
 
@@ -119,7 +127,7 @@ function writeNxProjectJson(params) {
  * @returns
  */
 function genNxProjectJson(params) {
-  const { projectName, projectDir, projectType } = params
+  const { projectName, projectDir, projectType, tags } = params
   const absolutePackageDir = path.resolve(WORKSPACE_ROOT, projectDir)
   const absoluteTestDir = path.join(absolutePackageDir, '__test__')
   const hasTest =
@@ -132,6 +140,7 @@ function genNxProjectJson(params) {
     name: projectName,
     sourceRoot: projectDir + '/src',
     projectType: 'library',
+    tags,
     targets: {
       clean: {
         executor: 'nx:run-commands',

@@ -3,6 +3,7 @@
   "name": "core-tokenizer",
   "sourceRoot": "packages/core-tokenizer/src",
   "projectType": "library",
+  "tags": ["other"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

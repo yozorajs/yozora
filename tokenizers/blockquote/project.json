@@ -3,6 +3,7 @@
   "name": "blockquote",
   "sourceRoot": "tokenizers/blockquote/src",
   "projectType": "library",
+  "tags": ["tokenizer"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

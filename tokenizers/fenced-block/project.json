@@ -3,6 +3,7 @@
   "name": "fenced-block",
   "sourceRoot": "tokenizers/fenced-block/src",
   "projectType": "library",
+  "tags": ["tokenizer"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

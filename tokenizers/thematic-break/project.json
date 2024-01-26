@@ -3,6 +3,7 @@
   "name": "thematic-break",
   "sourceRoot": "tokenizers/thematic-break/src",
   "projectType": "library",
+  "tags": ["tokenizer"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

@@ -3,6 +3,7 @@
   "name": "list",
   "sourceRoot": "tokenizers/list/src",
   "projectType": "library",
+  "tags": ["tokenizer"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

@@ -3,6 +3,7 @@
   "name": "fenced-code",
   "sourceRoot": "tokenizers/fenced-code/src",
   "projectType": "library",
+  "tags": ["tokenizer"],
   "targets": {
     "clean": {
       "executor": "nx:run-commands",
