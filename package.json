@@ -16,13 +16,11 @@
     "node": ">= 16.0.0"
   },
   "scripts": {
-    ":publish": "yarn test && lerna publish",
+    ":publish": "yarn build && yarn test && lerna publish",
     ":publish-recover": "git stash && lerna publish from-package",
     ":upgrade": "yarn upgrade-interactive && run-s clean format build test",
-    ":workspace:link": "lerna exec 'yarn link' --concurrency 1",
-    ":workspace:unlink": "lerna exec 'yarn unlink' --concurrency 1",
     "build": "nx run-many --target=build --all=true --with-deps --parallel=false",
-    "clean": "lerna clean --yes && yarn install",
+    "clean": "nx run-many --target=clean --all=true && yarn install",
     "doc": "run-s doc:tokenizer doc:parser",
     "doc:tokenizer": "node -r ts-node/register -r tsconfig-paths/register scripts/handlebar/tokenizer.ts",
     "doc:parser": "node -r ts-node/register -r tsconfig-paths/register scripts/handlebar/parser.ts",
