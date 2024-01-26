@@ -31,6 +31,5 @@ export default async function () {
       },
     },
     extensionsToTreatAsEsm: ['.ts', '.mts'],
-    prettierPath: require.resolve('prettier-2'),
   }
 }
