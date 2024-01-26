@@ -3,7 +3,6 @@ import { LinkType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { calcStringFromNodePoints } from '@yozora/character'
 import type { IParseInlineHookCreator } from '@yozora/core-tokenizer'
-import { encodeLinkDestination } from '@yozora/core-tokenizer'
 import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function (api) {
@@ -20,7 +19,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
           url = 'mailto:' + url
         }
 
-        const encodedUrl = encodeLinkDestination(url)
+        const encodedUrl: string = api.formatUrl(url)
         const children: Node[] = api.parseInlineTokens(token.children)
         const node: INode = api.shouldReservePosition
           ? { type: LinkType, position: api.calcPosition(token), url: encodedUrl, children }

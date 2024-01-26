@@ -7,7 +7,7 @@ import type {
   IInlineTokenizer,
   ITokenizer,
 } from '@yozora/core-tokenizer'
-import { TokenizerType } from '@yozora/core-tokenizer'
+import { TokenizerType, encodeLinkDestination } from '@yozora/core-tokenizer'
 import { createProcessor } from './processor'
 import type { IParseOptions, IParser } from './types'
 import { createPhrasingLineGenerator } from './util/phrasing-line'
@@ -115,12 +115,13 @@ export class DefaultParser implements IParser {
       presetDefinitions: [],
       presetFootnoteDefinitions: [],
       shouldReservePosition: false,
+      formatUrl: encodeLinkDestination,
       ...options,
     }
   }
 
   public parse(contents: Iterable<string> | string, options: IParseOptions = {}): Root {
-    const { shouldReservePosition, presetDefinitions, presetFootnoteDefinitions } = {
+    const { shouldReservePosition, presetDefinitions, presetFootnoteDefinitions, formatUrl } = {
       ...this.defaultParseOptions,
       ...options,
     }
@@ -138,6 +139,7 @@ export class DefaultParser implements IParser {
       shouldReservePosition,
       presetDefinitions,
       presetFootnoteDefinitions,
+      formatUrl,
     })
     const root: Root = processor.process(linesIterator)
     return root
