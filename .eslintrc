@@ -6,7 +6,7 @@
   },
   "overrides": [
     {
-      "files": ["**/*.js"],
+      "files": ["**/*.js", "**/*.mjs"],
       "parser": "@babel/eslint-parser",
       "parserOptions": {
         "ecmaVersion": 2018,

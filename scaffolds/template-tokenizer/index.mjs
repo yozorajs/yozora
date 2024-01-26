@@ -7,7 +7,7 @@ import {
 import { toKebabCase, toTrim } from '@guanghechen/helper-string'
 import path from 'node:path'
 import url from 'node:url'
-import manifest from './package.json' assert { type: 'json' }
+import manifest from './package.json'
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
@@ -15,15 +15,15 @@ const transformers = {
   tokenizerName: toTrim,
 }
 
-export default function (plop) {
-  const preAnswers = resolveNpmPackagePreAnswers({
+export default async function (plop) {
+  const preAnswers = await resolveNpmPackagePreAnswers({
     isMonorepo: convertToBoolean(process.env.DEBUG_IS_MONOREPO),
   })
-  const defaultAnswers = { packageVersion: manifest.version }
   const { cwd, isMonorepo } = preAnswers
   const tokenizerPackageNameRegex = /^(?:[^\\/]+\/)tokenizer-([\w-]+)$/
 
-  const prompts = createNpmPackagePrompts(preAnswers, defaultAnswers)
+  const defaultAnswers = { packageVersion: manifest.version }
+  const prompts = await createNpmPackagePrompts(preAnswers, defaultAnswers)
   prompts.splice(
     1,
     0,
