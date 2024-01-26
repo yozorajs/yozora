@@ -1,23 +1,21 @@
 .DS_Store
+*.env.local
+*.env.*.local
+*.ntvs*
+*.njsproj
+*.sln
+*.suo
+*.sw*
+*.tsbuildinfo
 
-__tmp__/
-lib/
-build/
+.nx/
 coverage/
 dist/
+lib/
 node_modules/
-release/
-target/
-**/*.styl.d.ts
-
-*.tsbuildinfo
-tmp/
-
-# local env files
-.env.local
-.env.*.local
 
 # Log files
+
 npm-debug.log*
 yarn-debug.log*
 lerna-debug.log*
@@ -26,6 +24,7 @@ yarn-error.log*
 
 # Editor directories and files
 .idea/
+
 .vscode/*
 !.vscode/settings.json
 !.vscode/launch.json
@@ -33,9 +32,3 @@ yarn-error.log*
 .yarn/*
 !.yarn/plugins
 !.yarn/releases
-
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw*

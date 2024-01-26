@@ -1,0 +1,64 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "image-reference",
+  "sourceRoot": "tokenizers/image-reference/src",
+  "projectType": "library",
+  "targets": {
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "parallel": false,
+        "sourceMap": true,
+        "commands": ["rimraf lib"]
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["clean", "^build"],
+      "options": {
+        "cwd": "tokenizers/image-reference",
+        "parallel": false,
+        "sourceMap": true,
+        "commands": ["cross-env ROLLUP_CONFIG_TYPE=lib rollup -c ../../rollup.config.mjs"]
+      },
+      "configurations": {
+        "production": {
+          "sourceMap": false,
+          "env": {
+            "NODE_ENV": "production"
+          }
+        }
+      }
+    },
+    "watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "tokenizers/image-reference",
+        "parallel": false,
+        "sourceMap": true,
+        "commands": ["tsc -p tsconfig.lib.json -w --outDir lib/"]
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "tokenizers/image-reference",
+        "commands": [
+          "cross-env NODE_OPTIONS=--experimental-vm-modules jest --config ../../jest.config.mjs --rootDir ."
+        ]
+      },
+      "configurations": {
+        "coverage": {
+          "commands": [
+            "cross-env NODE_OPTIONS=--experimental-vm-modules jest --config ../../jest.config.mjs --rootDir . --coverage"
+          ]
+        },
+        "update": {
+          "commands": [
+            "cross-env NODE_OPTIONS=--experimental-vm-modules jest --config ../../jest.config.mjs --rootDir . -u"
+          ]
+        }
+      }
+    }
+  }
+}

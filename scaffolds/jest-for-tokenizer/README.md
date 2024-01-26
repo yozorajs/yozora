@@ -43,27 +43,25 @@
 </header>
 <br/>
 
-
 Jest util for testing yozora tokenizers.
 
 ## Install
 
-* npm
+- npm
 
   ```bash
   npm install --save-dev @yozora/jest-for-tokenizer
   ```
 
-* yarn
+- yarn
 
   ```bash
   yarn add --dev @yozora/jest-for-tokenizer
   ```
 
-
 ## Usage
 
-* Test with [@yozora/parser]
+- Test with [@yozora/parser]
 
   ```typescript
   import { createTokenizerTester } from '@yozora/jest-for-tokenizer'
@@ -83,7 +81,7 @@ Jest util for testing yozora tokenizers.
       'gfm/**/*.json',
       // The following cases are conflict when enabled GFM autolink (extension)
       // @see https://github.github.com/gfm/#autolinks-extension-
-      '!gfm/**/#616.json',  
+      '!gfm/**/#616.json',
       '!gfm/**/#619.json',
       '!gfm/**/#620.json',
     ])
@@ -96,7 +94,7 @@ Jest util for testing yozora tokenizers.
     .runTest()
   ```
 
-* Test with [@yozora/parser-gfm]
+- Test with [@yozora/parser-gfm]
 
   ```typescript
   import { createTokenizerTester } from '@yozora/jest-for-tokenizer'
@@ -133,7 +131,7 @@ Jest util for testing yozora tokenizers.
     .runTest()
   ```
 
-* Test with [@yozora/parser-gfm-ex]
+- Test with [@yozora/parser-gfm-ex]
 
   ```typescript
   import { createTokenizerTester } from '@yozora/jest-for-tokenizer'
@@ -165,14 +163,12 @@ Jest util for testing yozora tokenizers.
     .runTest()
   ```
 
-
 ## Related
 
-* [homepage][]
-* [@yozora/parser][]
-* [@yozora/parser-gfm][]
-* [@yozora/parser-gfm-ex][]
-
+- [homepage][]
+- [@yozora/parser][]
+- [@yozora/parser-gfm][]
+- [@yozora/parser-gfm-ex][]
 
 [homepage]: https://github.com/yozorajs/yozora/tree/v2.3.0/scaffolds/jest-for-tokenizer#readme
 [@yozora/parser]: https://www.npmjs.com/package/@yozora/parser

@@ -34,17 +34,7 @@
     "LICENSE",
     "README.md"
   ],
-  "scripts": {
-    "build": "rimraf lib/ && cross-env NODE_ENV=production rollup -c ../../rollup.config.mjs",
-    "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build",
-    "test": "node --experimental-vm-modules ../../node_modules/.bin/jest --config ../../jest.config.mjs --rootDir .",
-    "test:update": "yarn test -u"
-  },
   "dependencies": {
     "@yozora/ast": "^2.3.0"
-  },
-  "devDependencies": {
-    "cross-env": "^7.0.3",
-    "jest": "^29.7.0"
   }
 }

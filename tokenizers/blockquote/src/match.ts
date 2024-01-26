@@ -102,7 +102,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
 
   function eatContinuationText(
     line: Readonly<IPhrasingContentLine>,
-    token: IToken,
+    _token: IToken,
     parentToken: Readonly<IBlockToken>,
   ): IResultOfEatContinuationText {
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex, countOfPrecedeSpaces } = line

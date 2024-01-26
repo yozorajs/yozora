@@ -2333,8 +2333,6 @@ __metadata:
   dependencies:
     "@yozora/ast": ^2.3.0
     "@yozora/character": ^2.3.0
-    cross-env: ^7.0.3
-    jest: ^29.7.0
   languageName: unknown
   linkType: soft
 
@@ -2389,11 +2387,6 @@ __metadata:
 "@yozora/invariant@^2.3.0, @yozora/invariant@workspace:packages/invariant":
   version: 0.0.0-use.local
   resolution: "@yozora/invariant@workspace:packages/invariant"
-  dependencies:
-    cross-env: ^7.0.3
-    jest: ^29.7.0
-    rimraf: ^5.0.5
-    rollup: ^4.9.6
   languageName: unknown
   linkType: soft
 
@@ -2416,8 +2409,6 @@ __metadata:
   resolution: "@yozora/markup-weaver@workspace:packages/markup-weaver"
   dependencies:
     "@yozora/ast": ^2.3.0
-    cross-env: ^7.0.3
-    jest: ^29.7.0
   languageName: unknown
   linkType: soft
 
@@ -2519,10 +2510,6 @@ __metadata:
     "@yozora/tokenizer-table": ^2.3.0
     "@yozora/tokenizer-text": ^2.3.0
     "@yozora/tokenizer-thematic-break": ^2.3.0
-    cross-env: ^7.0.3
-    jest: ^29.7.0
-    rimraf: ^5.0.5
-    rollup: ^4.9.6
   languageName: unknown
   linkType: soft
 
@@ -2871,10 +2858,12 @@ __metadata:
   dependencies:
     "@babel/core": ^7.23.9
     "@babel/eslint-parser": ^7.23.9
+    "@guanghechen/chalk": ^1.0.0-alpha.11
     "@guanghechen/conventional-changelog": ^6.0.0-alpha.0
     "@guanghechen/helper-jest": ^6.0.0-alpha.2
     "@guanghechen/helper-string": ^6.0.0-alpha.2
     "@guanghechen/jest-config": ^6.0.0-alpha.2
+    "@guanghechen/reporter": ^1.0.0-alpha.26
     "@guanghechen/rollup-config": ^6.0.0-alpha.3
     "@guanghechen/script-doc-link": ^6.0.0-alpha.11
     "@types/jest": 29.5.11
@@ -2888,6 +2877,7 @@ __metadata:
     lerna: 8.0.2
     lint-staged: 15.2.0
     npm-run-all: 4.1.5
+    nx: ^17.2.8
     pinst: 3.0.0
     prettier: 3.2.4
     rimraf: ^5.0.5
@@ -8552,7 +8542,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nx@npm:17.2.8, nx@npm:>=17.1.2 < 18":
+"nx@npm:17.2.8, nx@npm:>=17.1.2 < 18, nx@npm:^17.2.8":
   version: 17.2.8
   resolution: "nx@npm:17.2.8"
   dependencies:

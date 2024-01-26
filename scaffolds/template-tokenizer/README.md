@@ -37,24 +37,21 @@
 </header>
 <br/>
 
-
 Templates for creating a Yozora tokenizer (`InlineTokenizer` / `BlockTokenizer`).
-
 
 ## Install
 
-* npm
+- npm
 
   ```bash
   npm install -g @yozora/template-tokenizer
   ```
 
-* yarn
+- yarn
 
   ```bash
   yarn global add @yozora/template-tokenizer
   ```
-
 
 ## Usage
 
@@ -62,10 +59,8 @@ Templates for creating a Yozora tokenizer (`InlineTokenizer` / `BlockTokenizer`)
 $ yozora-template-tokenizer
 ```
 
-
 ## Related
 
-* [homepage][]
-
+- [homepage][]
 
 [homepage]: https://github.com/yozorajs/yozora/tree/v2.3.0/scaffolds/template-tokenizer#readme

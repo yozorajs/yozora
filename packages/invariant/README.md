@@ -43,27 +43,26 @@
 </header>
 <br/>
 
-An invariant function, which takes a `condition` and a optional `message` value,
-and throw an error when the given condition fails.
+An invariant function, which takes a `condition` and a optional `message` value, and throw an error
+when the given condition fails.
 
 ## Install
 
-* npm
+- npm
 
   ```bash
   npm install --save @yozora/invariant
   ```
 
-* yarn
+- yarn
 
   ```bash
   yarn add @yozora/invariant
   ```
 
-
 ## Usage
 
-* Syntax
+- Syntax
 
   ```typescript
   function invariant(
@@ -72,7 +71,7 @@ and throw an error when the given condition fails.
   ): asserts condition
   ```
 
-* Demo
+- Demo
 
   ```typescript
   import invariant from '@yozora/invariant'
@@ -80,7 +79,6 @@ and throw an error when the given condition fails.
   invariant(typeof window !== 'undefined', '`window` is not defined.')
   invariant(typeof window !== 'undefined', () => '`window` is not defined:' + window)
   ```
-
 
 ## Related
 
