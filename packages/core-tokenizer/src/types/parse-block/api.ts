@@ -11,6 +11,11 @@ export interface IParseBlockPhaseApi {
    */
   readonly shouldReservePosition: boolean
   /**
+   * Format url.
+   * @param url
+   */
+  formatUrl(url: string): string
+  /**
    * Process node points into inline nodes.
    * @param nodePoints
    */

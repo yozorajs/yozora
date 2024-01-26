@@ -3,7 +3,6 @@ import { LinkType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcEscapedStringFromNodePoints } from '@yozora/character'
 import type { IParseInlineHookCreator } from '@yozora/core-tokenizer'
-import { encodeLinkDestination } from '@yozora/core-tokenizer'
 import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function (api) {
@@ -26,7 +25,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
             endIndex,
             true,
           )
-          url = encodeLinkDestination(destination)
+          url = api.formatUrl(destination)
         }
 
         // calc title

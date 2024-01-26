@@ -20,6 +20,13 @@ export interface IParseOptions {
    * Preset footnote definition meta data list.
    */
   readonly presetFootnoteDefinitions?: Association[]
+
+  /**
+   * Format url.
+   * @param url
+   * @returns
+   */
+  readonly formatUrl?: (url: string) => string
 }
 
 /**

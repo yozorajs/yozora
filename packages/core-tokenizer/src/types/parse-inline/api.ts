@@ -11,14 +11,19 @@ export interface IParseInlinePhaseApi {
    */
   readonly shouldReservePosition: boolean
   /**
-   * Get the node points.
-   */
-  getNodePoints(): ReadonlyArray<INodePoint>
-  /**
    * Calculate position of token.
    * @param interval
    */
   calcPosition(interval: Readonly<INodeInterval>): Position
+  /**
+   * Format url.
+   * @param url
+   */
+  formatUrl(url: string): string
+  /**
+   * Get the node points.
+   */
+  getNodePoints(): ReadonlyArray<INodePoint>
   /**
    * Check if there is exists a definition with the given identifier.
    * @param identifier

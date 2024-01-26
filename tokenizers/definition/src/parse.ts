@@ -2,7 +2,6 @@ import { DefinitionType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcEscapedStringFromNodePoints } from '@yozora/character'
 import type { IParseBlockHookCreator } from '@yozora/core-tokenizer'
-import { encodeLinkDestination } from '@yozora/core-tokenizer'
 import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (api) {
@@ -26,7 +25,7 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
                 true,
               )
             : calcEscapedStringFromNodePoints(destinationPoints, 0, destinationPoints.length, true)
-        const url = encodeLinkDestination(destination)
+        const url = api.formatUrl(destination)
 
         /**
          * Resolve link title

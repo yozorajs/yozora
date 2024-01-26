@@ -24,6 +24,7 @@ export interface IProcessorOptions {
   readonly shouldReservePosition: boolean
   readonly presetDefinitions: Association[]
   readonly presetFootnoteDefinitions: Association[]
+  readonly formatUrl: (url: string) => string
 }
 
 /**

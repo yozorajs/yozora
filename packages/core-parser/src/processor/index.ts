@@ -29,6 +29,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     shouldReservePosition,
     presetDefinitions,
     presetFootnoteDefinitions,
+    formatUrl,
   } = options
 
   let isIdentifierRegisterAvailable = false
@@ -51,6 +52,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     },
     parseBlockApi: {
       shouldReservePosition,
+      formatUrl,
       processInlines,
       parseBlockTokens,
     },
@@ -64,14 +66,15 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     },
     parseInlineApi: {
       shouldReservePosition,
-      getNodePoints: () => _nodePoints,
-      hasDefinition: identifier => definitionIdentifierSet.has(identifier),
-      hasFootnoteDefinition: identifier => footnoteIdentifierSet.has(identifier),
-      parseInlineTokens,
       calcPosition: token => ({
         start: calcStartPoint(_nodePoints, token.startIndex),
         end: calcEndPoint(_nodePoints, token.endIndex - 1),
       }),
+      formatUrl,
+      getNodePoints: () => _nodePoints,
+      hasDefinition: identifier => definitionIdentifierSet.has(identifier),
+      hasFootnoteDefinition: identifier => footnoteIdentifierSet.has(identifier),
+      parseInlineTokens,
     },
   })
 
