@@ -37,9 +37,36 @@ export default async function () {
 }
 
 const coverageMap = {
+  '@yozora/ast-util': {
+    global: {
+      functions: 84,
+      lines: 87,
+      statements: 87,
+    },
+  },
   '@yozora/character': {
-    branches: 89,
-    functions: 63,
+    global: {
+      branches: 89,
+      functions: 63,
+    },
+  },
+  '@yozora/invariant': {
+    global: {
+      branches: 88,
+    },
+  },
+  '@yozora/jest-for-tokenizer': {
+    global: {
+      branches: 88,
+      functions: 80,
+      lines: 84,
+      statements: 84,
+    },
+  },
+  '@yozora/markup-weaver': {
+    global: {
+      functions: 95,
+    },
   },
   '@yozora/tokenizer-blockquote': {
     global: {
