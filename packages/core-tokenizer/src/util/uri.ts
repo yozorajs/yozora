@@ -8,9 +8,17 @@ import type { IInlineToken } from '../types/token'
  * @param destination
  */
 export function encodeLinkDestination(destination: string): string {
-  const uri = decodeURI(destination)
-  const result = encodeURI(uri)
-  return result
+  let result: string = destination
+  for (;;) {
+    try {
+      const result2 = decodeURIComponent(result)
+      if (result2 === result) break
+      result = result2
+    } catch (error) {
+      break
+    }
+  }
+  return encodeURI(result)
 }
 
 /**
