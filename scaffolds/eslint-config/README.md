@@ -1,6 +1,6 @@
 <header>
   <h1 align="center">
-    <a href="https://github.com/yozorajs/yozora/tree/v2.3.0/scaffolds/eslint-config#readme">@yozora/eslint-config</a>
+    <a href="https://github.com/yozorajs/yozora/tree/v2.3.1/scaffolds/eslint-config#readme">@yozora/eslint-config</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/eslint-config">
@@ -95,5 +95,5 @@ Eslint configs for yozora tokenizers.
 
 - [homepage][]
 
-[homepage]: https://github.com/yozorajs/yozora/tree/v2.3.0/scaffolds/eslint-config#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/v2.3.1/scaffolds/eslint-config#readme
 [@babel/eslint-parser]: https://www.npmjs.com/package/@babel/eslint-parser

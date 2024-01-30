@@ -2328,45 +2328,45 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yozora/ast-util@^2.3.0, @yozora/ast-util@workspace:packages/ast-util":
+"@yozora/ast-util@^2.3.1, @yozora/ast-util@workspace:packages/ast-util":
   version: 0.0.0-use.local
   resolution: "@yozora/ast-util@workspace:packages/ast-util"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/ast@^2.3.0, @yozora/ast@workspace:packages/ast":
+"@yozora/ast@^2.3.1, @yozora/ast@workspace:packages/ast":
   version: 0.0.0-use.local
   resolution: "@yozora/ast@workspace:packages/ast"
   languageName: unknown
   linkType: soft
 
-"@yozora/character@^2.3.0, @yozora/character@workspace:packages/character":
+"@yozora/character@^2.3.1, @yozora/character@workspace:packages/character":
   version: 0.0.0-use.local
   resolution: "@yozora/character@workspace:packages/character"
   languageName: unknown
   linkType: soft
 
-"@yozora/core-parser@^2.3.0, @yozora/core-parser@workspace:packages/core-parser":
+"@yozora/core-parser@^2.3.1, @yozora/core-parser@workspace:packages/core-parser":
   version: 0.0.0-use.local
   resolution: "@yozora/core-parser@workspace:packages/core-parser"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/ast-util": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
-    "@yozora/invariant": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/ast-util": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
+    "@yozora/invariant": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/core-tokenizer@^2.3.0, @yozora/core-tokenizer@workspace:packages/core-tokenizer":
+"@yozora/core-tokenizer@^2.3.1, @yozora/core-tokenizer@workspace:packages/core-tokenizer":
   version: 0.0.0-use.local
   resolution: "@yozora/core-tokenizer@workspace:packages/core-tokenizer"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
   languageName: unknown
   linkType: soft
 
@@ -2385,7 +2385,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@yozora/invariant@^2.3.0, @yozora/invariant@workspace:packages/invariant":
+"@yozora/invariant@^2.3.1, @yozora/invariant@workspace:packages/invariant":
   version: 0.0.0-use.local
   resolution: "@yozora/invariant@workspace:packages/invariant"
   languageName: unknown
@@ -2395,21 +2395,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@yozora/jest-for-tokenizer@workspace:scaffolds/jest-for-tokenizer"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/ast-util": ^2.3.0
-    "@yozora/core-parser": ^2.3.0
-    "@yozora/invariant": ^2.3.0
-    "@yozora/markup-weaver": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/ast-util": ^2.3.1
+    "@yozora/core-parser": ^2.3.1
+    "@yozora/invariant": ^2.3.1
+    "@yozora/markup-weaver": ^2.3.1
     globby: ^14.0.0
     jest: ^29.7.0
   languageName: unknown
   linkType: soft
 
-"@yozora/markup-weaver@^2.3.0, @yozora/markup-weaver@workspace:packages/markup-weaver":
+"@yozora/markup-weaver@^2.3.1, @yozora/markup-weaver@workspace:packages/markup-weaver":
   version: 0.0.0-use.local
   resolution: "@yozora/markup-weaver@workspace:packages/markup-weaver"
   dependencies:
-    "@yozora/ast": ^2.3.0
+    "@yozora/ast": ^2.3.1
   languageName: unknown
   linkType: soft
 
@@ -2417,31 +2417,31 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@yozora/parser-gfm-ex@workspace:packages/parser-gfm-ex"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/core-parser": ^2.3.0
-    "@yozora/tokenizer-autolink": ^2.3.0
-    "@yozora/tokenizer-autolink-extension": ^2.3.0
-    "@yozora/tokenizer-blockquote": ^2.3.0
-    "@yozora/tokenizer-break": ^2.3.0
-    "@yozora/tokenizer-definition": ^2.3.0
-    "@yozora/tokenizer-delete": ^2.3.0
-    "@yozora/tokenizer-emphasis": ^2.3.0
-    "@yozora/tokenizer-fenced-code": ^2.3.0
-    "@yozora/tokenizer-heading": ^2.3.0
-    "@yozora/tokenizer-html-block": ^2.3.0
-    "@yozora/tokenizer-html-inline": ^2.3.0
-    "@yozora/tokenizer-image": ^2.3.0
-    "@yozora/tokenizer-image-reference": ^2.3.0
-    "@yozora/tokenizer-indented-code": ^2.3.0
-    "@yozora/tokenizer-inline-code": ^2.3.0
-    "@yozora/tokenizer-link": ^2.3.0
-    "@yozora/tokenizer-link-reference": ^2.3.0
-    "@yozora/tokenizer-list": ^2.3.0
-    "@yozora/tokenizer-paragraph": ^2.3.0
-    "@yozora/tokenizer-setext-heading": ^2.3.0
-    "@yozora/tokenizer-table": ^2.3.0
-    "@yozora/tokenizer-text": ^2.3.0
-    "@yozora/tokenizer-thematic-break": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/core-parser": ^2.3.1
+    "@yozora/tokenizer-autolink": ^2.3.1
+    "@yozora/tokenizer-autolink-extension": ^2.3.1
+    "@yozora/tokenizer-blockquote": ^2.3.1
+    "@yozora/tokenizer-break": ^2.3.1
+    "@yozora/tokenizer-definition": ^2.3.1
+    "@yozora/tokenizer-delete": ^2.3.1
+    "@yozora/tokenizer-emphasis": ^2.3.1
+    "@yozora/tokenizer-fenced-code": ^2.3.1
+    "@yozora/tokenizer-heading": ^2.3.1
+    "@yozora/tokenizer-html-block": ^2.3.1
+    "@yozora/tokenizer-html-inline": ^2.3.1
+    "@yozora/tokenizer-image": ^2.3.1
+    "@yozora/tokenizer-image-reference": ^2.3.1
+    "@yozora/tokenizer-indented-code": ^2.3.1
+    "@yozora/tokenizer-inline-code": ^2.3.1
+    "@yozora/tokenizer-link": ^2.3.1
+    "@yozora/tokenizer-link-reference": ^2.3.1
+    "@yozora/tokenizer-list": ^2.3.1
+    "@yozora/tokenizer-paragraph": ^2.3.1
+    "@yozora/tokenizer-setext-heading": ^2.3.1
+    "@yozora/tokenizer-table": ^2.3.1
+    "@yozora/tokenizer-text": ^2.3.1
+    "@yozora/tokenizer-thematic-break": ^2.3.1
   languageName: unknown
   linkType: soft
 
@@ -2449,29 +2449,29 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@yozora/parser-gfm@workspace:packages/parser-gfm"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/core-parser": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
-    "@yozora/tokenizer-autolink": ^2.3.0
-    "@yozora/tokenizer-blockquote": ^2.3.0
-    "@yozora/tokenizer-break": ^2.3.0
-    "@yozora/tokenizer-definition": ^2.3.0
-    "@yozora/tokenizer-emphasis": ^2.3.0
-    "@yozora/tokenizer-fenced-code": ^2.3.0
-    "@yozora/tokenizer-heading": ^2.3.0
-    "@yozora/tokenizer-html-block": ^2.3.0
-    "@yozora/tokenizer-html-inline": ^2.3.0
-    "@yozora/tokenizer-image": ^2.3.0
-    "@yozora/tokenizer-image-reference": ^2.3.0
-    "@yozora/tokenizer-indented-code": ^2.3.0
-    "@yozora/tokenizer-inline-code": ^2.3.0
-    "@yozora/tokenizer-link": ^2.3.0
-    "@yozora/tokenizer-link-reference": ^2.3.0
-    "@yozora/tokenizer-list": ^2.3.0
-    "@yozora/tokenizer-paragraph": ^2.3.0
-    "@yozora/tokenizer-setext-heading": ^2.3.0
-    "@yozora/tokenizer-text": ^2.3.0
-    "@yozora/tokenizer-thematic-break": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/core-parser": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
+    "@yozora/tokenizer-autolink": ^2.3.1
+    "@yozora/tokenizer-blockquote": ^2.3.1
+    "@yozora/tokenizer-break": ^2.3.1
+    "@yozora/tokenizer-definition": ^2.3.1
+    "@yozora/tokenizer-emphasis": ^2.3.1
+    "@yozora/tokenizer-fenced-code": ^2.3.1
+    "@yozora/tokenizer-heading": ^2.3.1
+    "@yozora/tokenizer-html-block": ^2.3.1
+    "@yozora/tokenizer-html-inline": ^2.3.1
+    "@yozora/tokenizer-image": ^2.3.1
+    "@yozora/tokenizer-image-reference": ^2.3.1
+    "@yozora/tokenizer-indented-code": ^2.3.1
+    "@yozora/tokenizer-inline-code": ^2.3.1
+    "@yozora/tokenizer-link": ^2.3.1
+    "@yozora/tokenizer-link-reference": ^2.3.1
+    "@yozora/tokenizer-list": ^2.3.1
+    "@yozora/tokenizer-paragraph": ^2.3.1
+    "@yozora/tokenizer-setext-heading": ^2.3.1
+    "@yozora/tokenizer-text": ^2.3.1
+    "@yozora/tokenizer-thematic-break": ^2.3.1
   languageName: unknown
   linkType: soft
 
@@ -2479,38 +2479,38 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@yozora/parser@workspace:packages/parser"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/core-parser": ^2.3.0
-    "@yozora/tokenizer-admonition": ^2.3.0
-    "@yozora/tokenizer-autolink": ^2.3.0
-    "@yozora/tokenizer-autolink-extension": ^2.3.0
-    "@yozora/tokenizer-blockquote": ^2.3.0
-    "@yozora/tokenizer-break": ^2.3.0
-    "@yozora/tokenizer-definition": ^2.3.0
-    "@yozora/tokenizer-delete": ^2.3.0
-    "@yozora/tokenizer-ecma-import": ^2.3.0
-    "@yozora/tokenizer-emphasis": ^2.3.0
-    "@yozora/tokenizer-fenced-code": ^2.3.0
-    "@yozora/tokenizer-footnote": ^2.3.0
-    "@yozora/tokenizer-footnote-definition": ^2.3.0
-    "@yozora/tokenizer-footnote-reference": ^2.3.0
-    "@yozora/tokenizer-heading": ^2.3.0
-    "@yozora/tokenizer-html-block": ^2.3.0
-    "@yozora/tokenizer-html-inline": ^2.3.0
-    "@yozora/tokenizer-image": ^2.3.0
-    "@yozora/tokenizer-image-reference": ^2.3.0
-    "@yozora/tokenizer-indented-code": ^2.3.0
-    "@yozora/tokenizer-inline-code": ^2.3.0
-    "@yozora/tokenizer-inline-math": ^2.3.0
-    "@yozora/tokenizer-link": ^2.3.0
-    "@yozora/tokenizer-link-reference": ^2.3.0
-    "@yozora/tokenizer-list": ^2.3.0
-    "@yozora/tokenizer-math": ^2.3.0
-    "@yozora/tokenizer-paragraph": ^2.3.0
-    "@yozora/tokenizer-setext-heading": ^2.3.0
-    "@yozora/tokenizer-table": ^2.3.0
-    "@yozora/tokenizer-text": ^2.3.0
-    "@yozora/tokenizer-thematic-break": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/core-parser": ^2.3.1
+    "@yozora/tokenizer-admonition": ^2.3.1
+    "@yozora/tokenizer-autolink": ^2.3.1
+    "@yozora/tokenizer-autolink-extension": ^2.3.1
+    "@yozora/tokenizer-blockquote": ^2.3.1
+    "@yozora/tokenizer-break": ^2.3.1
+    "@yozora/tokenizer-definition": ^2.3.1
+    "@yozora/tokenizer-delete": ^2.3.1
+    "@yozora/tokenizer-ecma-import": ^2.3.1
+    "@yozora/tokenizer-emphasis": ^2.3.1
+    "@yozora/tokenizer-fenced-code": ^2.3.1
+    "@yozora/tokenizer-footnote": ^2.3.1
+    "@yozora/tokenizer-footnote-definition": ^2.3.1
+    "@yozora/tokenizer-footnote-reference": ^2.3.1
+    "@yozora/tokenizer-heading": ^2.3.1
+    "@yozora/tokenizer-html-block": ^2.3.1
+    "@yozora/tokenizer-html-inline": ^2.3.1
+    "@yozora/tokenizer-image": ^2.3.1
+    "@yozora/tokenizer-image-reference": ^2.3.1
+    "@yozora/tokenizer-indented-code": ^2.3.1
+    "@yozora/tokenizer-inline-code": ^2.3.1
+    "@yozora/tokenizer-inline-math": ^2.3.1
+    "@yozora/tokenizer-link": ^2.3.1
+    "@yozora/tokenizer-link-reference": ^2.3.1
+    "@yozora/tokenizer-list": ^2.3.1
+    "@yozora/tokenizer-math": ^2.3.1
+    "@yozora/tokenizer-paragraph": ^2.3.1
+    "@yozora/tokenizer-setext-heading": ^2.3.1
+    "@yozora/tokenizer-table": ^2.3.1
+    "@yozora/tokenizer-text": ^2.3.1
+    "@yozora/tokenizer-thematic-break": ^2.3.1
   languageName: unknown
   linkType: soft
 
@@ -2526,325 +2526,325 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-admonition@^2.3.0, @yozora/tokenizer-admonition@workspace:tokenizers/admonition":
+"@yozora/tokenizer-admonition@^2.3.1, @yozora/tokenizer-admonition@workspace:tokenizers/admonition":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-admonition@workspace:tokenizers/admonition"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
-    "@yozora/tokenizer-fenced-block": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
+    "@yozora/tokenizer-fenced-block": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-autolink-extension@^2.3.0, @yozora/tokenizer-autolink-extension@workspace:tokenizers/autolink-extension":
+"@yozora/tokenizer-autolink-extension@^2.3.1, @yozora/tokenizer-autolink-extension@workspace:tokenizers/autolink-extension":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-autolink-extension@workspace:tokenizers/autolink-extension"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
-    "@yozora/tokenizer-autolink": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
+    "@yozora/tokenizer-autolink": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-autolink@^2.3.0, @yozora/tokenizer-autolink@workspace:tokenizers/autolink":
+"@yozora/tokenizer-autolink@^2.3.1, @yozora/tokenizer-autolink@workspace:tokenizers/autolink":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-autolink@workspace:tokenizers/autolink"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-blockquote@^2.3.0, @yozora/tokenizer-blockquote@workspace:tokenizers/blockquote":
+"@yozora/tokenizer-blockquote@^2.3.1, @yozora/tokenizer-blockquote@workspace:tokenizers/blockquote":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-blockquote@workspace:tokenizers/blockquote"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-break@^2.3.0, @yozora/tokenizer-break@workspace:tokenizers/break":
+"@yozora/tokenizer-break@^2.3.1, @yozora/tokenizer-break@workspace:tokenizers/break":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-break@workspace:tokenizers/break"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-definition@^2.3.0, @yozora/tokenizer-definition@workspace:tokenizers/definition":
+"@yozora/tokenizer-definition@^2.3.1, @yozora/tokenizer-definition@workspace:tokenizers/definition":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-definition@workspace:tokenizers/definition"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-delete@^2.3.0, @yozora/tokenizer-delete@workspace:tokenizers/delete":
+"@yozora/tokenizer-delete@^2.3.1, @yozora/tokenizer-delete@workspace:tokenizers/delete":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-delete@workspace:tokenizers/delete"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-ecma-import@^2.3.0, @yozora/tokenizer-ecma-import@workspace:tokenizers/ecma-import":
+"@yozora/tokenizer-ecma-import@^2.3.1, @yozora/tokenizer-ecma-import@workspace:tokenizers/ecma-import":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-ecma-import@workspace:tokenizers/ecma-import"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-emphasis@^2.3.0, @yozora/tokenizer-emphasis@workspace:tokenizers/emphasis":
+"@yozora/tokenizer-emphasis@^2.3.1, @yozora/tokenizer-emphasis@workspace:tokenizers/emphasis":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-emphasis@workspace:tokenizers/emphasis"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-fenced-block@^2.3.0, @yozora/tokenizer-fenced-block@workspace:tokenizers/fenced-block":
+"@yozora/tokenizer-fenced-block@^2.3.1, @yozora/tokenizer-fenced-block@workspace:tokenizers/fenced-block":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-fenced-block@workspace:tokenizers/fenced-block"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-fenced-code@^2.3.0, @yozora/tokenizer-fenced-code@workspace:tokenizers/fenced-code":
+"@yozora/tokenizer-fenced-code@^2.3.1, @yozora/tokenizer-fenced-code@workspace:tokenizers/fenced-code":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-fenced-code@workspace:tokenizers/fenced-code"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
-    "@yozora/tokenizer-fenced-block": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
+    "@yozora/tokenizer-fenced-block": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-footnote-definition@^2.3.0, @yozora/tokenizer-footnote-definition@workspace:tokenizers/footnote-definition":
+"@yozora/tokenizer-footnote-definition@^2.3.1, @yozora/tokenizer-footnote-definition@workspace:tokenizers/footnote-definition":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-footnote-definition@workspace:tokenizers/footnote-definition"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-footnote-reference@^2.3.0, @yozora/tokenizer-footnote-reference@workspace:tokenizers/footnote-reference":
+"@yozora/tokenizer-footnote-reference@^2.3.1, @yozora/tokenizer-footnote-reference@workspace:tokenizers/footnote-reference":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-footnote-reference@workspace:tokenizers/footnote-reference"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
-    "@yozora/tokenizer-footnote-definition": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
+    "@yozora/tokenizer-footnote-definition": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-footnote@^2.3.0, @yozora/tokenizer-footnote@workspace:tokenizers/footnote":
+"@yozora/tokenizer-footnote@^2.3.1, @yozora/tokenizer-footnote@workspace:tokenizers/footnote":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-footnote@workspace:tokenizers/footnote"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
-    "@yozora/tokenizer-link": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
+    "@yozora/tokenizer-link": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-heading@^2.3.0, @yozora/tokenizer-heading@workspace:tokenizers/heading":
+"@yozora/tokenizer-heading@^2.3.1, @yozora/tokenizer-heading@workspace:tokenizers/heading":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-heading@workspace:tokenizers/heading"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-html-block@^2.3.0, @yozora/tokenizer-html-block@workspace:tokenizers/html-block":
+"@yozora/tokenizer-html-block@^2.3.1, @yozora/tokenizer-html-block@workspace:tokenizers/html-block":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-html-block@workspace:tokenizers/html-block"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-html-inline@^2.3.0, @yozora/tokenizer-html-inline@workspace:tokenizers/html-inline":
+"@yozora/tokenizer-html-inline@^2.3.1, @yozora/tokenizer-html-inline@workspace:tokenizers/html-inline":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-html-inline@workspace:tokenizers/html-inline"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
-    "@yozora/tokenizer-html-block": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
+    "@yozora/tokenizer-html-block": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-image-reference@^2.3.0, @yozora/tokenizer-image-reference@workspace:tokenizers/image-reference":
+"@yozora/tokenizer-image-reference@^2.3.1, @yozora/tokenizer-image-reference@workspace:tokenizers/image-reference":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-image-reference@workspace:tokenizers/image-reference"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
-    "@yozora/tokenizer-image": ^2.3.0
-    "@yozora/tokenizer-link": ^2.3.0
-    "@yozora/tokenizer-link-reference": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
+    "@yozora/tokenizer-image": ^2.3.1
+    "@yozora/tokenizer-link": ^2.3.1
+    "@yozora/tokenizer-link-reference": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-image@^2.3.0, @yozora/tokenizer-image@workspace:tokenizers/image":
+"@yozora/tokenizer-image@^2.3.1, @yozora/tokenizer-image@workspace:tokenizers/image":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-image@workspace:tokenizers/image"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
-    "@yozora/tokenizer-link": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
+    "@yozora/tokenizer-link": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-indented-code@^2.3.0, @yozora/tokenizer-indented-code@workspace:tokenizers/indented-code":
+"@yozora/tokenizer-indented-code@^2.3.1, @yozora/tokenizer-indented-code@workspace:tokenizers/indented-code":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-indented-code@workspace:tokenizers/indented-code"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-inline-code@^2.3.0, @yozora/tokenizer-inline-code@workspace:tokenizers/inline-code":
+"@yozora/tokenizer-inline-code@^2.3.1, @yozora/tokenizer-inline-code@workspace:tokenizers/inline-code":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-inline-code@workspace:tokenizers/inline-code"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-inline-math@^2.3.0, @yozora/tokenizer-inline-math@workspace:tokenizers/inline-math":
+"@yozora/tokenizer-inline-math@^2.3.1, @yozora/tokenizer-inline-math@workspace:tokenizers/inline-math":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-inline-math@workspace:tokenizers/inline-math"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-link-reference@^2.3.0, @yozora/tokenizer-link-reference@workspace:tokenizers/link-reference":
+"@yozora/tokenizer-link-reference@^2.3.1, @yozora/tokenizer-link-reference@workspace:tokenizers/link-reference":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-link-reference@workspace:tokenizers/link-reference"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
-    "@yozora/tokenizer-link": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
+    "@yozora/tokenizer-link": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-link@^2.3.0, @yozora/tokenizer-link@workspace:tokenizers/link":
+"@yozora/tokenizer-link@^2.3.1, @yozora/tokenizer-link@workspace:tokenizers/link":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-link@workspace:tokenizers/link"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-list@^2.3.0, @yozora/tokenizer-list@workspace:tokenizers/list":
+"@yozora/tokenizer-list@^2.3.1, @yozora/tokenizer-list@workspace:tokenizers/list":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-list@workspace:tokenizers/list"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-math@^2.3.0, @yozora/tokenizer-math@workspace:tokenizers/math":
+"@yozora/tokenizer-math@^2.3.1, @yozora/tokenizer-math@workspace:tokenizers/math":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-math@workspace:tokenizers/math"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
-    "@yozora/tokenizer-fenced-block": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
+    "@yozora/tokenizer-fenced-block": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-paragraph@^2.3.0, @yozora/tokenizer-paragraph@workspace:tokenizers/paragraph":
+"@yozora/tokenizer-paragraph@^2.3.1, @yozora/tokenizer-paragraph@workspace:tokenizers/paragraph":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-paragraph@workspace:tokenizers/paragraph"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-setext-heading@^2.3.0, @yozora/tokenizer-setext-heading@workspace:tokenizers/setext-heading":
+"@yozora/tokenizer-setext-heading@^2.3.1, @yozora/tokenizer-setext-heading@workspace:tokenizers/setext-heading":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-setext-heading@workspace:tokenizers/setext-heading"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-table@^2.3.0, @yozora/tokenizer-table@workspace:tokenizers/table":
+"@yozora/tokenizer-table@^2.3.1, @yozora/tokenizer-table@workspace:tokenizers/table":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-table@workspace:tokenizers/table"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-text@^2.3.0, @yozora/tokenizer-text@workspace:tokenizers/text":
+"@yozora/tokenizer-text@^2.3.1, @yozora/tokenizer-text@workspace:tokenizers/text":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-text@workspace:tokenizers/text"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@yozora/tokenizer-thematic-break@^2.3.0, @yozora/tokenizer-thematic-break@workspace:tokenizers/thematic-break":
+"@yozora/tokenizer-thematic-break@^2.3.1, @yozora/tokenizer-thematic-break@workspace:tokenizers/thematic-break":
   version: 0.0.0-use.local
   resolution: "@yozora/tokenizer-thematic-break@workspace:tokenizers/thematic-break"
   dependencies:
-    "@yozora/ast": ^2.3.0
-    "@yozora/character": ^2.3.0
-    "@yozora/core-tokenizer": ^2.3.0
+    "@yozora/ast": ^2.3.1
+    "@yozora/character": ^2.3.1
+    "@yozora/core-tokenizer": ^2.3.1
   languageName: unknown
   linkType: soft
 

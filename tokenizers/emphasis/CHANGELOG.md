@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.1](https://github.com/yozorajs/yozora/compare/v2.3.0...v2.3.1) (2024-01-30)
+
+### Performance Improvements
+
+- 🔧 use nx to simplify running commands on the monorepo
+  ([#25](https://github.com/yozorajs/yozora/issues/25))
+  ([377a126](https://github.com/yozorajs/yozora/commit/377a126f740e51cfd34bd8acc121e3e0424fc2aa))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [2.3.0](https://github.com/yozorajs/yozora/compare/v2.2.0...v2.3.0) (2023-09-18)
 
 ### Performance Improvements
