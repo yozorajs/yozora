@@ -16,10 +16,11 @@
     "node": ">= 16.0.0"
   },
   "scripts": {
-    ":publish": "yarn build && yarn test && lerna publish",
+    ":publish": "yarn build:production && yarn test:coverage && lerna publish",
     ":publish-recover": "git stash && lerna publish from-package",
     ":upgrade": "yarn upgrade-interactive && run-s clean format build test",
     "build": "nx run-many --target=build --all=true --with-deps --parallel=false",
+    "build:production": "nx run-many --target=build --configuration=production --all=true --with-deps --parallel=false",
     "clean": "nx run-many --target=clean --all=true && yarn install",
     "doc": "run-s doc:tokenizer doc:parser",
     "doc:tokenizer": "node -r ts-node/register -r tsconfig-paths/register scripts/handlebar/tokenizer.ts",
