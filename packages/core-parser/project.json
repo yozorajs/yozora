@@ -8,6 +8,7 @@
     "clean": {
       "executor": "nx:run-commands",
       "options": {
+        "cwd": "packages/core-parser",
         "parallel": false,
         "sourceMap": true,
         "commands": ["rimraf lib"]
@@ -37,7 +38,7 @@
         "cwd": "packages/core-parser",
         "parallel": false,
         "sourceMap": true,
-        "commands": ["tsc -p tsconfig.lib.json -w --outDir lib/"]
+        "commands": ["cross-env ROLLUP_CONFIG_TYPE=lib rollup -c ../../rollup.config.mjs -w"]
       }
     }
   }

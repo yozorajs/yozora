@@ -145,6 +145,7 @@ function genNxProjectJson(params) {
       clean: {
         executor: 'nx:run-commands',
         options: {
+          cwd: projectDir,
           parallel: false,
           sourceMap: true,
           commands: ['rimraf lib'],
@@ -176,7 +177,9 @@ function genNxProjectJson(params) {
           cwd: projectDir,
           parallel: false,
           sourceMap: true,
-          commands: ['tsc -p tsconfig.lib.json -w --outDir lib/'],
+          commands: [
+            `cross-env ROLLUP_CONFIG_TYPE=${projectType} rollup -c ../../rollup.config.mjs -w`,
+          ],
         },
       },
       test: {
@@ -184,18 +187,18 @@ function genNxProjectJson(params) {
         options: {
           cwd: projectDir,
           commands: [
-            'cross-env NODE_OPTIONS=--experimental-vm-modules jest --config ../../jest.config.mjs --rootDir .',
+            'node --experimental-vm-modules ../../node_modules/.bin/jest --config ../../jest.config.mjs --rootDir .',
           ],
         },
         configurations: {
           coverage: {
             commands: [
-              'cross-env NODE_OPTIONS=--experimental-vm-modules jest --config ../../jest.config.mjs --rootDir . --coverage',
+              'node --experimental-vm-modules ../../node_modules/.bin/jest --config ../../jest.config.mjs --rootDir . --coverage',
             ],
           },
           update: {
             commands: [
-              'cross-env NODE_OPTIONS=--experimental-vm-modules jest --config ../../jest.config.mjs --rootDir . -u',
+              'node --experimental-vm-modules ../../node_modules/.bin/jest --config ../../jest.config.mjs --rootDir . -u',
             ],
           },
         },

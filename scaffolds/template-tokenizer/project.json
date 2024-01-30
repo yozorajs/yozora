@@ -10,18 +10,18 @@
       "options": {
         "cwd": "scaffolds/template-tokenizer",
         "commands": [
-          "cross-env TS_NODE_FILES=true NODE_OPTIONS=--experimental-vm-modules jest --config ../../jest.config.mjs --rootDir ."
+          "node --experimental-vm-modules ../../node_modules/.bin/jest --config ../../jest.config.mjs --rootDir ."
         ]
       },
       "configurations": {
         "coverage": {
           "commands": [
-            "cross-env TS_NODE_FILES=true NODE_OPTIONS=--experimental-vm-modules jest --config ../../jest.config.mjs --rootDir . --coverage"
+            "node --experimental-vm-modules ../../node_modules/.bin/jest --config ../../jest.config.mjs --rootDir . --coverage"
           ]
         },
         "update": {
           "commands": [
-            "cross-env TS_NODE_FILES=true NODE_OPTIONS=--experimental-vm-modules jest --config ../../jest.config.mjs --rootDir . -u"
+            "node --experimental-vm-modules ../../node_modules/.bin/jest --config ../../jest.config.mjs --rootDir . -u"
           ]
         }
       }
