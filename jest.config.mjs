@@ -13,25 +13,105 @@ export default async function () {
     tsconfigFilepath: path.join(__dirname, 'tsconfig.test.json'),
   })
 
+  console.log('name:', manifest.name)
+
   return {
     ...baseConfig,
     coveragePathIgnorePatterns: [
       'packages/character/src/util/node-point.ts',
       'packages/parser/src/types.ts',
       'packages/parser-gfm/src/types.ts',
-      /tokenizers[/\\][^/]*[/\\]src[/\\]index\.ts/.source,
     ],
     coverageThreshold: {
-      global: {
-        branches: 50,
-        functions: 65,
-        lines: 60,
-        statements: 60,
-      },
       ...coverageMap[manifest.name],
+      global: {
+        branches: 90,
+        functions: 100,
+        lines: 90,
+        statements: 90,
+        ...coverageMap[manifest.name]?.global,
+      },
     },
     extensionsToTreatAsEsm: ['.ts', '.mts'],
   }
 }
 
-const coverageMap = {}
+const coverageMap = {
+  '@yozora/character': {
+    branches: 89,
+    functions: 63,
+  },
+  '@yozora/tokenizer-blockquote': {
+    global: {
+      branches: 89,
+    },
+  },
+  '@yozora/tokenizer-definition': {
+    global: {
+      branches: 84,
+    },
+  },
+  '@yozora/tokenizer-delete': {
+    global: {
+      branches: 77,
+    },
+  },
+  '@yozora/tokenizer-ecma-import': {
+    global: {
+      branches: 68,
+    },
+  },
+  '@yozora/tokenizer-footnote-reference': {
+    global: {
+      branches: 89,
+    },
+  },
+  '@yozora/tokenizer-html-block': {
+    global: {
+      branches: 87,
+    },
+  },
+  '@yozora/tokenizer-html-inline': {
+    global: {
+      branches: 88,
+    },
+  },
+  '@yozora/tokenizer-image': {
+    global: {
+      branches: 78,
+    },
+  },
+  '@yozora/tokenizer-inline-code': {
+    global: {
+      branches: 89,
+    },
+  },
+  '@yozora/tokenizer-inline-math': {
+    global: {
+      branches: 85,
+    },
+  },
+  '@yozora/tokenizer-link': {
+    global: {
+      branches: 81,
+    },
+  },
+  '@yozora/tokenizer-link-reference': {
+    global: {
+      branches: 86,
+    },
+  },
+  '@yozora/tokenizer-paragraph': {
+    global: {
+      branches: 88,
+    },
+  },
+  '@yozora/tokenizer-text': {
+    global: {
+      branches: 87,
+      functions: 85,
+      lines: 87,
+      statements: 87,
+    },
+  },
+}
