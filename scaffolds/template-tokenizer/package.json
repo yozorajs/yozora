@@ -33,9 +33,5 @@
     "@guanghechen/helper-option": "^6.0.0-alpha.1",
     "@guanghechen/helper-plop": "^6.0.0-alpha.3",
     "@guanghechen/helper-string": "^6.0.0-alpha.2"
-  },
-  "devDependencies": {
-    "cross-env": "^7.0.3",
-    "jest": "^29.7.0"
   }
 }

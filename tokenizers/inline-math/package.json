@@ -47,8 +47,5 @@
     "@yozora/ast": "^2.3.0",
     "@yozora/character": "^2.3.0",
     "@yozora/core-tokenizer": "^2.3.0"
-  },
-  "devDependencies": {
-    "@yozora/tokenizer-inline-code": "^2.3.0"
   }
 }
