@@ -53,13 +53,13 @@ Defines commonly used character encoding and tool functions for processing chara
 
 ## Install
 
-* npm
+- npm
 
   ```bash
   npm install --save @yozora/character
   ```
 
-* yarn
+- yarn
 
   ```bash
   yarn add @yozora/character
@@ -67,10 +67,8 @@ Defines commonly used character encoding and tool functions for processing chara
 
 ## Usage
 
-
 ## Related
 
-* [homepage][]
-
+- [homepage][]
 
 [homepage]: https://github.com/yozorajs/yozora/tree/v2.3.0/packages/character#readme

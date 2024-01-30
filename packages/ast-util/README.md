@@ -47,13 +47,13 @@ Utility functions to handle Yozora markdown ast.
 
 ## Install
 
-* npm
+- npm
 
   ```bash
   npm install --save @yozora/ast-util
   ```
 
-* yarn
+- yarn
 
   ```bash
   yarn add @yozora/ast-util
@@ -61,33 +61,32 @@ Utility functions to handle Yozora markdown ast.
 
 ## Usage
 
-Name                          | Description
-:----------------------------:|:-------------------------:
-`calcDefinitionMap`           | Traverse yozora ast and generate a link reference definition map.
-`calcExcerptAst`              | Calc excerpt ast from the original ast.
-`calcFootnoteDefinitionMap`   | Traverse yozora ast and generate a footnote reference definition map.
-`calcHeadingToc`              | Generate heading toc, and update the referenced `Heading.identifier` simultaneously
-`collectDefinitions`          | Collect link reference definitions in a pre-order traversal.
-`collectFootnoteDefinitions`  | Collect footnote reference definitions in a pre-order traversal.
-`defaultUrlResolver`          | Default url resolver
-`replaceFootnotesInReferences`| Replace inline footnotes into footnote references and footnote reference definitions (**irreversible**)
-`resolveUrlsForAst`           | Traverse Yozora AST and resolve urls for aim nodes (**irreversible**)
-`searchNode`                  | Search a node from Yozora AST in pre-order traversing
-`shallowCloneAst`             | Shallow clone the Yozora AST until the match reaches the termination condition.
-`shallowMutateAstInPostorder` | Traverse AST and replace nodes in post-order.
-`shallowMutateAstInPreorder`  | Traverse AST and replace nodes in pre-order.
-`traverseAst`                 | Traverse Yozora AST and perform a mutating operation for each matched node
-
+|              Name              |                                               Description                                               |
+| :----------------------------: | :-----------------------------------------------------------------------------------------------------: |
+|      `calcDefinitionMap`       |                    Traverse yozora ast and generate a link reference definition map.                    |
+|        `calcExcerptAst`        |                                 Calc excerpt ast from the original ast.                                 |
+|  `calcFootnoteDefinitionMap`   |                  Traverse yozora ast and generate a footnote reference definition map.                  |
+|        `calcHeadingToc`        |           Generate heading toc, and update the referenced `Heading.identifier` simultaneously           |
+|      `collectDefinitions`      |                      Collect link reference definitions in a pre-order traversal.                       |
+|  `collectFootnoteDefinitions`  |                    Collect footnote reference definitions in a pre-order traversal.                     |
+|      `defaultUrlResolver`      |                                          Default url resolver                                           |
+| `replaceFootnotesInReferences` | Replace inline footnotes into footnote references and footnote reference definitions (**irreversible**) |
+|      `resolveUrlsForAst`       |                  Traverse Yozora AST and resolve urls for aim nodes (**irreversible**)                  |
+|          `searchNode`          |                          Search a node from Yozora AST in pre-order traversing                          |
+|       `shallowCloneAst`        |             Shallow clone the Yozora AST until the match reaches the termination condition.             |
+| `shallowMutateAstInPostorder`  |                              Traverse AST and replace nodes in post-order.                              |
+|  `shallowMutateAstInPreorder`  |                              Traverse AST and replace nodes in pre-order.                               |
+|         `traverseAst`          |               Traverse Yozora AST and perform a mutating operation for each matched node                |
 
 ### Example
 
 ```typescript
 import { ImageType, BlockquoteType } from '@yozora/ast'
-import { 
+import {
   collectDefinitions,
   collectFootnoteDefinitions,
-  calcHeadingToc, 
-  replaceAST, 
+  calcHeadingToc,
+  replaceAST,
   traverseAst,
 } from '@yozora/ast-util'
 
@@ -117,25 +116,21 @@ traverseAst(
 // The default prefix is 'heading-'
 calcHeadingToc(root, 'custom-identifier-prefix-')
 
-// shallow clone the Yozora AST until a blockquote type node with a blockquote 
+// shallow clone the Yozora AST until a blockquote type node with a blockquote
 // type parent and in addition it is not the first child of its parent encountered.
 const root2 = shallowCloneAst(
-  root, 
+  root,
   (node, parent, childIndex) => (
-    parent.type === BlockquoteType && 
-    childIndex > 0 && 
+    parent.type === BlockquoteType &&
+    childIndex > 0 &&
     node.type === BlockquoteType
   )
 )
 ```
 
-
 ## Related
 
-* [@yozora/ast][]
-
+- [@yozora/ast][]
 
 [homepage]: https://github.com/yozorajs/yozora/tree/v2.3.0/packages/ast-util#readme
-
-
 [@yozora/ast]: https://github.com/yozorajs/yozora/tree/v2.3.0/packages/ast#readme

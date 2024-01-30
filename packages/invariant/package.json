@@ -33,16 +33,5 @@
     "CHANGELOG.md",
     "LICENSE",
     "README.md"
-  ],
-  "scripts": {
-    "build": "rimraf lib/ && cross-env NODE_ENV=production rollup -c ../../rollup.config.mjs",
-    "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build",
-    "test": "node --experimental-vm-modules ../../node_modules/.bin/jest --config ../../jest.config.mjs --rootDir ."
-  },
-  "devDependencies": {
-    "cross-env": "^7.0.3",
-    "jest": "^29.7.0",
-    "rimraf": "^5.0.5",
-    "rollup": "^4.9.6"
-  }
+  ]
 }

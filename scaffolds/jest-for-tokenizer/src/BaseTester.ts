@@ -102,7 +102,7 @@ export abstract class BaseTester<T = unknown> {
         }),
       }
       const content = this.stringify(result)
-      fs.writeFileSync(caseGroup.filepath, content, 'utf-8')
+      fs.writeFileSync(caseGroup.filepath, content + '\n', 'utf-8')
     }
 
     // Generate answers
@@ -147,7 +147,7 @@ export abstract class BaseTester<T = unknown> {
    * @param data
    */
   public stringify(data: unknown): string {
-    const filter = (key: string, value: unknown): unknown => {
+    const filter = (_key: string, value: unknown): unknown => {
       if (value instanceof RegExp) return value.source
       return value
     }

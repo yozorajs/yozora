@@ -149,10 +149,10 @@ export function isLinkToken(token: IInlineToken): boolean {
  * @see https://github.github.com/gfm/#link-text
  */
 export function isValidLinkText(
-  nodePoints: ReadonlyArray<INodePoint>,
-  startIndex: number,
-  endIndex: number,
-  internalTokens: ReadonlyArray<IInlineToken>,
+  _nodePoints: ReadonlyArray<INodePoint>,
+  _startIndex: number,
+  _endIndex: number,
+  _internalTokens: ReadonlyArray<IInlineToken>,
 ): boolean {
   return false
 }

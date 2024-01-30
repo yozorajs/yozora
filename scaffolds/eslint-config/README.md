@@ -47,13 +47,13 @@ Eslint configs for yozora tokenizers.
 
 ## Install
 
-* npm
+- npm
 
   ```bash
   npm install --save-dev @yozora/eslint-config
   ```
 
-* yarn
+- yarn
 
   ```bash
   yarn add --dev @yozora/eslint-config
@@ -61,40 +61,39 @@ Eslint configs for yozora tokenizers.
 
 ## Usage
 
-  * Basic Usage (`.eslintrc`):
+- Basic Usage (`.eslintrc`):
 
-    ```json
-    {
-      "root": true,
-      "extends": ["@yozora"],
-    }
-    ```
+  ```json
+  {
+    "root": true,
+    "extends": ["@yozora"],
+  }
+  ```
 
-  * Use [@babel/eslint-parser][]:
+- Use [@babel/eslint-parser][]:
 
-    ```json
-    {
-      "root": true,
-      "extends": ["@yozora"],
-      "overrides": [
-        {
-          "files": ["**/*.js"],
-          "parser": "@babel/eslint-parser",
-          "parserOptions": {
-            "ecmaVersion": 2018,
-            "sourceType": "module",
-            "requireConfigFile": false,
-            "allowImportExportEverywhere": true
-          }
+  ```json
+  {
+    "root": true,
+    "extends": ["@yozora"],
+    "overrides": [
+      {
+        "files": ["**/*.js"],
+        "parser": "@babel/eslint-parser",
+        "parserOptions": {
+          "ecmaVersion": 2018,
+          "sourceType": "module",
+          "requireConfigFile": false,
+          "allowImportExportEverywhere": true
         }
-      ]
-    }
-    ```
+      }
+    ]
+  }
+  ```
 
 ## Related
 
-* [homepage][]
-
+- [homepage][]
 
 [homepage]: https://github.com/yozorajs/yozora/tree/v2.3.0/scaffolds/eslint-config#readme
 [@babel/eslint-parser]: https://www.npmjs.com/package/@babel/eslint-parser

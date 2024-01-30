@@ -49,13 +49,13 @@ See [@yozora/ast documentation](https://yozora.guanghechen.com/docs/package/ast)
 
 ## Install
 
-* npm
+- npm
 
   ```bash
   npm install --save @yozora/ast
   ```
 
-* yarn
+- yarn
 
   ```bash
   yarn add @yozora/ast
@@ -258,7 +258,6 @@ export type NodeType = string
 export type AlignType = 'left' | 'right' | 'center' | null
 ```
 
-
 ## Yast nodes
 
 ### Admonition
@@ -370,7 +369,7 @@ export type Delete = Parent<DeleteType>
 
 ### EcmaImport
 
-```typescript
+````typescript
 export const EcmaImportType = 'ecmaImport'
 export type EcmaImportType = typeof EcmaImportType
 
@@ -426,7 +425,7 @@ export interface EcmaImport extends Node<EcmaImportType> {
  *      ]
  */
 export type EcmaImportNamedImport = { src: string, alias: string | null }
-```
+````
 
 ### Emphasis
 
@@ -662,7 +661,7 @@ export interface List extends Parent<ListType> {
   /**
    * Marker type of the list.
    * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol#attr-type
-   * 
+   *
    * The 'i' and 'I' which represented the roman numerals are not supported yet.
    */
   orderType?: '1' | 'a' | 'A' | 'i' | 'I'
@@ -877,8 +876,8 @@ export type ThematicBreak = Node<ThematicBreakType>
 
 ## Related
 
-* [Github Flavor Markdown Spec][gfm-spec]
-* [Mdast][mdast-homepage]
+- [Github Flavor Markdown Spec][gfm-spec]
+- [Mdast][mdast-homepage]
 
 [homepage]: https://github.com/yozorajs/yozora/tree/v2.3.0/packages/ast#readme
 [gfm-spec]: https://github.github.com/gfm

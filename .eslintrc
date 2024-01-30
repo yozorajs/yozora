@@ -6,7 +6,7 @@
   },
   "overrides": [
     {
-      "files": ["**/*.js", "**/*.mjs"],
+      "files": ["**/*.js"],
       "parser": "@babel/eslint-parser",
       "parserOptions": {
         "ecmaVersion": 2018,
@@ -14,6 +14,11 @@
         "requireConfigFile": false,
         "allowImportExportEverywhere": true
       }
+    },
+    {
+      "files": ["**/*.mjs"],
+      "extends": ["@guanghechen", "prettier"],
+      "parser": "@typescript-eslint/parser"
     },
     {
       "files": ["packages/ast/src/nodes/**/*.ts"],

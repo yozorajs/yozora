@@ -33,10 +33,6 @@
     "LICENSE",
     "README.md"
   ],
-  "scripts": {
-    "build": "rimraf lib/ && cross-env NODE_ENV=production rollup -c ../../rollup.config.mjs",
-    "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build"
-  },
   "dependencies": {
     "@yozora/ast": "^2.3.0",
     "@yozora/ast-util": "^2.3.0",

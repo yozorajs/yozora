@@ -58,11 +58,11 @@ describe('new-tokenizer', function () {
 
   describe('monorepo', function () {
     beforeAll(() => {
-      process.env.DEBUG_IS_MONOREPO = 'true'
+      process.env['DEBUG_IS_MONOREPO'] = 'true'
     })
 
     afterAll(() => {
-      process.env.DEBUG_IS_MONOREPO = undefined
+      process.env['DEBUG_IS_MONOREPO'] = undefined
     })
 
     async function runTest(options: ITestOptions): Promise<void> {
@@ -150,11 +150,11 @@ describe('new-tokenizer', function () {
 
   describe('not a monorepo', function () {
     beforeAll(() => {
-      process.env.DEBUG_IS_MONOREPO = 'false'
+      process.env['DEBUG_IS_MONOREPO'] = 'false'
     })
 
     afterAll(() => {
-      process.env.DEBUG_IS_MONOREPO = undefined
+      process.env['DEBUG_IS_MONOREPO'] = undefined
     })
 
     async function runTest(options: ITestOptions): Promise<void> {

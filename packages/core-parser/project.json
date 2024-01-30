@@ -1,0 +1,45 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "core-parser",
+  "sourceRoot": "packages/core-parser/src",
+  "projectType": "library",
+  "tags": ["other"],
+  "targets": {
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/core-parser",
+        "parallel": false,
+        "sourceMap": true,
+        "commands": ["rimraf lib"]
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["clean", "^build"],
+      "options": {
+        "cwd": "packages/core-parser",
+        "parallel": false,
+        "sourceMap": true,
+        "commands": ["cross-env ROLLUP_CONFIG_TYPE=lib rollup -c ../../rollup.config.mjs"]
+      },
+      "configurations": {
+        "production": {
+          "sourceMap": false,
+          "env": {
+            "NODE_ENV": "production"
+          }
+        }
+      }
+    },
+    "watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/core-parser",
+        "parallel": false,
+        "sourceMap": true,
+        "commands": ["cross-env ROLLUP_CONFIG_TYPE=lib rollup -c ../../rollup.config.mjs -w"]
+      }
+    }
+  }
+}

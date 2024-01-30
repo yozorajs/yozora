@@ -1,0 +1,30 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "template-tokenizer",
+  "sourceRoot": "scaffolds/jest-for-tokenizer/src",
+  "projectType": "library",
+  "tags": ["other"],
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "scaffolds/template-tokenizer",
+        "commands": [
+          "node --experimental-vm-modules ../../node_modules/.bin/jest --config ../../jest.config.mjs --rootDir ."
+        ]
+      },
+      "configurations": {
+        "coverage": {
+          "commands": [
+            "node --experimental-vm-modules ../../node_modules/.bin/jest --config ../../jest.config.mjs --rootDir . --coverage"
+          ]
+        },
+        "update": {
+          "commands": [
+            "node --experimental-vm-modules ../../node_modules/.bin/jest --config ../../jest.config.mjs --rootDir . -u"
+          ]
+        }
+      }
+    }
+  }
+}
