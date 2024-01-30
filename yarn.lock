@@ -2399,13 +2399,14 @@ __metadata:
     "@yozora/ast-util": ^2.3.0
     "@yozora/core-parser": ^2.3.0
     "@yozora/invariant": ^2.3.0
+    "@yozora/markup-weaver": ^2.3.0
     cross-env: ^7.0.3
     globby: ^14.0.0
     jest: ^29.7.0
   languageName: unknown
   linkType: soft
 
-"@yozora/markup-weaver@workspace:packages/markup-weaver":
+"@yozora/markup-weaver@^2.3.0, @yozora/markup-weaver@workspace:packages/markup-weaver":
   version: 0.0.0-use.local
   resolution: "@yozora/markup-weaver@workspace:packages/markup-weaver"
   dependencies:
