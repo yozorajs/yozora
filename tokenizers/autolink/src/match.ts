@@ -35,13 +35,15 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
 
       let nextIndex: number = endIndex
       let contentType: AutolinkContentType | null = null
-      for (const helper of helpers) {
-        const eatResult = helper.eat(nodePoints, i + 1, endIndex)
-        nextIndex = Math.min(nextIndex, eatResult.nextIndex)
-        if (eatResult.valid) {
-          contentType = helper.contentType
-          nextIndex = eatResult.nextIndex
-          break
+      if (i + 1 < endIndex) {
+        for (const helper of helpers) {
+          const eatResult = helper.eat(nodePoints, i + 1, endIndex)
+          nextIndex = Math.min(nextIndex, eatResult.nextIndex)
+          if (eatResult.valid) {
+            contentType = helper.contentType
+            nextIndex = eatResult.nextIndex
+            break
+          }
         }
       }
 

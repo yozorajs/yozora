@@ -1,0 +1,60 @@
+{
+  "title": "Edge case",
+  "cases": [
+    {
+      "description": "Single left angle",
+      "input": "<",
+      "markupAnswer": "<",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 2,
+            "offset": 1
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 2,
+                "offset": 1
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 2,
+                    "offset": 1
+                  }
+                },
+                "value": "<"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
