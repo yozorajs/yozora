@@ -1,6 +1,6 @@
 <header>
   <h1 align="center">
-    <a href="https://github.com/yozorajs/yozora/tree/v2.3.1/packages/character#readme">@yozora/character</a>
+    <a href="https://github.com/yozorajs/yozora/tree/v2.3.2/packages/character#readme">@yozora/character</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/character">
@@ -71,4 +71,4 @@ Defines commonly used character encoding and tool functions for processing chara
 
 - [homepage][]
 
-[homepage]: https://github.com/yozorajs/yozora/tree/v2.3.1/packages/character#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/v2.3.2/packages/character#readme

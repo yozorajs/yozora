@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.2](https://github.com/yozorajs/yozora/compare/v2.3.1...v2.3.2) (2024-06-17)
+
+### Bug Fixes
+
+- 🐛 index out of boundary while try to find autolink
+  ([ec77dce](https://github.com/yozorajs/yozora/commit/ec77dce2b39be745b8e8e5bf9b2706d9e226644d))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [2.3.1](https://github.com/yozorajs/yozora/compare/v2.3.0...v2.3.1) (2024-01-30)
 
 ### Performance Improvements
