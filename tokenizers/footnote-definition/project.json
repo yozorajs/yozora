@@ -10,7 +10,6 @@
       "options": {
         "cwd": "tokenizers/footnote-definition",
         "parallel": false,
-        "sourceMap": true,
         "commands": ["rimraf lib"]
       }
     },

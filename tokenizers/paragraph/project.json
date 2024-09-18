@@ -10,7 +10,6 @@
       "options": {
         "cwd": "tokenizers/paragraph",
         "parallel": false,
-        "sourceMap": true,
         "commands": ["rimraf lib"]
       }
     },

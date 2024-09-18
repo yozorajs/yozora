@@ -10,7 +10,6 @@
       "options": {
         "cwd": "tokenizers/image",
         "parallel": false,
-        "sourceMap": true,
         "commands": ["rimraf lib"]
       }
     },

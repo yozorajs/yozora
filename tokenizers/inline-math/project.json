@@ -10,7 +10,6 @@
       "options": {
         "cwd": "tokenizers/inline-math",
         "parallel": false,
-        "sourceMap": true,
         "commands": ["rimraf lib"]
       }
     },

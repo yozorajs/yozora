@@ -10,7 +10,6 @@
       "options": {
         "cwd": "scaffolds/jest-for-tokenizer",
         "parallel": false,
-        "sourceMap": true,
         "commands": ["rimraf lib"]
       }
     },

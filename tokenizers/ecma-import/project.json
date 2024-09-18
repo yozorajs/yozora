@@ -10,7 +10,6 @@
       "options": {
         "cwd": "tokenizers/ecma-import",
         "parallel": false,
-        "sourceMap": true,
         "commands": ["rimraf lib"]
       }
     },

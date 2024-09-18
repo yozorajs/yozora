@@ -10,7 +10,6 @@
       "options": {
         "cwd": "packages/ast-util",
         "parallel": false,
-        "sourceMap": true,
         "commands": ["rimraf lib"]
       }
     },

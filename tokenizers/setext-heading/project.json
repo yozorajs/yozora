@@ -10,7 +10,6 @@
       "options": {
         "cwd": "tokenizers/setext-heading",
         "parallel": false,
-        "sourceMap": true,
         "commands": ["rimraf lib"]
       }
     },

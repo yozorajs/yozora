@@ -10,7 +10,6 @@
       "options": {
         "cwd": "tokenizers/thematic-break",
         "parallel": false,
-        "sourceMap": true,
         "commands": ["rimraf lib"]
       }
     },

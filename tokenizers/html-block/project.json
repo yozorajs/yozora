@@ -10,7 +10,6 @@
       "options": {
         "cwd": "tokenizers/html-block",
         "parallel": false,
-        "sourceMap": true,
         "commands": ["rimraf lib"]
       }
     },

@@ -10,7 +10,6 @@
       "options": {
         "cwd": "tokenizers/autolink",
         "parallel": false,
-        "sourceMap": true,
         "commands": ["rimraf lib"]
       }
     },
