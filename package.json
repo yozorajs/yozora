@@ -52,6 +52,7 @@
     "@babel/eslint-parser": "^7.25.1",
     "@guanghechen/chalk": "^1.0.0-alpha.13",
     "@guanghechen/conventional-changelog": "^6.0.0-alpha.2",
+    "@guanghechen/eslint-config": "^7.0.3",
     "@guanghechen/helper-jest": "^6.0.0-alpha.4",
     "@guanghechen/helper-string": "^6.0.0-alpha.2",
     "@guanghechen/jest-config": "^6.0.0-alpha.2",

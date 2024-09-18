@@ -21,16 +21,9 @@ export default [
       '**/node_modules/',
       '**/resources/',
       '**/test/',
-      'packages/character/src/constant/entity.ts',
     ],
   },
   ...ghcConfigs,
-  {
-    files: ['packages/ast/src/nodes/**/*.ts'],
-    rules: {
-      '@typescript-eslint/no-redeclare': 0,
-    },
-  },
   {
     files: ['**/src/**/*.ts'],
     rules: {

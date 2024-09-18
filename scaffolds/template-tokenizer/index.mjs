@@ -97,8 +97,8 @@ export default async function (plop) {
       return [
         !isMonorepo && {
           type: 'add',
-          path: resolveTargetPath('.eslintrc'),
-          templateFile: resolveSourcePath('.eslintrc.hbs'),
+          path: resolveTargetPath('eslint.config.js'),
+          templateFile: resolveSourcePath('eslint.config.js.hbs'),
         },
         !isMonorepo && {
           type: 'add',

@@ -252,7 +252,6 @@
 
   | Package                        | Description                              |
   | :----------------------------- | :--------------------------------------- |
-  | [@yozora/eslint-config][]      | Yozora 项目的 eslint 配置                |
   | [@yozora/jest-for-tokenizer][] | 测试分词器的测试库，并包含大量的测试用例 |
   | [@yozora/template-tokenizer][] | 创建分词器的脚手架工具                   |
 
@@ -313,8 +312,6 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/main/LICEN
 [@yozora/ast]: https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#readme
 [@yozora/ast-util]: https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast-util#readme
 [@yozora/character]: https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/character#readme
-[@yozora/eslint-config]:
-  https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/eslint-config#readme
 [@yozora/core-parser]:
   https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/core-parser#readme
 [@yozora/core-tokenizer]:
