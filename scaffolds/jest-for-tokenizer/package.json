@@ -36,7 +36,7 @@
     "@yozora/ast": "^2.3.2",
     "@yozora/ast-util": "^2.3.2",
     "@yozora/invariant": "^2.3.2",
-    "globby": "^14.0.0",
+    "globby": "^14.0.2",
     "jest": "^29.7.0"
   },
   "devDependencies": {

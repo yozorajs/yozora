@@ -30,8 +30,8 @@
     "yozora-new-tokenizer": "./cli.mjs"
   },
   "dependencies": {
-    "@guanghechen/helper-option": "^6.0.0-alpha.1",
-    "@guanghechen/helper-plop": "^6.0.0-alpha.4",
+    "@guanghechen/helper-option": "^6.0.0-alpha.3",
+    "@guanghechen/helper-plop": "^6.0.0-alpha.7",
     "@guanghechen/helper-string": "^6.0.0-alpha.2"
   }
 }
