@@ -90,7 +90,6 @@ export async function genNxProjectJson(params) {
       options: {
         cwd: projectDir,
         parallel: false,
-        sourceMap: true,
         commands: [`rimraf ${targetDir}`],
       },
     }
@@ -104,14 +103,14 @@ export async function genNxProjectJson(params) {
       options: {
         cwd: projectDir,
         parallel: false,
-        sourceMap: true,
+        sourcemap: true,
         commands: [
           `cross-env ROLLUP_CONFIG_TYPE=${projectType} rollup -c ${relativeToWorkspaceRoot}/rollup.config.mjs`,
         ],
       },
       configurations: {
         production: {
-          sourceMap: false,
+          sourcemap: false,
           env: {
             NODE_ENV: 'production',
           },
@@ -127,7 +126,7 @@ export async function genNxProjectJson(params) {
       options: {
         cwd: projectDir,
         parallel: false,
-        sourceMap: true,
+        sourcemap: true,
         commands: [
           `cross-env ROLLUP_CONFIG_TYPE=${projectType} rollup -c ${relativeToWorkspaceRoot}/rollup.config.mjs -w`,
         ],

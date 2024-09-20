@@ -19,12 +19,12 @@
       "options": {
         "cwd": "packages/core-tokenizer",
         "parallel": false,
-        "sourceMap": true,
+        "sourcemap": true,
         "commands": ["cross-env ROLLUP_CONFIG_TYPE=lib rollup -c ../../rollup.config.mjs"]
       },
       "configurations": {
         "production": {
-          "sourceMap": false,
+          "sourcemap": false,
           "env": {
             "NODE_ENV": "production"
           }
@@ -36,7 +36,7 @@
       "options": {
         "cwd": "packages/core-tokenizer",
         "parallel": false,
-        "sourceMap": true,
+        "sourcemap": true,
         "commands": ["cross-env ROLLUP_CONFIG_TYPE=lib rollup -c ../../rollup.config.mjs -w"]
       }
     }
