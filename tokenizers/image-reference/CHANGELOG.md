@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>2.3.3 (2024-09-20)</small>
+
+- :wrench: chore: fix nx config ([b8c4d73](https://github.com/yozorajs/yozora/commit/b8c4d73))
+- :wrench: chore: fix nx config ([38c2325](https://github.com/yozorajs/yozora/commit/38c2325))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [2.3.2](https://github.com/yozorajs/yozora/compare/v2.3.1...v2.3.2) (2024-06-17)
 
 **Note:** Version bump only for package @yozora/tokenizer-image-reference

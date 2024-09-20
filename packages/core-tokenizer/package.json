@@ -1,6 +1,6 @@
 {
   "name": "@yozora/core-tokenizer",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "packages/core-tokenizer"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.2/packages/core-tokenizer#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.3/packages/core-tokenizer#readme",
   "type": "module",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -34,7 +34,7 @@
     "README.md"
   ],
   "dependencies": {
-    "@yozora/ast": "^2.3.2",
-    "@yozora/character": "^2.3.2"
+    "@yozora/ast": "^2.3.3",
+    "@yozora/character": "^2.3.3"
   }
 }

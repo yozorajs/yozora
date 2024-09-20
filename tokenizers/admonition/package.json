@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-admonition",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "Tokenizer for processing admonitions",
   "author": {
     "name": "guanghechen",
@@ -11,7 +11,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "tokenizers/admonition"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.2/tokenizers/admonition",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.3/tokenizers/admonition",
   "keywords": [
     "yozora",
     "markdown",
@@ -41,9 +41,9 @@
     "README.md"
   ],
   "dependencies": {
-    "@yozora/ast": "^2.3.2",
-    "@yozora/character": "^2.3.2",
-    "@yozora/core-tokenizer": "^2.3.2",
-    "@yozora/tokenizer-fenced-block": "^2.3.2"
+    "@yozora/ast": "^2.3.3",
+    "@yozora/character": "^2.3.3",
+    "@yozora/core-tokenizer": "^2.3.3",
+    "@yozora/tokenizer-fenced-block": "^2.3.3"
   }
 }

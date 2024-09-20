@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-image-reference",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "tokenizers/image-reference"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.2/tokenizers/image-reference",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.3/tokenizers/image-reference",
   "type": "module",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -34,11 +34,11 @@
     "README.md"
   ],
   "dependencies": {
-    "@yozora/ast": "^2.3.2",
-    "@yozora/character": "^2.3.2",
-    "@yozora/core-tokenizer": "^2.3.2",
-    "@yozora/tokenizer-image": "^2.3.2",
-    "@yozora/tokenizer-link": "^2.3.2",
-    "@yozora/tokenizer-link-reference": "^2.3.2"
+    "@yozora/ast": "^2.3.3",
+    "@yozora/character": "^2.3.3",
+    "@yozora/core-tokenizer": "^2.3.3",
+    "@yozora/tokenizer-image": "^2.3.3",
+    "@yozora/tokenizer-link": "^2.3.3",
+    "@yozora/tokenizer-link-reference": "^2.3.3"
   }
 }
