@@ -186,8 +186,6 @@ https://github.github.com/gfm/#example-529）。为了使得分词器之间可�
 
 - [homepage][]
 
-- [@yozora/template-tokenizer][] 用于快速创建一个 Yozora Tokenizer
-
 - Block Tokenizer Lifecycle
 
   - [match-block][lifecycle-match-block]
@@ -207,7 +205,6 @@ https://github.github.com/gfm/#example-529）。为了使得分词器之间可�
 [lifecycle-parse-inline]:
   https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/lifecycle/parse-inline.ts
 [@yozora/core-parser]: https://www.npmjs.com/package/@yozora/core-parser
-[@yozora/template-tokenizer]: https://www.npmjs.com/package/@yozora/template-tokenizer
 [@yozora/tokenizer-emphasis]: https://www.npmjs.com/package/@yozora/tokenizer-emphasis
 [@yozora/tokenizer-list]: https://www.npmjs.com/package/@yozora/tokenizer-list
 [@yozora/tokenizer-paragraph]: https://www.npmjs.com/package/@yozora/tokenizer-paragraph

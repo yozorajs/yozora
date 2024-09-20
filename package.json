@@ -28,7 +28,6 @@
     "format": "run-s format:lintfix format:prettier",
     "format:prettier": "prettier --write .",
     "format:lintfix": "eslint . --fix",
-    "new:tokenizer": "node ./node_modules/@yozora/template-tokenizer/cli.js",
     "prepublishOnly": "pinst --disable",
     "postinstall": "run-s postinstall:dev",
     "postinstall:dev": "is-ci || husky",
@@ -47,6 +46,9 @@
     "scaffolds/*",
     "tokenizers/*"
   ],
+  "resolutions": {
+    "node-plop/inquirer": "9.3.5"
+  },
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/eslint-parser": "^7.25.1",

@@ -253,7 +253,6 @@
   | Package                        | Description                              |
   | :----------------------------- | :--------------------------------------- |
   | [@yozora/jest-for-tokenizer][] | 测试分词器的测试库，并包含大量的测试用例 |
-  | [@yozora/template-tokenizer][] | 创建分词器的脚手架工具                   |
 
 ## 💡 FAQ
 
@@ -262,9 +261,6 @@
   - 参见 [@yozora/gatsby-transformer][] 和 [@yozora/gatsby-images][]
 
 - 如何实现自定义的分词器?
-
-  - 使用脚手架工具 [@yozora/template-tokenizer][] 去创建一个由预定义模板生成的分词器项目（或单体项目
-    中的一个包） ；
 
   - 参见 [@yozora/core-tokenizer][] 以获得分词器的生命周期函数细节；
 
@@ -326,8 +322,6 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/main/LICEN
   https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/parser-gfm#readme
 [@yozora/parser-gfm-ex]:
   https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/parser-gfm-ex#readme
-[@yozora/template-tokenizer]:
-  https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/template-tokenizer#readme
 [@yozora/tokenizer-admonition]:
   https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/admonition#readme
 [@yozora/tokenizer-autolink]:
