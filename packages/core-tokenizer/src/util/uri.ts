@@ -14,7 +14,7 @@ export function encodeLinkDestination(destination: string): string {
       const result2 = decodeURIComponent(result)
       if (result2 === result) break
       result = result2
-    } catch (error) {
+    } catch (_) {
       break
     }
   }

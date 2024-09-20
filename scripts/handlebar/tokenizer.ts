@@ -172,7 +172,7 @@ __**__foo__**__
     inGfmEx: true,
     isInlineTokenizer: false,
     isBlockTokenizer: true,
-    usageDemoSourceContent: `"source contents"`,
+    usageDemoSourceContent: '"source contents"',
   },
   // fenced-code
   {
@@ -528,7 +528,7 @@ Foo *bar*
     inGfmEx: true,
     isInlineTokenizer: true,
     isBlockTokenizer: false,
-    usageDemoSourceContent: `"hello $.;'there"`,
+    usageDemoSourceContent: '"hello $.;\'there"',
   },
   // thematic-break
   {

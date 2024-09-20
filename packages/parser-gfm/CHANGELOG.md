@@ -740,8 +740,7 @@ All notable changes to this project will be documented in this file. See
   ([ab1caca](https://github.com/yozorajs/yozora/commit/ab1caca36d2009b6487151eabf7e59361a837b05))
 - :bug: [tokenizercore] fix: mistaken '>' for ']' in eatAndCollectLinkLabel
   ([4277f82](https://github.com/yozorajs/yozora/commit/4277f820f875eada92a4aaba06299ef7c54b38f3))
-- :bug: [tokenizer-line-break, tokenizer-text] fix: remove spaces at the end of the line and
-  beginning
+- :bug: [tokenizer-line-break, tokenizer-text] fix: remove spaces at the end of the line and beginning
   ([5641968](https://github.com/yozorajs/yozora/commit/5641968da7c1355141f466dd347879dccd42bbca))
 - :bug: [tokenizer-list-*-item] fix: fix gfm#242, gfm#298: ListItem could contains blank lines
   ([edf1b58](https://github.com/yozorajs/yozora/commit/edf1b58898c3c887e5d0af717af174a9cd40ea85)),

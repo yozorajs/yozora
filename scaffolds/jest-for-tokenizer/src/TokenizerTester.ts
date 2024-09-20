@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-export, jest/valid-title */
 import type { IParser } from '@yozora/core-parser'
 import { BaseTester } from './BaseTester'
 import type { IYozoraUseCase } from './types'

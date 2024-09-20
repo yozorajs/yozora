@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { createTokenizerTesters } from '@yozora/jest-for-tokenizer'
 import { DefinitionTokenizerName } from '@yozora/tokenizer-definition'
 import FootnoteTokenizer from '@yozora/tokenizer-footnote'

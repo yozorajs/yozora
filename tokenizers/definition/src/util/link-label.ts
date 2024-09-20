@@ -77,7 +77,7 @@ export function eatAndCollectLinkLabel(
     }
 
     i += 1
-    // eslint-disable-next-line no-param-reassign
+
     state.nodePoints.push(p)
   }
 

@@ -50,7 +50,7 @@ export function createCodePointSearcher(
    * But only when orderedRangeCodePoints.length * 1.5 < orderedCodePoints.length,
    * the range binary search could work better (1.5 is just a hypothesis).
    *
-   * The code point ranges are something like [left_1, right_1, left_2, right_2, ...left_n, right_n],
+   * The code point ranges are something like [left_1, right_1, left_2, ...left_n, right_n],
    *  - The good ranges: [left_1, right_0), ..., [left_i, right_i), ..., [left_n, right_n]
    *  - The bad ranges: [-Infinity, left_1), ..., [right_i, left_{i+1}), ..., [right_n, Infinity]
    */

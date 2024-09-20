@@ -25,9 +25,9 @@ export const regex2 = new RegExp(
  * import { YozoraParser, YozoraParser as Parser } from '@yozora/parser'
  */
 export const regex3 = new RegExp(
-  '^import\\s+(?:([\\w]+)\\s*,\\s*)?'+
+  '^import\\s+(?:([\\w]+)\\s*,\\s*)?' +
     namedImportRegex.source +
-    `from\\s+(['"])([^'"]+)\\3` +
+    'from\\s+([\'"])([^\'"]+)\\3' +
     endRegex.source,
 )
 

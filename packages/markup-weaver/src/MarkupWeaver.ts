@@ -199,7 +199,7 @@ export class MarkupWeaver implements IMarkupWeaver {
         const isBlockLevel: boolean = weaver.isBlockLevel(node, ctx, childIndex)
         if (isBlockLevel) {
           dequeue(node)
-          throw new TypeError(`[MarkupWeaver.weave] Cannot processInline for block-level node.`)
+          throw new TypeError('[MarkupWeaver.weave] Cannot processInline for block-level node.')
         }
 
         let result = ''

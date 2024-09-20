@@ -36,11 +36,11 @@ export async function genAndWriteNxProjectJson(params, reporter) {
   const { workspaceRoot, projectDir } = params
   const absolutePackageDir = path.resolve(workspaceRoot, projectDir)
   if (!fs.existsSync(absolutePackageDir)) {
-    reporter?.warn(`skipped. packageDirFromRoot is not found.`, projectDir)
+    reporter?.warn('skipped. packageDirFromRoot is not found.', projectDir)
     return
   }
   if (!fs.statSync(absolutePackageDir).isDirectory()) {
-    reporter?.warn(`skipped. packageDirFromRoot is not a folder.`, projectDir)
+    reporter?.warn('skipped. packageDirFromRoot is not a folder.', projectDir)
     return
   }
   const projectJsonPath = path.join(absolutePackageDir, 'project.json')

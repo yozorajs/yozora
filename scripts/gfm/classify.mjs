@@ -1,8 +1,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const chalk = require('chalk')
-const fs = require('node:fs')
-const path = require('node:path')
-const gfmClassifyData = require('./data.json')
+import chalk from 'chalk'
+import fs from 'node:fs'
+import path from 'node:path'
+import url from 'node:url'
+import parserGfmData from './data-classify/parser-gfm.json'
+import gfmClassifyData from './data.json'
+
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
+const rootDir = path.resolve(__dirname, '../../')
 
 class GFMExampleClassifier {
   constructor(gfmExamples) {
@@ -11,23 +16,22 @@ class GFMExampleClassifier {
   }
 
   classifyToPath(caseRootDir, groups) {
-    const self = this
     for (const group of groups) {
       const excluded = group.excluded || []
       const groupDir = path.resolve(caseRootDir, group.name)
       if (!fs.existsSync(groupDir)) fs.mkdirSync(groupDir, { recursive: true })
       for (let i = group.start; i <= group.end; ++i) {
         if (excluded.includes(i)) continue
-        const fileName = '#' + ('' + i).padStart(self.numberLength, '0') + '.json'
+        const fileName = '#' + ('' + i).padStart(this.numberLength, '0') + '.json'
         const caseFilePath = path.join(groupDir, fileName)
-        const gfmExample = self.gfmExamples[i]
-        const data = self.mapGFMExampleDataToCase(gfmExample)
+        const gfmExample = this.gfmExamples[i]
+        const data = this.mapGFMExampleDataToCase(gfmExample)
         const content = JSON.stringify(data, null, 2)
         fs.writeFileSync(caseFilePath, content, 'utf-8')
         console.log(chalk.green(`Add case ${caseFilePath}`))
       }
     }
-    return self
+    return this
   }
 
   mapGFMExampleDataToCase(gfmExample) {
@@ -47,10 +51,8 @@ class GFMExampleClassifier {
 
 const classifier = new GFMExampleClassifier(gfmClassifyData)
 
-const rootDir = path.resolve(__dirname, '../../')
-
 // parser-gfm test cases
 classifier.classifyToPath(
   path.resolve(rootDir, 'scaffolds/jest-for-tokenizer/fixtures/gfm'),
-  require('./data-classify/parser-gfm.json'),
+  parserGfmData,
 )

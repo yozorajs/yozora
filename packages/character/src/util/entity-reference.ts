@@ -216,7 +216,7 @@ export function eatEntityReference(
   try {
     if (val === 0) val = UnicodeCodePoint.REPLACEMENT_CHARACTER
     value = String.fromCodePoint(val)
-  } catch (error) {
+  } catch (_) {
     value = String.fromCodePoint(UnicodeCodePoint.REPLACEMENT_CHARACTER)
   }
   return { nextIndex: i + 1, value }

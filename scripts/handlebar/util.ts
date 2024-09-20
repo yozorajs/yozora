@@ -13,7 +13,7 @@ import {
   toTitleCase,
   toTrim,
   toUpperCase,
-} from '@guanghechen/helper-string'
+} from '@guanghechen/string'
 import Handlebars from 'handlebars'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -51,7 +51,7 @@ Handlebars.registerHelper('transform', (...args: any[]): string => {
   const value = args[args.length - 1]
   const transformFns = args
     .slice(0, args.length - 2)
-    .map(name => transformers[name])
+    .map((name: string) => transformers[name as keyof typeof transformers])
     .filter(fn => fn != null)
   const transform = composeTextTransformers(...transformFns)
   return transform(value)
@@ -97,7 +97,7 @@ export function renderMarkdown<D>(
 
   const resolvedContent =
     content
-      .replace(regex, (m, templateName): string => {
+      .replace(regex, (_, templateName): string => {
         const result = renderTemplate(templateName, data)
         return `\n\n<!-- :begin use ${templateName} -->\n\n${result}\n\n<!-- :end -->\n\n`
       })

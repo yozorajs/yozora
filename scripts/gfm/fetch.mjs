@@ -1,8 +1,9 @@
+/* eslint-disable no-undef */
 /**
  * 将 GFM 中的 example 元素解析成 JSON 数据
  * @param exampleEl example 元素
  */
-function parseGFMExample(exampleEl) {
+export function parseGFMExample(exampleEl) {
   if (exampleEl == null) return null
 
   const exampleId = exampleEl.id || ''
@@ -40,7 +41,7 @@ function parseGFMExample(exampleEl) {
   return result
 }
 
-function fetchGFMExamples(...exampleNos) {
+export function fetchGFMExamples(...exampleNos) {
   const exampleEls = exampleNos.map(exampleNo => {
     const id = 'example-' + exampleNo
     const elementEl = document.getElementById(id)
@@ -51,21 +52,14 @@ function fetchGFMExamples(...exampleNos) {
   return JSON.stringify(result, null, 2)
 }
 
-function fetchGFMExamplesInRange(left, right = left) {
+export function fetchGFMExamplesInRange(left, right = left) {
   const exampleNos = []
   for (let i = left; i <= right; ++i) exampleNos.push(i)
   return fetchGFMExamples(...exampleNos)
 }
 
-function fetchExamplesAll() {
+export function fetchExamplesAll() {
   const exampleEls = document.querySelectorAll('[id^=example]')
   const result = Array.from(exampleEls).map(exampleEl => parseGFMExample(exampleEl))
   return JSON.stringify(result, null, 2)
-}
-
-module.exports = {
-  fetchExamplesAll,
-  fetchGFMExamples,
-  fetchGFMExamplesInRange,
-  parseGFMExample,
 }

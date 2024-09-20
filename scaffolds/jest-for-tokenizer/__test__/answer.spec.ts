@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { InlineCodeTokenizerName } from '@yozora/tokenizer-inline-code'
 import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
 import { parsers, weavers } from 'jest.setup'

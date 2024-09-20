@@ -93,8 +93,7 @@ along the existing nesting structure (such as the above [Blockquote][@yozora/tok
 to complete the matching, and then gets a matching opportunity. In order to make the tokenizers work
 with each other transparently, when designing the life cycle methods of the block-level tokenizer in
 the `match-block` stage, the parsing logic of the nested structure lifted into [@yozora/core-parser
-][], and use a special data structure called `PhrasingContentLine` as the actual parsing unit of a
-line:
+][], and use a special data structure called `PhrasingContentLine` as the actual parsing unit of a line:
 
 ```typescript
 export interface PhrasingContentLine {

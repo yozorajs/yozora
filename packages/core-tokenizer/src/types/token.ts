@@ -4,7 +4,6 @@ import type { INodeInterval } from '@yozora/character'
 /**
  * Make a set of properties by key `K` become optional from `T`.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
 declare type IPickPartial<T extends object, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
 /**

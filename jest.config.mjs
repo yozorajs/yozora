@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { tsMonorepoConfig } from '@guanghechen/jest-config'
 import path from 'node:path'
 import url from 'node:url'
