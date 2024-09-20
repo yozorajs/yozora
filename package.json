@@ -15,6 +15,7 @@
   "engines": {
     "node": ">= 16.0.0"
   },
+  "type": "module",
   "scripts": {
     ":publish": "yarn build:production && yarn test:coverage && lerna publish",
     ":publish-recover": "git stash && lerna publish from-package",
@@ -46,21 +47,18 @@
     "scaffolds/*",
     "tokenizers/*"
   ],
-  "resolutions": {
-    "node-plop/inquirer": "9.3.5"
-  },
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/eslint-parser": "^7.25.1",
-    "@guanghechen/chalk": "^1.0.0-alpha.13",
+    "@guanghechen/chalk": "^1.0.0",
     "@guanghechen/conventional-changelog": "^6.0.0-alpha.2",
-    "@guanghechen/eslint-config": "^7.0.3",
-    "@guanghechen/helper-jest": "^6.0.0-alpha.4",
+    "@guanghechen/eslint-config": "^7.0.4",
+    "@guanghechen/helper-jest": "^6.0.0-alpha.5",
     "@guanghechen/helper-string": "^6.0.0-alpha.2",
     "@guanghechen/jest-config": "^6.0.0-alpha.2",
-    "@guanghechen/reporter": "^1.0.0-alpha.30",
-    "@guanghechen/rollup-config": "^6.0.0-alpha.5",
-    "@guanghechen/script-doc-link": "^6.0.0-alpha.16",
+    "@guanghechen/reporter": "^1.0.0",
+    "@guanghechen/rollup-config": "^6.0.0-alpha.6",
+    "@guanghechen/script-doc-link": "^6.0.0-alpha.17",
     "@types/jest": "29.5.13",
     "@types/node": "^20.16.5",
     "cross-env": "^7.0.3",
@@ -72,11 +70,11 @@
     "lerna": "8.1.8",
     "lint-staged": "15.2.10",
     "npm-run-all": "4.1.5",
-    "nx": "^19.7.3",
+    "nx": "^19.7.4",
     "pinst": "3.0.0",
     "prettier": "3.3.3",
     "rimraf": "^6.0.1",
-    "rollup": "^4.21.3",
+    "rollup": "^4.22.0",
     "ts-jest": "29.2.5",
     "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
