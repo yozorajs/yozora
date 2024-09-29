@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>2.3.4 (2024-09-29)</small>
+
+- :arrow_up: chore: upgrade devDependencies
+  ([2c0d2bb](https://github.com/yozorajs/yozora/commit/2c0d2bb))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## <small>2.3.3 (2024-09-20)</small>
 
 - :arrow_up: chore: upgrade devDependencies

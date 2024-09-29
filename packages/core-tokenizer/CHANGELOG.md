@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>2.3.4 (2024-09-29)</small>
+
+**Note:** Version bump only for package @yozora/core-tokenizer
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## <small>2.3.3 (2024-09-20)</small>
 
 - :fire: improve: remove @yozora/template-tokenizer

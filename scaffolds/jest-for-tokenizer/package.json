@@ -1,6 +1,6 @@
 {
   "name": "@yozora/jest-for-tokenizer",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "scaffolds/jest-for-tokenizer"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.3/scaffolds/jest-for-tokenizer#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.4/scaffolds/jest-for-tokenizer#readme",
   "type": "module",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -33,14 +33,14 @@
     "README.md"
   ],
   "dependencies": {
-    "@yozora/ast": "^2.3.3",
-    "@yozora/ast-util": "^2.3.3",
-    "@yozora/invariant": "^2.3.3",
+    "@yozora/ast": "^2.3.4",
+    "@yozora/ast-util": "^2.3.4",
+    "@yozora/invariant": "^2.3.4",
     "globby": "^14.0.2",
     "jest": "^29.7.0"
   },
   "devDependencies": {
-    "@yozora/core-parser": "^2.3.3",
-    "@yozora/markup-weaver": "^2.3.3"
+    "@yozora/core-parser": "^2.3.4",
+    "@yozora/markup-weaver": "^2.3.4"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-math",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "description": "Tokenizer for processing fenced math block (formulas)",
   "author": {
     "name": "guanghechen",
@@ -11,7 +11,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "tokenizers/math"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.3/tokenizers/math",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.4/tokenizers/math",
   "keywords": [
     "yozora",
     "markdown",
@@ -43,9 +43,9 @@
     "README.md"
   ],
   "dependencies": {
-    "@yozora/ast": "^2.3.3",
-    "@yozora/character": "^2.3.3",
-    "@yozora/core-tokenizer": "^2.3.3",
-    "@yozora/tokenizer-fenced-block": "^2.3.3"
+    "@yozora/ast": "^2.3.4",
+    "@yozora/character": "^2.3.4",
+    "@yozora/core-tokenizer": "^2.3.4",
+    "@yozora/tokenizer-fenced-block": "^2.3.4"
   }
 }

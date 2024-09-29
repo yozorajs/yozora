@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-link-reference",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "tokenizers/link-reference"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.3/tokenizers/link-reference",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.4/tokenizers/link-reference",
   "type": "module",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -34,9 +34,9 @@
     "README.md"
   ],
   "dependencies": {
-    "@yozora/ast": "^2.3.3",
-    "@yozora/character": "^2.3.3",
-    "@yozora/core-tokenizer": "^2.3.3",
-    "@yozora/tokenizer-link": "^2.3.3"
+    "@yozora/ast": "^2.3.4",
+    "@yozora/character": "^2.3.4",
+    "@yozora/core-tokenizer": "^2.3.4",
+    "@yozora/tokenizer-link": "^2.3.4"
   }
 }
