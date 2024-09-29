@@ -13,7 +13,7 @@ import {
   toTitleCase,
   toTrim,
   toUpperCase,
-} from '@guanghechen/string'
+} from '@guanghechen/std'
 import Handlebars from 'handlebars'
 import fs from 'node:fs'
 import path from 'node:path'
