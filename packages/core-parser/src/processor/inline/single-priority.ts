@@ -142,7 +142,7 @@ export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor =>
         )
 
         // Set internalTokens returned by processDelimiterPair.
-        // eslint-disable-next-line no-lone-blocks
+
         {
           for (const token of result.tokens) {
             if (token._tokenizer == null) token._tokenizer = hook.name
