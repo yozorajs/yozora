@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>2.3.5 (2024-10-06)</small>
+
+- :arrow_up: chore: upgrade devDependencies
+  ([2c0d2bb](https://github.com/yozorajs/yozora/commit/2c0d2bb))
+- :arrow_up: chore: upgrade devDependencies
+  ([018efef](https://github.com/yozorajs/yozora/commit/018efef))
+- :arrow_up: chore: upgrade devDependencies & update scripts
+  ([b504f00](https://github.com/yozorajs/yozora/commit/b504f00))
+- :bookmark: release: publish v2.3.3 ([be6d159](https://github.com/yozorajs/yozora/commit/be6d159))
+- :bookmark: release: publish v2.3.4 ([ac66f62](https://github.com/yozorajs/yozora/commit/ac66f62))
+- :fire: improve: remove @yozora/template-tokenizer
+  ([c794fe8](https://github.com/yozorajs/yozora/commit/c794fe8))
+- :wrench: chore: fix build error ([06f839d](https://github.com/yozorajs/yozora/commit/06f839d))
+- :wrench: chore: fix lint ([224e248](https://github.com/yozorajs/yozora/commit/224e248))
+- :wrench: chore: fix nx config ([139b132](https://github.com/yozorajs/yozora/commit/139b132))
+- :wrench: chore: fix nx config ([b8c4d73](https://github.com/yozorajs/yozora/commit/b8c4d73))
+- :wrench: chore: fix nx config ([38c2325](https://github.com/yozorajs/yozora/commit/38c2325))
+- :wrench: chore: prefer @guanghechen/eslint-config
+  ([67a7d37](https://github.com/yozorajs/yozora/commit/67a7d37))
+- :wrench: chore: upgrade devDependencies
+  ([e509173](https://github.com/yozorajs/yozora/commit/e509173))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## <small>2.3.4 (2024-09-29)</small>
 
 - :arrow_up: chore: upgrade devDependencies

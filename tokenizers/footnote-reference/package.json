@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-footnote-reference",
-  "version": "2.3.4",
+  "version": "2.3.5",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "tokenizers/footnote-reference"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.4/tokenizers/footnote-reference",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.5/tokenizers/footnote-reference",
   "type": "module",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -34,9 +34,9 @@
     "README.md"
   ],
   "dependencies": {
-    "@yozora/ast": "^2.3.4",
-    "@yozora/character": "^2.3.4",
-    "@yozora/core-tokenizer": "^2.3.4",
-    "@yozora/tokenizer-footnote-definition": "^2.3.4"
+    "@yozora/ast": "^2.3.5",
+    "@yozora/character": "^2.3.5",
+    "@yozora/core-tokenizer": "^2.3.5",
+    "@yozora/tokenizer-footnote-definition": "^2.3.5"
   }
 }
