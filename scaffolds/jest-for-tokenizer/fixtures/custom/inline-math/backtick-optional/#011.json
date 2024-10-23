@@ -1,0 +1,126 @@
+{
+  "title": "basic.1",
+  "cases": [
+    {
+      "description": "The dollar sign should meet the opener and closer conditions",
+      "input": "**$394 billion**, and by 2024, it had surged to **$35.46 trillion**",
+      "markupAnswer": "**$394 billion**, and by 2024, it had surged to **$35.46 trillion**",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 68,
+            "offset": 67
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 68,
+                "offset": 67
+              }
+            },
+            "children": [
+              {
+                "type": "strong",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 17,
+                    "offset": 16
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 15,
+                        "offset": 14
+                      }
+                    },
+                    "value": "$394 billion"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 17,
+                    "offset": 16
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 49,
+                    "offset": 48
+                  }
+                },
+                "value": ", and by 2024, it had surged to "
+              },
+              {
+                "type": "strong",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 49,
+                    "offset": 48
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 68,
+                    "offset": 67
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 51,
+                        "offset": 50
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 66,
+                        "offset": 65
+                      }
+                    },
+                    "value": "$35.46 trillion"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

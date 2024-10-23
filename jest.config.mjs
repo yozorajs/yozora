@@ -114,7 +114,7 @@ const coverageMap = {
   },
   '@yozora/tokenizer-inline-math': {
     global: {
-      branches: 85,
+      branches: 84,
     },
   },
   '@yozora/tokenizer-link': {

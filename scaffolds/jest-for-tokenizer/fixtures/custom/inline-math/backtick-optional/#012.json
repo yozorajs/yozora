@@ -1,0 +1,175 @@
+{
+  "title": "basic.1",
+  "cases": [
+    {
+      "description": "The dollar sign should meet the opener and closer conditions",
+      "input": " **$35.77 trillion** . This figure includes both debt held by the public and debt held by federal trust funds and other government accounts . The debt has been increasing steadily, with notable increments observed in recent months. For instance, in **August 2024**, the public debt was around **$35.26 trillion**",
+      "markupAnswer": "**$35.77 trillion** . This figure includes both debt held by the public and debt held by federal trust funds and other government accounts . The debt has been increasing steadily, with notable increments observed in recent months. For instance, in **August 2024**, the public debt was around **$35.26 trillion**",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 313,
+            "offset": 312
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 313,
+                "offset": 312
+              }
+            },
+            "children": [
+              {
+                "type": "strong",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 2,
+                    "offset": 1
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 21,
+                    "offset": 20
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 19,
+                        "offset": 18
+                      }
+                    },
+                    "value": "$35.77 trillion"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 21,
+                    "offset": 20
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 250,
+                    "offset": 249
+                  }
+                },
+                "value": " . This figure includes both debt held by the public and debt held by federal trust funds and other government accounts . The debt has been increasing steadily, with notable increments observed in recent months. For instance, in "
+              },
+              {
+                "type": "strong",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 250,
+                    "offset": 249
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 265,
+                    "offset": 264
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 252,
+                        "offset": 251
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 263,
+                        "offset": 262
+                      }
+                    },
+                    "value": "August 2024"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 265,
+                    "offset": 264
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 294,
+                    "offset": 293
+                  }
+                },
+                "value": ", the public debt was around "
+              },
+              {
+                "type": "strong",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 294,
+                    "offset": 293
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 313,
+                    "offset": 312
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 296,
+                        "offset": 295
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 311,
+                        "offset": 310
+                      }
+                    },
+                    "value": "$35.26 trillion"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
