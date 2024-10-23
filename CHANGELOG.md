@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>2.3.6 (2024-10-23)</small>
+
+- :bug: fix(tokenizer-inline-math): the dollar syntax should meet the opener and closer conditions
+  ([aef429b](https://github.com/yozorajs/yozora/commit/aef429b))
+- :white_check_mark: test(tokenizer-inline-math): add tests
+  ([078ba02](https://github.com/yozorajs/yozora/commit/078ba02))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## <small>2.3.5 (2024-10-06)</small>
 
 - :arrow_up: chore: upgrade devDependencies
