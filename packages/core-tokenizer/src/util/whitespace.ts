@@ -37,9 +37,28 @@ export function eatOptionalWhitespaces(
   startIndex: number,
   endIndex: number,
 ): IResultOfOptionalEater {
-  let i = startIndex
+  let i: number = startIndex
   while (i < endIndex && isWhitespaceCharacter(nodePoints[i].codePoint)) i += 1
   return i
+}
+
+/**
+ * Move endIndex forward to the first non-ascii whitespace position.
+ *
+ * @param nodePoints
+ * @param startIndex
+ * @param endIndex
+ * @return the offset of the first non-whitespace character located.
+ * @see https://github.github.com/gfm/#whitespace-character
+ */
+export function eatOptionalWhitespacesReverse(
+  nodePoints: ReadonlyArray<INodePoint>,
+  startIndex: number,
+  endIndex: number,
+): IResultOfOptionalEater {
+  let i: number = endIndex - 1
+  while (i >= startIndex && isWhitespaceCharacter(nodePoints[i].codePoint)) i -= 1
+  return i + 1
 }
 
 /**

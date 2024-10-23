@@ -1,13 +1,17 @@
 import { InlineMathType } from '@yozora/ast'
 import type { INodeInterval, INodePoint } from '@yozora/character'
-import { AsciiCodePoint } from '@yozora/character'
+import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
   IMatchInlineHookCreator,
   IResultOfFindDelimiters,
   IResultOfProcessSingleDelimiter,
   ITokenDelimiter,
 } from '@yozora/core-tokenizer'
-import { eatOptionalCharacters } from '@yozora/core-tokenizer'
+import {
+  eatOptionalCharacters,
+  eatOptionalWhitespaces,
+  eatOptionalWhitespacesReverse,
+} from '@yozora/core-tokenizer'
 import type { IDelimiter, IThis, IToken, T } from './types'
 
 export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = function (api) {
@@ -16,8 +20,20 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
 
   function* findDelimiter(): IResultOfFindDelimiters<IDelimiter> {
     const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
-    const blockStartIndex: number = api.getBlockStartIndex()
-    const blockEndIndex: number = api.getBlockEndIndex()
+    const originalBlockStartIndex: number = api.getBlockStartIndex()
+    const originalBlockEndIndex: number = api.getBlockEndIndex()
+
+    /** Eat the trailing whitespaces **/
+    const blockStartIndex: number = eatOptionalWhitespaces(
+      nodePoints,
+      originalBlockStartIndex,
+      originalBlockEndIndex,
+    )
+    const blockEndIndex: number = eatOptionalWhitespacesReverse(
+      nodePoints,
+      originalBlockStartIndex,
+      originalBlockEndIndex,
+    )
 
     const potentialDelimiters: ITokenDelimiter[] = []
     for (let i = blockStartIndex; i < blockEndIndex; ++i) {
@@ -88,8 +104,25 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
           // No backtick character found after dollar
           if (thickness <= 1) {
             if (backtickRequired) break
+
+            const isPotentialOpener: boolean =
+              _startIndex === blockStartIndex ||
+              isWhitespaceCharacter(nodePoints[_startIndex - 1].codePoint)
+            const isPotentialCloser: boolean =
+              i === blockEndIndex ||
+              (_startIndex > blockStartIndex &&
+                !isWhitespaceCharacter(nodePoints[_startIndex - 1].codePoint))
+
+            if (!isPotentialOpener && !isPotentialCloser) break
+
+            const delimiterType: 'opener' | 'closer' | 'both' | 'full' | null = isPotentialOpener
+              ? isPotentialCloser
+                ? 'both'
+                : 'opener'
+              : 'closer'
+
             const delimiter: ITokenDelimiter = {
-              type: 'both',
+              type: delimiterType,
               startIndex: _startIndex,
               endIndex: i,
             }
