@@ -9,6 +9,7 @@ import type {
 export type T = InlineMathType
 export type INode = InlineMath
 export const uniqueName = '@yozora/tokenizer-inline-math'
+export const uniqueName_withBacktick = '@yozora/tokenizer-inline-math_with_backtick'
 
 export interface IToken extends IPartialInlineToken<T> {
   /**
@@ -21,19 +22,13 @@ export interface IToken extends IPartialInlineToken<T> {
  * IDelimiter of InlineMathToken.
  */
 export interface IDelimiter extends ITokenDelimiter {
-  type: 'full'
   /**
    * Thickness of the InlineMathDelimiter
    */
   thickness: number
 }
 
-export interface IThis extends ITokenizer {
-  /**
-   * Whether if the backtick mark wrapping necessary.
-   */
-  readonly backtickRequired: boolean
-}
+export interface IThis extends ITokenizer {}
 
 export interface ITokenizerProps extends Partial<IBaseInlineTokenizerProps> {
   /**

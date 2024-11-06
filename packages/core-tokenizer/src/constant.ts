@@ -40,10 +40,15 @@ export enum TokenizerPriority {
    */
   LINKS = 3,
   /**
-   * Priority of tokenizers which producing containing block tokens,
+   * Priority of tokenizers which producing containing inline tokens,
    * such as DeleteTokenizer, EmphasisTokenizer and etc.
    */
   CONTAINING_INLINE = 2,
+  /**
+   * Priority of tokenizers which producing interrupted inline tokens,
+   * such as InlineMathTokenizer and etc.
+   */
+  INTERRUPTABLE_INLINE = 2,
   /**
    * Not an aggressive inline token.
    */

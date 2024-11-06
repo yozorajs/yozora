@@ -1,42 +1,27 @@
 import { InlineMathType } from '@yozora/ast'
-import type { INodeInterval, INodePoint } from '@yozora/character'
+import type { ICodePoint, INodePoint } from '@yozora/character'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
-import type {
-  IMatchInlineHookCreator,
-  IResultOfFindDelimiters,
-  IResultOfProcessSingleDelimiter,
-  ITokenDelimiter,
-} from '@yozora/core-tokenizer'
 import {
-  eatOptionalCharacters,
-  eatOptionalWhitespaces,
-  eatOptionalWhitespacesReverse,
+  type IMatchInlineHookCreator,
+  type IResultOfIsDelimiterPair,
+  type IResultOfProcessDelimiterPair,
+  genFindDelimiter,
 } from '@yozora/core-tokenizer'
 import type { IDelimiter, IThis, IToken, T } from './types'
 
 export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = function (api) {
-  const { backtickRequired } = this
-  return { findDelimiter, processSingleDelimiter }
+  return {
+    findDelimiter: () => genFindDelimiter<IDelimiter>(_findDelimiter),
+    isDelimiterPair,
+    processDelimiterPair,
+  }
 
-  function* findDelimiter(): IResultOfFindDelimiters<IDelimiter> {
+  function _findDelimiter(startIndex: number, endIndex: number): IDelimiter | null {
     const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
-    const originalBlockStartIndex: number = api.getBlockStartIndex()
-    const originalBlockEndIndex: number = api.getBlockEndIndex()
+    const blockStartIndex: number = api.getBlockStartIndex()
+    const blockEndIndex: number = api.getBlockEndIndex()
 
-    /** Eat the trailing whitespaces **/
-    const blockStartIndex: number = eatOptionalWhitespaces(
-      nodePoints,
-      originalBlockStartIndex,
-      originalBlockEndIndex,
-    )
-    const blockEndIndex: number = eatOptionalWhitespacesReverse(
-      nodePoints,
-      originalBlockStartIndex,
-      originalBlockEndIndex,
-    )
-
-    const potentialDelimiters: ITokenDelimiter[] = []
-    for (let i = blockStartIndex; i < blockEndIndex; ++i) {
+    for (let i = startIndex; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
       switch (c) {
         case AsciiCodePoint.BACKSLASH:
@@ -47,40 +32,6 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
           i += 1
           break
         /**
-         * A backtick string is a string of one or more backtick characters '`'
-         * that is neither preceded nor followed by a backtick.
-         * A code span begins with a backtick string and ends with a
-         * backtick string of equal length.
-         * @see https://github.github.com/gfm/#backtick-string
-         * @see https://github.github.com/gfm/#code-span
-         *
-         * the left flanking string pattern is: <BACKTICK STRING><DOLLAR_SIGN>.
-         * eg: `$, ``$
-         *
-         * A backtick string is a string of one or more backtick
-         * characters '`' that is neither preceded nor followed by a backtick.
-         * @see https://github.github.com/gfm/#backtick-string
-         */
-        case AsciiCodePoint.BACKTICK: {
-          const _startIndex = i
-
-          // matched as many backtick as possible
-          i = eatOptionalCharacters(nodePoints, i + 1, blockEndIndex, AsciiCodePoint.BACKTICK)
-
-          // No dollar character found after backtick string
-          if (i >= blockEndIndex || nodePoints[i].codePoint !== AsciiCodePoint.DOLLAR_SIGN) {
-            break
-          }
-
-          const delimiter: ITokenDelimiter = {
-            type: 'opener',
-            startIndex: _startIndex,
-            endIndex: i + 1,
-          }
-          potentialDelimiters.push(delimiter)
-          break
-        }
-        /**
          * the right flanking string pattern is: <DOLLAR_SIGN><BACKTICK STRING>.
          * eg: $`, $``
          *
@@ -89,117 +40,53 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
          * @see https://github.github.com/gfm/#backtick-string
          */
         case AsciiCodePoint.DOLLAR_SIGN: {
-          // matched as many backtick as possible
-          const _startIndex = i
-          i = eatOptionalCharacters(nodePoints, i + 1, blockEndIndex, AsciiCodePoint.BACKTICK)
+          const leftCodePoint: ICodePoint | null =
+            i === blockStartIndex ? null : nodePoints[i - 1].codePoint
+          const rightCodePoint: ICodePoint | null =
+            i + 1 === blockEndIndex ? null : nodePoints[i + 1].codePoint
 
-          // A dollar sign followed by a dollar sign is not part of a valid
-          // inlineMath delimiter
-          if (i < blockEndIndex && nodePoints[i].codePoint === AsciiCodePoint.DOLLAR_SIGN) {
-            break
+          const isPotentialOpener: boolean =
+            (leftCodePoint === null || isWhitespaceCharacter(leftCodePoint)) &&
+            (rightCodePoint === null ||
+              (rightCodePoint !== AsciiCodePoint.DOLLAR_SIGN &&
+                !isWhitespaceCharacter(rightCodePoint)))
+          const isPotentialCloser: boolean =
+            (leftCodePoint === null || !isWhitespaceCharacter(leftCodePoint)) &&
+            (rightCodePoint === null || isWhitespaceCharacter(rightCodePoint))
+          if (!isPotentialOpener && !isPotentialCloser) break
+
+          const delimiterType: 'opener' | 'closer' | 'both' | 'full' = isPotentialOpener
+            ? isPotentialCloser
+              ? 'both'
+              : 'opener'
+            : 'closer'
+          const delimiter: IDelimiter = {
+            type: delimiterType,
+            startIndex: i,
+            endIndex: i + 1,
+            thickness: 1,
           }
-
-          const thickness: number = i - _startIndex
-
-          // No backtick character found after dollar
-          if (thickness <= 1) {
-            if (backtickRequired) break
-
-            const isPotentialOpener: boolean =
-              _startIndex === blockStartIndex ||
-              isWhitespaceCharacter(nodePoints[_startIndex - 1].codePoint)
-            const isPotentialCloser: boolean =
-              i === blockEndIndex ||
-              (_startIndex > blockStartIndex &&
-                !isWhitespaceCharacter(nodePoints[_startIndex - 1].codePoint))
-
-            if (!isPotentialOpener && !isPotentialCloser) break
-
-            const delimiterType: 'opener' | 'closer' | 'both' | 'full' | null = isPotentialOpener
-              ? isPotentialCloser
-                ? 'both'
-                : 'opener'
-              : 'closer'
-
-            const delimiter: ITokenDelimiter = {
-              type: delimiterType,
-              startIndex: _startIndex,
-              endIndex: i,
-            }
-            potentialDelimiters.push(delimiter)
-            break
-          }
-
-          const delimiter: ITokenDelimiter = {
-            type: 'closer',
-            startIndex: _startIndex,
-            endIndex: i,
-          }
-          potentialDelimiters.push(delimiter)
-          i -= 1
-          break
+          return delimiter
         }
       }
     }
-
-    let pIndex = 0
-    let lastEndIndex = -1
-    let delimiter: IDelimiter | null = null
-    while (pIndex < potentialDelimiters.length) {
-      const [startIndex, endIndex] = yield delimiter
-
-      // Read from cache.
-      if (lastEndIndex === endIndex) {
-        if (delimiter == null || delimiter.startIndex >= startIndex) continue
-      }
-      lastEndIndex = endIndex
-
-      let openerDelimiter: INodeInterval | null = null
-      let closerDelimiter: INodeInterval | null = null
-      for (; pIndex < potentialDelimiters.length; ++pIndex) {
-        for (; pIndex < potentialDelimiters.length; ++pIndex) {
-          const delimiter = potentialDelimiters[pIndex]
-          if (delimiter.startIndex >= startIndex && delimiter.type !== 'closer') break
-        }
-        if (pIndex + 1 >= potentialDelimiters.length) break
-
-        openerDelimiter = potentialDelimiters[pIndex]
-        const thickness = openerDelimiter.endIndex - openerDelimiter.startIndex
-        for (let i = pIndex + 1; i < potentialDelimiters.length; ++i) {
-          const delimiter = potentialDelimiters[i]
-          if (
-            delimiter.type !== 'opener' &&
-            delimiter.endIndex - delimiter.startIndex === thickness
-          ) {
-            closerDelimiter = delimiter
-            break
-          }
-        }
-
-        // No matched inlineCode closer marker found, try next one.
-        if (closerDelimiter != null) break
-      }
-
-      if (closerDelimiter == null) return
-
-      delimiter = {
-        type: 'full',
-        startIndex: openerDelimiter!.startIndex,
-        endIndex: closerDelimiter.endIndex,
-        thickness: closerDelimiter.endIndex - closerDelimiter.startIndex,
-      }
-    }
+    return null
   }
 
-  function processSingleDelimiter(
-    delimiter: IDelimiter,
-  ): IResultOfProcessSingleDelimiter<T, IToken> {
+  function isDelimiterPair(): IResultOfIsDelimiterPair {
+    return { paired: true }
+  }
+
+  function processDelimiterPair(
+    openerDelimiter: IDelimiter,
+    closerDelimiter: IDelimiter,
+  ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter> {
     const token: IToken = {
       nodeType: InlineMathType,
-      startIndex: delimiter.startIndex,
-      endIndex: delimiter.endIndex,
-      thickness: delimiter.thickness,
+      startIndex: openerDelimiter.startIndex,
+      endIndex: closerDelimiter.endIndex,
+      thickness: 1,
     }
-    return [token]
+    return { tokens: [token] }
   }
 }

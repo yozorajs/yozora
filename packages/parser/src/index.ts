@@ -105,7 +105,7 @@ export class YozoraParser extends DefaultParser {
 
       // inline tokenizers.
       .useTokenizer(new HtmlInlineTokenizer())
-      .useTokenizer(new InlineMathTokenizer({ backtickRequired: false }))
+      .useTokenizer(new InlineMathTokenizer({ backtickRequired: true }))
       .useTokenizer(new InlineCodeTokenizer())
       .useTokenizer(new AutolinkTokenizer())
       .useTokenizer(new AutolinkExtensionTokenizer())
@@ -116,6 +116,7 @@ export class YozoraParser extends DefaultParser {
       .useTokenizer(new ImageReferenceTokenizer())
       .useTokenizer(new LinkTokenizer())
       .useTokenizer(new LinkReferenceTokenizer())
+      .useTokenizer(new InlineMathTokenizer({ backtickRequired: false }))
       .useTokenizer(new EmphasisTokenizer())
       .useTokenizer(new DeleteTokenizer())
   }
