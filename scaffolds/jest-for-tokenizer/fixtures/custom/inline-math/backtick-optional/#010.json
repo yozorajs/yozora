@@ -1,5 +1,5 @@
 {
-  "title": "basic.1",
+  "title": "basic.10",
   "cases": [
     {
       "description": "Backslash escapes works in inline-math",

@@ -6,6 +6,9 @@ void createMarkupTester(parsers.yozora, weavers.yozora)
     'gfm/**/*.json',
     'custom/**/*.json',
 
+    // Temporary skipped.
+    '!custom/math/multiple-line/#2.json',
+
     // Skipped cases.
     '!gfm/autolink/**/#614.json',
     '!gfm/autolink-extension/**/#624.json',

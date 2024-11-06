@@ -34,7 +34,7 @@ export class TokenizerTester<T = unknown> extends BaseTester<T> {
     const { description, input } = useCase
     test(description, async () => {
       const parseAnswer = this._parseAndFormat(input, filepath)
-      expect(useCase.parseAnswer).toEqual(parseAnswer)
+      expect(parseAnswer).toEqual(useCase.parseAnswer)
     })
   }
 

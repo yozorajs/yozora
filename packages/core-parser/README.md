@@ -74,7 +74,7 @@ parser
   .useFallbackTokenizer(new ParagraphTokenizer())
   .useFallbackTokenizer(new TextTokenizer())
   .useTokenizer(new IndentedCodeTokenizer())
-  .useTokenizer(new InlineMathTokenizer())
+  .useTokenizer(new InlineMathTokenizer({ backtickRequired: false }))
   .useTokenizer(new InlineCodeTokenizer())
 
 parser.parse(

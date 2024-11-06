@@ -7,9 +7,11 @@ import MathTokenizer from '../src'
 createTokenizerTesters(
   parsers.gfm
     .useTokenizer(new MathTokenizer())
+    .useTokenizer(new InlineMathTokenizer({ backtickRequired: true }), InlineCodeTokenizerName)
     .useTokenizer(new InlineMathTokenizer({ backtickRequired: false }), InlineCodeTokenizerName),
   parsers.gfmEx
     .useTokenizer(new MathTokenizer())
+    .useTokenizer(new InlineMathTokenizer({ backtickRequired: true }), InlineCodeTokenizerName)
     .useTokenizer(new InlineMathTokenizer({ backtickRequired: false }), InlineCodeTokenizerName),
   parsers.yozora,
 ).forEach(tester => tester.scan('custom/math').runTest())

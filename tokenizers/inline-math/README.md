@@ -89,7 +89,8 @@ import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
 const parser = new DefaultParser()
   .useFallbackTokenizer(new ParagraphTokenizer())
   .useFallbackTokenizer(new TextTokenizer())
-  .useTokenizer(new InlineMathTokenizer())
+  .useTokenizer(new InlineMathTokenizer({ backtickRequired: true }))
+  .useTokenizer(new InlineMathTokenizer({ backtickRequired: false }))
 
 // parse source markdown content
 parser.parse("`$x^2 + y^2 = z^2, x < 0$`")
@@ -113,7 +114,7 @@ import GfmParser from '@yozora/parser-gfm'
 import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
 
 const parser = new GfmParser()
-parser.useTokenizer(new InlineMathTokenizer())
+parser.useTokenizer(new InlineMathTokenizer({ backtickRequired: true }))
 
 // parse source markdown content
 parser.parse("`$x^2 + y^2 = z^2, x < 0$`")
