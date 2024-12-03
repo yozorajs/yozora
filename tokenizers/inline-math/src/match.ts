@@ -5,6 +5,7 @@ import {
   type IMatchInlineHookCreator,
   type IResultOfIsDelimiterPair,
   type IResultOfProcessDelimiterPair,
+  eatOptionalCharacters,
   genFindDelimiter,
 } from '@yozora/core-tokenizer'
 import type { IDelimiter, IThis, IToken, T } from './types'
@@ -42,14 +43,18 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
         case AsciiCodePoint.DOLLAR_SIGN: {
           const leftCodePoint: ICodePoint | null =
             i === blockStartIndex ? null : nodePoints[i - 1].codePoint
+
+          const _startIndex = i
+
+          // matched as many dollar sign as possible
+          i = eatOptionalCharacters(nodePoints, i + 1, blockEndIndex, AsciiCodePoint.DOLLAR_SIGN)
+
           const rightCodePoint: ICodePoint | null =
-            i + 1 === blockEndIndex ? null : nodePoints[i + 1].codePoint
+            i === blockEndIndex ? null : nodePoints[i].codePoint
 
           const isPotentialOpener: boolean =
             (leftCodePoint === null || isWhitespaceCharacter(leftCodePoint)) &&
-            (rightCodePoint === null ||
-              (rightCodePoint !== AsciiCodePoint.DOLLAR_SIGN &&
-                !isWhitespaceCharacter(rightCodePoint)))
+            (rightCodePoint === null || !isWhitespaceCharacter(rightCodePoint))
           const isPotentialCloser: boolean =
             (leftCodePoint === null || !isWhitespaceCharacter(leftCodePoint)) &&
             (rightCodePoint === null || isWhitespaceCharacter(rightCodePoint))
@@ -62,9 +67,9 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
             : 'closer'
           const delimiter: IDelimiter = {
             type: delimiterType,
-            startIndex: i,
-            endIndex: i + 1,
-            thickness: 1,
+            startIndex: _startIndex,
+            endIndex: i,
+            thickness: i - _startIndex,
           }
           return delimiter
         }
@@ -73,8 +78,12 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
     return null
   }
 
-  function isDelimiterPair(): IResultOfIsDelimiterPair {
-    return { paired: true }
+  function isDelimiterPair(
+    openerDelimiter: IDelimiter,
+    closerDelimiter: IDelimiter,
+  ): IResultOfIsDelimiterPair {
+    if (openerDelimiter.thickness === closerDelimiter.thickness) return { paired: true }
+    return { paired: false, opener: true, closer: true }
   }
 
   function processDelimiterPair(
@@ -85,7 +94,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
       nodeType: InlineMathType,
       startIndex: openerDelimiter.startIndex,
       endIndex: closerDelimiter.endIndex,
-      thickness: 1,
+      thickness: openerDelimiter.thickness,
     }
     return { tokens: [token] }
   }
