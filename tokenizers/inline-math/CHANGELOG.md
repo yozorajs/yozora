@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>2.3.8 (2024-12-03)</small>
+
+- improve(inlineMath): support more than one dollar sign as delimiter
+  ([bf17c33](https://github.com/yozorajs/yozora/commit/bf17c33))
+- :bookmark: release: publish v2.3.7 ([ba79410](https://github.com/yozorajs/yozora/commit/ba79410))
+- :bug: fix(inline-math): the inline syntax wihtout backticks could be interruptted by
+  emphasis/strong ([c347f97](https://github.com/yozorajs/yozora/commit/c347f97))
+- :white_check_mark: test: fix tests ([dd9c762](https://github.com/yozorajs/yozora/commit/dd9c762))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## <small>2.3.7 (2024-11-06)</small>
 
 - :bug: fix(inline-math): the inline syntax wihtout backticks could be interruptted by

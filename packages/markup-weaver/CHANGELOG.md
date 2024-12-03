@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>2.3.8 (2024-12-03)</small>
+
+- :bookmark: release: publish v2.3.7 ([ba79410](https://github.com/yozorajs/yozora/commit/ba79410))
+- :white_check_mark: test: fix tests ([dd9c762](https://github.com/yozorajs/yozora/commit/dd9c762))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## <small>2.3.7 (2024-11-06)</small>
 
 - :white_check_mark: test: fix tests ([dd9c762](https://github.com/yozorajs/yozora/commit/dd9c762))

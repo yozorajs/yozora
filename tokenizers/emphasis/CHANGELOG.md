@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>2.3.8 (2024-12-03)</small>
+
+- :bookmark: release: publish v2.3.7 ([ba79410](https://github.com/yozorajs/yozora/commit/ba79410))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## <small>2.3.7 (2024-11-06)</small>
 
 **Note:** Version bump only for package @yozora/tokenizer-emphasis
