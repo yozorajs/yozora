@@ -5,15 +5,16 @@ import {
   modify,
   tsPresetConfigBuilder,
 } from '@guanghechen/rollup-config'
+import fs from 'node:fs/promises'
 import path from 'node:path'
 
 const builtins = new Set([])
 const externals = new Set([])
 
 export default async function rollupConfig() {
-  const { default: manifest } = await import(path.resolve('package.json'), {
-    assert: { type: 'json' },
-  })
+  const manifestPath = path.resolve('package.json')
+  const manifestRaw = await fs.readFile(manifestPath, 'utf8')
+  const manifest = JSON.parse(manifestRaw)
   const config = await createRollupConfig({
     manifest,
     presetConfigBuilders: [
