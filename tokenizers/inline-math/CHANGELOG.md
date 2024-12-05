@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>2.3.9 (2024-12-05)</small>
+
+- :bug: fix(inline-math): the delimiter could be adjacent to a punctuation character
+  ([a6071be](https://github.com/yozorajs/yozora/commit/a6071be))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## <small>2.3.8 (2024-12-03)</small>
 
 - improve(inlineMath): support more than one dollar sign as delimiter
