@@ -4,7 +4,7 @@
     {
       "description": "One marker symbol is not enough",
       "input": "$\nf(x)=\\left\\lbrace\\begin{aligned}\n&x^2, &x < 0\\\\\n&0, &x = 0\\\\\n&x^3, &x > 0\n\\end{aligned}\\right.\n$",
-      "markupAnswer": "$\nf(x)=\\left\\lbrace\\begin{aligned}\n&x^2, &x < 0\\\n&0, &x = 0\\\n&x^3, &x > 0\n\\end{aligned}\\right.\n$",
+      "markupAnswer": "$f(x)=\\left\\lbrace\\begin{aligned} &x^2, &x < 0\\\\ &0, &x = 0\\\\ &x^3, &x > 0 \\end{aligned}\\right.$",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -36,7 +36,7 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "inlineMath",
                 "position": {
                   "start": {
                     "line": 1,
@@ -49,7 +49,7 @@
                     "offset": 98
                   }
                 },
-                "value": "$\nf(x)=\\left\\lbrace\\begin{aligned}\n&x^2, &x < 0\\\n&0, &x = 0\\\n&x^3, &x > 0\n\\end{aligned}\\right.\n$"
+                "value": "f(x)=\\left\\lbrace\\begin{aligned} &x^2, &x < 0\\\\ &0, &x = 0\\\\ &x^3, &x > 0 \\end{aligned}\\right."
               }
             ]
           }

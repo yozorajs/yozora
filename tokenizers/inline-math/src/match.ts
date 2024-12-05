@@ -1,6 +1,6 @@
 import { InlineMathType } from '@yozora/ast'
 import type { ICodePoint, INodePoint } from '@yozora/character'
-import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
+import { AsciiCodePoint, isPunctuationCharacter, isWhitespaceCharacter } from '@yozora/character'
 import {
   type IMatchInlineHookCreator,
   type IResultOfIsDelimiterPair,
@@ -41,10 +41,9 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
          * @see https://github.github.com/gfm/#backtick-string
          */
         case AsciiCodePoint.DOLLAR_SIGN: {
+          const _startIndex = i
           const leftCodePoint: ICodePoint | null =
             i === blockStartIndex ? null : nodePoints[i - 1].codePoint
-
-          const _startIndex = i
 
           // matched as many dollar sign as possible
           i = eatOptionalCharacters(nodePoints, i + 1, blockEndIndex, AsciiCodePoint.DOLLAR_SIGN)
@@ -52,15 +51,11 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
           const rightCodePoint: ICodePoint | null =
             i === blockEndIndex ? null : nodePoints[i].codePoint
 
-          const isPotentialOpener: boolean =
-            (leftCodePoint === null || isWhitespaceCharacter(leftCodePoint)) &&
-            (rightCodePoint === null || !isWhitespaceCharacter(rightCodePoint))
-          const isPotentialCloser: boolean =
-            (leftCodePoint === null || !isWhitespaceCharacter(leftCodePoint)) &&
-            (rightCodePoint === null || isWhitespaceCharacter(rightCodePoint))
+          const isPotentialOpener: boolean = checkIfPotentialOpener(leftCodePoint, rightCodePoint)
+          const isPotentialCloser: boolean = checkIfPotentialCloser(leftCodePoint, rightCodePoint)
           if (!isPotentialOpener && !isPotentialCloser) break
 
-          const delimiterType: 'opener' | 'closer' | 'both' | 'full' = isPotentialOpener
+          const delimiterType: 'opener' | 'closer' | 'both' = isPotentialOpener
             ? isPotentialCloser
               ? 'both'
               : 'opener'
@@ -77,25 +72,53 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
     }
     return null
   }
+}
 
-  function isDelimiterPair(
-    openerDelimiter: IDelimiter,
-    closerDelimiter: IDelimiter,
-  ): IResultOfIsDelimiterPair {
-    if (openerDelimiter.thickness === closerDelimiter.thickness) return { paired: true }
-    return { paired: false, opener: true, closer: true }
-  }
+function checkIfPotentialOpener(
+  leftCodePoint: ICodePoint | null,
+  rightCodePoint: ICodePoint | null,
+): boolean {
+  if (rightCodePoint === null) return false
+  if (leftCodePoint === AsciiCodePoint.BACKTICK) return false
+  if (leftCodePoint === null) return true
 
-  function processDelimiterPair(
-    openerDelimiter: IDelimiter,
-    closerDelimiter: IDelimiter,
-  ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter> {
-    const token: IToken = {
-      nodeType: InlineMathType,
-      startIndex: openerDelimiter.startIndex,
-      endIndex: closerDelimiter.endIndex,
-      thickness: openerDelimiter.thickness,
-    }
-    return { tokens: [token] }
+  return isWhitespaceCharacter(leftCodePoint) || isPunctuationCharacter(leftCodePoint)
+}
+
+function checkIfPotentialCloser(
+  leftCodePoint: ICodePoint | null,
+  rightCodePoint: ICodePoint | null,
+): boolean {
+  if (leftCodePoint === null) return false
+  if (rightCodePoint === AsciiCodePoint.BACKTICK) return false
+  if (rightCodePoint === null) return true
+
+  return isWhitespaceCharacter(rightCodePoint) || isPunctuationCharacter(rightCodePoint)
+}
+
+function isDelimiterPair(
+  openerDelimiter: IDelimiter,
+  closerDelimiter: IDelimiter,
+): IResultOfIsDelimiterPair {
+  if (
+    openerDelimiter.thickness === closerDelimiter.thickness &&
+    (openerDelimiter.type === 'opener' || openerDelimiter.type === 'both') &&
+    (closerDelimiter.type === 'closer' || closerDelimiter.type === 'both')
+  ) {
+    return { paired: true }
   }
+  return { paired: false, opener: true, closer: true }
+}
+
+function processDelimiterPair(
+  openerDelimiter: IDelimiter,
+  closerDelimiter: IDelimiter,
+): IResultOfProcessDelimiterPair<T, IToken, IDelimiter> {
+  const token: IToken = {
+    nodeType: InlineMathType,
+    startIndex: openerDelimiter.startIndex,
+    endIndex: closerDelimiter.endIndex,
+    thickness: openerDelimiter.thickness,
+  }
+  return { tokens: [token] }
 }
