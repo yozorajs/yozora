@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "footnote-definition",
+  "implicitDependencies": ["ast", "character", "core-tokenizer"],
   "sourceRoot": "tokenizers/footnote-definition/src",
   "projectType": "library",
   "tags": ["tokenizer"],

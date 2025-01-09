@@ -1,5 +1,5 @@
+import { globbySync } from '@guanghechen/globby'
 import invariant from '@yozora/invariant'
-import { globbySync } from 'globby'
 import fs from 'node:fs'
 import path from 'node:path'
 import type { IYozoraUseCase, IYozoraUseCaseGroup } from './types'
@@ -52,7 +52,7 @@ export abstract class BaseTester<T = unknown> {
     caseRootDirectory = this.caseRootDirectory,
     isDesiredFilepath: (filepath: string) => boolean = () => true,
   ): this {
-    const filepaths: string[] = globbySync(patterns, {
+    const filepaths: string[] = globbySync([patterns].flat(), {
       cwd: caseRootDirectory,
       absolute: true,
       onlyDirectories: false,

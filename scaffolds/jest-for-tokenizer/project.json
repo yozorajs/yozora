@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "jest-for-tokenizer",
+  "implicitDependencies": ["ast", "ast-util", "core-parser", "invariant", "markup-weaver"],
   "sourceRoot": "scaffolds/jest-for-tokenizer/src",
   "projectType": "library",
   "tags": ["other"],

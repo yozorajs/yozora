@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "image",
+  "implicitDependencies": ["ast", "character", "core-tokenizer", "link"],
   "sourceRoot": "tokenizers/image/src",
   "projectType": "library",
   "tags": ["tokenizer"],

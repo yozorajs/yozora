@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "math",
+  "implicitDependencies": ["ast", "character", "core-tokenizer", "fenced-block"],
   "sourceRoot": "tokenizers/math/src",
   "projectType": "library",
   "tags": ["tokenizer"],

@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "invariant",
+  "implicitDependencies": [],
   "sourceRoot": "packages/invariant/src",
   "projectType": "library",
   "tags": ["other"],

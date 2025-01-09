@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "link-reference",
+  "implicitDependencies": ["ast", "character", "core-tokenizer", "link"],
   "sourceRoot": "tokenizers/link-reference/src",
   "projectType": "library",
   "tags": ["tokenizer"],

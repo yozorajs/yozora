@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "markup-weaver",
+  "implicitDependencies": ["ast"],
   "sourceRoot": "packages/markup-weaver/src",
   "projectType": "library",
   "tags": ["other"],

@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "indented-code",
+  "implicitDependencies": ["ast", "character", "core-tokenizer"],
   "sourceRoot": "tokenizers/indented-code/src",
   "projectType": "library",
   "tags": ["tokenizer"],

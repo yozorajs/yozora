@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "ast",
+  "implicitDependencies": [],
   "sourceRoot": "packages/ast/src",
   "projectType": "library",
   "tags": ["other"],

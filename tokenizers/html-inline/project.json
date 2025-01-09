@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "html-inline",
+  "implicitDependencies": ["ast", "character", "core-tokenizer", "html-block"],
   "sourceRoot": "tokenizers/html-inline/src",
   "projectType": "library",
   "tags": ["tokenizer"],

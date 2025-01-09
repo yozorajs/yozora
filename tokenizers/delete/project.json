@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "delete",
+  "implicitDependencies": ["ast", "character", "core-tokenizer"],
   "sourceRoot": "tokenizers/delete/src",
   "projectType": "library",
   "tags": ["tokenizer"],

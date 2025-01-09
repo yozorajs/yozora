@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "character",
+  "implicitDependencies": [],
   "sourceRoot": "packages/character/src",
   "projectType": "library",
   "tags": ["other"],

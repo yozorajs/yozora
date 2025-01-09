@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "blockquote",
+  "implicitDependencies": ["ast", "character", "core-tokenizer"],
   "sourceRoot": "tokenizers/blockquote/src",
   "projectType": "library",
   "tags": ["tokenizer"],

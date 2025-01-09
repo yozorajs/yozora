@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "core-parser",
+  "implicitDependencies": ["ast", "ast-util", "character", "core-tokenizer", "invariant"],
   "sourceRoot": "packages/core-parser/src",
   "projectType": "library",
   "tags": ["other"],

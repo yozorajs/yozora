@@ -3,6 +3,9 @@
 .prettierignore
 
 **/*.hbs
+**/README.md
+**/README-*.md
+**/CHANGELOG.md
 
 .nx/
 .yarn/

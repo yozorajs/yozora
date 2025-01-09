@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "fenced-code",
+  "implicitDependencies": ["ast", "character", "core-tokenizer", "fenced-block"],
   "sourceRoot": "tokenizers/fenced-code/src",
   "projectType": "library",
   "tags": ["tokenizer"],
