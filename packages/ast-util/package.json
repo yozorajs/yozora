@@ -1,6 +1,6 @@
 {
   "name": "@yozora/ast-util",
-  "version": "2.3.9",
+  "version": "2.3.10",
   "description": "Utility functions to handle Yozora markdown ast",
   "author": {
     "name": "guanghechen",
@@ -11,7 +11,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "packages/ast-util"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.9/packages/ast-util#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.10/packages/ast-util#readme",
   "type": "module",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -35,7 +35,7 @@
     "README.md"
   ],
   "dependencies": {
-    "@yozora/ast": "^2.3.9",
-    "@yozora/character": "^2.3.9"
+    "@yozora/ast": "^2.3.10",
+    "@yozora/character": "^2.3.10"
   }
 }

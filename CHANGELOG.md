@@ -1,5 +1,20 @@
 # Change Log
 
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## <small>2.3.10 (2025-01-09)</small>
+
+* chore: fix nx dependencies ([d11d405](https://github.com/yozorajs/yozora/commit/d11d405))
+* :wrench: chore: fix github ci ([41cbf39](https://github.com/yozorajs/yozora/commit/41cbf39))
+* :wrench: chore: upgrade devDependencies to resolve warnings ([a04bc0b](https://github.com/yozorajs/yozora/commit/a04bc0b))
+
+
+
+
+
+# Change Log
+
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 

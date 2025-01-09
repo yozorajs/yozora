@@ -1,6 +1,6 @@
 <header>
   <h1 align="center">
-    <a href="https://github.com/yozorajs/yozora/tree/v2.3.9/packages/markup-weaver#readme">@yozora/markup-weaver</a>
+    <a href="https://github.com/yozorajs/yozora/tree/v2.3.10/packages/markup-weaver#readme">@yozora/markup-weaver</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/markup-weaver">
@@ -171,61 +171,61 @@ https://yozora.guanghechen.com.
 
 [doc-yozora]: https://yozora.guanghechen.com
 [docpage]: https://yozora.guanghechen.com/docs/package/markup-weaver
-[homepage]: https://github.com/yozorajs/yozora/tree/v2.3.9/packages/markup-weaver#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/v2.3.10/packages/markup-weaver#readme
 
 <!-- yozora package link definitions -->
 
-[@yozora/ast]: https://github.com/yozorajs/yozora/tree/v2.3.9/packages/ast#readme
+[@yozora/ast]: https://github.com/yozorajs/yozora/tree/v2.3.10/packages/ast#readme
 [@yozora/markup-weaver]:
-  https://github.com/yozorajs/yozora/tree/v2.3.9/packages/markup-weaver#readme
-[@yozora/parser]: https://github.com/yozorajs/yozora/tree/v2.3.9/packages/parser#readme
-[@yozora/parser-gfm]: https://github.com/yozorajs/yozora/tree/v2.3.9/packages/parser-gfm#readme
+  https://github.com/yozorajs/yozora/tree/v2.3.10/packages/markup-weaver#readme
+[@yozora/parser]: https://github.com/yozorajs/yozora/tree/v2.3.10/packages/parser#readme
+[@yozora/parser-gfm]: https://github.com/yozorajs/yozora/tree/v2.3.10/packages/parser-gfm#readme
 [@yozora/parser-gfm-ex]:
-  https://github.com/yozorajs/yozora/tree/v2.3.9/packages/parser-gfm-ex#readme
+  https://github.com/yozorajs/yozora/tree/v2.3.10/packages/parser-gfm-ex#readme
 [@yozora/tokenizer-admonition]:
-  https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/admonition#readme
+  https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/admonition#readme
 [@yozora/tokenizer-autolink]:
-  https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/autolink#readme
+  https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/autolink#readme
 [@yozora/tokenizer-autolink-extension]:
-  https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/autolink-extension#readme
+  https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/autolink-extension#readme
 [@yozora/tokenizer-blockquote]:
-  https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/blockquote#readme
-[@yozora/tokenizer-break]: https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/break#readme
+  https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/blockquote#readme
+[@yozora/tokenizer-break]: https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/break#readme
 [@yozora/tokenizer-definition]:
-  https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/definition#readme
-[@yozora/tokenizer-delete]: https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/delete#readme
+  https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/definition#readme
+[@yozora/tokenizer-delete]: https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/delete#readme
 [@yozora/tokenizer-emphasis]:
-  https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/emphasis#readme
+  https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/emphasis#readme
 [@yozora/tokenizer-fenced-code]:
-  https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/fenced-code#readme
+  https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/fenced-code#readme
 [@yozora/tokenizer-heading]:
-  https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/heading#readme
+  https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/heading#readme
 [@yozora/tokenizer-html-block]:
-  https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/html-block#readme
+  https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/html-block#readme
 [@yozora/tokenizer-html-inline]:
-  https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/html-inline#readme
-[@yozora/tokenizer-image]: https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/image#readme
+  https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/html-inline#readme
+[@yozora/tokenizer-image]: https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/image#readme
 [@yozora/tokenizer-image-reference]:
-  https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/image-reference#readme
+  https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/image-reference#readme
 [@yozora/tokenizer-indented-code]:
-  https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/indented-code#readme
+  https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/indented-code#readme
 [@yozora/tokenizer-inline-code]:
-  https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/inline-code#readme
+  https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/inline-code#readme
 [@yozora/tokenizer-inline-math]:
-  https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/inline-math#readme
-[@yozora/tokenizer-link]: https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/link#readme
+  https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/inline-math#readme
+[@yozora/tokenizer-link]: https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/link#readme
 [@yozora/tokenizer-link-reference]:
-  https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/link-reference#readme
-[@yozora/tokenizer-list]: https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/list#readme
-[@yozora/tokenizer-math]: https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/math#readme
+  https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/link-reference#readme
+[@yozora/tokenizer-list]: https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/list#readme
+[@yozora/tokenizer-math]: https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/math#readme
 [@yozora/tokenizer-paragraph]:
-  https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/paragraph#readme
+  https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/paragraph#readme
 [@yozora/tokenizer-setext-heading]:
-  https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/setext-heading#readme
-[@yozora/tokenizer-table]: https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/table#readme
-[@yozora/tokenizer-text]: https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/text#readme
+  https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/setext-heading#readme
+[@yozora/tokenizer-table]: https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/table#readme
+[@yozora/tokenizer-text]: https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/text#readme
 [@yozora/tokenizer-thematic-break]:
-  https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/thematic-break#readme
+  https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/thematic-break#readme
 
 <!-- gfm link definitions -->
 

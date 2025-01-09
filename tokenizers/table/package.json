@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-table",
-  "version": "2.3.9",
+  "version": "2.3.10",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "tokenizers/table"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.9/tokenizers/table",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.10/tokenizers/table",
   "type": "module",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -34,8 +34,8 @@
     "README.md"
   ],
   "dependencies": {
-    "@yozora/ast": "^2.3.9",
-    "@yozora/character": "^2.3.9",
-    "@yozora/core-tokenizer": "^2.3.9"
+    "@yozora/ast": "^2.3.10",
+    "@yozora/character": "^2.3.10",
+    "@yozora/core-tokenizer": "^2.3.10"
   }
 }
