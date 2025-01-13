@@ -1,4 +1,5 @@
 export { match as inlineMathMatch } from './match'
+export { matchWithBacktick as inlineMathMatchWithBacktick } from './matchWithBacktick'
 export { parse as inlineMathParse } from './parse'
 export { InlineMathTokenizer, InlineMathTokenizer as default } from './tokenizer'
 export {

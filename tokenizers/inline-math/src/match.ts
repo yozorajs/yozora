@@ -51,8 +51,11 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
           const rightCodePoint: ICodePoint | null =
             i === blockEndIndex ? null : nodePoints[i].codePoint
 
-          const isPotentialOpener: boolean = checkIfPotentialOpener(leftCodePoint, rightCodePoint)
-          const isPotentialCloser: boolean = checkIfPotentialCloser(leftCodePoint, rightCodePoint)
+          const thickness: number = i - _startIndex
+          const isPotentialOpener: boolean =
+            thickness > 1 || checkIfPotentialOpener(leftCodePoint, rightCodePoint)
+          const isPotentialCloser: boolean =
+            thickness > 1 || checkIfPotentialCloser(leftCodePoint, rightCodePoint)
           if (!isPotentialOpener && !isPotentialCloser) break
 
           const delimiterType: 'opener' | 'closer' | 'both' = isPotentialOpener
@@ -64,7 +67,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
             type: delimiterType,
             startIndex: _startIndex,
             endIndex: i,
-            thickness: i - _startIndex,
+            thickness,
           }
           return delimiter
         }
