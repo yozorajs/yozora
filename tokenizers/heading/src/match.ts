@@ -96,6 +96,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
       token: result.token,
       nextIndex: result.nextIndex,
       remainingSibling: prevSiblingToken,
+      saturated: result.saturated,
     }
   }
 }

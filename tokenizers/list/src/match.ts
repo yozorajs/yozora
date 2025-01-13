@@ -255,7 +255,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
      */
     const result = eatOpener(line)
     if (result == null) return null
-    const { token, nextIndex } = result
+    const { token, nextIndex, saturated } = result
 
     /**
      * But an empty list item cannot interrupt a paragraph
@@ -274,7 +274,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
       if (token.ordered && token.order !== 1) return null
     }
 
-    return { token, nextIndex, remainingSibling: prevSiblingToken }
+    return { token, nextIndex, remainingSibling: prevSiblingToken, saturated }
   }
 
   function eatContinuationText(

@@ -4,6 +4,7 @@ import type {
   IMatchBlockHook,
   IMatchBlockHookCreator,
   IPhrasingContentLine,
+  IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatOpener,
 } from '@yozora/core-tokenizer'
 import { fencedBlockMatch } from '@yozora/tokenizer-fenced-block'
@@ -35,8 +36,9 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
   const hook = fencedBlockMatch.call(this, api) as IMatchBlockHook<T, IToken>
   return {
     ...hook,
-    isContainingBlock: true,
+    isContainingBlock: false,
     eatOpener,
+    eatAndInterruptPreviousSibling,
   }
 
   function eatOpener(
@@ -75,5 +77,20 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
       ],
     }
     return { token: mathToken, nextIndex: line.endIndex, saturated: true }
+  }
+
+  function eatAndInterruptPreviousSibling(
+    line: Readonly<IPhrasingContentLine>,
+    prevSiblingToken: Readonly<IBlockToken>,
+    parentToken: Readonly<IBlockToken>,
+  ): IResultOfEatAndInterruptPreviousSibling<T, IToken> {
+    const result = eatOpener(line, parentToken)
+    if (result == null) return null
+    return {
+      token: result.token,
+      nextIndex: result.nextIndex,
+      remainingSibling: prevSiblingToken,
+      saturated: result.saturated,
+    }
   }
 }
