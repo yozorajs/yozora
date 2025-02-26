@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>2.3.12 (2025-02-26)</small>
+
+* :bookmark:  release: publish v2.3.10 ([a36b4dd](https://github.com/yozorajs/yozora/commit/a36b4dd))
+* :bookmark:  release: publish v2.3.11 ([dcc0a95](https://github.com/yozorajs/yozora/commit/dcc0a95))
+* :bookmark:  release: publish v2.3.8 ([c4ddb8b](https://github.com/yozorajs/yozora/commit/c4ddb8b))
+* :bookmark:  release: publish v2.3.9 ([d125df1](https://github.com/yozorajs/yozora/commit/d125df1))
+* chore: fix nx dependencies ([d11d405](https://github.com/yozorajs/yozora/commit/d11d405))
+
+
+
+
+
 ## <small>2.3.11 (2025-01-13)</small>
 
 **Note:** Version bump only for package @yozora/ast-util

@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-autolink-extension",
-  "version": "2.3.11",
+  "version": "2.3.12",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "tokenizers/autolink-extension"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.11/tokenizers/autolink-extension",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.12/tokenizers/autolink-extension",
   "type": "module",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -34,9 +34,9 @@
     "README.md"
   ],
   "dependencies": {
-    "@yozora/ast": "^2.3.11",
-    "@yozora/character": "^2.3.11",
-    "@yozora/core-tokenizer": "^2.3.11",
-    "@yozora/tokenizer-autolink": "^2.3.11"
+    "@yozora/ast": "^2.3.12",
+    "@yozora/character": "^2.3.12",
+    "@yozora/core-tokenizer": "^2.3.12",
+    "@yozora/tokenizer-autolink": "^2.3.12"
   }
 }

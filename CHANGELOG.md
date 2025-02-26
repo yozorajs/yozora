@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>2.3.12 (2025-02-26)</small>
+
+* chore: disable noPropertyAccessFromIndexSignature ([44721e7](https://github.com/yozorajs/yozora/commit/44721e7))
+* chore: fix nx dependencies ([d11d405](https://github.com/yozorajs/yozora/commit/d11d405))
+* chore: upgrade devDependencies ([1a67242](https://github.com/yozorajs/yozora/commit/1a67242))
+* :bookmark:  release: publish v2.3.10 ([a36b4dd](https://github.com/yozorajs/yozora/commit/a36b4dd))
+* :bookmark:  release: publish v2.3.11 ([dcc0a95](https://github.com/yozorajs/yozora/commit/dcc0a95))
+* :bookmark:  release: publish v2.3.8 ([c4ddb8b](https://github.com/yozorajs/yozora/commit/c4ddb8b))
+* :bookmark:  release: publish v2.3.9 ([d125df1](https://github.com/yozorajs/yozora/commit/d125df1))
+* :bug: fix(inline-math): the delimiter could be adjacent to a punctuation character ([a6071be](https://github.com/yozorajs/yozora/commit/a6071be))
+* :wrench: chore: fix github ci ([41cbf39](https://github.com/yozorajs/yozora/commit/41cbf39))
+* :wrench: chore: upgrade devDependencies to resolve warnings ([a04bc0b](https://github.com/yozorajs/yozora/commit/a04bc0b))
+* fix(math): should handle the eatAndInterruptPreviousSibling manually ([ef96d32](https://github.com/yozorajs/yozora/commit/ef96d32))
+* improve(inline-math): the inline dollars should take high processing priority so the delimiter bound ([3dba582](https://github.com/yozorajs/yozora/commit/3dba582))
+* improve(inlineMath): support more than one dollar sign as delimiter ([bf17c33](https://github.com/yozorajs/yozora/commit/bf17c33))
+
+
+
+
+
 ## <small>2.3.11 (2025-01-13)</small>
 
 * fix(math): should handle the eatAndInterruptPreviousSibling manually ([ef96d32](https://github.com/yozorajs/yozora/commit/ef96d32))
