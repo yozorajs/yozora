@@ -23,7 +23,7 @@
     "noImplicitUseStrict": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noPropertyAccessFromIndexSignature": true,
+    "noPropertyAccessFromIndexSignature": false,
     "pretty": false,
     "removeComments": false,
     "resolveJsonModule": true,
