@@ -33,7 +33,7 @@
     "README.md"
   ],
   "dependencies": {
-    "@guanghechen/globby": "^1.0.1",
+    "@guanghechen/globby": "^1.0.4",
     "@yozora/ast": "^2.3.11",
     "@yozora/ast-util": "^2.3.11",
     "@yozora/invariant": "^2.3.11",
