@@ -33,11 +33,11 @@
     "README.md"
   ],
   "dependencies": {
-    "@guanghechen/globby": "^1.0.4",
+    "@guanghechen/globby": "^1.0.5",
     "@yozora/ast": "^2.3.12",
     "@yozora/ast-util": "^2.3.12",
     "@yozora/invariant": "^2.3.12",
-    "jest": "29.7.0"
+    "jest": "30.0.4"
   },
   "devDependencies": {
     "@yozora/core-parser": "^2.3.12",
