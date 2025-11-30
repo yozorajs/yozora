@@ -126,6 +126,8 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
      * @see https://github.github.com/gfm/#bullet-list-marker
      */
     if (!ordered) {
+      i = firstNonWhitespaceIndex
+      c = nodePoints[i].codePoint
       if (
         c === AsciiCodePoint.PLUS_SIGN ||
         c === AsciiCodePoint.MINUS_SIGN ||
