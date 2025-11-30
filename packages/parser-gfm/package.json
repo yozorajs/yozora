@@ -1,6 +1,6 @@
 {
   "name": "@yozora/parser-gfm",
-  "version": "2.3.12",
+  "version": "2.3.13",
   "description": "A markdown parser with built-in tokenizers to fully support GFM (without GFM extensions)",
   "author": {
     "name": "guanghechen",
@@ -11,7 +11,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "packages/parser-gfm"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.12/packages/parser-gfm#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.13/packages/parser-gfm#readme",
   "keywords": [
     "markdown",
     "markdown ast",
@@ -42,28 +42,28 @@
     "README.md"
   ],
   "dependencies": {
-    "@yozora/ast": "^2.3.12",
-    "@yozora/core-parser": "^2.3.12",
-    "@yozora/core-tokenizer": "^2.3.12",
-    "@yozora/tokenizer-autolink": "^2.3.12",
-    "@yozora/tokenizer-blockquote": "^2.3.12",
-    "@yozora/tokenizer-break": "^2.3.12",
-    "@yozora/tokenizer-definition": "^2.3.12",
-    "@yozora/tokenizer-emphasis": "^2.3.12",
-    "@yozora/tokenizer-fenced-code": "^2.3.12",
-    "@yozora/tokenizer-heading": "^2.3.12",
-    "@yozora/tokenizer-html-block": "^2.3.12",
-    "@yozora/tokenizer-html-inline": "^2.3.12",
-    "@yozora/tokenizer-image": "^2.3.12",
-    "@yozora/tokenizer-image-reference": "^2.3.12",
-    "@yozora/tokenizer-indented-code": "^2.3.12",
-    "@yozora/tokenizer-inline-code": "^2.3.12",
-    "@yozora/tokenizer-link": "^2.3.12",
-    "@yozora/tokenizer-link-reference": "^2.3.12",
-    "@yozora/tokenizer-list": "^2.3.12",
-    "@yozora/tokenizer-paragraph": "^2.3.12",
-    "@yozora/tokenizer-setext-heading": "^2.3.12",
-    "@yozora/tokenizer-text": "^2.3.12",
-    "@yozora/tokenizer-thematic-break": "^2.3.12"
+    "@yozora/ast": "^2.3.13",
+    "@yozora/core-parser": "^2.3.13",
+    "@yozora/core-tokenizer": "^2.3.13",
+    "@yozora/tokenizer-autolink": "^2.3.13",
+    "@yozora/tokenizer-blockquote": "^2.3.13",
+    "@yozora/tokenizer-break": "^2.3.13",
+    "@yozora/tokenizer-definition": "^2.3.13",
+    "@yozora/tokenizer-emphasis": "^2.3.13",
+    "@yozora/tokenizer-fenced-code": "^2.3.13",
+    "@yozora/tokenizer-heading": "^2.3.13",
+    "@yozora/tokenizer-html-block": "^2.3.13",
+    "@yozora/tokenizer-html-inline": "^2.3.13",
+    "@yozora/tokenizer-image": "^2.3.13",
+    "@yozora/tokenizer-image-reference": "^2.3.13",
+    "@yozora/tokenizer-indented-code": "^2.3.13",
+    "@yozora/tokenizer-inline-code": "^2.3.13",
+    "@yozora/tokenizer-link": "^2.3.13",
+    "@yozora/tokenizer-link-reference": "^2.3.13",
+    "@yozora/tokenizer-list": "^2.3.13",
+    "@yozora/tokenizer-paragraph": "^2.3.13",
+    "@yozora/tokenizer-setext-heading": "^2.3.13",
+    "@yozora/tokenizer-text": "^2.3.13",
+    "@yozora/tokenizer-thematic-break": "^2.3.13"
   }
 }

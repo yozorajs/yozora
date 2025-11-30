@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-inline-code",
-  "version": "2.3.12",
+  "version": "2.3.13",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "tokenizers/inline-code"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.12/tokenizers/inline-code",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.13/tokenizers/inline-code",
   "type": "module",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -34,8 +34,8 @@
     "README.md"
   ],
   "dependencies": {
-    "@yozora/ast": "^2.3.12",
-    "@yozora/character": "^2.3.12",
-    "@yozora/core-tokenizer": "^2.3.12"
+    "@yozora/ast": "^2.3.13",
+    "@yozora/character": "^2.3.13",
+    "@yozora/core-tokenizer": "^2.3.13"
   }
 }

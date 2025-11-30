@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-inline-math",
-  "version": "2.3.12",
+  "version": "2.3.13",
   "description": "Tokenizer for processing inline math (formulas)",
   "author": {
     "name": "guanghechen",
@@ -11,7 +11,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "tokenizers/inline-math"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.12/tokenizers/inline-math",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.13/tokenizers/inline-math",
   "keywords": [
     "yozora",
     "markdown",
@@ -44,8 +44,8 @@
     "README.md"
   ],
   "dependencies": {
-    "@yozora/ast": "^2.3.12",
-    "@yozora/character": "^2.3.12",
-    "@yozora/core-tokenizer": "^2.3.12"
+    "@yozora/ast": "^2.3.13",
+    "@yozora/character": "^2.3.13",
+    "@yozora/core-tokenizer": "^2.3.13"
   }
 }

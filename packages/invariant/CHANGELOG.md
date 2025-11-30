@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>2.3.13 (2025-11-30)</small>
+
+**Note:** Version bump only for package @yozora/invariant
+
+
+
+
+
 ## <small>2.3.12 (2025-02-26)</small>
 
 * chore: disable noPropertyAccessFromIndexSignature ([44721e7](https://github.com/yozorajs/yozora/commit/44721e7))

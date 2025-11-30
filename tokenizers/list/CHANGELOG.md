@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>2.3.13 (2025-11-30)</small>
+
+* :bug:  fix(tokenizer-list): prevent bullet markers from being detected in middle of text ([18eb505](https://github.com/yozorajs/yozora/commit/18eb505))
+
+
+
+
+
 ## <small>2.3.12 (2025-02-26)</small>
 
 * :bookmark:  release: publish v2.3.10 ([a36b4dd](https://github.com/yozorajs/yozora/commit/a36b4dd))

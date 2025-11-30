@@ -1,6 +1,6 @@
 {
   "name": "@yozora/character",
-  "version": "2.3.12",
+  "version": "2.3.13",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "packages/character"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.12/packages/character#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.13/packages/character#readme",
   "type": "module",
   "exports": {
     "types": "./lib/types/index.d.ts",
