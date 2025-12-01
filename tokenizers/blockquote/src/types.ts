@@ -1,4 +1,4 @@
-import type { Blockquote, BlockquoteType } from '@yozora/ast'
+import type { Blockquote, BlockquoteCalloutType, BlockquoteType } from '@yozora/ast'
 import type {
   IBaseBlockTokenizerProps,
   IBlockToken,
@@ -12,11 +12,26 @@ export const uniqueName = '@yozora/tokenizer-blockquote'
 
 export interface IToken extends IPartialBlockToken<T> {
   /**
-   *
+   * Child block tokens.
    */
   children: IBlockToken[]
+  /**
+   * GitHub callout type (e.g., 'note', 'tip', 'important', 'warning', 'caution').
+   */
+  callout?: BlockquoteCalloutType
 }
 
-export type IThis = ITokenizer
+export interface IThis extends ITokenizer {
+  /**
+   * Whether to enable GitHub callout syntax.
+   */
+  enableGithubCallout: boolean
+}
 
-export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>
+export interface ITokenizerProps extends Partial<IBaseBlockTokenizerProps> {
+  /**
+   * Whether to enable GitHub callout syntax (e.g., `> [!NOTE]`).
+   * @default false
+   */
+  enableGithubCallout?: boolean
+}

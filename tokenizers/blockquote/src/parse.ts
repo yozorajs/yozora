@@ -11,6 +11,7 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
         const node: INode = api.shouldReservePosition
           ? { type: BlockquoteType, position: token.position, children }
           : { type: BlockquoteType, children }
+        if (token.callout) node.callout = token.callout
         return node
       }),
   }

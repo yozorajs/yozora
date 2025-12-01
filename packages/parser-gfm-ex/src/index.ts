@@ -74,7 +74,7 @@ export class GfmExParser extends DefaultParser {
       .useTokenizer(new HtmlBlockTokenizer())
       .useTokenizer(new SetextHeadingTokenizer())
       .useTokenizer(new ThematicBreakTokenizer())
-      .useTokenizer(new BlockquoteTokenizer())
+      .useTokenizer(new BlockquoteTokenizer({ enableGithubCallout: true }))
       .useTokenizer(new ListTokenizer({ enableTaskListItem: true }))
       .useTokenizer(new HeadingTokenizer())
       .useTokenizer(new FencedCodeTokenizer())

@@ -1,4 +1,6 @@
-import { BlockquoteType } from '@yozora/ast'
+import type { BlockquoteCalloutType } from '@yozora/ast'
+import { BlockquoteCalloutTypeEnum, BlockquoteType } from '@yozora/ast'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, VirtualCodePoint, isSpaceCharacter } from '@yozora/character'
 import type {
   IBlockToken,
@@ -10,6 +12,8 @@ import type {
 } from '@yozora/core-tokenizer'
 import { calcEndPoint, calcStartPoint } from '@yozora/core-tokenizer'
 import type { IThis, IToken, T } from './types'
+
+const calloutKeywords: ReadonlySet<string> = new Set(Object.values(BlockquoteCalloutTypeEnum))
 
 /**
  * A block quote marker consists of 0-3 spaces of initial indent, plus
@@ -34,8 +38,11 @@ import type { IThis, IToken, T } from './types'
  *
  * @see https://github.com/syntax-tree/mdast#blockquote
  * @see https://github.github.com/gfm/#block-quotes
+ * @see https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts
  */
 export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
+  const enableGithubCallout = this.enableGithubCallout
+
   return {
     isContainingBlock: true,
     eatOpener,
@@ -76,6 +83,15 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
       }
     }
 
+    let callout: BlockquoteCalloutType | undefined
+    if (enableGithubCallout) {
+      const result = eatCalloutMarker(nodePoints, nextIndex, endIndex)
+      if (result !== null) {
+        callout = result.callout
+        nextIndex = result.nextIndex
+      }
+    }
+
     const token: IToken = {
       nodeType: BlockquoteType,
       position: {
@@ -83,6 +99,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
         end: calcEndPoint(nodePoints, nextIndex - 1),
       },
       children: [],
+      callout,
     }
     return { token, nextIndex }
   }
@@ -129,6 +146,76 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
       isSpaceCharacter(nodePoints[firstNonWhitespaceIndex + 1].codePoint)
         ? firstNonWhitespaceIndex + 2
         : firstNonWhitespaceIndex + 1
+
     return { status: 'opening', nextIndex }
+  }
+}
+
+interface ICalloutMarkerResult {
+  callout: BlockquoteCalloutType
+  nextIndex: number
+}
+
+function eatCalloutMarker(
+  nodePoints: ReadonlyArray<INodePoint>,
+  startIndex: number,
+  endIndex: number,
+): ICalloutMarkerResult | null {
+  let i = startIndex
+
+  // Skip leading spaces
+  while (i < endIndex && isSpaceCharacter(nodePoints[i].codePoint)) {
+    i += 1
+  }
+
+  // Check for `[!`
+  if (
+    i + 1 >= endIndex ||
+    nodePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET ||
+    nodePoints[i + 1].codePoint !== AsciiCodePoint.EXCLAMATION_MARK
+  ) {
+    return null
+  }
+  i += 2
+
+  // Read the keyword
+  const keywordStart = i
+  while (
+    i < endIndex &&
+    nodePoints[i].codePoint !== AsciiCodePoint.CLOSE_BRACKET &&
+    !isSpaceCharacter(nodePoints[i].codePoint)
+  ) {
+    i += 1
+  }
+
+  if (i >= endIndex || nodePoints[i].codePoint !== AsciiCodePoint.CLOSE_BRACKET) {
+    return null
+  }
+
+  const keyword = nodePoints
+    .slice(keywordStart, i)
+    .map(p => String.fromCodePoint(p.codePoint))
+    .join('')
+    .toLowerCase()
+
+  if (!calloutKeywords.has(keyword)) {
+    return null
+  }
+
+  i += 1 // Skip `]`
+
+  // Skip trailing spaces and check for end of line or newline
+  while (i < endIndex && isSpaceCharacter(nodePoints[i].codePoint)) {
+    i += 1
+  }
+
+  // The callout marker should be on its own line (rest should be empty or newline)
+  if (i < endIndex && nodePoints[i].codePoint !== VirtualCodePoint.LINE_END) {
+    return null
+  }
+
+  return {
+    callout: keyword as BlockquoteCalloutType,
+    nextIndex: i < endIndex ? i + 1 : i,
   }
 }

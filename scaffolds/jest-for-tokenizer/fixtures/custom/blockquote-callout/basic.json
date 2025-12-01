@@ -1,0 +1,732 @@
+{
+  "title": "GitHub Callout - Basic",
+  "cases": [
+    {
+      "description": "Basic note callout",
+      "input": "> [!NOTE]\n> This is a note",
+      "markupAnswer": "> This is a note",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 17,
+            "offset": 26
+          }
+        },
+        "children": [
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 17,
+                "offset": 26
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 3,
+                    "offset": 12
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 17,
+                    "offset": 26
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 3,
+                        "offset": 12
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 17,
+                        "offset": 26
+                      }
+                    },
+                    "value": "This is a note"
+                  }
+                ]
+              }
+            ],
+            "callout": "note"
+          }
+        ]
+      }
+    },
+    {
+      "description": "Tip callout",
+      "input": "> [!TIP]\n> This is a tip",
+      "markupAnswer": "> This is a tip",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 16,
+            "offset": 24
+          }
+        },
+        "children": [
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 16,
+                "offset": 24
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 3,
+                    "offset": 11
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 16,
+                    "offset": 24
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 3,
+                        "offset": 11
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 16,
+                        "offset": 24
+                      }
+                    },
+                    "value": "This is a tip"
+                  }
+                ]
+              }
+            ],
+            "callout": "tip"
+          }
+        ]
+      }
+    },
+    {
+      "description": "Important callout",
+      "input": "> [!IMPORTANT]\n> This is important",
+      "markupAnswer": "> This is important",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 20,
+            "offset": 34
+          }
+        },
+        "children": [
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 20,
+                "offset": 34
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 3,
+                    "offset": 17
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 20,
+                    "offset": 34
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 3,
+                        "offset": 17
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 20,
+                        "offset": 34
+                      }
+                    },
+                    "value": "This is important"
+                  }
+                ]
+              }
+            ],
+            "callout": "important"
+          }
+        ]
+      }
+    },
+    {
+      "description": "Warning callout",
+      "input": "> [!WARNING]\n> This is a warning",
+      "markupAnswer": "> This is a warning",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 20,
+            "offset": 32
+          }
+        },
+        "children": [
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 20,
+                "offset": 32
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 3,
+                    "offset": 15
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 20,
+                    "offset": 32
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 3,
+                        "offset": 15
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 20,
+                        "offset": 32
+                      }
+                    },
+                    "value": "This is a warning"
+                  }
+                ]
+              }
+            ],
+            "callout": "warning"
+          }
+        ]
+      }
+    },
+    {
+      "description": "Caution callout",
+      "input": "> [!CAUTION]\n> This is a caution",
+      "markupAnswer": "> This is a caution",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 20,
+            "offset": 32
+          }
+        },
+        "children": [
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 20,
+                "offset": 32
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 3,
+                    "offset": 15
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 20,
+                    "offset": 32
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 3,
+                        "offset": 15
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 20,
+                        "offset": 32
+                      }
+                    },
+                    "value": "This is a caution"
+                  }
+                ]
+              }
+            ],
+            "callout": "caution"
+          }
+        ]
+      }
+    },
+    {
+      "description": "Lowercase keyword should also work",
+      "input": "> [!note]\n> This is a note",
+      "markupAnswer": "> This is a note",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 17,
+            "offset": 26
+          }
+        },
+        "children": [
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 17,
+                "offset": 26
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 3,
+                    "offset": 12
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 17,
+                    "offset": 26
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 3,
+                        "offset": 12
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 17,
+                        "offset": 26
+                      }
+                    },
+                    "value": "This is a note"
+                  }
+                ]
+              }
+            ],
+            "callout": "note"
+          }
+        ]
+      }
+    },
+    {
+      "description": "Mixed case keyword should also work",
+      "input": "> [!Note]\n> This is a note",
+      "markupAnswer": "> This is a note",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 17,
+            "offset": 26
+          }
+        },
+        "children": [
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 17,
+                "offset": 26
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 3,
+                    "offset": 12
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 17,
+                    "offset": 26
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 3,
+                        "offset": 12
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 17,
+                        "offset": 26
+                      }
+                    },
+                    "value": "This is a note"
+                  }
+                ]
+              }
+            ],
+            "callout": "note"
+          }
+        ]
+      }
+    },
+    {
+      "description": "Regular blockquote without callout marker",
+      "input": "> This is a regular blockquote",
+      "markupAnswer": "> This is a regular blockquote",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 31,
+            "offset": 30
+          }
+        },
+        "children": [
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 31,
+                "offset": 30
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 3,
+                    "offset": 2
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 31,
+                    "offset": 30
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 31,
+                        "offset": 30
+                      }
+                    },
+                    "value": "This is a regular blockquote"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "description": "Invalid callout keyword should be treated as regular blockquote",
+      "input": "> [!INVALID]\n> This is not a callout",
+      "markupAnswer": "> [!INVALID]\n> This is not a callout",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 24,
+            "offset": 36
+          }
+        },
+        "children": [
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 24,
+                "offset": 36
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 3,
+                    "offset": 2
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 24,
+                    "offset": 36
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 24,
+                        "offset": 36
+                      }
+                    },
+                    "value": "[!INVALID]\nThis is not a callout"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "description": "Callout with text on same line should be treated as regular blockquote",
+      "input": "> [!NOTE] some text\n> This is not a callout",
+      "markupAnswer": "> [!NOTE] some text\n> This is not a callout",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 24,
+            "offset": 43
+          }
+        },
+        "children": [
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 24,
+                "offset": 43
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 3,
+                    "offset": 2
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 24,
+                    "offset": 43
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 24,
+                        "offset": 43
+                      }
+                    },
+                    "value": "[!NOTE] some text\nThis is not a callout"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

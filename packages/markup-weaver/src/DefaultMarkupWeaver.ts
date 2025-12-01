@@ -1,6 +1,7 @@
 import { MarkupWeaver } from './MarkupWeaver'
 import type { IMarkupWeaver } from './types'
 import { AdmonitionWeaver } from './weaver/admonition'
+import type { IBlockquoteWeaverProps } from './weaver/blockquote'
 import { BlockquoteWeaver } from './weaver/blockquote'
 import { BreakWeaver } from './weaver/break'
 import { CodeWeaver } from './weaver/code'
@@ -30,12 +31,14 @@ import { TableWeaver } from './weaver/table'
 import { TextWeaver } from './weaver/text'
 import { ThematicBreakWeaver } from './weaver/thematicBreak'
 
+export interface IDefaultMarkupWeaverProps extends IBlockquoteWeaverProps {}
+
 export class DefaultMarkupWeaver extends MarkupWeaver implements IMarkupWeaver {
-  constructor() {
+  constructor(props: IDefaultMarkupWeaverProps = {}) {
     super()
     this.useWeaver(new RootWeaver())
       .useWeaver(new AdmonitionWeaver())
-      .useWeaver(new BlockquoteWeaver())
+      .useWeaver(new BlockquoteWeaver({ enableGithubCallout: props.enableGithubCallout }))
       .useWeaver(new BreakWeaver())
       .useWeaver(new CodeWeaver())
       .useWeaver(new DefinitionWeaver())

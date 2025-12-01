@@ -1,0 +1,308 @@
+{
+  "title": "GitHub Callout - Edge Cases",
+  "cases": [
+    {
+      "description": "Two consecutive callouts",
+      "input": "> [!NOTE]\n> First note\n\n> [!TIP]\n> A tip",
+      "markupAnswer": "> First note\n\n> A tip",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 8,
+            "offset": 40
+          }
+        },
+        "children": [
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 14,
+                "offset": 23
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 3,
+                    "offset": 12
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 14,
+                    "offset": 23
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 3,
+                        "offset": 12
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 13,
+                        "offset": 22
+                      }
+                    },
+                    "value": "First note"
+                  }
+                ]
+              }
+            ],
+            "callout": "note"
+          },
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 24
+              },
+              "end": {
+                "line": 5,
+                "column": 8,
+                "offset": 40
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 3,
+                    "offset": 35
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 8,
+                    "offset": 40
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 5,
+                        "column": 3,
+                        "offset": 35
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 8,
+                        "offset": 40
+                      }
+                    },
+                    "value": "A tip"
+                  }
+                ]
+              }
+            ],
+            "callout": "tip"
+          }
+        ]
+      }
+    },
+    {
+      "description": "Callout with multiple paragraphs",
+      "input": "> [!NOTE]\n> First paragraph\n>\n> Second paragraph",
+      "markupAnswer": "> First paragraph\n> \n> Second paragraph",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 19,
+            "offset": 48
+          }
+        },
+        "children": [
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 4,
+                "column": 19,
+                "offset": 48
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 3,
+                    "offset": 12
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 19,
+                    "offset": 28
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 3,
+                        "offset": 12
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 18,
+                        "offset": 27
+                      }
+                    },
+                    "value": "First paragraph"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 4,
+                    "column": 3,
+                    "offset": 32
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 19,
+                    "offset": 48
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 4,
+                        "column": 3,
+                        "offset": 32
+                      },
+                      "end": {
+                        "line": 4,
+                        "column": 19,
+                        "offset": 48
+                      }
+                    },
+                    "value": "Second paragraph"
+                  }
+                ]
+              }
+            ],
+            "callout": "note"
+          }
+        ]
+      }
+    },
+    {
+      "description": "Callout marker with trailing spaces",
+      "input": "> [!NOTE]   \n> This is a note",
+      "markupAnswer": "> This is a note",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 17,
+            "offset": 29
+          }
+        },
+        "children": [
+          {
+            "type": "blockquote",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 17,
+                "offset": 29
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 3,
+                    "offset": 15
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 17,
+                    "offset": 29
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 3,
+                        "offset": 15
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 17,
+                        "offset": 29
+                      }
+                    },
+                    "value": "This is a note"
+                  }
+                ]
+              }
+            ],
+            "callout": "note"
+          }
+        ]
+      }
+    }
+  ]
+}
