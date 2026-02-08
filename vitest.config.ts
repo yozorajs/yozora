@@ -9,6 +9,7 @@ export default defineConfig({
     globals: true,
     include: ['__test__/**/*.spec.ts'],
     exclude: ['**/node_modules/**', '**/lib/**'],
+    passWithNoTests: true,
     testTimeout: 10000,
     coverage: {
       provider: 'v8',

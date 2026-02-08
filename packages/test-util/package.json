@@ -12,6 +12,11 @@
     "directory": "packages/test-util"
   },
   "type": "module",
+  "scripts": {
+    "test": "../../node_modules/.bin/vitest run --config ../../vitest.config.ts",
+    "test:coverage": "../../node_modules/.bin/vitest run --config ../../vitest.config.ts --coverage",
+    "test:update": "../../node_modules/.bin/vitest run --config ../../vitest.config.ts -u"
+  },
   "exports": {
     "import": "./src/index.ts"
   },
@@ -30,5 +35,6 @@
     "@yozora/core-parser": "^2.3.13",
     "@yozora/markup-weaver": "^2.3.13",
     "vitest": "^4.0.18"
-  }
+  },
+  "homepage": "https://github.com/yozorajs/yozora/tree/v0.0.0/packages/test-util#readme"
 }

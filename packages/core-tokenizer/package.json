@@ -12,6 +12,13 @@
   },
   "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.13/packages/core-tokenizer#readme",
   "type": "module",
+  "scripts": {
+    "build": "../../node_modules/.bin/rollup -c ../../rollup.config.mjs",
+    "clean": "../../node_modules/.bin/rimraf lib",
+    "test": "../../node_modules/.bin/vitest run --config ../../vitest.config.ts",
+    "test:coverage": "../../node_modules/.bin/vitest run --config ../../vitest.config.ts --coverage",
+    "test:update": "../../node_modules/.bin/vitest run --config ../../vitest.config.ts -u"
+  },
   "exports": {
     "types": "./lib/types/index.d.ts",
     "import": "./lib/esm/index.mjs",
