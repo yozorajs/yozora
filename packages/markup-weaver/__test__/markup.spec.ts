@@ -1,5 +1,5 @@
-import { createMarkupTester } from '@yozora/jest-for-tokenizer'
-import { parsers, weavers } from 'jest.setup'
+import { createMarkupTester } from '@yozora/test-util'
+import { parsers, weavers } from 'vitest.setup'
 
 void createMarkupTester(parsers.yozora, weavers.yozora)
   .scan([

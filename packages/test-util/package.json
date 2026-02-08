@@ -1,0 +1,34 @@
+{
+  "name": "@yozora/test-util",
+  "version": "0.0.0",
+  "private": true,
+  "author": {
+    "name": "guanghechen",
+    "url": "https://github.com/guanghechen/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yozorajs/yozora.git",
+    "directory": "packages/test-util"
+  },
+  "type": "module",
+  "exports": {
+    "import": "./src/index.ts"
+  },
+  "main": "./src/index.ts",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 16.0.0"
+  },
+  "dependencies": {
+    "@guanghechen/globby": "^1.0.5",
+    "@yozora/ast": "^2.3.13",
+    "@yozora/ast-util": "^2.3.13",
+    "@yozora/invariant": "^2.3.13"
+  },
+  "devDependencies": {
+    "@yozora/core-parser": "^2.3.13",
+    "@yozora/markup-weaver": "^2.3.13",
+    "vitest": "^4.0.18"
+  }
+}

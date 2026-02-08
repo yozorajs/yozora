@@ -6,35 +6,36 @@ import url from 'node:url'
 import { MarkupTester } from './MarkupTester'
 import { TokenizerTester } from './TokenizerTester'
 
+export * from './BaseTester'
 export * from './MarkupTester'
 export * from './TokenizerTester'
 export * from './types'
 
-const findPackageLocation = (p: string): string | never => {
-  const stat = fs.statSync(p)
-  if (stat.isDirectory()) {
-    if (fs.existsSync(path.join(p, 'package.json'))) return p
-  }
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
-  const dir = path.dirname(p)
-  if (dir === p) {
-    throw new ReferenceError('Cannot find package.json location of @yozora/jest-for-tokenizer.')
+// Find monorepo root by looking for fixtures directory
+const findMonorepoRoot = (): string => {
+  let dir = __dirname
+  while (dir !== path.dirname(dir)) {
+    if (fs.existsSync(path.join(dir, 'fixtures'))) {
+      return dir
+    }
+    dir = path.dirname(dir)
   }
-  return findPackageLocation(dir)
+  throw new Error('Cannot find monorepo root with fixtures directory')
 }
 
-// Root directory of cases carried in this package.
-const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
-export const fixtureRootDirectory = path.join(findPackageLocation(__dirname), 'fixtures')
+// Root directory of cases carried in the monorepo
+export const fixtureRootDirectory = path.join(findMonorepoRoot(), 'fixtures')
 
-// Create a tester with the specific parser.
+// Create a tester with the specific parser
 export const createTokenizerTester = (parser: IParser): TokenizerTester =>
   new TokenizerTester({
     caseRootDirectory: fixtureRootDirectory,
     parser,
   })
 
-// Create testers with the specific parsers.
+// Create testers with the specific parsers
 export const createTokenizerTesters = (...parsers: IParser[]): TokenizerTester[] =>
   parsers.map(createTokenizerTester)
 

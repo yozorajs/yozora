@@ -1,4 +1,169 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`calcDefinitionMap > basic1 1`] = `
+{
+  "bar": {
+    "identifier": "bar",
+    "label": "bar",
+    "position": {
+      "end": {
+        "column": 22,
+        "line": 83,
+        "offset": 1295,
+      },
+      "start": {
+        "column": 1,
+        "line": 83,
+        "offset": 1274,
+      },
+    },
+    "title": "title2",
+    "type": "definition",
+    "url": "/bar",
+  },
+  "baz": {
+    "identifier": "baz",
+    "label": "baz",
+    "position": {
+      "end": {
+        "column": 13,
+        "line": 84,
+        "offset": 1307,
+      },
+      "start": {
+        "column": 1,
+        "line": 84,
+        "offset": 1295,
+      },
+    },
+    "type": "definition",
+    "url": "/waw",
+  },
+  "logo": {
+    "identifier": "logo",
+    "label": "logo",
+    "position": {
+      "end": {
+        "column": 44,
+        "line": 82,
+        "offset": 1274,
+      },
+      "start": {
+        "column": 1,
+        "line": 82,
+        "offset": 1231,
+      },
+    },
+    "title": "The logo of Yozora",
+    "type": "definition",
+    "url": "/img/logo.png",
+  },
+  "url2": {
+    "identifier": "url2",
+    "label": "url2",
+    "position": {
+      "end": {
+        "column": 30,
+        "line": 85,
+        "offset": 1336,
+      },
+      "start": {
+        "column": 1,
+        "line": 85,
+        "offset": 1307,
+      },
+    },
+    "type": "definition",
+    "url": "../url//ss/s/./../sd",
+  },
+}
+`;
+
+exports[`calcDefinitionMap > presetDefinitions 1`] = `
+{
+  "bar": {
+    "identifier": "bar",
+    "label": "bar",
+    "position": {
+      "end": {
+        "column": 22,
+        "line": 83,
+        "offset": 1295,
+      },
+      "start": {
+        "column": 1,
+        "line": 83,
+        "offset": 1274,
+      },
+    },
+    "title": "title2",
+    "type": "definition",
+    "url": "/bar",
+  },
+  "baz": {
+    "identifier": "baz",
+    "label": "baz",
+    "position": {
+      "end": {
+        "column": 13,
+        "line": 84,
+        "offset": 1307,
+      },
+      "start": {
+        "column": 1,
+        "line": 84,
+        "offset": 1295,
+      },
+    },
+    "type": "definition",
+    "url": "/waw",
+  },
+  "logo": {
+    "identifier": "logo",
+    "label": "logo",
+    "position": {
+      "end": {
+        "column": 44,
+        "line": 82,
+        "offset": 1274,
+      },
+      "start": {
+        "column": 1,
+        "line": 82,
+        "offset": 1231,
+      },
+    },
+    "title": "The logo of Yozora",
+    "type": "definition",
+    "url": "/img/logo.png",
+  },
+  "url2": {
+    "identifier": "url2",
+    "label": "url2",
+    "position": {
+      "end": {
+        "column": 30,
+        "line": 85,
+        "offset": 1336,
+      },
+      "start": {
+        "column": 1,
+        "line": 85,
+        "offset": 1307,
+      },
+    },
+    "type": "definition",
+    "url": "../url//ss/s/./../sd",
+  },
+  "yozora__test_identifier": {
+    "identifier": "yozora__test_identifier",
+    "label": "yozora test label",
+    "title": "waw",
+    "type": "definition",
+    "url": "#/",
+  },
+}
+`;
 
 exports[`calcDefinitionMap basic1 1`] = `
 {
@@ -165,6 +330,25 @@ exports[`calcDefinitionMap presetDefinitions 1`] = `
 }
 `;
 
+exports[`calcIdentifierSet > basic1 > default 1`] = `
+Set {
+  "logo",
+  "bar",
+  "baz",
+  "url2",
+}
+`;
+
+exports[`calcIdentifierSet > basic1 > presetIdentifiers 1`] = `
+Set {
+  "logo",
+  "bar",
+  "baz",
+  "url2",
+  "foooo",
+}
+`;
+
 exports[`calcIdentifierSet basic1 default 1`] = `
 Set {
   "logo",
@@ -182,6 +366,85 @@ Set {
   "url2",
   "foooo",
 }
+`;
+
+exports[`collectDefinitions > basic1 1`] = `
+[
+  {
+    "identifier": "logo",
+    "label": "logo",
+    "position": {
+      "end": {
+        "column": 44,
+        "line": 82,
+        "offset": 1274,
+      },
+      "start": {
+        "column": 1,
+        "line": 82,
+        "offset": 1231,
+      },
+    },
+    "title": "The logo of Yozora",
+    "type": "definition",
+    "url": "/img/logo.png",
+  },
+  {
+    "identifier": "bar",
+    "label": "bar",
+    "position": {
+      "end": {
+        "column": 22,
+        "line": 83,
+        "offset": 1295,
+      },
+      "start": {
+        "column": 1,
+        "line": 83,
+        "offset": 1274,
+      },
+    },
+    "title": "title2",
+    "type": "definition",
+    "url": "/bar",
+  },
+  {
+    "identifier": "baz",
+    "label": "baz",
+    "position": {
+      "end": {
+        "column": 13,
+        "line": 84,
+        "offset": 1307,
+      },
+      "start": {
+        "column": 1,
+        "line": 84,
+        "offset": 1295,
+      },
+    },
+    "type": "definition",
+    "url": "/waw",
+  },
+  {
+    "identifier": "url2",
+    "label": "url2",
+    "position": {
+      "end": {
+        "column": 30,
+        "line": 85,
+        "offset": 1336,
+      },
+      "start": {
+        "column": 1,
+        "line": 85,
+        "offset": 1307,
+      },
+    },
+    "type": "definition",
+    "url": "../url//ss/s/./../sd",
+  },
+]
 `;
 
 exports[`collectDefinitions basic1 1`] = `

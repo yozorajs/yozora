@@ -1,5 +1,6 @@
 import type { FootnoteDefinition, Root, Text } from '@yozora/ast'
-import { loadJSONFixture } from 'jest.setup'
+import { describe, expect, test } from 'vitest'
+import { loadJSONFixture } from 'vitest.setup'
 import { calcFootnoteDefinitionMap, collectFootnoteDefinitions } from '../src'
 
 describe('collectFootnoteDefinitions', function () {

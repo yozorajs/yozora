@@ -1,0 +1,9 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "test-util",
+  "implicitDependencies": [],
+  "sourceRoot": "packages/test-util/src",
+  "projectType": "library",
+  "tags": ["other"],
+  "targets": {}
+}

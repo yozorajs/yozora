@@ -1,4 +1,5 @@
 import type { IParser } from '@yozora/core-parser'
+import { expect, test } from 'vitest'
 import { BaseTester } from './BaseTester'
 import type { IYozoraUseCase } from './types'
 

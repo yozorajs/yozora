@@ -1,5 +1,5 @@
-import { createTokenizerTester, createTokenizerTesters } from '@yozora/jest-for-tokenizer'
-import { parsers } from 'jest.setup'
+import { createTokenizerTester, createTokenizerTesters } from '@yozora/test-util'
+import { parsers } from 'vitest.setup'
 
 createTokenizerTester(parsers.gfm)
   .scan(['gfm/list', 'gfm/list-item', '!gfm/list-item/task list items\\(extension\\)/**/*'])

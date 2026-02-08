@@ -51,20 +51,14 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "tokenizers/footnote-reference",
-        "commands": [
-          "node --experimental-vm-modules ../../node_modules/.bin/jest --config ../../jest.config.mjs --rootDir ."
-        ]
+        "commands": ["vitest run --config ../../vitest.config.ts"]
       },
       "configurations": {
         "coverage": {
-          "commands": [
-            "node --experimental-vm-modules ../../node_modules/.bin/jest --config ../../jest.config.mjs --rootDir . --coverage"
-          ]
+          "commands": ["vitest run --config ../../vitest.config.ts --coverage"]
         },
         "update": {
-          "commands": [
-            "node --experimental-vm-modules ../../node_modules/.bin/jest --config ../../jest.config.mjs --rootDir . -u"
-          ]
+          "commands": ["vitest run --config ../../vitest.config.ts -u"]
         }
       }
     }

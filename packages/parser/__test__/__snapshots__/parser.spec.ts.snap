@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`snapshot basic: should reserve position 1`] = `
+exports[`snapshot > basic > should reserve position 1`] = `
 {
   "children": [
     {
@@ -2159,7 +2159,7 @@ console.log('This is a typescript code snippets')
 }
 `;
 
-exports[`snapshot basic: shouldn't reserve position 1`] = `
+exports[`snapshot > basic > shouldn't reserve position 1`] = `
 {
   "children": [
     {

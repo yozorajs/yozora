@@ -52,7 +52,4 @@ class GFMExampleClassifier {
 const classifier = new GFMExampleClassifier(gfmClassifyData)
 
 // parser-gfm test cases
-classifier.classifyToPath(
-  path.resolve(rootDir, 'scaffolds/jest-for-tokenizer/fixtures/gfm'),
-  parserGfmData,
-)
+classifier.classifyToPath(path.resolve(rootDir, 'fixtures/gfm'), parserGfmData)

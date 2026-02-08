@@ -1,6 +1,7 @@
 import type { Literal, Root } from '@yozora/ast'
 import { TextType } from '@yozora/ast'
-import { loadJSONFixture } from 'jest.setup'
+import { describe, expect, test } from 'vitest'
+import { loadJSONFixture } from 'vitest.setup'
 import { traverseAst } from '../src'
 
 describe('traverseAST', function () {

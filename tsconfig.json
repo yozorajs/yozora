@@ -13,7 +13,7 @@
       "@yozora/parser": ["./packages/parser/src"],
       "@yozora/parser-gfm": ["./packages/parser-gfm/src"],
       "@yozora/parser-gfm-ex": ["./packages/parser-gfm-ex/src"],
-      "@yozora/jest-for-tokenizer": ["./scaffolds/jest-for-tokenizer/src"],
+      "@yozora/test-util": ["./packages/test-util/src"],
       "@yozora/tokenizer-admonition": ["./tokenizers/admonition/src"],
       "@yozora/tokenizer-autolink": ["./tokenizers/autolink/src"],
       "@yozora/tokenizer-autolink-extension": ["./tokenizers/autolink-extension/src"],
@@ -46,7 +46,7 @@
       "@yozora/tokenizer-table": ["./tokenizers/table/src"],
       "@yozora/tokenizer-text": ["./tokenizers/text/src"],
       "@yozora/tokenizer-thematic-break": ["./tokenizers/thematic-break/src"],
-      "jest.setup": ["jest.setup.mts"]
+      "vitest.setup": ["vitest.setup.ts"]
     }
   }
 }

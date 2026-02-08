@@ -1,5 +1,6 @@
-import { createTokenizerTesters } from '@yozora/jest-for-tokenizer'
-import { parsers } from 'jest.setup'
+import { createTokenizerTesters } from '@yozora/test-util'
+import { describe, expect, test } from 'vitest'
+import { parsers } from 'vitest.setup'
 import EcmaImportTokenizer from '../src'
 import { regex1, regex2, regex3 } from '../src/util'
 

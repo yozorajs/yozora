@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import type { IParser } from '@yozora/core-parser'
 import type { IMarkupWeaver } from '@yozora/markup-weaver'
 import { DefaultMarkupWeaver } from '@yozora/markup-weaver'
@@ -41,7 +42,7 @@ export const weavers = {
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 export const workspaceRootDir = __dirname
-export const testRootDior = path.resolve()
+export const testRootDir = path.resolve()
 
 /**
  * Locate fixture filepath.
@@ -49,7 +50,7 @@ export const testRootDior = path.resolve()
  * @returns
  */
 export const locateFixture = (...p: string[]): string =>
-  path.join(testRootDior, '__test__/fixtures', ...p)
+  path.join(testRootDir, '__test__/fixtures', ...p)
 
 /**
  * Load fixture filepath.

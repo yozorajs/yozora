@@ -1,5 +1,5 @@
-import { createTokenizerTester } from '@yozora/jest-for-tokenizer'
-import { parsers } from 'jest.setup'
+import { createTokenizerTester } from '@yozora/test-util'
+import { parsers } from 'vitest.setup'
 
 createTokenizerTester(parsers.gfm)
   .scan([

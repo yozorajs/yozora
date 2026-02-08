@@ -7,5 +7,5 @@
     "noUnusedParameters": false,
     "sourceMap": true
   },
-  "include": ["src", "__test__", "jest.helper.mts"]
+  "include": ["src", "__test__"]
 }

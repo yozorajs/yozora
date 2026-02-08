@@ -1,5 +1,6 @@
 import type { Literal, Root } from '@yozora/ast'
-import { loadJSONFixture } from 'jest.setup'
+import { describe, expect, test } from 'vitest'
+import { loadJSONFixture } from 'vitest.setup'
 import { searchNode } from '../src'
 
 describe('basic1', function () {

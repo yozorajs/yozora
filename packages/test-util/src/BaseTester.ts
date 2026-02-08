@@ -2,6 +2,7 @@ import { globbySync } from '@guanghechen/globby'
 import invariant from '@yozora/invariant'
 import fs from 'node:fs'
 import path from 'node:path'
+import { describe } from 'vitest'
 import type { IYozoraUseCase, IYozoraUseCaseGroup } from './types'
 
 /**

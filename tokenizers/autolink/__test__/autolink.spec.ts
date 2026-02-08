@@ -1,5 +1,5 @@
-import { createTokenizerTester, createTokenizerTesters } from '@yozora/jest-for-tokenizer'
-import { parsers } from 'jest.setup'
+import { createTokenizerTester, createTokenizerTesters } from '@yozora/test-util'
+import { parsers } from 'vitest.setup'
 
 createTokenizerTester(parsers.gfm).scan(['gfm/autolink', '!gfm/autolink-extension/**/*']).runTest()
 

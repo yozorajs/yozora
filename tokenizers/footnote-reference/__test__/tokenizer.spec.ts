@@ -1,8 +1,8 @@
-import { createTokenizerTesters } from '@yozora/jest-for-tokenizer'
+import { createTokenizerTesters } from '@yozora/test-util'
 import { DefinitionTokenizerName } from '@yozora/tokenizer-definition'
 import FootnoteTokenizer from '@yozora/tokenizer-footnote'
 import FootnoteDefinitionTokenizer from '@yozora/tokenizer-footnote-definition'
-import { parsers } from 'jest.setup'
+import { parsers } from 'vitest.setup'
 import FootnoteReferenceTokenizer from '../src'
 
 createTokenizerTesters(
