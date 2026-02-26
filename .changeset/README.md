@@ -14,7 +14,7 @@ We have a quick list of common questions to get you started engaging with this p
 When you make changes that should be released, run:
 
 ```bash
-yarn changeset
+pnpm changeset
 ```
 
 This will prompt you to:
@@ -27,7 +27,7 @@ This will prompt you to:
 To consume all changesets and update versions:
 
 ```bash
-yarn changeset version
+pnpm changeset version
 ```
 
 This will:
@@ -40,11 +40,11 @@ This will:
 To publish all packages with new versions:
 
 ```bash
-yarn changeset publish
+pnpm changeset publish
 ```
 
 Or use the combined workflow:
 
 ```bash
-yarn :publish
+pnpm :publish
 ```

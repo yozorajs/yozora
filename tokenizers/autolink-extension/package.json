@@ -13,11 +13,11 @@
   "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.13/tokenizers/autolink-extension#readme",
   "type": "module",
   "scripts": {
-    "build": "../../node_modules/.bin/rollup -c ../../rollup.config.mjs",
-    "clean": "../../node_modules/.bin/rimraf lib",
-    "test": "../../node_modules/.bin/vitest run --config ../../vitest.config.ts",
-    "test:coverage": "../../node_modules/.bin/vitest run --config ../../vitest.config.ts --coverage",
-    "test:update": "../../node_modules/.bin/vitest run --config ../../vitest.config.ts -u"
+    "build": "rollup -c ../../rollup.config.mjs",
+    "clean": "rimraf lib",
+    "test": "vitest run --config ../../vitest.config.ts",
+    "test:coverage": "vitest run --config ../../vitest.config.ts --coverage",
+    "test:update": "vitest run --config ../../vitest.config.ts -u"
   },
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -41,9 +41,9 @@
     "README.md"
   ],
   "dependencies": {
-    "@yozora/ast": "^2.3.13",
-    "@yozora/character": "^2.3.13",
-    "@yozora/core-tokenizer": "^2.3.13",
-    "@yozora/tokenizer-autolink": "^2.3.13"
+    "@yozora/ast": "workspace:^",
+    "@yozora/character": "workspace:^",
+    "@yozora/core-tokenizer": "workspace:^",
+    "@yozora/tokenizer-autolink": "workspace:^"
   }
 }

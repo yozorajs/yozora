@@ -17,35 +17,31 @@
   },
   "type": "module",
   "scripts": {
-    ":publish": "yarn clean && yarn build:production && yarn test:coverage && ./node_modules/.bin/changeset publish",
-    ":version": "./node_modules/.bin/changeset version",
-    ":upgrade": "yarn upgrade-interactive && yarn clean && yarn format && yarn build && yarn test",
-    "build": "cross-env NODE_ENV=production ROLLUP_SHOULD_SOURCEMAP=true yarn workspaces foreach -Apt --exclude '@yozora/test-util' run build",
-    "build:production": "cross-env NODE_ENV=production ROLLUP_SHOULD_SOURCEMAP=false yarn workspaces foreach -Apt --exclude '@yozora/test-util' run build",
-    "clean": "yarn workspaces foreach -Ap --exclude '@yozora/test-util' run clean && yarn install",
+    ":publish": "pnpm clean && pnpm build:production && pnpm test:coverage && changeset publish",
+    ":version": "changeset version",
+    ":upgrade": "pnpm update -i && pnpm clean && pnpm format && pnpm build && pnpm test",
+    "build": "cross-env NODE_ENV=production ROLLUP_SHOULD_SOURCEMAP=true pnpm -r --filter='!@yozora/test-util' run build",
+    "build:production": "cross-env NODE_ENV=production ROLLUP_SHOULD_SOURCEMAP=false pnpm -r --filter='!@yozora/test-util' run build",
+    "clean": "pnpm -r --filter='!@yozora/test-util' run clean && pnpm install",
     "doc": "run-s doc:tokenizer doc:parser",
     "doc:tokenizer": "node -r ts-node/register -r tsconfig-paths/register scripts/handlebar/tokenizer.ts",
     "doc:parser": "node -r ts-node/register -r tsconfig-paths/register scripts/handlebar/parser.ts",
-    "format": "run-s format:lintfix format:prettier",
-    "format:prettier": "prettier --write .",
+    "format": "pnpm format:lintfix && pnpm format:prettier",
+    "format:prettier": "prettier . --write",
     "format:lintfix": "eslint . --fix",
     "prepublishOnly": "pinst --disable",
     "postinstall": "run-s postinstall:dev",
     "postinstall:dev": "is-ci || husky",
     "postpublish": "pinst --enable",
-    "rebuild": "run-s clean build",
-    "test": "yarn workspaces foreach -Ap run test",
-    "test:coverage": "yarn workspaces foreach -Ap run test:coverage",
-    "test:parser": "yarn workspaces foreach -Ap --include '@yozora/parser*' run test",
-    "test:tokenizer": "yarn workspaces foreach -Ap --include '@yozora/tokenizer-*' run test",
-    "test:other": "yarn workspaces foreach -Ap --include '@yozora/{ast,ast-util,character,core-parser,core-tokenizer,invariant,markup-weaver}' run test",
-    "test:update": "yarn workspaces foreach -Ap run test:update",
-    "version": "yarn && node script/sync-doc-link.mjs && git stage -u yarn.lock **/package.json **/*.md"
+    "rebuild": "pnpm clean && pnpm build",
+    "test": "pnpm -r run --if-present test",
+    "test:coverage": "pnpm -r run --if-present test:coverage",
+    "test:parser": "pnpm -r --filter='@yozora/parser*' run test",
+    "test:tokenizer": "pnpm -r --filter='@yozora/tokenizer-*' run test",
+    "test:other": "pnpm -r --filter='@yozora/ast' --filter='@yozora/ast-util' --filter='@yozora/character' --filter='@yozora/core-parser' --filter='@yozora/core-tokenizer' --filter='@yozora/invariant' --filter='@yozora/markup-weaver' run --if-present test",
+    "test:update": "pnpm -r run --if-present test:update",
+    "version": "pnpm install && node script/sync-doc-link.mjs && git stage -u pnpm-lock.yaml **/package.json **/*.md"
   },
-  "workspaces": [
-    "packages/*",
-    "tokenizers/*"
-  ],
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.2",
     "@changesets/cli": "^2.29.8",
@@ -83,5 +79,5 @@
       "prettier --write"
     ]
   },
-  "packageManager": "yarn@3.3.1"
+  "packageManager": "pnpm@9.15.4"
 }

@@ -8,7 +8,6 @@
 **/CHANGELOG.md
 
 .nx/
-.yarn/
 **/coverage/
 **/dist/
 **/doc/

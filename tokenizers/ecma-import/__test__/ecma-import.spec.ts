@@ -10,6 +10,23 @@ createTokenizerTesters(
   parsers.yozora,
 ).forEach(tester => tester.scan(['custom/ecma-import']).runTest())
 
+test('ecma import node should omit position when shouldReservePosition is false', function () {
+  const parser = parsers.gfm.useTokenizer(new EcmaImportTokenizer())
+  const ast = parser.parse(
+    "import Parser, { createTokenizerTester as create } from '@yozora/test-util'",
+    {
+      shouldReservePosition: false,
+    },
+  )
+  const node = ast.children[0] as any
+
+  expect(node.type).toBe('ecmaImport')
+  expect(node.moduleName).toBe('@yozora/test-util')
+  expect(node.defaultImport).toBe('Parser')
+  expect(node.namedImports).toEqual([{ src: 'createTokenizerTester', alias: 'create' }])
+  expect(node.position).toBeUndefined()
+})
+
 describe('util', function () {
   test('regex1', function () {
     expect(regex1.test("import '@yozora/parser'")).toBe(true)
