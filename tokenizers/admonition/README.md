@@ -66,11 +66,6 @@
   npm install --save @yozora/tokenizer-admonition
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/tokenizer-admonition
-  ```
 
 ## Usage
 

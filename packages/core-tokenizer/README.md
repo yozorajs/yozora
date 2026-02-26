@@ -56,11 +56,6 @@ assist in resolving tokens.
   npm install --save @yozora/core-tokenizer
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/core-tokenizer
-  ```
 
 ## Usage
 

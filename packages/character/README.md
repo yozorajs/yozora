@@ -59,11 +59,6 @@ Defines commonly used character encoding and tool functions for processing chara
   npm install --save @yozora/character
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/character
-  ```
 
 ## Usage
 

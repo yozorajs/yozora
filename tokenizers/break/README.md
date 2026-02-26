@@ -66,11 +66,6 @@ details.
   npm install --save @yozora/tokenizer-break
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/tokenizer-break
-  ```
 
 ## Usage
 

@@ -66,11 +66,6 @@ details.
   npm install --save @yozora/tokenizer-delete
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/tokenizer-delete
-  ```
 
 ## Usage
 

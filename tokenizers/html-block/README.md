@@ -66,11 +66,6 @@ for details.
   npm install --save @yozora/tokenizer-html-block
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/tokenizer-html-block
-  ```
 
 ## Usage
 

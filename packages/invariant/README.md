@@ -54,11 +54,6 @@ when the given condition fails.
   npm install --save @yozora/invariant
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/invariant
-  ```
 
 ## Usage
 

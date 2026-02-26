@@ -66,11 +66,6 @@
   npm install --save @yozora/tokenizer-autolink-extension
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/tokenizer-autolink-extension
-  ```
 
 ## Usage
 

@@ -55,11 +55,6 @@ See [@yozora/ast documentation](https://yozora.guanghechen.com/docs/package/ast)
   npm install --save @yozora/ast
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/ast
-  ```
 
 ## Core Types
 

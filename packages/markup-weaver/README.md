@@ -53,11 +53,6 @@ This package is designed to weave the markup-like AST into markup contents.
   npm install --save @yozora/markup-weaver
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/markup-weaver
-  ```
 
 ## Usage
 

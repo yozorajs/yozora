@@ -66,11 +66,6 @@
   npm install --save @yozora/tokenizer-thematic-break
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/tokenizer-thematic-break
-  ```
 
 ## Usage
 

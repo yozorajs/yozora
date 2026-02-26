@@ -66,11 +66,6 @@
   npm install --save @yozora/tokenizer-setext-heading
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/tokenizer-setext-heading
-  ```
 
 ## Usage
 

@@ -66,11 +66,6 @@
   npm install --save @yozora/tokenizer-table
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/tokenizer-table
-  ```
 
 ## Usage
 

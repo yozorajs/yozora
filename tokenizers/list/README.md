@@ -66,11 +66,6 @@ children) type nodes. See [documentation][docpage] for details.
   npm install --save @yozora/tokenizer-list
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/tokenizer-list
-  ```
 
 ## Usage
 

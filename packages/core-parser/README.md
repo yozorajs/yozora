@@ -51,11 +51,6 @@
   npm install --save @yozora/core-parser
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/core-parser
-  ```
 
 ## Usage
 

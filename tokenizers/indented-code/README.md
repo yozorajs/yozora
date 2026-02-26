@@ -66,11 +66,6 @@ for details.
   npm install --save @yozora/tokenizer-indented-code
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/tokenizer-indented-code
-  ```
 
 ## Usage
 

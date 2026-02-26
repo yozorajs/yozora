@@ -66,11 +66,6 @@ for details.
   npm install --save @yozora/tokenizer-fenced-code
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/tokenizer-fenced-code
-  ```
 
 ## Usage
 

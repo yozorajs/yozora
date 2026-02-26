@@ -67,11 +67,6 @@ See [@yozora/parser-gfm documentation][docpage] for details.
   npm install --save @yozora/parser-gfm
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/parser-gfm
-  ```
 
 ## Usage
 

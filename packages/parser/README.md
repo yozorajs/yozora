@@ -67,11 +67,6 @@ See [@yozora/parser documentation][docpage] for details.
   npm install --save @yozora/parser
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/parser
-  ```
 
 ## Usage
 

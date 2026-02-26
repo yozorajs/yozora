@@ -86,11 +86,6 @@ See [documentation][docpage] for details.
   npm install --save @yozora/tokenizer-ecma-import
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/tokenizer-ecma-import
-  ```
 
 ## Usage
 

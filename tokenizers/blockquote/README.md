@@ -66,11 +66,6 @@
   npm install --save @yozora/tokenizer-blockquote
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/tokenizer-blockquote
-  ```
 
 ## Usage
 

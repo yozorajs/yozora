@@ -66,11 +66,6 @@ details.
   npm install --save @yozora/tokenizer-text
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/tokenizer-text
-  ```
 
 ## Usage
 

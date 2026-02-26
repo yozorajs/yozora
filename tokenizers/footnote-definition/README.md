@@ -64,11 +64,6 @@
   npm install --save @yozora/tokenizer-footnote-definition
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/tokenizer-footnote-definition
-  ```
 
 ## Usage
 

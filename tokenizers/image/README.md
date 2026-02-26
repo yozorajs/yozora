@@ -66,11 +66,6 @@ details.
   npm install --save @yozora/tokenizer-image
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/tokenizer-image
-  ```
 
 ## Usage
 

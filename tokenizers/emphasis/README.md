@@ -66,11 +66,6 @@ type nodes. See [documentation][docpage] for details.
   npm install --save @yozora/tokenizer-emphasis
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/tokenizer-emphasis
-  ```
 
 ## Usage
 

@@ -53,11 +53,6 @@ Utility functions to handle Yozora markdown ast.
   npm install --save @yozora/ast-util
   ```
 
-- yarn
-
-  ```bash
-  yarn add @yozora/ast-util
-  ```
 
 ## Usage
 
