@@ -27,6 +27,5 @@
     "@yozora/core-parser": "workspace:^",
     "@yozora/markup-weaver": "workspace:^",
     "vitest": "^4.0.18"
-  },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v0.0.0/packages/test-util#readme"
+  }
 }
