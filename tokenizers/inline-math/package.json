@@ -39,9 +39,6 @@
   "main": "./lib/cjs/index.cjs",
   "module": "./lib/esm/index.mjs",
   "license": "MIT",
-  "engines": {
-    "node": ">= 16.0.0"
-  },
   "files": [
     "lib/",
     "!lib/**/*.map",

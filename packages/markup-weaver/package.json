@@ -30,9 +30,6 @@
   "module": "./lib/esm/index.mjs",
   "types": "./lib/types/index.d.ts",
   "license": "MIT",
-  "engines": {
-    "node": ">= 16.0.0"
-  },
   "files": [
     "lib/",
     "!lib/**/*.map",

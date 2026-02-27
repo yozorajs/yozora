@@ -17,9 +17,6 @@
   },
   "main": "./src/index.ts",
   "license": "MIT",
-  "engines": {
-    "node": ">= 16.0.0"
-  },
   "dependencies": {
     "@guanghechen/globby": "^1.0.5",
     "@yozora/ast": "workspace:^",
