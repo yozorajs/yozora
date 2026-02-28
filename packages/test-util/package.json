@@ -18,7 +18,7 @@
   "main": "./src/index.ts",
   "license": "MIT",
   "dependencies": {
-    "@guanghechen/globby": "^1.0.5",
+    "@guanghechen/globby": "^1.0.6",
     "@yozora/ast": "workspace:^",
     "@yozora/ast-util": "workspace:^",
     "@yozora/invariant": "workspace:^"
