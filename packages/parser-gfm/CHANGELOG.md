@@ -1,43 +1,59 @@
 # Change Log
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+## 2.3.14
+
+### Patch Changes
+
+- Patch release for all public packages: align monorepo tooling with pnpm + changesets, update
+  package metadata and docs, and include test and configuration improvements for release
+  consistency.
+- Updated dependencies:
+  - @yozora/ast@2.3.14
+  - @yozora/core-parser@2.3.14
+  - @yozora/core-tokenizer@2.3.14
+  - @yozora/tokenizer-autolink@2.3.14
+  - @yozora/tokenizer-blockquote@2.3.14
+  - @yozora/tokenizer-break@2.3.14
+  - @yozora/tokenizer-definition@2.3.14
+  - @yozora/tokenizer-emphasis@2.3.14
+  - @yozora/tokenizer-fenced-code@2.3.14
+  - @yozora/tokenizer-heading@2.3.14
+  - @yozora/tokenizer-html-block@2.3.14
+  - @yozora/tokenizer-html-inline@2.3.14
+  - @yozora/tokenizer-image@2.3.14
+  - @yozora/tokenizer-image-reference@2.3.14
+  - @yozora/tokenizer-indented-code@2.3.14
+  - @yozora/tokenizer-inline-code@2.3.14
+  - @yozora/tokenizer-link@2.3.14
+  - @yozora/tokenizer-link-reference@2.3.14
+  - @yozora/tokenizer-list@2.3.14
+  - @yozora/tokenizer-paragraph@2.3.14
+  - @yozora/tokenizer-setext-heading@2.3.14
+  - @yozora/tokenizer-text@2.3.14
+  - @yozora/tokenizer-thematic-break@2.3.14
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 ## <small>2.3.13 (2025-11-30)</small>
 
 **Note:** Version bump only for package @yozora/parser-gfm
 
-
-
-
-
 ## <small>2.3.12 (2025-02-26)</small>
 
-* :bookmark:  release: publish v2.3.10 ([a36b4dd](https://github.com/yozorajs/yozora/commit/a36b4dd))
-* :bookmark:  release: publish v2.3.11 ([dcc0a95](https://github.com/yozorajs/yozora/commit/dcc0a95))
-* :bookmark:  release: publish v2.3.8 ([c4ddb8b](https://github.com/yozorajs/yozora/commit/c4ddb8b))
-* :bookmark:  release: publish v2.3.9 ([d125df1](https://github.com/yozorajs/yozora/commit/d125df1))
-* chore: fix nx dependencies ([d11d405](https://github.com/yozorajs/yozora/commit/d11d405))
-
-
-
-
+- :bookmark: release: publish v2.3.10 ([a36b4dd](https://github.com/yozorajs/yozora/commit/a36b4dd))
+- :bookmark: release: publish v2.3.11 ([dcc0a95](https://github.com/yozorajs/yozora/commit/dcc0a95))
+- :bookmark: release: publish v2.3.8 ([c4ddb8b](https://github.com/yozorajs/yozora/commit/c4ddb8b))
+- :bookmark: release: publish v2.3.9 ([d125df1](https://github.com/yozorajs/yozora/commit/d125df1))
+- chore: fix nx dependencies ([d11d405](https://github.com/yozorajs/yozora/commit/d11d405))
 
 ## <small>2.3.11 (2025-01-13)</small>
 
 **Note:** Version bump only for package @yozora/parser-gfm
 
-
-
-
-
 ## <small>2.3.10 (2025-01-09)</small>
 
-* chore: fix nx dependencies ([d11d405](https://github.com/yozorajs/yozora/commit/d11d405))
-
-
-
-
+- chore: fix nx dependencies ([d11d405](https://github.com/yozorajs/yozora/commit/d11d405))
 
 # Change Log
 
@@ -851,7 +867,8 @@ All notable changes to this project will be documented in this file. See
   ([ab1caca](https://github.com/yozorajs/yozora/commit/ab1caca36d2009b6487151eabf7e59361a837b05))
 - :bug: [tokenizercore] fix: mistaken '>' for ']' in eatAndCollectLinkLabel
   ([4277f82](https://github.com/yozorajs/yozora/commit/4277f820f875eada92a4aaba06299ef7c54b38f3))
-- :bug: [tokenizer-line-break, tokenizer-text] fix: remove spaces at the end of the line and beginning
+- :bug: [tokenizer-line-break, tokenizer-text] fix: remove spaces at the end of the line and
+  beginning
   ([5641968](https://github.com/yozorajs/yozora/commit/5641968da7c1355141f466dd347879dccd42bbca))
 - :bug: [tokenizer-list-*-item] fix: fix gfm#242, gfm#298: ListItem could contains blank lines
   ([edf1b58](https://github.com/yozorajs/yozora/commit/edf1b58898c3c887e5d0af717af174a9cd40ea85)),

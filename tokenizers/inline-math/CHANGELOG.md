@@ -1,46 +1,46 @@
 # Change Log
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+## 2.3.14
+
+### Patch Changes
+
+- Patch release for all public packages: align monorepo tooling with pnpm + changesets, update
+  package metadata and docs, and include test and configuration improvements for release
+  consistency.
+- Updated dependencies:
+  - @yozora/ast@2.3.14
+  - @yozora/character@2.3.14
+  - @yozora/core-tokenizer@2.3.14
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 ## <small>2.3.13 (2025-11-30)</small>
 
 **Note:** Version bump only for package @yozora/tokenizer-inline-math
 
-
-
-
-
 ## <small>2.3.12 (2025-02-26)</small>
 
-* :bookmark:  release: publish v2.3.10 ([a36b4dd](https://github.com/yozorajs/yozora/commit/a36b4dd))
-* :bookmark:  release: publish v2.3.11 ([dcc0a95](https://github.com/yozorajs/yozora/commit/dcc0a95))
-* :bookmark:  release: publish v2.3.8 ([c4ddb8b](https://github.com/yozorajs/yozora/commit/c4ddb8b))
-* :bookmark:  release: publish v2.3.9 ([d125df1](https://github.com/yozorajs/yozora/commit/d125df1))
-* :bug: fix(inline-math): the delimiter could be adjacent to a punctuation character ([a6071be](https://github.com/yozorajs/yozora/commit/a6071be))
-* improve(inline-math): the inline dollars should take high processing priority so the delimiter bound ([3dba582](https://github.com/yozorajs/yozora/commit/3dba582))
-* improve(inlineMath): support more than one dollar sign as delimiter ([bf17c33](https://github.com/yozorajs/yozora/commit/bf17c33))
-* chore: fix nx dependencies ([d11d405](https://github.com/yozorajs/yozora/commit/d11d405))
-
-
-
-
+- :bookmark: release: publish v2.3.10 ([a36b4dd](https://github.com/yozorajs/yozora/commit/a36b4dd))
+- :bookmark: release: publish v2.3.11 ([dcc0a95](https://github.com/yozorajs/yozora/commit/dcc0a95))
+- :bookmark: release: publish v2.3.8 ([c4ddb8b](https://github.com/yozorajs/yozora/commit/c4ddb8b))
+- :bookmark: release: publish v2.3.9 ([d125df1](https://github.com/yozorajs/yozora/commit/d125df1))
+- :bug: fix(inline-math): the delimiter could be adjacent to a punctuation character
+  ([a6071be](https://github.com/yozorajs/yozora/commit/a6071be))
+- improve(inline-math): the inline dollars should take high processing priority so the delimiter
+  bound ([3dba582](https://github.com/yozorajs/yozora/commit/3dba582))
+- improve(inlineMath): support more than one dollar sign as delimiter
+  ([bf17c33](https://github.com/yozorajs/yozora/commit/bf17c33))
+- chore: fix nx dependencies ([d11d405](https://github.com/yozorajs/yozora/commit/d11d405))
 
 ## <small>2.3.11 (2025-01-13)</small>
 
-* improve(inline-math): the inline dollars should take high processing priority so the delimiter bound ([3dba582](https://github.com/yozorajs/yozora/commit/3dba582))
-
-
-
-
+- improve(inline-math): the inline dollars should take high processing priority so the delimiter
+  bound ([3dba582](https://github.com/yozorajs/yozora/commit/3dba582))
 
 ## <small>2.3.10 (2025-01-09)</small>
 
-* chore: fix nx dependencies ([d11d405](https://github.com/yozorajs/yozora/commit/d11d405))
-
-
-
-
+- chore: fix nx dependencies ([d11d405](https://github.com/yozorajs/yozora/commit/d11d405))
 
 # Change Log
 

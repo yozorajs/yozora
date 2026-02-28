@@ -1,43 +1,68 @@
 # Change Log
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+## 2.3.14
+
+### Patch Changes
+
+- Patch release for all public packages: align monorepo tooling with pnpm + changesets, update
+  package metadata and docs, and include test and configuration improvements for release
+  consistency.
+- Updated dependencies:
+  - @yozora/ast@2.3.14
+  - @yozora/core-parser@2.3.14
+  - @yozora/tokenizer-admonition@2.3.14
+  - @yozora/tokenizer-autolink@2.3.14
+  - @yozora/tokenizer-autolink-extension@2.3.14
+  - @yozora/tokenizer-blockquote@2.3.14
+  - @yozora/tokenizer-break@2.3.14
+  - @yozora/tokenizer-definition@2.3.14
+  - @yozora/tokenizer-delete@2.3.14
+  - @yozora/tokenizer-ecma-import@2.3.14
+  - @yozora/tokenizer-emphasis@2.3.14
+  - @yozora/tokenizer-fenced-code@2.3.14
+  - @yozora/tokenizer-footnote@2.3.14
+  - @yozora/tokenizer-footnote-definition@2.3.14
+  - @yozora/tokenizer-footnote-reference@2.3.14
+  - @yozora/tokenizer-heading@2.3.14
+  - @yozora/tokenizer-html-block@2.3.14
+  - @yozora/tokenizer-html-inline@2.3.14
+  - @yozora/tokenizer-image@2.3.14
+  - @yozora/tokenizer-image-reference@2.3.14
+  - @yozora/tokenizer-indented-code@2.3.14
+  - @yozora/tokenizer-inline-code@2.3.14
+  - @yozora/tokenizer-inline-math@2.3.14
+  - @yozora/tokenizer-link@2.3.14
+  - @yozora/tokenizer-link-reference@2.3.14
+  - @yozora/tokenizer-list@2.3.14
+  - @yozora/tokenizer-math@2.3.14
+  - @yozora/tokenizer-paragraph@2.3.14
+  - @yozora/tokenizer-setext-heading@2.3.14
+  - @yozora/tokenizer-table@2.3.14
+  - @yozora/tokenizer-text@2.3.14
+  - @yozora/tokenizer-thematic-break@2.3.14
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 ## <small>2.3.13 (2025-11-30)</small>
 
 **Note:** Version bump only for package @yozora/parser
 
-
-
-
-
 ## <small>2.3.12 (2025-02-26)</small>
 
-* :bookmark:  release: publish v2.3.10 ([a36b4dd](https://github.com/yozorajs/yozora/commit/a36b4dd))
-* :bookmark:  release: publish v2.3.11 ([dcc0a95](https://github.com/yozorajs/yozora/commit/dcc0a95))
-* :bookmark:  release: publish v2.3.8 ([c4ddb8b](https://github.com/yozorajs/yozora/commit/c4ddb8b))
-* :bookmark:  release: publish v2.3.9 ([d125df1](https://github.com/yozorajs/yozora/commit/d125df1))
-* chore: fix nx dependencies ([d11d405](https://github.com/yozorajs/yozora/commit/d11d405))
-
-
-
-
+- :bookmark: release: publish v2.3.10 ([a36b4dd](https://github.com/yozorajs/yozora/commit/a36b4dd))
+- :bookmark: release: publish v2.3.11 ([dcc0a95](https://github.com/yozorajs/yozora/commit/dcc0a95))
+- :bookmark: release: publish v2.3.8 ([c4ddb8b](https://github.com/yozorajs/yozora/commit/c4ddb8b))
+- :bookmark: release: publish v2.3.9 ([d125df1](https://github.com/yozorajs/yozora/commit/d125df1))
+- chore: fix nx dependencies ([d11d405](https://github.com/yozorajs/yozora/commit/d11d405))
 
 ## <small>2.3.11 (2025-01-13)</small>
 
 **Note:** Version bump only for package @yozora/parser
 
-
-
-
-
 ## <small>2.3.10 (2025-01-09)</small>
 
-* chore: fix nx dependencies ([d11d405](https://github.com/yozorajs/yozora/commit/d11d405))
-
-
-
-
+- chore: fix nx dependencies ([d11d405](https://github.com/yozorajs/yozora/commit/d11d405))
 
 # Change Log
 

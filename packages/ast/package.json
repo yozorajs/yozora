@@ -1,6 +1,6 @@
 {
   "name": "@yozora/ast",
-  "version": "2.3.13",
+  "version": "2.3.14",
   "description": "Yozora markdown ast types and constants.",
   "author": {
     "name": "guanghechen",
