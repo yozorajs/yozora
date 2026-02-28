@@ -5,7 +5,16 @@
     "declarationMap": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "sourceMap": true
+    "sourceMap": true,
+    "types": ["vitest/globals", "node"]
   },
-  "include": ["src", "__test__"]
+  "include": [
+    "packages/*/src",
+    "packages/*/__test__",
+    "tokenizers/*/src",
+    "tokenizers/*/__test__",
+    "scripts/**/*.ts",
+    "vitest.config.ts",
+    "vitest.setup.ts"
+  ]
 }

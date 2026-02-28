@@ -8,7 +8,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
   return {
     parse: tokens =>
       tokens.map(token => {
-        const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+        const nodePoints: readonly INodePoint[] = api.getNodePoints()
         let value = calcEscapedStringFromNodePoints(nodePoints, token.startIndex, token.endIndex)
         value = stripSpaces(value)
         const node: INode = api.shouldReservePosition

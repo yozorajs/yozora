@@ -28,7 +28,7 @@ export interface IHtmlInlineClosingDelimiter extends ITokenDelimiter, IHtmlInlin
  * @see https://github.github.com/gfm/#closing-tag
  */
 export function eatHtmlInlineClosingDelimiter(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): IHtmlInlineClosingDelimiter | null {

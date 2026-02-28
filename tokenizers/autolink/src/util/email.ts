@@ -17,7 +17,7 @@ import type { IResultOfOptionalEater, IResultOfRequiredEater } from '@yozora/cor
  * @see https://github.github.com/gfm/#email-address
  */
 export function eatEmailAddress(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): IResultOfRequiredEater {
@@ -80,7 +80,7 @@ export function eatEmailAddress(
  *
  */
 function eatAddressPart0(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): IResultOfOptionalEater {

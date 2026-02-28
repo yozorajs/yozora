@@ -24,7 +24,7 @@ export interface IHtmlInlineCDataDelimiter extends ITokenDelimiter, IHtmlInlineC
  * @see https://github.github.com/gfm/#cdata-section
  */
 export function eatHtmlInlineCDataDelimiter(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): IHtmlInlineCDataDelimiter | null {

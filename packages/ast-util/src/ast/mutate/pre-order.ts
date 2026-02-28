@@ -21,7 +21,7 @@ import { createNodeMatcher, createShallowNodeCollector } from '../collect/misc'
  */
 export function shallowMutateAstInPreorder(
   immutableRoot: Readonly<Root>,
-  aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher | null,
+  aimTypesOrNodeMatcher: readonly NodeType[] | INodeMatcher | null,
   replace: (
     immutableNode: Readonly<Node>,
     immutableParent: Readonly<Parent>,
@@ -30,7 +30,7 @@ export function shallowMutateAstInPreorder(
 ): Readonly<Root> {
   const isMatched: INodeMatcher = createNodeMatcher(aimTypesOrNodeMatcher)
 
-  const traverse = (children: ReadonlyArray<Node>, parent: Readonly<Parent>): Node => {
+  const traverse = (children: readonly Node[], parent: Readonly<Parent>): Node => {
     // Processing current layer of nodes.
     const collector = createShallowNodeCollector(children as Node[])
     for (let i = 0; i < children.length; ++i) {
@@ -40,7 +40,7 @@ export function shallowMutateAstInPreorder(
         collector.add(nextChild, child, i)
       } else {
         // Recursively processing the descendant nodes in pre-order traverse.
-        const subChildren: ReadonlyArray<Node> = child.children
+        const subChildren: readonly Node[] = child.children
 
         // Whether to process the subtree recursively.
         const nextChild: Node =

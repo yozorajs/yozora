@@ -15,7 +15,7 @@ describe('paragraph patch test', function () {
   const nodePointIterator = createNodePointGenerator(['hello, world!\nhello,'])
   const nodePoints: INodePoint[] = [...nodePointIterator].flat()
 
-  const lines: ReadonlyArray<IPhrasingContentLine> = [
+  const lines: readonly IPhrasingContentLine[] = [
     {
       nodePoints,
       startIndex: 0,
@@ -25,7 +25,7 @@ describe('paragraph patch test', function () {
     },
   ]
 
-  const nextLines: ReadonlyArray<IPhrasingContentLine> = [
+  const nextLines: readonly IPhrasingContentLine[] = [
     {
       nodePoints,
       startIndex: 14,

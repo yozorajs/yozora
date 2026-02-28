@@ -15,7 +15,7 @@ import { eatOptionalBlankLines } from '@yozora/core-tokenizer'
  *     including a '(' or ')' character only if it is backslash-escaped.
  */
 export function eatLinkTitle(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): number {

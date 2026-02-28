@@ -52,19 +52,19 @@ export interface INodeMarkupWeaveContext {
   /**
    * Ancestor nodes.
    */
-  ancestors: ReadonlyArray<Parent>
+  ancestors: readonly Parent[]
   /**
    * Weave AST inline nodes into markup source content.
    * @param nodes
    */
-  weaveInlineNodes(nodes: ReadonlyArray<Readonly<Node>>): string
+  weaveInlineNodes(nodes: readonly Readonly<Node>[]): string
 }
 
 export interface INodeWeaver<T extends Node = Node> {
   /**
    * Node type
    */
-  readonly type: T['type'] | Array<T['type']>
+  readonly type: T['type'] | T['type'][]
   /**
    * Escape contents.
    * @param content

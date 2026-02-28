@@ -39,7 +39,7 @@ export interface IMatchInlineHook<
   isDelimiterPair?(
     openerDelimiter: IDelimiter,
     closerDelimiter: IDelimiter,
-    internalTokens: ReadonlyArray<IInlineToken>,
+    internalTokens: readonly IInlineToken[],
   ): IResultOfIsDelimiterPair
 
   /**
@@ -52,7 +52,7 @@ export interface IMatchInlineHook<
   processDelimiterPair?(
     openerDelimiter: IDelimiter,
     closerDelimiter: IDelimiter,
-    internalTokens: ReadonlyArray<IInlineToken>,
+    internalTokens: readonly IInlineToken[],
   ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter>
 
   /**
@@ -98,7 +98,7 @@ export interface IResultOfProcessDelimiterPair<
   IToken extends IPartialInlineToken<T> = IPartialInlineToken<T>,
   IDelimiter extends ITokenDelimiter = ITokenDelimiter,
 > {
-  tokens: ReadonlyArray<IToken | IInlineToken>
+  tokens: readonly (IToken | IInlineToken)[]
   remainOpenerDelimiter?: IDelimiter
   remainCloserDelimiter?: IDelimiter
 }

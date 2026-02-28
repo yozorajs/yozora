@@ -15,9 +15,9 @@ import type {
  * Options for constructing a processor.
  */
 export interface IProcessorOptions {
-  readonly inlineTokenizers: ReadonlyArray<IInlineTokenizer>
+  readonly inlineTokenizers: readonly IInlineTokenizer[]
   readonly inlineTokenizerMap: Readonly<Map<string, IInlineTokenizer>>
-  readonly blockTokenizers: ReadonlyArray<IBlockTokenizer>
+  readonly blockTokenizers: readonly IBlockTokenizer[]
   readonly blockTokenizerMap: Readonly<Map<string, IBlockTokenizer>>
   readonly blockFallbackTokenizer: IBlockFallbackTokenizer | null
   readonly inlineFallbackTokenizer: IInlineFallbackTokenizer | null

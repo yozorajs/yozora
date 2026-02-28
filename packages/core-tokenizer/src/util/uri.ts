@@ -44,7 +44,7 @@ export function resolveLabelToIdentifier(label: string): string {
  * @see https://github.github.com/gfm/#link-label
  */
 export function resolveLinkLabelAndIdentifier(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): { label: string; identifier: string } | null {
@@ -72,7 +72,7 @@ export function resolveLinkLabelAndIdentifier(
  * @returns
  */
 export function eatLinkLabel(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   _endIndex: number,
 ): {
@@ -157,10 +157,10 @@ export function isLinkToken(token: IInlineToken): boolean {
  * @see https://github.github.com/gfm/#link-text
  */
 export function isValidLinkText(
-  _nodePoints: ReadonlyArray<INodePoint>,
+  _nodePoints: readonly INodePoint[],
   _startIndex: number,
   _endIndex: number,
-  _internalTokens: ReadonlyArray<IInlineToken>,
+  _internalTokens: readonly IInlineToken[],
 ): boolean {
   return false
 }

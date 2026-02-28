@@ -18,7 +18,7 @@ export interface IBaseTesterProps {
 export abstract class BaseTester<T = unknown> {
   protected readonly caseRootDirectory: string
   protected readonly formattedCaseRootDirectory: string
-  protected readonly caseGroups: Array<IYozoraUseCaseGroup<T>>
+  protected readonly caseGroups: IYozoraUseCaseGroup<T>[]
   protected readonly visitedFilepathSet: Set<string>
 
   constructor(props: IBaseTesterProps) {
@@ -32,7 +32,7 @@ export abstract class BaseTester<T = unknown> {
   /**
    * Get the list of TestCaseGroup
    */
-  public collect(): Array<IYozoraUseCaseGroup<T>> {
+  public collect(): IYozoraUseCaseGroup<T>[] {
     return this.caseGroups.slice()
   }
 
@@ -107,7 +107,7 @@ export abstract class BaseTester<T = unknown> {
     }
 
     // Generate answers
-    const tasks: Array<Promise<void>> = []
+    const tasks: Promise<void>[] = []
     for (const caseGroup of this.collect()) {
       const task = answerUseCaseGroup(this.formattedCaseRootDirectory, caseGroup)
       tasks.push(task)
@@ -207,7 +207,7 @@ export abstract class BaseTester<T = unknown> {
     const content = fs.readFileSync(filepath, { encoding: 'utf8' })
     const data = JSON.parse(content)
 
-    const cases: Array<IYozoraUseCase<T>> = (data.cases || []).map(
+    const cases: IYozoraUseCase<T>[] = (data.cases || []).map(
       (c: IYozoraUseCase<T>, index: number): IYozoraUseCase<T> => ({
         description: c.description || 'case#' + index,
         input: c.input,
@@ -242,7 +242,7 @@ export abstract class BaseTester<T = unknown> {
     // Try to merge `result` into existing caseGroup
     const traverseCaseGroup = (
       parentDirpath: string,
-      caseGroups: Array<IYozoraUseCaseGroup<T>>,
+      caseGroups: IYozoraUseCaseGroup<T>[],
     ): boolean => {
       for (const caseGroup of caseGroups) {
         if (caseGroup.dirpath !== caseGroup.filepath) continue

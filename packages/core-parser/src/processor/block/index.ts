@@ -23,7 +23,7 @@ import type {
  * @param fallbackHook
  */
 export const createBlockContentProcessor = (
-  hooks: ReadonlyArray<IMatchBlockPhaseHook>,
+  hooks: readonly IMatchBlockPhaseHook[],
   fallbackHook: IMatchBlockPhaseHook | null,
 ): IBlockContentProcessor => {
   const root: IBlockTokenTree = {
@@ -60,7 +60,7 @@ export const createBlockContentProcessor = (
    */
   const createRollbackProcessor = (
     hook: IMatchBlockPhaseHook,
-    lines: ReadonlyArray<IPhrasingContentLine>,
+    lines: readonly IPhrasingContentLine[],
   ): IBlockContentProcessor | null => {
     if (lines.length <= 0) return null
 

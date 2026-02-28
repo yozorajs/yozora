@@ -29,7 +29,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   }
 
   function _findDelimiter(startIndex: number, endIndex: number): IDelimiter | null {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+    const nodePoints: readonly INodePoint[] = api.getNodePoints()
 
     for (let i = startIndex; i < endIndex; ++i) {
       i = eatOptionalWhitespaces(nodePoints, i, endIndex)
@@ -69,7 +69,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
  * @param endIndex
  */
 function tryToEatDelimiter(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): IDelimiter | null {

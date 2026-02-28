@@ -12,7 +12,7 @@ import { collectNodes } from './node'
  */
 export const collectDefinitions = (
   root: Readonly<Root>,
-  aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher = [DefinitionType],
+  aimTypesOrNodeMatcher: readonly NodeType[] | INodeMatcher = [DefinitionType],
 ): Definition[] => {
   const definitions: Definition[] = collectNodes(root, aimTypesOrNodeMatcher)
 
@@ -37,8 +37,8 @@ export const collectDefinitions = (
  */
 export const calcIdentifierSet = (
   root: Readonly<Root>,
-  aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher,
-  presetIdentifiers: ReadonlyArray<Readonly<Association>> = [],
+  aimTypesOrNodeMatcher: readonly NodeType[] | INodeMatcher,
+  presetIdentifiers: readonly Readonly<Association>[] = [],
 ): Set<string> => {
   const identifierSet: Set<string> = new Set<string>()
 
@@ -63,8 +63,8 @@ export const calcIdentifierSet = (
  */
 export const calcDefinitionMap = (
   immutableRoot: Readonly<Root>,
-  aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher = [DefinitionType],
-  presetDefinitions: ReadonlyArray<Definition> = [],
+  aimTypesOrNodeMatcher: readonly NodeType[] | INodeMatcher = [DefinitionType],
+  presetDefinitions: readonly Definition[] = [],
 ): {
   root: Readonly<Root>
   definitionMap: Record<string, Readonly<Definition>>

@@ -43,9 +43,9 @@ export interface IYozoraUseCaseGroup<T = unknown> {
   /**
    * Use cases of current group
    */
-  readonly cases: Array<IYozoraUseCase<T>>
+  readonly cases: IYozoraUseCase<T>[]
   /**
    * Sub use case group
    */
-  readonly subGroups: Array<IYozoraUseCaseGroup<T>>
+  readonly subGroups: IYozoraUseCaseGroup<T>[]
 }

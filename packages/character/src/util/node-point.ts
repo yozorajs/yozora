@@ -127,13 +127,12 @@ export function* createNodePointGenerator(
  * @param trim
  */
 export function calcStringFromNodePoints(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex = 0,
   endIndex = nodePoints.length,
   trim = false,
 ): string {
   if (trim) {
-    // eslint-disable-next-line no-param-reassign
     ;[startIndex, endIndex] = calcTrimBoundaryOfCodePoints(nodePoints, startIndex, endIndex)
   }
 
@@ -175,13 +174,12 @@ export function calcStringFromNodePoints(
  * @see https://github.github.com/gfm/#backslash-escapes
  */
 export function calcEscapedStringFromNodePoints(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex = 0,
   endIndex: number = nodePoints.length,
   trim = false,
 ): string {
   if (trim) {
-    // eslint-disable-next-line no-param-reassign
     ;[startIndex, endIndex] = calcTrimBoundaryOfCodePoints(nodePoints, startIndex, endIndex)
   }
 
@@ -248,7 +246,7 @@ export function calcEscapedStringFromNodePoints(
  * @param endIndex
  */
 export function calcTrimBoundaryOfCodePoints(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex = 0,
   endIndex = nodePoints.length,
 ): [number, number] {

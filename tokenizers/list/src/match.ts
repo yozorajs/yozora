@@ -301,14 +301,12 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
      */
     if (firstNonWhitespaceIndex >= endIndex) {
       if (token.countOfTopBlankLine >= 0) {
-        // eslint-disable-next-line no-param-reassign
         token.countOfTopBlankLine += 1
         if (token.countOfTopBlankLine > 1) {
           return { status: 'notMatched' }
         }
       }
     } else {
-      // eslint-disable-next-line no-param-reassign
       token.countOfTopBlankLine = -1
     }
 
@@ -332,7 +330,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
  * @see https://github.github.com/gfm/#task-list-item
  */
 function eatTaskStatus(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): { status: TaskStatus | null; nextIndex: number } {

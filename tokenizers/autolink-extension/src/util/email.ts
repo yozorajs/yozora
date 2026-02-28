@@ -16,7 +16,7 @@ import type { IResultOfRequiredEater } from '@yozora/core-tokenizer'
  * @see https://github.github.com/gfm/#extended-email-autolink
  */
 export function eatExtendEmailAddress(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): IResultOfRequiredEater {

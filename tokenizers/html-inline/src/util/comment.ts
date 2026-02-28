@@ -24,7 +24,7 @@ export interface IHtmlInlineCommentDelimiter extends ITokenDelimiter, IHtmlInlin
  * @see https://github.github.com/gfm/#html-comment
  */
 export function eatHtmlInlineCommentDelimiter(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): IHtmlInlineCommentDelimiter | null {

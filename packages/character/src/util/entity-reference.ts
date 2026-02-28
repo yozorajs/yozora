@@ -34,7 +34,7 @@ export interface EntityReferenceTrie {
    * @param endIndex
    */
   search(
-    nodePoints: ReadonlyArray<Pick<INodePoint, 'codePoint'>>,
+    nodePoints: readonly Pick<INodePoint, 'codePoint'>[],
     startIndex: number,
     endIndex: number,
   ): IEntityReference | null
@@ -110,7 +110,7 @@ export function createEntityReferenceTrie(): EntityReferenceTrie {
   }
 
   const search = (
-    nodePoints: ReadonlyArray<Pick<INodePoint, 'codePoint'>>,
+    nodePoints: readonly Pick<INodePoint, 'codePoint'>[],
     startIndex: number,
     endIndex: number,
   ): IEntityReference | null => {
@@ -145,7 +145,7 @@ entityReferences.forEach(entity => entityReferenceTrie.insert(entity.key, entity
  * @param endIndex
  */
 export function eatEntityReference(
-  nodePoints: ReadonlyArray<Pick<INodePoint, 'codePoint'>>,
+  nodePoints: readonly Pick<INodePoint, 'codePoint'>[],
   startIndex: number,
   endIndex: number,
 ): IEntityReference | null {

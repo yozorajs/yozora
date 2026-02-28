@@ -32,7 +32,7 @@ export interface ILinkTitleCollectingState {
  * @see https://github.github.com/gfm/#link-title
  */
 export function eatAndCollectLinkTitle(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
   state: ILinkTitleCollectingState | null,
@@ -41,7 +41,6 @@ export function eatAndCollectLinkTitle(
 
   // init token
   if (state == null) {
-    // eslint-disable-next-line no-param-reassign
     state = {
       saturated: false,
       nodePoints: [],
@@ -64,7 +63,6 @@ export function eatAndCollectLinkTitle(
       case AsciiCodePoint.DOUBLE_QUOTE:
       case AsciiCodePoint.SINGLE_QUOTE:
       case AsciiCodePoint.OPEN_PARENTHESIS:
-        // eslint-disable-next-line no-param-reassign
         state.wrapSymbol = p.codePoint
         state.nodePoints.push(p)
         i += 1
@@ -96,7 +94,6 @@ export function eatAndCollectLinkTitle(
             i += 1
             break
           case state.wrapSymbol:
-            // eslint-disable-next-line no-param-reassign
             state.saturated = true
             state.nodePoints.push(p)
             return { nextIndex: i + 1, state: state }
@@ -126,7 +123,7 @@ export function eatAndCollectLinkTitle(
           case AsciiCodePoint.CLOSE_PARENTHESIS:
             if (i + 1 >= endIndex || nodePoints[i + 1].codePoint === VirtualCodePoint.LINE_END) {
               state.nodePoints.push(p)
-              // eslint-disable-next-line no-param-reassign
+
               state.saturated = true
               break
             }

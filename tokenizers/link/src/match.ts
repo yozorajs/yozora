@@ -56,7 +56,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
    * @see https://github.github.com/gfm/#inline-link
    */
   function _findDelimiter(startIndex: number, endIndex: number): IDelimiter | null {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+    const nodePoints: readonly INodePoint[] = api.getNodePoints()
     const blockEndIndex = api.getBlockEndIndex()
 
     /**
@@ -154,9 +154,9 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   function isDelimiterPair(
     openerDelimiter: IDelimiter,
     closerDelimiter: IDelimiter,
-    internalTokens: ReadonlyArray<IInlineToken>,
+    internalTokens: readonly IInlineToken[],
   ): IResultOfIsDelimiterPair {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+    const nodePoints: readonly INodePoint[] = api.getNodePoints()
 
     /**
      * Links may not contain other links, at any level of nesting.
@@ -187,9 +187,9 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   function processDelimiterPair(
     openerDelimiter: IDelimiter,
     closerDelimiter: IDelimiter,
-    internalTokens: ReadonlyArray<IInlineToken>,
+    internalTokens: readonly IInlineToken[],
   ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter> {
-    const children: ReadonlyArray<IInlineToken> = api.resolveInternalTokens(
+    const children: readonly IInlineToken[] = api.resolveInternalTokens(
       internalTokens,
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,

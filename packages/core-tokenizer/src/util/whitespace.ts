@@ -13,7 +13,7 @@ import type { IResultOfOptionalEater } from '../types/util'
  * @returns
  */
 export function eatOptionalCharacters(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
   codePoint: ICodePoint,
@@ -33,7 +33,7 @@ export function eatOptionalCharacters(
  * @see https://github.github.com/gfm/#whitespace-character
  */
 export function eatOptionalWhitespaces(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): IResultOfOptionalEater {
@@ -52,7 +52,7 @@ export function eatOptionalWhitespaces(
  * @see https://github.github.com/gfm/#whitespace-character
  */
 export function eatOptionalWhitespacesReverse(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): IResultOfOptionalEater {
@@ -74,7 +74,7 @@ export function eatOptionalWhitespacesReverse(
  * @see https://github.github.com/gfm/#blank-line
  */
 export function eatOptionalBlankLines(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): IResultOfOptionalEater {
@@ -94,7 +94,7 @@ export function eatOptionalBlankLines(
 /**
  * Stripped preceding and tailing blank lines.
  */
-export function trimBlankLines(lines: ReadonlyArray<IPhrasingContentLine>): IPhrasingContentLine[] {
+export function trimBlankLines(lines: readonly IPhrasingContentLine[]): IPhrasingContentLine[] {
   if (lines.length <= 0) return []
 
   // Find the first non-blank line index.

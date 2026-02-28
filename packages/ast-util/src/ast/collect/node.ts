@@ -15,7 +15,7 @@ import { createNodeMatcher } from './misc'
  */
 export function collectNodes<T extends NodeType, O extends Node<T>>(
   root: Readonly<Parent>,
-  aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher | null,
+  aimTypesOrNodeMatcher: readonly NodeType[] | INodeMatcher | null,
 ): O[] {
   const isMatched: INodeMatcher = createNodeMatcher(aimTypesOrNodeMatcher)
   const nodes: O[] = []

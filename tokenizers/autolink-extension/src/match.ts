@@ -17,7 +17,7 @@ import type {
 import { eatExtendEmailAddress } from './util/email'
 import { eatExtendedUrl, eatWWWDomain } from './util/uri'
 
-const helpers: ReadonlyArray<ContentHelper> = [
+const helpers: readonly ContentHelper[] = [
   { contentType: 'uri', eat: eatExtendedUrl },
   { contentType: 'uri-www', eat: eatWWWDomain },
   { contentType: 'email', eat: eatExtendEmailAddress },
@@ -33,7 +33,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   }
 
   function _findDelimiter(startIndex: number, endIndex: number): IDelimiter | null {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+    const nodePoints: readonly INodePoint[] = api.getNodePoints()
     const blockStartIndex: number = api.getBlockStartIndex()
     for (let i = startIndex; i < endIndex; ++i) {
       /**

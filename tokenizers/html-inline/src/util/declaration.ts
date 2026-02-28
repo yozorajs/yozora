@@ -12,8 +12,7 @@ export interface IHtmlInlineDeclarationTokenData {
 }
 
 export interface IHtmlInlineDeclarationDelimiter
-  extends ITokenDelimiter,
-    IHtmlInlineDeclarationTokenData {
+  extends ITokenDelimiter, IHtmlInlineDeclarationTokenData {
   type: 'full'
 }
 
@@ -28,7 +27,7 @@ export interface IHtmlInlineDeclarationDelimiter
  * @see https://github.github.com/gfm/#declaration
  */
 export function eatHtmlInlineDeclarationDelimiter(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): IHtmlInlineDeclarationDelimiter | null {

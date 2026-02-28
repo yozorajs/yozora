@@ -30,7 +30,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   }
 
   function _findDelimiter(startIndex: number, endIndex: number): IDelimiter | null {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+    const nodePoints: readonly INodePoint[] = api.getNodePoints()
 
     for (let i = startIndex; i < endIndex; ++i) {
       const p = nodePoints[i]
@@ -62,7 +62,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   function processSingleDelimiter(
     delimiter: IDelimiter,
   ): IResultOfProcessSingleDelimiter<T, IToken> {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+    const nodePoints: readonly INodePoint[] = api.getNodePoints()
     const labelAndIdentifier = resolveLinkLabelAndIdentifier(
       nodePoints,
       delimiter.startIndex + 2,

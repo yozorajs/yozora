@@ -216,7 +216,7 @@ export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor =>
     }
   }
 
-  const done = (): ReadonlyArray<IInlineToken> => {
+  const done = (): readonly IInlineToken[] => {
     const tokens: IInlineToken[] = []
     for (const { delimiter, hook } of delimiterStack) {
       const result = hook.processSingleDelimiter(delimiter)
@@ -238,7 +238,7 @@ export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor =>
     return result
   }
 
-  const reset = (_higherPriorityTokens: ReadonlyArray<IInlineToken>): void => {
+  const reset = (_higherPriorityTokens: readonly IInlineToken[]): void => {
     higherPriorityTokens.length = _higherPriorityTokens.length
     for (let i = 0; i < _higherPriorityTokens.length; ++i) {
       higherPriorityTokens[i] = _higherPriorityTokens[i]
@@ -264,9 +264,9 @@ export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor =>
  * @returns
  */
 const mergeSortedTokenStack = (
-  tokens1: ReadonlyArray<IInlineToken>,
-  tokens2: ReadonlyArray<IInlineToken>,
-): ReadonlyArray<IInlineToken> => {
+  tokens1: readonly IInlineToken[],
+  tokens2: readonly IInlineToken[],
+): readonly IInlineToken[] => {
   if (tokens1.length <= 0) return tokens2
   if (tokens2.length <= 0) return tokens1
 

@@ -28,7 +28,7 @@ export interface RawHTMLAttribute {
  * @see https://github.github.com/gfm/#attribute
  */
 export function eatHTMLAttribute(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): { attribute: RawHTMLAttribute; nextIndex: number } | null {

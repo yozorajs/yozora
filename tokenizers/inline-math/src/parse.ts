@@ -8,7 +8,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
   return {
     parse: tokens =>
       tokens.map(token => {
-        const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+        const nodePoints: readonly INodePoint[] = api.getNodePoints()
         let startIndex: number = token.startIndex + token.thickness
         let endIndex: number = token.endIndex - token.thickness
 

@@ -31,7 +31,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
     const { endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex >= endIndex) return null
 
-    const lines: Array<Readonly<IPhrasingContentLine>> = [line]
+    const lines: Readonly<IPhrasingContentLine>[] = [line]
     const position = calcPositionFromPhrasingContentLines(lines)
     const token: IToken = {
       nodeType: ParagraphType,

@@ -113,7 +113,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
   }
 
   function eatStartCondition(
-    nodePoints: ReadonlyArray<INodePoint>,
+    nodePoints: readonly INodePoint[],
     startIndex: number,
     endIndex: number,
   ): { condition: HtmlBlockConditionType; nextIndex: number } | null {
@@ -196,7 +196,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
   }
 
   function eatEndCondition(
-    nodePoints: ReadonlyArray<INodePoint>,
+    nodePoints: readonly INodePoint[],
     startIndex: number,
     endIndex: number,
     condition: HtmlBlockConditionType,

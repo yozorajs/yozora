@@ -84,7 +84,7 @@ export function calcHeadingToc(ast: Root, identifierPrefix = 'heading-'): IHeadi
 /**
  * Calc link identifier for Node list.
  */
-export function calcIdentifierFromNodes(nodes: ReadonlyArray<Node>): string {
+export function calcIdentifierFromNodes(nodes: readonly Node[]): string {
   const texts: string[] = collectTexts(nodes)
   const content = texts.join('-').trim()
   const identifier = content

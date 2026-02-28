@@ -69,7 +69,7 @@ export class MarkupWeaver implements IMarkupWeaver {
       }
     }
 
-    const ancestors: Array<Readonly<Parent>> = [ast]
+    const ancestors: Readonly<Parent>[] = [ast]
     const ctx: INodeMarkupWeaveContext = {
       ancestors,
       weaveInlineNodes,
@@ -108,7 +108,6 @@ export class MarkupWeaver implements IMarkupWeaver {
           if (openerLines.length > 0) {
             lines[lineIdx] += openerLines[0]
             for (let i = 1; i < openerLines.length; ++i) {
-              // eslint-disable-next-line no-plusplus
               lines[++lineIdx] = indent + openerLines[i]
             }
           }
@@ -132,7 +131,7 @@ export class MarkupWeaver implements IMarkupWeaver {
                 ctx,
                 i,
               )
-              // eslint-disable-next-line no-plusplus
+
               if (isNextNodeBlockLevel && !isPrevNodeBlockLevel) lines[++lineIdx] = indent
               isPrevNodeBlockLevel = isNextNodeBlockLevel
               process(children[i], token, i)
@@ -146,7 +145,6 @@ export class MarkupWeaver implements IMarkupWeaver {
           if (subLines.length > 0) {
             lines[lineIdx] += subLines[0]
             for (let i = 1; i < subLines.length; ++i) {
-              // eslint-disable-next-line no-plusplus
               lines[++lineIdx] = indent + subLines[i]
             }
           }
@@ -157,7 +155,6 @@ export class MarkupWeaver implements IMarkupWeaver {
           if (closerLines.length > 0) {
             lines[lineIdx] += closerLines[0]
             for (let i = 1; i < closerLines.length; ++i) {
-              // eslint-disable-next-line no-plusplus
               lines[++lineIdx] = indent + closerLines[i]
             }
           }
@@ -167,13 +164,11 @@ export class MarkupWeaver implements IMarkupWeaver {
           if (lines[lineIdx] === indent || lines[lineIdx] === parent.indent) {
             lines[lineIdx] = parent.indent
           } else {
-            // eslint-disable-next-line no-plusplus
             lines[++lineIdx] = parent.indent
           }
 
           // Output a blank line for block level nodes.
           if (parent.spread) {
-            // eslint-disable-next-line no-plusplus
             lines[++lineIdx] = parent.indent
           }
         }
@@ -182,7 +177,7 @@ export class MarkupWeaver implements IMarkupWeaver {
       }
     }
 
-    function weaveInlineNodes(nodes: ReadonlyArray<Readonly<Node>>): string {
+    function weaveInlineNodes(nodes: readonly Readonly<Node>[]): string {
       let result = ''
       for (let i = 0; i < nodes.length; ++i) {
         result += process(nodes[i], i)

@@ -87,7 +87,7 @@ const includedTags = [
  * @see https://github.github.com/gfm/#start-condition
  */
 export function eatStartCondition6(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
   tagName: string,

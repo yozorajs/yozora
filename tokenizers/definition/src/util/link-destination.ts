@@ -41,7 +41,7 @@ export interface ILinkDestinationCollectingState {
  * @see https://github.github.com/gfm/#link-destination
  */
 export function eatAndCollectLinkDestination(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
   state: ILinkDestinationCollectingState | null,
@@ -50,7 +50,6 @@ export function eatAndCollectLinkDestination(
 
   // init token
   if (state == null) {
-    // eslint-disable-next-line no-param-reassign
     state = {
       saturated: false,
       nodePoints: [],
@@ -73,7 +72,7 @@ export function eatAndCollectLinkDestination(
     const p = nodePoints[i]
     if (p.codePoint === AsciiCodePoint.OPEN_ANGLE) {
       i += 1
-      // eslint-disable-next-line no-param-reassign
+
       state.hasOpenAngleBracket = true
       state.nodePoints.push(p)
     }
@@ -99,7 +98,6 @@ export function eatAndCollectLinkDestination(
         case VirtualCodePoint.LINE_END:
           return { nextIndex: -1, state: state }
         case AsciiCodePoint.CLOSE_ANGLE:
-          // eslint-disable-next-line no-param-reassign
           state.saturated = true
           state.nodePoints.push(p)
           return { nextIndex: i + 1, state: state }
@@ -131,12 +129,10 @@ export function eatAndCollectLinkDestination(
         i += 1
         break
       case AsciiCodePoint.OPEN_PARENTHESIS:
-        // eslint-disable-next-line no-param-reassign
         state.openParensCount += 1
         state.nodePoints.push(p)
         break
       case AsciiCodePoint.CLOSE_PARENTHESIS:
-        // eslint-disable-next-line no-param-reassign
         state.openParensCount -= 1
         state.nodePoints.push(p)
         if (state.openParensCount < 0) {
@@ -145,7 +141,6 @@ export function eatAndCollectLinkDestination(
         break
       default:
         if (isWhitespaceCharacter(p.codePoint) || isAsciiControlCharacter(p.codePoint)) {
-          // eslint-disable-next-line no-param-reassign
           state.saturated = true
           return { nextIndex: i, state: state }
         }
@@ -154,7 +149,6 @@ export function eatAndCollectLinkDestination(
     }
   }
 
-  // eslint-disable-next-line no-param-reassign
   state.saturated = true
   return { nextIndex: i, state: state }
 }

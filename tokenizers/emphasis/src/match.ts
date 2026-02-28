@@ -26,7 +26,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   }
 
   function _findDelimiter(startIndex: number, endIndex: number): IDelimiter | null {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+    const nodePoints: readonly INodePoint[] = api.getNodePoints()
     const blockStartIndex: number = api.getBlockStartIndex()
     const blockEndIndex: number = api.getBlockEndIndex()
 
@@ -175,7 +175,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
     openerDelimiter: IDelimiter,
     closerDelimiter: IDelimiter,
   ): IResultOfIsDelimiterPair {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+    const nodePoints: readonly INodePoint[] = api.getNodePoints()
 
     /**
      * Rule #9: INode begins with a delimiter that can open emphasis
@@ -206,7 +206,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   function processDelimiterPair(
     openerDelimiter: IDelimiter,
     closerDelimiter: IDelimiter,
-    internalTokens: ReadonlyArray<IInlineToken>,
+    internalTokens: readonly IInlineToken[],
   ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter> {
     /**
      * Rule #13: The number of nestings should be minimized. Thus, for example,
@@ -235,7 +235,6 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
       thickness = 2
     }
 
-    // eslint-disable-next-line no-param-reassign
     internalTokens = api.resolveInternalTokens(
       internalTokens,
       openerDelimiter.endIndex,

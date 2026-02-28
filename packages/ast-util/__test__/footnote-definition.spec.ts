@@ -33,7 +33,6 @@ describe('calcFootnoteDefinitionMap', function () {
           identifier: 'bravo',
           label: 'Bravo',
           children: [
-            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
             {
               type: 'text',
               value: 'bravo and charlie.',

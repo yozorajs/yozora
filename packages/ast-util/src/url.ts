@@ -5,7 +5,7 @@ import { traverseAst } from './ast/traverse'
 /**
  * Resolve url.
  */
-export type IUrlResolver = (...pathPieces: Array<string | null | undefined>) => string
+export type IUrlResolver = (...pathPieces: (string | null | undefined)[]) => string
 
 /**
  * Join url path with `prefix` and normalize the result.
@@ -43,7 +43,7 @@ const defaultResourceMatcher: INodeMatcher = node => (node as Node & Resource).u
  */
 export const resolveUrlsForAst = (
   ast: Root,
-  aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher = defaultResourceMatcher,
+  aimTypesOrNodeMatcher: readonly NodeType[] | INodeMatcher = defaultResourceMatcher,
   resolveUrl: IUrlResolver = defaultUrlResolver,
 ): void => {
   traverseAst(ast, aimTypesOrNodeMatcher, node => {

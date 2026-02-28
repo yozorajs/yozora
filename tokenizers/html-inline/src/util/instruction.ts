@@ -15,8 +15,7 @@ export interface IHtmlInlineInstructionTokenData {
 }
 
 export interface IHtmlInlineInstructionDelimiter
-  extends ITokenDelimiter,
-    IHtmlInlineInstructionTokenData {
+  extends ITokenDelimiter, IHtmlInlineInstructionTokenData {
   type: 'full'
 }
 
@@ -30,7 +29,7 @@ export interface IHtmlInlineInstructionDelimiter
  * @see https://github.github.com/gfm/#processing-instruction
  */
 export function eatHtmlInlineInstructionDelimiter(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): IHtmlInlineInstructionDelimiter | null {

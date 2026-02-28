@@ -8,7 +8,7 @@ import type {
 } from '@yozora/core-tokenizer'
 
 export const FencedBlockType = 'fencedBlock'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
+
 export type FencedBlockType = typeof FencedBlockType
 
 export interface IToken<T extends NodeType> extends IPartialBlockToken<T> {
@@ -54,7 +54,7 @@ export interface IFencedBlockHookContext<T extends NodeType> extends ITokenizer 
    * @param countOfMarker
    */
   checkInfoString?(
-    infoString: Readonly<INodePoint[]>,
+    infoString: readonly INodePoint[],
     marker: ICodePoint,
     countOfMarker: number,
   ): boolean
@@ -84,7 +84,7 @@ export interface ITokenizerProps<T extends NodeType> extends Partial<IBaseBlockT
    * @param countOfMarker
    */
   checkInfoString?(
-    infoString: Readonly<INodePoint[]>,
+    infoString: readonly INodePoint[],
     marker: ICodePoint,
     countOfMarker: number,
   ): boolean

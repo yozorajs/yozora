@@ -18,7 +18,7 @@ const excludedTags = ['pre', 'script', 'style']
  * @see https://github.github.com/gfm/#start-condition
  */
 export function eatStartCondition7(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
   tagName: string,

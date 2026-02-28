@@ -9,7 +9,7 @@ import { calcEndPoint, calcStartPoint } from './point'
  * @param lines Not empty array of IPhrasingContentLine
  */
 export function calcPositionFromPhrasingContentLines(
-  lines: ReadonlyArray<IPhrasingContentLine>,
+  lines: readonly IPhrasingContentLine[],
 ): Position {
   const firstLine: IPhrasingContentLine = lines[0]
   const lastLine: IPhrasingContentLine = lines[lines.length - 1]
@@ -30,7 +30,7 @@ export function calcPositionFromPhrasingContentLines(
  * @param endLineIndex
  */
 export function mergeContentLinesFaithfully(
-  lines: ReadonlyArray<IPhrasingContentLine>,
+  lines: readonly IPhrasingContentLine[],
   startLineIndex = 0,
   endLineIndex = lines.length,
 ): INodePoint[] {
@@ -56,7 +56,7 @@ export function mergeContentLinesFaithfully(
  * @param endLineIndex
  */
 export function mergeAndStripContentLines(
-  lines: ReadonlyArray<Readonly<IPhrasingContentLine>>,
+  lines: readonly Readonly<IPhrasingContentLine>[],
   startLineIndex = 0,
   endLineIndex = lines.length,
 ): INodePoint[] {

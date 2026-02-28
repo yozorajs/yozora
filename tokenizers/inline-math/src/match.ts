@@ -18,7 +18,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   }
 
   function _findDelimiter(startIndex: number, endIndex: number): IDelimiter | null {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+    const nodePoints: readonly INodePoint[] = api.getNodePoints()
     const blockStartIndex: number = api.getBlockStartIndex()
     const blockEndIndex: number = api.getBlockEndIndex()
 

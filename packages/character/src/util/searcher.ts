@@ -12,7 +12,7 @@ export type CodePointSearcher = (codePoint: ICodePoint) => boolean
  * @param codePoints   code points
  */
 export function createCodePointSearcher(
-  codePoints: ReadonlyArray<ICodePoint>,
+  codePoints: readonly ICodePoint[],
 ): [CodePointSearcher, ICodePoint[]] {
   const orderedCodePoints = [...new Set(codePoints)].sort((x, y) => x - y)
   const size = orderedCodePoints.length

@@ -19,10 +19,10 @@ export interface IPhrasingContentProcessor {
    * @param endIndex
    */
   process(
-    higherPriorityTokens: ReadonlyArray<IInlineToken>,
+    higherPriorityTokens: readonly IInlineToken[],
     startIndex: number,
     endIndex: number,
-  ): ReadonlyArray<IInlineToken>
+  ): readonly IInlineToken[]
 }
 
 /**
@@ -37,12 +37,12 @@ export interface IDelimiterProcessor {
   /**
    * Complete the processing operation.
    */
-  done(): ReadonlyArray<IInlineToken>
+  done(): readonly IInlineToken[]
 
   /**
    * Reset processor.
    */
-  reset(higherPriorityTokens: ReadonlyArray<IInlineToken>): void
+  reset(higherPriorityTokens: readonly IInlineToken[]): void
 
   /**
    *
@@ -61,12 +61,12 @@ export interface IDelimiterProcessorHook {
   isDelimiterPair(
     openerDelimiter: ITokenDelimiter,
     closerDelimiter: ITokenDelimiter,
-    internalTokens: ReadonlyArray<IInlineToken>,
+    internalTokens: readonly IInlineToken[],
   ): IResultOfIsDelimiterPair
   processDelimiterPair(
     openerDelimiter: ITokenDelimiter,
     closerDelimiter: ITokenDelimiter,
-    internalTokens: ReadonlyArray<IInlineToken>,
+    internalTokens: readonly IInlineToken[],
   ): IResultOfProcessDelimiterPair
   processSingleDelimiter(fullDelimiter: ITokenDelimiter): IResultOfProcessSingleDelimiter
   reset(): void

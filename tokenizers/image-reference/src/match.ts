@@ -49,7 +49,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   }
 
   function _findDelimiter(startIndex: number, endIndex: number): IDelimiter | null {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+    const nodePoints: readonly INodePoint[] = api.getNodePoints()
 
     for (let i = startIndex; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
@@ -123,9 +123,9 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   function isDelimiterPair(
     openerDelimiter: IDelimiter,
     closerDelimiter: IDelimiter,
-    internalTokens: ReadonlyArray<IInlineToken>,
+    internalTokens: readonly IInlineToken[],
   ): IResultOfIsDelimiterPair {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+    const nodePoints: readonly INodePoint[] = api.getNodePoints()
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
@@ -145,9 +145,9 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   function processDelimiterPair(
     openerDelimiter: IDelimiter,
     closerDelimiter: IDelimiter,
-    internalTokens: ReadonlyArray<IInlineToken>,
+    internalTokens: readonly IInlineToken[],
   ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter> {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+    const nodePoints: readonly INodePoint[] = api.getNodePoints()
     const bracket = closerDelimiter.brackets[0]
     if (bracket != null && bracket.identifier != null) {
       if (api.hasDefinition(bracket.identifier)) {

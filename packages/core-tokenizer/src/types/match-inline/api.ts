@@ -20,7 +20,7 @@ export interface IMatchInlinePhaseApi {
   /**
    * Get the node points.
    */
-  getNodePoints(): ReadonlyArray<INodePoint>
+  getNodePoints(): readonly INodePoint[]
 
   /**
    * Start index of current block token.
@@ -40,10 +40,10 @@ export interface IMatchInlinePhaseApi {
    * @param tokenEndIndex
    */
   resolveFallbackTokens(
-    tokens: ReadonlyArray<IInlineToken>,
+    tokens: readonly IInlineToken[],
     tokenStartIndex: number,
     tokenEndIndex: number,
-  ): ReadonlyArray<IInlineToken>
+  ): readonly IInlineToken[]
 
   /**
    * Resolve raw contents with the fallback inline tokenizer.
@@ -53,8 +53,8 @@ export interface IMatchInlinePhaseApi {
    * @param endIndex
    */
   resolveInternalTokens(
-    higherPriorityTokens: ReadonlyArray<IInlineToken>,
+    higherPriorityTokens: readonly IInlineToken[],
     startIndex: number,
     endIndex: number,
-  ): ReadonlyArray<IInlineToken>
+  ): readonly IInlineToken[]
 }

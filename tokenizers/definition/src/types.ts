@@ -17,7 +17,7 @@ export interface IToken extends IPartialBlockToken<T> {
   /**
    *
    */
-  lines: Array<Readonly<IPhrasingContentLine>>
+  lines: Readonly<IPhrasingContentLine>[]
   /**
    * Link label
    * Trimmed, Case-Insensitive

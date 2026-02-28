@@ -107,9 +107,8 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
 
     // Cache label and identifier for performance.
 
-    // eslint-disable-next-line no-param-reassign
     token._label = label
-    // eslint-disable-next-line no-param-reassign
+
     token._identifier = identifier
   }
 }

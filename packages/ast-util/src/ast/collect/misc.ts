@@ -8,7 +8,7 @@ export type INodeMatcher = (node: Node) => boolean
  * @returns
  */
 export function createNodeMatcher(
-  aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher | null,
+  aimTypesOrNodeMatcher: readonly NodeType[] | INodeMatcher | null,
 ): INodeMatcher {
   if (aimTypesOrNodeMatcher == null) return () => true
   if (aimTypesOrNodeMatcher instanceof Function) return aimTypesOrNodeMatcher

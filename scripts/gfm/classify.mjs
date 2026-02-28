@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import chalk from 'chalk'
 import fs from 'node:fs'
 import path from 'node:path'
 import url from 'node:url'
@@ -8,6 +6,7 @@ import gfmClassifyData from './data.json'
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 const rootDir = path.resolve(__dirname, '../../')
+const toGreen = text => `\u001b[32m${text}\u001b[0m`
 
 class GFMExampleClassifier {
   constructor(gfmExamples) {
@@ -28,7 +27,7 @@ class GFMExampleClassifier {
         const data = this.mapGFMExampleDataToCase(gfmExample)
         const content = JSON.stringify(data, null, 2)
         fs.writeFileSync(caseFilePath, content, 'utf-8')
-        console.log(chalk.green(`Add case ${caseFilePath}`))
+        console.log(toGreen(`Add case ${caseFilePath}`))
       }
     }
     return this

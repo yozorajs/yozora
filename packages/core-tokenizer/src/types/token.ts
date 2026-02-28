@@ -31,7 +31,7 @@ interface IToken<T extends NodeType = NodeType> {
   /**
    * List of child node of current token node.
    */
-  children?: ReadonlyArray<IToken>
+  children?: readonly IToken[]
 }
 
 /**
@@ -55,7 +55,7 @@ export interface IInlineToken<T extends NodeType = NodeType> extends IToken<T>, 
   /**
    * List of child node of current token node.
    */
-  children?: ReadonlyArray<IInlineToken>
+  children?: readonly IInlineToken[]
 }
 
 /**

@@ -23,7 +23,7 @@ export interface IParseInlinePhaseApi {
   /**
    * Get the node points.
    */
-  getNodePoints(): ReadonlyArray<INodePoint>
+  getNodePoints(): readonly INodePoint[]
   /**
    * Check if there is exists a definition with the given identifier.
    * @param identifier
@@ -38,5 +38,5 @@ export interface IParseInlinePhaseApi {
    * Parse inline tokens to Yozora AST nodes.
    * @param tokens
    */
-  parseInlineTokens(tokens?: ReadonlyArray<IInlineToken>): Node[]
+  parseInlineTokens(tokens?: readonly IInlineToken[]): Node[]
 }

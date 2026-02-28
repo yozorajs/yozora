@@ -27,7 +27,7 @@ export const defaultFootnoteIdentifierPrefix = 'footnote-'
  */
 export function collectFootnoteDefinitions(
   immutableRoot: Readonly<Root>,
-  aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher = [FootnoteDefinitionType],
+  aimTypesOrNodeMatcher: readonly NodeType[] | INodeMatcher = [FootnoteDefinitionType],
 ): FootnoteDefinition[] {
   const footnoteDefinitions: FootnoteDefinition[] = collectNodes(
     immutableRoot,
@@ -63,8 +63,8 @@ export function collectFootnoteDefinitions(
  */
 export function calcFootnoteDefinitionMap(
   immutableRoot: Readonly<Root>,
-  aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher = [FootnoteDefinitionType],
-  presetFootnoteDefinitions: ReadonlyArray<FootnoteDefinition> = [],
+  aimTypesOrNodeMatcher: readonly NodeType[] | INodeMatcher = [FootnoteDefinitionType],
+  presetFootnoteDefinitions: readonly FootnoteDefinition[] = [],
   preferReferences = false,
   identifierPrefix = defaultFootnoteIdentifierPrefix,
 ): {
@@ -179,7 +179,6 @@ export function replaceFootnotesInReferences(
       footnoteReference.position = footnote.position
     }
 
-    // eslint-disable-next-line no-param-reassign
     footnoteDefinitionMap[identifier] = footnoteDefinition
     newFootnoteDefinitions.push(footnoteDefinition)
 

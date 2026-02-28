@@ -37,7 +37,7 @@ export class ListTokenizer
   }
 
   public readonly enableTaskListItem: boolean
-  public readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<NodeType>
+  public readonly emptyItemCouldNotInterruptedTypes: readonly NodeType[]
 
   public override readonly match: IMatchBlockHookCreator<T, IToken, IThis> = match
 

@@ -15,7 +15,7 @@ import { createNodeMatcher } from './collect/misc'
  */
 export function traverseAst(
   immutableRoot: Root,
-  aimTypesOrNodeMatcher: ReadonlyArray<NodeType> | INodeMatcher | null,
+  aimTypesOrNodeMatcher: readonly NodeType[] | INodeMatcher | null,
   touch: (
     immutableNode: Readonly<Node>,
     immutableParent: Readonly<Parent>,

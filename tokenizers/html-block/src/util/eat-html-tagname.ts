@@ -11,7 +11,7 @@ import { AsciiCodePoint, isAsciiDigitCharacter, isAsciiLetter } from '@yozora/ch
  * @see https://github.github.com/gfm/#tag-name
  */
 export function eatHTMLTagName(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): number | null {

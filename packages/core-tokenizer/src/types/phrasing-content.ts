@@ -7,7 +7,7 @@ export interface IPhrasingContentLine extends INodeInterval {
   /**
    * Array of INodePoint which contains all the contents of this line.
    */
-  nodePoints: ReadonlyArray<INodePoint>
+  nodePoints: readonly INodePoint[]
   /**
    * The index of first non-blank character in the rest of the current line
    */

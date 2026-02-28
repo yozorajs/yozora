@@ -28,8 +28,7 @@ export abstract class BaseInlineTokenizer<
   IToken extends IPartialInlineToken<T> = IPartialInlineToken<T>,
   INode extends Node<T> = Node<T>,
   IThis extends ITokenizer = ITokenizer,
-> implements IInlineTokenizer<T, IDelimiter, IToken, INode, IThis>
-{
+> implements IInlineTokenizer<T, IDelimiter, IToken, INode, IThis> {
   public readonly type = TokenizerType.INLINE
   public readonly name: string
   public readonly priority: number

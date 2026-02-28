@@ -22,5 +22,5 @@ export interface IParseBlockHook<
    * Processing token list to Node list.
    * @param token       token on match phase
    */
-  parse(token: ReadonlyArray<IToken>): INode[]
+  parse(token: readonly IToken[]): INode[]
 }

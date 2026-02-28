@@ -20,7 +20,7 @@ import {
  * @return position at next iteration
  */
 export function eatLinkDestination(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): number {

@@ -12,7 +12,7 @@ import type { INodePoint } from '@yozora/character'
  *
  * @see https://github.com/syntax-tree/unist#position
  */
-export function calcStartPoint(nodePoints: ReadonlyArray<INodePoint>, index: number): Point {
+export function calcStartPoint(nodePoints: readonly INodePoint[], index: number): Point {
   const { line, column, offset } = nodePoints[index]
   return { line, column, offset }
 }
@@ -28,7 +28,7 @@ export function calcStartPoint(nodePoints: ReadonlyArray<INodePoint>, index: num
  *
  * @see https://github.com/syntax-tree/unist#position
  */
-export function calcEndPoint(nodePoints: ReadonlyArray<INodePoint>, index: number): Point {
+export function calcEndPoint(nodePoints: readonly INodePoint[], index: number): Point {
   const { line, column, offset } = nodePoints[index]
   return { line, column: column + 1, offset: offset + 1 }
 }

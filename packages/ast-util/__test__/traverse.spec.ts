@@ -11,7 +11,6 @@ describe('traverseAST', function () {
     const ast: Root = loadJSONFixture('basic1.ast.json')
     traverseAst(ast, [TextType], (node, parent, childIndex): void => {
       if (childIndex === 0) {
-        // eslint-disable-next-line no-param-reassign
         ;(node as Literal).value = '+++' + (node as Literal).value
       }
     })
@@ -26,7 +25,6 @@ describe('traverseAST', function () {
       if (value == null) return
 
       if (childIndex === 0) {
-        // eslint-disable-next-line no-param-reassign
         ;(node as Literal).value = '+++' + (node as Literal).value
       }
     })

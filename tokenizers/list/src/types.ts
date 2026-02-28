@@ -53,7 +53,7 @@ export interface IThis extends ITokenizer {
    * by this ITokenizer if the current list-item is empty.
    * @see https://github.github.com/gfm/#example-263
    */
-  readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<NodeType>
+  readonly emptyItemCouldNotInterruptedTypes: readonly NodeType[]
 
   /**
    * Should enable task list item (extension).

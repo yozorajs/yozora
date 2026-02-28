@@ -28,7 +28,7 @@ import type { IDelimiterItem, IDelimiterProcessorHook, IPhrasingContentProcessor
  *    的状态重置。更一般地，可以在每次进入新层时，将该层所有的 hook 状态重置
  */
 export const createPhrasingContentProcessor = (
-  hookGroups: ReadonlyArray<ReadonlyArray<IDelimiterProcessorHook>>,
+  hookGroups: readonly (readonly IDelimiterProcessorHook[])[],
   hookGroupIndex: number,
 ): IPhrasingContentProcessor => {
   /**
@@ -38,7 +38,7 @@ export const createPhrasingContentProcessor = (
   const findNearestDelimiters = (
     startIndex: number,
     endIndex: number,
-    hooks: ReadonlyArray<IDelimiterProcessorHook>,
+    hooks: readonly IDelimiterProcessorHook[],
   ): { items: NearestDelimiterItem[]; nextIndex: number } => {
     let nearestDelimiters: NearestDelimiterItem[] = []
     let nearestDelimiterStartIndex: number | null = null
@@ -110,12 +110,12 @@ export const createPhrasingContentProcessor = (
 
   const processor = createSinglePriorityDelimiterProcessor()
   const process = (
-    higherPriorityTokens: ReadonlyArray<IInlineToken>,
+    higherPriorityTokens: readonly IInlineToken[],
     _startIndex: number,
     _endIndex: number,
-  ): ReadonlyArray<IInlineToken> => {
+  ): readonly IInlineToken[] => {
     // Process block phrasing content.
-    let tokens: ReadonlyArray<IInlineToken> = higherPriorityTokens
+    let tokens: readonly IInlineToken[] = higherPriorityTokens
     for (let hgIndex = hookGroupIndex; hgIndex < hookGroups.length; ++hgIndex) {
       const hooks = hookGroups[hgIndex]
       for (const hook of hooks) hook.reset()
@@ -166,13 +166,13 @@ export const createPhrasingContentProcessor = (
  * @returns
  */
 export const createProcessorHookGroups = (
-  tokenizers: ReadonlyArray<IInlineTokenizer>,
+  tokenizers: readonly IInlineTokenizer[],
   matchInlineApi: Readonly<Omit<IMatchInlinePhaseApi, 'resolveInternalTokens'>>,
   resolveFallbackTokens: (
-    tokens: ReadonlyArray<IInlineToken>,
+    tokens: readonly IInlineToken[],
     tokenStartIndex: number,
     tokenEndIndex: number,
-  ) => ReadonlyArray<IInlineToken>,
+  ) => readonly IInlineToken[],
 ): IDelimiterProcessorHook[][] => {
   const hookGroups: IDelimiterProcessorHook[][] = []
   for (let i = 0; i < tokenizers.length; ) {
@@ -185,10 +185,10 @@ export const createProcessorHookGroups = (
     const api: Readonly<IMatchInlinePhaseApi> = Object.freeze({
       ...matchInlineApi,
       resolveInternalTokens: (
-        higherPriorityTokens: ReadonlyArray<IInlineToken>,
+        higherPriorityTokens: readonly IInlineToken[],
         startIndex: number,
         endIndex: number,
-      ): ReadonlyArray<IInlineToken> => {
+      ): readonly IInlineToken[] => {
         let tokens = processor.process(higherPriorityTokens, startIndex, endIndex)
         tokens = resolveFallbackTokens(tokens, startIndex, endIndex)
         return tokens

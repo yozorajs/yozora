@@ -36,7 +36,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
   const definitionIdentifierSet: Set<string> = new Set<string>()
   const footnoteIdentifierSet: Set<string> = new Set<string>()
 
-  let _nodePoints: ReadonlyArray<INodePoint> = []
+  let _nodePoints: readonly INodePoint[] = []
   let _blockStartIndex = -1
   let _blockEndIndex = -1
   const apis: IProcessorApis = Object.freeze<IProcessorApis>({
@@ -78,7 +78,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     },
   })
 
-  const matchBlockHooks: ReadonlyArray<IMatchBlockPhaseHook> = blockTokenizers.map(tokenizer => ({
+  const matchBlockHooks: readonly IMatchBlockPhaseHook[] = blockTokenizers.map(tokenizer => ({
     ...tokenizer.match(apis.matchBlockApi),
     name: tokenizer.name,
     priority: tokenizer.priority,
@@ -96,7 +96,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
         priority: blockFallbackTokenizer.priority,
       }
     : null
-  const matchInlineHookGroups: ReadonlyArray<ReadonlyArray<IDelimiterProcessorHook>> =
+  const matchInlineHookGroups: readonly (readonly IDelimiterProcessorHook[])[] =
     createProcessorHookGroups(inlineTokenizers, apis.matchInlineApi, resolveFallbackTokens)
   const parseInlineHookMap = new Map<string, IParseInlineHook>(
     Array.from(inlineTokenizerMap.entries()).map(entry => [
@@ -113,7 +113,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
    * @param lines
    * @returns
    */
-  function process(lines: Iterable<ReadonlyArray<IPhrasingContentLine>>): Root {
+  function process(lines: Iterable<readonly IPhrasingContentLine[]>): Root {
     definitionIdentifierSet.clear()
     footnoteIdentifierSet.clear()
 
@@ -136,7 +136,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return ast
   }
 
-  function extractPhrasingLines(token: IBlockToken): ReadonlyArray<IPhrasingContentLine> | null {
+  function extractPhrasingLines(token: IBlockToken): readonly IPhrasingContentLine[] | null {
     const tokenizer = blockTokenizerMap.get(token._tokenizer)
     return tokenizer?.extractPhrasingContentLines(token) ?? null
   }
@@ -148,7 +148,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
    * @returns
    */
   function rollbackPhrasingLines(
-    lines: ReadonlyArray<IPhrasingContentLine>,
+    lines: readonly IPhrasingContentLine[],
     originalToken?: Readonly<IBlockToken>,
   ): IBlockToken[] {
     if (originalToken != null) {
@@ -169,10 +169,10 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
   }
 
   function resolveFallbackTokens(
-    tokens: ReadonlyArray<IInlineToken>,
+    tokens: readonly IInlineToken[],
     tokenStartIndex: number,
     tokenEndIndex: number,
-  ): ReadonlyArray<IInlineToken> {
+  ): readonly IInlineToken[] {
     if (inlineFallbackTokenizer == null) return tokens
 
     let i = tokenStartIndex
@@ -204,7 +204,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
   }
 
   function matchBlockTokens(
-    linesIterator: Iterable<ReadonlyArray<IPhrasingContentLine>>,
+    linesIterator: Iterable<readonly IPhrasingContentLine[]>,
   ): IBlockTokenTree {
     const processor = createBlockContentProcessor(matchBlockHooks, blockFallbackHook)
 
@@ -218,7 +218,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return root
   }
 
-  function parseBlockTokens(tokens?: ReadonlyArray<IBlockToken>): Node[] {
+  function parseBlockTokens(tokens?: readonly IBlockToken[]): Node[] {
     if (tokens === undefined || tokens.length <= 0) return []
 
     const results: Node[] = []
@@ -237,7 +237,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return results
   }
 
-  function processInlines(nodePoints: ReadonlyArray<INodePoint>): Node[] {
+  function processInlines(nodePoints: readonly INodePoint[]): Node[] {
     if (nodePoints.length <= 0) return []
     const inlineTokens = matchInlineTokens(nodePoints, 0, nodePoints.length)
     const inlineNodes = parseInlineTokens(inlineTokens)
@@ -245,21 +245,21 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
   }
 
   function matchInlineTokens(
-    nodePoints: ReadonlyArray<INodePoint>,
+    nodePoints: readonly INodePoint[],
     startIndexOfBlock: number,
     endIndexOfBlock: number,
-  ): ReadonlyArray<IInlineToken> {
+  ): readonly IInlineToken[] {
     _nodePoints = nodePoints
     _blockStartIndex = startIndexOfBlock
     _blockEndIndex = endIndexOfBlock
 
-    const tokensStack: ReadonlyArray<IInlineToken> = phrasingContentProcessor.process(
+    const tokensStack: readonly IInlineToken[] = phrasingContentProcessor.process(
       [],
       startIndexOfBlock,
       endIndexOfBlock,
     )
 
-    const tokens: ReadonlyArray<IInlineToken> = resolveFallbackTokens(
+    const tokens: readonly IInlineToken[] = resolveFallbackTokens(
       tokensStack,
       startIndexOfBlock,
       endIndexOfBlock,
@@ -267,7 +267,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return tokens
   }
 
-  function parseInlineTokens(tokens?: ReadonlyArray<IInlineToken>): Node[] {
+  function parseInlineTokens(tokens?: readonly IInlineToken[]): Node[] {
     if (tokens === undefined || tokens.length <= 0) return []
 
     const results: Node[] = []

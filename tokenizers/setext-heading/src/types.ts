@@ -18,7 +18,7 @@ export interface IToken extends IPartialBlockToken<T> {
   /**
    * Contents
    */
-  lines: ReadonlyArray<IPhrasingContentLine>
+  lines: readonly IPhrasingContentLine[]
 }
 
 export type IThis = ITokenizer

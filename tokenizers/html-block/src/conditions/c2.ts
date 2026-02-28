@@ -12,7 +12,7 @@ import { AsciiCodePoint } from '@yozora/character'
  * @see https://github.github.com/gfm/#start-condition
  */
 export function eatStartCondition2(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): number | null {
@@ -38,7 +38,7 @@ export function eatStartCondition2(
  * @see https://github.github.com/gfm/#start-condition
  */
 export function eatEndCondition2(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): number | null {

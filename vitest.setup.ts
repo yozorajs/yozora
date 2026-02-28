@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import type { IParser } from '@yozora/core-parser'
 import type { IMarkupWeaver } from '@yozora/markup-weaver'
 import { DefaultMarkupWeaver } from '@yozora/markup-weaver'

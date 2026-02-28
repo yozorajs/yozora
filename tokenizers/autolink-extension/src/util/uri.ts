@@ -16,7 +16,7 @@ import { eatAutolinkSchema } from '@yozora/tokenizer-autolink'
  * @see https://github.github.com/gfm/#extended-url-autolink
  */
 export function eatExtendedUrl(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): IResultOfRequiredEater {
@@ -42,7 +42,7 @@ export function eatExtendedUrl(
  * followed by a valid domain
  */
 export function eatWWWDomain(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): IResultOfRequiredEater {
@@ -79,7 +79,7 @@ export function eatWWWDomain(
  * @see https://github.github.com/gfm/#extended-autolink-path-validation
  */
 export function eatOptionalDomainFollows(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): IResultOfOptionalEater {
@@ -177,7 +177,7 @@ export function eatOptionalDomainFollows(
  * @see https://github.github.com/gfm/#valid-domain
  */
 export function eatValidDomain(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): IResultOfRequiredEater {
@@ -215,7 +215,7 @@ export function eatValidDomain(
  * @see https://github.github.com/gfm/#valid-domain
  */
 export function eatDomainSegment(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): IResultOfRequiredEater & { hasUnderscore: boolean } {

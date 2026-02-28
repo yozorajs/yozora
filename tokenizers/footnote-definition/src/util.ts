@@ -18,7 +18,7 @@ import { AsciiCodePoint, VirtualCodePoint, isWhitespaceCharacter } from '@yozora
  * @see https://github.github.com/gfm/#link-label
  */
 export function eatFootnoteLabel(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   firstNonWhitespaceIndex: number,
   endIndex: number,
 ): number {

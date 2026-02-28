@@ -15,7 +15,7 @@ export interface IToken extends IPartialBlockToken<T> {
   /**
    * Footnote label
    */
-  label: INodeInterval & { nodePoints: ReadonlyArray<INodePoint> }
+  label: INodeInterval & { nodePoints: readonly INodePoint[] }
   /**
    *
    */

@@ -9,7 +9,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
   return {
     parse: tokens =>
       tokens.map(token => {
-        const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+        const nodePoints: readonly INodePoint[] = api.getNodePoints()
 
         // calc url
         let url = ''

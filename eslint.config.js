@@ -1,4 +1,10 @@
-import ghcConfigs from '@guanghechen/eslint-config'
+import eslint from '@eslint/js'
+import eslintConfigPrettier from 'eslint-config-prettier'
+import { importX } from 'eslint-plugin-import-x'
+import globals from 'globals'
+import tseslint from 'typescript-eslint'
+
+const tsconfigPath = './tsconfig.test.json'
 
 export default [
   {
@@ -6,23 +12,40 @@ export default [
       '.vscode/',
       '**/__tmp__/',
       '**/__test__/cases/',
+      '**/coverage/',
       '**/doc/',
       '**/example/',
+      '**/lib/',
+      '**/node_modules/',
       '**/resources/',
       'packages/character/src/constant/entity.ts',
     ],
   },
-  ...ghcConfigs,
+  eslint.configs.recommended,
+  importX.flatConfigs.recommended,
   {
-    files: ['packages/ast/src/nodes/**/*.ts'],
-    rules: {
-      '@typescript-eslint/no-redeclare': 'off',
+    files: ['**/*.{mjs,ts}'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: { ...globals.node },
     },
   },
+  ...tseslint.configs.recommended,
   {
-    files: ['**/src/**/*.ts'],
+    files: ['**/*.ts'],
+    languageOptions: {
+      parserOptions: {
+        project: tsconfigPath,
+      },
+    },
     rules: {
+      '@typescript-eslint/no-empty-object-type': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-invalid-void-type': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/no-this-alias': 'off',
+      '@typescript-eslint/prefer-for-of': 'off',
       '@typescript-eslint/no-unnecessary-type-arguments': 'off',
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -36,8 +59,34 @@ export default [
           ignoreRestSiblings: true,
         },
       ],
-      'import/no-named-as-default': 'off',
+      'import-x/no-named-as-default': 'off',
       'space-in-parens': 'off',
     },
   },
+  {
+    rules: {
+      'import-x/named': 'off',
+      'import-x/no-unresolved': 'off',
+    },
+  },
+  {
+    files: ['packages/ast/src/nodes/**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-redeclare': 'off',
+    },
+  },
+  {
+    files: ['**/__test__/**/*.ts', 'vitest.helper.mts'],
+    languageOptions: {
+      globals: { ...globals.node },
+    },
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'import-x/no-extraneous-dependencies': 'off',
+      'no-plusplus': 'off',
+      'no-template-curly-in-string': 'off',
+    },
+  },
+  eslintConfigPrettier,
 ]

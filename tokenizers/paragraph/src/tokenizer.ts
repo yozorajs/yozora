@@ -39,11 +39,11 @@ export class ParagraphTokenizer
 
   public override extractPhrasingContentLines(
     token: Readonly<IToken>,
-  ): ReadonlyArray<IPhrasingContentLine> {
+  ): readonly IPhrasingContentLine[] {
     return token.lines
   }
 
-  public override buildBlockToken(_lines: ReadonlyArray<IPhrasingContentLine>): IToken | null {
+  public override buildBlockToken(_lines: readonly IPhrasingContentLine[]): IToken | null {
     const lines = trimBlankLines(_lines)
     if (lines.length <= 0) return null
 

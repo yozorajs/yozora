@@ -20,7 +20,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
 
   function onClose(token: IToken): void {
     const children = api.rollbackPhrasingLines(token.lines)
-    // eslint-disable-next-line no-param-reassign
+
     token.children = children
   }
 }

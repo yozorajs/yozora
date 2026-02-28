@@ -46,7 +46,7 @@ export interface IBlockTokenizer<
    * Extract array of IPhrasingContentLine from a given IBlockToken.
    * @param token
    */
-  extractPhrasingContentLines(token: Readonly<IToken>): ReadonlyArray<IPhrasingContentLine> | null
+  extractPhrasingContentLines(token: Readonly<IToken>): readonly IPhrasingContentLine[] | null
 
   /**
    * Build BlockTokenizerPostMatchPhaseToken from
@@ -55,7 +55,7 @@ export interface IBlockTokenizer<
    * @param originalToken
    */
   buildBlockToken(
-    lines: ReadonlyArray<IPhrasingContentLine>,
+    lines: readonly IPhrasingContentLine[],
     originalToken: IToken,
   ): (IToken & IPartialBlockToken) | null
 }

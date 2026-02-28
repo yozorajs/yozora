@@ -14,7 +14,7 @@ export interface IToken extends IPartialBlockToken<T> {
   /**
    * Lines to construct the contents of a paragraph.
    */
-  lines: Array<Readonly<IPhrasingContentLine>>
+  lines: Readonly<IPhrasingContentLine>[]
 }
 
 export type IThis = ITokenizer

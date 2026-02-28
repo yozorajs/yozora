@@ -30,7 +30,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   }
 
   function _findDelimiter(startIndex: number, endIndex: number): IDelimiter | null {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+    const nodePoints: readonly INodePoint[] = api.getNodePoints()
     for (let i = startIndex + 1; i < endIndex; ++i) {
       if (nodePoints[i].codePoint !== VirtualCodePoint.LINE_END) continue
 

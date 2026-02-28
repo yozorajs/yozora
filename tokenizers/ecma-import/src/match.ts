@@ -65,7 +65,6 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
       end: calcEndPoint(nodePoints, endIndex - 1),
     })
 
-    // eslint-disable-next-line no-cond-assign
     if ((m = regex1.exec(text)) != null) {
       token = {
         nodeType: EcmaImportType,
@@ -74,10 +73,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
         defaultImport: null,
         namedImports: [],
       }
-    }
-
-    // eslint-disable-next-line no-cond-assign
-    else if ((m = regex2.exec(text)) != null) {
+    } else if ((m = regex2.exec(text)) != null) {
       token = {
         nodeType: EcmaImportType,
         position: position(),
@@ -85,10 +81,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
         defaultImport: m[1],
         namedImports: [],
       }
-    }
-
-    // eslint-disable-next-line no-cond-assign
-    else if ((m = regex3.exec(text)) != null) {
+    } else if ((m = regex3.exec(text)) != null) {
       token = {
         nodeType: EcmaImportType,
         position: position(),

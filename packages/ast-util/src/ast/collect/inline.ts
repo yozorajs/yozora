@@ -17,7 +17,7 @@ import {
 import type { INodeMatcher } from './misc'
 import { collectNodes } from './node'
 
-const inlineNodeTypes: Set<NodeType> = new Set([
+const inlineNodeTypes = new Set<NodeType>([
   BreakType,
   DeleteType,
   EmphasisType,

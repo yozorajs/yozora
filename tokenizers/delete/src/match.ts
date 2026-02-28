@@ -22,7 +22,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   }
 
   function _findDelimiter(startIndex: number, endIndex: number): IDelimiter | null {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+    const nodePoints: readonly INodePoint[] = api.getNodePoints()
     for (let i = startIndex; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
       switch (c) {
@@ -78,9 +78,8 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   function processDelimiterPair(
     openerDelimiter: IDelimiter,
     closerDelimiter: IDelimiter,
-    internalTokens: ReadonlyArray<IInlineToken>,
+    internalTokens: readonly IInlineToken[],
   ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter> {
-    // eslint-disable-next-line no-param-reassign
     internalTokens = api.resolveInternalTokens(
       internalTokens,
       openerDelimiter.endIndex,

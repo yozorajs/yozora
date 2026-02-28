@@ -9,7 +9,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
   return {
     parse: tokens =>
       tokens.map(token => {
-        const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+        const nodePoints: readonly INodePoint[] = api.getNodePoints()
 
         // Backslash-escapes do not work inside autolink.
         let url = calcStringFromNodePoints(nodePoints, token.startIndex + 1, token.endIndex - 1)

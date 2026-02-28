@@ -20,7 +20,7 @@ import type { IResultOfRequiredEater } from '@yozora/core-tokenizer'
  * @see https://github.github.com/gfm/#absolute-uri
  */
 export function eatAbsoluteUri(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): IResultOfRequiredEater {
@@ -58,7 +58,7 @@ export function eatAbsoluteUri(
  * @see https://github.github.com/gfm/#scheme
  */
 export function eatAutolinkSchema(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): IResultOfRequiredEater {

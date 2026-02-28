@@ -9,14 +9,14 @@ export interface IMatchBlockPhaseApi {
    * Extract phrasing content lines from block token.
    * @param token
    */
-  extractPhrasingLines(token: IBlockToken): ReadonlyArray<IPhrasingContentLine> | null
+  extractPhrasingLines(token: IBlockToken): readonly IPhrasingContentLine[] | null
   /**
    * Re-match token from phrasing content lines.
    * @param lines
    * @param originalToken
    */
   rollbackPhrasingLines(
-    lines: ReadonlyArray<IPhrasingContentLine>,
+    lines: readonly IPhrasingContentLine[],
     originalToken?: Readonly<IBlockToken>,
   ): IBlockToken[]
   /**

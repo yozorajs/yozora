@@ -10,7 +10,7 @@ import type { AutolinkContentType, IContentHelper, IDelimiter, IThis, IToken, T 
 import { eatEmailAddress } from './util/email'
 import { eatAbsoluteUri } from './util/uri'
 
-const helpers: ReadonlyArray<IContentHelper> = [
+const helpers: readonly IContentHelper[] = [
   { contentType: 'uri', eat: eatAbsoluteUri },
   { contentType: 'email', eat: eatEmailAddress },
 ]
@@ -28,7 +28,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   }
 
   function _findDelimiter(startIndex: number, endIndex: number): IDelimiter | null {
-    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
+    const nodePoints: readonly INodePoint[] = api.getNodePoints()
 
     for (let i = startIndex; i < endIndex; ++i) {
       if (nodePoints[i].codePoint !== AsciiCodePoint.OPEN_ANGLE) continue

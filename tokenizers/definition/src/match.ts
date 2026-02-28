@@ -232,20 +232,17 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
        */
       i = eatOptionalWhitespaces(nodePoints, destinationEndIndex, endIndex)
       if (i >= endIndex) {
-        // eslint-disable-next-line no-param-reassign
         token.destination = destinationState
         token.lines.push(line)
         return { status: 'opening', nextIndex: endIndex }
       }
 
-      // eslint-disable-next-line no-param-reassign
       token.lineNoOfDestination = lineNo
-      // eslint-disable-next-line no-param-reassign
+
       token.lineNoOfTitle = lineNo
     }
 
     if (token.lineNoOfTitle < 0) {
-      // eslint-disable-next-line no-param-reassign
       token.lineNoOfTitle = lineNo
     }
 
@@ -255,7 +252,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
       endIndex,
       token.title,
     )
-    // eslint-disable-next-line no-param-reassign
+
     token.title = titleState
 
     if (
@@ -270,9 +267,9 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
       }
 
       const lastLine = token.lines[token.lines.length - 1]
-      // eslint-disable-next-line no-param-reassign
+
       token.title = null
-      // eslint-disable-next-line no-param-reassign
+
       token.position.end = calcEndPoint(lastLine.nodePoints, lastLine.endIndex - 1)
       return {
         status: 'closingAndRollback',
@@ -308,9 +305,9 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
 
         const lines = token.lines.splice(token.lineNoOfTitle - 1)
         const lastLine = token.lines[token.lines.length - 1]
-        // eslint-disable-next-line no-param-reassign
+
         token.title = null
-        // eslint-disable-next-line no-param-reassign
+
         token.position.end = calcEndPoint(lastLine.nodePoints, lastLine.endIndex - 1)
 
         result = { status: 'closingAndRollback', lines }
@@ -331,9 +328,8 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
 
     // Cache label and identifier for performance.
 
-    // eslint-disable-next-line no-param-reassign
     token._label = label
-    // eslint-disable-next-line no-param-reassign
+
     token._identifier = identifier
     return result
   }

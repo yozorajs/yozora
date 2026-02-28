@@ -14,8 +14,8 @@ import type { IInlineToken } from '@yozora/core-tokenizer'
 export const checkBalancedBracketsStatus = (
   startIndex: number,
   endIndex: number,
-  internalTokens: ReadonlyArray<IInlineToken>,
-  nodePoints: ReadonlyArray<INodePoint>,
+  internalTokens: readonly IInlineToken[],
+  nodePoints: readonly INodePoint[],
 ): -1 | 0 | 1 => {
   let i = startIndex
   let bracketCount = 0

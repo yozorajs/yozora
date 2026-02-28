@@ -16,10 +16,10 @@ import type { IFencedBlockHookContext, IToken, ITokenizerProps } from './types'
  * @see https://github.github.com/gfm/#code-fence
  */
 export abstract class FencedBlockTokenizer<
-    T extends NodeType = NodeType,
-    INode extends Node<T> = Node<T>,
-    IThis extends IFencedBlockHookContext<T> = IFencedBlockHookContext<T>,
-  >
+  T extends NodeType = NodeType,
+  INode extends Node<T> = Node<T>,
+  IThis extends IFencedBlockHookContext<T> = IFencedBlockHookContext<T>,
+>
   extends BaseBlockTokenizer<T, IToken<T>, INode, any>
   implements IBlockTokenizer<T, IToken<T>, INode, IThis>
 {

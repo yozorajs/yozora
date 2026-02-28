@@ -36,7 +36,7 @@ export type IThis = ITokenizer
 export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>
 
 export type ContentEater = (
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ) => IResultOfRequiredEater

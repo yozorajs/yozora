@@ -14,7 +14,7 @@ export interface IHtmlInlineOpenTagData {
   /**
    * HTML attributes.
    */
-  attributes: Array<{ name: string; value?: string }>
+  attributes: { name: string; value?: string }[]
   /**
    * Whether if a html tag is self closed.
    */
@@ -42,7 +42,7 @@ export interface IHtmlInlineOpenDelimiter extends ITokenDelimiter, IHtmlInlineOp
  * @see https://github.github.com/gfm/#open-tag
  */
 export function eatHtmlInlineTokenOpenDelimiter(
-  nodePoints: ReadonlyArray<INodePoint>,
+  nodePoints: readonly INodePoint[],
   startIndex: number,
   endIndex: number,
 ): IHtmlInlineOpenDelimiter | null {

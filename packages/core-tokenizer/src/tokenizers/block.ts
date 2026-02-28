@@ -28,8 +28,7 @@ export abstract class BaseBlockTokenizer<
   IToken extends IPartialBlockToken<T> = IPartialBlockToken<T>,
   INode extends Node<T> = Node<T>,
   IThis extends ITokenizer = ITokenizer,
-> implements IBlockTokenizer<T, IToken, INode, IThis>
-{
+> implements IBlockTokenizer<T, IToken, INode, IThis> {
   public readonly type = TokenizerType.BLOCK
   public readonly name: string
   public readonly priority: number
@@ -44,12 +43,12 @@ export abstract class BaseBlockTokenizer<
 
   public extractPhrasingContentLines(
     _token: Readonly<IToken>,
-  ): ReadonlyArray<IPhrasingContentLine> | null {
+  ): readonly IPhrasingContentLine[] | null {
     return null
   }
 
   public buildBlockToken(
-    _lines: ReadonlyArray<IPhrasingContentLine>,
+    _lines: readonly IPhrasingContentLine[],
     _originalToken: IToken,
   ): (IToken & IPartialBlockToken) | null {
     return null
