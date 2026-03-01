@@ -1,5 +1,16 @@
 # Change Log
 
+## 2.3.15
+
+### Patch Changes
+
+- Patch release for packages with unreleased commits. Scope: all, patch.
+  - :wrench: chore(tooling): migrate eslint and rollup configs and align formatting
+  - :white_check_mark: test(ast-util): remove obsolete snapshots
+- Updated dependencies:
+  - @yozora/ast@2.3.15
+  - @yozora/character@2.3.15
+
 ## 2.3.14
 
 ### Patch Changes
