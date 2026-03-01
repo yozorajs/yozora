@@ -27,11 +27,12 @@ This will prompt you to:
 To consume all changesets and update versions:
 
 ```bash
-pnpm changeset version
+pnpm :version
 ```
 
 This will:
 - Update package versions based on changesets
+- Auto-add dependents to release when their dependencies are being released
 - Update changelogs
 - Remove consumed changeset files
 

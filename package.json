@@ -18,7 +18,7 @@
   "type": "module",
   "scripts": {
     ":publish": "pnpm clean && pnpm build:production && pnpm test:coverage && changeset publish",
-    ":version": "changeset version",
+    ":version": "node script/expand-changeset-dependents.mjs && changeset version",
     ":upgrade": "pnpm update -i && pnpm clean && pnpm format && pnpm build && pnpm test",
     "build": "cross-env NODE_ENV=production ROLLUP_SHOULD_SOURCEMAP=true pnpm -r --filter='!@yozora/test-util' run build",
     "build:production": "cross-env NODE_ENV=production ROLLUP_SHOULD_SOURCEMAP=false pnpm -r --filter='!@yozora/test-util' run build",
