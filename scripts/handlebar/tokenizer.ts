@@ -1,5 +1,5 @@
-import path from 'path'
-import { renderMarkdown } from './util'
+import path from 'node:path'
+import { renderMarkdown, SCRIPT_DIRPATH } from './util'
 
 interface HandlebarData {
   packageName?: string
@@ -550,7 +550,7 @@ ___
 items.forEach((item): void => {
   const data = item
   data.packageDirectory ??= 'tokenizers/' + data.tokenizerName
-  const docFilepath = path.join(__dirname, '../../', data.packageDirectory, 'README.md')
+  const docFilepath = path.join(SCRIPT_DIRPATH, '../../', data.packageDirectory, 'README.md')
   data.packageName ??= `@yozora/tokenizer-${data.tokenizerName}`
   data.shortPackageName ??= `tokenizer-${data.tokenizerName}`
   data.inGfm ??= false

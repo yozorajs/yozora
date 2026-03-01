@@ -1,5 +1,5 @@
-import path from 'path'
-import { renderMarkdown } from './util'
+import path from 'node:path'
+import { renderMarkdown, SCRIPT_DIRPATH } from './util'
 
 interface HandlebarData {
   packageName: string
@@ -39,9 +39,9 @@ const items: HandlebarData[] = [
 items.forEach((item): void => {
   const data = item
   data.shortPackageName = data.packageName.replace(/^@[^/]*\//, '')
-  const docFilepath = path.join(__dirname, '../../', data.packageDirectory, 'README.md')
+  const docFilepath = path.join(SCRIPT_DIRPATH, '../../', data.packageDirectory, 'README.md')
   renderMarkdown<HandlebarData>(docFilepath, data)
 
-  const docFilepathZh = path.join(__dirname, '../../', data.packageDirectory, 'README-zh.md')
+  const docFilepathZh = path.join(SCRIPT_DIRPATH, '../../', data.packageDirectory, 'README-zh.md')
   renderMarkdown<HandlebarData>(docFilepathZh, data)
 })

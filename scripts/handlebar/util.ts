@@ -17,6 +17,9 @@ import {
 import Handlebars from 'handlebars'
 import fs from 'node:fs'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+export const SCRIPT_DIRPATH = path.dirname(fileURLToPath(import.meta.url))
 
 const transformers = {
   toCamelCase,
@@ -64,7 +67,7 @@ Handlebars.registerHelper('transform', (...args: any[]): string => {
 const templates: Record<string, HandlebarsTemplateDelegate> = {}
 export function renderTemplate(templateName: string, data: unknown): string {
   const templatePath = path
-    .join(__dirname, 'boilerplate', templateName)
+    .join(SCRIPT_DIRPATH, 'boilerplate', templateName)
     .replace(/([.]hbs)?$/, '.hbs')
 
   if (templates[templatePath] == null) {

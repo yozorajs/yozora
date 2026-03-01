@@ -1,9 +1,150 @@
-import { globbySync } from '@guanghechen/globby'
 import invariant from '@yozora/invariant'
 import fs from 'node:fs'
 import path from 'node:path'
 import { describe } from 'vitest'
 import type { IYozoraUseCase, IYozoraUseCaseGroup } from './types'
+
+type IPathMatcher = (relativeFilepath: string) => boolean
+
+function normalizeRelativePath(filepath: string): string {
+  return filepath
+    .replace(/\\/g, '/')
+    .replace(/^\.?\//, '')
+    .replace(/\/+$/, '')
+}
+
+function normalizePatternPath(pattern: string): string {
+  return pattern.replace(/^\.?\//, '').replace(/\/+$/, '')
+}
+
+function hasGlobMagic(pattern: string): boolean {
+  let escaped = false
+  for (const ch of pattern) {
+    if (escaped) {
+      escaped = false
+      continue
+    }
+
+    if (ch === '\\') {
+      escaped = true
+      continue
+    }
+
+    if (ch === '*' || ch === '?' || ch === '[' || ch === '{') {
+      return true
+    }
+  }
+  return false
+}
+
+function escapeRegExp(ch: string): string {
+  return /[\\^$.*+?()[\]{}|]/.test(ch) ? `\\${ch}` : ch
+}
+
+function splitPatternSegments(pattern: string): string[] {
+  const segments: string[] = []
+  let segment = ''
+  let escaped = false
+
+  for (const ch of pattern) {
+    if (escaped) {
+      segment += `\\${ch}`
+      escaped = false
+      continue
+    }
+
+    if (ch === '\\') {
+      escaped = true
+      continue
+    }
+
+    if (ch === '/') {
+      segments.push(segment)
+      segment = ''
+      continue
+    }
+
+    segment += ch
+  }
+
+  if (escaped) segment += '\\\\'
+  segments.push(segment)
+  return segments
+}
+
+function compileSegmentPattern(segmentPattern: string): RegExp {
+  let regex = ''
+  let escaped = false
+
+  for (const ch of segmentPattern) {
+    if (escaped) {
+      regex += escapeRegExp(ch)
+      escaped = false
+      continue
+    }
+
+    if (ch === '\\') {
+      escaped = true
+      continue
+    }
+
+    if (ch === '*') {
+      regex += '.*'
+      continue
+    }
+
+    if (ch === '?') {
+      regex += '.'
+      continue
+    }
+
+    regex += escapeRegExp(ch)
+  }
+
+  if (escaped) regex += '\\\\'
+  return new RegExp(`^${regex}$`)
+}
+
+function compileGlobMatcher(pattern: string): IPathMatcher {
+  const rawSegments = splitPatternSegments(pattern)
+  const segmentMatchers = rawSegments.map(segment =>
+    segment === '**' ? null : compileSegmentPattern(segment),
+  )
+
+  const isMatch = (pathSegments: string[], patternIdx: number, pathIdx: number): boolean => {
+    if (patternIdx >= rawSegments.length) return pathIdx >= pathSegments.length
+    if (pathIdx > pathSegments.length) return false
+
+    if (rawSegments[patternIdx] === '**') {
+      for (let nextPathIdx = pathIdx; nextPathIdx <= pathSegments.length; ++nextPathIdx) {
+        if (isMatch(pathSegments, patternIdx + 1, nextPathIdx)) return true
+      }
+      return false
+    }
+
+    if (pathIdx >= pathSegments.length) return false
+    const matcher = segmentMatchers[patternIdx]
+    if (matcher == null || !matcher.test(pathSegments[pathIdx])) return false
+    return isMatch(pathSegments, patternIdx + 1, pathIdx + 1)
+  }
+
+  return (relativeFilepath: string): boolean => {
+    const pathSegments = normalizeRelativePath(relativeFilepath).split('/')
+    return isMatch(pathSegments, 0, 0)
+  }
+}
+
+function createPathMatcher(rawPattern: string): IPathMatcher {
+  const pattern = normalizePatternPath(rawPattern)
+  if (pattern.length === 0) return () => false
+
+  if (!hasGlobMagic(pattern)) {
+    return (relativeFilepath: string): boolean =>
+      relativeFilepath === pattern || relativeFilepath.startsWith(`${pattern}/`)
+  }
+
+  return compileGlobMatcher(pattern)
+}
 
 /**
  * Params for construct BaseTester
@@ -53,21 +194,26 @@ export abstract class BaseTester<T = unknown> {
     caseRootDirectory = this.caseRootDirectory,
     isDesiredFilepath: (filepath: string) => boolean = () => true,
   ): this {
-    const filepaths: string[] = globbySync([patterns].flat(), {
-      cwd: caseRootDirectory,
-      absolute: true,
-      onlyDirectories: false,
-      onlyFiles: true,
-      markDirectories: true,
-      unique: true,
-      braceExpansion: true,
-      caseSensitiveMatch: true,
-      dot: true,
-      extglob: true,
-      globstar: true,
-      objectMode: false,
-      stats: false,
-    }).sort()
+    const includeMatchers: IPathMatcher[] = []
+    const excludeMatchers: IPathMatcher[] = []
+
+    for (const item of [patterns].flat()) {
+      const isExclude = item.startsWith('!')
+      const matcher = createPathMatcher(isExclude ? item.slice(1) : item)
+      if (isExclude) excludeMatchers.push(matcher)
+      else includeMatchers.push(matcher)
+    }
+
+    const filepaths = this._collectFilepaths(caseRootDirectory)
+      .filter((filepath): boolean => {
+        const relativeFilepath = normalizeRelativePath(path.relative(caseRootDirectory, filepath))
+        const matchedByInclude =
+          includeMatchers.length === 0 || includeMatchers.some(match => match(relativeFilepath))
+        if (!matchedByInclude) return false
+        if (excludeMatchers.some(match => match(relativeFilepath))) return false
+        return true
+      })
+      .sort()
 
     for (const filepath of filepaths) {
       if (!isDesiredFilepath(filepath)) continue
@@ -188,6 +334,29 @@ export abstract class BaseTester<T = unknown> {
       console.error(`[handle failed] ${filepath}`)
       throw error
     }
+  }
+
+  protected _collectFilepaths(rootDir: string): string[] {
+    const normalizedRootDir = path.normalize(rootDir)
+    const queue: string[] = [normalizedRootDir]
+    const filepaths: string[] = []
+
+    while (queue.length > 0) {
+      const currentDir = queue.pop()
+      if (currentDir == null) continue
+
+      const dirents = fs.readdirSync(currentDir, { withFileTypes: true })
+      for (const dirent of dirents) {
+        const filepath = path.join(currentDir, dirent.name)
+        if (dirent.isDirectory()) {
+          queue.push(filepath)
+        } else if (dirent.isFile()) {
+          filepaths.push(path.normalize(filepath))
+        }
+      }
+    }
+
+    return filepaths
   }
 
   /**
