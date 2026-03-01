@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-math",
-  "version": "2.3.14",
+  "version": "2.3.16",
   "description": "Tokenizer for processing fenced math block (formulas)",
   "author": {
     "name": "guanghechen",

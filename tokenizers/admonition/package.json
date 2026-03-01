@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-admonition",
-  "version": "2.3.15",
+  "version": "2.3.16",
   "description": "Tokenizer for processing admonitions",
   "author": {
     "name": "guanghechen",

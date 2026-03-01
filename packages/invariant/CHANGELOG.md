@@ -1,5 +1,17 @@
 # Change Log
 
+## 2.3.16
+
+### Patch Changes
+
+- Full patch release pass 2 to align all package versions to 2.3.16.
+
+## 2.3.15
+
+### Patch Changes
+
+- Full patch release pass 1 for version alignment to 2.3.16.
+
 ## 2.3.14
 
 ### Patch Changes

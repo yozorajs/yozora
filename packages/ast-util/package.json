@@ -1,6 +1,6 @@
 {
   "name": "@yozora/ast-util",
-  "version": "2.3.15",
+  "version": "2.3.16",
   "description": "Utility functions to handle Yozora markdown ast",
   "author": {
     "name": "guanghechen",

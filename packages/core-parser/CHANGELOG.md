@@ -1,5 +1,17 @@
 # Change Log
 
+## 2.3.16
+
+### Patch Changes
+
+- Full patch release pass 1 for version alignment to 2.3.16.
+- Updated dependencies:
+  - @yozora/ast@2.3.16
+  - @yozora/ast-util@2.3.16
+  - @yozora/character@2.3.16
+  - @yozora/core-tokenizer@2.3.16
+  - @yozora/invariant@2.3.16
+
 ## 2.3.15
 
 ### Patch Changes

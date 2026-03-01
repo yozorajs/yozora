@@ -1,6 +1,6 @@
 {
   "name": "@yozora/markup-weaver",
-  "version": "2.3.15",
+  "version": "2.3.16",
   "description": "Weave markup-like AST into markup content.",
   "author": {
     "name": "guanghechen",

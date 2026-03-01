@@ -1,5 +1,51 @@
 # Change Log
 
+## 2.3.16
+
+### Patch Changes
+
+- Full patch release pass 2 to align all package versions to 2.3.16.
+- Updated dependencies:
+  - @yozora/tokenizer-blockquote@2.3.16
+  - @yozora/tokenizer-fenced-code@2.3.16
+  - @yozora/tokenizer-heading@2.3.16
+  - @yozora/tokenizer-indented-code@2.3.16
+  - @yozora/tokenizer-table@2.3.16
+  - @yozora/tokenizer-thematic-break@2.3.16
+  - @yozora/core-parser@2.3.16
+
+## 2.3.15
+
+### Patch Changes
+
+- Full patch release pass 1 for version alignment to 2.3.16.
+- Updated dependencies:
+  - @yozora/ast@2.3.16
+  - @yozora/core-parser@2.3.16
+  - @yozora/tokenizer-autolink@2.3.16
+  - @yozora/tokenizer-autolink-extension@2.3.16
+  - @yozora/tokenizer-blockquote@2.3.15
+  - @yozora/tokenizer-break@2.3.16
+  - @yozora/tokenizer-definition@2.3.16
+  - @yozora/tokenizer-delete@2.3.16
+  - @yozora/tokenizer-emphasis@2.3.16
+  - @yozora/tokenizer-fenced-code@2.3.15
+  - @yozora/tokenizer-heading@2.3.15
+  - @yozora/tokenizer-html-block@2.3.16
+  - @yozora/tokenizer-html-inline@2.3.16
+  - @yozora/tokenizer-image@2.3.16
+  - @yozora/tokenizer-image-reference@2.3.16
+  - @yozora/tokenizer-indented-code@2.3.15
+  - @yozora/tokenizer-inline-code@2.3.16
+  - @yozora/tokenizer-link@2.3.16
+  - @yozora/tokenizer-link-reference@2.3.16
+  - @yozora/tokenizer-list@2.3.16
+  - @yozora/tokenizer-paragraph@2.3.16
+  - @yozora/tokenizer-setext-heading@2.3.16
+  - @yozora/tokenizer-table@2.3.15
+  - @yozora/tokenizer-text@2.3.16
+  - @yozora/tokenizer-thematic-break@2.3.15
+
 ## 2.3.14
 
 ### Patch Changes
