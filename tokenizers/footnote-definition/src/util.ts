@@ -8,7 +8,7 @@ import { AsciiCodePoint, VirtualCodePoint, isWhitespaceCharacter } from '@yozora
  * begins with a left bracket ([) followed by a caret (^), and ends with the
  * first right bracket (]) that is not backslash-escaped. Between the caret of
  * right bracket, there must be at least one non-whitespace character.
- * Unescaped square bracket characters are not allowed inside the opening creat
+ * Unescaped square bracket characters are not allowed inside the opening
  * and closing square bracket of footnote labels. A footnote label can have at
  * most 999 characters inside the caret and right bracket.
  *
