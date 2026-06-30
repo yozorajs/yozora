@@ -248,12 +248,6 @@
   | [@yozora/core-tokenizer][] | Yozora 分词器相关的接口和工具函数 |
   | [@yozora/invariant][]      | A simple invariant function       |
 
-- Scaffolds
-
-  | Package                        | Description                              |
-  | :----------------------------- | :--------------------------------------- |
-  | [@yozora/jest-for-tokenizer][] | 测试分词器的测试库，并包含大量的测试用例 |
-
 ## 💡 FAQ
 
 - 如何在 gatsby 中使用 yozora？
@@ -262,13 +256,16 @@
 
 - 如何实现自定义的分词器?
 
+  - 复制 [tokenizers/][github-tokenizers] 下任意一个现有分词器作为起点；
+
   - 参见 [@yozora/core-tokenizer][] 以获得分词器的生命周期函数细节；
 
-  - 参见 [@yozora/jest-for-tokenizer][] 以获得测试自定义分词器相关的信息；
+  - 测试方面，可参考 `@yozora/test-util` 以及现有分词器的 `__test__` 目录；
 
   - 参考 [@yozora/core-parser][] 和 [@yozora/parser][] 以获得如何使用自定义分词器的信息；
 
-  另外，同样推荐参考现有的 [分词器][github-tokenizers]，以实现一个自定义的版本。
+  完整的步骤说明见 [CONTRIBUTING.md](./CONTRIBUTING.md)。另外，同样推荐参考现有的
+  [分词器][github-tokenizers]，以实现一个自定义的版本。
 
 ## 💬 Contact
 

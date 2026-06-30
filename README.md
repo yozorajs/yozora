@@ -261,33 +261,25 @@ tree (AST).
   | [@yozora/core-tokenizer][] | Types and utility functions for building a Yozora Tokenizer.         |
   | [@yozora/invariant][]      | A simple invariant function                                          |
 
-- Scaffolds
-
-  | Package                        | Description                                                                      |
-  | :----------------------------- | :------------------------------------------------------------------------------- |
-  | [@yozora/eslint-config][]      | Eslint configs for yozora tokenizers                                             |
-  | [@yozora/jest-for-tokenizer][] | Jest util for testing yozora tokenizers                                          |
-  | [@yozora/template-tokenizer][] | Templates for creating a Yozora tokenizer (`InlineTokenizer` / `BlockTokenizer`) |
-
 ## 💡 FAQ
 
 - How to use yozora with gatsby?
 
   - Try the [@yozora/gatsby-transformer][] and [@yozora/gatsby-images][]
 
-- How to implemented custom tokenizer?
+- How to implement a custom tokenizer?
 
-  - Use [@yozora/template-tokenizer][] to create a custom tokenizer with predefined boilerplates.
+  - Copy an existing tokenizer under [tokenizers/][github-tokenizers] as a starting point.
 
   - Check [@yozora/core-tokenizer][] for implementation details of tokenizer.
 
-  - Check [@yozora/jest-for-tokenizer][] for information about testing the custom tokenizer.
+  - For testing, refer to `@yozora/test-util` and an existing tokenizer's `__test__` directory.
 
   - Check [@yozora/core-parser] and [@yozora/parser] for information on how to integrate a custom
-    tokenzier.
+    tokenizer.
 
-  It's also recommended to refer to the existing [tokenizers][github-tokenizers] implementation to
-  create a custom one.
+  See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full step-by-step guide. It's also recommended to
+  refer to the existing [tokenizers][github-tokenizers] implementation to create a custom one.
 
 ## 💬 Contact
 
@@ -336,15 +328,11 @@ Yozora is [MIT licensed](https://github.com/yozorajs/yozora/blob/main/LICENSE).
 [@yozora/invariant]: https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/invariant#readme
 [@yozora/markup-weaver]:
   https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/markup-weaver#readme
-[@yozora/jest-for-tokenizer]:
-  https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/jest-for-tokenizer#readme
 [@yozora/parser]: https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/parser#readme
 [@yozora/parser-gfm]:
   https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/parser-gfm#readme
 [@yozora/parser-gfm-ex]:
   https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/parser-gfm-ex#readme
-[@yozora/template-tokenizer]:
-  https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/template-tokenizer#readme
 [@yozora/tokenizer-admonition]:
   https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/admonition#readme
 [@yozora/tokenizer-autolink]:
