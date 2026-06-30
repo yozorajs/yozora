@@ -93,14 +93,6 @@ function updateReadme(pkg) {
   let updated = false
   const originalContent = content
 
-  // Update npm badge version URL pattern:
-  // https://img.shields.io/badge/npm-X.X.X-...
-  const npmBadgePattern = new RegExp(
-    '(https://img\\.shields\\.io/badge/npm-)([0-9]+\\.[0-9]+\\.[0-9]+)(-[^)]+)',
-    'g',
-  )
-  content = content.replace(npmBadgePattern, `$1${pkg.version}$3`)
-
   // Update GitHub tree links:
   // https://github.com/yozorajs/yozora/tree/vX.X.X/...
   const treePattern = new RegExp(
