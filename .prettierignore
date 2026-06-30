@@ -13,6 +13,7 @@
 **/doc/
 **/lib/
 **/node_modules/
+pnpm-lock.yaml
 **/resource/
 **/test-workspace
 **/__test__/cases/

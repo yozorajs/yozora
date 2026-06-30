@@ -4,7 +4,7 @@ version: 2
 updates:
   # ── JavaScript / TypeScript deps (pnpm workspace; resolved via pnpm-lock.yaml) ──
   - package-ecosystem: npm
-    directory: "/"
+    directory: '/'
     schedule:
       interval: weekly
     open-pull-requests-limit: 10
@@ -22,7 +22,7 @@ updates:
 
   # ── GitHub Actions used by the CI workflow (checkout, setup-node, pnpm/action-setup) ──
   - package-ecosystem: github-actions
-    directory: "/"
+    directory: '/'
     schedule:
       interval: weekly
     labels:
