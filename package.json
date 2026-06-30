@@ -22,7 +22,7 @@
     ":upgrade": "pnpm update -i && pnpm clean && pnpm format && pnpm build && pnpm test",
     "build": "cross-env NODE_ENV=production ROLLUP_SHOULD_SOURCEMAP=true pnpm -r --filter='!@yozora/test-util' run build",
     "build:production": "cross-env NODE_ENV=production ROLLUP_SHOULD_SOURCEMAP=false pnpm -r --filter='!@yozora/test-util' run build",
-    "clean": "pnpm -r --filter='!@yozora/test-util' run clean && pnpm install",
+    "clean": "pnpm -r --filter='!@yozora/test-util' run clean",
     "doc": "pnpm doc:tokenizer && pnpm doc:parser",
     "doc:tokenizer": "tsx scripts/handlebar/tokenizer.ts",
     "doc:parser": "tsx scripts/handlebar/parser.ts",
