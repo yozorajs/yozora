@@ -6,6 +6,8 @@ import {
   shallowMutateAstInPreorderAsync,
 } from '../src'
 
+// @yozora/ast types `children` as the loose base `Node[]`, so a precisely typed
+// nested mock tree cannot be assigned to `Root` without an assertion.
 function createAstWithPositions(): Root {
   return {
     type: RootType,
@@ -49,7 +51,7 @@ function createAstWithPositions(): Root {
         ],
       },
     ],
-  }
+  } as unknown as Root
 }
 
 describe('removePositions', function () {
