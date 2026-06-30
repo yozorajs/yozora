@@ -15,6 +15,10 @@ lib/
 node_modules/
 tmp/
 
+# Generated at publish time (copied from root LICENSE)
+packages/*/LICENSE
+tokenizers/*/LICENSE
+
 # Log files
 
 npm-debug.log*
