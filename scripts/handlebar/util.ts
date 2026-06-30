@@ -1,19 +1,3 @@
-import {
-  composeTextTransformers,
-  toCamelCase,
-  toCapitalCase,
-  toConstantCase,
-  toDotCase,
-  toKebabCase,
-  toLowerCase,
-  toPascalCase,
-  toPathCase,
-  toSentenceCase,
-  toSnakeCase,
-  toTitleCase,
-  toTrim,
-  toUpperCase,
-} from '@guanghechen/std'
 import Handlebars from 'handlebars'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -21,44 +5,19 @@ import { fileURLToPath } from 'node:url'
 
 export const SCRIPT_DIRPATH = path.dirname(fileURLToPath(import.meta.url))
 
-const transformers = {
-  toCamelCase,
-  toCapitalCase,
-  toConstantCase,
-  toDotCase,
-  toKebabCase,
-  toLowerCase,
-  toPascalCase,
-  toPathCase,
-  toSentenceCase,
-  toSnakeCase,
-  toTitleCase,
-  toTrim,
-  toUpperCase,
+/**
+ * Convert a kebab-case identifier (e.g. 'inline-code') into PascalCase
+ * (e.g. 'InlineCode'). Used by templates to render tokenizer class names.
+ */
+function toPascalCase(text: string): string {
+  return text
+    .split(/[^a-zA-Z0-9]+/)
+    .filter(Boolean)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join('')
 }
 
-Handlebars.registerHelper('toCamelCase', toCamelCase)
-Handlebars.registerHelper('toCapitalCase', toCapitalCase)
-Handlebars.registerHelper('toConstantCase', toConstantCase)
-Handlebars.registerHelper('toDotCase', toDotCase)
-Handlebars.registerHelper('toKebabCase', toKebabCase)
-Handlebars.registerHelper('toLowerCase', toLowerCase)
 Handlebars.registerHelper('toPascalCase', toPascalCase)
-Handlebars.registerHelper('toPathCase', toPathCase)
-Handlebars.registerHelper('toSentenceCase', toSentenceCase)
-Handlebars.registerHelper('toSnakeCase', toSnakeCase)
-Handlebars.registerHelper('toTitleCase', toTitleCase)
-Handlebars.registerHelper('toTrim', toTrim)
-Handlebars.registerHelper('toUpperCase', toUpperCase)
-Handlebars.registerHelper('transform', (...args: any[]): string => {
-  const value = args[args.length - 1]
-  const transformFns = args
-    .slice(0, args.length - 2)
-    .map((name: string) => transformers[name as keyof typeof transformers])
-    .filter(fn => fn != null)
-  const transform = composeTextTransformers(...transformFns)
-  return transform(value)
-})
 
 /**
  * Load template
