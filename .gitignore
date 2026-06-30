@@ -13,6 +13,7 @@ coverage/
 dist/
 lib/
 node_modules/
+tmp/
 
 # Log files
 
