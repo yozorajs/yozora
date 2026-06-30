@@ -1,6 +1,15 @@
 {
   "language": "en",
   "version": "0.2",
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/lib/**",
+    "**/coverage/**",
+    "**/tmp/**",
+    "pnpm-lock.yaml",
+    "**/__test__/**",
+    "packages/character/src/constant/unicode/**"
+  ],
   "words": [
     "autolinks",
     "backticks",
@@ -11,6 +20,8 @@
     "builtins",
     "cond",
     "deduplication",
+    "dfff",
+    "dirents",
     "dirpath",
     "displaystyle",
     "docpage",

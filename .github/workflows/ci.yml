@@ -59,3 +59,5 @@ jobs:
         run: pnpm typecheck
       - name: Format check
         run: pnpm format:check
+      - name: Spellcheck
+        run: pnpm spellcheck
