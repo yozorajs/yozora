@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "tokenizers/footnote-reference"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.13/tokenizers/footnote-reference#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.16/tokenizers/footnote-reference#readme",
   "type": "module",
   "scripts": {
     "build": "rollup -c ../../rollup.config.mjs",

@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "tokenizers/list"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.13/tokenizers/list#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.16/tokenizers/list#readme",
   "type": "module",
   "scripts": {
     "build": "rollup -c ../../rollup.config.mjs",

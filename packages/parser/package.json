@@ -11,7 +11,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "packages/parser"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.13/packages/parser#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.16/packages/parser#readme",
   "keywords": [
     "markdown",
     "markdown ast",

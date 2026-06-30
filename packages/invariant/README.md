@@ -1,6 +1,6 @@
 <header>
   <h1 align="center">
-    <a href="https://github.com/yozorajs/yozora/tree/v2.3.13/packages/invariant#readme">@yozora/invariant</a>
+    <a href="https://github.com/yozorajs/yozora/tree/v2.3.16/packages/invariant#readme">@yozora/invariant</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/invariant">
@@ -77,5 +77,5 @@ when the given condition fails.
 
 ## Related
 
-[homepage]: https://github.com/yozorajs/yozora/tree/v2.3.13/packages/invariant#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/v2.3.16/packages/invariant#readme
 [tiny-invariant]: https://github.com/alexreardon/tiny-invariant

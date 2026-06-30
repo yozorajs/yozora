@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "tokenizers/autolink-extension"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.13/tokenizers/autolink-extension#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.16/tokenizers/autolink-extension#readme",
   "type": "module",
   "scripts": {
     "build": "rollup -c ../../rollup.config.mjs",
