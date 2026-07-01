@@ -17,8 +17,8 @@
   },
   "type": "module",
   "scripts": {
-    ":publish": "pnpm clean && pnpm build:production && node script/copy-license.mjs && pnpm test:coverage && changeset publish",
-    ":version": "node script/expand-changeset-dependents.mjs && changeset version && node script/sync-doc-link.mjs",
+    ":publish": "pnpm clean && pnpm build:production && node script/copy-license.mjs && pnpm test:coverage && pnpm -r publish",
+    ":version": "node script/version/version.mjs",
     ":upgrade": "pnpm update -i && pnpm clean && pnpm format && pnpm build && pnpm test",
     "build": "cross-env NODE_ENV=production ROLLUP_SHOULD_SOURCEMAP=true pnpm -r --filter='!@yozora/test-util' run build",
     "build:production": "cross-env NODE_ENV=production ROLLUP_SHOULD_SOURCEMAP=false pnpm -r --filter='!@yozora/test-util' run build",
@@ -40,6 +40,7 @@
     "rebuild": "pnpm clean && pnpm build",
     "test": "pnpm -r run --if-present test",
     "test:coverage": "pnpm -r run --if-present test:coverage",
+    "test:scripts": "node --test script/version/*.spec.mjs",
     "test:parser": "pnpm -r --filter='@yozora/parser*' run test",
     "test:tokenizer": "pnpm -r --filter='@yozora/tokenizer-*' run test",
     "test:other": "pnpm -r --filter='@yozora/ast' --filter='@yozora/ast-util' --filter='@yozora/character' --filter='@yozora/core-parser' --filter='@yozora/core-tokenizer' --filter='@yozora/invariant' --filter='@yozora/markup-weaver' run --if-present test",
@@ -47,7 +48,6 @@
     "version": "pnpm install && node script/sync-doc-link.mjs && git stage -u pnpm-lock.yaml **/package.json **/*.md"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.8",
     "@eslint/js": "9.39.3",
     "@guanghechen/std": "^2.0.2",
     "@rollup/plugin-commonjs": "29.0.0",
