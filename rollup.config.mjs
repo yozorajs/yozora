@@ -42,6 +42,10 @@ const tsPlugins = [
       declarationMap: false,
       sourceMap: shouldSourcemap,
       removeComments,
+      // Transpile-only: skip the redundant per-package semantic type-check —
+      // type correctness is enforced once by the root `pnpm typecheck`.
+      // Syntactic errors still fail the build (noEmitOnError stays true).
+      noCheck: true,
     },
   }),
   commonjs(),
