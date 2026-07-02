@@ -46,8 +46,7 @@ issues are caught before you push.
 5. Add the workspace alias in **both** `tsconfig.json` (`paths`) and `vitest.config.ts`
    (`workspaceAliases`) — these two maps are currently kept in sync by hand.
 6. Add fixtures and a spec under `__test__/`, then run `pnpm test`.
-7. Run `pnpm doc` to regenerate the package README, and `pnpm changeset` to record the change for
-   release.
+7. Run `pnpm doc` to regenerate the package README.
 
 ## Commit messages
 
@@ -56,7 +55,15 @@ Follow `:gitmoji: <type>(<scope>): <description>` (e.g.
 
 ## Releasing
 
-Releases are managed with [Changesets]. Run `pnpm changeset` to add a changeset describing your
-change; maintainers handle versioning and publishing via `pnpm :version` and `pnpm :publish`.
+The whole monorepo shares one lockstep version, so there are no per-change changeset files.
+Maintainers cut a release with the zero-dependency scripts under `script/version/`:
 
-[Changesets]: https://github.com/changesets/changesets
+```bash
+pnpm :version <patch|minor|major|x.y.z-tag> --write   # bump all packages + prepend CHANGELOGs
+git commit -am ":bookmark:  v<version>" && git tag v<version>
+pnpm :publish                                         # build + test + pnpm -r publish
+```
+
+The per-package changelog is generated automatically from the conventional-commit subjects since the
+previous `v*` tag — tidy commit messages are what feed the release notes. For the first release
+after the changesets migration (there is no `v<current>` tag yet), pass `--first-release`.

@@ -36,12 +36,25 @@ function isAncestor(rootDir, ref) {
   }
 }
 
+/** The most recent v* tag reachable from HEAD, or null when the repo has none. */
+function latestTag(rootDir) {
+  try {
+    return execFileSync('git', ['describe', '--tags', '--abbrev=0', '--match', 'v*'], {
+      cwd: rootDir,
+      encoding: 'utf8',
+    }).trim()
+  } catch {
+    return null
+  }
+}
+
 /**
  * Conventional-commit subjects for the release: commits since the previous
  * release tag `v<current>`. That tag must exist AND be an ancestor of HEAD
- * (enforces tag discipline so the `${tag}..HEAD` range is exact) unless
- * firstRelease is set, in which case the full history is used. Throws when the
- * tag is missing / non-ancestor and firstRelease is not set.
+ * (enforces tag discipline so the `${tag}..HEAD` range is exact). When it is
+ * missing, firstRelease falls back to the range since the most recent v* tag —
+ * only a brand-new repo with no v* tag at all uses the full history. Throws when
+ * the tag is missing / non-ancestor and firstRelease is not set.
  */
 export function commitsForRelease(rootDir, current, { firstRelease = false } = {}) {
   const tag = `v${current}`
@@ -54,11 +67,17 @@ export function commitsForRelease(rootDir, current, { firstRelease = false } = {
     }
     return gitSubjects(rootDir, `${tag}..HEAD`)
   }
-  if (firstRelease) return gitSubjects(rootDir, null)
+  if (firstRelease) {
+    // v<current> is missing (e.g. migrating in): start from the latest existing
+    // v* tag instead of dumping the whole repo history; only a repo with no v*
+    // tag at all falls back to full history.
+    const fallback = latestTag(rootDir)
+    return gitSubjects(rootDir, fallback ? `${fallback}..HEAD` : null)
+  }
   throw new Error(
     `Expected previous-release tag ${tag} to exist, but it does not.\n` +
       `Tag the current release first (git tag ${tag} <commit>), or pass --first-release ` +
-      `to generate the changelog from full history.`,
+      `to generate the changelog since the latest v* tag.`,
   )
 }
 

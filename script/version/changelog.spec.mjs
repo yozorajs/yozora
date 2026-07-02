@@ -1,12 +1,10 @@
 import assert from 'node:assert/strict'
+import { execFileSync } from 'node:child_process'
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { dirname, join } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { join } from 'node:path'
 import { afterEach, beforeEach, describe, test } from 'node:test'
 import { changelogBlock, commitsForRelease, prependChangelog } from './changelog.mjs'
-
-const rootDir = join(dirname(fileURLToPath(import.meta.url)), '..', '..')
 
 describe('changelogBlock', () => {
   test('empty lines fall back to "Release v<version>"', () => {
@@ -54,24 +52,71 @@ describe('prependChangelog', () => {
   })
 })
 
-// Integration: exercises the real git in this repo. All git calls are read-only
-// (rev-parse / merge-base / log). Uses a version whose tag cannot exist to test
-// the missing-tag / firstRelease branches, and v2.3.13 (a real ancestor tag) for
-// the happy path. The non-ancestor branch needs a divergent tag (a git write) and
-// is left to inspection.
-describe('commitsForRelease (reads this repo git, read-only)', () => {
+// Self-contained: each test builds a throwaway git repo with controlled tags, so
+// the git-integration logic is exercised WITHOUT depending on this repo's real
+// history/tags — which a shallow CI checkout (actions/checkout default) lacks.
+describe('commitsForRelease (isolated git repo)', () => {
+  let dir
+  const git = (...args) => execFileSync('git', args, { cwd: dir, stdio: 'ignore' })
+  const commit = subject => git('commit', '--allow-empty', '-q', '-m', subject)
+  const revParse = ref =>
+    execFileSync('git', ['rev-parse', ref], { cwd: dir, encoding: 'utf8' }).trim()
+
+  beforeEach(() => {
+    dir = mkdtempSync(join(tmpdir(), 'yozora-git-'))
+    git('init', '-q')
+    git('config', 'user.email', 'test@example.com')
+    git('config', 'user.name', 'Test')
+    git('config', 'commit.gpgsign', 'false')
+    git('config', 'tag.gpgsign', 'false')
+  })
+  afterEach(() => {
+    rmSync(dir, { recursive: true, force: true })
+  })
+
+  test('range since v<current>, newest first, dropping :bookmark: release commits', () => {
+    commit('chore: base')
+    git('tag', 'v1.0.0')
+    commit(':sparkles: feat: a')
+    commit(':bookmark: release: v1.0.0')
+    commit(':bug: fix: b')
+    assert.deepEqual(commitsForRelease(dir, '1.0.0'), [':bug: fix: b', ':sparkles: feat: a'])
+  })
+
   test('missing previous-release tag throws', () => {
-    assert.throws(() => commitsForRelease(rootDir, '99.99.99'), /Expected previous-release tag/)
+    commit('chore: base')
+    git('tag', 'v1.0.0')
+    commit('feat: a')
+    assert.throws(() => commitsForRelease(dir, '2.0.0'), /Expected previous-release tag/)
   })
 
-  test('firstRelease bypasses the tag requirement and drops release commits', () => {
-    const commits = commitsForRelease(rootDir, '99.99.99', { firstRelease: true })
-    assert.ok(Array.isArray(commits) && commits.length > 0)
-    assert.ok(commits.every(s => !s.startsWith(':bookmark:')))
+  test('firstRelease falls back to the latest v* tag, not the full history', () => {
+    commit('chore: before-tag')
+    git('tag', 'v1.0.0')
+    commit('feat: since-tag')
+    const viaFirst = commitsForRelease(dir, '2.0.0', { firstRelease: true })
+    assert.deepEqual(viaFirst, commitsForRelease(dir, '1.0.0')) // == latest-tag range
+    assert.ok(!viaFirst.includes('chore: before-tag')) // excludes history before the tag
   })
 
-  test('an existing ancestor tag yields its commit range', () => {
-    const commits = commitsForRelease(rootDir, '2.3.13')
-    assert.ok(Array.isArray(commits) && commits.length > 0)
+  test('firstRelease with no v* tag at all uses the full history', () => {
+    commit('feat: first')
+    commit('feat: second')
+    assert.deepEqual(commitsForRelease(dir, '1.0.0', { firstRelease: true }), [
+      'feat: second',
+      'feat: first',
+    ])
+  })
+
+  test('a tag not on HEAD ancestry is rejected (F-003 non-ancestor path)', () => {
+    commit('chore: base')
+    const base = revParse('HEAD')
+    commit(':sparkles: feat: main-line')
+    const mainHead = revParse('HEAD')
+    git('checkout', '-q', '-b', '_side', base)
+    commit('feat: divergent')
+    git('tag', 'v1.0.0') // v1.0.0 points at a commit NOT in HEAD's history
+    git('checkout', '-q', mainHead)
+    assert.throws(() => commitsForRelease(dir, '1.0.0'), /not an ancestor/)
   })
 })
