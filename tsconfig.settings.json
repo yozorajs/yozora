@@ -8,6 +8,7 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
     "jsx": "preserve",
     "lib": ["esnext", "DOM"],
     "module": "esnext",
@@ -34,6 +35,7 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "target": "esnext",
-    "useUnknownInCatchVariables": true
+    "useUnknownInCatchVariables": true,
+    "verbatimModuleSyntax": true
   }
 }
