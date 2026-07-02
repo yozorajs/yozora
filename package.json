@@ -45,8 +45,7 @@
     "test:parser": "pnpm -r --filter='@yozora/parser*' run test",
     "test:tokenizer": "pnpm -r --filter='@yozora/tokenizer-*' run test",
     "test:other": "pnpm -r --filter='@yozora/ast' --filter='@yozora/ast-util' --filter='@yozora/character' --filter='@yozora/core-parser' --filter='@yozora/core-tokenizer' --filter='@yozora/invariant' --filter='@yozora/markup-weaver' run --if-present test",
-    "test:update": "pnpm -r run --if-present test:update",
-    "version": "pnpm install && node script/sync-doc-link.mjs && git stage -u pnpm-lock.yaml **/package.json **/*.md"
+    "test:update": "pnpm -r run --if-present test:update"
   },
   "devDependencies": {
     "@eslint/js": "9.39.3",
