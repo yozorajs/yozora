@@ -63,3 +63,5 @@ jobs:
         run: pnpm spellcheck
       - name: Test scripts
         run: pnpm test:scripts
+      - name: tsconfig paths in sync
+        run: pnpm sync:paths && git diff --exit-code tsconfig.json

@@ -43,8 +43,8 @@ issues are caught before you push.
    `index.ts`). See `@yozora/core-tokenizer` for the tokenizer API.
 4. Register it in the relevant parser barrel(s): `packages/parser-gfm/src/index.ts` and/or
    `packages/parser-gfm-ex/src/index.ts`.
-5. Add the workspace alias in **both** `tsconfig.json` (`paths`) and `vitest.config.ts`
-   (`workspaceAliases`) — these two maps are currently kept in sync by hand.
+5. Run `pnpm sync:paths` to register the workspace alias in `tsconfig.json` (vitest resolves the
+   `@yozora/*` aliases automatically at runtime from the workspace, so it needs no manual edit).
 6. Add fixtures and a spec under `__test__/`, then run `pnpm test`.
 7. Run `pnpm doc` to regenerate the package README.
 

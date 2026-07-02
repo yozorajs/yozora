@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "allowJs": true,
     "declaration": true,
     "declarationMap": true,
     "noUnusedLocals": false,
