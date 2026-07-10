@@ -11,6 +11,9 @@ importers:
       '@eslint/js':
         specifier: 9.39.4
         version: 9.39.4
+      '@guanghechen/githooks':
+        specifier: ^1.0.0
+        version: 1.0.0
       '@guanghechen/std':
         specifier: ^2.0.3
         version: 2.0.3
@@ -53,18 +56,9 @@ importers:
       handlebars:
         specifier: 4.7.9
         version: 4.7.9
-      husky:
-        specifier: 9.1.7
-        version: 9.1.7
-      is-ci:
-        specifier: 4.1.0
-        version: 4.1.0
       lint-staged:
         specifier: 16.4.0
         version: 16.4.0
-      pinst:
-        specifier: 3.0.0
-        version: 3.0.0
       prettier:
         specifier: 3.9.5
         version: 3.9.5
@@ -1446,6 +1440,11 @@ packages:
     resolution: {integrity: sha512-43/qtrDUokr7LJqoF2c3+RInu/t4zfrpYdoSDfYyhg52rwLV6TnOvdG4fXm7IkSB3wErkcmJS9iEhjVtOSEjjA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+  '@guanghechen/githooks@1.0.0':
+    resolution: {integrity: sha512-r1EKAEtNNw8dNVXQXvkoLtj6KOjnDlejk4GCJSeZI5xN84he6SPiV+SLu3+gKPJu2pIzC4F44omvMYskCsMHog==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
+
   '@guanghechen/std@2.0.3':
     resolution: {integrity: sha512-AYVcXWys5gdtFOI8dhIdmMf2WeLCD3kahqw2dya5vq3PoXTCNzBgrjMAdkSfUYhv33z+BOVERrPNEPuCKZNOOw==}
 
@@ -1957,10 +1956,6 @@ packages:
     resolution: {integrity: sha512-7NzBL0rN6fMUW+f7A6Io4h40qQlG+xGmtMxfbnH/K7TAtt8JQWVQK+6g0UXKMeVJoyV5EkkNsErQ8pVD3bLHbA==}
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
 
-  ci-info@4.4.0:
-    resolution: {integrity: sha512-77PSwercCZU2Fc4sX94eF8k8Pxte6JAwL4/ICZLFjJLqegs7kCuAsqqj/70NQF6TvDpgFjkubQB2FW2ZZddvQg==}
-    engines: {node: '>=8'}
-
   cli-cursor@5.0.0:
     resolution: {integrity: sha512-aCj4O5wKyszjMmDT4tZj93kxyydN/K5zPWSCe6/0AV/AA1pqe5ZBIw0a2ZfPQV7lL5/yb5HsUreJ6UFAF1tEQw==}
     engines: {node: '>=18'}
@@ -2278,11 +2273,6 @@ packages:
   html-escaper@2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
 
-  husky@9.1.7:
-    resolution: {integrity: sha512-5gs5ytaNjBrh5Ow3zrvdUUY+0VxIuWVL4i9irt6friV+BqdCfmV11CQTWMiBYWHbXhco+J1kHfTOUkePhCDvMA==}
-    engines: {node: '>=18'}
-    hasBin: true
-
   ignore@5.3.2:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
@@ -2309,10 +2299,6 @@ packages:
   ini@6.0.0:
     resolution: {integrity: sha512-IBTdIkzZNOpqm7q3dRqJvMaldXjDHWkEDfrwGEQTs5eaQMWV+djAhR+wahyNNMAa+qpbDUhBMVt4ZKNwpPm7xQ==}
     engines: {node: ^20.17.0 || >=22.9.0}
-
-  is-ci@4.1.0:
-    resolution: {integrity: sha512-Ab9bQDQ11lWootZUI5qxgN2ZXwxNI5hTwnsvOc1wyxQ7zQ8OkEDw79mI0+9jI3x432NfwbVRru+3noJfXF6lSQ==}
-    hasBin: true
 
   is-core-module@2.16.1:
     resolution: {integrity: sha512-UfoeMA6fIJ8wTYFEUjelnaGI67v6+N7qXJEvQuIGa99l4xsCruSYOVSQ0uPANn4dAzm8lkYPaKLrrijLq7x23w==}
@@ -2506,11 +2492,6 @@ packages:
   picomatch@4.0.5:
     resolution: {integrity: sha512-RvwwcruNjI1ncT5xRakeyS9Lf8lcItv34KD+aif+VH9kduAyfYBipGh12274xtenIPZ119/R9BdTBa8gAwSh0A==}
     engines: {node: '>=12'}
-
-  pinst@3.0.0:
-    resolution: {integrity: sha512-cengSmBxtCyaJqtRSvJorIIZXMXg+lJ3sIljGmtBGUVonMnMsVJbnzl6jGN1HkOWwxNuJynCJ2hXxxqCQrFDdw==}
-    engines: {node: '>=12.0.0'}
-    hasBin: true
 
   postcss@8.5.16:
     resolution: {integrity: sha512-vuwillviilfKZsg0VGj5R/YwwcHx4SLsIOI/7K6mQkWx+l5cUHTjj5g0AasTBcyXsbfTgrwsUNmVUb5xVwyPwg==}
@@ -3293,6 +3274,8 @@ snapshots:
       '@eslint/core': 0.17.0
       levn: 0.4.1
 
+  '@guanghechen/githooks@1.0.0': {}
+
   '@guanghechen/std@2.0.3': {}
 
   '@humanfs/core@0.19.1': {}
@@ -3750,8 +3733,6 @@ snapshots:
 
   chalk@5.6.2: {}
 
-  ci-info@4.4.0: {}
-
   cli-cursor@5.0.0:
     dependencies:
       restore-cursor: 5.1.0
@@ -4151,8 +4132,6 @@ snapshots:
 
   html-escaper@2.0.2: {}
 
-  husky@9.1.7: {}
-
   ignore@5.3.2: {}
 
   ignore@7.0.5: {}
@@ -4169,10 +4148,6 @@ snapshots:
   imurmurhash@0.1.4: {}
 
   ini@6.0.0: {}
-
-  is-ci@4.1.0:
-    dependencies:
-      ci-info: 4.4.0
 
   is-core-module@2.16.1:
     dependencies:
@@ -4354,8 +4329,6 @@ snapshots:
   picomatch@4.0.4: {}
 
   picomatch@4.0.5: {}
-
-  pinst@3.0.0: {}
 
   postcss@8.5.16:
     dependencies:

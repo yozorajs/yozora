@@ -9,6 +9,7 @@
 *.tsbuildinfo
 
 .nx/
+.githooks/
 coverage/
 dist/
 lib/

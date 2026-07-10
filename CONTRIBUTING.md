@@ -15,7 +15,7 @@ workflows.
 pnpm install
 ```
 
-This installs all workspace dependencies and sets up the Husky git hooks.
+This installs all workspace dependencies and sets up the git hooks via `@guanghechen/githooks`.
 
 ## Common commands
 
