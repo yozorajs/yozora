@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
 import { afterEach, beforeEach, describe, test } from 'node:test'
 import { changelogBlock, commitsForRelease, prependChangelog } from './changelog.mjs'
 
@@ -59,6 +59,13 @@ describe('commitsForRelease (isolated git repo)', () => {
   let dir
   const git = (...args) => execFileSync('git', args, { cwd: dir, stdio: 'ignore' })
   const commit = subject => git('commit', '--allow-empty', '-q', '-m', subject)
+  const commitFile = (subject, file) => {
+    const path = join(dir, file)
+    mkdirSync(dirname(path), { recursive: true })
+    writeFileSync(path, `${subject}\n`)
+    git('add', '--', file)
+    git('commit', '-q', '-m', subject)
+  }
   const revParse = ref =>
     execFileSync('git', ['rev-parse', ref], { cwd: dir, encoding: 'utf8' }).trim()
 
@@ -81,6 +88,22 @@ describe('commitsForRelease (isolated git repo)', () => {
     commit(':bookmark: release: v1.0.0')
     commit(':bug: fix: b')
     assert.deepEqual(commitsForRelease(dir, '1.0.0'), [':bug: fix: b', ':sparkles: feat: a'])
+  })
+
+  test('path spec includes only commits touching that package directory', () => {
+    commitFile('chore: base', 'README.md')
+    git('tag', 'v1.0.0')
+    commitFile(':sparkles: feat(pkg-a): add a', 'packages/a/index.ts')
+    commitFile(':bug: fix(pkg-b): fix b', 'packages/b/index.ts')
+    commitFile(':wrench: chore(tooling): update root config', 'eslint.config.mjs')
+
+    assert.deepEqual(commitsForRelease(dir, '1.0.0', { pathSpec: 'packages/a' }), [
+      ':sparkles: feat(pkg-a): add a',
+    ])
+    assert.deepEqual(commitsForRelease(dir, '1.0.0', { pathSpec: 'packages/b' }), [
+      ':bug: fix(pkg-b): fix b',
+    ])
+    assert.deepEqual(commitsForRelease(dir, '1.0.0', { pathSpec: 'packages/c' }), [])
   })
 
   test('missing previous-release tag throws', () => {

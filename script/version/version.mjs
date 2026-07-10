@@ -95,39 +95,45 @@ if (byVersion.size !== 1) {
 }
 const current = manifests[0].pkg.version
 
-// ---- compute next version + changelog lines ----
+// ---- compute next version + package-scoped changelog entries ----
 let next
-let lines
+let releases
 try {
   next = bump(current, kind, { allowDowngrade })
-  lines =
-    note !== undefined
-      ? note
+  const noteLines =
+    note === undefined
+      ? null
+      : note
           .split('\n')
           .map(l => l.trim())
           .filter(Boolean)
-      : commitsForRelease(rootDir, current, { firstRelease })
+  const date = new Date().toISOString().slice(0, 10)
+  releases = manifests.map(manifest => {
+    const lines =
+      noteLines ??
+      commitsForRelease(rootDir, current, {
+        firstRelease,
+        pathSpec: rel(manifest.dir),
+      })
+    return { ...manifest, lines, block: changelogBlock(next, date, lines) }
+  })
 } catch (e) {
   die(e.message)
 }
-const date = new Date().toISOString().slice(0, 10)
-const block = changelogBlock(next, date, lines)
 
 console.log(
   `${current} → ${next}  (${manifests.length} packages)${write ? '' : '  [dry-run — pass --write to apply]'}`,
 )
-console.log('\nCHANGELOG block to prepend:')
-console.log(
-  block
-    .split('\n')
-    .map(l => `  ${l}`)
-    .join('\n'),
-)
+console.log('\nCHANGELOG entries to prepend:')
+for (const { dir, lines } of releases) {
+  console.log(`  ${rel(dir)}:`)
+  for (const line of lines.length ? lines : [`Release v${next}`]) console.log(`    - ${line}`)
+}
 
 if (!write) process.exit(0)
 
 // ---- apply ----
-for (const { dir, path, pkg } of manifests) {
+for (const { dir, path, pkg, block } of releases) {
   pkg.version = next
   writeFileSync(path, JSON.stringify(pkg, null, 2) + '\n')
   prependChangelog(dir, next, block)

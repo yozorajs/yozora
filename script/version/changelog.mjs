@@ -16,9 +16,10 @@ function tagExists(rootDir, tag) {
   }
 }
 
-function gitSubjects(rootDir, range) {
+function gitSubjects(rootDir, range, pathSpec) {
   const args = ['log', '--pretty=%s', '--no-merges']
   if (range) args.push(range)
+  if (pathSpec) args.push('--', pathSpec)
   const raw = execFileSync('git', args, { cwd: rootDir, encoding: 'utf8' }).trim()
   if (!raw) return []
   return raw.split('\n').filter(s => !/^:bookmark:/.test(s)) // drop release commits
@@ -52,11 +53,13 @@ function latestTag(rootDir) {
  * Conventional-commit subjects for the release: commits since the previous
  * release tag `v<current>`. That tag must exist AND be an ancestor of HEAD
  * (enforces tag discipline so the `${tag}..HEAD` range is exact). When it is
- * missing, firstRelease falls back to the range since the most recent v* tag —
- * only a brand-new repo with no v* tag at all uses the full history. Throws when
+ * missing, firstRelease falls back to the range since the most recent v* tag.
+ * When a path filter is set, only commits touching that repository-relative path
+ * are returned. Only a brand-new repo with no v* tag at all uses the full history.
+ * Throws when
  * the tag is missing / non-ancestor and firstRelease is not set.
  */
-export function commitsForRelease(rootDir, current, { firstRelease = false } = {}) {
+export function commitsForRelease(rootDir, current, { firstRelease = false, pathSpec } = {}) {
   const tag = `v${current}`
   if (tagExists(rootDir, tag)) {
     if (!isAncestor(rootDir, `refs/tags/${tag}`)) {
@@ -65,14 +68,14 @@ export function commitsForRelease(rootDir, current, { firstRelease = false } = {
           `Fetch tags or repair ${tag} (it may point to a different history).`,
       )
     }
-    return gitSubjects(rootDir, `${tag}..HEAD`)
+    return gitSubjects(rootDir, `${tag}..HEAD`, pathSpec)
   }
   if (firstRelease) {
     // v<current> is missing (e.g. migrating in): start from the latest existing
     // v* tag instead of dumping the whole repo history; only a repo with no v*
     // tag at all falls back to full history.
     const fallback = latestTag(rootDir)
-    return gitSubjects(rootDir, fallback ? `${fallback}..HEAD` : null)
+    return gitSubjects(rootDir, fallback ? `${fallback}..HEAD` : null, pathSpec)
   }
   throw new Error(
     `Expected previous-release tag ${tag} to exist, but it does not.\n` +

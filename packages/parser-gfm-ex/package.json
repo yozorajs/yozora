@@ -1,6 +1,6 @@
 {
   "name": "@yozora/parser-gfm-ex",
-  "version": "2.3.16",
+  "version": "2.3.17",
   "description": "A markdown parser with built-in tokenizers to fully support GFM and GFM extensions",
   "author": {
     "name": "guanghechen",
@@ -11,7 +11,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "packages/parser-gfm-ex"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.16/packages/parser-gfm-ex#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.17/packages/parser-gfm-ex#readme",
   "keywords": [
     "markdown",
     "markdown ast",

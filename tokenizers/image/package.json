@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-image",
-  "version": "2.3.16",
+  "version": "2.3.17",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "tokenizers/image"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.16/tokenizers/image#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.17/tokenizers/image#readme",
   "type": "module",
   "scripts": {
     "build": "rollup -c ../../rollup.config.mjs",

@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.3.17 (2026-07-10)
+
+- :memo: docs: sync package homepage/README links to v2.3.16
+- :wrench: chore(tooling): migrate eslint and rollup configs and align formatting
+- :wrench: chore(engines): keep node requirement at root only
+- :wrench: chore: migrate workspace from yarn to pnpm
+- :recycle:  refactor: migrate from Lerna/Nx to Yarn workspaces + Changeset
+
 ## 2.3.16
 
 ### Patch Changes

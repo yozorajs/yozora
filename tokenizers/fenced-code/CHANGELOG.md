@@ -1,5 +1,14 @@
 # Change Log
 
+## 2.3.17 (2026-07-10)
+
+- :memo: docs: sync package homepage/README links to v2.3.16
+- :wrench: chore(engines): keep node requirement at root only
+- :wrench: chore: migrate workspace from yarn to pnpm
+- :memo: docs(readme): keep npm-only install instructions
+- :recycle:  refactor: migrate from Lerna/Nx to Yarn workspaces + Changeset
+- :recycle:  refactor: migrate from Jest to Vitest and restructure test utilities
+
 ## 2.3.16
 
 ### Patch Changes

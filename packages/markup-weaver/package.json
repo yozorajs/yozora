@@ -1,6 +1,6 @@
 {
   "name": "@yozora/markup-weaver",
-  "version": "2.3.16",
+  "version": "2.3.17",
   "description": "Weave markup-like AST into markup content.",
   "author": {
     "name": "guanghechen",
@@ -11,7 +11,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "packages/markup-weaver"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.16/packages/markup-weaver#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.3.17/packages/markup-weaver#readme",
   "type": "module",
   "scripts": {
     "build": "rollup -c ../../rollup.config.mjs",
