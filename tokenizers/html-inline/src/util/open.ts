@@ -54,7 +54,7 @@ export function eatHtmlInlineTokenOpenDelimiter(
   if (tagNameEndIndex == null) return null
 
   const attributes: RawHTMLAttribute[] = []
-  for (i = tagNameEndIndex; i < endIndex; ) {
+  for (i = tagNameEndIndex; i < endIndex;) {
     const result = eatHTMLAttribute(nodePoints, i, endIndex)
     if (result == null) break
     attributes.push(result.attribute)

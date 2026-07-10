@@ -122,7 +122,7 @@ export const createPhrasingContentProcessor = (
 
       let tokenIndex = 0
       processor.reset(tokens)
-      for (let i = _startIndex; i < _endIndex; ) {
+      for (let i = _startIndex; i < _endIndex;) {
         let endIndex = _endIndex
         for (; tokenIndex < tokens.length; ++tokenIndex) {
           const token = tokens[tokenIndex]
@@ -175,7 +175,7 @@ export const createProcessorHookGroups = (
   ) => readonly IInlineToken[],
 ): IDelimiterProcessorHook[][] => {
   const hookGroups: IDelimiterProcessorHook[][] = []
-  for (let i = 0; i < tokenizers.length; ) {
+  for (let i = 0; i < tokenizers.length;) {
     const hookGroup: IDelimiterProcessorHook[] = []
     hookGroups.push(hookGroup)
 

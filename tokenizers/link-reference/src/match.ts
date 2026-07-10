@@ -123,7 +123,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
             identifier: result1.labelAndIdentifier.identifier,
           })
 
-          for (i = result1.nextIndex; i < endIndex; ) {
+          for (i = result1.nextIndex; i < endIndex;) {
             if (nodePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET) break
             const { labelAndIdentifier, nextIndex } = eatLinkLabel(nodePoints, i, endIndex)
 
@@ -189,7 +189,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
             brackets,
           }
 
-          for (i = result1.nextIndex; i < endIndex; ) {
+          for (i = result1.nextIndex; i < endIndex;) {
             if (nodePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET) break
             const { labelAndIdentifier, nextIndex } = eatLinkLabel(nodePoints, i, endIndex)
 

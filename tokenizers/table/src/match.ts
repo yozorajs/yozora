@@ -60,7 +60,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
     let c = nodePoints[firstNonWhitespaceIndex].codePoint
     let cIndex =
       c === AsciiCodePoint.VERTICAL_SLASH ? firstNonWhitespaceIndex + 1 : firstNonWhitespaceIndex
-    for (; cIndex < endIndex; ) {
+    for (; cIndex < endIndex;) {
       for (; cIndex < endIndex; ++cIndex) {
         c = nodePoints[cIndex].codePoint
         if (!isWhitespaceCharacter(c)) break

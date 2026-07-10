@@ -30,7 +30,7 @@ export function eatStartCondition7(
 
   if (potentialOpenTag) {
     // Try to resolve an open tag.
-    for (; i < endIndex; ) {
+    for (; i < endIndex;) {
       const result = eatHTMLAttribute(nodePoints, i, endIndex)
       if (result == null) break
       i = result.nextIndex

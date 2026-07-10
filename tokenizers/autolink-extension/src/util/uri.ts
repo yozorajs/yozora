@@ -139,7 +139,7 @@ export function eatOptionalDomainFollows(
     if (countOfOpenParenthesis > 0) {
       nextIndex += 2
       countOfOpenParenthesis -= 1
-      for (; nextIndex < endIndex && countOfOpenParenthesis > 0; ) {
+      for (; nextIndex < endIndex && countOfOpenParenthesis > 0;) {
         const c = nodePoints[nextIndex].codePoint
         if (c !== AsciiCodePoint.CLOSE_PARENTHESIS) break
         countOfOpenParenthesis -= 1
@@ -189,7 +189,7 @@ export function eatValidDomain(
   let nextIndex = segment.nextIndex,
     countOfPeriod = 0
   let countOfUnderscoreOfLastTwoSegment = segment.hasUnderscore ? 2 : 0
-  for (; nextIndex < endIndex; ) {
+  for (; nextIndex < endIndex;) {
     if (nodePoints[nextIndex].codePoint !== AsciiCodePoint.DOT) break
 
     const segment = eatDomainSegment(nodePoints, nextIndex + 1, endIndex)

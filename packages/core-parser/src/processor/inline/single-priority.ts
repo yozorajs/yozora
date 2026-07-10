@@ -273,7 +273,7 @@ const mergeSortedTokenStack = (
   const tokens: IInlineToken[] = []
   let i1 = 0
   let i2 = 0
-  for (; i1 < tokens1.length && i2 < tokens2.length; ) {
+  for (; i1 < tokens1.length && i2 < tokens2.length;) {
     if (tokens1[i1].startIndex < tokens2[i2].startIndex) {
       tokens.push(tokens1[i1])
       i1 += 1

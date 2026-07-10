@@ -63,7 +63,7 @@ export function eatEmailAddress(
   i = eatAddressPart0(nodePoints, i + 2, endIndex)
 
   // Match /(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*/
-  for (; i + 1 < endIndex; ) {
+  for (; i + 1 < endIndex;) {
     let c = nodePoints[i].codePoint
     if (c !== AsciiCodePoint.DOT) break
 

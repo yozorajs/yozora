@@ -224,7 +224,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     const results: Node[] = []
     for (let i0 = 0, i1: number; i0 < tokens.length; i0 = i1) {
       const _tokenizer: string = tokens[i0]._tokenizer
-      for (i1 = i0 + 1; i1 < tokens.length && tokens[i1]._tokenizer === _tokenizer; ) i1 += 1
+      for (i1 = i0 + 1; i1 < tokens.length && tokens[i1]._tokenizer === _tokenizer;) i1 += 1
 
       const hook = parseBlockHookMap.get(_tokenizer)
 
@@ -273,7 +273,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     const results: Node[] = []
     for (let i0 = 0, i1: number; i0 < tokens.length; i0 = i1) {
       const _tokenizer: string = tokens[i0]._tokenizer
-      for (i1 = i0 + 1; i1 < tokens.length && tokens[i1]._tokenizer === _tokenizer; ) i1 += 1
+      for (i1 = i0 + 1; i1 < tokens.length && tokens[i1]._tokenizer === _tokenizer;) i1 += 1
 
       const hook = parseInlineHookMap.get(_tokenizer)
 
