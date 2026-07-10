@@ -273,7 +273,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
       token.position.end = calcEndPoint(lastLine.nodePoints, lastLine.endIndex - 1)
       return {
         status: 'closingAndRollback',
-        lines: token.lines.slice(token.lineNoOfTitle - 1),
+        lines: token.lines.slice(token.lineNoOfTitle - token.lineNoOfLabel),
       }
     }
 
@@ -303,7 +303,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
           return { status: 'failedAndRollback', lines: token.lines }
         }
 
-        const lines = token.lines.splice(token.lineNoOfTitle - 1)
+        const lines = token.lines.splice(token.lineNoOfTitle - token.lineNoOfLabel)
         const lastLine = token.lines[token.lines.length - 1]
 
         token.title = null

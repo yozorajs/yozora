@@ -246,6 +246,112 @@
           }
         ]
       }
+    },
+    {
+      "description": "rolls back an invalid title after preceding blocks",
+      "input": "prefix\n\n[foo]: /url\n\"unterminated\nnext",
+      "markupAnswer": "prefix\n\n[foo]: /url\n\n\"unterminated\nnext",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 5,
+            "offset": 38
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 8,
+                "offset": 7
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  }
+                },
+                "value": "prefix"
+              }
+            ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 8
+              },
+              "end": {
+                "line": 3,
+                "column": 13,
+                "offset": 20
+              }
+            },
+            "identifier": "foo",
+            "label": "foo",
+            "url": "/url"
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 20
+              },
+              "end": {
+                "line": 5,
+                "column": 5,
+                "offset": 38
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 20
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 5,
+                    "offset": 38
+                  }
+                },
+                "value": "\"unterminated\nnext"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }
