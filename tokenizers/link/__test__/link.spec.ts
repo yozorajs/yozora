@@ -20,6 +20,38 @@ test('link node should omit position when shouldReservePosition is false', funct
 })
 
 test.each([
+  [
+    'autolink after inline link',
+    '[x](/u) <https://example.com/a>',
+    [
+      ['link', '/u'],
+      ['text', ' '],
+      ['link', 'https://example.com/a'],
+    ],
+  ],
+  [
+    'autolink before inline link',
+    '<https://example.com/a> [x](/u)',
+    [
+      ['link', 'https://example.com/a'],
+      ['text', ' '],
+      ['link', '/u'],
+    ],
+  ],
+  [
+    'angle-bracket link destination',
+    '[x](<https://example.com/a>)',
+    [['link', 'https://example.com/a']],
+  ],
+])('resolves %s', (_description, input, expected) => {
+  const ast = parsers.gfm.parse(input, { shouldReservePosition: false })
+  const paragraph = ast.children[0] as any
+  const actual = paragraph.children.map((node: any) => [node.type, node.url ?? node.value])
+
+  expect(actual).toEqual(expected)
+})
+
+test.each([
   ['https://example.com/%2Fadmin', 'https://example.com/%2Fadmin'],
   ['https://example.com/%252Fadmin', 'https://example.com/%252Fadmin'],
   ['https://example.com/%23frag', 'https://example.com/%23frag'],
