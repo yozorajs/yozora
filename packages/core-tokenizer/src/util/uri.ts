@@ -3,22 +3,34 @@ import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcStringFromNodePoints, foldCase } from '@yozora/character'
 import type { IInlineToken } from '../types/token'
 
+const hexDigits = '0123456789ABCDEF'
+const uriSafeCharacters = "-_.+!*'(),%#@?=;:/&$~"
+const utf8Encoder = new TextEncoder()
+
 /**
  * Encode link url.
  * @param destination
  */
 export function encodeLinkDestination(destination: string): string {
-  let result: string = destination
-  for (;;) {
-    try {
-      const result2 = decodeURIComponent(result)
-      if (result2 === result) break
-      result = result2
-    } catch (_) {
-      break
+  let result = ''
+
+  for (const byte of utf8Encoder.encode(destination)) {
+    const isAlphanumeric =
+      (byte >= 0x30 && byte <= 0x39) ||
+      (byte >= 0x41 && byte <= 0x5a) ||
+      (byte >= 0x61 && byte <= 0x7a)
+    const character = String.fromCharCode(byte)
+
+    if (isAlphanumeric || uriSafeCharacters.includes(character)) {
+      result += character
+    } else {
+      const highHexDigit = hexDigits[byte >> 4]
+      const lowHexDigit = hexDigits[byte & 0x0f]
+      result += `%${highHexDigit}${lowHexDigit}`
     }
   }
-  return encodeURI(result)
+
+  return result
 }
 
 /**
