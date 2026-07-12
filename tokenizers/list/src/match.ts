@@ -22,6 +22,7 @@ import {
   calcIndentWidth,
   calcStartPoint,
   eatIndentation,
+  isBlankRange,
 } from '@yozora/core-tokenizer'
 import type { IThis, IToken, T } from './types'
 
@@ -220,6 +221,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
      * contents and attributes. If a line is empty, then it need not be indented.
      */
     const indent = line.indentWidth + markerWidth + separatorWidth
+    const isEmpty = isBlankRange(nodePoints, nextIndex, endIndex)
 
     // Try to resolve task status.
     let status: TaskStatus | null = null
@@ -228,6 +230,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
     }
 
     const token: IToken = {
+      _isEmpty: isEmpty,
       nodeType: ListType,
       position: {
         start: calcStartPoint(nodePoints, startIndex),
@@ -263,9 +266,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
      * @see https://github.github.com/gfm/#example-263
      */
     if (emptyItemCouldNotInterruptedTypes.includes(prevSiblingToken.nodeType)) {
-      if (token.indent === line.endIndex - line.startIndex) {
-        return null
-      }
+      if (token._isEmpty) return null
 
       /**
        * In order to solve of unwanted lists in paragraphs with hard-wrapped

@@ -93,3 +93,17 @@ for (const [indentWidth, initialIndent] of ['', ' ', '  ', '   '].entries()) {
     })
   })
 }
+
+for (const [indentWidth, initialIndent] of ['', ' ', '  ', '   '].entries()) {
+  test(`does not interrupt a paragraph with a ${indentWidth}-column indented empty item`, () => {
+    expect(parsers.gfm.parse(`foo\n${initialIndent}+\t`)).toMatchObject({
+      children: [{ type: 'paragraph', children: [{ type: 'text', value: 'foo\n+' }] }],
+    })
+  })
+}
+
+test('interrupts a paragraph with a task-like non-empty item', () => {
+  expect(parsers.gfm.parse('foo\n- [ ]')).toMatchObject({
+    children: [{ type: 'paragraph' }, { type: 'list' }],
+  })
+})

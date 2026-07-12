@@ -12,6 +12,10 @@ export const uniqueName = '@yozora/tokenizer-list'
 
 export interface IToken extends IPartialBlockToken<T> {
   /**
+   * Whether the opening line contains no list-item content.
+   */
+  _isEmpty: boolean
+  /**
    * Is it an ordered list item.
    */
   ordered: boolean

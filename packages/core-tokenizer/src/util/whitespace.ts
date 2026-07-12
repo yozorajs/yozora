@@ -1,5 +1,6 @@
 import type { ICodePoint, INodePoint } from '@yozora/character'
 import {
+  AsciiCodePoint,
   VirtualCodePoint,
   isLineEnding,
   isSpaceCharacter,
@@ -201,6 +202,29 @@ export function eatOptionalWhitespacesReverse(
   let i: number = endIndex - 1
   while (i >= startIndex && isWhitespaceCharacter(nodePoints[i].codePoint)) i -= 1
   return i + 1
+}
+
+/**
+ * Check whether the given range contains only spaces, tabs, or line endings.
+ *
+ * @see https://github.github.com/gfm/#blank-line
+ */
+export function isBlankRange(
+  nodePoints: readonly INodePoint[],
+  startIndex: number,
+  endIndex: number,
+): boolean {
+  for (let i = startIndex; i < endIndex; ++i) {
+    const codePoint = nodePoints[i].codePoint
+    if (
+      codePoint !== AsciiCodePoint.SPACE &&
+      codePoint !== VirtualCodePoint.SPACE &&
+      codePoint !== VirtualCodePoint.LINE_END
+    ) {
+      return false
+    }
+  }
+  return true
 }
 
 /**
