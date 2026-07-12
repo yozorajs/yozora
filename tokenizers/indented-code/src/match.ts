@@ -29,24 +29,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
     if (line.countOfPrecedeSpaces < 4) return null
     const { nodePoints, startIndex, firstNonWhitespaceIndex, endIndex } = line
 
-    let firstIndex = startIndex + 4
-
-    /**
-     * If there exists 1-3 spaces before a tab forms the indent, the remain
-     * virtual spaces of the tab should not be a part of the contents.
-     * @see https://github.github.com/gfm/#example-2
-     */
-    if (
-      nodePoints[startIndex].codePoint === AsciiCodePoint.SPACE &&
-      nodePoints[startIndex + 3].codePoint === VirtualCodePoint.SPACE
-    ) {
-      let i = startIndex + 1
-      for (; i < firstNonWhitespaceIndex; ++i) {
-        if (nodePoints[i].codePoint === VirtualCodePoint.SPACE) break
-      }
-      firstIndex = i + 4
-    }
-
+    const firstIndex = calcCodeContentStart(line)
     const nextIndex = endIndex
     const token: IToken = {
       nodeType: CodeType,
@@ -81,7 +64,10 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
      * @see https://github.github.com/gfm/#example-81
      * @see https://github.github.com/gfm/#example-82
      */
-    const firstIndex = Math.min(endIndex - 1, startIndex + 4)
+    const firstIndex =
+      firstNonWhitespaceIndex < endIndex
+        ? calcCodeContentStart(line)
+        : Math.min(endIndex - 1, startIndex + 4)
     token.lines.push({
       nodePoints,
       startIndex: firstIndex,
@@ -91,4 +77,26 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
     })
     return { status: 'opening', nextIndex: endIndex }
   }
+}
+
+function calcCodeContentStart(line: Readonly<IPhrasingContentLine>): number {
+  const { nodePoints, startIndex, firstNonWhitespaceIndex } = line
+  let firstIndex = startIndex + 4
+
+  /**
+   * If there exists 1-3 spaces before a tab forms the indent, the remaining
+   * virtual spaces of the tab should not be a part of the contents.
+   * @see https://github.github.com/gfm/#example-2
+   */
+  if (
+    nodePoints[startIndex].codePoint === AsciiCodePoint.SPACE &&
+    nodePoints[startIndex + 3].codePoint === VirtualCodePoint.SPACE
+  ) {
+    let i = startIndex + 1
+    for (; i < firstNonWhitespaceIndex; ++i) {
+      if (nodePoints[i].codePoint === VirtualCodePoint.SPACE) break
+    }
+    firstIndex = i + 4
+  }
+  return firstIndex
 }
