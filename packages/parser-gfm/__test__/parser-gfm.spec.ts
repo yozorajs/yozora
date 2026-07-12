@@ -1,4 +1,5 @@
 import { createTokenizerTester } from '@yozora/test-util'
+import { expect, test } from 'vitest'
 import { parsers } from 'vitest.setup'
 
 createTokenizerTester(parsers.gfm)
@@ -10,3 +11,9 @@ createTokenizerTester(parsers.gfm)
     '!gfm/table/**/*',
   ])
   .runTest()
+
+test('parses chunked input independently of chunk boundaries', () => {
+  const content = 'a\r\nb😀c'
+
+  expect(parsers.gfm.parse(content.split(''))).toEqual(parsers.gfm.parse(content))
+})

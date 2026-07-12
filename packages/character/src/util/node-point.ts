@@ -7,6 +7,34 @@ import { isAsciiPunctuationCharacter } from './charset/ascii'
 import { eatEntityReference } from './entity-reference'
 
 /**
+ * Keep CRLF and UTF-16 surrogate pairs intact across string chunks.
+ */
+function* mergeBoundaryCodeUnits(chunks: Iterable<string>): Iterable<string> {
+  let pending = ''
+
+  for (const chunk of chunks) {
+    let content = pending + chunk
+    pending = ''
+
+    if (content.length > 0) {
+      const lastIndex = content.length - 1
+      const lastCodeUnit = content.charCodeAt(lastIndex)
+      const shouldWait =
+        lastCodeUnit === AsciiCodePoint.CR || (lastCodeUnit >= 0xd800 && lastCodeUnit <= 0xdbff)
+
+      if (shouldWait) {
+        pending = content[lastIndex]
+        content = content.slice(0, lastIndex)
+      }
+    }
+
+    yield content
+  }
+
+  if (pending.length > 0) yield pending
+}
+
+/**
  * Create a generator to processing string stream.
  */
 export function* createNodePointGenerator(
@@ -23,7 +51,8 @@ export function* createNodePointGenerator(
    * INodePoint and subsequent processing of IPhrasingContentLine to degrade, so
    * preprocessing of input content is necessary.
    */
-  const contents = typeof literalStrings === 'string' ? [literalStrings] : literalStrings
+  const contents =
+    typeof literalStrings === 'string' ? [literalStrings] : mergeBoundaryCodeUnits(literalStrings)
 
   for (const content of contents) {
     // Get code points.

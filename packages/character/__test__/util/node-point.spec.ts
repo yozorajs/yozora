@@ -7,6 +7,9 @@ import {
   createNodePointGenerator,
 } from '../../src'
 
+const collectNodePoints = (input: Iterable<string> | string) =>
+  [...createNodePointGenerator(input)].flat()
+
 describe('node-point', function () {
   test('createNodePointGenerator normalizes control characters', function () {
     const [points] = [...createNodePointGenerator('\tA\r\nB\rC\n\0')]
@@ -26,6 +29,17 @@ describe('node-point', function () {
       0xfffd,
     ])
   })
+
+  for (const content of ['a\r\nb', 'a😀b', 'a\r\n😀b', 'text\r', 'text\uD800']) {
+    test(`createNodePointGenerator is chunk-independent for ${JSON.stringify(content)}`, () => {
+      const expected = collectNodePoints(content)
+
+      for (let i = 0; i <= content.length; ++i) {
+        expect(collectNodePoints([content.slice(0, i), content.slice(i)])).toEqual(expected)
+      }
+      expect(collectNodePoints(content.split(''))).toEqual(expected)
+    })
+  }
 
   test('calcStringFromNodePoints keeps tab and newline semantics', function () {
     const [points] = [...createNodePointGenerator('\tA\n')]
