@@ -1,4 +1,5 @@
 import { BlockquoteType } from '@yozora/ast'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, VirtualCodePoint, isSpaceCharacter } from '@yozora/character'
 import type {
   IBlockToken,
@@ -63,18 +64,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
      *  (b) a single character > not followed by a space.
      * @see https://github.github.com/gfm/#block-quote-marker
      */
-    let nextIndex = firstNonWhitespaceIndex + 1
-    if (nextIndex < endIndex && isSpaceCharacter(nodePoints[nextIndex].codePoint)) {
-      nextIndex += 1
-      /**
-       * When the '>' followed by a tab, it is treated as if it were expanded
-       * into three spaces.
-       * @see https://github.github.com/gfm/#example-6
-       */
-      if (nextIndex < endIndex && nodePoints[nextIndex].codePoint === VirtualCodePoint.SPACE) {
-        nextIndex += 1
-      }
-    }
+    const nextIndex = calcBlockquoteMarkerEnd(nodePoints, firstNonWhitespaceIndex, endIndex)
 
     const token: IToken = {
       nodeType: BlockquoteType,
@@ -124,11 +114,27 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
       return { status: 'notMatched' }
     }
 
-    const nextIndex =
-      firstNonWhitespaceIndex + 1 < endIndex &&
-      isSpaceCharacter(nodePoints[firstNonWhitespaceIndex + 1].codePoint)
-        ? firstNonWhitespaceIndex + 2
-        : firstNonWhitespaceIndex + 1
+    const nextIndex = calcBlockquoteMarkerEnd(nodePoints, firstNonWhitespaceIndex, endIndex)
     return { status: 'opening', nextIndex }
   }
+}
+
+function calcBlockquoteMarkerEnd(
+  nodePoints: readonly INodePoint[],
+  markerIndex: number,
+  endIndex: number,
+): number {
+  let nextIndex = markerIndex + 1
+  if (nextIndex < endIndex && isSpaceCharacter(nodePoints[nextIndex].codePoint)) {
+    nextIndex += 1
+    /**
+     * When the '>' followed by a tab, it is treated as if it were expanded
+     * into three spaces.
+     * @see https://github.github.com/gfm/#example-6
+     */
+    if (nextIndex < endIndex && nodePoints[nextIndex].codePoint === VirtualCodePoint.SPACE) {
+      nextIndex += 1
+    }
+  }
+  return nextIndex
 }
