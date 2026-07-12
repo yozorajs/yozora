@@ -6,7 +6,7 @@ import type {
   IPhrasingContentLine,
   IResultOfEatContinuationText,
 } from '@yozora/core-tokenizer'
-import { calcEndPoint } from '@yozora/core-tokenizer'
+import { calcEndPoint, calcIndentWidth } from '@yozora/core-tokenizer'
 import invariant from '@yozora/invariant'
 import type {
   IBlockContentProcessor,
@@ -185,7 +185,7 @@ export const createBlockContentProcessor = (
    */
   const consume = (line: Readonly<IPhrasingContentLine>): void => {
     const { nodePoints, startIndex: startIndexOfLine, endIndex: endIndexOfLine } = line
-    let { firstNonWhitespaceIndex, countOfPrecedeSpaces, startIndex: i } = line
+    let { firstNonWhitespaceIndex, indentWidth, countOfPrecedeSpaces, startIndex: i } = line
 
     /**
      * Generate eating line info from current start position.
@@ -195,6 +195,7 @@ export const createBlockContentProcessor = (
       startIndex: i,
       endIndex: endIndexOfLine,
       firstNonWhitespaceIndex,
+      indentWidth,
       countOfPrecedeSpaces,
     })
 
@@ -226,6 +227,7 @@ export const createBlockContentProcessor = (
         }
         if (!isWhitespaceCharacter(c)) break
       }
+      indentWidth = calcIndentWidth(nodePoints, nextIndex, firstNonWhitespaceIndex)
     }
 
     /**
@@ -414,7 +416,7 @@ export const createBlockContentProcessor = (
            * @see https://github.github.com/gfm/#example-292
            * @see https://github.github.com/gfm/#example-269
            */
-          if (eatingInfo.countOfPrecedeSpaces >= 4) return
+          if (eatingInfo.indentWidth >= 4) return
         }
       } else {
         // Otherwise, reset the currentStackIndex point to the top of the stack.

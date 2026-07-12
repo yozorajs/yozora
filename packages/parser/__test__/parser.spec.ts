@@ -31,3 +31,19 @@ describe('snapshot', function () {
     )
   })
 })
+
+test('recognizes a table after partial-tab indentation', () => {
+  const ast = parsers.yozora.parse(
+    '1234. foo\n\n\t  header | value\n\t  \t--- | ---\n\t  cell | data',
+  )
+  const listItem = (ast.children[0] as any).children[0]
+
+  expect(listItem.children[1].type).toBe('table')
+})
+
+test('recognizes an ECMA import after partial-tab indentation', () => {
+  const ast = parsers.yozora.parse("1234. foo\n\n\t  \timport Parser from '@yozora/parser'")
+  const listItem = (ast.children[0] as any).children[0]
+
+  expect(listItem.children[1].type).toBe('ecmaImport')
+})

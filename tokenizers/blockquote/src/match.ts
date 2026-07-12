@@ -49,7 +49,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
      * The '>' characters can be indented 1-3 spaces
      * @see https://github.github.com/gfm/#example-209
      */
-    if (line.countOfPrecedeSpaces >= 4) return null
+    if (line.indentWidth >= 4) return null
 
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (
@@ -96,10 +96,10 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
     _token: IToken,
     parentToken: Readonly<IBlockToken>,
   ): IResultOfEatContinuationText {
-    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex, countOfPrecedeSpaces } = line
+    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
 
     if (
-      countOfPrecedeSpaces >= 4 ||
+      line.indentWidth >= 4 ||
       firstNonWhitespaceIndex >= endIndex ||
       nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.CLOSE_ANGLE
     ) {

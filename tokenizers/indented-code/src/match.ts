@@ -25,7 +25,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
   }
 
   function eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
-    if (line.countOfPrecedeSpaces < 4) return null
+    if (line.indentWidth < 4) return null
     const { nodePoints, startIndex, firstNonWhitespaceIndex, endIndex } = line
 
     const firstIndex = eatIndentation(nodePoints, startIndex, firstNonWhitespaceIndex, 4)
@@ -43,6 +43,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
           startIndex: firstIndex,
           endIndex,
           firstNonWhitespaceIndex,
+          indentWidth: Math.max(0, line.indentWidth - 4),
           countOfPrecedeSpaces: line.countOfPrecedeSpaces - (firstIndex - startIndex),
         },
       ],
@@ -56,8 +57,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
   ): IResultOfEatContinuationText {
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex, countOfPrecedeSpaces } = line
 
-    if (countOfPrecedeSpaces < 4 && firstNonWhitespaceIndex < endIndex)
-      return { status: 'notMatched' }
+    if (line.indentWidth < 4 && firstNonWhitespaceIndex < endIndex) return { status: 'notMatched' }
 
     /**
      * Blank line is allowed
@@ -74,6 +74,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
       startIndex: firstIndex,
       endIndex,
       firstNonWhitespaceIndex,
+      indentWidth: Math.max(0, line.indentWidth - 4),
       countOfPrecedeSpaces: countOfPrecedeSpaces - (firstIndex - startIndex),
     })
     return { status: 'opening', nextIndex: endIndex }

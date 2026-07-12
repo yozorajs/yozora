@@ -30,6 +30,7 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
               startIndex: i,
               endIndex: infoString.length,
               firstNonWhitespaceIndex: i,
+              indentWidth: 0,
               countOfPrecedeSpaces: 0,
             },
           ]

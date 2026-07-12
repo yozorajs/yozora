@@ -21,6 +21,7 @@ describe('paragraph patch test', function () {
       startIndex: 0,
       endIndex: 14,
       firstNonWhitespaceIndex: 0,
+      indentWidth: 0,
       countOfPrecedeSpaces: 0,
     },
   ]
@@ -31,6 +32,7 @@ describe('paragraph patch test', function () {
       startIndex: 14,
       endIndex: 20,
       firstNonWhitespaceIndex: 14,
+      indentWidth: 0,
       countOfPrecedeSpaces: 0,
     },
   ]

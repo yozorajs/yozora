@@ -106,6 +106,66 @@ export function eatIndentation(
 }
 
 /**
+ * Calculate the visual width of indentation in the given range.
+ *
+ * @see https://github.github.com/gfm/#tabs
+ */
+export function calcIndentWidth(
+  nodePoints: readonly INodePoint[],
+  startIndex: number,
+  endIndex: number,
+): number {
+  if (startIndex >= endIndex) return 0
+
+  let containsTab = false
+  for (let i = startIndex; i < endIndex; ++i) {
+    const nodePoint: INodePoint = nodePoints[i]
+    if (nodePoint.codePoint === VirtualCodePoint.SPACE) containsTab = true
+    else if (!isSpaceCharacter(nodePoint.codePoint)) return i - startIndex
+  }
+  if (!containsTab) return endIndex - startIndex
+
+  const line: number = nodePoints[startIndex].line
+  let lineStartIndex: number = startIndex
+  while (lineStartIndex > 0 && nodePoints[lineStartIndex - 1].line === line) lineStartIndex -= 1
+
+  let column: number = 0
+  let indentWidth: number = 0
+  for (let i = lineStartIndex; i < endIndex;) {
+    const nodePoint: INodePoint = nodePoints[i]
+    if (nodePoint.codePoint !== VirtualCodePoint.SPACE) {
+      if (i >= startIndex) {
+        if (!isSpaceCharacter(nodePoint.codePoint)) break
+        indentWidth += 1
+      }
+      column += 1
+      i += 1
+      continue
+    }
+
+    let tabEndIndex = i + 1
+    while (
+      tabEndIndex < nodePoints.length &&
+      nodePoints[tabEndIndex].line === line &&
+      nodePoints[tabEndIndex].codePoint === VirtualCodePoint.SPACE &&
+      nodePoints[tabEndIndex].offset === nodePoint.offset
+    ) {
+      tabEndIndex += 1
+    }
+
+    const tabWidth = TAB_SIZE - (column % TAB_SIZE)
+    const padding = tabEndIndex - i - tabWidth
+    for (let j = i; j < tabEndIndex && j < endIndex; ++j) {
+      const width = j - i < padding ? 0 : 1
+      if (j >= startIndex) indentWidth += width
+      column += width
+    }
+    i = tabEndIndex
+  }
+  return indentWidth
+}
+
+/**
  * Move startIndex forward to the first non-ascii whitespace position.
  *
  * @param nodePoints

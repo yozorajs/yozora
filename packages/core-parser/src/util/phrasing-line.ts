@@ -1,6 +1,7 @@
 import type { INodePoint } from '@yozora/character'
 import { isLineEnding, isSpaceCharacter } from '@yozora/character'
 import type { IPhrasingContentLine } from '@yozora/core-tokenizer'
+import { calcIndentWidth } from '@yozora/core-tokenizer'
 
 /**
  * Create a generator to produce PhrasingContentLines while consuming NodePoints.
@@ -41,6 +42,7 @@ export function* createPhrasingLineGenerator(
           startIndex,
           endIndex: allNodePoints.length,
           firstNonWhitespaceIndex,
+          indentWidth: calcIndentWidth(allNodePoints, startIndex, firstNonWhitespaceIndex),
           countOfPrecedeSpaces,
         }
         lines.push(line)
@@ -59,6 +61,7 @@ export function* createPhrasingLineGenerator(
       startIndex,
       endIndex: allNodePoints.length,
       firstNonWhitespaceIndex,
+      indentWidth: calcIndentWidth(allNodePoints, startIndex, firstNonWhitespaceIndex),
       countOfPrecedeSpaces,
     }
     yield [line]

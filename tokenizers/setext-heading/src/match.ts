@@ -34,14 +34,14 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
     line: Readonly<IPhrasingContentLine>,
     prevSiblingToken: Readonly<IBlockToken>,
   ): IResultOfEatAndInterruptPreviousSibling<T, IToken> {
-    const { nodePoints, endIndex, firstNonWhitespaceIndex, countOfPrecedeSpaces } = line
+    const { nodePoints, endIndex, firstNonWhitespaceIndex } = line
 
     /**
      * Four spaces is too much
      * @see https://github.github.com/gfm/#example-55
      * @see https://github.github.com/gfm/#example-57
      */
-    if (countOfPrecedeSpaces >= 4 || firstNonWhitespaceIndex >= endIndex) return null
+    if (line.indentWidth >= 4 || firstNonWhitespaceIndex >= endIndex) return null
 
     let marker: number | null = null,
       hasPotentialInternalSpace = false

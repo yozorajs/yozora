@@ -47,7 +47,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
      * Four spaces are too much
      * @see https://github.github.com/gfm/#example-180
      */
-    if (line.countOfPrecedeSpaces >= 4) return null
+    if (line.indentWidth >= 4) return null
 
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex >= endIndex) return null

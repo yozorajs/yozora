@@ -7,7 +7,12 @@ import type {
   IResultOfEatOpener,
   IResultOfOnClose,
 } from '@yozora/core-tokenizer'
-import { calcEndPoint, calcStartPoint, resolveLabelToIdentifier } from '@yozora/core-tokenizer'
+import {
+  calcEndPoint,
+  calcStartPoint,
+  eatIndentation,
+  resolveLabelToIdentifier,
+} from '@yozora/core-tokenizer'
 import type { IThis, IToken, T } from './types'
 import { eatFootnoteLabel } from './util'
 
@@ -40,7 +45,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
   }
 
   function eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
-    if (line.countOfPrecedeSpaces >= 4) return null
+    if (line.indentWidth >= 4) return null
 
     const { nodePoints, startIndex, firstNonWhitespaceIndex, endIndex } = line
     const nextIndex = eatFootnoteLabel(nodePoints, firstNonWhitespaceIndex, endIndex)
@@ -71,7 +76,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
   }
 
   function eatContinuationText(line: Readonly<IPhrasingContentLine>): IResultOfEatContinuationText {
-    const { startIndex, endIndex, firstNonWhitespaceIndex, countOfPrecedeSpaces } = line
+    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
 
     // Blank line is allowed
     if (firstNonWhitespaceIndex >= endIndex) {
@@ -82,9 +87,10 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
     }
 
     // Indent of a non-blank line is required.
-    if (countOfPrecedeSpaces >= indent) {
-      return { status: 'opening', nextIndex: startIndex + indent }
-    }
+    if (line.indentWidth < indent) return { status: 'notMatched' }
+
+    const nextIndex = eatIndentation(nodePoints, startIndex, firstNonWhitespaceIndex, indent)
+    if (nextIndex != null) return { status: 'opening', nextIndex }
 
     return { status: 'notMatched' }
   }

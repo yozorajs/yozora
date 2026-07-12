@@ -7,6 +7,7 @@ import type {
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatOpener,
 } from '@yozora/core-tokenizer'
+import { calcIndentWidth } from '@yozora/core-tokenizer'
 import { fencedBlockMatch } from '@yozora/tokenizer-fenced-block'
 import type { IThis, IToken, T } from './types'
 
@@ -72,6 +73,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
           startIndex: 0,
           endIndex: rht - countOfTailingMarker,
           firstNonWhitespaceIndex: lft,
+          indentWidth: calcIndentWidth(token.infoString, 0, lft),
           countOfPrecedeSpaces: 0,
         },
       ],

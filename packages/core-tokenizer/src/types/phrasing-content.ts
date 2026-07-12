@@ -13,6 +13,10 @@ export interface IPhrasingContentLine extends INodeInterval {
    */
   firstNonWhitespaceIndex: number
   /**
+   * Visual width of the preceding indentation.
+   */
+  indentWidth: number
+  /**
    * The precede space count, one tab equals four space.
    * @see https://github.github.com/gfm/#tabs
    */

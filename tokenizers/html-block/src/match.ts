@@ -40,7 +40,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
      * The opening tag can be indented 1-3 spaces, but not 4.
      * @see https://github.github.com/gfm/#example-152
      */
-    if (line.countOfPrecedeSpaces >= 4) return null
+    if (line.indentWidth >= 4) return null
 
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (

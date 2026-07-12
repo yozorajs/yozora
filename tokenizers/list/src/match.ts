@@ -58,7 +58,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
      * Four spaces are too much.
      * @see https://github.github.com/gfm/#example-253
      */
-    if (line.countOfPrecedeSpaces >= 4) return null
+    if (line.indentWidth >= 4) return null
 
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex >= endIndex) return null
@@ -285,6 +285,8 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
   ): IResultOfEatContinuationText {
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     const isBlank = firstNonWhitespaceIndex >= endIndex
+    if (!isBlank && line.indentWidth < token.indent) return { status: 'notMatched' }
+
     const continuationStartIndex = isBlank
       ? Math.min(startIndex + token.indent, endIndex - 1)
       : eatIndentation(nodePoints, startIndex, firstNonWhitespaceIndex, token.indent)

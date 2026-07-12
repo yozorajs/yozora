@@ -9,7 +9,7 @@ import type {
   IResultOfEatLazyContinuationText,
   IResultOfEatOpener,
 } from '@yozora/core-tokenizer'
-import { calcEndPoint, calcStartPoint } from '@yozora/core-tokenizer'
+import { calcEndPoint, calcIndentWidth, calcStartPoint } from '@yozora/core-tokenizer'
 import type { ITableCellToken, ITableRowToken, IThis, IToken, T } from './types'
 
 /**
@@ -47,7 +47,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
      * Four spaces is too much
      * @see https://github.github.com/gfm/#example-57
      */
-    if (line.countOfPrecedeSpaces >= 4) return null
+    if (line.indentWidth >= 4) return null
 
     const { nodePoints, endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex >= endIndex) return null
@@ -243,6 +243,11 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
                 startIndex: cellStartIndex,
                 endIndex: cellEndIndex,
                 firstNonWhitespaceIndex: cellFirstNonWhitespaceIndex,
+                indentWidth: calcIndentWidth(
+                  nodePoints,
+                  cellStartIndex,
+                  cellFirstNonWhitespaceIndex,
+                ),
                 countOfPrecedeSpaces: cellFirstNonWhitespaceIndex - cellStartIndex,
               },
             ]

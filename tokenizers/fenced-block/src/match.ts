@@ -37,8 +37,8 @@ export function match<
      * Four spaces indentation produces an indented code block
      * @see https://github.github.com/gfm/#example-104
      */
-    const indent = calcFenceIndent(nodePoints, startIndex, firstNonWhitespaceIndex)
-    if (indent == null) return null
+    if (line.indentWidth >= 4) return null
+    const indent = line.indentWidth
 
     if (firstNonWhitespaceIndex + markersRequired - 1 >= endIndex) return null
 
@@ -129,8 +129,7 @@ export function match<
      * Closing fence indented with at most 3 spaces
      * @see https://github.github.com/gfm/#example-107
      */
-    const closingIndent = calcFenceIndent(nodePoints, startIndex, firstNonWhitespaceIndex)
-    if (closingIndent != null && firstNonWhitespaceIndex < endIndex) {
+    if (line.indentWidth < 4 && firstNonWhitespaceIndex < endIndex) {
       let i = eatOptionalCharacters(nodePoints, firstNonWhitespaceIndex, endIndex, token.marker)
       const markerCount = i - firstNonWhitespaceIndex
 
@@ -173,19 +172,9 @@ export function match<
       startIndex: firstIndex,
       endIndex,
       firstNonWhitespaceIndex,
+      indentWidth: Math.max(0, line.indentWidth - token.indent),
       countOfPrecedeSpaces,
     })
     return { status: 'opening', nextIndex: endIndex }
   }
-}
-
-function calcFenceIndent(
-  nodePoints: readonly INodePoint[],
-  startIndex: number,
-  endIndex: number,
-): number | null {
-  for (let indent = 1; indent <= 4; ++indent) {
-    if (eatIndentation(nodePoints, startIndex, endIndex, indent) == null) return indent - 1
-  }
-  return null
 }
