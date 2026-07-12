@@ -248,7 +248,6 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
                   cellStartIndex,
                   cellFirstNonWhitespaceIndex,
                 ),
-                countOfPrecedeSpaces: cellFirstNonWhitespaceIndex - cellStartIndex,
               },
             ]
 

@@ -111,7 +111,7 @@ export function match<
     line: Readonly<IPhrasingContentLine>,
     token: IToken<T>,
   ): IResultOfEatContinuationText {
-    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex, countOfPrecedeSpaces } = line
+    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
 
     /**
      * Check closing block fence
@@ -173,7 +173,6 @@ export function match<
       endIndex,
       firstNonWhitespaceIndex,
       indentWidth: Math.max(0, line.indentWidth - token.indent),
-      countOfPrecedeSpaces,
     })
     return { status: 'opening', nextIndex: endIndex }
   }

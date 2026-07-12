@@ -63,7 +63,6 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
             endIndex: rightIndex,
             firstNonWhitespaceIndex: leftIndex,
             indentWidth: 0,
-            countOfPrecedeSpaces: 0,
           },
         ]
 

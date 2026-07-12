@@ -44,7 +44,6 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
           endIndex,
           firstNonWhitespaceIndex,
           indentWidth: Math.max(0, line.indentWidth - 4),
-          countOfPrecedeSpaces: line.countOfPrecedeSpaces - (firstIndex - startIndex),
         },
       ],
     }
@@ -55,7 +54,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
     line: Readonly<IPhrasingContentLine>,
     token: IToken,
   ): IResultOfEatContinuationText {
-    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex, countOfPrecedeSpaces } = line
+    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
 
     if (line.indentWidth < 4 && firstNonWhitespaceIndex < endIndex) return { status: 'notMatched' }
 
@@ -75,7 +74,6 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
       endIndex,
       firstNonWhitespaceIndex,
       indentWidth: Math.max(0, line.indentWidth - 4),
-      countOfPrecedeSpaces: countOfPrecedeSpaces - (firstIndex - startIndex),
     })
     return { status: 'opening', nextIndex: endIndex }
   }

@@ -185,7 +185,7 @@ export const createBlockContentProcessor = (
    */
   const consume = (line: Readonly<IPhrasingContentLine>): void => {
     const { nodePoints, startIndex: startIndexOfLine, endIndex: endIndexOfLine } = line
-    let { firstNonWhitespaceIndex, indentWidth, countOfPrecedeSpaces, startIndex: i } = line
+    let { firstNonWhitespaceIndex, indentWidth, startIndex: i } = line
 
     /**
      * Generate eating line info from current start position.
@@ -196,7 +196,6 @@ export const createBlockContentProcessor = (
       endIndex: endIndexOfLine,
       firstNonWhitespaceIndex,
       indentWidth,
-      countOfPrecedeSpaces,
     })
 
     /**
@@ -217,14 +216,10 @@ export const createBlockContentProcessor = (
       if (i === nextIndex) return
 
       i = nextIndex
-      countOfPrecedeSpaces = 0
       firstNonWhitespaceIndex = nextIndex
       for (; firstNonWhitespaceIndex < endIndexOfLine; ++firstNonWhitespaceIndex) {
         const c = nodePoints[firstNonWhitespaceIndex].codePoint
-        if (isSpaceCharacter(c)) {
-          countOfPrecedeSpaces += 1
-          continue
-        }
+        if (isSpaceCharacter(c)) continue
         if (!isWhitespaceCharacter(c)) break
       }
       indentWidth = calcIndentWidth(nodePoints, nextIndex, firstNonWhitespaceIndex)
