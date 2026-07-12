@@ -77,3 +77,19 @@ test('preserves tabs left untouched by list indentation', () => {
     ],
   })
 })
+
+for (const [indentWidth, initialIndent] of ['', ' ', '  ', '   '].entries()) {
+  test(`handles tabs after a list marker with ${indentWidth}-column indentation`, () => {
+    const expectedIndent = ['  ', ' ', '', '   '][indentWidth]
+    const ast = parsers.gfm.parse(`${initialIndent}-\t\tfoo`)
+
+    expect(ast).toMatchObject({
+      children: [
+        {
+          type: 'list',
+          children: [{ children: [{ type: 'code', value: `${expectedIndent}foo\n` }] }],
+        },
+      ],
+    })
+  })
+}

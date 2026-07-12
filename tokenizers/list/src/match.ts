@@ -17,7 +17,12 @@ import type {
   IResultOfEatContinuationText,
   IResultOfEatOpener,
 } from '@yozora/core-tokenizer'
-import { calcEndPoint, calcStartPoint, eatIndentation } from '@yozora/core-tokenizer'
+import {
+  calcEndPoint,
+  calcIndentWidth,
+  calcStartPoint,
+  eatIndentation,
+} from '@yozora/core-tokenizer'
 import type { IThis, IToken, T } from './types'
 
 /**
@@ -140,18 +145,8 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
 
     if (marker == null) return null
 
-    /**
-     * When the list-item mark followed by a tab, it is treated as if it were
-     * expanded into three spaces.
-     *
-     * @see https://github.github.com/gfm/#example-7
-     */
-    let countOfSpaces = 0,
-      nextIndex = i
-    if (nextIndex < endIndex) {
-      c = nodePoints[nextIndex].codePoint
-      if (c === VirtualCodePoint.SPACE) nextIndex += 1
-    }
+    const markerWidth = i - firstNonWhitespaceIndex
+    let nextIndex = i
 
     /**
      * #Rule1 Basic case
@@ -169,8 +164,9 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
     for (; nextIndex < endIndex; ++nextIndex) {
       c = nodePoints[nextIndex].codePoint
       if (!isSpaceCharacter(c)) break
-      countOfSpaces += 1
     }
+    const separatorEndIndex = nextIndex
+    let separatorWidth = calcIndentWidth(nodePoints, i, separatorEndIndex)
 
     /**
      * Rule#2 Item starting with indented code.
@@ -185,9 +181,9 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
      * then it is also assigned a start number, based on the ordered list marker.
      * @see https://github.github.com/gfm/#list-items Item starting with indented code.
      */
-    if (countOfSpaces > 4) {
-      nextIndex -= countOfSpaces - 1
-      countOfSpaces = 1
+    if (separatorWidth > 4) {
+      nextIndex = eatIndentation(nodePoints, i, separatorEndIndex, 1)!
+      separatorWidth = 1
     }
 
     /**
@@ -204,12 +200,15 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
      * based on the ordered list marker.
      * @see https://github.github.com/gfm/#list-items Item starting with a blank line
      */
-    if (countOfSpaces === 0 && nextIndex < endIndex && c !== VirtualCodePoint.LINE_END) return null
+    if (separatorWidth === 0 && nextIndex < endIndex && c !== VirtualCodePoint.LINE_END) return null
 
     const countOfTopBlankLine = c === VirtualCodePoint.LINE_END ? 1 : -1
     if (c === VirtualCodePoint.LINE_END) {
-      nextIndex -= countOfSpaces - 1
-      countOfSpaces = 1
+      nextIndex =
+        separatorWidth > 0
+          ? eatIndentation(nodePoints, i, separatorEndIndex, 1)!
+          : separatorEndIndex + 1
+      separatorWidth = 1
     }
 
     /**
@@ -220,7 +219,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
      * (the same for each line) also constitutes a list item with the same
      * contents and attributes. If a line is empty, then it need not be indented.
      */
-    const indent = i - startIndex + countOfSpaces
+    const indent = line.indentWidth + markerWidth + separatorWidth
 
     // Try to resolve task status.
     let status: TaskStatus | null = null

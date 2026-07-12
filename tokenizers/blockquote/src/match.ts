@@ -1,6 +1,6 @@
 import { BlockquoteType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
-import { AsciiCodePoint, VirtualCodePoint, isSpaceCharacter } from '@yozora/character'
+import { AsciiCodePoint, isSpaceCharacter } from '@yozora/character'
 import type {
   IBlockToken,
   IMatchBlockHookCreator,
@@ -9,7 +9,7 @@ import type {
   IResultOfEatContinuationText,
   IResultOfEatOpener,
 } from '@yozora/core-tokenizer'
-import { calcEndPoint, calcStartPoint } from '@yozora/core-tokenizer'
+import { calcEndPoint, calcStartPoint, eatIndentation } from '@yozora/core-tokenizer'
 import type { IThis, IToken, T } from './types'
 
 /**
@@ -124,17 +124,9 @@ function calcBlockquoteMarkerEnd(
   markerIndex: number,
   endIndex: number,
 ): number {
-  let nextIndex = markerIndex + 1
+  let nextIndex: number = markerIndex + 1
   if (nextIndex < endIndex && isSpaceCharacter(nodePoints[nextIndex].codePoint)) {
-    nextIndex += 1
-    /**
-     * When the '>' followed by a tab, it is treated as if it were expanded
-     * into three spaces.
-     * @see https://github.github.com/gfm/#example-6
-     */
-    if (nextIndex < endIndex && nodePoints[nextIndex].codePoint === VirtualCodePoint.SPACE) {
-      nextIndex += 1
-    }
+    nextIndex = eatIndentation(nodePoints, nextIndex, endIndex, 1) ?? nextIndex
   }
   return nextIndex
 }

@@ -16,3 +16,16 @@ test('handles tabs after blockquote markers consistently', () => {
     ],
   })
 })
+
+for (const [indentWidth, initialIndent] of ['', ' ', '  ', '   '].entries()) {
+  test(`handles tabs after a blockquote marker with ${indentWidth}-column indentation`, () => {
+    const expectedIndent = ['  ', ' ', '', '   '][indentWidth]
+    const ast = parsers.gfm.parse(`${initialIndent}>\t\tfoo`)
+
+    expect(ast).toMatchObject({
+      children: [
+        { type: 'blockquote', children: [{ type: 'code', value: `${expectedIndent}foo\n` }] },
+      ],
+    })
+  })
+}
