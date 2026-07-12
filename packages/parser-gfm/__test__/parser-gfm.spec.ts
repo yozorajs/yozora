@@ -51,3 +51,21 @@ test('recognizes a setext heading after partial-tab indentation', () => {
 
   expect(listItem.children[1]).toMatchObject({ type: 'heading', depth: 2 })
 })
+
+test('tracks astral Unicode positions in UTF-16 code units', () => {
+  expect(parsers.gfm.parse('😀')).toMatchObject({
+    position: { start: { column: 1, offset: 0 }, end: { column: 3, offset: 2 } },
+    children: [
+      {
+        type: 'paragraph',
+        children: [
+          {
+            type: 'text',
+            position: { start: { column: 1, offset: 0 }, end: { column: 3, offset: 2 } },
+            value: '😀',
+          },
+        ],
+      },
+    ],
+  })
+})

@@ -136,11 +136,15 @@ export function* createNodePointGenerator(
           offset += 1
           column += 1
           break
-        default:
+        default: {
           nodePoints.push({ line, column, offset, codePoint })
-          offset += 1
-          column += 1
+          // Source positions follow JavaScript string indices and use UTF-16
+          // code units. Other source representations should adapt this width.
+          const width = codePoint > 0xffff ? 2 : 1
+          offset += width
+          column += width
           break
+        }
       }
     }
     yield nodePoints

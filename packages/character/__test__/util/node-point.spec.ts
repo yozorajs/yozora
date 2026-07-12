@@ -41,6 +41,15 @@ describe('node-point', function () {
     })
   }
 
+  test('keeps offsets usable as source string indices', () => {
+    const content = 'a😀b'
+    const points = collectNodePoints(content)
+    const point = points.find(p => p.codePoint === AsciiCodePoint.LOWERCASE_B)!
+
+    expect(point.offset).toBe(content.indexOf('b'))
+    expect(content.slice(point.offset)).toBe('b')
+  })
+
   test('calcStringFromNodePoints keeps tab and newline semantics', function () {
     const [points] = [...createNodePointGenerator('\tA\n')]
 
