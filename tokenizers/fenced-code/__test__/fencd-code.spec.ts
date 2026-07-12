@@ -17,3 +17,32 @@ test('fenced code node should omit position when shouldReservePosition is false'
   expect(node.meta).toBe('meta')
   expect(node.position).toBeUndefined()
 })
+
+for (let indentWidth = 1; indentWidth <= 3; ++indentWidth) {
+  test(`removes ${indentWidth}-column fence indentation from mixed whitespace`, () => {
+    const fenceIndent = ' '.repeat(indentWidth)
+    const expectedIndent = indentWidth === 1 ? '\t' : ' '.repeat(4 - indentWidth)
+
+    expect(parsers.gfm.parse(`${fenceIndent}\`\`\`\n \tX\n${fenceIndent}\`\`\``)).toMatchObject({
+      children: [{ type: 'code', value: `${expectedIndent}X\n` }],
+    })
+  })
+}
+
+test('recognizes fences after a partial tab in a list item', () => {
+  expect(parsers.gfm.parse('1234. foo\n\n\t  \t```\n\t  X\n\t  \t```')).toMatchObject({
+    children: [
+      {
+        type: 'list',
+        children: [
+          {
+            children: [
+              { type: 'paragraph', children: [{ type: 'text', value: 'foo' }] },
+              { type: 'code', value: 'X\n' },
+            ],
+          },
+        ],
+      },
+    ],
+  })
+})

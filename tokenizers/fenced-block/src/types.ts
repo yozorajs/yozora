@@ -13,7 +13,7 @@ export type FencedBlockType = typeof FencedBlockType
 
 export interface IToken<T extends NodeType> extends IPartialBlockToken<T> {
   /**
-   * Line indent of a fenced block.
+   * Visual indentation width of a fenced block.
    */
   indent: number
   /**

@@ -10,7 +10,12 @@ import type {
   IResultOfEatContinuationText,
   IResultOfEatOpener,
 } from '@yozora/core-tokenizer'
-import { calcEndPoint, calcStartPoint, eatOptionalCharacters } from '@yozora/core-tokenizer'
+import {
+  calcEndPoint,
+  calcStartPoint,
+  eatIndentation,
+  eatOptionalCharacters,
+} from '@yozora/core-tokenizer'
 import type { IFencedBlockHookContext, IToken } from './types'
 
 export function match<
@@ -26,16 +31,17 @@ export function match<
   }
 
   function eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken<T>> {
+    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
+
     /**
      * Four spaces indentation produces an indented code block
      * @see https://github.github.com/gfm/#example-104
      */
-    if (line.countOfPrecedeSpaces >= 4) return null
+    const indent = calcFenceIndent(nodePoints, startIndex, firstNonWhitespaceIndex)
+    if (indent == null) return null
 
-    const { endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex + markersRequired - 1 >= endIndex) return null
 
-    const { nodePoints, startIndex } = line
     const marker: number = nodePoints[firstNonWhitespaceIndex].codePoint
     if (markers.indexOf(marker) < 0) return null
 
@@ -78,7 +84,7 @@ export function match<
         start: calcStartPoint(nodePoints, startIndex),
         end: calcEndPoint(nodePoints, nextIndex - 1),
       },
-      indent: firstNonWhitespaceIndex - startIndex,
+      indent,
       marker: marker!,
       markerCount: countOfMark,
       lines: [],
@@ -123,7 +129,8 @@ export function match<
      * Closing fence indented with at most 3 spaces
      * @see https://github.github.com/gfm/#example-107
      */
-    if (countOfPrecedeSpaces < 4 && firstNonWhitespaceIndex < endIndex) {
+    const closingIndent = calcFenceIndent(nodePoints, startIndex, firstNonWhitespaceIndex)
+    if (closingIndent != null && firstNonWhitespaceIndex < endIndex) {
       let i = eatOptionalCharacters(nodePoints, firstNonWhitespaceIndex, endIndex, token.marker)
       const markerCount = i - firstNonWhitespaceIndex
 
@@ -158,7 +165,9 @@ export function match<
      * indented less than N spaces, all of the indentation is removed, but the
      * line feed should be preserve.
      */
-    const firstIndex = Math.min(startIndex + token.indent, firstNonWhitespaceIndex, endIndex - 1)
+    const contentStartIndex = Math.min(firstNonWhitespaceIndex, endIndex - 1)
+    const firstIndex =
+      eatIndentation(nodePoints, startIndex, contentStartIndex, token.indent) ?? contentStartIndex
     token.lines.push({
       nodePoints,
       startIndex: firstIndex,
@@ -168,4 +177,15 @@ export function match<
     })
     return { status: 'opening', nextIndex: endIndex }
   }
+}
+
+function calcFenceIndent(
+  nodePoints: readonly INodePoint[],
+  startIndex: number,
+  endIndex: number,
+): number | null {
+  for (let indent = 1; indent <= 4; ++indent) {
+    if (eatIndentation(nodePoints, startIndex, endIndex, indent) == null) return indent - 1
+  }
+  return null
 }
