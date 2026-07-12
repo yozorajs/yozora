@@ -1,7 +1,14 @@
 import type { ICodePoint, INodePoint } from '@yozora/character'
-import { isLineEnding, isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
+import {
+  VirtualCodePoint,
+  isLineEnding,
+  isSpaceCharacter,
+  isWhitespaceCharacter,
+} from '@yozora/character'
 import type { IPhrasingContentLine } from '../types/phrasing-content'
 import type { IResultOfOptionalEater } from '../types/util'
+
+const TAB_SIZE = 4
 
 /**
  * Move startIndex forward to the position of the first non-${codePoint} character.
@@ -21,6 +28,81 @@ export function eatOptionalCharacters(
   let i = startIndex
   while (i < endIndex && nodePoints[i].codePoint === codePoint) i += 1
   return i
+}
+
+/**
+ * Consume indentation of `indentWidth`, measured in visual columns, and return
+ * the index of the first unconsumed node point. A space occupies one column,
+ * while a tab advances to the next tab stop.
+ *
+ * Virtual spaces from a tab share a source offset. Some of them only pad the
+ * fixed-size representation. If the requested indentation ends inside a tab,
+ * the returned index preserves its unconsumed columns as virtual spaces.
+ *
+ * Returns null when the range contains fewer than `indentWidth` visual columns.
+ *
+ * @see https://github.github.com/gfm/#tabs
+ */
+export function eatIndentation(
+  nodePoints: readonly INodePoint[],
+  startIndex: number,
+  endIndex: number,
+  indentWidth: number,
+): number | null {
+  if (indentWidth <= 0) return startIndex
+
+  const directEndIndex = startIndex + indentWidth
+  if (directEndIndex > endIndex) return null
+
+  let containsTab = false
+  for (let i = startIndex; i < directEndIndex; ++i) {
+    // Virtual spaces originate from tabs and require tab-stop-aware calculation.
+    if (nodePoints[i].codePoint === VirtualCodePoint.SPACE) {
+      containsTab = true
+      break
+    }
+  }
+  if (!containsTab) return directEndIndex
+
+  const line: number = nodePoints[startIndex].line
+  let lineStartIndex: number = startIndex
+  while (lineStartIndex > 0 && nodePoints[lineStartIndex - 1].line === line) lineStartIndex -= 1
+
+  let column: number = 0
+  let remainingWidth: number = indentWidth
+  for (let i = lineStartIndex; i < endIndex;) {
+    if (i >= startIndex && remainingWidth <= 0) return i
+
+    const nodePoint: INodePoint = nodePoints[i]
+    if (nodePoint.codePoint !== VirtualCodePoint.SPACE) {
+      if (i >= startIndex) remainingWidth -= 1
+      column += 1
+      i += 1
+      continue
+    }
+
+    let tabEndIndex = i + 1
+    while (
+      tabEndIndex < endIndex &&
+      nodePoints[tabEndIndex].codePoint === VirtualCodePoint.SPACE &&
+      nodePoints[tabEndIndex].offset === nodePoint.offset
+    ) {
+      tabEndIndex += 1
+    }
+
+    const tabWidth = TAB_SIZE - (column % TAB_SIZE)
+    const padding = tabEndIndex - i - tabWidth
+    for (let j = i; j < tabEndIndex; ++j) {
+      const width = j - i < padding ? 0 : 1
+      if (j >= startIndex && width > 0) {
+        if (remainingWidth <= 0) return j
+        remainingWidth -= 1
+      }
+      column += width
+    }
+    i = tabEndIndex
+  }
+  return remainingWidth <= 0 ? endIndex : null
 }
 
 /**

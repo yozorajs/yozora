@@ -1,12 +1,11 @@
 import { CodeType } from '@yozora/ast'
-import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
 import type {
   IMatchBlockHookCreator,
   IPhrasingContentLine,
   IResultOfEatContinuationText,
   IResultOfEatOpener,
 } from '@yozora/core-tokenizer'
-import { calcEndPoint, calcStartPoint } from '@yozora/core-tokenizer'
+import { calcEndPoint, calcStartPoint, eatIndentation } from '@yozora/core-tokenizer'
 import type { IThis, IToken, T } from './types'
 
 /**
@@ -29,7 +28,8 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
     if (line.countOfPrecedeSpaces < 4) return null
     const { nodePoints, startIndex, firstNonWhitespaceIndex, endIndex } = line
 
-    const firstIndex = calcCodeContentStart(line)
+    const firstIndex = eatIndentation(nodePoints, startIndex, firstNonWhitespaceIndex, 4)
+    if (firstIndex == null) return null
     const nextIndex = endIndex
     const token: IToken = {
       nodeType: CodeType,
@@ -66,8 +66,9 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
      */
     const firstIndex =
       firstNonWhitespaceIndex < endIndex
-        ? calcCodeContentStart(line)
+        ? eatIndentation(nodePoints, startIndex, firstNonWhitespaceIndex, 4)
         : Math.min(endIndex - 1, startIndex + 4)
+    if (firstIndex == null) return { status: 'notMatched' }
     token.lines.push({
       nodePoints,
       startIndex: firstIndex,
@@ -77,26 +78,4 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
     })
     return { status: 'opening', nextIndex: endIndex }
   }
-}
-
-function calcCodeContentStart(line: Readonly<IPhrasingContentLine>): number {
-  const { nodePoints, startIndex, firstNonWhitespaceIndex } = line
-  let firstIndex = startIndex + 4
-
-  /**
-   * If there exists 1-3 spaces before a tab forms the indent, the remaining
-   * virtual spaces of the tab should not be a part of the contents.
-   * @see https://github.github.com/gfm/#example-2
-   */
-  if (
-    nodePoints[startIndex].codePoint === AsciiCodePoint.SPACE &&
-    nodePoints[startIndex + 3].codePoint === VirtualCodePoint.SPACE
-  ) {
-    let i = startIndex + 1
-    for (; i < firstNonWhitespaceIndex; ++i) {
-      if (nodePoints[i].codePoint === VirtualCodePoint.SPACE) break
-    }
-    firstIndex = i + 4
-  }
-  return firstIndex
 }

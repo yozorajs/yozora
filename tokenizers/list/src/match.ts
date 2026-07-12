@@ -17,7 +17,7 @@ import type {
   IResultOfEatContinuationText,
   IResultOfEatOpener,
 } from '@yozora/core-tokenizer'
-import { calcEndPoint, calcStartPoint } from '@yozora/core-tokenizer'
+import { calcEndPoint, calcStartPoint, eatIndentation } from '@yozora/core-tokenizer'
 import type { IThis, IToken, T } from './types'
 
 /**
@@ -283,13 +283,17 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
     line: Readonly<IPhrasingContentLine>,
     token: IToken,
   ): IResultOfEatContinuationText {
-    const { startIndex, endIndex, firstNonWhitespaceIndex, countOfPrecedeSpaces: indent } = line
+    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
+    const isBlank = firstNonWhitespaceIndex >= endIndex
+    const continuationStartIndex = isBlank
+      ? Math.min(startIndex + token.indent, endIndex - 1)
+      : eatIndentation(nodePoints, startIndex, firstNonWhitespaceIndex, token.indent)
 
     /**
      * A list item can begin with at most one blank line
      * @see https://github.github.com/gfm/#example-258
      */
-    if (firstNonWhitespaceIndex < endIndex && indent < token.indent) {
+    if (continuationStartIndex == null) {
       return { status: 'notMatched' }
     }
 
@@ -299,7 +303,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
      * @see https://github.github.com/gfm/#example-242
      * @see https://github.github.com/gfm/#example-298
      */
-    if (firstNonWhitespaceIndex >= endIndex) {
+    if (isBlank) {
       if (token.countOfTopBlankLine >= 0) {
         token.countOfTopBlankLine += 1
         if (token.countOfTopBlankLine > 1) {
@@ -310,8 +314,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
       token.countOfTopBlankLine = -1
     }
 
-    const nextIndex = Math.min(startIndex + token.indent, endIndex - 1)
-    return { status: 'opening', nextIndex }
+    return { status: 'opening', nextIndex: continuationStartIndex }
   }
 }
 
