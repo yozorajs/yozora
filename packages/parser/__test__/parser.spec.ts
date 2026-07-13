@@ -1,4 +1,5 @@
 import { DefaultParser } from '@yozora/core-parser'
+import YozoraParser from '@yozora/parser'
 import { createTokenizerTester } from '@yozora/test-util'
 import FencedCodeTokenizer, { FencedCodeTokenizerName } from '@yozora/tokenizer-fenced-code'
 import InlineCodeTokenizer, { InlineCodeTokenizerName } from '@yozora/tokenizer-inline-code'
@@ -96,6 +97,58 @@ describe('fallback tokenizer registration', () => {
     expect(() => parser.useFallbackTokenizer(new TextTokenizer())).not.toThrow()
     expect(parser.parse('plain')).toMatchObject({
       children: [{ type: 'paragraph', children: [{ type: 'text', value: 'plain' }] }],
+    })
+  })
+})
+
+describe('parse options', () => {
+  test('uses built-in defaults for undefined default options', () => {
+    const parser = new YozoraParser()
+    parser.setDefaultParseOptions({
+      shouldReservePosition: undefined,
+      presetDefinitions: undefined,
+      presetFootnoteDefinitions: undefined,
+      formatUrl: undefined,
+    })
+
+    const ast = parser.parse('[link](/url)')
+
+    expect(ast).not.toHaveProperty('position')
+    expect(ast).toMatchObject({
+      children: [{ children: [{ type: 'link', url: '/url' }] }],
+    })
+  })
+
+  test('inherits configured defaults from undefined parse options', () => {
+    const parser = new YozoraParser({
+      defaultParseOptions: {
+        shouldReservePosition: true,
+        presetDefinitions: [{ identifier: 'link', label: 'link' }],
+        presetFootnoteDefinitions: [{ identifier: 'note', label: 'note' }],
+        formatUrl: url => `formatted:${url}`,
+      },
+    })
+
+    const ast = parser.parse('[link][] [^note] [inline](/url)', {
+      shouldReservePosition: undefined,
+      presetDefinitions: undefined,
+      presetFootnoteDefinitions: undefined,
+      formatUrl: undefined,
+    })
+
+    expect(ast).toHaveProperty('position')
+    expect(ast).toMatchObject({
+      children: [
+        {
+          children: [
+            { type: 'linkReference', identifier: 'link' },
+            { type: 'text' },
+            { type: 'footnoteReference', identifier: 'note' },
+            { type: 'text' },
+            { type: 'link', url: 'formatted:/url' },
+          ],
+        },
+      ],
     })
   })
 })

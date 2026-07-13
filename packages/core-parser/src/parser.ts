@@ -127,20 +127,28 @@ export class DefaultParser implements IParser {
   }
 
   public setDefaultParseOptions(options: Partial<IParseOptions> = {}): void {
+    const {
+      presetDefinitions = [],
+      presetFootnoteDefinitions = [],
+      shouldReservePosition = false,
+      formatUrl = encodeLinkDestination,
+    } = options
+
     this.defaultParseOptions = {
-      presetDefinitions: [],
-      presetFootnoteDefinitions: [],
-      shouldReservePosition: false,
-      formatUrl: encodeLinkDestination,
-      ...options,
+      presetDefinitions,
+      presetFootnoteDefinitions,
+      shouldReservePosition,
+      formatUrl,
     }
   }
 
   public parse(contents: Iterable<string> | string, options: IParseOptions = {}): Root {
-    const { shouldReservePosition, presetDefinitions, presetFootnoteDefinitions, formatUrl } = {
-      ...this.defaultParseOptions,
-      ...options,
-    }
+    const {
+      shouldReservePosition = this.defaultParseOptions.shouldReservePosition,
+      presetDefinitions = this.defaultParseOptions.presetDefinitions,
+      presetFootnoteDefinitions = this.defaultParseOptions.presetFootnoteDefinitions,
+      formatUrl = this.defaultParseOptions.formatUrl,
+    } = options
 
     // calc nodePoints from content
     const nodePointsIterator = createNodePointGenerator(contents)
