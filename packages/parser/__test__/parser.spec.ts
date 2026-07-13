@@ -53,6 +53,10 @@ test('recognizes an ECMA import after partial-tab indentation', () => {
   expect(listItem.children[1].type).toBe('ecmaImport')
 })
 
+test('constructs DefaultParser without props', () => {
+  expect(new DefaultParser().parse('')).toEqual({ type: 'root', children: [] })
+})
+
 describe('fallback tokenizer registration', () => {
   const createParser = (): DefaultParser =>
     new DefaultParser({

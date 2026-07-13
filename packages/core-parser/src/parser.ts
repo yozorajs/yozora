@@ -42,7 +42,7 @@ export class DefaultParser implements IParser {
   protected inlineFallbackTokenizer: IInlineFallbackTokenizer | null = null
   protected defaultParseOptions: Required<IParseOptions> = null as any
 
-  constructor(props: IDefaultParserProps) {
+  constructor(props: IDefaultParserProps = {}) {
     this.inlineTokenizers = []
     this.inlineTokenizerMap = new Map()
     this.blockTokenizers = []
