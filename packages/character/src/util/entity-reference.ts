@@ -156,8 +156,9 @@ export function eatEntityReference(
 
   if (nodePoints[startIndex].codePoint !== AsciiCodePoint.NUMBER_SIGN) return null
 
-  let val = 0,
-    i = startIndex + 1
+  let val: number = 0
+  let i: number = startIndex + 1
+  let digitCount: number = 0
 
   if (
     nodePoints[i].codePoint === AsciiCodePoint.LOWERCASE_X ||
@@ -173,7 +174,7 @@ export function eatEntityReference(
      * @see https://github.github.com/gfm/#hexadecimal-numeric-character-references
      */
     i += 1
-    for (let cnt = 1; cnt <= 6 && i < endIndex; ++cnt, ++i) {
+    for (; digitCount < 6 && i < endIndex; ++digitCount, ++i) {
       const c = nodePoints[i].codePoint
       if (isAsciiDigitCharacter(c)) {
         val = (val << 4) + (c - AsciiCodePoint.DIGIT0)
@@ -202,22 +203,20 @@ export function eatEntityReference(
      * the code point U+0000 will also be replaced by U+FFFD.
      * @see https://github.github.com/gfm/#decimal-numeric-character-references
      */
-    for (let cnt = 1; cnt <= 7 && i < endIndex; ++cnt, ++i) {
+    for (; digitCount < 7 && i < endIndex; ++digitCount, ++i) {
       const c = nodePoints[i].codePoint
       if (!isAsciiDigitCharacter(c)) break
       val = val * 10 + (c - AsciiCodePoint.DIGIT0)
     }
   }
 
+  if (digitCount === 0) return null
   if (i >= endIndex || nodePoints[i].codePoint !== AsciiCodePoint.SEMICOLON) return null
 
   // Calc the corresponding Unicode character.
-  let value: string
-  try {
-    if (val === 0) val = UnicodeCodePoint.REPLACEMENT_CHARACTER
-    value = String.fromCodePoint(val)
-  } catch (_) {
-    value = String.fromCodePoint(UnicodeCodePoint.REPLACEMENT_CHARACTER)
+  if (val === 0 || val > 0x10ffff || (val >= 0xd800 && val <= 0xdfff)) {
+    val = UnicodeCodePoint.REPLACEMENT_CHARACTER
   }
+  const value = String.fromCodePoint(val)
   return { nextIndex: i + 1, value }
 }

@@ -52,5 +52,36 @@ describe('entity', function () {
         value: 'ಫ',
       })
     })
+
+    it.each(['&#;', '&#x;', '&#X;'])('rejects numeric entity without digits: %s', source => {
+      const nodePoints = source.split('').map(c => ({ codePoint: c.codePointAt(0)! }))
+
+      expect(eatEntityReference(nodePoints, 1, nodePoints.length)).toBeNull()
+    })
+
+    it.each(['&#0;', '&#x0;', '&#55296;', '&#xDFFF;', '&#1114112;', '&#x110000;'])(
+      'replaces invalid Unicode scalar value in %s',
+      source => {
+        const nodePoints = source.split('').map(c => ({ codePoint: c.codePointAt(0)! }))
+
+        expect(eatEntityReference(nodePoints, 1, nodePoints.length)).toEqual({
+          nextIndex: nodePoints.length,
+          value: '\ufffd',
+        })
+      },
+    )
+
+    it.each([
+      ['&#55295;', 0xd7ff],
+      ['&#xE000;', 0xe000],
+      ['&#x10FFFF;', 0x10ffff],
+    ])('preserves valid Unicode scalar boundary in %s', (source, expectedCodePoint) => {
+      const nodePoints = source.split('').map(c => ({ codePoint: c.codePointAt(0)! }))
+
+      expect(eatEntityReference(nodePoints, 1, nodePoints.length)).toEqual({
+        nextIndex: nodePoints.length,
+        value: String.fromCodePoint(expectedCodePoint),
+      })
+    })
   })
 })
