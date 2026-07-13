@@ -1,16 +1,11 @@
 import type { INodePoint } from '@yozora/character'
-import {
-  AsciiCodePoint,
-  isAlphanumeric,
-  isPunctuationCharacter,
-  isWhitespaceCharacter,
-} from '@yozora/character'
+import { AsciiCodePoint, isAlphanumeric, isWhitespaceCharacter } from '@yozora/character'
 import type { IResultOfOptionalEater, IResultOfRequiredEater } from '@yozora/core-tokenizer'
 import { eatAutolinkSchema } from '@yozora/tokenizer-autolink'
 
 /**
- * An extended url autolink will be recognised when one of the schemes 'http://',
- * or 'https://', followed by a valid domain, then zero or more non-space non-<
+ * An extended url autolink will be recognised when a valid URI scheme is
+ * followed by '://', a valid domain, then zero or more non-space non-<
  * characters according to extended autolink path validation.
  *
  * @see https://github.github.com/gfm/#extended-url-autolink
@@ -95,7 +90,6 @@ export function eatOptionalDomainFollows(
   for (nextIndex -= 1; nextIndex >= startIndex; nextIndex -= 1) {
     const c = nodePoints[nextIndex].codePoint
     if (
-      isPunctuationCharacter(c) ||
       c === AsciiCodePoint.QUESTION_MARK ||
       c === AsciiCodePoint.EXCLAMATION_MARK ||
       c === AsciiCodePoint.DOT ||
@@ -120,31 +114,27 @@ export function eatOptionalDomainFollows(
    */
   if (
     nextIndex >= startIndex &&
-    nextIndex + 1 < endIndex &&
-    nodePoints[nextIndex + 1].codePoint === AsciiCodePoint.CLOSE_PARENTHESIS
+    nodePoints[nextIndex].codePoint === AsciiCodePoint.CLOSE_PARENTHESIS
   ) {
-    let countOfOpenParenthesis = 0
-    for (let i = startIndex; i < nextIndex; ++i) {
+    let parenthesisBalance = 0
+    for (let i = startIndex; i <= nextIndex; ++i) {
       const c = nodePoints[i].codePoint
       switch (c) {
         case AsciiCodePoint.OPEN_PARENTHESIS:
-          countOfOpenParenthesis += 1
+          parenthesisBalance += 1
           break
         case AsciiCodePoint.CLOSE_PARENTHESIS:
-          countOfOpenParenthesis -= 1
+          parenthesisBalance -= 1
           break
       }
     }
 
-    if (countOfOpenParenthesis > 0) {
-      nextIndex += 2
-      countOfOpenParenthesis -= 1
-      for (; nextIndex < endIndex && countOfOpenParenthesis > 0;) {
-        const c = nodePoints[nextIndex].codePoint
-        if (c !== AsciiCodePoint.CLOSE_PARENTHESIS) break
-        countOfOpenParenthesis -= 1
-        nextIndex += 1
-      }
+    while (
+      parenthesisBalance < 0 &&
+      nextIndex >= startIndex &&
+      nodePoints[nextIndex].codePoint === AsciiCodePoint.CLOSE_PARENTHESIS
+    ) {
+      parenthesisBalance += 1
       nextIndex -= 1
     }
   }
@@ -155,16 +145,15 @@ export function eatOptionalDomainFollows(
    * or more alphanumeric characters. If so, it is excluded from the autolink.
    * @see https://github.github.com/gfm/#example-626
    */
-  if (
-    nextIndex + 1 < endIndex &&
-    nodePoints[nextIndex + 1].codePoint === AsciiCodePoint.SEMICOLON
-  ) {
-    let i = nextIndex
+  if (nextIndex >= startIndex && nodePoints[nextIndex].codePoint === AsciiCodePoint.SEMICOLON) {
+    let i = nextIndex - 1
     for (; i >= startIndex; --i) {
       const c = nodePoints[i].codePoint
       if (!isAlphanumeric(c)) break
     }
-    if (i >= startIndex && nodePoints[i].codePoint === AsciiCodePoint.AMPERSAND) nextIndex = i - 1
+    if (i >= startIndex && nodePoints[i].codePoint === AsciiCodePoint.AMPERSAND) {
+      nextIndex = i - 1
+    }
   }
 
   return nextIndex + 1
@@ -203,7 +192,7 @@ export function eatValidDomain(
 
   // There must be at least one period, and no underscores may be present in the
   // last two segments of the domain.
-  if (countOfPeriod <= 0 && countOfUnderscoreOfLastTwoSegment === 0) {
+  if (countOfPeriod <= 0 || countOfUnderscoreOfLastTwoSegment !== 0) {
     return { valid: false, nextIndex }
   }
   return { valid: true, nextIndex }

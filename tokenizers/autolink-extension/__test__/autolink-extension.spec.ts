@@ -17,3 +17,23 @@ createTokenizerTesters(
     ])
     .runTest(),
 )
+
+describe('extended URL boundaries', () => {
+  test.each(['ftp://example.com', 'http://example.com/'])(
+    'recognizes valid extended URL %s',
+    source => {
+      expect(parsers.gfmEx.parse(source).children[0]).toMatchObject({
+        type: 'paragraph',
+        children: [{ type: 'link', url: source }],
+      })
+    },
+  )
+
+  test('rejects an underscore in the final two domain segments', () => {
+    const source = 'http://foo_bar.com'
+    expect(parsers.gfmEx.parse(source).children[0]).toMatchObject({
+      type: 'paragraph',
+      children: [{ type: 'text', value: source }],
+    })
+  })
+})
