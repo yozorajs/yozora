@@ -77,4 +77,27 @@ describe('calcDefinitionMap', function () {
     expect(ast).toEqual(originalAst)
     expect(definitionMap).toMatchSnapshot()
   })
+
+  test('prototype-named identifiers', function () {
+    const definition: Definition = {
+      type: DefinitionType,
+      identifier: 'constructor',
+      label: 'constructor',
+      url: '/definition',
+    }
+    const preset: Definition = {
+      type: DefinitionType,
+      identifier: '__proto__',
+      label: '__proto__',
+      url: '/preset',
+    }
+    const ast: Root = { type: 'root', children: [definition] }
+
+    const { root, definitionMap } = calcDefinitionMap(ast, undefined, [preset])
+
+    expect(Object.getPrototypeOf(definitionMap)).toBeNull()
+    expect(definitionMap[definition.identifier]).toBe(definition)
+    expect(definitionMap[preset.identifier]).toBe(preset)
+    expect(root.children).toEqual(ast.children.concat(preset))
+  })
 })

@@ -67,5 +67,28 @@ describe('calcFootnoteDefinitionMap', function () {
       expect(root).toMatchSnapshot()
       expect(ast).toEqual(originalAst)
     })
+
+    test('prototype-named identifiers', function () {
+      const definition: FootnoteDefinition = {
+        type: 'footnoteDefinition',
+        identifier: 'constructor',
+        label: 'constructor',
+        children: [],
+      }
+      const preset: FootnoteDefinition = {
+        type: 'footnoteDefinition',
+        identifier: '__proto__',
+        label: '__proto__',
+        children: [],
+      }
+      const ast: Root = { type: 'root', children: [definition] }
+
+      const { root, footnoteDefinitionMap } = calcFootnoteDefinitionMap(ast, undefined, [preset])
+
+      expect(Object.getPrototypeOf(footnoteDefinitionMap)).toBeNull()
+      expect(footnoteDefinitionMap[definition.identifier]).toBe(definition)
+      expect(footnoteDefinitionMap[preset.identifier]).toBe(preset)
+      expect(root.children).toEqual(ast.children.concat(preset))
+    })
   })
 })

@@ -71,7 +71,7 @@ export function calcFootnoteDefinitionMap(
   root: Readonly<Root>
   footnoteDefinitionMap: Record<string, Readonly<FootnoteDefinition>>
 } {
-  const footnoteDefinitionMap: Record<string, Readonly<FootnoteDefinition>> = {}
+  const footnoteDefinitionMap: Record<string, Readonly<FootnoteDefinition>> = Object.create(null)
 
   /**
    * Traverse Yozora AST and collect footnote definitions.

@@ -69,7 +69,7 @@ export const calcDefinitionMap = (
   root: Readonly<Root>
   definitionMap: Record<string, Readonly<Definition>>
 } => {
-  const definitionMap: Record<string, Readonly<Definition>> = {}
+  const definitionMap: Record<string, Readonly<Definition>> = Object.create(null)
 
   /**
    * Traverse Yozora AST and collect definitions.
