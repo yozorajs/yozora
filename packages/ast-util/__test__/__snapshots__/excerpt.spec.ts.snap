@@ -281,7 +281,7 @@ exports[`basic1 > default 1`] = `
                   },
                   "type": "text",
                   "value": "
-钟鼓馔玉不足贵，但愿长醉不复醒。",
+钟鼓馔玉不足贵，但愿长醉不复",
                 },
               ],
               "position": {
@@ -469,7 +469,7 @@ exports[`basic1 > excerpt-40 1`] = `
                   },
                   "type": "text",
                   "value": "
-君不见高堂明镜悲白发，朝如青丝暮成雪。",
+君不见高堂明镜悲白发，朝如青丝暮成",
                 },
               ],
               "position": {

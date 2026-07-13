@@ -1,6 +1,4 @@
-import type { Literal, Parent, Root } from '@yozora/ast'
-import { TextType } from '@yozora/ast'
-import { shallowCloneAst } from './ast/clone'
+import type { Literal, Node, Parent, Root } from '@yozora/ast'
 import { searchNode } from './ast/search'
 
 /**
@@ -9,36 +7,38 @@ import { searchNode } from './ast/search'
 export function calcExcerptAst(immutableRoot: Readonly<Root>, pruneLength: number): Readonly<Root> {
   if (immutableRoot.children.length <= 0) return immutableRoot
 
-  let totalExcerptLengthSoFar = 0
-  let parentOfLastLiteralNode: Parent | null = null as any
-  let indexOfLastLiteralNode = 0
-  const excerptAst = shallowCloneAst(immutableRoot, (node, parent, index) => {
-    if (totalExcerptLengthSoFar >= pruneLength) return true
-    const { value } = node as Literal
-    if (value != null) {
-      parentOfLastLiteralNode = parent
-      indexOfLastLiteralNode = index
-      totalExcerptLengthSoFar += value.length
-    }
-    return false
-  })
+  let remainingLength = pruneLength
+  const clone = (parent: Readonly<Parent>): Parent => {
+    const children: Node[] = []
+    for (const node of parent.children) {
+      if (remainingLength <= 0) break
 
-  if (
-    parentOfLastLiteralNode !== null &&
-    parentOfLastLiteralNode.type === TextType &&
-    totalExcerptLengthSoFar > pruneLength
-  ) {
-    // Try truncate last LiteralNode
-    const parent = parentOfLastLiteralNode!
-    parent.children = parent.children.map((node, i) => {
-      if (i !== indexOfLastLiteralNode) return node
-      return {
-        ...node,
-        value: (node as Literal).value.slice(totalExcerptLengthSoFar - pruneLength),
+      const { value } = node as Literal
+      if (typeof value === 'string') {
+        if (value.length > remainingLength) {
+          const truncatedNode: Literal = {
+            ...(node as Literal),
+            value: value.slice(0, remainingLength),
+          }
+          children.push(truncatedNode)
+          remainingLength = 0
+        } else {
+          children.push(node)
+          remainingLength -= value.length
+        }
+        continue
       }
-    })
+
+      const { children: subChildren } = node as Parent
+      if (subChildren == null) {
+        children.push(node)
+      } else {
+        children.push(clone(node as Parent))
+      }
+    }
+    return { ...parent, children }
   }
-  return excerptAst
+  return clone(immutableRoot) as Root
 }
 
 /**
