@@ -86,7 +86,14 @@ export class DefaultParser implements IParser {
     fallbackTokenizer: IBlockFallbackTokenizer | IInlineFallbackTokenizer,
   ): this {
     switch (fallbackTokenizer.type) {
-      case TokenizerType.BLOCK:
+      case TokenizerType.BLOCK: {
+        const registeredTokenizer = this.blockTokenizerMap.get(fallbackTokenizer.name)
+        if (registeredTokenizer != null && registeredTokenizer !== this.blockFallbackTokenizer) {
+          throw new TypeError(
+            `[useFallbackTokenizer] Name(${fallbackTokenizer.name}) has been registered.`,
+          )
+        }
+
         // Unmount old fallback tokenizer
         if (this.blockFallbackTokenizer) {
           this.unmountTokenizer(this.blockFallbackTokenizer)
@@ -96,7 +103,15 @@ export class DefaultParser implements IParser {
         this.blockTokenizerMap.set(fallbackTokenizer.name, fallbackTokenizer)
         this.blockFallbackTokenizer = fallbackTokenizer
         break
-      case TokenizerType.INLINE:
+      }
+      case TokenizerType.INLINE: {
+        const registeredTokenizer = this.inlineTokenizerMap.get(fallbackTokenizer.name)
+        if (registeredTokenizer != null && registeredTokenizer !== this.inlineFallbackTokenizer) {
+          throw new TypeError(
+            `[useFallbackTokenizer] Name(${fallbackTokenizer.name}) has been registered.`,
+          )
+        }
+
         // Unmount old fallback tokenizer
         if (this.inlineFallbackTokenizer) {
           this.unmountTokenizer(this.inlineFallbackTokenizer)
@@ -106,6 +121,7 @@ export class DefaultParser implements IParser {
         this.inlineTokenizerMap.set(fallbackTokenizer.name, fallbackTokenizer)
         this.inlineFallbackTokenizer = fallbackTokenizer
         break
+      }
     }
     return this
   }

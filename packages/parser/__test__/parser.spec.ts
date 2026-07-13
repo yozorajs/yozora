@@ -1,6 +1,10 @@
+import { DefaultParser } from '@yozora/core-parser'
 import { createTokenizerTester } from '@yozora/test-util'
-import { InlineCodeTokenizerName } from '@yozora/tokenizer-inline-code'
+import FencedCodeTokenizer, { FencedCodeTokenizerName } from '@yozora/tokenizer-fenced-code'
+import InlineCodeTokenizer, { InlineCodeTokenizerName } from '@yozora/tokenizer-inline-code'
 import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
+import ParagraphTokenizer from '@yozora/tokenizer-paragraph'
+import TextTokenizer from '@yozora/tokenizer-text'
 import { describe, expect, test } from 'vitest'
 import { loadFixtures, parsers } from 'vitest.setup'
 
@@ -46,4 +50,52 @@ test('recognizes an ECMA import after partial-tab indentation', () => {
   const listItem = (ast.children[0] as any).children[0]
 
   expect(listItem.children[1].type).toBe('ecmaImport')
+})
+
+describe('fallback tokenizer registration', () => {
+  const createParser = (): DefaultParser =>
+    new DefaultParser({
+      blockFallbackTokenizer: new ParagraphTokenizer(),
+      inlineFallbackTokenizer: new TextTokenizer(),
+    })
+
+  test('rejects an inline name collision without mutating registration state', () => {
+    const parser = createParser().useTokenizer(new InlineCodeTokenizer())
+
+    expect(() =>
+      parser.useFallbackTokenizer(new TextTokenizer({ name: InlineCodeTokenizerName })),
+    ).toThrowError(`[useFallbackTokenizer] Name(${InlineCodeTokenizerName}) has been registered.`)
+    expect(parser.parse('plain `code`')).toMatchObject({
+      children: [
+        {
+          type: 'paragraph',
+          children: [
+            { type: 'text', value: 'plain ' },
+            { type: 'inlineCode', value: 'code' },
+          ],
+        },
+      ],
+    })
+  })
+
+  test('rejects a block name collision without mutating registration state', () => {
+    const parser = createParser().useTokenizer(new FencedCodeTokenizer())
+
+    expect(() =>
+      parser.useFallbackTokenizer(new ParagraphTokenizer({ name: FencedCodeTokenizerName })),
+    ).toThrowError(`[useFallbackTokenizer] Name(${FencedCodeTokenizerName}) has been registered.`)
+    expect(parser.parse('plain\n\n```\ncode\n```')).toMatchObject({
+      children: [{ type: 'paragraph' }, { type: 'code' }],
+    })
+  })
+
+  test('allows replacing fallback tokenizers with the same names', () => {
+    const parser = createParser()
+
+    expect(() => parser.useFallbackTokenizer(new ParagraphTokenizer())).not.toThrow()
+    expect(() => parser.useFallbackTokenizer(new TextTokenizer())).not.toThrow()
+    expect(parser.parse('plain')).toMatchObject({
+      children: [{ type: 'paragraph', children: [{ type: 'text', value: 'plain' }] }],
+    })
+  })
 })
