@@ -94,7 +94,7 @@ All notable changes to this project will be documented in this file. See
 - improve(inlineMath): support more than one dollar sign as delimiter
   ([bf17c33](https://github.com/yozorajs/yozora/commit/bf17c33))
 - :bookmark: release: publish v2.3.7 ([ba79410](https://github.com/yozorajs/yozora/commit/ba79410))
-- :bug: fix(inline-math): the inline syntax wihtout backticks could be interruptted by
+- :bug: fix(inline-math): the inline syntax without backticks could be interrupted by
   emphasis/strong ([c347f97](https://github.com/yozorajs/yozora/commit/c347f97))
 - :white_check_mark: test: fix tests ([dd9c762](https://github.com/yozorajs/yozora/commit/dd9c762))
 
@@ -105,7 +105,7 @@ All notable changes to this project will be documented in this file. See
 
 ## <small>2.3.7 (2024-11-06)</small>
 
-- :bug: fix(inline-math): the inline syntax wihtout backticks could be interruptted by
+- :bug: fix(inline-math): the inline syntax without backticks could be interrupted by
   emphasis/strong ([c347f97](https://github.com/yozorajs/yozora/commit/c347f97))
 - :white_check_mark: test: fix tests ([dd9c762](https://github.com/yozorajs/yozora/commit/dd9c762))
 
@@ -608,7 +608,7 @@ All notable changes to this project will be documented in this file. See
   ([347ae9b](https://github.com/yozorajs/yozora/commit/347ae9b897aeeee8a6c73280660e2bd1878c113e))
 - 🔖 publish v1.0.0-alpha.17
   ([0e7facd](https://github.com/yozorajs/yozora/commit/0e7facdde8692e538e5777d70b873cf6282f7de8))
-- :whitespace_check_mark: udpate tests
+- :whitespace_check_mark: update tests
   ([6910b98](https://github.com/yozorajs/yozora/commit/6910b987aa7c50759cabf29ce49d40b9238e108d))
 - 📝 update docs
   ([acffd75](https://github.com/yozorajs/yozora/commit/acffd757123705c4d0f6a3948f62f3c460cefde3))
@@ -638,7 +638,7 @@ All notable changes to this project will be documented in this file. See
 - 🔖 publish v1.0.0-alpha.14
   ([3fcfffa](https://github.com/yozorajs/yozora/commit/3fcfffa0da0413449acf0d91d85400d0b31fa9a2))
 - 🎨 rename isContainerBlock to isContainingBlock & use enum TokenizerPriority instead of magic
-  numbers to present tokenizer proirity
+  numbers to represent tokenizer priority
   ([940c50b](https://github.com/yozorajs/yozora/commit/940c50bb58b76a888a512539f3a4db6e8396d45b))
 - 🎨 support to specify which tokenizer to register before
   ([e8607f4](https://github.com/yozorajs/yozora/commit/e8607f41e2a52d3de91463080ac3ac52968e5f51))

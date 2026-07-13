@@ -635,7 +635,7 @@ All notable changes to this project will be documented in this file. See
 - 🔖 publish v1.0.0-alpha.14
   ([3fcfffa](https://github.com/yozorajs/yozora/commit/3fcfffa0da0413449acf0d91d85400d0b31fa9a2))
 - 🎨 rename isContainerBlock to isContainingBlock & use enum TokenizerPriority instead of magic
-  numbers to present tokenizer proirity
+  numbers to represent tokenizer priority
   ([940c50b](https://github.com/yozorajs/yozora/commit/940c50bb58b76a888a512539f3a4db6e8396d45b))
 - ✅ update tests
   ([a24d148](https://github.com/yozorajs/yozora/commit/a24d1485b59caaeff4510b1150d8810236a9906a))
@@ -880,7 +880,7 @@ All notable changes to this project will be documented in this file. See
   ([9d84cb0](https://github.com/yozorajs/yozora/commit/9d84cb0ddf2296a7275513c13dc745827896eb5d))
 - :art: [html-block,html-inline] improve: update data types & update tests
   ([630d0d9](https://github.com/yozorajs/yozora/commit/630d0d9877ccf0950bf9e72677d00dc83042ef6a))
-- :bug: [autolinkl-extension] fix: check entity references if encounter a tailing semicolon
+- :bug: [autolink-extension] fix: check entity references if encounter a trailing semicolon
   ([2efd87f](https://github.com/yozorajs/yozora/commit/2efd87f273d1e45441926757ec8a47dc1fcb2d00))
 - :construction: [parser-gfm] feat: support autolink-extension & update tests
   ([4b0c941](https://github.com/yozorajs/yozora/commit/4b0c941824b0e1950dcde61c3b4eaa420228841e))
@@ -952,7 +952,7 @@ All notable changes to this project will be documented in this file. See
   ([b9d15f4](https://github.com/yozorajs/yozora/commit/b9d15f41633e76290c16f0875995f7906d4da5af))
 - :white_check_mark: [parser-gfm] test: update case answers
   ([b18464b](https://github.com/yozorajs/yozora/commit/b18464b23f50ea46310aee35c973c1b6cde61cbf))
-- :bug: [parser-gfm] fix: IndentedCodeTokenizer should take procedence
+- :bug: [parser-gfm] fix: IndentedCodeTokenizer should take precedence
   ([4c2fd81](https://github.com/yozorajs/yozora/commit/4c2fd81424eaa07439682ffad0764a5c606abc85))
 - :white_check_mark: [parser-gfm] test: update case answers
   ([d77295e](https://github.com/yozorajs/yozora/commit/d77295ec74d242db980e0d3af3a48f3e4483237f))

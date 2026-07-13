@@ -1,3 +1,5 @@
+<!-- :begin use tokenizer/banner -->
+
 <header>
   <h1 align="center">
     <a href="https://github.com/yozorajs/yozora/tree/v2.3.17/packages/markup-weaver#readme">@yozora/markup-weaver</a>
@@ -5,19 +7,19 @@
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/markup-weaver">
       <img
-        alt="Npm Version"
+        alt="npm version"
         src="https://img.shields.io/npm/v/@yozora/markup-weaver.svg"
       />
     </a>
     <a href="https://www.npmjs.com/package/@yozora/markup-weaver">
       <img
-        alt="Npm Download"
+        alt="npm downloads"
         src="https://img.shields.io/npm/dm/@yozora/markup-weaver.svg"
       />
     </a>
     <a href="https://www.npmjs.com/package/@yozora/markup-weaver">
       <img
-        alt="Npm License"
+        alt="npm license"
         src="https://img.shields.io/npm/l/@yozora/markup-weaver.svg"
       />
     </a>
@@ -33,36 +35,37 @@
         src="https://img.shields.io/node/v/@yozora/markup-weaver"
       />
     </a>
+    <a href="https://github.com/vitest-dev/vitest">
+      <img
+        alt="Tested with Vitest"
+        src="https://img.shields.io/badge/tested_with-vitest-6E9F18.svg"
+      />
+    </a>
     <a href="https://github.com/prettier/prettier">
       <img
-        alt="Code Style: prettier"
+        alt="Code style: Prettier"
         src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square"
       />
     </a>
   </div>
 </header>
-<br/>
+<br />
 
-This package is designed to weave the markup-like AST into markup contents.
+
+<!-- :end -->
+
+Convert a Yozora AST back into Markdown-like markup.
 
 ## Install
 
-- npm
-
-  ```bash
-  npm install --save @yozora/markup-weaver
-  ```
-
+```bash
+npm install --save @yozora/markup-weaver
+```
 
 ## Usage
 
-[@yozora/markup-weaver][] provide a `DefaultMarkupWeaver` to weave markup-like AST into markup
-contents.
-
-BTW, You can convert a piece of text into markup AST via [@yozora/parser][] or at
-https://yozora.guanghechen.com.
-
-- Here is a simple example to weave AST into markup contents, note that `position` is optional.
+- `DefaultMarkupWeaver` supports the built-in AST structures. `TableWeaver` handles `TableRow` and
+  `TableCell` children internally.
 
   ```typescript
   import { DefaultMarkupWeaver } from '@yozora/markup-weaver'
@@ -108,7 +111,7 @@ https://yozora.guanghechen.com.
         "children": [
           {
             "type": "text",
-            "value": "Setext headings"
+            "value": "Heading"
           }
         ]
       }
@@ -117,10 +120,10 @@ https://yozora.guanghechen.com.
 
   // =>
   // emphasis: **foo "*bar*" foo**
-  // # Setext headings
+  // # Heading
   ```
 
-- Use custom weaver
+- Register a custom node weaver:
 
   ```typescript
   import type { Literal } from '@yozora/ast'
@@ -137,7 +140,7 @@ https://yozora.guanghechen.com.
   }
 
   const weaver = new DefaultMarkupWeaver()
-  weaver.useWeaver(new MentionWeaver)
+  weaver.useWeaver(new MentionWeaver())
 
   weaver.weave({
     "type": "root",
@@ -161,8 +164,8 @@ https://yozora.guanghechen.com.
 - [@yozora/ast][]
 - [@yozora/parser][]
 - [@yozora/parser-gfm][]
-- [Github Flavor Markdown Spec][gfm-spec]
-- [Mdast][mdast-homepage]
+- [GitHub Flavored Markdown Spec][gfm-spec]
+- [mdast][mdast-homepage]
 
 [doc-yozora]: https://yozora.guanghechen.com
 [docpage]: https://yozora.guanghechen.com/docs/package/markup-weaver

@@ -266,7 +266,7 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
-- 🎨 set 'lang' and 'meta' to null if it is empty & add tainling line ending
+- 🎨 set 'lang' and 'meta' to null if it is empty & add trailing line ending
   ([5d1aa19](https://github.com/yozorajs/yozora/commit/5d1aa193b1ff0e9782f661e1ba6e759334a1f31a))
 
 ### Performance Improvements

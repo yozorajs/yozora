@@ -1,3 +1,5 @@
+<!-- :begin use tokenizer/banner -->
+
 <header>
   <h1 align="center">
     <a href="https://github.com/yozorajs/yozora/tree/v2.3.17/packages/core-tokenizer#readme">@yozora/core-tokenizer</a>
@@ -5,19 +7,19 @@
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/core-tokenizer">
       <img
-        alt="Npm Version"
+        alt="npm version"
         src="https://img.shields.io/npm/v/@yozora/core-tokenizer.svg"
       />
     </a>
     <a href="https://www.npmjs.com/package/@yozora/core-tokenizer">
       <img
-        alt="Npm Download"
+        alt="npm downloads"
         src="https://img.shields.io/npm/dm/@yozora/core-tokenizer.svg"
       />
     </a>
     <a href="https://www.npmjs.com/package/@yozora/core-tokenizer">
       <img
-        alt="Npm License"
+        alt="npm license"
         src="https://img.shields.io/npm/l/@yozora/core-tokenizer.svg"
       />
     </a>
@@ -33,20 +35,29 @@
         src="https://img.shields.io/node/v/@yozora/core-tokenizer"
       />
     </a>
+    <a href="https://github.com/vitest-dev/vitest">
+      <img
+        alt="Tested with Vitest"
+        src="https://img.shields.io/badge/tested_with-vitest-6E9F18.svg"
+      />
+    </a>
     <a href="https://github.com/prettier/prettier">
       <img
-        alt="Code Style: prettier"
+        alt="Code style: Prettier"
         src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square"
       />
     </a>
   </div>
 </header>
-<br/>
+<br />
+
+
+<!-- :end -->
 
 [中文文档][homepage-zh]
 
-Defines the shape of Yozora Tokenizer and life cycle methods, as well as some utility functions to
-assist in resolving tokens.
+Defines the shape of Yozora tokenizers and their lifecycle methods, as well as some utility
+functions to assist in resolving tokens.
 
 ## Install
 
@@ -56,23 +67,22 @@ assist in resolving tokens.
   npm install --save @yozora/core-tokenizer
   ```
 
-
 ## Usage
 
-According to the Parse Strategy, there are two types of tokenizers: Block Tokenizer and Inline
-tokenizer.
+According to the parse strategy, there are two types of tokenizers: Block Tokenizer and Inline
+Tokenizer.
 
 ### Block Tokenizer
 
-The parsing steps of the block tokenizer are divided into three life cycles:
+The parsing steps of the block tokenizer are divided into two life cycles:
 
-- `match-block`: match a block node and get a `BlockToken`
+- `match-block`: Match a block node and get a `BlockToken`.
 
-- `parse-block`: Parse `BlockTokens` into a YAST nodes
+- `parse-block`: Parse `BlockToken` lists into Yozora AST nodes.
 
 #### match-block phase
 
-In the process of parsing block nodes, the content is read line by line. The block-level node has a
+In the process of parsing block nodes, the content is read line by line. Block-level nodes have a
 nested structure:
 
 ```markdown {2}
@@ -82,130 +92,113 @@ nested structure:
 > - > ...
 ```
 
-As shown in the second line of the above code, when parsing [ListItem][@yozora/tokenizer-list], it
-cannot get the first character in the original document line, but wait for its ancestor elements
-along the existing nesting structure (such as the above [Blockquote][@yozora/tokenizer-blockquote])
-to complete the matching, and then gets a matching opportunity. In order to make the tokenizers work
-with each other transparently, when designing the life cycle methods of the block-level tokenizer in
-the `match-block` stage, the parsing logic of the nested structure lifted into [@yozora/core-parser
-][], and use a special data structure called `PhrasingContentLine` as the actual parsing unit of a line:
+As shown in the second line above, when parsing [ListItem][@yozora/tokenizer-list], it cannot get the
+first character in the original document line directly, but waits for its ancestor elements along
+the existing nested structure, such as the [Blockquote][@yozora/tokenizer-blockquote], to complete
+matching before it gets an opportunity to match. To make tokenizers work with each other
+transparently, the nested-structure parsing logic of the `match-block` phase is lifted into
+[@yozora/core-parser][], using `IPhrasingContentLine` as the actual parsing unit of a line:
 
 ```typescript
-export interface PhrasingContentLine {
+export interface IPhrasingContentLine extends INodeInterval {
   /**
-   * Start index of interval in nodePoints.
+   * Array of INodePoint which contains all the contents of this line.
    */
-  startIndex: number
+  nodePoints: readonly INodePoint[]
   /**
-   * End index of interval in nodePoints.
-   */
-  endIndex: number
-  /**
-   * Array of NodePoint which contains all the contents of this line.
-   */
-  nodePoints: ReadonlyArray<NodePoint>
-  /**
-   * The index of first non-blank character in the rest of the current line
+   * The index of first non-blank character in the rest of the current line.
    */
   firstNonWhitespaceIndex: number
   /**
-   * The precede space count, one tab equals four space.
-   * @see https://github.github.com/gfm/#tabs
+   * Visual width of the preceding indentation.
    */
-  countOfPrecedeSpaces: number
+  indentWidth: number
 }
 ```
 
-The life cycle methods at this stage is subdivided into the following methods (see
-[match-block][lifecycle-match-block] for the type definition details):
+The lifecycle methods at this stage are subdivided into the following methods (see
+[match-block][lifecycle-match-block] for the complete type definitions):
 
 - `eatOpener`: (Required) Try to match a new block node.
 
-- `eatAndInterruptPreviousSibling`: (optional) try to interrupt the previous sibling node and match
+- `eatAndInterruptPreviousSibling`: (Optional) Try to interrupt the previous sibling node and match
   a new block node.
 
-- `eatContinuationText`: (Optional) Try to match the continuation text of current block node, that
-  is, consume the current `PhrasingContentLine` with the current block node. There may be many kinds
-  of results at this stage, which are distinguished according to the value of `status` in the
-  returned result:
+- `eatContinuationText`: (Optional) Try to match the continuation text of the current block node;
+  that is, consume the current `IPhrasingContentLine` with the current block node. There may be many
+  kinds of results at this stage, distinguished by the returned `status`:
 
   - `notMatched`: Not matched.
 
-  - `closing`: Matched and this is the last line of the current block node. That is, the current
-    block node is in a saturated state and is closing.
+  - `closing`: Matched, and this is the last line of the current block node. The current node is
+    saturated and will close.
 
-  - `opening`: Matched, and not closing yet.
+  - `opening`: Matched, and the current block node remains open.
 
-  - `failedAndRollback`: The match fails, and the content of the previous lines are to be rolled
-    back. For convenience, it is assumed that the rollback operation does not affect the previously
-    satisfied nested structure.
+  - `failedAndRollback`: Matching failed, and the content of the previous lines must be rolled back.
+    It is assumed that rollback does not affect the previously satisfied nested structure.
 
-  - `closingAndRollback`: Matching failed, but only the last line needs to be rollback, the current
-    node is still a valid one and will be closed soon.
+  - `closingAndRollback`: Matching failed, but only the returned lines need to be rolled back. The
+    current node remains valid and will close.
 
-- `eatLazyContinuationText`: (Optional) Try to match Laziness Continuation Text. Actually only the
-  [@yozora/tokenizer-paragraph][] needs to implement this method, see
-  https://github.github.com/gfm/#phase-1-block-structure step3 for details.
+- `eatLazyContinuationText`: (Optional) Try to match lazy continuation text. The paragraph and table
+  tokenizers currently implement this method. See
+  https://github.github.com/gfm/#phase-1-block-structure step 3 for details.
 
-- `onClose`: (Optional) Called when the current node is closed, used to perform
-- some cleanup operations.
+- `onClose`: (Optional) Called before the current node closes to perform cleanup.
 
 - `extractPhrasingContentLines`: (Optional) Convert a Block Token generated by the current tokenizer
-  to `PhrasingContentLines[]`. This method is only needed when the matching node of this type may be
-  rolled back.
+  to `IPhrasingContentLine[]`. Override this method when matching this node type may require
+  rollback.
 
-- `buildBlockToken`: (Optional) Convert `PhrasingContentLines[]` into a Block Token. This method is
-  only needed when the matching node of this type may be rolled back
+- `buildBlockToken`: (Optional) Convert `IPhrasingContentLine[]` into a Block Token. Override this
+  method when matching this node type may require rollback.
 
 #### parse-block phase
 
-The life cycle methods at this stage is subdivided into the following methods (see
-[parse-block][lifecycle-parse-block] for the complete type definition):
+This phase contains the following lifecycle method (see [parse-block][lifecycle-parse-block] for the
+complete type definitions):
 
-- `parseBlock`: Convert a Block Token into Yast Node
+- `parse`: Convert a list of Block Tokens into Yozora AST nodes.
 
 ---
 
 ### Inline Tokenizer
 
-The parsing step of the inline parser is divided into two life cycles
+The parsing steps of the inline tokenizer are divided into two life cycles:
 
-- `match-inline`: Match the inline contents and get an `InlineToken`
-- `parse-inline`: Parse an `InlineToken` into a YAST node
+- `match-inline`: Match inline content and get an `InlineToken`.
+- `parse-inline`: Parse an `InlineToken` into a Yozora AST node.
 
 #### match-inline phase
 
-After a block node is closed, we can start matching inline nodes, so when we match inline nodes, we
-get a continuous text without the concept of "line". But inline nodes have priority. For example,
-link has a higher priority than emphasis (see https://github.github.com/gfm/#example-529). In order
-to enable unperceptual coordination between tokenizers, when designing the life cycle function of
-the inline tokenizer in the `match-inline` phase, put priority-related logic in
-[@yozora/core-parser][] In processing, each tokenizer only provides four types of separators:
-`opener`, `both`, `closer`, `full`. Then the processor in [@yozora/core-parser][] completes the
-coordination work.
+After a block node closes, matching inline nodes can begin, so inline matching receives continuous
+text without the concept of lines. Inline nodes also have priorities; for example, links have a
+higher priority than emphasis (see https://github.github.com/gfm/#example-529). To make tokenizers
+work with each other transparently, priority-related logic is handled in [@yozora/core-parser][].
+Each tokenizer provides four types of delimiters: `opener`, `both`, `closer`, and `full`. The
+processor in [@yozora/core-parser][] completes the coordination work.
 
-The lifecycle methods at this stage is subdivided into the following methods (see
-[match-inline][lifecycle-match-inline] for the complete type definition):
+The lifecycle methods at this stage are subdivided into the following methods (see
+[match-inline][lifecycle-match-inline] for the complete type definitions):
 
-- `findDelimiter`: (Required) Find a delimiter
-- `isDelimiterPair`: (Optional) Check whether the given two delimiters can match
-- `processDelimiterPair`: (Optional) Process the matched two delimiters. Such as
-  [@yozora/tokenizer-emphasis][]
-- `processSingleDelimiter`: (Optional) Process a single delimiter. Such as
-  [@yozora/tokenizer-text][]
+- `findDelimiter`: (Required) Find delimiters.
+- `isDelimiterPair`: (Optional) Check whether the given two delimiters can pair.
+- `processDelimiterPair`: (Optional) Process a delimiter pair, as in
+  [@yozora/tokenizer-emphasis][].
+- `processSingleDelimiter`: (Optional) Process a single delimiter, as in
+  [@yozora/tokenizer-text][].
 
-#### parser-inline phase
+#### parse-inline phase
 
-The lifecycle methods at this stage is subdivided into the following methods (see
-[parse-inline][lifecycle-pase-inline] for the complete type definition):
+This phase contains the following lifecycle method (see [parse-inline][lifecycle-parse-inline] for
+the complete type definitions):
 
-- `processToken`: (Required) Convert an Inline Token to a YAST node.
+- `parse`: Convert a list of Inline Tokens into Yozora AST nodes.
 
 ## Related
 
 - [homepage][]
-
-- [@yozora/template-tokenizer][] For creating a Yozora Tokenizer.
 
 - Block Tokenizer Lifecycle
 
@@ -217,17 +210,16 @@ The lifecycle methods at this stage is subdivided into the following methods (se
   - [parse-inline][lifecycle-parse-inline]
 
 [homepage]: https://github.com/yozorajs/yozora/tree/v2.3.17/packages/core-tokenizer#readme
-[homepage-zh]: https://github.com/yozorajs/yozora/tree/v2.3.17/packages/core-tokenizer/README-zh.md
+[homepage-zh]: ./README-zh.md
 [lifecycle-match-block]:
-  https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/lifecycle/match-block.ts
+  https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/match-block/hook.ts
 [lifecycle-match-inline]:
-  https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/lifecycle/match-inline.ts
+  https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/match-inline/hook.ts
 [lifecycle-parse-block]:
-  https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/lifecycle/parse-block.ts
+  https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/parse-block/hook.ts
 [lifecycle-parse-inline]:
-  https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/lifecycle/parse-inline.ts
+  https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/parse-inline/hook.ts
 [@yozora/core-parser]: https://www.npmjs.com/package/@yozora/core-parser
-[@yozora/template-tokenizer]: https://www.npmjs.com/package/@yozora/template-tokenizer
 [@yozora/tokenizer-blockquote]: https://www.npmjs.com/package/@yozora/tokenizer-blockquote
 [@yozora/tokenizer-emphasis]: https://www.npmjs.com/package/@yozora/tokenizer-emphasis
 [@yozora/tokenizer-list]: https://www.npmjs.com/package/@yozora/tokenizer-list

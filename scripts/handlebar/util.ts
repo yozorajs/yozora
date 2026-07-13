@@ -66,3 +66,26 @@ export function renderMarkdown<D>(
       .trim() + '\n'
   fs.writeFileSync(filepath, resolvedContent, encoding)
 }
+
+/**
+ * Mark a legacy leading HTML banner as a generated template region.
+ */
+export function ensureLeadingTemplateRegion(
+  filepath: string,
+  templateName: string,
+  encoding: BufferEncoding = 'utf-8',
+): void {
+  if (!fs.existsSync(filepath)) return
+
+  const content = fs.readFileSync(filepath, encoding)
+  const beginMarker = `<!-- :begin use ${templateName} -->`
+  if (content.trimStart().startsWith(beginMarker)) return
+
+  const bannerPattern = /^\s*<header>[\s\S]*?<\/header>\s*<br\s*\/?>/
+  if (!bannerPattern.test(content)) {
+    throw new Error(`cannot find a leading HTML banner in ${filepath}.`)
+  }
+
+  const resolvedContent = content.replace(bannerPattern, `${beginMarker}\n\n$&\n\n<!-- :end -->`)
+  fs.writeFileSync(filepath, resolvedContent, encoding)
+}

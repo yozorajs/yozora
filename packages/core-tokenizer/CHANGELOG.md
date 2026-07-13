@@ -80,7 +80,7 @@ All notable changes to this project will be documented in this file. See
 ## <small>2.3.8 (2024-12-03)</small>
 
 - :bookmark: release: publish v2.3.7 ([ba79410](https://github.com/yozorajs/yozora/commit/ba79410))
-- :bug: fix(inline-math): the inline syntax wihtout backticks could be interruptted by
+- :bug: fix(inline-math): the inline syntax without backticks could be interrupted by
   emphasis/strong ([c347f97](https://github.com/yozorajs/yozora/commit/c347f97))
 
 # Change Log
@@ -90,7 +90,7 @@ All notable changes to this project will be documented in this file. See
 
 ## <small>2.3.7 (2024-11-06)</small>
 
-- :bug: fix(inline-math): the inline syntax wihtout backticks could be interruptted by
+- :bug: fix(inline-math): the inline syntax without backticks could be interrupted by
   emphasis/strong ([c347f97](https://github.com/yozorajs/yozora/commit/c347f97))
 
 # Change Log
@@ -522,7 +522,7 @@ All notable changes to this project will be documented in this file. See
 
 - 🔖 publish v1.0.0-alpha.28
   ([f18d90a](https://github.com/yozorajs/yozora/commit/f18d90a116db508bf49c9a3338a262cb85faf792))
-- 🎨 rename variable names (use termnal 'internal' instead of 'inner')
+- 🎨 rename variable names (use term 'internal' instead of 'inner')
   ([b374c26](https://github.com/yozorajs/yozora/commit/b374c2677a3b7cd0b13429c517e1f213419f2932))
 
 # 1.0.0-alpha.27 (2021-06-28)
@@ -547,7 +547,7 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
-- 🐛 there are no non-text token consistutes children of autolink or autolink-extension
+- 🐛 non-text tokens cannot be children of autolink or autolink-extension
   ([7125cbc](https://github.com/yozorajs/yozora/commit/7125cbc8136d305d4b4db933dfcf50b4bd2a645c))
 
 ### Performance Improvements
@@ -681,7 +681,7 @@ All notable changes to this project will be documented in this file. See
 - 🔖 publish v1.0.0-alpha.14
   ([3fcfffa](https://github.com/yozorajs/yozora/commit/3fcfffa0da0413449acf0d91d85400d0b31fa9a2))
 - 🎨 rename isContainerBlock to isContainingBlock & use enum TokenizerPriority instead of magic
-  numbers to present tokenizer proirity
+  numbers to represent tokenizer priority
   ([940c50b](https://github.com/yozorajs/yozora/commit/940c50bb58b76a888a512539f3a4db6e8396d45b))
 
 # 1.0.0-alpha.13 (2021-04-10)

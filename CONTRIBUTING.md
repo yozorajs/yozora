@@ -28,7 +28,7 @@ This installs all workspace dependencies and sets up the git hooks via `@guanghe
 | `pnpm typecheck`     | Type-check with `tsc --noEmit`                       |
 | `pnpm spellcheck`    | Spell-check sources with cspell                      |
 | `pnpm format`        | Auto-fix lint + format with Prettier                 |
-| `pnpm doc`           | Regenerate package READMEs from handlebars templates |
+| `pnpm doc`           | Regenerate package READMEs from Handlebars templates |
 
 CI runs `lint`, `typecheck`, `format:check`, and `spellcheck` (the `check` job), plus `build` +
 `test:coverage` across Node 20/22/24. A pre-commit hook runs `lint-staged` on staged files, so most
@@ -41,12 +41,13 @@ issues are caught before you push.
 2. Update its `package.json` (`name`, `description`, `repository.directory`, and dependencies).
 3. Implement the tokenizer in `src/` (`match.ts`, `parse.ts`, `tokenizer.ts`, `types.ts`,
    `index.ts`). See `@yozora/core-tokenizer` for the tokenizer API.
-4. Register it in the relevant parser barrel(s): `packages/parser-gfm/src/index.ts` and/or
-   `packages/parser-gfm-ex/src/index.ts`.
+4. Register it in the relevant parsers: `packages/parser/src/index.ts`,
+   `packages/parser-gfm/src/index.ts`, and/or `packages/parser-gfm-ex/src/index.ts`.
 5. Run `pnpm sync:paths` to register the workspace alias in `tsconfig.json` (vitest resolves the
    `@yozora/*` aliases automatically at runtime from the workspace, so it needs no manual edit).
 6. Add fixtures and a spec under `__test__/`, then run `pnpm test`.
-7. Run `pnpm doc` to regenerate the package README.
+7. Add its metadata and example to `scripts/handlebar/tokenizer.ts`, then run `pnpm doc` to
+   regenerate the package README.
 
 ## Commit messages
 
@@ -60,10 +61,10 @@ Maintainers cut a release with the zero-dependency scripts under `script/version
 
 ```bash
 pnpm :version <patch|minor|major|x.y.z-tag> --write   # bump all packages + prepend CHANGELOGs
-git commit -am ":bookmark:  v<version>" && git tag v<version>
+git commit -am ":bookmark: chore(release): v<version>" && git tag v<version>
 pnpm :publish                                         # build + test + pnpm -r publish
 ```
 
 The per-package changelog is generated automatically from the conventional-commit subjects since the
-previous `v*` tag — tidy commit messages are what feed the release notes. For the first release
-after the changesets migration (there is no `v<current>` tag yet), pass `--first-release`.
+previous `v*` tag — tidy commit messages are what feed the release notes. Use `--first-release` only
+when bootstrapping a history without a previous release tag.

@@ -277,7 +277,7 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
-- 🎨 set 'lang' and 'meta' to null if it is empty & add tainling line ending
+- 🎨 set 'lang' and 'meta' to null if it is empty & add trailing line ending
   ([5d1aa19](https://github.com/yozorajs/yozora/commit/5d1aa193b1ff0e9782f661e1ba6e759334a1f31a))
 
 ### Performance Improvements
@@ -604,7 +604,7 @@ All notable changes to this project will be documented in this file. See
 - 🔖 publish v1.0.0-alpha.14
   ([3fcfffa](https://github.com/yozorajs/yozora/commit/3fcfffa0da0413449acf0d91d85400d0b31fa9a2))
 - 🎨 rename isContainerBlock to isContainingBlock & use enum TokenizerPriority instead of magic
-  numbers to present tokenizer proirity
+  numbers to represent tokenizer priority
   ([940c50b](https://github.com/yozorajs/yozora/commit/940c50bb58b76a888a512539f3a4db6e8396d45b))
 - ✅ update tests
   ([3c9f64f](https://github.com/yozorajs/yozora/commit/3c9f64f331d2b2c3484cc580dc8ef13e21ee42b8))
@@ -806,11 +806,11 @@ All notable changes to this project will be documented in this file. See
   ([854a7ca](https://github.com/yozorajs/yozora/commit/854a7ca20ac3b5c8904dcfce1d3e976bad61b536))
 - :art: [tokenizercore-block] improve: update types
   ([68857d0](https://github.com/yozorajs/yozora/commit/68857d012d8fe1cafe119ac43ee2994a44c3e51d))
-- :art: [tokenizercore-block] improve: reorgnize interface types between tokenizer hooks
+- :art: [tokenizercore-block] improve: reorganize interface types between tokenizer hooks
   ([76d889a](https://github.com/yozorajs/yozora/commit/76d889aa5d351a44204318f295f567539ffd058e))
 - :construction: [BREAKING] feat: update tokenizer types from constant case to camel case
   ([2a99460](https://github.com/yozorajs/yozora/commit/2a99460b29b9bce919b254285ecacd182f945ea0))
-- :white_check_mark: [tokenizer-fenced-code] test: improve codes & udpate tests
+- :white_check_mark: [tokenizer-fenced-code] test: improve codes & update tests
   ([8fab2a2](https://github.com/yozorajs/yozora/commit/8fab2a2e57c7950045107535d7cc3a2ef820d73a))
 - :construction: [tokenizercore-block] feat: update DefaultBlockContext (fix errors and export new
   methods) and types & refactor @yozora/tokenizer-setext-heading
@@ -850,7 +850,7 @@ All notable changes to this project will be documented in this file. See
   ([988a99f](https://github.com/yozorajs/yozora/commit/988a99fcf448012fd07df0eacff72d7b5a0166fe))
 - 🎨 rewrite @yozora/jest-for-tokenizer & update tests
   ([2b68af6](https://github.com/yozorajs/yozora/commit/2b68af63e0ea2c267b2c8c7581998cfba8197bd4))
-- 🎨 rewrite @yozora/tokenziercore-block and update block tokenizers
+- 🎨 rewrite @yozora/tokenizercore-block and update block tokenizers
   ([e07f874](https://github.com/yozorajs/yozora/commit/e07f87481499f73a856d65f75dec17c64e42a3b6))
 - 🎨 rewrite string preprocessing algorithm to support tabs and line ends
   ([1312f88](https://github.com/yozorajs/yozora/commit/1312f88e3ae5940d8fd4c616a1fec23284b89287))
@@ -861,7 +861,7 @@ All notable changes to this project will be documented in this file. See
 - 🚧 update due to the change of @yozora/tokenizercore-block & format codes & update
   @yozora/list-\*-item
   ([fcfaa64](https://github.com/yozorajs/yozora/commit/fcfaa64f4b6f06d861db8960bdc9c434e3c7805e))
-- 🚧 update due to the change of the @yozora/tokenziercore-block
+- 🚧 update due to the change of the @yozora/tokenizercore-block
   ([212b913](https://github.com/yozorajs/yozora/commit/212b913b5305581f0898571516ea648dc1fda28c))
 - 📝 update READMEs
   ([9657e0c](https://github.com/yozorajs/yozora/commit/9657e0c41b37e526ad469f4e45d5d080a92171fb))

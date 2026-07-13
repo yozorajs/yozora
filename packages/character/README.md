@@ -1,3 +1,5 @@
+<!-- :begin use tokenizer/banner -->
+
 <header>
   <h1 align="center">
     <a href="https://github.com/yozorajs/yozora/tree/v2.3.17/packages/character#readme">@yozora/character</a>
@@ -5,19 +7,19 @@
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/character">
       <img
-        alt="Npm Version"
+        alt="npm version"
         src="https://img.shields.io/npm/v/@yozora/character.svg"
       />
     </a>
     <a href="https://www.npmjs.com/package/@yozora/character">
       <img
-        alt="Npm Download"
+        alt="npm downloads"
         src="https://img.shields.io/npm/dm/@yozora/character.svg"
       />
     </a>
     <a href="https://www.npmjs.com/package/@yozora/character">
       <img
-        alt="Npm License"
+        alt="npm license"
         src="https://img.shields.io/npm/l/@yozora/character.svg"
       />
     </a>
@@ -33,34 +35,55 @@
         src="https://img.shields.io/node/v/@yozora/character"
       />
     </a>
-    <a href="https://github.com/facebook/jest">
+    <a href="https://github.com/vitest-dev/vitest">
       <img
-        alt="Tested with Jest"
-        src="https://img.shields.io/badge/tested_with-jest-9c465e.svg"
+        alt="Tested with Vitest"
+        src="https://img.shields.io/badge/tested_with-vitest-6E9F18.svg"
       />
     </a>
     <a href="https://github.com/prettier/prettier">
       <img
-        alt="Code Style: prettier"
+        alt="Code style: Prettier"
         src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square"
       />
     </a>
   </div>
 </header>
-<br/>
+<br />
 
-Defines commonly used character encoding and tool functions for processing characters.
+
+<!-- :end -->
+
+Character primitives used by Yozora tokenizers: code-point constants, character predicates,
+source-position tracking, entity references, and Unicode case folding.
 
 ## Install
 
-- npm
-
-  ```bash
-  npm install --save @yozora/character
-  ```
-
+```bash
+npm install --save @yozora/character
+```
 
 ## Usage
+
+```typescript
+import {
+  createNodePointGenerator,
+  foldCase,
+  isPunctuationCharacter,
+} from '@yozora/character'
+
+const points = [...createNodePointGenerator('Hello, 世界')]
+const identifier = foldCase('Yozora')
+const commaIsPunctuation = isPunctuationCharacter(','.codePointAt(0)!)
+```
+
+Key exports include:
+
+- `AsciiCodePoint`, Unicode category enums, and `VirtualCodePoint`
+- ASCII/Unicode whitespace, punctuation, control, digit, and letter predicates
+- `createNodePointGenerator` and helpers for reading text from node-point intervals
+- named and numeric entity-reference parsing
+- `foldCase`, `stripChineseCharacters`, and `tightenChineseCharacters`
 
 ## Related
 

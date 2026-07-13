@@ -613,7 +613,7 @@ All notable changes to this project will be documented in this file. See
 - 🔖 publish v1.0.0-alpha.14
   ([3fcfffa](https://github.com/yozorajs/yozora/commit/3fcfffa0da0413449acf0d91d85400d0b31fa9a2))
 - 🎨 rename isContainerBlock to isContainingBlock & use enum TokenizerPriority instead of magic
-  numbers to present tokenizer proirity
+  numbers to represent tokenizer priority
   ([940c50b](https://github.com/yozorajs/yozora/commit/940c50bb58b76a888a512539f3a4db6e8396d45b))
 - ✅ update tests
   ([3c9f64f](https://github.com/yozorajs/yozora/commit/3c9f64f331d2b2c3484cc580dc8ef13e21ee42b8))

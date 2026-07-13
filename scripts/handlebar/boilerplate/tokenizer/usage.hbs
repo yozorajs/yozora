@@ -1,56 +1,51 @@
 ## Install
 
-* npm
-
-  ```bash
-  npm install --save {{packageName}}
-  ```
+```bash
+npm install --save {{packageName}}
+```
 
 ## Usage
 
-[{{{packageName}}}][] has been integrated into [@yozora/parser][]{{#if inGfmEx}} / [@yozora/parser-gfm-ex][]{{/if}}{{#if inGfm}} / [@yozora/parser-gfm][]{{/if}},
-so you can use `YozoraParser`{{#if inGfmEx}} / `GfmExParser`{{/if}}{{#if inGfm}} / `GfmParser`{{/if}} directly.
+[{{{packageName}}}][] is built into [@yozora/parser][]{{#if inGfmEx}}, [@yozora/parser-gfm-ex][]{{/if}}{{#if inGfm}}, and [@yozora/parser-gfm][]{{/if}}.
 
-### Basic Usage
+### With `DefaultParser`
 
-[{{{packageName}}}][] cannot be used alone, it needs to be
-registered in *IParser* as a plugin-in before it can be used.
+A tokenizer must be registered with an `IParser` before use.
 
-```typescript {4,9}
+```typescript{{#unless isFallbackTokenizer}} {4,9}{{/unless}}
 import { DefaultParser } from '@yozora/core-parser'
 import ParagraphTokenizer from '@yozora/tokenizer-paragraph'
 import TextTokenizer from '@yozora/tokenizer-text'
+{{#unless isFallbackTokenizer}}
 import {{{toPascalCase tokenizerName}}}Tokenizer from '{{{packageName}}}'
+{{/unless}}
 
 const parser = new DefaultParser()
   .useFallbackTokenizer(new ParagraphTokenizer())
   .useFallbackTokenizer(new TextTokenizer())
+{{#unless isFallbackTokenizer}}
   .useTokenizer(new {{{toPascalCase tokenizerName}}}Tokenizer())
+{{/unless}}
 
-// parse source markdown content
 parser.parse({{{usageDemoSourceContent}}})
 ```
 
-### Use within [@yozora/parser][]
+### With [@yozora/parser][]
 
 ```typescript
 import YozoraParser from '@yozora/parser'
 
 const parser = new YozoraParser()
-
-// parse source markdown content
 parser.parse({{{usageDemoSourceContent}}})
 ```
 
-### Use with [@yozora/parser-gfm][]
+### With [@yozora/parser-gfm][]
 
 {{#if inGfm}}
 ```typescript
 import GfmParser from '@yozora/parser-gfm'
 
 const parser = new GfmParser()
-
-// parse source markdown content
 parser.parse({{{usageDemoSourceContent}}})
 ```
 {{else}}
@@ -60,21 +55,17 @@ import {{{toPascalCase tokenizerName}}}Tokenizer from '{{{packageName}}}'
 
 const parser = new GfmParser()
 parser.useTokenizer(new {{{toPascalCase tokenizerName}}}Tokenizer())
-
-// parse source markdown content
 parser.parse({{{usageDemoSourceContent}}})
 ```
 {{/if}}
 
-### Use within [@yozora/parser-gfm-ex][]
+### With [@yozora/parser-gfm-ex][]
 
 {{#if inGfmEx}}
 ```typescript
 import GfmExParser from '@yozora/parser-gfm-ex'
 
 const parser = new GfmExParser()
-
-// parse source markdown content
 parser.parse({{{usageDemoSourceContent}}})
 ```
 {{else}}
@@ -84,29 +75,20 @@ import {{{toPascalCase tokenizerName}}}Tokenizer from '{{{packageName}}}'
 
 const parser = new GfmExParser()
 parser.useTokenizer(new {{{toPascalCase tokenizerName}}}Tokenizer())
-
-// parse source markdown content
 parser.parse({{{usageDemoSourceContent}}})
 ```
 {{/if}}
 
 ### Options
 
-Name              | Type        | Required  | Default
-:----------------:|:-----------:|:---------:|:--------------:
-`name`            | `string`    | `false`   | `"{{{packageName}}}"`
-`priority`        | `number`    | `false`   | `{{{tokenizerPriority}}}`
+{{{optionsTable}}}
 
-* `name`: The unique name of the tokenizer, used to bind the token it generates,
-  to determine the tokenizer that should be called in each life cycle of the
-  token in the entire *matching / parsing* phase.
+- `name`: Unique tokenizer name. Generated tokens retain it so the parser can dispatch later phases
+  to the same tokenizer.
 
-* `priority`: Priority of the tokenizer, determine the order of processing,
-  high priority priority execution. interruptable. In addition, in the `match-block`
-  stage, a high-priority tokenizer can interrupt the matching process of a
-  low-priority tokenizer.{{#if isInlineTokenizer}}
+- `priority`: Processing priority. Tokenizers with higher values run first. During block matching,
+  a higher-priority tokenizer can interrupt a lower-priority tokenizer.{{#if hasListOptions}}
 
-  **Exception:** Delimiters of type `full` are always processed before other type
-  delimiters.
+- `enableTaskListItem`: Enable GFM task list items.
 
-{{/if}}
+- `emptyItemCouldNotInterruptedTypes`: Node types that an empty list item cannot interrupt.{{/if}}

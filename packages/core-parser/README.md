@@ -1,3 +1,5 @@
+<!-- :begin use tokenizer/banner -->
+
 <header>
   <h1 align="center">
     <a href="https://github.com/yozorajs/yozora/tree/v2.3.17/packages/core-parser#readme">@yozora/core-parser</a>
@@ -5,19 +7,19 @@
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/core-parser">
       <img
-        alt="Npm Version"
+        alt="npm version"
         src="https://img.shields.io/npm/v/@yozora/core-parser.svg"
       />
     </a>
     <a href="https://www.npmjs.com/package/@yozora/core-parser">
       <img
-        alt="Npm Download"
+        alt="npm downloads"
         src="https://img.shields.io/npm/dm/@yozora/core-parser.svg"
       />
     </a>
     <a href="https://www.npmjs.com/package/@yozora/core-parser">
       <img
-        alt="Npm License"
+        alt="npm license"
         src="https://img.shields.io/npm/l/@yozora/core-parser.svg"
       />
     </a>
@@ -33,87 +35,87 @@
         src="https://img.shields.io/node/v/@yozora/core-parser"
       />
     </a>
+    <a href="https://github.com/vitest-dev/vitest">
+      <img
+        alt="Tested with Vitest"
+        src="https://img.shields.io/badge/tested_with-vitest-6E9F18.svg"
+      />
+    </a>
     <a href="https://github.com/prettier/prettier">
       <img
-        alt="Code Style: prettier"
+        alt="Code style: Prettier"
         src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square"
       />
     </a>
   </div>
 </header>
-<br/>
+<br />
+
+
+<!-- :end -->
+
+`DefaultParser` is the tokenizer orchestration core. It has no built-in tokenizers.
 
 ## Install
 
-- npm
-
-  ```bash
-  npm install --save @yozora/core-parser
-  ```
-
+```bash
+npm install --save @yozora/core-parser
+```
 
 ## Usage
 
-[@yozora/core-parser][] provide a DefaultParser, which without any built-in tokenizers.
-
 ```typescript
-import { DefaultParser } from '@yozora/parser-gfm-ex'
-import ParagraphTokenizer from '@yozora/tokenizer-paragraph'
-import IndentedTokenizer from '@yozora/tokenizer-indented-code'
+import { DefaultParser } from '@yozora/core-parser'
+import IndentedCodeTokenizer from '@yozora/tokenizer-indented-code'
 import InlineCodeTokenizer from '@yozora/tokenizer-inline-code'
-import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
+import ParagraphTokenizer from '@yozora/tokenizer-paragraph'
 import TextTokenizer from '@yozora/tokenizer-text'
 
 const parser = new DefaultParser()
-parser
   .useFallbackTokenizer(new ParagraphTokenizer())
   .useFallbackTokenizer(new TextTokenizer())
   .useTokenizer(new IndentedCodeTokenizer())
-  .useTokenizer(new InlineMathTokenizer({ backtickRequired: false }))
   .useTokenizer(new InlineCodeTokenizer())
 
-parser.parse(
-  'source markdown content',  // markdown source contents, `string|Iterable<string>`
-  {},                         // ParseOptions, optional.
-)
-
-parser.parse(['source', 'contents'])
-
-/**
- * String stream is supported through the iterator API.
- */
-function* source () {
-  yield 'hello',
-  yield 'world',
-}
-parser.parse(source())
+parser.parse('source Markdown content')
+parser.parse(['source ', 'chunks'])
 ```
 
-### Options
+### Constructor options
 
-- Constructor Options
+| Name                      | Type                       | Required | Default   | Description                              |
+| :------------------------ | :------------------------- | :------- | :-------- | :--------------------------------------- |
+| `blockFallbackTokenizer`  | `IBlockFallbackTokenizer`  | No       | None      | Fallback for unmatched block content     |
+| `inlineFallbackTokenizer` | `IInlineFallbackTokenizer` | No       | None      | Fallback for unmatched inline content    |
+| `defaultParseOptions`     | `IParseOptions`            | No       | See below | Default options for every `parse()` call |
 
-  | Name                      | Type                      | Required | Description                                             |
-  | :------------------------ | :------------------------ | :------- | :------------------------------------------------------ |
-  | `blockFallbackTokenizer`  | `BlockFallbackTokenizer`  | `false`  | Fallback tokenizer on processing block structure phase  |
-  | `inlineFallbackTokenizer` | `InlineFallbackTokenizer` | `false`  | Fallback tokenizer on processing inline structure phase |
-  | `defaultParseOptions`     | `ParseOptions`            | `false`  | Default options for `parse()`                           |
+### `IParseOptions`
 
-- Parse Options
+| Name                        | Type                      | Required | Default                 | Description                                    |
+| :-------------------------- | :------------------------ | :------- | :---------------------- | :--------------------------------------------- |
+| `shouldReservePosition`     | `boolean`                 | No       | `false`                 | Include source positions in generated nodes    |
+| `presetDefinitions`         | `Association[]`           | No       | `[]`                    | Preset link-reference identifiers              |
+| `presetFootnoteDefinitions` | `Association[]`           | No       | `[]`                    | Preset footnote-reference identifiers          |
+| `formatUrl`                 | `(url: string) => string` | No       | `encodeLinkDestination` | Format URLs stored in generated resource nodes |
 
-  | Name                        | Type                                     | Required | Description                                                          |
-  | :-------------------------- | :--------------------------------------- | :------- | :------------------------------------------------------------------- |
-  | `shouldReservePosition`     | `boolean`                                | `false`  | Whether it is necessary to reserve the position in the Node produced |
-  | `presetDefinitions`         | `Array<Omit<Definition, 'type'>`         | `false`  | Preset definitions                                                   |
-  | `presetFootnoteDefinitions` | `Array<Omit<FootnoteDefinition, 'type'>` | `false`  | Preset footnote definitions                                          |
+### Registration API
+
+| Method                   | Purpose                                     |
+| :----------------------- | :------------------------------------------ |
+| `useTokenizer`           | Register a tokenizer                        |
+| `replaceTokenizer`       | Replace a tokenizer with the same name      |
+| `unmountTokenizer`       | Remove a tokenizer                          |
+| `useFallbackTokenizer`   | Register or replace a block/inline fallback |
+| `setDefaultParseOptions` | Replace the defaults used by `parse()`      |
+| `parse`                  | Convert string or iterable input to an AST  |
 
 ## Related
 
 - [@yozora/ast][]
 - [@yozora/parser][]
 - [@yozora/parser-gfm][]
-- [Github Flavor Markdown Spec][gfm-spec]
-- [Mdast][mdast-homepage]
+- [GitHub Flavored Markdown Spec][gfm-spec]
+- [mdast][mdast-homepage]
 
 [docpage]: https://yozora.guanghechen.com/docs/package/core-parser
 [homepage]: https://github.com/yozorajs/yozora/tree/v2.3.17/packages/core-parser#readme

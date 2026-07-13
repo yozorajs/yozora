@@ -581,7 +581,7 @@ All notable changes to this project will be documented in this file. See
   ([d399e14](https://github.com/yozorajs/yozora/commit/d399e140e42a8dfa9c4b9c3bad8ee2ceec648d7d))
 - 🐛 rewrite bad pairing logic
   ([eba796d](https://github.com/yozorajs/yozora/commit/eba796da154b181efc120843b2d780e8edccd5ed))
-- 🐛 there are no non-text token constitutes children of autolink or autolink-extension
+- 🐛 non-text tokens cannot be children of autolink or autolink-extension
   ([7125cbc](https://github.com/yozorajs/yozora/commit/7125cbc8136d305d4b4db933dfcf50b4bd2a645c))
 
 ### Performance Improvements
@@ -718,7 +718,7 @@ All notable changes to this project will be documented in this file. See
 - 🔖 publish v1.0.0-alpha.14
   ([3fcfffa](https://github.com/yozorajs/yozora/commit/3fcfffa0da0413449acf0d91d85400d0b31fa9a2))
 - 🎨 rename isContainerBlock to isContainingBlock & use enum TokenizerPriority instead of magic
-  numbers to present tokenizer priority
+  numbers to represent tokenizer priority
   ([940c50b](https://github.com/yozorajs/yozora/commit/940c50bb58b76a888a512539f3a4db6e8396d45b))
 - 🎨 support to specify which tokenizer to register before
   ([e8607f4](https://github.com/yozorajs/yozora/commit/e8607f41e2a52d3de91463080ac3ac52968e5f51))

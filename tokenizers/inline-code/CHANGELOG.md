@@ -614,7 +614,7 @@ All notable changes to this project will be documented in this file. See
 - 🔖 publish v1.0.0-alpha.14
   ([3fcfffa](https://github.com/yozorajs/yozora/commit/3fcfffa0da0413449acf0d91d85400d0b31fa9a2))
 - 🎨 rename isContainerBlock to isContainingBlock & use enum TokenizerPriority instead of magic
-  numbers to present tokenizer proirity
+  numbers to represent tokenizer priority
   ([940c50b](https://github.com/yozorajs/yozora/commit/940c50bb58b76a888a512539f3a4db6e8396d45b))
 - ✅ update tests
   ([3c9f64f](https://github.com/yozorajs/yozora/commit/3c9f64f331d2b2c3484cc580dc8ef13e21ee42b8))
@@ -855,7 +855,7 @@ All notable changes to this project will be documented in this file. See
   ([2b68af6](https://github.com/yozorajs/yozora/commit/2b68af63e0ea2c267b2c8c7581998cfba8197bd4))
 - 🎨 rewrite @yozora/tokenizercore-inline with new algorithm (not completed yet)
   ([737f29a](https://github.com/yozorajs/yozora/commit/737f29a8f02a3ffb56a1afcc7452c24cb711349f))
-- 🎨 rewrite @yozora/tokenziercore-block and update block tokenizers
+- 🎨 rewrite @yozora/tokenizercore-block and update block tokenizers
   ([e07f874](https://github.com/yozorajs/yozora/commit/e07f87481499f73a856d65f75dec17c64e42a3b6))
 - 🎨 rewrite string preprocessing algorithm to support tabs and line ends
   ([1312f88](https://github.com/yozorajs/yozora/commit/1312f88e3ae5940d8fd4c616a1fec23284b89287))

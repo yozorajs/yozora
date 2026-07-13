@@ -391,7 +391,7 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
-- 🐛 The first child of footnote could have higher poriority
+- 🐛 The first child of footnote could have higher priority
   ([c6f947f](https://github.com/yozorajs/yozora/commit/c6f947fb3a515622b709ce4e693720062f7a17bf))
 
 ### Performance Improvements
@@ -500,7 +500,7 @@ All notable changes to this project will be documented in this file. See
 
 - 🔖 publish v1.0.0-alpha.28
   ([f18d90a](https://github.com/yozorajs/yozora/commit/f18d90a116db508bf49c9a3338a262cb85faf792))
-- 🎨 rename variable names (use termnal 'internal' instead of 'inner')
+- 🎨 rename variable names (use term 'internal' instead of 'inner')
   ([b374c26](https://github.com/yozorajs/yozora/commit/b374c2677a3b7cd0b13429c517e1f213419f2932))
 
 # 1.0.0-alpha.27 (2021-06-28)

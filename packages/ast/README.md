@@ -1,3 +1,5 @@
+<!-- :begin use tokenizer/banner -->
+
 <header>
   <h1 align="center">
     <a href="https://github.com/yozorajs/yozora/tree/v2.3.17/packages/ast#readme">@yozora/ast</a>
@@ -5,19 +7,19 @@
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/ast">
       <img
-        alt="Npm Version"
+        alt="npm version"
         src="https://img.shields.io/npm/v/@yozora/ast.svg"
       />
     </a>
     <a href="https://www.npmjs.com/package/@yozora/ast">
       <img
-        alt="Npm Download"
+        alt="npm downloads"
         src="https://img.shields.io/npm/dm/@yozora/ast.svg"
       />
     </a>
     <a href="https://www.npmjs.com/package/@yozora/ast">
       <img
-        alt="Npm License"
+        alt="npm license"
         src="https://img.shields.io/npm/l/@yozora/ast.svg"
       />
     </a>
@@ -33,28 +35,34 @@
         src="https://img.shields.io/node/v/@yozora/ast"
       />
     </a>
+    <a href="https://github.com/vitest-dev/vitest">
+      <img
+        alt="Tested with Vitest"
+        src="https://img.shields.io/badge/tested_with-vitest-6E9F18.svg"
+      />
+    </a>
     <a href="https://github.com/prettier/prettier">
       <img
-        alt="Code Style: prettier"
+        alt="Code style: Prettier"
         src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square"
       />
     </a>
   </div>
 </header>
-<br/>
+<br />
 
-This package defined yozora markdown ast types and constants.
+
+<!-- :end -->
+
+Yozora Markdown AST types and node-type constants.
 
 See [@yozora/ast documentation](https://yozora.guanghechen.com/docs/package/ast) for details.
 
 ## Install
 
-- npm
-
-  ```bash
-  npm install --save @yozora/ast
-  ```
-
+```bash
+npm install --save @yozora/ast
+```
 
 ## Core Types
 
@@ -198,7 +206,7 @@ export interface Point {
    */
   readonly line: number
   /**
-   * Column column in a source file.
+   * Column in a source file.
    * @minimum 1
    */
   readonly column: number
@@ -253,7 +261,7 @@ export type NodeType = string
 export type AlignType = 'left' | 'right' | 'center' | null
 ```
 
-## Yast nodes
+## Yozora AST nodes
 
 ### Admonition
 
@@ -321,13 +329,13 @@ export type CodeType = typeof CodeType
  */
 export interface Code extends Literal<CodeType> {
   /**
-   * Language of the codes
+   * Language of the code.
    */
-  lang?: string
+  lang: string | null
   /**
-   * Meta info string
+   * Meta information.
    */
-  meta?: string
+  meta: string | null
 }
 ```
 
@@ -380,10 +388,10 @@ export type EcmaImportType = typeof EcmaImportType
  *    import { YozoraParserProps } from '@yozora/parser'
  *    import { YozoraParser, YozoraParser as Parser } from '@yozora/parser'
  *    ```
- * But these are not supported case:
+ * Namespace and multiline imports are not supported:
  *
  *    ```typescript
- *    import * as Parser '@yozora/parser'
+ *    import * as Parser from '@yozora/parser'
  *    import {
  *      Parser
  *    } from '@yozora/parser'
@@ -409,7 +417,7 @@ export interface EcmaImport extends Node<EcmaImportType> {
    *        ]
    *      }
    */
-  namedImports: EcmaImportNamedImport[]
+  namedImports: IEcmaImportNamedImport[]
 }
 
 /**
@@ -419,7 +427,10 @@ export interface EcmaImport extends Node<EcmaImportType> {
  *        { src: 'YozoraParser', alias: 'Parser' },
  *      ]
  */
-export type EcmaImportNamedImport = { src: string, alias: string | null }
+export interface IEcmaImportNamedImport {
+  src: string
+  alias: string | null
+}
 ````
 
 ### Emphasis
@@ -483,7 +494,9 @@ export interface FootnoteReference
   extends Node<FootnoteReferenceType>, Association {}
 ```
 
-### Frontmatter (not supportted yet)
+### Frontmatter
+
+The AST type is available, but no built-in parser tokenizer currently produces it.
 
 ```typescript
 export const FrontmatterType = 'frontmatter'
@@ -521,7 +534,11 @@ export type HeadingType = typeof HeadingType
  */
 export interface Heading extends Parent<HeadingType> {
   /**
-   * level of heading
+   * HTML anchor identifier.
+   */
+  identifier?: string
+  /**
+   * Heading level.
    */
   depth: 1 | 2 | 3 | 4 | 5 | 6
 }
@@ -540,6 +557,15 @@ export type HtmlType = typeof HtmlType
  * @see https://github.github.com/gfm/#raw-html
  */
 export type Html = Literal<HtmlType>
+
+export enum HtmlContentType {
+  CDATA = 'cdata',
+  Closing = 'closing',
+  Comment = 'comment',
+  Declaration = 'declaration',
+  Instruction = 'instruction',
+  Open = 'open',
+}
 ```
 
 ### Image
@@ -650,31 +676,29 @@ export type ListType = typeof ListType
  */
 export interface List extends Parent<ListType> {
   /**
-   * Whether it is an ordered lit.
+   * Whether this is an ordered list.
    */
   ordered: boolean
   /**
    * Marker type of the list.
    * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol#attr-type
-   *
-   * The 'i' and 'I' which represented the roman numerals are not supported yet.
    */
   orderType?: '1' | 'a' | 'A' | 'i' | 'I'
   /**
-   * The starting number of a ordered list-item.
+   * Starting number of an ordered list item.
    */
   start?: number
   /**
-   * Marker of a unordered list-item, or delimiter of an ordered list-item.
+   * Marker of an unordered list item, or delimiter of an ordered list item.
    */
   marker: number
   /**
-   * Whether if the list is loose.
+   * Whether the list is loose.
    * @see https://github.github.com/gfm/#loose
    */
   spread: boolean
   /**
-   * Lists are container block.
+   * List items.
    */
   children: ListItem[]
 }
@@ -712,7 +736,7 @@ export enum TaskStatus {
  */
 export interface ListItem extends Parent<ListItemType> {
   /**
-   * Status of a todo task.
+   * Status of a task list item.
    */
   status?: TaskStatus
 }
@@ -871,8 +895,8 @@ export type ThematicBreak = Node<ThematicBreakType>
 
 ## Related
 
-- [Github Flavor Markdown Spec][gfm-spec]
-- [Mdast][mdast-homepage]
+- [GitHub Flavored Markdown Spec][gfm-spec]
+- [mdast][mdast-homepage]
 
 [homepage]: https://github.com/yozorajs/yozora/tree/v2.3.17/packages/ast#readme
 [gfm-spec]: https://github.github.com/gfm

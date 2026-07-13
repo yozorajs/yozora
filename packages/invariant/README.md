@@ -1,3 +1,5 @@
+<!-- :begin use tokenizer/banner -->
+
 <header>
   <h1 align="center">
     <a href="https://github.com/yozorajs/yozora/tree/v2.3.17/packages/invariant#readme">@yozora/invariant</a>
@@ -5,19 +7,19 @@
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/invariant">
       <img
-        alt="Npm Version"
+        alt="npm version"
         src="https://img.shields.io/npm/v/@yozora/invariant.svg"
       />
     </a>
     <a href="https://www.npmjs.com/package/@yozora/invariant">
       <img
-        alt="Npm Download"
+        alt="npm downloads"
         src="https://img.shields.io/npm/dm/@yozora/invariant.svg"
       />
     </a>
     <a href="https://www.npmjs.com/package/@yozora/invariant">
       <img
-        alt="Npm License"
+        alt="npm license"
         src="https://img.shields.io/npm/l/@yozora/invariant.svg"
       />
     </a>
@@ -33,27 +35,33 @@
         src="https://img.shields.io/node/v/@yozora/invariant"
       />
     </a>
+    <a href="https://github.com/vitest-dev/vitest">
+      <img
+        alt="Tested with Vitest"
+        src="https://img.shields.io/badge/tested_with-vitest-6E9F18.svg"
+      />
+    </a>
     <a href="https://github.com/prettier/prettier">
       <img
-        alt="Code Style: prettier"
+        alt="Code style: Prettier"
         src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square"
       />
     </a>
   </div>
 </header>
-<br/>
+<br />
 
-An invariant function, which takes a `condition` and a optional `message` value, and throw an error
-when the given condition fails.
+
+<!-- :end -->
+
+An assertion function that throws when `condition` is false. `message` can be a string or a lazy
+callback.
 
 ## Install
 
-- npm
-
-  ```bash
-  npm install --save @yozora/invariant
-  ```
-
+```bash
+npm install --save @yozora/invariant
+```
 
 ## Usage
 
@@ -72,10 +80,10 @@ when the given condition fails.
   import invariant from '@yozora/invariant'
 
   invariant(typeof window !== 'undefined', '`window` is not defined.')
-  invariant(typeof window !== 'undefined', () => '`window` is not defined:' + window)
   ```
 
 ## Related
 
+- [homepage][]
+
 [homepage]: https://github.com/yozorajs/yozora/tree/v2.3.17/packages/invariant#readme
-[tiny-invariant]: https://github.com/alexreardon/tiny-invariant

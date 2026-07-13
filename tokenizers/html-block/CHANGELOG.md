@@ -598,7 +598,7 @@ All notable changes to this project will be documented in this file. See
 - 🔖 publish v1.0.0-alpha.14
   ([3fcfffa](https://github.com/yozorajs/yozora/commit/3fcfffa0da0413449acf0d91d85400d0b31fa9a2))
 - 🎨 rename isContainerBlock to isContainingBlock & use enum TokenizerPriority instead of magic
-  numbers to present tokenizer proirity
+  numbers to represent tokenizer priority
   ([940c50b](https://github.com/yozorajs/yozora/commit/940c50bb58b76a888a512539f3a4db6e8396d45b))
 - ✅ update tests
   ([3c9f64f](https://github.com/yozorajs/yozora/commit/3c9f64f331d2b2c3484cc580dc8ef13e21ee42b8))
@@ -785,7 +785,7 @@ All notable changes to this project will be documented in this file. See
   ([68857d0](https://github.com/yozorajs/yozora/commit/68857d012d8fe1cafe119ac43ee2994a44c3e51d))
 - :art: [html-block,html-inline] improve: update data types & update tests
   ([630d0d9](https://github.com/yozorajs/yozora/commit/630d0d9877ccf0950bf9e72677d00dc83042ef6a))
-- :art: [tokenizercore-block] improve: reorgnize interface types between tokenizer hooks
+- :art: [tokenizercore-block] improve: reorganize interface types between tokenizer hooks
   ([76d889a](https://github.com/yozorajs/yozora/commit/76d889aa5d351a44204318f295f567539ffd058e))
 - ✅ add ast positions
   ([a4a55bb](https://github.com/yozorajs/yozora/commit/a4a55bb9297fb587b80c206508ee57f1c0ff7569))
@@ -812,7 +812,7 @@ All notable changes to this project will be documented in this file. See
   ([86f9984](https://github.com/yozorajs/yozora/commit/86f99848088e55612e0de6a81b58977071ee966a))
 - 🎨 rewrite @yozora/jest-for-tokenizer & update tests
   ([2b68af6](https://github.com/yozorajs/yozora/commit/2b68af63e0ea2c267b2c8c7581998cfba8197bd4))
-- 🎨 rewrite @yozora/tokenziercore-block and update block tokenizers
+- 🎨 rewrite @yozora/tokenizercore-block and update block tokenizers
   ([e07f874](https://github.com/yozorajs/yozora/commit/e07f87481499f73a856d65f75dec17c64e42a3b6))
 - 🎨 rewrite string preprocessing algorithm to support tabs and line ends
   ([1312f88](https://github.com/yozorajs/yozora/commit/1312f88e3ae5940d8fd4c616a1fec23284b89287))

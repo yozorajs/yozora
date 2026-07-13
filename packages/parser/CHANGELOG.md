@@ -144,7 +144,7 @@ All notable changes to this project will be documented in this file. See
 ## <small>2.3.8 (2024-12-03)</small>
 
 - :bookmark: release: publish v2.3.7 ([ba79410](https://github.com/yozorajs/yozora/commit/ba79410))
-- :bug: fix(inline-math): the inline syntax wihtout backticks could be interruptted by
+- :bug: fix(inline-math): the inline syntax without backticks could be interrupted by
   emphasis/strong ([c347f97](https://github.com/yozorajs/yozora/commit/c347f97))
 
 # Change Log
@@ -154,7 +154,7 @@ All notable changes to this project will be documented in this file. See
 
 ## <small>2.3.7 (2024-11-06)</small>
 
-- :bug: fix(inline-math): the inline syntax wihtout backticks could be interruptted by
+- :bug: fix(inline-math): the inline syntax without backticks could be interrupted by
   emphasis/strong ([c347f97](https://github.com/yozorajs/yozora/commit/c347f97))
 
 # Change Log
@@ -661,7 +661,7 @@ All notable changes to this project will be documented in this file. See
   ([93cb009](https://github.com/yozorajs/yozora/commit/93cb0092c244455b6cbe1a9c76c52949eada5924))
 - 🔖 publish v1.0.0-alpha.17
   ([0e7facd](https://github.com/yozorajs/yozora/commit/0e7facdde8692e538e5777d70b873cf6282f7de8))
-- :whitespace_check_mark: udpate tests
+- :whitespace_check_mark: update tests
   ([6910b98](https://github.com/yozorajs/yozora/commit/6910b987aa7c50759cabf29ce49d40b9238e108d))
 - 📝 update docs
   ([acffd75](https://github.com/yozorajs/yozora/commit/acffd757123705c4d0f6a3948f62f3c460cefde3))

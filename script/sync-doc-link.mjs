@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 /**
- * Sync documentation links in README.md files to match current package versions.
+ * Sync documentation links in package README files to match current package versions.
  * Updates homepage URLs in package.json and badge URLs in README.md files.
  */
 
-import { readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -79,16 +79,11 @@ function updatePackageJson(pkg) {
 /**
  * Update version badge and links in README.md
  */
-function updateReadme(pkg) {
-  const readmePath = join(pkg.path, 'README.md')
+function updateReadme(pkg, filename) {
+  const readmePath = join(pkg.path, filename)
+  if (!existsSync(readmePath)) return false
 
-  let content
-  try {
-    content = readFileSync(readmePath, 'utf-8')
-  } catch {
-    // No README.md, skip
-    return false
-  }
+  let content = readFileSync(readmePath, 'utf-8')
 
   let updated = false
   const originalContent = content
@@ -131,7 +126,9 @@ function main() {
 
   for (const pkg of packages) {
     const pkgUpdated = updatePackageJson(pkg)
-    const readmeUpdated = updateReadme(pkg)
+    const readmeUpdated = ['README.md', 'README-zh.md']
+      .map(filename => updateReadme(pkg, filename))
+      .some(Boolean)
 
     if (pkgUpdated || readmeUpdated) {
       updatedCount += 1

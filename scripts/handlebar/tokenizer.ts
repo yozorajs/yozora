@@ -1,8 +1,10 @@
+import fs from 'node:fs'
 import path from 'node:path'
 import { renderMarkdown, SCRIPT_DIRPATH } from './util'
 
 interface HandlebarData {
   packageName?: string
+  repositoryRef?: string
   packageDirectory?: string
   shortPackageName?: string
   tokenizerName: string
@@ -11,7 +13,38 @@ interface HandlebarData {
   inGfmEx?: boolean
   isInlineTokenizer: boolean
   isBlockTokenizer: boolean
+  isFallbackTokenizer?: boolean
+  hasListOptions?: boolean
+  optionsTable?: string
   usageDemoSourceContent: string
+}
+
+function renderOptionsTable(
+  packageName: string,
+  tokenizerPriority: string,
+  hasListOptions: boolean,
+): string {
+  const rows: string[][] = [
+    ['Name', 'Type', 'Required', 'Default'],
+    ['`name`', '`string`', 'No', `\`"${packageName}"\``],
+    ['`priority`', '`number`', 'No', `\`${tokenizerPriority}\``],
+  ]
+
+  if (hasListOptions) {
+    rows.push(
+      ['`enableTaskListItem`', '`boolean`', 'No', '`false`'],
+      ['`emptyItemCouldNotInterruptedTypes`', '`NodeType[]`', 'No', '`[ParagraphType]`'],
+    )
+  }
+
+  const widths = rows[0].map((_, columnIndex) =>
+    Math.max(...rows.map(row => row[columnIndex].length)),
+  )
+  const renderRow = (row: string[]): string =>
+    `| ${row.map((cell, index) => cell.padEnd(widths[index])).join(' | ')} |`
+  const separator = widths.map(width => `:${'-'.repeat(width - 1)}`)
+
+  return [renderRow(rows[0]), renderRow(separator), ...rows.slice(1).map(renderRow)].join('\n')
 }
 
 const items: HandlebarData[] = [
@@ -22,10 +55,10 @@ const items: HandlebarData[] = [
     isInlineTokenizer: false,
     isBlockTokenizer: true,
     usageDemoSourceContent: `\`
-:::info this is a info type admonition
-waw
+:::info This is an info admonition
+Content
 
-### some block contents
+### Nested block content
 :::
 \``,
   },
@@ -48,7 +81,7 @@ waw
   // autolink-extension
   {
     tokenizerName: 'autolink-extension',
-    tokenizerPriority: 'TokenizerPriority.ATOMIC',
+    tokenizerPriority: 'TokenizerPriority.LINKS',
     inGfm: false,
     inGfmEx: true,
     isInlineTokenizer: true,
@@ -80,7 +113,7 @@ made-up-scheme://foo,bar
   // break
   {
     tokenizerName: 'break',
-    tokenizerPriority: 'TokenizerPriority.ATOMIC',
+    tokenizerPriority: 'TokenizerPriority.SOFT_INLINE',
     inGfm: true,
     inGfmEx: true,
     isInlineTokenizer: true,
@@ -212,7 +245,7 @@ export const foo: string = 'waw'
   // footnote-definition
   {
     tokenizerName: 'footnote-definition',
-    tokenizerPriority: 'TokenizerPriority.ATOMIC',
+    tokenizerPriority: 'TokenizerPriority.CONTAINING_BLOCK',
     inGfm: false,
     inGfmEx: false,
     isInlineTokenizer: false,
@@ -226,7 +259,7 @@ another,[^long note],
     Indent paragraphs to include them in the footnote.
 
     \\\`\\\`\\\`
-    Fenced coding
+    Fenced code
     \\\`\\\`\\\`
 
     ## heading
@@ -251,7 +284,7 @@ another,[^long note],
     Indent paragraphs to include them in the footnote.
 
     \\\`\\\`\\\`
-    Fenced coding
+    Fenced code
     \\\`\\\`\\\`
 
     ## heading
@@ -404,6 +437,7 @@ foo <?php echo $a; ?>
     inGfmEx: true,
     isInlineTokenizer: false,
     isBlockTokenizer: true,
+    hasListOptions: true,
     usageDemoSourceContent: `\`
 - a
 - b
@@ -413,47 +447,9 @@ foo <?php echo $a; ?>
 - f
 - g
 
----
-
-- [ ] This is a TODO item.
-- [-] This is a processing TODO item.
-- [x] This is a finished TODO item.
-
----
-
 1. This is an ordered list item
 
-a. This is an another type of ordered list item
-\``,
-  },
-  // list-item
-  {
-    tokenizerName: 'list-item',
-    tokenizerPriority: 'TokenizerPriority.CONTAINING_BLOCK',
-    inGfm: true,
-    inGfmEx: true,
-    isInlineTokenizer: false,
-    isBlockTokenizer: true,
-    usageDemoSourceContent: `\`
-- a
-- b
-  - c
-  - d
-  - e
-- f
-- g
-
----
-
-- [ ] This is a TODO item.
-- [-] This is a processing TODO item.
-- [x] This is a finished TODO item.
-
----
-
-1. This is an ordered list item
-
-a. This is an another type of ordered list item
+a. This is another type of ordered list item
 \``,
   },
   // math
@@ -550,10 +546,26 @@ ___
 items.forEach((item): void => {
   const data = item
   data.packageDirectory ??= 'tokenizers/' + data.tokenizerName
+  const packageJsonFilepath = path.join(
+    SCRIPT_DIRPATH,
+    '../../',
+    data.packageDirectory,
+    'package.json',
+  )
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonFilepath, 'utf-8')) as {
+    version: string
+  }
+  data.repositoryRef = `v${packageJson.version}`
   const docFilepath = path.join(SCRIPT_DIRPATH, '../../', data.packageDirectory, 'README.md')
   data.packageName ??= `@yozora/tokenizer-${data.tokenizerName}`
   data.shortPackageName ??= `tokenizer-${data.tokenizerName}`
   data.inGfm ??= false
   data.inGfmEx ??= false
+  data.isFallbackTokenizer = data.tokenizerPriority === 'TokenizerPriority.FALLBACK'
+  data.optionsTable = renderOptionsTable(
+    data.packageName,
+    data.tokenizerPriority,
+    data.hasListOptions === true,
+  )
   renderMarkdown<HandlebarData>(docFilepath, data)
 })

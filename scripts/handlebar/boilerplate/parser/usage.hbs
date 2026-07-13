@@ -1,65 +1,56 @@
 ## Install
 
-* npm
-
-  ```bash
-  npm install --save {{packageName}}
-  ```
+```bash
+npm install --save {{packageName}}
+```
 
 ## Usage
 
-* Basic
+### Basic
 
-  ```typescript
-  import {{{parserName}}} from '{{{packageName}}}'
+```typescript
+import {{{parserName}}} from '{{{packageName}}}'
 
-  const parser = new {{{parserName}}}()
+const parser = new {{{parserName}}}()
 
-  // parse markdown source content.
-  parser.parse('source markdown content')
+parser.parse('source Markdown content')
 
-  // parse markdown source content with custom options.
-  parser.parse(
-    'source markdown content',  // markdown source contents, `string|Iterable<string>`
-    {},                         // IParseOptions, optional.
-  )
+parser.parse('source Markdown content', {
+  shouldReservePosition: true,
+})
 
-  // parse multiple markdown source content pieces.
-  parser.parse(['source', 'contents'])
-  ```
+// Iterable source chunks are concatenated during parsing.
+parser.parse(['source ', 'chunks'])
+```
 
-* Use withing generator: 
+### Generator input
 
-  ```typescript
-  import {{{parserName}}} from '{{{packageName}}}'
+```typescript
+import {{{parserName}}} from '{{{packageName}}}'
 
-  const parser = new {{{parserName}}}()
+const parser = new {{{parserName}}}()
 
-  /**
-   * String stream is supported through the iterator API.
-   */
-  function* source () {
-    yield 'hello',
-    yield 'world',
-  }
+function* source() {
+  yield 'hello '
+  yield 'world'
+}
 
-  parser.parse(source())
-  ```
+parser.parse(source())
+```
 
-### Options
+### Constructor options
 
-* Constructor Options
+| Name                      | Type                       | Required | Default              | Description                              |
+| :------------------------ | :------------------------- | :------- | :------------------- | :--------------------------------------- |
+| `blockFallbackTokenizer`  | `IBlockFallbackTokenizer`  | No       | `ParagraphTokenizer` | Fallback for unmatched block content     |
+| `inlineFallbackTokenizer` | `IInlineFallbackTokenizer` | No       | `TextTokenizer`      | Fallback for unmatched inline content    |
+| `defaultParseOptions`     | `IParseOptions`            | No       | See below            | Default options for every `parse()` call |
 
-  Name                      | Type                      | Required  | Description
-  :-------------------------|:--------------------------|:----------|:------------
-  `blockFallbackTokenizer`  | `IBlockFallbackTokenizer`  | `false`   | Fallback tokenizer on processing block structure phase
-  `inlineFallbackTokenizer` | `IInlineFallbackTokenizer` | `false`   | Fallback tokenizer on processing inline structure phase
-  `defaultParseOptions`     | `IParseOptions`            | `false`   | Default options for `parse()`
+### `IParseOptions`
 
-* `IParseOptions`
-
-  Name                        | Type                                      | Required  | Description
-  :---------------------------|:------------------------------------------|:----------|:------------
-  `shouldReservePosition`     | `boolean`                                 | `false`   | Whether it is necessary to reserve the position in the Node produced
-  `presetDefinitions`         | `Array<Omit<Definition, 'type'>`          | `false`   | Preset definitions
-  `presetFootnoteDefinitions` | `Array<Omit<FootnoteDefinition, 'type'>`  | `false`   | Preset footnote definition
+| Name                        | Type                      | Required | Default                 | Description                                    |
+| :-------------------------- | :------------------------ | :------- | :---------------------- | :--------------------------------------------- |
+| `shouldReservePosition`     | `boolean`                 | No       | `false`                 | Include source positions in generated nodes    |
+| `presetDefinitions`         | `Association[]`           | No       | `[]`                    | Preset link-reference identifiers              |
+| `presetFootnoteDefinitions` | `Association[]`           | No       | `[]`                    | Preset footnote-reference identifiers          |
+| `formatUrl`                 | `(url: string) => string` | No       | `encodeLinkDestination` | Format URLs stored in generated resource nodes |
