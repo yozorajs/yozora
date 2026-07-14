@@ -80,6 +80,39 @@ test('tracks astral Unicode positions in UTF-16 code units', () => {
   })
 })
 
+test('parses 3,000 nested block quotes without recursive stack growth', () => {
+  const depth = 3_000
+  const endOffset = depth + 2
+  const ast = parsers.gfm.parse(`${'>'.repeat(depth)} x`)
+  let node: any = ast.children[0]
+  let middleNode: any
+
+  const outerNode = node
+  for (let i = 0; i < depth; ++i) {
+    if (i === depth / 2) middleNode = node
+    node = node.children[0]
+  }
+
+  expect(node).toMatchObject({
+    type: 'paragraph',
+    children: [{ type: 'text', value: 'x' }],
+  })
+  expect([ast.position, outerNode.position, middleNode.position]).toEqual([
+    {
+      start: { line: 1, column: 1, offset: 0 },
+      end: { line: 1, column: endOffset + 1, offset: endOffset },
+    },
+    {
+      start: { line: 1, column: 1, offset: 0 },
+      end: { line: 1, column: endOffset + 1, offset: endOffset },
+    },
+    {
+      start: { line: 1, column: depth / 2 + 1, offset: depth / 2 },
+      end: { line: 1, column: endOffset + 1, offset: endOffset },
+    },
+  ])
+})
+
 test('matches 10,000 nested images without rescanning resolved contents', () => {
   const depth = 10_000
   const parser = parsers.gfm.replaceTokenizer(
