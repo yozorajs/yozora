@@ -224,6 +224,9 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
         return { status: 'failedAndRollback', lines: token.lines }
       }
 
+      token.destination = destinationState
+      token.lineNoOfDestination = lineNo
+
       /**
        * At most one line break can be used between link title and link destination
        * @see https://github.github.com/gfm/#example-162
@@ -232,12 +235,9 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
        */
       i = eatOptionalWhitespaces(nodePoints, destinationEndIndex, endIndex)
       if (i >= endIndex) {
-        token.destination = destinationState
         token.lines.push(line)
         return { status: 'opening', nextIndex: endIndex }
       }
-
-      token.lineNoOfDestination = lineNo
 
       token.lineNoOfTitle = lineNo
     }
