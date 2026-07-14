@@ -42,16 +42,59 @@ export const createBlockContentProcessor = (
     token: root,
   })
 
+  let currentStackIndex = 0
+  const positionUpdates: Array<{
+    endPoint: Point
+    stackIndex: number
+  }> = []
+
   /**
-   * Update the ancients position.
+   * Record a position update for the active stack prefix. Updates hidden by a
+   * newer update at the same or a deeper stack index can never be observed, so
+   * the retained stack indices stay strictly decreasing.
    * @param endPoint
    */
-  let currentStackIndex = 0
   const refreshPosition = (endPoint: Point): void => {
-    for (let sIndex = currentStackIndex; sIndex >= 0; --sIndex) {
-      const o = stateStack[sIndex]
-      o.token.position.end = { ...endPoint }
+    while (
+      positionUpdates.length > 0 &&
+      positionUpdates[positionUpdates.length - 1].stackIndex <= currentStackIndex
+    ) {
+      positionUpdates.pop()
     }
+    positionUpdates.push({
+      endPoint: { ...endPoint },
+      stackIndex: currentStackIndex,
+    })
+  }
+
+  /**
+   * Materialize the latest position update that includes the given state.
+   * @param state
+   * @param stackIndex
+   */
+  const syncPosition = (state: IMatchBlockState, stackIndex: number): void => {
+    let low = 0
+    let high = positionUpdates.length
+    while (low < high) {
+      const middle = (low + high) >>> 1
+      if (positionUpdates[middle].stackIndex >= stackIndex) low = middle + 1
+      else high = middle
+    }
+
+    const update = positionUpdates[low - 1]
+    if (update == null) return
+
+    const currentEnd = state.token.position.end
+    const nextEnd = update.endPoint
+    if (
+      currentEnd.line === nextEnd.line &&
+      currentEnd.column === nextEnd.column &&
+      currentEnd.offset === nextEnd.offset
+    ) {
+      return
+    }
+
+    state.token.position.end = { ...nextEnd }
   }
 
   /**
@@ -84,6 +127,7 @@ export const createBlockContentProcessor = (
     const topState = stateStack.pop()
     if (topState == null) return undefined
 
+    syncPosition(topState, stateStack.length)
     if (stateStack.length > 0) {
       const parent = stateStack[stateStack.length - 1]
 
@@ -137,6 +181,8 @@ export const createBlockContentProcessor = (
 
     const parent = stateStack[currentStackIndex]
     parent.token.children!.push(nextToken)
+    // The new point supersedes every pending update after the stale branch is removed.
+    positionUpdates.length = 0
     refreshPosition(nextToken.position.end)
 
     // Push into the IMatchBlockState stack.
@@ -169,6 +215,8 @@ export const createBlockContentProcessor = (
     if (internalStateRoot.token.children != null) {
       parent.token.children!.push(...internalStateRoot.token.children)
     }
+    // The rollback result supersedes every pending update before its states are adopted.
+    positionUpdates.length = 0
     refreshPosition(internalStateRoot.token.position.end)
 
     // Refresh the stateStack and currentStackIndex
@@ -236,7 +284,9 @@ export const createBlockContentProcessor = (
      * @param line
      */
     const consumeNewOpener = (hook: IMatchBlockPhaseHook, line: IPhrasingContentLine): boolean => {
-      const { token: parentToken } = stateStack[currentStackIndex]
+      const parentState = stateStack[currentStackIndex]
+      syncPosition(parentState, currentStackIndex)
+      const { token: parentToken } = parentState
       const result = hook.eatOpener(line, parentToken)
       if (result == null) return false
 
@@ -266,7 +316,8 @@ export const createBlockContentProcessor = (
       if (hook.eatAndInterruptPreviousSibling == null) return false
 
       const { hook: siblingHook, token: siblingToken } = stateStack[currentStackIndex]
-      const { token: parentToken } = stateStack[currentStackIndex - 1]
+      const parentState = stateStack[currentStackIndex - 1]
+      const { token: parentToken } = parentState
       if (hook.priority <= siblingHook.priority) return false
 
       // try `eatAndInterruptPreviousSibling` first
@@ -315,6 +366,8 @@ export const createBlockContentProcessor = (
         const currentStateItem = stateStack[currentStackIndex]
         const currentHook = currentStateItem.hook
         const eatingInfo = getEatingInfo()
+        syncPosition(currentStateItem, currentStackIndex)
+        syncPosition(stateStack[currentStackIndex - 1], currentStackIndex - 1)
 
         // Try to interrupt the current token.
         if (hooks.some(hook => hook !== currentHook && interruptSibling(hook, eatingInfo))) {
@@ -452,7 +505,11 @@ export const createBlockContentProcessor = (
       const { hook, token } = stateStack[stateStack.length - 1]
       if (hook.eatLazyContinuationText == null) return false
 
-      const { token: parentToken } = stateStack[stateStack.length - 2]
+      const tokenState = stateStack[stateStack.length - 1]
+      const parentState = stateStack[stateStack.length - 2]
+      syncPosition(tokenState, stateStack.length - 1)
+      syncPosition(parentState, stateStack.length - 2)
+      const { token: parentToken } = parentState
       const eatingInfo = getEatingInfo()
       const result = hook.eatLazyContinuationText(eatingInfo, token, parentToken)
       switch (result.status) {
@@ -510,12 +567,16 @@ export const createBlockContentProcessor = (
    */
   const done = (): IBlockTokenTree => {
     while (stateStack.length > 1) popup()
+    syncPosition(stateStack[0], 0)
     return root
   }
 
   return {
     consume,
     done,
-    shallowSnapshot: () => [...stateStack],
+    shallowSnapshot: () => {
+      for (let i = 0; i < stateStack.length; ++i) syncPosition(stateStack[i], i)
+      return [...stateStack]
+    },
   }
 }

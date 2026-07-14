@@ -80,8 +80,58 @@ test('tracks astral Unicode positions in UTF-16 code units', () => {
   })
 })
 
-test('parses 3,000 nested block quotes without recursive stack growth', () => {
-  const depth = 3_000
+test('does not apply pending positions to a new sibling at the same depth', () => {
+  const ast = parsers.gfm.parse('> first\n> continued\n>\n> ---')
+  const blockquote = ast.children[0]
+
+  expect(blockquote).toMatchObject({
+    type: 'blockquote',
+    position: { end: { line: 4, column: 6, offset: 27 } },
+    children: [
+      {
+        type: 'paragraph',
+        position: { end: { line: 2, column: 13, offset: 20 } },
+      },
+      {
+        type: 'thematicBreak',
+        position: {
+          start: { line: 4, column: 3, offset: 24 },
+          end: { line: 4, column: 6, offset: 27 },
+        },
+      },
+    ],
+  })
+})
+
+test('preserves positions of open states transferred by rollback', () => {
+  const ast = parsers.gfm.parse('> [foo]:\n> /url\n> invalid title\n> tail')
+  const blockquote = ast.children[0]
+
+  expect(blockquote).toMatchObject({
+    type: 'blockquote',
+    position: { end: { line: 4, column: 7, offset: 38 } },
+    children: [
+      {
+        type: 'definition',
+        position: {
+          start: { line: 1, column: 3, offset: 2 },
+          end: { line: 2, column: 8, offset: 16 },
+        },
+      },
+      {
+        type: 'paragraph',
+        position: {
+          start: { line: 3, column: 3, offset: 18 },
+          end: { line: 4, column: 7, offset: 38 },
+        },
+        children: [{ type: 'text', value: 'invalid title\ntail' }],
+      },
+    ],
+  })
+})
+
+test('parses 10,000 nested block quotes without recursive stack growth', () => {
+  const depth = 10_000
   const endOffset = depth + 2
   const ast = parsers.gfm.parse(`${'>'.repeat(depth)} x`)
   let node: any = ast.children[0]
