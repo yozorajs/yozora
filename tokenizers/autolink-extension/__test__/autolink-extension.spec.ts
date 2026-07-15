@@ -37,3 +37,22 @@ describe('extended URL boundaries', () => {
     })
   })
 })
+
+describe('extended email boundaries', () => {
+  test.each(['foo@bar..baz', 'foo@bar...'])('rejects an empty domain segment in %s', source => {
+    expect(parsers.gfmEx.parse(source).children[0]).toMatchObject({
+      type: 'paragraph',
+      children: [{ type: 'text', value: source }],
+    })
+  })
+
+  test('keeps a trailing period outside a valid email', () => {
+    expect(parsers.gfmEx.parse('foo@bar.baz.').children[0]).toMatchObject({
+      type: 'paragraph',
+      children: [
+        { type: 'link', url: 'mailto:foo@bar.baz' },
+        { type: 'text', value: '.' },
+      ],
+    })
+  })
+})

@@ -51,6 +51,7 @@ export function eatExtendEmailAddress(
   for (i += 2; i < endIndex; i += 1) {
     const c = nodePoints[i].codePoint
     if (c === AsciiCodePoint.DOT) {
+      if (nodePoints[i - 1].codePoint === AsciiCodePoint.DOT) break
       countOfPeriod += 1
       continue
     }
