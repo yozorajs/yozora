@@ -7,7 +7,7 @@ import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function (api) {
   return {
-    parse: tokens =>
+    parse: (tokens, ctx) =>
       tokens.map(token => {
         const nodePoints: readonly INodePoint[] = api.getNodePoints()
 
@@ -25,7 +25,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
             break
         }
 
-        const children: Node[] = api.parseInlineTokens(token.children)
+        const children: Node[] = ctx.getChildren(token)
         const node: INode = api.shouldReservePosition
           ? { type: LinkType, position: api.calcPosition(token), url, children }
           : { type: LinkType, url, children }

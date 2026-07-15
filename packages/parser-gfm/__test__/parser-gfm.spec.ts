@@ -190,3 +190,59 @@ test('matches 10,000 nested images without rescanning resolved contents', () => 
 
   expect((ast.children[0] as any).children).toEqual([{ type: 'image', url: '', alt: '' }])
 })
+
+test('parses 10,000 nested images without recursive stack growth', () => {
+  const depth = 10_000
+  const ast = parsers.gfm.parse(`${'!['.repeat(depth)}x${'](/url)'.repeat(depth)}`)
+
+  expect((ast.children[0] as any).children[0]).toMatchObject({
+    type: 'image',
+    url: '/url',
+    alt: 'x',
+  })
+})
+
+test('parses 10,000 nested emphasis nodes without recursive stack growth', () => {
+  const depth = 10_000
+  const endOffset = depth * 6 + 1
+  const ast = parsers.gfm.parse(`${'*a '.repeat(depth)}x${' b*'.repeat(depth)}`)
+  let node: any = (ast.children[0] as any).children[0]
+  let middleNode: any
+
+  const outerNode = node
+  for (let i = 0; i + 1 < depth; ++i) {
+    if (i === depth / 2) middleNode = node
+    node = node.children[1]
+  }
+
+  expect(node).toMatchObject({
+    type: 'emphasis',
+    children: [{ type: 'text', value: 'a x b' }],
+  })
+  expect([outerNode.position, middleNode.position]).toEqual([
+    {
+      start: { line: 1, column: 1, offset: 0 },
+      end: { line: 1, column: endOffset + 1, offset: endOffset },
+    },
+    {
+      start: { line: 1, column: (depth / 2) * 3 + 1, offset: (depth / 2) * 3 },
+      end: {
+        line: 1,
+        column: endOffset - (depth / 2) * 3 + 1,
+        offset: endOffset - (depth / 2) * 3,
+      },
+    },
+  ])
+})
+
+test('flattens 10,000 nested emphasis nodes in image alt text', () => {
+  const depth = 10_000
+  const content = `${'*a '.repeat(depth)}x${' b*'.repeat(depth)}`
+  const ast = parsers.gfm.parse(`![${content}](/url)`)
+
+  expect((ast.children[0] as any).children[0]).toMatchObject({
+    type: 'image',
+    url: '/url',
+    alt: `${'a '.repeat(depth)}x${' b'.repeat(depth)}`,
+  })
+})

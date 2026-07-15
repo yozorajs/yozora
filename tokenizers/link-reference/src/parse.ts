@@ -5,10 +5,10 @@ import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function (api) {
   return {
-    parse: tokens =>
+    parse: (tokens, ctx) =>
       tokens.map(token => {
         const { identifier, label, referenceType } = token
-        const children: Node[] = api.parseInlineTokens(token.children)
+        const children: Node[] = ctx.getChildren(token)
         const node: INode = api.shouldReservePosition
           ? {
               type: LinkReferenceType,

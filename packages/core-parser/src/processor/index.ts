@@ -6,6 +6,7 @@ import type {
   IParseBlockHook,
   IParseBlockPhaseContext,
   IParseInlineHook,
+  IParseInlinePhaseContext,
   IPhrasingContentLine,
 } from '@yozora/core-tokenizer'
 import { calcEndPoint, calcStartPoint } from '@yozora/core-tokenizer'
@@ -20,6 +21,12 @@ interface IParseBlockFrame {
   parentToken: IBlockToken | null
   tokenIndex: number
   tokens: readonly IBlockToken[]
+}
+
+interface IParseInlineFrame {
+  parentToken: IInlineToken | null
+  tokenIndex: number
+  tokens: readonly IInlineToken[]
 }
 
 /**
@@ -80,7 +87,6 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       getNodePoints: () => _nodePoints,
       hasDefinition: identifier => definitionIdentifierSet.has(identifier),
       hasFootnoteDefinition: identifier => footnoteIdentifierSet.has(identifier),
-      parseInlineTokens,
     },
   })
 
@@ -362,9 +368,89 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return tokens
   }
 
+  /**
+   * Parse the inline token tree iteratively in post-order. This processor owns
+   * traversal and child results. Cursor frames grow only with nesting depth,
+   * and parsed children are retained only until their direct parent hooks
+   * return. Tokenizer and cyclic-tree errors abort the current parse.
+   * @param tokens
+   */
   function parseInlineTokens(tokens?: readonly IInlineToken[]): Node[] {
     if (tokens === undefined || tokens.length <= 0) return []
 
+    const parsedChildrenMap = new Map<IInlineToken, Node[]>()
+    const visitingTokenSet = new Set<IInlineToken>()
+    const frameStack: IParseInlineFrame[] = []
+    const ctx: IParseInlinePhaseContext = {
+      getChildren: token => {
+        if (token.children == null || token.children.length <= 0) return []
+
+        const children = parsedChildrenMap.get(token as IInlineToken)
+        invariant(
+          children !== undefined,
+          `[parseInline] children of tokenizer '${token._tokenizer}' have not been parsed`,
+        )
+        return children
+      },
+    }
+
+    /**
+     * Push an inline token branch into the frame stack.
+     * @param parentToken
+     * @param childTokens
+     */
+    const push = (parentToken: IInlineToken | null, childTokens: readonly IInlineToken[]): void => {
+      if (parentToken != null) {
+        invariant(
+          !visitingTokenSet.has(parentToken),
+          `[parseInline] cyclic token tree at tokenizer '${parentToken._tokenizer}'`,
+        )
+        visitingTokenSet.add(parentToken)
+      }
+      frameStack.push({ parentToken, tokenIndex: 0, tokens: childTokens })
+    }
+
+    /**
+     * Parse and pop the top frame.
+     */
+    const popup = (): Node[] => {
+      const frame = frameStack.pop()
+      invariant(frame != null, '[parseInline] frame stack is empty')
+
+      const nodes = parseFlatInlineTokens(frame.tokens, ctx)
+
+      // Parsed children are no longer needed after their parent hooks return.
+      for (const token of frame.tokens) parsedChildrenMap.delete(token)
+
+      if (frame.parentToken != null) {
+        parsedChildrenMap.set(frame.parentToken, nodes)
+        visitingTokenSet.delete(frame.parentToken)
+      }
+      return nodes
+    }
+
+    push(null, tokens)
+    let nodes: Node[] = []
+    while (frameStack.length > 0) {
+      const frame = frameStack[frameStack.length - 1]
+      if (frame.tokenIndex >= frame.tokens.length) {
+        nodes = popup()
+        continue
+      }
+
+      const token = frame.tokens[frame.tokenIndex]
+      frame.tokenIndex += 1
+      if (token.children == null || token.children.length <= 0) continue
+
+      push(token, token.children)
+    }
+    return nodes
+  }
+
+  function parseFlatInlineTokens(
+    tokens: readonly IInlineToken[],
+    ctx: IParseInlinePhaseContext,
+  ): Node[] {
     const results: Node[] = []
     for (let i0 = 0, i1: number; i0 < tokens.length; i0 = i1) {
       const _tokenizer: string = tokens[i0]._tokenizer
@@ -373,9 +459,9 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       const hook = parseInlineHookMap.get(_tokenizer)
 
       // cannot find matched tokenizer
-      invariant(hook !== undefined, `[parseBlock] tokenizer '${_tokenizer}' not found`)
+      invariant(hook !== undefined, `[parseInline] tokenizer '${_tokenizer}' not found`)
 
-      const nodes: Node[] = hook.parse(tokens.slice(i0, i1))
+      const nodes: Node[] = hook.parse(tokens.slice(i0, i1), ctx)
       results.push(...nodes)
     }
     return results

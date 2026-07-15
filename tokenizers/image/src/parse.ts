@@ -8,7 +8,7 @@ import { calcImageAlt } from './util'
 
 export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function (api) {
   return {
-    parse: tokens =>
+    parse: (tokens, ctx) =>
       tokens.map(token => {
         const nodePoints: readonly INodePoint[] = api.getNodePoints()
 
@@ -30,7 +30,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
         }
 
         // calc alt
-        const children: Node[] = api.parseInlineTokens(token.children)
+        const children: Node[] = ctx.getChildren(token)
         const alt = calcImageAlt(children)
 
         // calc title
