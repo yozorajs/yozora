@@ -94,6 +94,22 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
       }
     }
 
+    if (potentialDelimiters.length < 2) return
+
+    const matchedCloserIndices: number[] = Array<number>(potentialDelimiters.length).fill(-1)
+    const nearestCloserIndexMap: Map<number, number> = new Map<number, number>()
+    for (let i = potentialDelimiters.length - 1; i >= 0; --i) {
+      const delimiter: ITokenDelimiter = potentialDelimiters[i]
+      const thickness: number = delimiter.endIndex - delimiter.startIndex
+      if (delimiter.type !== 'closer') {
+        matchedCloserIndices[i] = nearestCloserIndexMap.get(thickness) ?? -1
+      }
+      // A `both` delimiter can only close an earlier opener, not itself.
+      if (delimiter.type !== 'opener') {
+        nearestCloserIndexMap.set(thickness, i)
+      }
+    }
+
     let pIndex = 0
     let lastEndIndex = -1
     let delimiter: IDelimiter | null = null
@@ -116,16 +132,9 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
         if (pIndex + 1 >= potentialDelimiters.length) return
 
         openerDelimiter = potentialDelimiters[pIndex]
-        const thickness = openerDelimiter.endIndex - openerDelimiter.startIndex
-        for (let i = pIndex + 1; i < potentialDelimiters.length; ++i) {
-          const delimiter = potentialDelimiters[i]
-          if (
-            delimiter.type !== 'opener' &&
-            delimiter.endIndex - delimiter.startIndex === thickness
-          ) {
-            closerDelimiter = delimiter
-            break
-          }
+        const matchedCloserIndex: number = matchedCloserIndices[pIndex]
+        if (matchedCloserIndex >= 0) {
+          closerDelimiter = potentialDelimiters[matchedCloserIndex]
         }
 
         // No matched inlineCode closer marker found, try next one.
