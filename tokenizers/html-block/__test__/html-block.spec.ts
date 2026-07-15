@@ -14,3 +14,17 @@ test('html block node should omit position when shouldReservePosition is false',
   expect(node.value).toBe('<div>yozora</div>')
   expect(node.position).toBeUndefined()
 })
+
+test.each(['<![CDATA\nfoo', '<![CDATAx\nfoo'])(
+  'does not recognize an incomplete CDATA opener: %s',
+  input => {
+    const ast = parsers.gfm.parse(input, { shouldReservePosition: false })
+
+    expect(ast.children).toEqual([
+      {
+        type: 'paragraph',
+        children: [{ type: 'text', value: input }],
+      },
+    ])
+  },
+)

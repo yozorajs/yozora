@@ -18,16 +18,17 @@ export function eatStartCondition5(
 ): number | null {
   const i = startIndex
   if (
-    i + 6 < endIndex &&
+    i + 7 < endIndex &&
     nodePoints[i].codePoint === AsciiCodePoint.EXCLAMATION_MARK &&
     nodePoints[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET &&
     nodePoints[i + 2].codePoint === AsciiCodePoint.UPPERCASE_C &&
     nodePoints[i + 3].codePoint === AsciiCodePoint.UPPERCASE_D &&
     nodePoints[i + 4].codePoint === AsciiCodePoint.UPPERCASE_A &&
     nodePoints[i + 5].codePoint === AsciiCodePoint.UPPERCASE_T &&
-    nodePoints[i + 6].codePoint === AsciiCodePoint.UPPERCASE_A
+    nodePoints[i + 6].codePoint === AsciiCodePoint.UPPERCASE_A &&
+    nodePoints[i + 7].codePoint === AsciiCodePoint.OPEN_BRACKET
   )
-    return i + 7
+    return i + 8
   return null
 }
 
