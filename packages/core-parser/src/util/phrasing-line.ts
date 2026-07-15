@@ -1,4 +1,4 @@
-import type { INodePoint } from '@yozora/character'
+import type { INodePoint, ISourcePoint } from '@yozora/character'
 import { isLineEnding, isSpaceCharacter } from '@yozora/character'
 import type { IPhrasingContentLine } from '@yozora/core-tokenizer'
 import { calcIndentWidth } from '@yozora/core-tokenizer'
@@ -7,17 +7,22 @@ import { calcIndentWidth } from '@yozora/core-tokenizer'
  * Create a generator to produce PhrasingContentLines while consuming NodePoints.
  *
  * @param nodePointsList
- * @returns
+ * @returns PhrasingContentLine batches with the source end Point as the completion value.
  */
 export function* createPhrasingLineGenerator(
-  nodePointsList: Iterable<INodePoint[]>,
-): Iterable<IPhrasingContentLine[]> & Iterator<IPhrasingContentLine[], INodePoint[]> {
+  nodePointsList: Iterable<INodePoint[], ISourcePoint | undefined>,
+): Iterable<IPhrasingContentLine[], ISourcePoint | undefined> &
+  Iterator<IPhrasingContentLine[], ISourcePoint | undefined> {
   const allNodePoints: INodePoint[] = []
   let startIndex = 0
   let firstNonWhitespaceIndex = 0
   let countOfPrecedeSpaces = 0
 
-  for (const nodePoints of nodePointsList) {
+  // A for-of loop would discard the scanner's EOF Point.
+  const iterator = nodePointsList[Symbol.iterator]()
+  let result = iterator.next()
+  while (!result.done) {
+    const nodePoints = result.value
     const lines: IPhrasingContentLine[] = []
     for (const p of nodePoints) {
       const c = p.codePoint
@@ -52,6 +57,7 @@ export function* createPhrasingLineGenerator(
       }
     }
     yield lines
+    result = iterator.next()
   }
 
   // After the iterable dried, there is still has some nodePoints.
@@ -66,5 +72,5 @@ export function* createPhrasingLineGenerator(
     }
     yield [line]
   }
-  return allNodePoints
+  return result.value
 }

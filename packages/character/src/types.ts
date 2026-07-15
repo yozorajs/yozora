@@ -7,7 +7,7 @@ export type ICodePoint = number
  * One place in the source file.
  * @see https://github.com/syntax-tree/unist#point
  */
-export interface INodePoint {
+export interface ISourcePoint {
   /**
    * Line in a source file.
    * @minimum 1
@@ -23,6 +23,12 @@ export interface INodePoint {
    * @minimum 0
    */
   readonly offset: number
+}
+
+/**
+ * A source point paired with its normalized code point.
+ */
+export interface INodePoint extends ISourcePoint {
   /**
    * Unicode code point of content (`String.codePointAt()`)
    */

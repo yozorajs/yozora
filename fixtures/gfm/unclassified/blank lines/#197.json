@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 6,
-            "column": 7,
-            "offset": 18
+            "line": 8,
+            "column": 3,
+            "offset": 21
           }
         },
         "children": [

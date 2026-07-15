@@ -10,6 +10,13 @@ import {
 const collectNodePoints = (input: Iterable<string> | string) =>
   [...createNodePointGenerator(input)].flat()
 
+const collectEndPoint = (input: Iterable<string> | string) => {
+  const iterator = createNodePointGenerator(input)
+  let result = iterator.next()
+  while (!result.done) result = iterator.next()
+  return result.value
+}
+
 describe('node-point', function () {
   test('createNodePointGenerator normalizes control characters', function () {
     const [points] = [...createNodePointGenerator('\tA\r\nB\rC\n\0')]
@@ -40,6 +47,15 @@ describe('node-point', function () {
       expect(collectNodePoints(content.split(''))).toEqual(expected)
     })
   }
+
+  test.each([
+    ['empty input', '', { line: 1, column: 1, offset: 0 }],
+    ['LF', 'a\n', { line: 2, column: 1, offset: 2 }],
+    ['chunked CRLF', ['a\r', '\n'], { line: 2, column: 1, offset: 3 }],
+    ['astral Unicode', '😀', { line: 1, column: 3, offset: 2 }],
+  ])('reports source EOF for %s', (_name, input, expected) => {
+    expect(collectEndPoint(input)).toEqual(expected)
+  })
 
   test('keeps offsets usable as source string indices', () => {
     const content = 'a😀b'

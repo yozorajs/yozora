@@ -1,7 +1,7 @@
 import { AsciiCodePoint } from '../constant/ascii'
 import { UnicodeCodePoint } from '../constant/unicode/unicode'
 import { VirtualCodePoint } from '../constant/virtual'
-import type { ICodePoint, INodePoint } from '../types'
+import type { ICodePoint, INodePoint, ISourcePoint } from '../types'
 import { isWhitespaceCharacter } from './character'
 import { isAsciiPunctuationCharacter } from './charset/ascii'
 import { eatEntityReference } from './entity-reference'
@@ -36,10 +36,11 @@ function* mergeBoundaryCodeUnits(chunks: Iterable<string>): Iterable<string> {
 
 /**
  * Create a generator to processing string stream.
+ * @returns NodePoint batches with the source end Point as the completion value.
  */
 export function* createNodePointGenerator(
   literalStrings: Iterable<string> | string,
-): Iterable<INodePoint[]> & Iterator<INodePoint[], undefined> {
+): Iterable<INodePoint[], ISourcePoint> & Iterator<INodePoint[], ISourcePoint> {
   let offset = 0
   let column = 1
   let line = 1
@@ -135,7 +136,7 @@ export function* createNodePointGenerator(
     }
     yield nodePoints
   }
-  return
+  return { line, column, offset }
 }
 
 /**

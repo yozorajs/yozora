@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 3,
-            "column": 3,
-            "offset": 10
+            "column": 4,
+            "offset": 11
           }
         },
         "children": [

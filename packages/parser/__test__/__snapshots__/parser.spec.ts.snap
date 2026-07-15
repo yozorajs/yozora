@@ -2145,8 +2145,8 @@ console.log('This is a typescript code snippets')
   ],
   "position": {
     "end": {
-      "column": 76,
-      "line": 97,
+      "column": 1,
+      "line": 98,
       "offset": 1559,
     },
     "start": {

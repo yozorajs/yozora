@@ -80,6 +80,23 @@ test('tracks astral Unicode positions in UTF-16 code units', () => {
   })
 })
 
+test.each([
+  ['empty input', '', { line: 1, column: 1, offset: 0 }],
+  ['text without a line ending', 'a', { line: 1, column: 2, offset: 1 }],
+  ['LF', 'a\n', { line: 2, column: 1, offset: 2 }],
+  ['CRLF', 'a\r\n', { line: 2, column: 1, offset: 3 }],
+  ['blank input', '\n', { line: 2, column: 1, offset: 1 }],
+  ['multiple blank lines', '\n\n', { line: 3, column: 1, offset: 2 }],
+  ['trailing blank lines', 'a\r\n\r\n', { line: 3, column: 1, offset: 5 }],
+  ['whitespace-only input', ' \n', { line: 2, column: 1, offset: 2 }],
+  ['CRLF split across chunks', ['a\r', '\n'], { line: 2, column: 1, offset: 3 }],
+])('tracks source EOF for %s', (_name, source, end) => {
+  expect(parsers.gfm.parse(source).position).toEqual({
+    start: { line: 1, column: 1, offset: 0 },
+    end,
+  })
+})
+
 test('does not apply pending positions to a new sibling at the same depth', () => {
   const ast = parsers.gfm.parse('> first\n> continued\n>\n> ---')
   const blockquote = ast.children[0]

@@ -1,5 +1,5 @@
 import type { Node, Root } from '@yozora/ast'
-import type { INodePoint } from '@yozora/character'
+import type { INodePoint, ISourcePoint } from '@yozora/character'
 import type {
   IBlockToken,
   IInlineToken,
@@ -119,7 +119,9 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
    * @param lines
    * @returns
    */
-  function process(lines: Iterable<readonly IPhrasingContentLine[]>): Root {
+  function process(
+    lines: Iterable<readonly IPhrasingContentLine[], ISourcePoint | undefined>,
+  ): Root {
     definitionIdentifierSet.clear()
     footnoteIdentifierSet.clear()
 
@@ -210,17 +212,24 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
   }
 
   function matchBlockTokens(
-    linesIterator: Iterable<readonly IPhrasingContentLine[]>,
+    linesIterator: Iterable<readonly IPhrasingContentLine[], ISourcePoint | undefined>,
   ): IBlockTokenTree {
     const processor = createBlockContentProcessor(matchBlockHooks, blockFallbackHook)
 
-    for (const lines of linesIterator) {
+    // A for-of loop would discard the source EOF returned by the iterator.
+    const iterator = linesIterator[Symbol.iterator]()
+    let result = iterator.next()
+    while (!result.done) {
+      const lines = result.value
       for (const line of lines) {
         processor.consume(line)
       }
+      result = iterator.next()
     }
 
+    const sourceEndPoint = result.value
     const root = processor.done()
+    if (sourceEndPoint !== undefined) root.position.end = { ...sourceEndPoint }
     return root
   }
 
