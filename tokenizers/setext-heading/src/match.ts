@@ -1,5 +1,5 @@
 import { HeadingType } from '@yozora/ast'
-import { AsciiCodePoint, VirtualCodePoint, isUnicodeWhitespaceCharacter } from '@yozora/character'
+import { AsciiCodePoint, VirtualCodePoint, isSpaceCharacter } from '@yozora/character'
 import type {
   IBlockToken,
   IMatchBlockHookCreator,
@@ -54,7 +54,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
        * and may have trailing spaces
        * @see https://github.github.com/gfm/#example-56
        */
-      if (isUnicodeWhitespaceCharacter(c.codePoint)) {
+      if (isSpaceCharacter(c.codePoint)) {
         hasPotentialInternalSpace = true
         continue
       }

@@ -1,5 +1,5 @@
 import { ThematicBreakType } from '@yozora/ast'
-import { AsciiCodePoint, isUnicodeWhitespaceCharacter } from '@yozora/character'
+import { AsciiCodePoint, isSpaceLike } from '@yozora/character'
 import type {
   IBlockToken,
   IMatchBlockHookCreator,
@@ -49,7 +49,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
        * @see https://github.github.com/gfm/#example-23
        * @see https://github.github.com/gfm/#example-24
        */
-      if (isUnicodeWhitespaceCharacter(c.codePoint)) {
+      if (isSpaceLike(c.codePoint)) {
         hasPotentialInternalSpace = true
         continue
       }
