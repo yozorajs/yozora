@@ -42,7 +42,7 @@ export interface IHeadingTocNode {
  * @returns
  */
 export function calcHeadingToc(ast: Root, identifierPrefix = 'heading-'): IHeadingToc {
-  const duplicated: Record<string, true> = {}
+  const nextSuffixMap = new Map<string, number>()
 
   // Generate toc
   const nodes: IHeadingTocNode[] = []
@@ -51,14 +51,16 @@ export function calcHeadingToc(ast: Root, identifierPrefix = 'heading-'): IHeadi
     let identifier: string = identifierPrefix + calcIdentifierFromNodes(heading.children)
 
     // Avoid duplicate identifier
-    if (duplicated[identifier]) {
+    let nextSuffix = nextSuffixMap.get(identifier)
+    if (nextSuffix !== undefined) {
       const baseIdentifier: string = identifier
-      for (let i = 2; ; ++i) {
-        identifier = baseIdentifier + '-' + i
-        if (!duplicated[identifier]) break
-      }
+      do {
+        identifier = baseIdentifier + '-' + nextSuffix
+        nextSuffix += 1
+      } while (nextSuffixMap.has(identifier))
+      nextSuffixMap.set(baseIdentifier, nextSuffix)
     }
-    duplicated[identifier] = true
+    nextSuffixMap.set(identifier, 2)
 
     const node: IHeadingTocNode = {
       depth: heading.depth,
