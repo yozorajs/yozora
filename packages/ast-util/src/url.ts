@@ -19,9 +19,8 @@ export const defaultUrlResolver: IUrlResolver = (...pathPieces): string => {
     if (typeof piece !== 'string') continue
     const text: string = piece.trim()
     if (text.length > 0) {
-      // If a piece is a absolute url path, then dismiss the previous pieces,
-      // otherwise, resolved it with previous url paths.
-      if (/^([/]|\w+:[/]{2})/.test(text)) pieces = [text]
+      // Absolute paths and RFC 3986 URI schemes replace previous pieces.
+      if (/^(?:[/]|[A-Za-z][A-Za-z\d+.-]*:)/.test(text)) pieces = [text]
       else pieces.push(text)
     }
   }
