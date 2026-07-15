@@ -9,6 +9,7 @@ function labelOfContent(content: string): number {
 
 test('Backslash', function () {
   expect(labelOfContent('[^valid footnote\\] \\[ \\] label\\]]')).toEqual(33)
+  expect(labelOfContent('[^\\]]')).toEqual(5)
   expect(labelOfContent('[^invalid footnote []')).toEqual(-1)
 })
 
@@ -16,6 +17,7 @@ test('Footnote label should in same line', function () {
   expect(labelOfContent('[^valid footnote]')).toEqual(17)
   expect(labelOfContent('[^invalid \n footnote]')).toEqual(-1)
   expect(labelOfContent('[^invalid footnote\n]')).toEqual(-1)
+  expect(labelOfContent('[^invalid\\\nfootnote]')).toEqual(-1)
 })
 
 test('Unclosed', function () {
@@ -24,4 +26,12 @@ test('Unclosed', function () {
 
 test('Empty label is not allowed', function () {
   expect(labelOfContent('[^   ]')).toEqual(-1)
+})
+
+test('Footnote label can have at most 999 characters', function () {
+  for (const size of [998, 999]) {
+    const label = `[^${'a'.repeat(size)}]`
+    expect(labelOfContent(label)).toEqual(label.length)
+  }
+  expect(labelOfContent(`[^${'a'.repeat(1000)}]`)).toEqual(-1)
 })

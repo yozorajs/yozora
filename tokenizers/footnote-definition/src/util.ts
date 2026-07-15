@@ -1,6 +1,8 @@
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, VirtualCodePoint, isWhitespaceCharacter } from '@yozora/character'
 
+const maxLabelContentLength = 999
+
 /**
  * Try to match a footnote label.
  *
@@ -34,12 +36,15 @@ export function eatFootnoteLabel(
   }
 
   let isEmpty = true
-  const lastIndex = Math.min(endIndex, i + 1 + 1000)
-  for (i += 2; i < lastIndex; ++i) {
+  const firstContentIndex = i + 2
+  const lastIndex = Math.min(endIndex, firstContentIndex + maxLabelContentLength + 1)
+  for (i = firstContentIndex; i < lastIndex; ++i) {
     const c = nodePoints[i].codePoint
     switch (c) {
       case AsciiCodePoint.BACKSLASH:
+        isEmpty = false
         i += 1
+        if (i >= endIndex || nodePoints[i].codePoint === VirtualCodePoint.LINE_END) return -1
         break
       case AsciiCodePoint.OPEN_BRACKET:
         return -1

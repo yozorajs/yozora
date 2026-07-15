@@ -28,3 +28,22 @@ test('recognizes a footnote definition after partial-tab indentation', () => {
 
   expect(listItem.children[1].type).toBe('footnoteDefinition')
 })
+
+test('recognizes escaped-only and maximum-length footnote labels', () => {
+  const escapedLabelAst = parsers.yozora.parse('[^\\]]: note\n\n[^\\]]')
+  const maximumLabel = 'a'.repeat(999)
+  const maximumLabelAst = parsers.yozora.parse(`[^${maximumLabel}]: note`)
+
+  expect(escapedLabelAst.children[0]).toMatchObject({
+    type: 'footnoteDefinition',
+    label: '\\]',
+  })
+  expect((escapedLabelAst.children[1] as any).children[0]).toMatchObject({
+    type: 'footnoteReference',
+    label: '\\]',
+  })
+  expect(maximumLabelAst.children[0]).toMatchObject({
+    type: 'footnoteDefinition',
+    label: maximumLabel,
+  })
+})
