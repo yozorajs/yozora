@@ -1,6 +1,6 @@
 import type { NodeType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
-import { calcTrimBoundaryOfCodePoints, isSpaceCharacter } from '@yozora/character'
+import { calcTrimBoundaryOfCodePoints, isLineEnding, isSpaceCharacter } from '@yozora/character'
 import type {
   IBlockToken,
   IMatchBlockHook,
@@ -144,7 +144,7 @@ export function match<
           if (!isSpaceCharacter(c)) break
         }
 
-        if (i + 1 >= endIndex) {
+        if (i >= endIndex || isLineEnding(nodePoints[i].codePoint)) {
           return { status: 'closing', nextIndex: endIndex }
         }
       }

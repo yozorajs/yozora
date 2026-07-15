@@ -1,5 +1,5 @@
 import { HeadingType } from '@yozora/ast'
-import { AsciiCodePoint, isSpaceCharacter } from '@yozora/character'
+import { AsciiCodePoint, isSpaceLike } from '@yozora/character'
 import type {
   IBlockToken,
   IMatchBlockHookCreator,
@@ -71,7 +71,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
      * ATX headings can be empty
      * @see https://github.github.com/gfm/#example-49
      */
-    if (i + 1 < endIndex && !isSpaceCharacter(nodePoints[i].codePoint)) return null
+    if (i < endIndex && !isSpaceLike(nodePoints[i].codePoint)) return null
 
     const nextIndex = endIndex
     const token: IToken = {

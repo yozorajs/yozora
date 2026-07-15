@@ -46,3 +46,23 @@ test('recognizes fences after a partial tab in a list item', () => {
     ],
   })
 })
+
+test.each([
+  ['gfm', parsers.gfm],
+  ['gfmEx', parsers.gfmEx],
+  ['yozora', parsers.yozora],
+])('%s preserves an invalid closing fence with or without a line ending', (_name, parser) => {
+  for (const source of ['```\na\n```x', '```\na\n```x\n']) {
+    expect(parser.parse(source, { shouldReservePosition: false })).toEqual({
+      type: 'root',
+      children: [
+        {
+          type: 'code',
+          lang: null,
+          meta: null,
+          value: 'a\n```x\n',
+        },
+      ],
+    })
+  }
+})
