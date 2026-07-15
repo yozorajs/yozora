@@ -36,6 +36,28 @@ export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor =>
   }
 
   /**
+   * Append higher-priority tokens before the delimiter and return the next cursor.
+   * @param target
+   * @param startIndex
+   * @param delimiter
+   */
+  const appendHigherPriorityTokens = (
+    target: IInlineToken[],
+    startIndex: number,
+    delimiter: ITokenDelimiter,
+  ): number => {
+    let index = startIndex
+    for (; index < higherPriorityTokens.length; ++index) {
+      const token = higherPriorityTokens[index]
+      if (token.startIndex >= delimiter.endIndex) break
+
+      // The token may be inside the delimiter.
+      if (token.startIndex < delimiter.startIndex) target.push(token)
+    }
+    return index
+  }
+
+  /**
    * Try to find an openerDelimiter paired with the closerDelimiter.
    * @param hook
    * @param closerDelimiter
@@ -51,7 +73,12 @@ export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor =>
       item = delimiterStack[i]
       if (item.inactive || item.hook !== hook) continue
       const openerDelimiter = item.delimiter
-      const result = hook.isDelimiterPair(openerDelimiter, closerDelimiter, higherPriorityTokens)
+
+      // Pair selection runs before process() moves pending higher-priority
+      // tokens. Reconstruct the contents that consume() will observe.
+      const internalTokens: IInlineToken[] = tokenStack.slice(item.tokenStackIndex)
+      appendHigherPriorityTokens(internalTokens, htIndex, closerDelimiter)
+      const result = hook.isDelimiterPair(openerDelimiter, closerDelimiter, internalTokens)
       if (result.paired) return openerDelimiter
       if (!result.closer) return null
     }
@@ -180,14 +207,7 @@ export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor =>
   }
 
   const process = (hook: IDelimiterProcessorHook, delimiter: ITokenDelimiter): void => {
-    for (; htIndex < higherPriorityTokens.length; ++htIndex) {
-      const token = higherPriorityTokens[htIndex]
-      if (token.startIndex >= delimiter.endIndex) break
-
-      // The token may be inside the delimiter.
-      if (token.startIndex >= delimiter.startIndex) continue
-      tokenStack.push(token)
-    }
+    htIndex = appendHigherPriorityTokens(tokenStack, htIndex, delimiter)
 
     switch (delimiter.type) {
       case 'opener': {

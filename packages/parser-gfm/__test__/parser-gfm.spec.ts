@@ -1,6 +1,16 @@
+import { ImageType } from '@yozora/ast'
 import { createTokenizerTester } from '@yozora/test-util'
+import ImageTokenizer from '@yozora/tokenizer-image'
+import { ImageReferenceTokenizerName } from '@yozora/tokenizer-image-reference'
 import { expect, test } from 'vitest'
 import { parsers } from 'vitest.setup'
+
+class ShallowImageTokenizer extends ImageTokenizer {
+  // Isolate the match phase from the independently recursive inline parse phase.
+  public override readonly parse: ImageTokenizer['parse'] = () => ({
+    parse: tokens => tokens.map(() => ({ type: ImageType, url: '', alt: '' })),
+  })
+}
 
 createTokenizerTester(parsers.gfm)
   .scan([
@@ -68,4 +78,15 @@ test('tracks astral Unicode positions in UTF-16 code units', () => {
       },
     ],
   })
+})
+
+test('matches 10,000 nested images without rescanning resolved contents', () => {
+  const depth = 10_000
+  const parser = parsers.gfm.replaceTokenizer(
+    new ShallowImageTokenizer(),
+    ImageReferenceTokenizerName,
+  )
+  const ast = parser.parse(`${'!['.repeat(depth)}x${'](/url)'.repeat(depth)}`)
+
+  expect((ast.children[0] as any).children).toEqual([{ type: 'image', url: '', alt: '' }])
 })
