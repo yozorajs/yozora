@@ -21,11 +21,7 @@ export function eatExtendEmailAddress(
   endIndex: number,
 ): IResultOfRequiredEater {
   let i = startIndex
-  if (i >= endIndex || !isAlphanumeric(nodePoints[i].codePoint)) {
-    return { valid: false, nextIndex: i + 1 }
-  }
-
-  for (i += 1; i < endIndex; i += 1) {
+  for (; i < endIndex; i += 1) {
     const c = nodePoints[i].codePoint
     if (
       isAlphanumeric(c) ||

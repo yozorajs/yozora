@@ -47,6 +47,8 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
       {
         let j = i
         let flag = false
+        // `_` is both an autolink boundary and a valid email local-part character.
+        let emailStartIndex = -1
         for (; j < endIndex; ++j) {
           const c = nodePoints[j].codePoint
           if (
@@ -57,6 +59,11 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
             c === AsciiCodePoint.OPEN_PARENTHESIS
           ) {
             flag = true
+            if (c === AsciiCodePoint.UNDERSCORE) {
+              if (emailStartIndex < 0) emailStartIndex = j
+            } else {
+              emailStartIndex = -1
+            }
             continue
           }
 
@@ -65,6 +72,18 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
         }
 
         if (j >= endIndex) break
+
+        if (emailStartIndex >= 0) {
+          const emailResult = eatExtendEmailAddress(nodePoints, emailStartIndex, endIndex)
+          if (emailResult.valid) {
+            return {
+              type: 'full',
+              startIndex: emailStartIndex,
+              endIndex: emailResult.nextIndex,
+              contentType: 'email',
+            }
+          }
+        }
         i = j
       }
 

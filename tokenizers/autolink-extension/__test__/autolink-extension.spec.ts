@@ -39,6 +39,16 @@ describe('extended URL boundaries', () => {
 })
 
 describe('extended email boundaries', () => {
+  test.each(['+foo@bar.baz', '.foo@bar.baz', '-foo@bar.baz', '_foo@bar.baz', 'foo@bar.baz'])(
+    'allows a valid local-part first character in %s',
+    source => {
+      expect(parsers.gfmEx.parse(source).children[0]).toMatchObject({
+        type: 'paragraph',
+        children: [{ type: 'link', url: `mailto:${source}` }],
+      })
+    },
+  )
+
   test.each(['foo@bar..baz', 'foo@bar...'])('rejects an empty domain segment in %s', source => {
     expect(parsers.gfmEx.parse(source).children[0]).toMatchObject({
       type: 'paragraph',
