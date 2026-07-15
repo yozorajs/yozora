@@ -141,7 +141,7 @@ export function eatAndCollectLinkDestination(
         break
       default:
         if (isWhitespaceCharacter(p.codePoint) || isAsciiControlCharacter(p.codePoint)) {
-          state.saturated = true
+          state.saturated = state.openParensCount === 0
           return { nextIndex: i, state: state }
         }
         state.nodePoints.push(p)
@@ -149,6 +149,6 @@ export function eatAndCollectLinkDestination(
     }
   }
 
-  state.saturated = true
+  state.saturated = state.openParensCount === 0
   return { nextIndex: i, state: state }
 }

@@ -1,5 +1,5 @@
 import type { INodePoint } from '@yozora/character'
-import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
+import { AsciiCodePoint } from '@yozora/character'
 import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
 
 /**
@@ -121,13 +121,9 @@ export function eatAndCollectLinkTitle(
           case AsciiCodePoint.OPEN_PARENTHESIS:
             return { nextIndex: -1, state: state }
           case AsciiCodePoint.CLOSE_PARENTHESIS:
-            if (i + 1 >= endIndex || nodePoints[i + 1].codePoint === VirtualCodePoint.LINE_END) {
-              state.nodePoints.push(p)
-
-              state.saturated = true
-              break
-            }
-            return { nextIndex: -1, state: state }
+            state.saturated = true
+            state.nodePoints.push(p)
+            return { nextIndex: i + 1, state: state }
           default:
             state.nodePoints.push(p)
         }
