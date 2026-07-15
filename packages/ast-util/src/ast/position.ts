@@ -5,7 +5,9 @@ export function removePositions(immutableAst: Readonly<Root>): Root {
     const { position, children, ...nextNode } = node as Parent
     for (const key of Object.keys(nextNode)) {
       const value = (nextNode as Record<string, unknown>)[key]
-      ;(nextNode as Record<string, unknown>)[key] = Array.isArray(value) ? value.map(remove) : value
+      ;(nextNode as Record<string, unknown>)[key] = Array.isArray(value)
+        ? value.map(item => (isNode(item) ? remove(item) : item))
+        : value
     }
     if (children) {
       ;(nextNode as Parent).children = children.map(remove)
@@ -14,4 +16,8 @@ export function removePositions(immutableAst: Readonly<Root>): Root {
   }
   const tidyAst = remove(immutableAst) as Root
   return tidyAst
+}
+
+function isNode(value: unknown): value is Node {
+  return value != null && typeof value === 'object' && typeof (value as Node).type === 'string'
 }

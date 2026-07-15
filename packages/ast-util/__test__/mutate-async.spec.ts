@@ -65,6 +65,37 @@ describe('removePositions', function () {
     expect((nextAst.children[0] as any).children[0].position).toBeUndefined()
     expect((nextAst.children[0] as any).children[1].children[0].position).toBeUndefined()
   })
+
+  test('preserves metadata arrays while traversing custom node arrays', function () {
+    const position = {
+      start: { offset: 0, line: 1, column: 1 },
+      end: { offset: 1, line: 1, column: 2 },
+    }
+    const ast = {
+      type: RootType,
+      children: [
+        {
+          type: 'custom',
+          position,
+          tags: ['alpha', 'beta'],
+          title: [{ type: TextType, value: 'title', position }],
+        },
+      ],
+    } as unknown as Root
+
+    expect(removePositions(ast)).toEqual({
+      type: RootType,
+      children: [
+        {
+          type: 'custom',
+          tags: ['alpha', 'beta'],
+          title: [{ type: TextType, value: 'title' }],
+        },
+      ],
+    })
+    expect((ast.children[0] as any).tags).toEqual(['alpha', 'beta'])
+    expect((ast.children[0] as any).title[0].position).toEqual(position)
+  })
 })
 
 describe('shallowMutateAstInPostorderAsync', function () {
