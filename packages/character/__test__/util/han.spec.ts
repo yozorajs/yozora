@@ -1,9 +1,11 @@
-import { stripChineseCharacters } from '../../src'
+import { stripChineseCharacters, tightenChineseCharacters } from '../../src'
 
 describe('stripChineseCharacters', function () {
   test('han -- han', function () {
     expect(stripChineseCharacters('中文\n中文2')).toEqual('中文中文2')
     expect(stripChineseCharacters('中文；\n中文2')).toEqual('中文；中文2')
+    expect(stripChineseCharacters('中\n文\n字')).toEqual('中文字')
+    expect(stripChineseCharacters('中\n；\n文')).toEqual('中；文')
   })
 
   test('han -- english', function () {
@@ -22,5 +24,16 @@ describe('stripChineseCharacters', function () {
     expect(stripChineseCharacters('English\nEnglish')).toEqual('English\nEnglish')
     expect(stripChineseCharacters('English.\nEnglish')).toEqual('English.\nEnglish')
     expect(stripChineseCharacters('English\n.English')).toEqual('English\n.English')
+  })
+})
+
+describe('tightenChineseCharacters', function () {
+  test('han -- han', function () {
+    expect(tightenChineseCharacters('中 文 字')).toEqual('中文字')
+    expect(tightenChineseCharacters('中 \n；\t 文')).toEqual('中；文')
+  })
+
+  test('mixed languages', function () {
+    expect(tightenChineseCharacters('中 English 文')).toEqual('中 English 文')
   })
 })
