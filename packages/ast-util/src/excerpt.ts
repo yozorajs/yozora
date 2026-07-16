@@ -58,11 +58,16 @@ export function getExcerptAst(fullAst: Root, pruneLength: number, excerptSeparat
     if (childIndexList != null) {
       const excerptAst = { ...fullAst }
       let node: Parent = excerptAst
-      for (const childIndex of childIndexList) {
-        const nextNode = { ...node.children[childIndex] } as unknown as Parent
+      for (let pathIndex = 0; pathIndex < childIndexList.length; ++pathIndex) {
+        const childIndex = childIndexList[pathIndex]
+        const nextNode = node.children[childIndex]
         node.children = node.children.slice(0, childIndex)
-        node.children.push(nextNode)
-        node = nextNode
+
+        if (pathIndex + 1 >= childIndexList.length) break
+
+        const nextParent = { ...nextNode } as Parent
+        node.children.push(nextParent)
+        node = nextParent
       }
       return excerptAst
     }

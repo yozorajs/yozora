@@ -1,7 +1,7 @@
 import type { Literal, Parent, Root } from '@yozora/ast'
 import { describe, expect, test } from 'vitest'
 import { loadJSONFixture } from 'vitest.setup'
-import { calcExcerptAst } from '../src'
+import { calcExcerptAst, getExcerptAst } from '../src'
 
 describe('basic1', function () {
   const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
@@ -76,5 +76,72 @@ describe('literal boundaries', function () {
 
   test('returns an empty root when the limit is zero', function () {
     expect(calcExcerptAst(createAst(), 0)).toEqual({ type: 'root', children: [] })
+  })
+})
+
+describe('excerpt separator', function () {
+  test('excludes a root-level separator and following siblings without mutating the input', function () {
+    const ast: Root = {
+      type: 'root',
+      children: [
+        { type: 'paragraph', children: [{ type: 'text', value: 'before' } as Literal] } as Parent,
+        { type: 'html', value: '<!-- more -->' } as Literal,
+        { type: 'paragraph', children: [{ type: 'text', value: 'after' } as Literal] } as Parent,
+      ],
+    }
+
+    expect(getExcerptAst(ast, 100, '<!-- more -->')).toEqual({
+      type: 'root',
+      children: [{ type: 'paragraph', children: [{ type: 'text', value: 'before' }] }],
+    })
+    expect(ast).toEqual({
+      type: 'root',
+      children: [
+        { type: 'paragraph', children: [{ type: 'text', value: 'before' }] },
+        { type: 'html', value: '<!-- more -->' },
+        { type: 'paragraph', children: [{ type: 'text', value: 'after' }] },
+      ],
+    })
+  })
+
+  test('preserves ancestors before a nested separator without mutating the input', function () {
+    const ast: Root = {
+      type: 'root',
+      children: [
+        {
+          type: 'paragraph',
+          children: [
+            { type: 'text', value: 'before' } as Literal,
+            { type: 'text', value: '<!-- more -->' } as Literal,
+            { type: 'text', value: 'after' } as Literal,
+          ],
+        } as Parent,
+        { type: 'paragraph', children: [{ type: 'text', value: 'later' } as Literal] } as Parent,
+      ],
+    }
+
+    expect(getExcerptAst(ast, 100, '<!-- more -->')).toEqual({
+      type: 'root',
+      children: [
+        {
+          type: 'paragraph',
+          children: [{ type: 'text', value: 'before' }],
+        },
+      ],
+    })
+    expect(ast).toEqual({
+      type: 'root',
+      children: [
+        {
+          type: 'paragraph',
+          children: [
+            { type: 'text', value: 'before' },
+            { type: 'text', value: '<!-- more -->' },
+            { type: 'text', value: 'after' },
+          ],
+        },
+        { type: 'paragraph', children: [{ type: 'text', value: 'later' }] },
+      ],
+    })
   })
 })
