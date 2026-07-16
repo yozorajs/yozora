@@ -7,11 +7,12 @@ export function parseGFMExample(exampleEl) {
   if (exampleEl == null) return null
 
   const exampleId = exampleEl.id || ''
-  const exampleNo = exampleId.replace(/^example-(\d+)$/, '$1')
-  if (exampleNo.length < 0) {
+  const match = /^example-(\d+)$/.exec(exampleId)
+  if (match == null) {
     console.error(`Bad exampleEl: id(${exampleEl.id}). skipped`)
     return null
   }
+  const exampleNo = match[1]
 
   const getCode = column => {
     const codeEl = column.getElementsByTagName('code')[0]
