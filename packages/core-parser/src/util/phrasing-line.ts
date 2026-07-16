@@ -15,6 +15,7 @@ export function* createPhrasingLineGenerator(
   const allNodePoints: INodePoint[] = []
   let startIndex = 0
   let firstNonWhitespaceIndex = 0
+  let countOfPrecedeSpaces = 0
 
   for (const nodePoints of nodePointsList) {
     const lines: IPhrasingContentLine[] = []
@@ -24,6 +25,7 @@ export function* createPhrasingLineGenerator(
       // Check if it is still a space in the beginning of a line.
       if (firstNonWhitespaceIndex === allNodePoints.length) {
         if (isSpaceCharacter(c)) {
+          countOfPrecedeSpaces += 1
           firstNonWhitespaceIndex += 1
         }
       }
@@ -41,10 +43,12 @@ export function* createPhrasingLineGenerator(
           endIndex: allNodePoints.length,
           firstNonWhitespaceIndex,
           indentWidth: calcIndentWidth(allNodePoints, startIndex, firstNonWhitespaceIndex),
+          countOfPrecedeSpaces,
         }
         lines.push(line)
         startIndex = allNodePoints.length
         firstNonWhitespaceIndex = allNodePoints.length
+        countOfPrecedeSpaces = 0
       }
     }
     yield lines
@@ -58,6 +62,7 @@ export function* createPhrasingLineGenerator(
       endIndex: allNodePoints.length,
       firstNonWhitespaceIndex,
       indentWidth: calcIndentWidth(allNodePoints, startIndex, firstNonWhitespaceIndex),
+      countOfPrecedeSpaces,
     }
     yield [line]
   }

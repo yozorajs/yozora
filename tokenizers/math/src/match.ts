@@ -74,6 +74,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
           endIndex: rht - countOfTailingMarker,
           firstNonWhitespaceIndex: lft,
           indentWidth: calcIndentWidth(token.infoString, 0, lft),
+          countOfPrecedeSpaces: 0,
         },
       ],
     }
