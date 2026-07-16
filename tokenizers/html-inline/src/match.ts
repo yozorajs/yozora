@@ -73,7 +73,7 @@ function tryToEatDelimiter(
   startIndex: number,
   endIndex: number,
 ): IDelimiter | null {
-  let delimiter: IDelimiter | null = null
+  let delimiter: IDelimiter | null
 
   // Try open tag.
   delimiter = eatHtmlInlineTokenOpenDelimiter(nodePoints, startIndex, endIndex)

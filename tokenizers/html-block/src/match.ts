@@ -117,7 +117,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
     startIndex: number,
     endIndex: number,
   ): { condition: HtmlBlockConditionType; nextIndex: number } | null {
-    let nextIndex: number | null = null
+    let nextIndex: number | null
     if (startIndex >= endIndex) return null
 
     // condition 2

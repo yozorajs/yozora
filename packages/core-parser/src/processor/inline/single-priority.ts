@@ -68,9 +68,8 @@ export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor =>
   ): ITokenDelimiter | null => {
     if (delimiterStack.length <= 0) return null
 
-    let item: IDelimiterItem | null = null
     for (let i = delimiterStack.length - 1; i >= 0; --i) {
-      item = delimiterStack[i]
+      const item = delimiterStack[i]
       if (item.inactive || item.hook !== hook) continue
       const openerDelimiter = item.delimiter
 
@@ -142,6 +141,7 @@ export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor =>
               internalTokens.unshift(...(tokens as IInlineToken[]))
             }
 
+            // eslint-disable-next-line no-useless-assignment -- Keep local and stack state invalidation in sync.
             remainOpenerDelimiter = undefined
             item.inactive = true
           }

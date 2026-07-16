@@ -98,7 +98,7 @@ export function changelogBlock(version, date, lines) {
  */
 export function prependChangelog(dir, version, block) {
   const path = join(dir, 'CHANGELOG.md')
-  let content = ''
+  let content
   try {
     content = readFileSync(path, 'utf8')
   } catch {

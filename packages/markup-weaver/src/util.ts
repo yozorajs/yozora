@@ -24,8 +24,8 @@ export const minmax = (v: number, min: number, max: number): number => {
 
 export const findMaxContinuousSymbol = (value: string, symbolRegex: RegExp): number => {
   let symbolCnt = 0
-  for (let match: RegExpExecArray | null = null; ;) {
-    match = symbolRegex.exec(value)
+  for (;;) {
+    const match = symbolRegex.exec(value)
     if (match == null) break
 
     const len: number = match[1].length ?? 0

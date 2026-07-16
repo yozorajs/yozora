@@ -28,7 +28,7 @@ export class CodeWeaver implements INodeWeaver<Code> {
       if (node.meta) infoString += ' ' + node.meta
     }
 
-    let symbol = '```'
+    let symbol: string
 
     /**
      * - Info strings for backtick code blocks cannot contain backticks.

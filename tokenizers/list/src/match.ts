@@ -92,7 +92,6 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
       // TODO Support roman numerals.
       const c0 = c
       if (isAsciiDigitCharacter(c0)) {
-        orderType = '1'
         let v = c0 - AsciiCodePoint.DIGIT0
         for (i += 1; i < endIndex; ++i) {
           c = nodePoints[i].codePoint

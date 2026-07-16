@@ -1,7 +1,6 @@
 {
   "extends": "./tsconfig.settings.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@yozora/ast": ["./packages/ast/src"],
       "@yozora/ast-util": ["./packages/ast-util/src"],
@@ -45,7 +44,7 @@
       "@yozora/tokenizer-table": ["./tokenizers/table/src"],
       "@yozora/tokenizer-text": ["./tokenizers/text/src"],
       "@yozora/tokenizer-thematic-break": ["./tokenizers/thematic-break/src"],
-      "vitest.setup": ["vitest.setup.ts"]
+      "vitest.setup": ["./vitest.setup.ts"]
     }
   }
 }
