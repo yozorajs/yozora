@@ -87,6 +87,5 @@
     "*.{json,eslintrc}": [
       "prettier --write"
     ]
-  },
-  "packageManager": "pnpm@11.10.0"
+  }
 }
