@@ -57,6 +57,15 @@ describe('node-point', function () {
     expect(calcStringFromNodePoints(points, 0, points.length, true)).toBe('A')
   })
 
+  test('string reconstruction does not merge partial adjacent tabs', function () {
+    const points = collectNodePoints('\t\t')
+
+    expect(calcStringFromNodePoints(points)).toBe('\t\t')
+    expect(calcEscapedStringFromNodePoints(points)).toBe('\t\t')
+    expect(calcStringFromNodePoints(points, 2, 6)).toBe('    ')
+    expect(calcEscapedStringFromNodePoints(points, 2, 6)).toBe('    ')
+  })
+
   test('calcEscapedStringFromNodePoints resolves escapes and entities', function () {
     const [points] = [...createNodePointGenerator('\\* \\a &amp;')]
 

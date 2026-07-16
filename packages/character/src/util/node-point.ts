@@ -175,11 +175,13 @@ export function calcStringFromNodePoints(
     switch (c) {
       // Handle tabs.
       case VirtualCodePoint.SPACE: {
+        const offset = nodePoints[i].offset
         for (j = i + 1; j < endIndex; ++j) {
-          if (nodePoints[j].codePoint !== VirtualCodePoint.SPACE) break
+          const point = nodePoints[j]
+          if (point.codePoint !== VirtualCodePoint.SPACE || point.offset !== offset) break
         }
 
-        // Every four virtual spaces on the right form a tab character.
+        // Four virtual spaces from the same source offset form one tab.
         const tabCount = (j - i) >> 2
         const spaceCount = (j - i) & 3
         for (let k = 0; k < spaceCount; ++k) result += ' '
@@ -238,11 +240,13 @@ export function calcEscapedStringFromNodePoints(
     switch (c) {
       // Handle tabs.
       case VirtualCodePoint.SPACE: {
+        const offset = nodePoints[i].offset
         for (j = i + 1; j < endIndex; ++j) {
-          if (nodePoints[j].codePoint !== VirtualCodePoint.SPACE) break
+          const point = nodePoints[j]
+          if (point.codePoint !== VirtualCodePoint.SPACE || point.offset !== offset) break
         }
 
-        // Every four virtual spaces on the right form a tab character.
+        // Four virtual spaces from the same source offset form one tab.
         const tabCount = (j - i) >> 2
         const spaceCount = (j - i) & 3
         for (let k = 0; k < spaceCount; ++k) result += ' '
