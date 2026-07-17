@@ -1,6 +1,7 @@
 import type { Node, NodeType, Parent, Root } from '@yozora/ast'
 import type { INodeMatcher } from '../collect/misc'
-import { createNodeMatcher, createShallowNodeCollector } from '../collect/misc'
+import { createNodeMatcher } from '../collect/misc'
+import { createPostorderMutation } from '../mutate/util'
 
 /**
  * This function performs a post-order traversal of an Abstract Syntax Tree (AST) and replaces nodes
@@ -30,34 +31,11 @@ export async function shallowMutateAstInPostorderAsync(
 ): Promise<Readonly<Root>> {
   const isMatched: INodeMatcher = createNodeMatcher(aimTypesOrNodeMatcher)
 
-  const traverse = async (children: readonly Node[], parent: Readonly<Parent>): Promise<Node> => {
-    // Recursively processing the descendant nodes in post-order traverse.
-    const collector0 = createShallowNodeCollector(children as Node[])
-    for (let i = 0; i < children.length; ++i) {
-      const child = children[i] as Parent
-      const subChildren: readonly Node[] = child.children
-
-      // Whether to process the subtree recursively.
-      const nextChild =
-        subChildren && subChildren.length > 0 ? await traverse(subChildren, child) : child
-      collector0.add(nextChild, child, i)
-    }
-
-    // Processing current layer of nodes.
-    const nextChildren: Node[] = collector0.collect()
-    const collector1 = createShallowNodeCollector(nextChildren)
-    for (let i = 0; i < nextChildren.length; ++i) {
-      const child = nextChildren[i]
-      const nextChild = isMatched(child) ? await replace(child, parent, i) : child
-      collector1.add(nextChild, child, i)
-    }
-
-    const finalChildren: Node[] = collector1.collect()
-    const result: Node =
-      finalChildren === children ? parent : { ...parent, children: finalChildren }
-    return result
+  const mutation = createPostorderMutation(immutableRoot, isMatched)
+  let result = mutation.next()
+  while (!result.done) {
+    const { node, parent, childIndex } = result.value
+    result = mutation.next(await replace(node, parent, childIndex))
   }
-
-  const root = await traverse(immutableRoot.children, immutableRoot)
-  return root as Root
+  return result.value
 }

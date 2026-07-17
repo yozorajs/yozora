@@ -1,6 +1,7 @@
 import type { Node, NodeType, Parent, Root } from '@yozora/ast'
 import type { INodeMatcher } from './collect/misc'
 import { createNodeMatcher } from './collect/misc'
+import type { IAstStackItem } from './util'
 
 /**
  * Traverse yozora AST in pre-order, and provide an opportunity to perform an
@@ -24,15 +25,27 @@ export function traverseAst(
 ): void {
   const isMatched: INodeMatcher = createNodeMatcher(aimTypesOrNodeMatcher)
 
-  const visit = (u: Parent): void => {
-    const { children } = u
-    for (let i = 0; i < children.length; ++i) {
-      const v = children[i] as Parent
-      if (isMatched(v)) touch(v, u, i)
+  const stack: IAstStackItem[] = [
+    {
+      parent: immutableRoot,
+      children: immutableRoot.children,
+      childIndex: 0,
+    },
+  ]
 
-      // Recursively visit.
-      if (v.children != null) visit(v)
+  while (stack.length > 0) {
+    const frame = stack[stack.length - 1]
+    if (frame.childIndex >= frame.children.length) {
+      stack.pop()
+      continue
+    }
+
+    const childIndex = frame.childIndex++
+    const child = frame.children[childIndex] as Parent
+    if (isMatched(child)) touch(child, frame.parent, childIndex)
+
+    if (child.children != null) {
+      stack.push({ parent: child, children: child.children, childIndex: 0 })
     }
   }
-  visit(immutableRoot)
 }

@@ -42,4 +42,29 @@ describe('termination', function () {
     })
     expect(visitedNodeTypes).toEqual(['parent', 'before', 'stop'])
   })
+
+  test('captures parent changes made by the termination condition', function () {
+    const parent: Parent & { label: string } = {
+      type: 'parent',
+      label: 'before',
+      children: [{ type: 'child' }, { type: 'stop' }],
+    }
+    const ast: Root & { label: string } = {
+      type: 'root',
+      label: 'before',
+      children: [parent],
+    }
+
+    const clonedAst = shallowCloneAst(ast, (node, parentNode) => {
+      Object.assign(parentNode, { label: 'after' })
+      return node.type === 'stop'
+    }) as Root & { label: string }
+
+    expect(clonedAst.label).toBe('after')
+    expect(clonedAst.children[0]).toEqual({
+      type: 'parent',
+      label: 'after',
+      children: [{ type: 'child' }],
+    })
+  })
 })

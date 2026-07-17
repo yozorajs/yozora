@@ -1,4 +1,5 @@
 import type { Node, Parent, Root } from '@yozora/ast'
+import type { IAstStackItem } from './util'
 
 /**
  * Search a node from Yozora AST in pre-order traversing.
@@ -20,19 +21,32 @@ export function searchNode(
   ) => boolean,
 ): number[] | null {
   const childrenIndex: number[] = []
-  return dfs(immutableRoot, 0) ? childrenIndex : null
+  const stack: IAstStackItem[] = [
+    {
+      parent: immutableRoot,
+      children: immutableRoot.children,
+      childIndex: 0,
+    },
+  ]
 
-  function dfs(parent: Parent, cur: number): boolean {
-    const children = parent.children
-    for (let i = 0; i < children.length; ++i) {
-      childrenIndex[cur] = i
-      const node = children[i] as Parent
-      if (isTarget(node, parent, i)) {
-        childrenIndex.splice(cur + 1, childrenIndex.length - cur + 1)
-        return true
-      }
-      if (node.children != null && dfs(node, cur + 1)) return true
+  while (stack.length > 0) {
+    const frame = stack[stack.length - 1]
+    if (frame.childIndex >= frame.children.length) {
+      stack.pop()
+      continue
     }
-    return false
+
+    const childIndex = frame.childIndex++
+    const node = frame.children[childIndex] as Parent
+    childrenIndex[stack.length - 1] = childIndex
+    if (isTarget(node, frame.parent, childIndex)) {
+      childrenIndex.length = stack.length
+      return childrenIndex
+    }
+
+    if (node.children != null) {
+      stack.push({ parent: node, children: node.children, childIndex: 0 })
+    }
   }
+  return null
 }

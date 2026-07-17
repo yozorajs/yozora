@@ -19,19 +19,22 @@ export function collectNodes<T extends NodeType, O extends Node<T>>(
 ): O[] {
   const isMatched: INodeMatcher = createNodeMatcher(aimTypesOrNodeMatcher)
   const nodes: O[] = []
-  collect(root)
-  return nodes
+  const stack: Array<{ nodes: readonly Node[]; index: number }> = [{ nodes: [root], index: 0 }]
 
-  function collect(u: Parent): void {
-    if (isMatched(u)) {
-      nodes.push(u as unknown as O)
-      return
+  while (stack.length > 0) {
+    const frame = stack[stack.length - 1]
+    if (frame.index >= frame.nodes.length) {
+      stack.pop()
+      continue
     }
 
-    if (u.children) {
-      for (const v of u.children) {
-        collect(v as Parent)
-      }
+    const node = frame.nodes[frame.index++] as Parent
+    if (isMatched(node)) {
+      nodes.push(node as unknown as O)
+      continue
     }
+
+    if (node.children?.length) stack.push({ nodes: node.children, index: 0 })
   }
+  return nodes
 }

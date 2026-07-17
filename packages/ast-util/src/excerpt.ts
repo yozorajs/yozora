@@ -1,4 +1,4 @@
-import type { Literal, Node, Parent, Root } from '@yozora/ast'
+import type { Literal, Parent, Root } from '@yozora/ast'
 import { searchNode } from './ast/search'
 
 /**
@@ -8,37 +8,50 @@ export function calcExcerptAst(immutableRoot: Readonly<Root>, pruneLength: numbe
   if (immutableRoot.children.length <= 0) return immutableRoot
 
   let remainingLength = pruneLength
-  const clone = (parent: Readonly<Parent>): Parent => {
-    const children: Node[] = []
-    for (const node of parent.children) {
-      if (remainingLength <= 0) break
+  const root: Parent = { ...immutableRoot, children: [] }
+  const stack: Array<{
+    parent: Readonly<Parent>
+    nextParent: Parent
+    childIndex: number
+  }> = [{ parent: immutableRoot, nextParent: root, childIndex: 0 }]
 
-      const { value } = node as Literal
-      if (typeof value === 'string') {
-        if (value.length > remainingLength) {
-          const truncatedNode: Literal = {
-            ...(node as Literal),
-            value: value.slice(0, remainingLength),
-          }
-          children.push(truncatedNode)
-          remainingLength = 0
-        } else {
-          children.push(node)
-          remainingLength -= value.length
-        }
-        continue
-      }
+  while (stack.length > 0) {
+    if (remainingLength <= 0) break
 
-      const { children: subChildren } = node as Parent
-      if (subChildren == null) {
-        children.push(node)
-      } else {
-        children.push(clone(node as Parent))
-      }
+    const frame = stack[stack.length - 1]
+    if (frame.childIndex >= frame.parent.children.length) {
+      stack.pop()
+      continue
     }
-    return { ...parent, children }
+
+    const node = frame.parent.children[frame.childIndex++]
+    const { value } = node as Literal
+    if (typeof value === 'string') {
+      if (value.length > remainingLength) {
+        const truncatedNode: Literal = {
+          ...(node as Literal),
+          value: value.slice(0, remainingLength),
+        }
+        frame.nextParent.children.push(truncatedNode)
+        remainingLength = 0
+      } else {
+        frame.nextParent.children.push(node)
+        remainingLength -= value.length
+      }
+      continue
+    }
+
+    const parent = node as Parent
+    if (parent.children == null) {
+      frame.nextParent.children.push(node)
+      continue
+    }
+
+    const nextParent: Parent = { ...parent, children: [] }
+    frame.nextParent.children.push(nextParent)
+    stack.push({ parent, nextParent, childIndex: 0 })
   }
-  return clone(immutableRoot) as Root
+  return root as Root
 }
 
 /**

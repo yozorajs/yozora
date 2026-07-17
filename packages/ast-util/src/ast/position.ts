@@ -1,21 +1,48 @@
 import type { Node, Parent, Root } from '@yozora/ast'
 
 export function removePositions(immutableAst: Readonly<Root>): Root {
-  function remove(node: Node): Node {
+  const createNode = (node: Node): { node: Node; nextNode: Node } => {
     const { position, children, ...nextNode } = node as Parent
-    for (const key of Object.keys(nextNode)) {
-      const value = (nextNode as Record<string, unknown>)[key]
-      ;(nextNode as Record<string, unknown>)[key] = Array.isArray(value)
-        ? value.map(item => (isNode(item) ? remove(item) : item))
-        : value
-    }
-    if (children) {
-      ;(nextNode as Parent).children = children.map(remove)
-    }
-    return nextNode
+    return { node, nextNode }
   }
-  const tidyAst = remove(immutableAst) as Root
-  return tidyAst
+
+  const root = createNode(immutableAst)
+  const stack: Array<{ node: Node; nextNode: Node }> = [root]
+  while (stack.length > 0) {
+    const frame = stack.pop()!
+    const { children } = frame.node as Parent
+    const nextNode = frame.nextNode as unknown as Record<string, unknown>
+    const subNodes: Array<{ node: Node; nextNode: Node }> = []
+
+    for (const key of Object.keys(nextNode)) {
+      const value = nextNode[key]
+      if (!Array.isArray(value)) continue
+
+      const nextValue = value.slice()
+      nextNode[key] = nextValue
+      for (let i = 0; i < value.length; ++i) {
+        const item = value[i]
+        if (!isNode(item)) continue
+
+        const subNode = createNode(item)
+        nextValue[i] = subNode.nextNode
+        subNodes.push(subNode)
+      }
+    }
+
+    if (children) {
+      const nextChildren: Node[] = []
+      ;(frame.nextNode as Parent).children = nextChildren
+      for (const child of children) {
+        const subNode = createNode(child)
+        nextChildren.push(subNode.nextNode)
+        subNodes.push(subNode)
+      }
+    }
+
+    for (let i = subNodes.length - 1; i >= 0; --i) stack.push(subNodes[i])
+  }
+  return root.nextNode as Root
 }
 
 function isNode(value: unknown): value is Node {

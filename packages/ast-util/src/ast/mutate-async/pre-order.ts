@@ -1,6 +1,7 @@
 import type { Node, NodeType, Parent, Root } from '@yozora/ast'
 import type { INodeMatcher } from '../collect/misc'
-import { createNodeMatcher, createShallowNodeCollector } from '../collect/misc'
+import { createNodeMatcher } from '../collect/misc'
+import { createPreorderMutation } from '../mutate/util'
 
 /**
  * This function performs a pre-order traversal of an Abstract Syntax Tree (AST) and replaces nodes
@@ -30,31 +31,11 @@ export async function shallowMutateAstInPreorderAsync(
 ): Promise<Readonly<Root>> {
   const isMatched: INodeMatcher = createNodeMatcher(aimTypesOrNodeMatcher)
 
-  const traverse = async (children: readonly Node[], parent: Readonly<Parent>): Promise<Node> => {
-    // Processing current layer of nodes.
-    const collector = createShallowNodeCollector(children as Node[])
-    for (let i = 0; i < children.length; ++i) {
-      const child = children[i] as Parent
-      if (isMatched(child)) {
-        const nextChild = await replace(child, parent, i)
-        collector.add(nextChild, child, i)
-      } else {
-        // Recursively processing the descendant nodes in pre-order traverse.
-        const subChildren: readonly Node[] = child.children
-
-        // Whether to process the subtree recursively.
-        const nextChild: Node =
-          subChildren && subChildren.length > 0 ? await traverse(subChildren, child) : child
-        collector.add(nextChild, child, i)
-      }
-    }
-
-    const finalChildren: Node[] = collector.collect()
-    const result: Node =
-      finalChildren === children ? parent : { ...parent, children: finalChildren }
-    return result
+  const mutation = createPreorderMutation(immutableRoot, isMatched)
+  let result = mutation.next()
+  while (!result.done) {
+    const { node, parent, childIndex } = result.value
+    result = mutation.next(await replace(node, parent, childIndex))
   }
-
-  const root = await traverse(immutableRoot.children, immutableRoot)
-  return root as Root
+  return result.value
 }
