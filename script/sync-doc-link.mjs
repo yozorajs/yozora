@@ -10,11 +10,33 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { readPackageJson } from './package-json.mjs'
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 const rootDir = join(__dirname, '..')
 
 const REPO_OWNER = 'yozorajs'
 const REPO_NAME = 'yozora'
+const VERSION_PATTERN =
+  '[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?'
+const TREE_LINK_PATTERN = new RegExp(
+  `(https://github\\.com/${REPO_OWNER}/${REPO_NAME}/tree/v)(${VERSION_PATTERN})(/[^)\\s]*)`,
+  'g',
+)
+const BLOB_LINK_PATTERN = new RegExp(
+  `(https://github\\.com/${REPO_OWNER}/${REPO_NAME}/blob/v)(${VERSION_PATTERN})(/[^)\\s]*)`,
+  'g',
+)
+
+/**
+ * Replace versioned repository links.
+ * @param {string} content
+ * @param {string} version
+ */
+export function replaceVersionLinks(content, version) {
+  return content
+    .replace(TREE_LINK_PATTERN, `$1${version}$3`)
+    .replace(BLOB_LINK_PATTERN, `$1${version}$3`)
+}
 
 /**
  * Get all workspace package directories
@@ -77,22 +99,7 @@ function updateReadme(pkg, filename) {
 
   let updated = false
   const originalContent = content
-
-  // Update GitHub tree links:
-  // https://github.com/yozorajs/yozora/tree/vX.X.X/...
-  const treePattern = new RegExp(
-    `(https://github\\.com/${REPO_OWNER}/${REPO_NAME}/tree/v)([0-9]+\\.[0-9]+\\.[0-9]+)(/[^)\\s]*)`,
-    'g',
-  )
-  content = content.replace(treePattern, `$1${pkg.version}$3`)
-
-  // Update blob links (for raw file access):
-  // https://github.com/yozorajs/yozora/blob/vX.X.X/...
-  const blobPattern = new RegExp(
-    `(https://github\\.com/${REPO_OWNER}/${REPO_NAME}/blob/v)([0-9]+\\.[0-9]+\\.[0-9]+)(/[^)\\s]*)`,
-    'g',
-  )
-  content = content.replace(blobPattern, `$1${pkg.version}$3`)
+  content = replaceVersionLinks(content, pkg.version)
 
   if (content !== originalContent) {
     writeFileSync(readmePath, content, 'utf-8')
@@ -128,4 +135,4 @@ function main() {
   console.log(`\nDone! Updated ${updatedCount} packages.`)
 }
 
-main()
+if (process.argv[1] === __filename) main()
