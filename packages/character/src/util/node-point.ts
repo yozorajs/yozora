@@ -44,29 +44,16 @@ export function* createNodePointGenerator(
   let column = 1
   let line = 1
 
-  /**
-   * Optimization:
-   * String is also a special string iterator, but each iteration is a
-   * character-length string, which will cause the performance of processing
-   * INodePoint and subsequent processing of IPhrasingContentLine to degrade, so
-   * preprocessing of input content is necessary.
-   */
   const contents =
     typeof literalStrings === 'string' ? [literalStrings] : mergeBoundaryCodeUnits(literalStrings)
 
   for (const content of contents) {
-    // Get code points.
-    const codePoints: ICodePoint[] = []
-    for (const c of content) {
-      const codePoint: ICodePoint = c.codePointAt(0)!
-      codePoints.push(codePoint)
-    }
-
-    // Calc node points.
     const nodePoints: INodePoint[] = []
-    const endIndex = codePoints.length
-    for (let i = 0; i < endIndex; ++i) {
-      const codePoint: ICodePoint = codePoints[i]
+    for (let i = 0; i < content.length;) {
+      const codePoint: ICodePoint = content.codePointAt(i)!
+      const width = codePoint > 0xffff ? 2 : 1
+      i += width
+
       switch (codePoint) {
         /**
          * Expand tab to four spaces.
@@ -117,7 +104,7 @@ export function* createNodePointGenerator(
           column = 1
           line += 1
 
-          if (i + 1 < endIndex && codePoints[i + 1] === AsciiCodePoint.LF) {
+          if (i < content.length && content.charCodeAt(i) === AsciiCodePoint.LF) {
             offset += 1
             i += 1
           }
@@ -140,7 +127,6 @@ export function* createNodePointGenerator(
           nodePoints.push({ line, column, offset, codePoint })
           // Source positions follow JavaScript string indices and use UTF-16
           // code units. Other source representations should adapt this width.
-          const width = codePoint > 0xffff ? 2 : 1
           offset += width
           column += width
           break
