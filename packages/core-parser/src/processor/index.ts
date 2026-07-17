@@ -237,9 +237,13 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return results
   }
 
-  function processInlines(nodePoints: readonly INodePoint[]): Node[] {
-    if (nodePoints.length <= 0) return []
-    const inlineTokens = matchInlineTokens(nodePoints, 0, nodePoints.length)
+  function processInlines(
+    nodePoints: readonly INodePoint[],
+    startIndex = 0,
+    endIndex = nodePoints.length,
+  ): Node[] {
+    if (startIndex >= endIndex) return []
+    const inlineTokens = matchInlineTokens(nodePoints, startIndex, endIndex)
     const inlineNodes = parseInlineTokens(inlineTokens)
     return inlineNodes
   }

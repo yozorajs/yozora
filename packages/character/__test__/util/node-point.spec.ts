@@ -53,6 +53,9 @@ describe('node-point', function () {
   test('calcStringFromNodePoints keeps tab and newline semantics', function () {
     const [points] = [...createNodePointGenerator('\tA\n')]
 
+    expect(points[0]).toBe(points[1])
+    expect(points[0]).toBe(points[2])
+    expect(points[0]).toBe(points[3])
     expect(calcStringFromNodePoints(points)).toBe('\tA\n')
     expect(calcStringFromNodePoints(points, 0, points.length, true)).toBe('A')
   })

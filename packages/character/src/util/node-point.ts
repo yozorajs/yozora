@@ -59,18 +59,22 @@ export function* createNodePointGenerator(
          * Expand tab to four spaces.
          * @see https://github.github.com/gfm/#tabs
          */
-        case AsciiCodePoint.HT:
-          for (let i = 0; i < 4; ++i) {
-            nodePoints.push({
-              line,
-              column,
-              offset,
-              codePoint: VirtualCodePoint.SPACE,
-            })
+        case AsciiCodePoint.HT: {
+          const point: INodePoint = {
+            line,
+            column,
+            offset,
+            codePoint: VirtualCodePoint.SPACE,
           }
+
+          /**
+           * INodePoint is readonly, so four virtual indices can share one point.
+           */
+          nodePoints.push(point, point, point, point)
           offset += 1
           column += 1
           break
+        }
         /**
          * A line is a sequence of zero or more characters other than newline
          * (U+000A) or carriage return (U+000D), followed by a line ending or

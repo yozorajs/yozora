@@ -18,8 +18,10 @@ export interface IParseBlockPhaseApi {
   /**
    * Process node points into inline nodes.
    * @param nodePoints
+   * @param startIndex Inclusive start index. Defaults to zero.
+   * @param endIndex Exclusive end index. Defaults to nodePoints.length.
    */
-  processInlines(nodePoints: readonly INodePoint[]): Node[]
+  processInlines(nodePoints: readonly INodePoint[], startIndex?: number, endIndex?: number): Node[]
   /**
    * Parse block tokens to Yozora AST nodes.
    * @param tokens

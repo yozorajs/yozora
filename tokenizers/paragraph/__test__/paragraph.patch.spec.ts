@@ -1,14 +1,15 @@
+import type { Text } from '@yozora/ast'
 import { ParagraphType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { createNodePointGenerator } from '@yozora/character'
-import type { IPhrasingContentLine } from '@yozora/core-tokenizer'
+import type { IParseBlockPhaseApi, IPhrasingContentLine } from '@yozora/core-tokenizer'
 import {
   calcEndPoint,
   calcPositionFromPhrasingContentLines,
   calcStartPoint,
 } from '@yozora/core-tokenizer'
 import type { IParagraphToken } from '../src'
-import { ParagraphTokenizer, ParagraphTokenizerName } from '../src'
+import { paragraphParse, ParagraphTokenizer, ParagraphTokenizerName } from '../src'
 
 describe('paragraph patch test', function () {
   const tokenizer = new ParagraphTokenizer()
@@ -58,5 +59,24 @@ describe('paragraph patch test', function () {
         end: calcEndPoint(nodePoints, nextLines[0].endIndex - 1),
       },
     })
+  })
+
+  it('parses a single line without copying its node points', function () {
+    const children: Text[] = [{ type: 'text', value: 'hello, world!' }]
+    const processInlineCalls: unknown[][] = []
+    const api: IParseBlockPhaseApi = {
+      shouldReservePosition: false,
+      formatUrl: url => url,
+      processInlines: (...args) => {
+        processInlineCalls.push(args)
+        return children
+      },
+      parseBlockTokens: () => [],
+    }
+
+    expect(paragraphParse.call(tokenizer, api).parse([token])).toEqual([
+      { type: ParagraphType, children },
+    ])
+    expect(processInlineCalls).toEqual([[nodePoints, 0, 13]])
   })
 })
