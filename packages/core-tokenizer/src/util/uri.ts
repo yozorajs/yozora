@@ -141,7 +141,66 @@ export function isLinkToken(token: IInlineToken): boolean {
 }
 
 /**
- * Checks whether the given content is a link-text.
+ * The link text may contain balanced brackets, but not unbalanced ones,
+ * unless they are escaped. Brackets inside higher-priority inline tokens are
+ * ignored.
+ *
+ * @param startIndex
+ * @param endIndex
+ * @param internalTokens
+ * @param nodePoints
+ * @returns -1 for an unexpected closing bracket, 0 if balanced, and 1 for an
+ *          unclosed opening bracket.
+ * @see https://github.github.com/gfm/#example-520
+ * @see https://github.github.com/gfm/#example-521
+ * @see https://github.github.com/gfm/#example-522
+ * @see https://github.github.com/gfm/#example-523
+ */
+export function checkBalancedBracketsStatus(
+  startIndex: number,
+  endIndex: number,
+  internalTokens: readonly IInlineToken[],
+  nodePoints: readonly INodePoint[],
+): -1 | 0 | 1 {
+  let i = startIndex
+  let bracketCount = 0
+
+  const updateBracketCount = (): void => {
+    const c = nodePoints[i].codePoint
+    switch (c) {
+      case AsciiCodePoint.BACKSLASH:
+        i += 1
+        break
+      case AsciiCodePoint.OPEN_BRACKET:
+        bracketCount += 1
+        break
+      case AsciiCodePoint.CLOSE_BRACKET:
+        bracketCount -= 1
+        break
+    }
+  }
+
+  for (const token of internalTokens) {
+    if (token.startIndex < startIndex) continue
+    if (token.endIndex > endIndex) break
+    for (; i < token.startIndex; ++i) {
+      updateBracketCount()
+      if (bracketCount < 0) return -1
+    }
+    i = token.endIndex
+  }
+
+  for (; i < endIndex; ++i) {
+    updateBracketCount()
+    if (bracketCount < 0) return -1
+  }
+  return bracketCount > 0 ? 1 : 0
+}
+
+/**
+ * Checks whether the given half-open content range is valid link text. The
+ * range represents content between the enclosing brackets and excludes those
+ * brackets.
  *
  * A link text consists of a sequence of zero or more inline elements enclosed
  * by square brackets ('[' and ']'). The following rules apply:
@@ -164,15 +223,24 @@ export function isLinkToken(token: IInlineToken): boolean {
  * strong emphasis. Thus, for example, '*[foo*](url)' is a link.
  *
  * @param nodePoints
- * @param startIndex
- * @param endIndex
+ * @param startIndex Inclusive start of the link-text content.
+ * @param endIndex Exclusive end of the link-text content.
+ * @param internalTokens Inline tokens sorted by source position.
  * @see https://github.github.com/gfm/#link-text
  */
 export function isValidLinkText(
-  _nodePoints: readonly INodePoint[],
-  _startIndex: number,
-  _endIndex: number,
-  _internalTokens: readonly IInlineToken[],
+  nodePoints: readonly INodePoint[],
+  startIndex: number,
+  endIndex: number,
+  internalTokens: readonly IInlineToken[],
 ): boolean {
-  return false
+  if (startIndex < 0 || endIndex > nodePoints.length || startIndex > endIndex) return false
+
+  for (const token of internalTokens) {
+    if (token.startIndex >= endIndex) break
+    if (token.endIndex <= startIndex) continue
+    if (isLinkToken(token)) return false
+  }
+
+  return checkBalancedBracketsStatus(startIndex, endIndex, internalTokens, nodePoints) === 0
 }

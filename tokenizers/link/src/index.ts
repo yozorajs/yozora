@@ -1,4 +1,4 @@
-export * from './util/check-brackets'
+export { checkBalancedBracketsStatus } from '@yozora/core-tokenizer'
 export * from './util/link-destination'
 export * from './util/link-title'
 export { LinkTokenizer, LinkTokenizer as default } from './tokenizer'

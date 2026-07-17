@@ -7,9 +7,13 @@ import type {
   IResultOfIsDelimiterPair,
   IResultOfProcessDelimiterPair,
 } from '@yozora/core-tokenizer'
-import { eatOptionalWhitespaces, genFindDelimiter, isLinkToken } from '@yozora/core-tokenizer'
+import {
+  checkBalancedBracketsStatus,
+  eatOptionalWhitespaces,
+  genFindDelimiter,
+  isLinkToken,
+} from '@yozora/core-tokenizer'
 import type { IDelimiter, IThis, IToken, T } from './types'
-import { checkBalancedBracketsStatus } from './util/check-brackets'
 import { eatLinkDestination } from './util/link-destination'
 import { eatLinkTitle } from './util/link-title'
 

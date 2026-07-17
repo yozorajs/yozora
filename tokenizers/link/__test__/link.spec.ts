@@ -1,4 +1,7 @@
-import { encodeLinkDestination } from '@yozora/core-tokenizer'
+import { InlineCodeType, LinkReferenceType, LinkType } from '@yozora/ast'
+import { createNodePointGenerator } from '@yozora/character'
+import type { IInlineToken } from '@yozora/core-tokenizer'
+import { encodeLinkDestination, isValidLinkText } from '@yozora/core-tokenizer'
 import { createTokenizerTesters } from '@yozora/test-util'
 import { expect, test } from 'vitest'
 import { parsers } from 'vitest.setup'
@@ -120,3 +123,52 @@ test.each(['%2F', '%252F', '%ZZ', 'foo%2', '100%', 'foo bar', 'ä', '😀'])(
     expect(encodeLinkDestination(encoded)).toBe(encoded)
   },
 )
+
+test.each([
+  ['empty content', '', true],
+  ['plain content', 'foo', true],
+  ['balanced brackets', 'foo [bar]', true],
+  ['escaped open bracket', String.raw`foo \[bar`, true],
+  ['escaped close bracket', String.raw`foo \]bar`, true],
+  ['unclosed bracket', 'foo [bar', false],
+  ['unexpected close bracket', 'foo ]bar', false],
+])('validates link text with %s', (_description, source, expected) => {
+  const nodePoints = [...createNodePointGenerator(source)].flat()
+
+  expect(isValidLinkText(nodePoints, 0, nodePoints.length, [])).toBe(expected)
+})
+
+test('validates link text within a larger source range', () => {
+  const nodePoints = [...createNodePointGenerator('[foo]')].flat()
+
+  expect(isValidLinkText(nodePoints, 1, 4, [])).toBe(true)
+})
+
+test('ignores brackets inside higher-priority inline tokens', () => {
+  const source = 'foo `]`'
+  const nodePoints = [...createNodePointGenerator(source)].flat()
+  const internalTokens: IInlineToken[] = [
+    {
+      _tokenizer: 'test',
+      nodeType: InlineCodeType,
+      startIndex: 4,
+      endIndex: 7,
+    },
+  ]
+
+  expect(isValidLinkText(nodePoints, 0, nodePoints.length, internalTokens)).toBe(true)
+})
+
+test.each([LinkType, LinkReferenceType])('rejects nested %s tokens', nodeType => {
+  const nodePoints = [...createNodePointGenerator('foo')].flat()
+  const internalTokens: IInlineToken[] = [
+    {
+      _tokenizer: 'test',
+      nodeType,
+      startIndex: 0,
+      endIndex: nodePoints.length,
+    },
+  ]
+
+  expect(isValidLinkText(nodePoints, 0, nodePoints.length, internalTokens)).toBe(false)
+})
