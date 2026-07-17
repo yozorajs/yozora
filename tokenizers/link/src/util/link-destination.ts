@@ -7,6 +7,14 @@ import {
 } from '@yozora/character'
 
 /**
+ * GFM permits implementations to limit parentheses nesting as long as at
+ * least three levels are supported. Capping it at 32 intentionally rejects
+ * deeper otherwise-valid destinations in exchange for preventing malformed
+ * delimiter candidates from turning repeated suffix scans into O(n²) work.
+ */
+const maxLinkDestinationParenDepth = 32
+
+/**
  * A link destination consists of either
  *  - a sequence of zero or more characters between an opening '<' and a closing '>'
  *    that contains no line breaks or unescaped '<' or '>' characters, or
@@ -69,6 +77,7 @@ export function eatLinkDestination(
             break
           case AsciiCodePoint.OPEN_PARENTHESIS:
             openParensCount += 1
+            if (openParensCount > maxLinkDestinationParenDepth) return -1
             break
           case AsciiCodePoint.CLOSE_PARENTHESIS:
             openParensCount -= 1

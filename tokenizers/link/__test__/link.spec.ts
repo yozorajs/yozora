@@ -52,6 +52,22 @@ test.each([
 })
 
 test.each([
+  ['link', '[x]', 'link'],
+  ['image', '![x]', 'image'],
+])('limits nested parentheses in %s destinations', (_description, label, nodeType) => {
+  const acceptedSource = `${label}(${'('.repeat(32)}url${')'.repeat(32)})`
+  const rejectedSource = `${label}(${'('.repeat(33)}url${')'.repeat(33)})`
+
+  const acceptedAst = parsers.gfm.parse(acceptedSource, { shouldReservePosition: false })
+  const rejectedAst = parsers.gfm.parse(rejectedSource, { shouldReservePosition: false })
+  const acceptedChildren = (acceptedAst.children[0] as any).children
+  const rejectedChildren = (rejectedAst.children[0] as any).children
+
+  expect(acceptedChildren[0].type).toBe(nodeType)
+  expect(rejectedChildren.every((node: any) => node.type !== nodeType)).toBe(true)
+})
+
+test.each([
   ['https://example.com/%2Fadmin', 'https://example.com/%2Fadmin'],
   ['https://example.com/%252Fadmin', 'https://example.com/%252Fadmin'],
   ['https://example.com/%23frag', 'https://example.com/%23frag'],
