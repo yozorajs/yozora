@@ -36,6 +36,14 @@ describe('prependChangelog', () => {
     assert.match(read(), /^# Change Log\n\n## 2\.4\.0 \(2026-07-01\)\n/)
   })
 
+  test('rethrows non-ENOENT read errors', () => {
+    mkdirSync(join(dir, 'CHANGELOG.md'))
+    assert.throws(
+      () => prependChangelog(dir, '2.4.0', changelogBlock('2.4.0', '2026-07-01', ['a'])),
+      err => err.code === 'EISDIR' || /EISDIR|illegal operation on a directory/i.test(err.message),
+    )
+  })
+
   test('is idempotent for the same top version (safe to re-run a release)', () => {
     const block = changelogBlock('2.4.0', '2026-07-01', ['a'])
     prependChangelog(dir, '2.4.0', block)

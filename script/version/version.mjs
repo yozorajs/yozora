@@ -23,6 +23,7 @@ import { execFileSync } from 'node:child_process'
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { readPackageJson } from '../package-json.mjs'
 import { bump } from './bump.mjs'
 import { changelogBlock, commitsForRelease, prependChangelog } from './changelog.mjs'
 
@@ -49,12 +50,9 @@ const manifests = ['packages', 'tokenizers']
       .map(d => join(rootDir, ws, d.name)),
   )
   .map(dir => {
-    const path = join(dir, 'package.json')
-    try {
-      return { dir, path, pkg: JSON.parse(readFileSync(path, 'utf8')) }
-    } catch {
-      return null
-    }
+    const pkgJsonPath = join(dir, 'package.json')
+    const pkg = readPackageJson(pkgJsonPath, { allowMissing: true })
+    return pkg == null ? null : { dir, path: pkgJsonPath, pkg }
   })
   .filter(m => m != null && !m.pkg.private)
 

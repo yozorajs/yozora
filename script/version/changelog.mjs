@@ -101,7 +101,8 @@ export function prependChangelog(dir, version, block) {
   let content
   try {
     content = readFileSync(path, 'utf8')
-  } catch {
+  } catch (err) {
+    if (err.code !== 'ENOENT') throw err
     content = `${CHANGELOG_HEADER}\n`
   }
   let rest = content.startsWith(CHANGELOG_HEADER)

@@ -8,6 +8,7 @@
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { readPackageJson } from './package-json.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const rootDir = join(__dirname, '..')
@@ -24,33 +25,22 @@ function getWorkspacePackages() {
 
   for (const workspaceDir of workspaceDirs) {
     const workspacePath = join(rootDir, workspaceDir)
-    try {
-      const entries = readdirSync(workspacePath)
-      for (const entry of entries) {
-        const entryPath = join(workspacePath, entry)
-        const stat = statSync(entryPath)
-        if (stat.isDirectory()) {
-          const pkgJsonPath = join(entryPath, 'package.json')
-          try {
-            const pkgJson = JSON.parse(readFileSync(pkgJsonPath, 'utf-8'))
-            // Skip private packages (they are not published)
-            if (pkgJson.private) {
-              continue
-            }
-            packages.push({
-              name: pkgJson.name,
-              version: pkgJson.version,
-              path: entryPath,
-              pkgJsonPath,
-              directory: `${workspaceDir}/${entry}`,
-            })
-          } catch {
-            // Skip if no package.json
-          }
-        }
+    const entries = readdirSync(workspacePath)
+    for (const entry of entries) {
+      const entryPath = join(workspacePath, entry)
+      const stat = statSync(entryPath)
+      if (stat.isDirectory()) {
+        const pkgJsonPath = join(entryPath, 'package.json')
+        const pkgJson = readPackageJson(pkgJsonPath, { allowMissing: true })
+        if (pkgJson == null || pkgJson.private) continue
+        packages.push({
+          name: pkgJson.name,
+          version: pkgJson.version,
+          path: entryPath,
+          pkgJsonPath,
+          directory: `${workspaceDir}/${entry}`,
+        })
       }
-    } catch {
-      // Skip if workspace dir doesn't exist
     }
   }
 
