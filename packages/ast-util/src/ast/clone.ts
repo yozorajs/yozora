@@ -13,12 +13,18 @@ export function shallowCloneAst(
   root: Root,
   endCondition: (node: Node, parent: Parent, childIndex: number) => boolean,
 ): Root {
+  let terminated = false
   const clone = (u: Parent): Parent => {
     const nextChildren = []
     const { children } = u
     for (let i = 0; i < children.length; ++i) {
+      if (terminated) break
+
       const v = children[i] as Parent
-      if (endCondition(v, u, i)) break
+      if (endCondition(v, u, i)) {
+        terminated = true
+        break
+      }
 
       const nextChild = v.children == null ? v : clone(v)
       nextChildren.push(nextChild)
