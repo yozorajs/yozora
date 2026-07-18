@@ -175,6 +175,19 @@ export class DefaultParser implements IParser {
     tokenizer: ITokenizer,
     registerBeforeTokenizer?: string,
   ): void {
+    const registeredTokenizer = tokenizerMap.get(tokenizer.name)
+    const registeredIndex = tokenizers.findIndex(item => item.name === tokenizer.name)
+    if (
+      registeredTokenizer != null &&
+      registeredIndex >= 0 &&
+      registerBeforeTokenizer == null &&
+      registeredTokenizer.priority === tokenizer.priority
+    ) {
+      tokenizerMap.set(tokenizer.name, tokenizer)
+      tokenizers[registeredIndex] = tokenizer
+      return
+    }
+
     this._unregisterTokenizer(tokenizers, tokenizerMap, tokenizer.name)
     this._registerTokenizer(tokenizers, tokenizerMap, tokenizer, registerBeforeTokenizer)
   }

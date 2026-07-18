@@ -4,6 +4,7 @@ import ImageTokenizer from '@yozora/tokenizer-image'
 import { ImageReferenceTokenizerName } from '@yozora/tokenizer-image-reference'
 import { expect, test } from 'vitest'
 import { parsers } from 'vitest.setup'
+import GfmParser from '../src'
 
 class ShallowImageTokenizer extends ImageTokenizer {
   // Isolate the match phase from the independently recursive inline parse phase.
@@ -73,6 +74,26 @@ test('tracks astral Unicode positions in UTF-16 code units', () => {
             type: 'text',
             position: { start: { column: 1, offset: 0 }, end: { column: 3, offset: 2 } },
             value: '😀',
+          },
+        ],
+      },
+    ],
+  })
+})
+
+test('preserves tokenizer order when replacing at the same priority', () => {
+  const parser = new GfmParser().replaceTokenizer(new ImageTokenizer())
+
+  expect(parser.parse('![x](/image) [![y](/nested-image)](/link)')).toMatchObject({
+    children: [
+      {
+        children: [
+          { type: 'image', url: '/image', alt: 'x' },
+          { type: 'text', value: ' ' },
+          {
+            type: 'link',
+            url: '/link',
+            children: [{ type: 'image', url: '/nested-image', alt: 'y' }],
           },
         ],
       },
