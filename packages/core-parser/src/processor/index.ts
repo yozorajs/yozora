@@ -282,7 +282,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       const hook = parseInlineHookMap.get(_tokenizer)
 
       // cannot find matched tokenizer
-      invariant(hook !== undefined, `[parseBlock] tokenizer '${_tokenizer}' not found`)
+      invariant(hook !== undefined, `[parseInline] tokenizer '${_tokenizer}' not found`)
 
       const nodes: Node[] = hook.parse(tokens.slice(i0, i1))
       results.push(...nodes)
