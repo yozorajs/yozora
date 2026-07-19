@@ -36,7 +36,6 @@
   ],
   "dependencies": {
     "@yozora/ast": "workspace:^",
-    "@yozora/ast-util": "workspace:^",
     "@yozora/character": "workspace:^",
     "@yozora/core-tokenizer": "workspace:^",
     "@yozora/invariant": "workspace:^"

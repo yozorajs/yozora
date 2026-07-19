@@ -115,9 +115,6 @@ importers:
       '@yozora/ast':
         specifier: workspace:^
         version: link:../ast
-      '@yozora/ast-util':
-        specifier: workspace:^
-        version: link:../ast-util
       '@yozora/character':
         specifier: workspace:^
         version: link:../character
@@ -147,9 +144,6 @@ importers:
 
   packages/parser:
     dependencies:
-      '@yozora/ast':
-        specifier: workspace:^
-        version: link:../ast
       '@yozora/core-parser':
         specifier: workspace:^
         version: link:../core-parser
@@ -246,15 +240,9 @@ importers:
 
   packages/parser-gfm:
     dependencies:
-      '@yozora/ast':
-        specifier: workspace:^
-        version: link:../ast
       '@yozora/core-parser':
         specifier: workspace:^
         version: link:../core-parser
-      '@yozora/core-tokenizer':
-        specifier: workspace:^
-        version: link:../core-tokenizer
       '@yozora/tokenizer-autolink':
         specifier: workspace:^
         version: link:../../tokenizers/autolink
@@ -318,9 +306,6 @@ importers:
 
   packages/parser-gfm-ex:
     dependencies:
-      '@yozora/ast':
-        specifier: workspace:^
-        version: link:../ast
       '@yozora/core-parser':
         specifier: workspace:^
         version: link:../core-parser
