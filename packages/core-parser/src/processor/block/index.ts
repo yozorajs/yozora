@@ -311,7 +311,8 @@ export const createBlockContentProcessor = (
       if (stateStack.length < 2) return
 
       let { token: parentToken } = stateStack[currentStackIndex - 1]
-      while (i < endIndexOfLine && currentStackIndex < stateStack.length) {
+      // A rollback can collapse the stack to the root, which has no continuation parent.
+      while (i < endIndexOfLine && currentStackIndex > 0 && currentStackIndex < stateStack.length) {
         const currentStateItem = stateStack[currentStackIndex]
         const currentHook = currentStateItem.hook
         const eatingInfo = getEatingInfo()

@@ -101,6 +101,43 @@ test('preserves tokenizer order when replacing at the same priority', () => {
   })
 })
 
+test.each([
+  [
+    'LF and an empty heading',
+    '[\n#\n\n',
+    [
+      { type: 'paragraph', children: [{ type: 'text', value: '[' }] },
+      { type: 'heading', depth: 1, children: [] },
+    ],
+  ],
+  [
+    'CRLF and a nonempty heading',
+    '[\r\n## x\r\n\r\n',
+    [
+      { type: 'paragraph', children: [{ type: 'text', value: '[' }] },
+      { type: 'heading', depth: 2, children: [{ type: 'text', value: 'x' }] },
+    ],
+  ],
+  [
+    'a thematic break',
+    '[\n***\n\n',
+    [{ type: 'paragraph', children: [{ type: 'text', value: '[' }] }, { type: 'thematicBreak' }],
+  ],
+])('reprocesses a failed multiline definition before %s', (_name, source, expected) => {
+  const ast = parsers.gfm.parse(source)
+
+  expect(ast.children).toMatchObject(expected)
+})
+
+test('reprocesses a failed multiline definition inside a blockquote', () => {
+  const ast = parsers.gfm.parse('> [\n> #\n>\n')
+
+  expect(ast.children[0]).toMatchObject({
+    type: 'blockquote',
+    children: [{ type: 'paragraph' }, { type: 'heading', depth: 1 }],
+  })
+})
+
 test('matches 10,000 nested images without rescanning resolved contents', () => {
   const depth = 10_000
   const parser = parsers.gfm.replaceTokenizer(
