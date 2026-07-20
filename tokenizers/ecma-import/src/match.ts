@@ -12,7 +12,7 @@ import type {
 } from '@yozora/core-tokenizer'
 import { calcEndPoint, calcStartPoint } from '@yozora/core-tokenizer'
 import type { IThis, IToken, T } from './types'
-import { regex1, regex2, regex3, resolveNameImports } from './util'
+import { isBindingIdentifier, regex1, regex2, regex3, resolveNameImports } from './util'
 
 /**
  * Examples
@@ -74,6 +74,8 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
         namedImports: [],
       }
     } else if ((m = regex2.exec(text)) != null) {
+      if (!isBindingIdentifier(m[1])) return null
+
       token = {
         nodeType: EcmaImportType,
         position: position(),
@@ -82,12 +84,23 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
         namedImports: [],
       }
     } else if ((m = regex3.exec(text)) != null) {
+      const defaultImport = m[1]
+      const namedImports = resolveNameImports(m[2])
+
+      // Imported names may be reserved words; the local bindings they create may not.
+      if (
+        (defaultImport != null && !isBindingIdentifier(defaultImport)) ||
+        namedImports.some(item => !isBindingIdentifier(item.alias ?? item.src))
+      ) {
+        return null
+      }
+
       token = {
         nodeType: EcmaImportType,
         position: position(),
         moduleName: m[4],
-        defaultImport: m[1],
-        namedImports: resolveNameImports(m[2]),
+        defaultImport,
+        namedImports,
       }
     }
 

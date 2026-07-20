@@ -65,7 +65,8 @@ import { YozoraParserProps } from '@yozora/parser'
 import { YozoraParser, YozoraParser as Parser } from '@yozora/parser'
 ```
 
-Namespace, type-only, and multiline imports are not supported:
+Namespace, type-only, and multiline imports, identifiers containing escape sequences, and
+string-named imports are not supported:
 
 ```typescript
 import * as Parser from '@yozora/parser'
@@ -73,6 +74,8 @@ import type Parser from '@yozora/parser'
 import {
   Parser
 } from '@yozora/parser'
+import \u0050arser from '@yozora/parser'
+import { 'parser-name' as Parser } from '@yozora/parser'
 ```
 
 See [documentation][docpage] for details.
