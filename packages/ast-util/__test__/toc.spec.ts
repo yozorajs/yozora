@@ -1,4 +1,4 @@
-import type { Root } from '@yozora/ast'
+import type { Heading, Image, ImageReference, Root, Text } from '@yozora/ast'
 import { describe, expect, test } from 'vitest'
 import { loadJSONFixture } from 'vitest.setup'
 import { calcHeadingToc, calcIdentifierFromNodes } from '../src'
@@ -12,6 +12,14 @@ function createHeadingAst(values: readonly string[]): Root {
       children: [{ type: 'text', value }],
     })),
   }
+}
+
+function createImage(alt: string): Image {
+  return { type: 'image', url: '/image', alt }
+}
+
+function createText(value: string): Text {
+  return { type: 'text', value }
 }
 
 describe('calcHeadingToc', function () {
@@ -98,6 +106,45 @@ describe('calcHeadingToc', function () {
       expect(toc.children).toHaveLength(size)
       expect(identifiers.at(-1)).toBe('title-' + size)
       expect(new Set(identifiers).size).toBe(size)
+    })
+
+    test('uses image alternative text in identifiers', function () {
+      const imageReference: ImageReference = {
+        type: 'imageReference',
+        identifier: 'image',
+        label: 'image',
+        referenceType: 'full',
+        alt: 'Gamma delta',
+      }
+      const headings: Heading[] = [
+        {
+          type: 'heading',
+          depth: 1,
+          children: [createImage('Alpha beta')],
+        },
+        {
+          type: 'heading',
+          depth: 1,
+          children: [imageReference],
+        },
+        {
+          type: 'heading',
+          depth: 1,
+          children: [createText('Before'), createImage('Alpha'), createText('After')],
+        },
+      ]
+      const ast: Root = {
+        type: 'root',
+        children: headings,
+      }
+
+      const toc = calcHeadingToc(ast, '')
+
+      expect(toc.children.map(node => node.identifier)).toEqual([
+        'alpha-beta',
+        'gamma-delta',
+        'before-alpha-after',
+      ])
     })
   })
 })

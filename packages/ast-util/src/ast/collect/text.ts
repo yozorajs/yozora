@@ -1,4 +1,6 @@
-import type { Literal, Node, Parent } from '@yozora/ast'
+import type { Alternative, Literal, Node, Parent } from '@yozora/ast'
+
+type TextualNode = Node & Alternative & Literal & Parent
 
 export const collectTexts = (nodes: readonly Node[]): string[] => {
   const texts: string[] = []
@@ -11,9 +13,12 @@ export const collectTexts = (nodes: readonly Node[]): string[] => {
       continue
     }
 
-    const node = frame.nodes[frame.index++] as Literal & Parent
+    const node = frame.nodes[frame.index++] as TextualNode
     if (typeof node.value === 'string') {
       const text: string = node.value.trim()
+      if (text) texts.push(text)
+    } else if (typeof node.alt === 'string') {
+      const text: string = node.alt.trim()
       if (text) texts.push(text)
     } else if (node.children?.length) stack.push({ nodes: node.children, index: 0 })
   }
