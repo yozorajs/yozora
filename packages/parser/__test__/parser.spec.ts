@@ -106,6 +106,34 @@ describe('fallback tokenizer registration', () => {
 })
 
 describe('parse options', () => {
+  test('formats inline link and autolink URLs consistently', () => {
+    const parser = new YozoraParser({
+      defaultParseOptions: { formatUrl: url => `formatted:${url}` },
+    })
+
+    const ast = parser.parse(
+      '[inline](/inline) <https://standard.example> https://extended.example www.example.com user@example.com',
+    )
+
+    expect(ast).toMatchObject({
+      children: [
+        {
+          children: [
+            { type: 'link', url: 'formatted:/inline' },
+            { type: 'text', value: ' ' },
+            { type: 'link', url: 'formatted:https://standard.example' },
+            { type: 'text', value: ' ' },
+            { type: 'link', url: 'formatted:https://extended.example' },
+            { type: 'text', value: ' ' },
+            { type: 'link', url: 'formatted:http://www.example.com' },
+            { type: 'text', value: ' ' },
+            { type: 'link', url: 'formatted:mailto:user@example.com' },
+          ],
+        },
+      ],
+    })
+  })
+
   test('uses built-in defaults for undefined default options', () => {
     const parser = new YozoraParser()
     parser.setDefaultParseOptions({

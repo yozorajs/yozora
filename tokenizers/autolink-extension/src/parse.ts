@@ -25,10 +25,11 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
             break
         }
 
+        const formattedUrl: string = api.formatUrl(url)
         const children: Node[] = api.parseInlineTokens(token.children)
         const node: INode = api.shouldReservePosition
-          ? { type: LinkType, position: api.calcPosition(token), url, children }
-          : { type: LinkType, url, children }
+          ? { type: LinkType, position: api.calcPosition(token), url: formattedUrl, children }
+          : { type: LinkType, url: formattedUrl, children }
         return node
       }),
   }
