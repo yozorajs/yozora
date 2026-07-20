@@ -34,6 +34,37 @@ test.each([
   ['gfm', parsers.gfm],
   ['gfmEx', parsers.gfmEx],
   ['yozora', parsers.yozora],
+])('%s preserves Unicode whitespace when normalizing link labels', (_name, parser) => {
+  const nbspLabel = 'a\u00A0b'
+  const emSpaceLabel = 'a\u2003b'
+  const ast = parser.parse(
+    `[${nbspLabel}]: /nbsp\n[${emSpaceLabel}]: /em-space\n[a b]: /ascii\n\n[ascii][a\tb] [nbsp][${nbspLabel}] [em][${emSpaceLabel}]`,
+    { shouldReservePosition: false },
+  )
+
+  expect(ast).toMatchObject({
+    children: [
+      { type: 'definition', identifier: nbspLabel, url: '/nbsp' },
+      { type: 'definition', identifier: emSpaceLabel, url: '/em-space' },
+      { type: 'definition', identifier: 'a b', url: '/ascii' },
+      {
+        type: 'paragraph',
+        children: [
+          { type: 'linkReference', identifier: 'a b' },
+          { type: 'text', value: ' ' },
+          { type: 'linkReference', identifier: nbspLabel },
+          { type: 'text', value: ' ' },
+          { type: 'linkReference', identifier: emSpaceLabel },
+        ],
+      },
+    ],
+  })
+})
+
+test.each([
+  ['gfm', parsers.gfm],
+  ['gfmEx', parsers.gfmEx],
+  ['yozora', parsers.yozora],
 ])('%s rejects an unbalanced definition destination', (_name, parser) => {
   for (const source of ['[foo]: /url(foo', '[foo]: /url(foo\n']) {
     expect(parser.parse(source, { shouldReservePosition: false })).toEqual({

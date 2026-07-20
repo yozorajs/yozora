@@ -4,6 +4,8 @@ import { AsciiCodePoint, calcStringFromNodePoints, foldCase } from '@yozora/char
 import type { IInlineToken } from '../types/token'
 
 const hexDigits = '0123456789ABCDEF'
+// ECMAScript `\s` includes Unicode whitespace that CommonMark labels preserve.
+const linkLabelWhitespaceRegex = /[\t\n\v\f\r ]+/gu
 const uriSafeCharacters = "-_.+!*'(),%#@?=;:/&$~"
 const utf8Encoder = new TextEncoder()
 
@@ -43,7 +45,11 @@ export function encodeLinkDestination(destination: string): string {
  * @see https://github.github.com/gfm/#link-label
  */
 export function resolveLabelToIdentifier(label: string): string {
-  const identifier = label.trim().replace(/\s+/gu, ' ').toLowerCase()
+  const identifier = label
+    .replace(linkLabelWhitespaceRegex, ' ')
+    .replace(/^ /u, '')
+    .replace(/ $/u, '')
+    .toLowerCase()
   return foldCase(identifier)
 }
 
