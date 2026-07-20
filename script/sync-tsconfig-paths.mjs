@@ -18,7 +18,7 @@ const paths = {}
 for (const { name, dir } of workspacePackages(rootDir)) {
   paths[name] = [`./${dir}/src`]
 }
-paths['vitest.setup'] = ['vitest.setup.ts']
+paths['vitest.setup'] = ['./vitest.setup.ts']
 
 const tsconfig = JSON.parse(readFileSync(tsconfigPath, 'utf8'))
 tsconfig.compilerOptions.paths = paths
