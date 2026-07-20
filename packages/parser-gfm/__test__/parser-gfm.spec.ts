@@ -148,3 +148,12 @@ test('matches 10,000 nested images without rescanning resolved contents', () => 
 
   expect((ast.children[0] as any).children).toEqual([{ type: 'image', url: '', alt: '' }])
 })
+
+test('materializes wide sibling lists without exceeding the argument limit', () => {
+  const count = 150_000
+  const ast = parsers.gfm.parse('x\n\n'.repeat(count), { shouldReservePosition: false })
+
+  expect(ast.children).toHaveLength(count)
+  expect(ast.children[0]).toMatchObject({ type: 'paragraph' })
+  expect(ast.children.at(-1)).toMatchObject({ type: 'paragraph' })
+})

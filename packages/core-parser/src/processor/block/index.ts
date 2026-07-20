@@ -96,7 +96,7 @@ export const createBlockContentProcessor = (
               const processor = createRollbackProcessor(topState.hook, result.lines)
               if (processor == null) break
               const internalRoot = processor.done()
-              parent.token.children!.push(...internalRoot.children)
+              for (const child of internalRoot.children) parent.token.children!.push(child)
               break
             }
             case 'failedAndRollback': {
@@ -104,7 +104,7 @@ export const createBlockContentProcessor = (
               const processor = createRollbackProcessor(topState.hook, result.lines)
               if (processor == null) break
               const internalRoot = processor.done()
-              parent.token.children!.push(...internalRoot.children)
+              for (const child of internalRoot.children) parent.token.children!.push(child)
               break
             }
           }
@@ -167,7 +167,7 @@ export const createBlockContentProcessor = (
     const internalStateStack = processor.shallowSnapshot()
     const internalStateRoot = internalStateStack[0]
     if (internalStateRoot.token.children != null) {
-      parent.token.children!.push(...internalStateRoot.token.children)
+      for (const child of internalStateRoot.token.children) parent.token.children!.push(child)
     }
     refreshPosition(internalStateRoot.token.position.end)
 
@@ -281,7 +281,7 @@ export const createBlockContentProcessor = (
       parentToken.children!.pop()
       if (result.remainingSibling != null) {
         if (Array.isArray(result.remainingSibling)) {
-          parentToken.children!.push(...result.remainingSibling)
+          for (const sibling of result.remainingSibling) parentToken.children!.push(sibling)
         } else {
           parentToken.children!.push(result.remainingSibling)
         }

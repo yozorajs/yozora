@@ -80,5 +80,14 @@ describe('createShallowNodeCollector', function () {
       expect(collector.collect()).toEqual(nodes.map((x, i) => (i === pos ? -x : x)))
       expect(nodes).toEqual(originalNodes)
     })
+
+    test('accepts a wide replacement list', function () {
+      const collector = createShallowNodeCollector([0])
+      const replacements = Array.from({ length: 150_000 }, (_, index) => index + 1)
+
+      collector.add(replacements, 0, 0)
+
+      expect(collector.collect()).toEqual(replacements)
+    })
   })
 })

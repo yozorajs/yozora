@@ -232,7 +232,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       invariant(hook !== undefined, `[parseBlock] tokenizer '${_tokenizer}' not found`)
 
       const nodes: Node[] = hook.parse(tokens.slice(i0, i1))
-      results.push(...nodes)
+      for (const node of nodes) results.push(node)
     }
     return results
   }
@@ -285,7 +285,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       invariant(hook !== undefined, `[parseInline] tokenizer '${_tokenizer}' not found`)
 
       const nodes: Node[] = hook.parse(tokens.slice(i0, i1))
-      results.push(...nodes)
+      for (const node of nodes) results.push(node)
     }
     return results
   }

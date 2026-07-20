@@ -70,8 +70,9 @@ export function createShallowNodeCollector<T>(nodes: T[]): IShallowNodeCollector
       if (nextNodes !== null) nextNodes.push(node)
     } else {
       if (nextNodes === null) nextNodes = nodes.slice(0, originalIndex)
-      if (Array.isArray(node)) nextNodes.push(...node)
-      else if (node !== null) nextNodes.push(node)
+      if (Array.isArray(node)) {
+        for (const item of node) nextNodes.push(item)
+      } else if (node !== null) nextNodes.push(node)
     }
   }
 
