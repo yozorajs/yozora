@@ -37,6 +37,7 @@
     "postinstall": "githooks install",
     "rebuild": "pnpm clean && pnpm build",
     "test": "pnpm -r run --if-present test",
+    "test:build": "node script/test-build.mjs",
     "test:coverage": "pnpm -r run --if-present test:coverage",
     "test:scripts": "node --test script/version/*.spec.mjs script/*.spec.mjs",
     "test:parser": "pnpm -r --filter='@yozora/parser*' run test",

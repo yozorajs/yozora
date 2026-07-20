@@ -56,7 +56,15 @@ const configs = []
 if (esm || cjs) {
   const output = []
   if (esm) output.push({ file: esm, format: 'esm', exports: 'named', sourcemap: shouldSourcemap })
-  if (cjs) output.push({ file: cjs, format: 'cjs', exports: 'named', sourcemap: shouldSourcemap })
+  if (cjs) {
+    output.push({
+      file: cjs,
+      format: 'cjs',
+      exports: 'named',
+      interop: 'auto',
+      sourcemap: shouldSourcemap,
+    })
+  }
   configs.push({ input, output, external, plugins: tsPlugins })
 }
 
