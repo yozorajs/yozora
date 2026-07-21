@@ -1,4 +1,4 @@
-import type { Root } from '@yozora/ast'
+import type { Admonition, Image, Link, Paragraph, Root, Text } from '@yozora/ast'
 import { describe, expect, test } from 'vitest'
 import { loadJSONFixture } from 'vitest.setup'
 import { defaultUrlResolver, resolveUrlsForAst } from '../src'
@@ -55,5 +55,40 @@ describe('resolveUrlsForAst', function () {
     resolveUrlsForAst(ast)
     expect(ast).toMatchSnapshot()
     expect(ast).not.toEqual(originalAst)
+  })
+
+  test('resolves resources in admonition titles and bodies once', function () {
+    const createText = (value: string): Text => ({ type: 'text', value })
+    const createLink = (url: string, value: string): Link => ({
+      type: 'link',
+      url,
+      children: [createText(value)],
+    })
+    const titleLink = createLink('./title-link', 'title')
+    const titleImage: Image = { type: 'image', url: './title-image', alt: 'image' }
+    const bodyLink = createLink('./body-link', 'body')
+    const body: Paragraph = { type: 'paragraph', children: [bodyLink] }
+    const admonition: Admonition = {
+      type: 'admonition',
+      keyword: 'note',
+      title: [titleLink, titleImage],
+      children: [body],
+    }
+    const ast: Root = {
+      type: 'root',
+      children: [admonition],
+    }
+    const resolvedUrls: string[] = []
+
+    resolveUrlsForAst(ast, undefined, url => {
+      if (typeof url !== 'string') throw new TypeError('Expected a URL string')
+      resolvedUrls.push(url)
+      return 'resolved:' + url
+    })
+
+    expect(resolvedUrls).toEqual(['./body-link', './title-link', './title-image'])
+    expect(titleLink.url).toBe('resolved:./title-link')
+    expect(titleImage.url).toBe('resolved:./title-image')
+    expect(bodyLink.url).toBe('resolved:./body-link')
   })
 })

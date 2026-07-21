@@ -1,6 +1,7 @@
-import type { Node, NodeType, Resource, Root } from '@yozora/ast'
+import type { Admonition, Node, NodeType, Parent, Resource, Root } from '@yozora/ast'
+import { AdmonitionType } from '@yozora/ast'
 import type { INodeMatcher } from './ast/collect/misc'
-import { traverseAst } from './ast/traverse'
+import { createNodeMatcher } from './ast/collect/misc'
 
 const URL_PREFIX_PATTERN = /^(?:(?:[A-Za-z][A-Za-z\d+.-]*:)?[/]{2}[^/]*|[A-Za-z][A-Za-z\d+.-]*:)/
 const URL_SUFFIX_DELIMITER_PATTERN = /[?#]/
@@ -64,10 +65,30 @@ export const resolveUrlsForAst = (
   aimTypesOrNodeMatcher: readonly NodeType[] | INodeMatcher = defaultResourceMatcher,
   resolveUrl: IUrlResolver = defaultUrlResolver,
 ): void => {
-  traverseAst(ast, aimTypesOrNodeMatcher, node => {
+  const isMatched: INodeMatcher = createNodeMatcher(aimTypesOrNodeMatcher)
+  const stack: Array<{ nodes: readonly Node[]; index: number }> = [
+    { nodes: ast.children, index: 0 },
+  ]
+
+  while (stack.length > 0) {
+    const frame = stack[stack.length - 1]
+    if (frame.index >= frame.nodes.length) {
+      stack.pop()
+      continue
+    }
+
+    const node = frame.nodes[frame.index++]
     const o = node as Node & Resource
-    if (o.url != null) o.url = resolveUrl(o.url)
-  })
+    if (isMatched(node) && o.url != null) o.url = resolveUrl(o.url)
+
+    if (node.type === AdmonitionType) {
+      const title = (node as Admonition).title
+      if (title.length > 0) stack.push({ nodes: title, index: 0 })
+    }
+
+    const children = (node as Parent).children
+    if (children?.length) stack.push({ nodes: children, index: 0 })
+  }
 }
 
 function normalizeUrlPath(path: string): string {
