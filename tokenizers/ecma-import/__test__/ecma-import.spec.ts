@@ -62,6 +62,13 @@ describe('identifier validation', () => {
     })
   })
 
+  test('uses null when a default import is absent', () => {
+    expect(parseFirstNode("import { foo } from 'pkg'")).toMatchObject({
+      type: 'ecmaImport',
+      defaultImport: null,
+    })
+  })
+
   test('accepts a trailing comma in named imports', () => {
     expect(parseFirstNode("import { foo, } from 'pkg'")).toMatchObject({
       type: 'ecmaImport',

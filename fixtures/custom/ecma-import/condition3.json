@@ -166,6 +166,7 @@
               }
             },
             "moduleName": "@yozora/parser",
+            "defaultImport": null,
             "namedImports": [
               {
                 "src": "x",

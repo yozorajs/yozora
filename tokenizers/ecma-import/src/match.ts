@@ -84,7 +84,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
         namedImports: [],
       }
     } else if ((m = regex3.exec(text)) != null) {
-      const defaultImport = m[1]
+      const defaultImport = m[1] ?? null
       const namedImports = resolveNameImports(m[2])
 
       // Imported names may be reserved words; the local bindings they create may not.
