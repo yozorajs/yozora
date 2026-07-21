@@ -87,12 +87,16 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
       const defaultImport = m[1] ?? null
       const namedImports = resolveNameImports(m[2])
 
-      // Imported names may be reserved words; the local bindings they create may not.
-      if (
-        (defaultImport != null && !isBindingIdentifier(defaultImport)) ||
-        namedImports.some(item => !isBindingIdentifier(item.alias ?? item.src))
-      ) {
-        return null
+      // Imported names may be reserved or repeated; local bindings must be valid and unique.
+      const localBindings = new Set<string>()
+      if (defaultImport != null) {
+        if (!isBindingIdentifier(defaultImport)) return null
+        localBindings.add(defaultImport)
+      }
+      for (const item of namedImports) {
+        const localBinding = item.alias ?? item.src
+        if (!isBindingIdentifier(localBinding) || localBindings.has(localBinding)) return null
+        localBindings.add(localBinding)
       }
 
       token = {

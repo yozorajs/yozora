@@ -69,6 +69,16 @@ describe('identifier validation', () => {
     })
   })
 
+  test('accepts repeated imported names with distinct local bindings', () => {
+    expect(parseFirstNode("import { foo, foo as other } from 'pkg'")).toMatchObject({
+      type: 'ecmaImport',
+      namedImports: [
+        { src: 'foo', alias: null },
+        { src: 'foo', alias: 'other' },
+      ],
+    })
+  })
+
   test('accepts a trailing comma in named imports', () => {
     expect(parseFirstNode("import { foo, } from 'pkg'")).toMatchObject({
       type: 'ecmaImport',
@@ -94,6 +104,9 @@ describe('identifier validation', () => {
     "import arguments from 'pkg'",
     "import { default } from 'pkg'",
     "import { value as for } from 'pkg'",
+    "import { foo, foo } from 'pkg'",
+    "import Foo, { bar as Foo } from 'pkg'",
+    "import { foo as value, bar as value } from 'pkg'",
     "import { foo,, } from 'pkg'",
     "import foo from 'pkg';;",
     String.raw`import \u0066oo from 'pkg'`,
