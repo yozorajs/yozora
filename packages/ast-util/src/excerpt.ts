@@ -76,9 +76,8 @@ export function calcExcerptAst(immutableRoot: Readonly<Root>, pruneLength: numbe
  * @returns
  */
 export function getExcerptAst(fullAst: Root, pruneLength: number, excerptSeparator?: string): Root {
-  if (excerptSeparator != null) {
-    const separator = excerptSeparator.trim()
-
+  const separator = excerptSeparator?.trim()
+  if (separator) {
     const childIndexList: number[] | null = searchNode(fullAst, node => {
       const { value } = node as Literal
       return typeof value === 'string' && value.trim() === separator

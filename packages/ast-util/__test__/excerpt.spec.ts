@@ -103,6 +103,24 @@ describe('literal boundaries', function () {
 })
 
 describe('excerpt separator', function () {
+  test.each(['', '   '])('ignores empty separator %j', function (separator) {
+    const ast: Root = {
+      type: 'root',
+      children: [
+        {
+          type: 'paragraph',
+          children: [
+            { type: 'text', value: 'before' } as Literal,
+            { type: 'text', value: ' ' } as Literal,
+            { type: 'text', value: 'after' } as Literal,
+          ],
+        } as Parent,
+      ],
+    }
+
+    expect(getExcerptAst(ast, 100, separator)).toEqual(ast)
+  })
+
   test('excludes a root-level separator and following siblings without mutating the input', function () {
     const ast: Root = {
       type: 'root',
