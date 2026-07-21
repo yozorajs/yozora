@@ -62,6 +62,23 @@ describe('identifier validation', () => {
     })
   })
 
+  test('accepts a trailing comma in named imports', () => {
+    expect(parseFirstNode("import { foo, } from 'pkg'")).toMatchObject({
+      type: 'ecmaImport',
+      moduleName: 'pkg',
+      namedImports: [{ src: 'foo', alias: null }],
+    })
+    expect(parseFirstNode("import Foo, { bar, baz as qux, } from 'pkg';")).toMatchObject({
+      type: 'ecmaImport',
+      moduleName: 'pkg',
+      defaultImport: 'Foo',
+      namedImports: [
+        { src: 'bar', alias: null },
+        { src: 'baz', alias: 'qux' },
+      ],
+    })
+  })
+
   test.each([
     "import 1foo from 'pkg'",
     "import { 1foo } from 'pkg'",
@@ -70,6 +87,7 @@ describe('identifier validation', () => {
     "import arguments from 'pkg'",
     "import { default } from 'pkg'",
     "import { value as for } from 'pkg'",
+    "import { foo,, } from 'pkg'",
     "import foo from 'pkg';;",
     String.raw`import \u0066oo from 'pkg'`,
     "import { 'value-name' as value } from 'pkg'",

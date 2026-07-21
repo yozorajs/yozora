@@ -60,7 +60,7 @@ const namedImportItemRegex = new RegExp(
   'u',
 )
 const namedImportRegex = new RegExp(
-  `\\{\\s*((?:${namedImportItemPattern}\\s*,\\s*)*${namedImportItemPattern})\\s*\\}\\s*`,
+  `\\{\\s*((?:${namedImportItemPattern}\\s*,\\s*)*${namedImportItemPattern})\\s*,?\\s*\\}\\s*`,
   'u',
 )
 const endRegex = /\s*;?\s*$/u
