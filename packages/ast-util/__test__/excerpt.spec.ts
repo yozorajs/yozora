@@ -74,6 +74,29 @@ describe('literal boundaries', function () {
     })
   })
 
+  test('does not split a surrogate pair at the truncation boundary', function () {
+    const ast: Root = {
+      type: 'root',
+      children: [
+        {
+          type: 'paragraph',
+          children: [{ type: 'text', value: 'a😀b' } as Literal],
+        } as Parent,
+      ],
+    }
+
+    expect(calcExcerptAst(ast, 2)).toEqual({
+      type: 'root',
+      children: [
+        {
+          type: 'paragraph',
+          children: [{ type: 'text', value: 'a' }],
+        },
+      ],
+    })
+    expect((ast.children[0] as Parent).children[0]).toEqual({ type: 'text', value: 'a😀b' })
+  })
+
   test('returns an empty root when the limit is zero', function () {
     expect(calcExcerptAst(createAst(), 0)).toEqual({ type: 'root', children: [] })
   })

@@ -28,11 +28,27 @@ export function calcExcerptAst(immutableRoot: Readonly<Root>, pruneLength: numbe
     const { value } = node as Literal
     if (typeof value === 'string') {
       if (value.length > remainingLength) {
-        const truncatedNode: Literal = {
-          ...(node as Literal),
-          value: value.slice(0, remainingLength),
+        let endIndex = Math.trunc(remainingLength)
+        const lastCodeUnit = value.charCodeAt(endIndex - 1)
+        const nextCodeUnit = value.charCodeAt(endIndex)
+
+        // Keep the excerpt well-formed when the code-unit limit bisects an astral character.
+        if (
+          lastCodeUnit >= 0xd800 &&
+          lastCodeUnit <= 0xdbff &&
+          nextCodeUnit >= 0xdc00 &&
+          nextCodeUnit <= 0xdfff
+        ) {
+          endIndex -= 1
         }
-        frame.nextParent.children.push(truncatedNode)
+
+        if (endIndex > 0) {
+          const truncatedNode: Literal = {
+            ...(node as Literal),
+            value: value.slice(0, endIndex),
+          }
+          frame.nextParent.children.push(truncatedNode)
+        }
         remainingLength = 0
       } else {
         frame.nextParent.children.push(node)
