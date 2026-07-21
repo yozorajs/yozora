@@ -217,7 +217,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
          * Include a pipe in a cell’s content by escaping it,
          * including inside other inline spans
          */
-        if (p.codePoint === AsciiCodePoint.BACKSLASH) {
+        if (p.codePoint === AsciiCodePoint.BACKSLASH && i + 1 < endIndex) {
           i += 1
           continue
         }
