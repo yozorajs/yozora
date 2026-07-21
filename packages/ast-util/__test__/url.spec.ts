@@ -29,6 +29,10 @@ describe('defaultUrlResolver', function () {
     ['suffix on a relative path', ['https://x/a', 'b?q=1#frag'], 'https://x/a/b?q=1#frag'],
     ['protocol-relative URL', ['prefix', '//cdn.example/a', '../b'], '//cdn.example/b'],
     ['trailing dot segment', ['https://x/a', './'], 'https://x/a/'],
+    ['opaque data URI', ['prefix', 'data:text/plain,a/../b'], 'data:text/plain,a/../b'],
+    ['opaque mailto URI', ['mailto:user/../admin@example.com'], 'mailto:user/../admin@example.com'],
+    ['opaque URN', ['urn:example:a/../b'], 'urn:example:a/../b'],
+    ['hierarchical custom URI', ['custom:/a/../b'], 'custom:/b'],
   ])('normalizes %s', (_name, pathPieces, expected) => {
     expect(defaultUrlResolver(...pathPieces)).toBe(expected)
   })

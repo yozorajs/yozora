@@ -4,6 +4,7 @@ import { traverseAst } from './ast/traverse'
 
 const URL_PREFIX_PATTERN = /^(?:(?:[A-Za-z][A-Za-z\d+.-]*:)?[/]{2}[^/]*|[A-Za-z][A-Za-z\d+.-]*:)/
 const URL_SUFFIX_DELIMITER_PATTERN = /[?#]/
+const OPAQUE_URL_PREFIX_PATTERN = /^(?:data|mailto|urn):$/i
 
 /**
  * Resolve url.
@@ -74,6 +75,9 @@ function normalizeUrlPath(path: string): string {
   const pathname = path.slice(prefix.length)
 
   if (pathname.length <= 0) return prefix
+
+  // These scheme-specific payloads are not hierarchical paths.
+  if (OPAQUE_URL_PREFIX_PATTERN.test(prefix)) return path
 
   const absolute = pathname.startsWith('/')
   const preserveTrailingSlash =
