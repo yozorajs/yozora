@@ -176,6 +176,22 @@ export enum UnicodePeCodePoint {
    */
   RIGHT_DOUBLE_PARENTHESIS = 0x02e29,
   /**
+   * @see https://www.fileformat.info/info/unicode/char/2e56/index.htm
+   */
+  RIGHT_SQUARE_BRACKET_WITH_STROKE = 0x02e56,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/2e58/index.htm
+   */
+  RIGHT_SQUARE_BRACKET_WITH_DOUBLE_STROKE = 0x02e58,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/2e5a/index.htm
+   */
+  TOP_HALF_RIGHT_PARENTHESIS = 0x02e5a,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/2e5c/index.htm
+   */
+  BOTTOM_HALF_RIGHT_PARENTHESIS = 0x02e5c,
+  /**
    * @see https://www.fileformat.info/info/unicode/char/3009/index.htm
    */
   RIGHT_ANGLE_BRACKET = 0x03009,

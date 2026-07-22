@@ -54,7 +54,10 @@ export const isLineEnding = (codePoint: ICodePoint): boolean => {
  *
  * A punctuation character is an ASCII punctuation character or anything in the
  * general Unicode categories Pc, Pd, Pe, Pf, Pi, Po, or Ps.
+ * The static category tables are pinned to Unicode 17.0 so classification is
+ * deterministic across supported Node.js versions.
  * @see https://github.github.com/gfm/#punctuation-character
+ * @see https://www.unicode.org/versions/Unicode17.0.0/
  */
 export const [isPunctuationCharacter, punctuationCharacters] = createCodePointSearcher([
   ...asciiPunctuationCharacters,

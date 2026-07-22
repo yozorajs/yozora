@@ -188,6 +188,22 @@ export enum UnicodePsCodePoint {
    */
   DOUBLE_LOW_REVERSED_9_QUOTATION_MARK = 0x02e42,
   /**
+   * @see https://www.fileformat.info/info/unicode/char/2e55/index.htm
+   */
+  LEFT_SQUARE_BRACKET_WITH_STROKE = 0x02e55,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/2e57/index.htm
+   */
+  LEFT_SQUARE_BRACKET_WITH_DOUBLE_STROKE = 0x02e57,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/2e59/index.htm
+   */
+  TOP_HALF_LEFT_PARENTHESIS = 0x02e59,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/2e5b/index.htm
+   */
+  BOTTOM_HALF_LEFT_PARENTHESIS = 0x02e5b,
+  /**
    * @see https://www.fileformat.info/info/unicode/char/3008/index.htm
    */
   LEFT_ANGLE_BRACKET = 0x03008,

@@ -96,6 +96,20 @@ describe('Punctuation Spaces', function () {
     }
   })
 
+  test('Unicode 17.0 additions', function () {
+    const additions = [
+      UnicodePoCodePoint.ARABIC_END_OF_TEXT_MARK,
+      UnicodePdCodePoint.GARAY_HYPHEN,
+      UnicodePeCodePoint.BOTTOM_HALF_RIGHT_PARENTHESIS,
+      UnicodePsCodePoint.BOTTOM_HALF_LEFT_PARENTHESIS,
+      UnicodePoCodePoint.OL_ONAL_ABBREVIATION_SIGN,
+    ]
+
+    for (const c of additions) {
+      expect(isPunctuationCharacter(c)).toBeTruthy()
+    }
+  })
+
   test('Negative', function () {
     const notPunctuations = collectCodePointsFromEnum(AsciiCodePoint).filter(
       c => punctuations.indexOf(c) < 0,

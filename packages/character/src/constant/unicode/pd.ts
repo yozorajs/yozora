@@ -68,6 +68,10 @@ export enum UnicodePdCodePoint {
    */
   DOUBLE_HYPHEN = 0x02e40,
   /**
+   * @see https://www.fileformat.info/info/unicode/char/2e5d/index.htm
+   */
+  OBLIQUE_HYPHEN = 0x02e5d,
+  /**
    * @see https://www.fileformat.info/info/unicode/char/301c/index.htm
    */
   WAVE_DASH = 0x0301c,
@@ -99,6 +103,10 @@ export enum UnicodePdCodePoint {
    * @see https://www.fileformat.info/info/unicode/char/ff0d/index.htm
    */
   FULLWIDTH_HYPHEN_MINUS = 0x0ff0d,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/10d6e/index.htm
+   */
+  GARAY_HYPHEN = 0x010d6e,
   /**
    * @see https://www.fileformat.info/info/unicode/char/10ead/index.htm
    */

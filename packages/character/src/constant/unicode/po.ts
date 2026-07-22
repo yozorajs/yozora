@@ -160,6 +160,10 @@ export enum UnicodePoCodePoint {
    */
   ARABIC_SEMICOLON = 0x0061b,
   /**
+   * @see https://www.fileformat.info/info/unicode/char/061d/index.htm
+   */
+  ARABIC_END_OF_TEXT_MARK = 0x0061d,
+  /**
    * @see https://www.fileformat.info/info/unicode/char/061e/index.htm
    */
   ARABIC_TRIPLE_DOT_PUNCTUATION_MARK = 0x0061e,
@@ -684,6 +688,14 @@ export enum UnicodePoCodePoint {
    */
   TAI_THAM_SIGN_CAANG = 0x01aad,
   /**
+   * @see https://www.fileformat.info/info/unicode/char/1b4e/index.htm
+   */
+  BALINESE_INVERTED_CARIK_SIKI = 0x01b4e,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/1b4f/index.htm
+   */
+  BALINESE_INVERTED_CARIK_PAREREN = 0x01b4f,
+  /**
    * @see https://www.fileformat.info/info/unicode/char/1b5a/index.htm
    */
   BALINESE_PANTI = 0x01b5a,
@@ -711,6 +723,18 @@ export enum UnicodePoCodePoint {
    * @see https://www.fileformat.info/info/unicode/char/1b60/index.htm
    */
   BALINESE_PAMENENG = 0x01b60,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/1b7d/index.htm
+   */
+  BALINESE_PANTI_LANTANG = 0x01b7d,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/1b7e/index.htm
+   */
+  BALINESE_PAMADA_LANTANG = 0x01b7e,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/1b7f/index.htm
+   */
+  BALINESE_PANTI_BAWAK = 0x01b7f,
   /**
    * @see https://www.fileformat.info/info/unicode/char/1bfc/index.htm
    */
@@ -1227,6 +1251,14 @@ export enum UnicodePoCodePoint {
    * @see https://www.fileformat.info/info/unicode/char/2e52/index.htm
    */
   TIRONIAN_SIGN_CAPITAL_ET = 0x02e52,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/2e53/index.htm
+   */
+  MEDIEVAL_EXCLAMATION_MARK = 0x02e53,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/2e54/index.htm
+   */
+  MEDIEVAL_QUESTION_MARK = 0x02e54,
   /**
    * @see https://www.fileformat.info/info/unicode/char/3001/index.htm
    */
@@ -1780,6 +1812,10 @@ export enum UnicodePoCodePoint {
    */
   PSALTER_PAHLAVI_FOUR_DOTS_WITH_DOT = 0x010b9c,
   /**
+   * @see https://www.fileformat.info/info/unicode/char/10ed0/index.htm
+   */
+  ARABIC_BIBLICAL_END_OF_VERSE = 0x010ed0,
+  /**
    * @see https://www.fileformat.info/info/unicode/char/10f55/index.htm
    */
   SOGDIAN_PUNCTUATION_TWO_VERTICAL_BARS = 0x010f55,
@@ -1799,6 +1835,22 @@ export enum UnicodePoCodePoint {
    * @see https://www.fileformat.info/info/unicode/char/10f59/index.htm
    */
   SOGDIAN_PUNCTUATION_HALF_CIRCLE_WITH_DOT = 0x010f59,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/10f86/index.htm
+   */
+  OLD_UYGHUR_PUNCTUATION_BAR = 0x010f86,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/10f87/index.htm
+   */
+  OLD_UYGHUR_PUNCTUATION_TWO_BARS = 0x010f87,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/10f88/index.htm
+   */
+  OLD_UYGHUR_PUNCTUATION_TWO_DOTS = 0x010f88,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/10f89/index.htm
+   */
+  OLD_UYGHUR_PUNCTUATION_FOUR_DOTS = 0x010f89,
   /**
    * @see https://www.fileformat.info/info/unicode/char/11047/index.htm
    */
@@ -1939,6 +1991,22 @@ export enum UnicodePoCodePoint {
    * @see https://www.fileformat.info/info/unicode/char/112a9/index.htm
    */
   MULTANI_SECTION_MARK = 0x0112a9,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/113d4/index.htm
+   */
+  TULU_TIGALARI_DANDA = 0x0113d4,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/113d5/index.htm
+   */
+  TULU_TIGALARI_DOUBLE_DANDA = 0x0113d5,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/113d7/index.htm
+   */
+  TULU_TIGALARI_SIGN_OM_PUSHPIKA = 0x0113d7,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/113d8/index.htm
+   */
+  TULU_TIGALARI_SIGN_SHRII_PUSHPIKA = 0x0113d8,
   /**
    * @see https://www.fileformat.info/info/unicode/char/1144b/index.htm
    */
@@ -2132,6 +2200,10 @@ export enum UnicodePoCodePoint {
    */
   MONGOLIAN_TURNED_SWIRL_BIRGA_WITH_DOUBLE_ORNAMENT = 0x01166c,
   /**
+   * @see https://www.fileformat.info/info/unicode/char/116b9/index.htm
+   */
+  TAKRI_ABBREVIATION_SIGN = 0x0116b9,
+  /**
    * @see https://www.fileformat.info/info/unicode/char/1173c/index.htm
    */
   AHOM_SIGN_SMALL_SECTION = 0x01173c,
@@ -2228,6 +2300,50 @@ export enum UnicodePoCodePoint {
    */
   SOYOMBO_TERMINAL_MARK_2 = 0x011aa2,
   /**
+   * @see https://www.fileformat.info/info/unicode/char/11b00/index.htm
+   */
+  DEVANAGARI_HEAD_MARK = 0x011b00,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11b01/index.htm
+   */
+  DEVANAGARI_HEAD_MARK_WITH_HEADSTROKE = 0x011b01,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11b02/index.htm
+   */
+  DEVANAGARI_SIGN_BHALE = 0x011b02,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11b03/index.htm
+   */
+  DEVANAGARI_SIGN_BHALE_WITH_HOOK = 0x011b03,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11b04/index.htm
+   */
+  DEVANAGARI_SIGN_EXTENDED_BHALE = 0x011b04,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11b05/index.htm
+   */
+  DEVANAGARI_SIGN_EXTENDED_BHALE_WITH_HOOK = 0x011b05,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11b06/index.htm
+   */
+  DEVANAGARI_SIGN_WESTERN_FIVE_LIKE_BHALE = 0x011b06,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11b07/index.htm
+   */
+  DEVANAGARI_SIGN_WESTERN_NINE_LIKE_BHALE = 0x011b07,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11b08/index.htm
+   */
+  DEVANAGARI_SIGN_REVERSED_NINE_LIKE_BHALE = 0x011b08,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11b09/index.htm
+   */
+  DEVANAGARI_SIGN_MINDU = 0x011b09,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11be1/index.htm
+   */
+  SUNUWAR_SIGN_PVO = 0x011be1,
+  /**
    * @see https://www.fileformat.info/info/unicode/char/11c41/index.htm
    */
   BHAIKSUKI_DANDA = 0x011c41,
@@ -2264,6 +2380,58 @@ export enum UnicodePoCodePoint {
    */
   MAKASAR_END_OF_SECTION = 0x011ef8,
   /**
+   * @see https://www.fileformat.info/info/unicode/char/11f43/index.htm
+   */
+  KAWI_DANDA = 0x011f43,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11f44/index.htm
+   */
+  KAWI_DOUBLE_DANDA = 0x011f44,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11f45/index.htm
+   */
+  KAWI_PUNCTUATION_SECTION_MARKER = 0x011f45,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11f46/index.htm
+   */
+  KAWI_PUNCTUATION_ALTERNATE_SECTION_MARKER = 0x011f46,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11f47/index.htm
+   */
+  KAWI_PUNCTUATION_FLOWER = 0x011f47,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11f48/index.htm
+   */
+  KAWI_PUNCTUATION_SPACE_FILLER = 0x011f48,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11f49/index.htm
+   */
+  KAWI_PUNCTUATION_DOT = 0x011f49,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11f4a/index.htm
+   */
+  KAWI_PUNCTUATION_DOUBLE_DOT = 0x011f4a,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11f4b/index.htm
+   */
+  KAWI_PUNCTUATION_TRIPLE_DOT = 0x011f4b,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11f4c/index.htm
+   */
+  KAWI_PUNCTUATION_CIRCLE = 0x011f4c,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11f4d/index.htm
+   */
+  KAWI_PUNCTUATION_FILLED_CIRCLE = 0x011f4d,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11f4e/index.htm
+   */
+  KAWI_PUNCTUATION_SPIRAL = 0x011f4e,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/11f4f/index.htm
+   */
+  KAWI_PUNCTUATION_CLOSING_SPIRAL = 0x011f4f,
+  /**
    * @see https://www.fileformat.info/info/unicode/char/11fff/index.htm
    */
   TAMIL_PUNCTUATION_END_OF_TEXT = 0x011fff,
@@ -2287,6 +2455,14 @@ export enum UnicodePoCodePoint {
    * @see https://www.fileformat.info/info/unicode/char/12474/index.htm
    */
   CUNEIFORM_PUNCTUATION_SIGN_DIAGONAL_QUADCOLON = 0x012474,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/12ff1/index.htm
+   */
+  CYPRO_MINOAN_SIGN_CM301 = 0x012ff1,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/12ff2/index.htm
+   */
+  CYPRO_MINOAN_SIGN_CM302 = 0x012ff2,
   /**
    * @see https://www.fileformat.info/info/unicode/char/16a6e/index.htm
    */
@@ -2323,6 +2499,18 @@ export enum UnicodePoCodePoint {
    * @see https://www.fileformat.info/info/unicode/char/16b44/index.htm
    */
   PAHAWH_HMONG_SIGN_XAUS = 0x016b44,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/16d6d/index.htm
+   */
+  KIRAT_RAI_SIGN_YUPI = 0x016d6d,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/16d6e/index.htm
+   */
+  KIRAT_RAI_DANDA = 0x016d6e,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/16d6f/index.htm
+   */
+  KIRAT_RAI_DOUBLE_DANDA = 0x016d6f,
   /**
    * @see https://www.fileformat.info/info/unicode/char/16e97/index.htm
    */
@@ -2367,6 +2555,10 @@ export enum UnicodePoCodePoint {
    * @see https://www.fileformat.info/info/unicode/char/1da8b/index.htm
    */
   SIGNWRITING_PARENTHESIS = 0x01da8b,
+  /**
+   * @see https://www.fileformat.info/info/unicode/char/1e5ff/index.htm
+   */
+  OL_ONAL_ABBREVIATION_SIGN = 0x01e5ff,
   /**
    * @see https://www.fileformat.info/info/unicode/char/1e95e/index.htm
    */
