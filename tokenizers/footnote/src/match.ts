@@ -66,6 +66,11 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
     internalTokens: readonly IInlineToken[],
   ): IResultOfIsDelimiterPair {
     const nodePoints: readonly INodePoint[] = api.getNodePoints()
+
+    if (containsFootnote(internalTokens, openerDelimiter.endIndex, closerDelimiter.startIndex)) {
+      return { paired: false, opener: false, closer: false }
+    }
+
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
@@ -99,4 +104,26 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
     }
     return { tokens: [token] }
   }
+}
+
+function containsFootnote(
+  tokens: readonly IInlineToken[],
+  startIndex: number,
+  endIndex: number,
+): boolean {
+  const stack: Array<{ tokens: readonly IInlineToken[]; index: number }> = [{ tokens, index: 0 }]
+
+  while (stack.length > 0) {
+    const frame = stack[stack.length - 1]
+    if (frame.index >= frame.tokens.length) {
+      stack.pop()
+      continue
+    }
+
+    const token = frame.tokens[frame.index++]
+    if (token.startIndex >= endIndex || token.endIndex <= startIndex) continue
+    if (token.nodeType === FootnoteType) return true
+    if (token.children?.length) stack.push({ tokens: token.children, index: 0 })
+  }
+  return false
 }
