@@ -33,6 +33,20 @@ describe('entity', function () {
       })
     })
 
+    it.each([
+      ['&lbrace;', '{'],
+      ['&lcub;', '{'],
+      ['&rbrace;', '}'],
+      ['&rcub;', '}'],
+    ])('decodes %s without adding whitespace', (source, expected) => {
+      const nodePoints = source.split('').map(c => ({ codePoint: c.codePointAt(0)! }))
+
+      expect(eatEntityReference(nodePoints, 1, nodePoints.length)).toEqual({
+        nextIndex: nodePoints.length,
+        value: expected,
+      })
+    })
+
     it('Decimal numeric entity', function () {
       const nodePoints = '&#992;'.split('').map(c => ({ codePoint: c.codePointAt(0)! }))
 
