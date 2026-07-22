@@ -45,7 +45,7 @@ export class MarkupWeaver implements IMarkupWeaver {
     const { weaverMap } = this
     const rootWeaver = weaverMap.get(RootType)
     const escapers: IEscaper[] = rootWeaver?.escapeContent ? [rootWeaver.escapeContent] : []
-    const escaperIndexMap: Record<NodeType, number | undefined> = {}
+    const escaperStateMap = new Map<NodeType, { depth: number; index: number }>()
     const escapeContent: IEscaper = content => {
       let result = content
       for (let i = escapers.length - 1; i >= 0; --i) {
@@ -56,17 +56,27 @@ export class MarkupWeaver implements IMarkupWeaver {
     }
 
     const enqueue = (node: Readonly<Node>, weaver: INodeWeaver): void => {
-      if (weaver.escapeContent && escaperIndexMap[node.type] === undefined) {
-        escaperIndexMap[node.type] = escapers.length
-        escapers.push(weaver.escapeContent)
+      if (weaver.escapeContent == null) return
+
+      const state = escaperStateMap.get(node.type)
+      if (state != null) {
+        state.depth += 1
+        return
       }
+
+      escaperStateMap.set(node.type, { depth: 1, index: escapers.length })
+      escapers.push(weaver.escapeContent)
     }
 
     const dequeue = (node: Readonly<Node>): void => {
-      if (escaperIndexMap[node.type] === escapers.length - 1) {
-        escaperIndexMap[node.type] = undefined
-        escapers.pop()
-      }
+      const state = escaperStateMap.get(node.type)
+      if (state == null) return
+
+      state.depth -= 1
+      if (state.depth > 0) return
+
+      escaperStateMap.delete(node.type)
+      if (state.index === escapers.length - 1) escapers.pop()
     }
 
     const ancestors: Readonly<Parent>[] = [ast]
