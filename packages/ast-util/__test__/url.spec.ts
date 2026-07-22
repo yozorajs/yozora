@@ -29,6 +29,16 @@ describe('defaultUrlResolver', function () {
     ['suffix on a relative path', ['https://x/a', 'b?q=1#frag'], 'https://x/a/b?q=1#frag'],
     ['protocol-relative URL', ['prefix', '//cdn.example/a', '../b'], '//cdn.example/b'],
     ['trailing dot segment', ['https://x/a', './'], 'https://x/a/'],
+    [
+      'opaque blob URL',
+      ['blob:https://example.com/550e8400-e29b-41d4-a716-446655440000'],
+      'blob:https://example.com/550e8400-e29b-41d4-a716-446655440000',
+    ],
+    [
+      'opaque blob URL with suffix',
+      ['blob:https://example.com/id?download=1#part'],
+      'blob:https://example.com/id?download=1#part',
+    ],
     ['opaque data URI', ['prefix', 'data:text/plain,a/../b'], 'data:text/plain,a/../b'],
     ['opaque mailto URI', ['mailto:user/../admin@example.com'], 'mailto:user/../admin@example.com'],
     ['opaque URN', ['urn:example:a/../b'], 'urn:example:a/../b'],

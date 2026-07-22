@@ -5,7 +5,7 @@ import { createNodeMatcher } from './ast/collect/misc'
 
 const URL_PREFIX_PATTERN = /^(?:(?:[A-Za-z][A-Za-z\d+.-]*:)?[/]{2}[^/]*|[A-Za-z][A-Za-z\d+.-]*:)/
 const URL_SUFFIX_DELIMITER_PATTERN = /[?#]/
-const OPAQUE_URL_PREFIX_PATTERN = /^(?:data|mailto|urn):$/i
+const OPAQUE_URL_PREFIX_PATTERN = /^(?:blob|data|mailto|urn):$/i
 
 /**
  * Resolve url.
