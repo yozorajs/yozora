@@ -2,7 +2,6 @@ import type { INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   isAlphanumeric,
-  isAsciiCharacter,
   isAsciiControlCharacter,
   isAsciiLetter,
   isWhitespaceCharacter,
@@ -37,7 +36,6 @@ export function eatAbsoluteUri(
   for (nextIndex += 1; nextIndex < endIndex; ++nextIndex) {
     const c = nodePoints[nextIndex].codePoint
     if (
-      !isAsciiCharacter(c) ||
       isWhitespaceCharacter(c) ||
       isAsciiControlCharacter(c) ||
       c === AsciiCodePoint.OPEN_ANGLE ||
