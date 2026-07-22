@@ -65,6 +65,26 @@ test.each([
   ['gfm', parsers.gfm],
   ['gfmEx', parsers.gfmEx],
   ['yozora', parsers.yozora],
+])('%s resolves Unicode case-fold-equivalent link labels', (_name, parser) => {
+  for (const source of ['[\u1C80]: /url\n\n[\u0432]', '[\u0432]: /url\n\n[\u1C80]']) {
+    const ast = parser.parse(source, { shouldReservePosition: false })
+
+    expect(ast).toMatchObject({
+      children: [
+        { type: 'definition', identifier: '\u0432' },
+        {
+          type: 'paragraph',
+          children: [{ type: 'linkReference', identifier: '\u0432' }],
+        },
+      ],
+    })
+  }
+})
+
+test.each([
+  ['gfm', parsers.gfm],
+  ['gfmEx', parsers.gfmEx],
+  ['yozora', parsers.yozora],
 ])('%s rejects an unbalanced definition destination', (_name, parser) => {
   for (const source of ['[foo]: /url(foo', '[foo]: /url(foo\n']) {
     expect(parser.parse(source, { shouldReservePosition: false })).toEqual({
