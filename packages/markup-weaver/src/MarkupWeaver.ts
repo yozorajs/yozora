@@ -79,6 +79,8 @@ export class MarkupWeaver implements IMarkupWeaver {
     function weaveNodes(): string {
       let lineIdx = 0
       const lines: string[] = ['']
+      // process() is the sole writer for line endings emitted outside escaped content.
+      let shouldExposeLineStart = false
 
       const rootToken: IMarkupToken = {
         node: ast,
@@ -110,6 +112,8 @@ export class MarkupWeaver implements IMarkupWeaver {
             for (let i = 1; i < openerLines.length; ++i) {
               lines[++lineIdx] = indent + openerLines[i]
             }
+            shouldExposeLineStart =
+              openerLines.length > 1 && openerLines[openerLines.length - 1].length === 0
           }
         }
 
@@ -140,13 +144,19 @@ export class MarkupWeaver implements IMarkupWeaver {
             ancestors.pop()
           }
         } else {
-          const content: string = escapeContent(markup.content)
+          const isAtLineStart = shouldExposeLineStart && lines[lineIdx] === indent
+          const escapedContent: string = escapeContent(
+            isAtLineStart ? '\n' + markup.content : markup.content,
+          )
+          const content: string = isAtLineStart ? escapedContent.slice(1) : escapedContent
           const subLines: string[] = content.split(lineRegex)
           if (subLines.length > 0) {
             lines[lineIdx] += subLines[0]
             for (let i = 1; i < subLines.length; ++i) {
               lines[++lineIdx] = indent + subLines[i]
             }
+            shouldExposeLineStart =
+              subLines.length > 1 && subLines[subLines.length - 1].length === 0
           }
         }
 
@@ -157,10 +167,13 @@ export class MarkupWeaver implements IMarkupWeaver {
             for (let i = 1; i < closerLines.length; ++i) {
               lines[++lineIdx] = indent + closerLines[i]
             }
+            shouldExposeLineStart =
+              closerLines.length > 1 && closerLines[closerLines.length - 1].length === 0
           }
         }
 
         if (isBlockLevel && childIndex + 1 < parent.node.children.length) {
+          shouldExposeLineStart = false
           if (lines[lineIdx] === indent || lines[lineIdx] === parent.indent) {
             lines[lineIdx] = parent.indent
           } else {

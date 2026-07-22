@@ -62,9 +62,9 @@ exports[`snapshot > basic > should reserve position 1`] = `
                 {
                   "position": {
                     "end": {
-                      "column": 23,
-                      "line": 7,
-                      "offset": 61,
+                      "column": 1,
+                      "line": 8,
+                      "offset": 62,
                     },
                     "start": {
                       "column": 22,
@@ -82,21 +82,20 @@ exports[`snapshot > basic > should reserve position 1`] = `
                       "offset": 83,
                     },
                     "start": {
-                      "column": 23,
-                      "line": 7,
-                      "offset": 61,
+                      "column": 3,
+                      "line": 8,
+                      "offset": 64,
                     },
                   },
                   "type": "text",
-                  "value": "
-君不见高堂明镜悲白发，朝如青丝暮成雪。",
+                  "value": "君不见高堂明镜悲白发，朝如青丝暮成雪。",
                 },
                 {
                   "position": {
                     "end": {
-                      "column": 23,
-                      "line": 8,
-                      "offset": 84,
+                      "column": 1,
+                      "line": 9,
+                      "offset": 85,
                     },
                     "start": {
                       "column": 22,
@@ -114,21 +113,20 @@ exports[`snapshot > basic > should reserve position 1`] = `
                       "offset": 103,
                     },
                     "start": {
-                      "column": 23,
-                      "line": 8,
-                      "offset": 84,
+                      "column": 3,
+                      "line": 9,
+                      "offset": 87,
                     },
                   },
                   "type": "text",
-                  "value": "
-人生得意须尽欢，莫使金樽空对月。",
+                  "value": "人生得意须尽欢，莫使金樽空对月。",
                 },
                 {
                   "position": {
                     "end": {
-                      "column": 20,
-                      "line": 9,
-                      "offset": 104,
+                      "column": 1,
+                      "line": 10,
+                      "offset": 105,
                     },
                     "start": {
                       "column": 19,
@@ -146,21 +144,20 @@ exports[`snapshot > basic > should reserve position 1`] = `
                       "offset": 123,
                     },
                     "start": {
-                      "column": 20,
-                      "line": 9,
-                      "offset": 104,
+                      "column": 3,
+                      "line": 10,
+                      "offset": 107,
                     },
                   },
                   "type": "text",
-                  "value": "
-天生我材必有用，千金散尽还复来。",
+                  "value": "天生我材必有用，千金散尽还复来。",
                 },
                 {
                   "position": {
                     "end": {
-                      "column": 20,
-                      "line": 10,
-                      "offset": 124,
+                      "column": 1,
+                      "line": 11,
+                      "offset": 125,
                     },
                     "start": {
                       "column": 19,
@@ -178,21 +175,20 @@ exports[`snapshot > basic > should reserve position 1`] = `
                       "offset": 143,
                     },
                     "start": {
-                      "column": 20,
-                      "line": 10,
-                      "offset": 124,
+                      "column": 3,
+                      "line": 11,
+                      "offset": 127,
                     },
                   },
                   "type": "text",
-                  "value": "
-烹羊宰牛且为乐，会须一饮三百杯。",
+                  "value": "烹羊宰牛且为乐，会须一饮三百杯。",
                 },
                 {
                   "position": {
                     "end": {
-                      "column": 20,
-                      "line": 11,
-                      "offset": 144,
+                      "column": 1,
+                      "line": 12,
+                      "offset": 145,
                     },
                     "start": {
                       "column": 19,
@@ -210,21 +206,20 @@ exports[`snapshot > basic > should reserve position 1`] = `
                       "offset": 163,
                     },
                     "start": {
-                      "column": 20,
-                      "line": 11,
-                      "offset": 144,
+                      "column": 3,
+                      "line": 12,
+                      "offset": 147,
                     },
                   },
                   "type": "text",
-                  "value": "
-岑夫子，丹丘生，将进酒，杯莫停。",
+                  "value": "岑夫子，丹丘生，将进酒，杯莫停。",
                 },
                 {
                   "position": {
                     "end": {
-                      "column": 20,
-                      "line": 12,
-                      "offset": 164,
+                      "column": 1,
+                      "line": 13,
+                      "offset": 165,
                     },
                     "start": {
                       "column": 19,
@@ -242,21 +237,20 @@ exports[`snapshot > basic > should reserve position 1`] = `
                       "offset": 181,
                     },
                     "start": {
-                      "column": 20,
-                      "line": 12,
-                      "offset": 164,
+                      "column": 3,
+                      "line": 13,
+                      "offset": 167,
                     },
                   },
                   "type": "text",
-                  "value": "
-与君歌一曲，请君为我倾耳听。",
+                  "value": "与君歌一曲，请君为我倾耳听。",
                 },
                 {
                   "position": {
                     "end": {
-                      "column": 18,
-                      "line": 13,
-                      "offset": 182,
+                      "column": 1,
+                      "line": 14,
+                      "offset": 183,
                     },
                     "start": {
                       "column": 17,
@@ -274,21 +268,20 @@ exports[`snapshot > basic > should reserve position 1`] = `
                       "offset": 201,
                     },
                     "start": {
-                      "column": 18,
-                      "line": 13,
-                      "offset": 182,
+                      "column": 3,
+                      "line": 14,
+                      "offset": 185,
                     },
                   },
                   "type": "text",
-                  "value": "
-钟鼓馔玉不足贵，但愿长醉不复醒。",
+                  "value": "钟鼓馔玉不足贵，但愿长醉不复醒。",
                 },
                 {
                   "position": {
                     "end": {
-                      "column": 20,
-                      "line": 14,
-                      "offset": 202,
+                      "column": 1,
+                      "line": 15,
+                      "offset": 203,
                     },
                     "start": {
                       "column": 19,
@@ -306,21 +299,20 @@ exports[`snapshot > basic > should reserve position 1`] = `
                       "offset": 221,
                     },
                     "start": {
-                      "column": 20,
-                      "line": 14,
-                      "offset": 202,
+                      "column": 3,
+                      "line": 15,
+                      "offset": 205,
                     },
                   },
                   "type": "text",
-                  "value": "
-古来圣贤皆寂寞，惟有饮者留其名。",
+                  "value": "古来圣贤皆寂寞，惟有饮者留其名。",
                 },
                 {
                   "position": {
                     "end": {
-                      "column": 20,
-                      "line": 15,
-                      "offset": 222,
+                      "column": 1,
+                      "line": 16,
+                      "offset": 223,
                     },
                     "start": {
                       "column": 19,
@@ -338,21 +330,20 @@ exports[`snapshot > basic > should reserve position 1`] = `
                       "offset": 241,
                     },
                     "start": {
-                      "column": 20,
-                      "line": 15,
-                      "offset": 222,
+                      "column": 3,
+                      "line": 16,
+                      "offset": 225,
                     },
                   },
                   "type": "text",
-                  "value": "
-陈王昔时宴平乐，斗酒十千恣欢谑。",
+                  "value": "陈王昔时宴平乐，斗酒十千恣欢谑。",
                 },
                 {
                   "position": {
                     "end": {
-                      "column": 20,
-                      "line": 16,
-                      "offset": 242,
+                      "column": 1,
+                      "line": 17,
+                      "offset": 243,
                     },
                     "start": {
                       "column": 19,
@@ -370,21 +361,20 @@ exports[`snapshot > basic > should reserve position 1`] = `
                       "offset": 261,
                     },
                     "start": {
-                      "column": 20,
-                      "line": 16,
-                      "offset": 242,
+                      "column": 3,
+                      "line": 17,
+                      "offset": 245,
                     },
                   },
                   "type": "text",
-                  "value": "
-主人何为言少钱，径须沽取对君酌。",
+                  "value": "主人何为言少钱，径须沽取对君酌。",
                 },
                 {
                   "position": {
                     "end": {
-                      "column": 20,
-                      "line": 17,
-                      "offset": 262,
+                      "column": 1,
+                      "line": 18,
+                      "offset": 263,
                     },
                     "start": {
                       "column": 19,
@@ -402,14 +392,13 @@ exports[`snapshot > basic > should reserve position 1`] = `
                       "offset": 289,
                     },
                     "start": {
-                      "column": 20,
-                      "line": 17,
-                      "offset": 262,
+                      "column": 3,
+                      "line": 18,
+                      "offset": 265,
                     },
                   },
                   "type": "text",
-                  "value": "
-五花马、千金裘，呼儿将出换美酒，与尔同销万古愁。",
+                  "value": "五花马、千金裘，呼儿将出换美酒，与尔同销万古愁。",
                 },
               ],
               "position": {
@@ -2187,88 +2176,77 @@ exports[`snapshot > basic > shouldn't reserve position 1`] = `
                 },
                 {
                   "type": "text",
-                  "value": "
-君不见高堂明镜悲白发，朝如青丝暮成雪。",
+                  "value": "君不见高堂明镜悲白发，朝如青丝暮成雪。",
                 },
                 {
                   "type": "break",
                 },
                 {
                   "type": "text",
-                  "value": "
-人生得意须尽欢，莫使金樽空对月。",
+                  "value": "人生得意须尽欢，莫使金樽空对月。",
                 },
                 {
                   "type": "break",
                 },
                 {
                   "type": "text",
-                  "value": "
-天生我材必有用，千金散尽还复来。",
+                  "value": "天生我材必有用，千金散尽还复来。",
                 },
                 {
                   "type": "break",
                 },
                 {
                   "type": "text",
-                  "value": "
-烹羊宰牛且为乐，会须一饮三百杯。",
+                  "value": "烹羊宰牛且为乐，会须一饮三百杯。",
                 },
                 {
                   "type": "break",
                 },
                 {
                   "type": "text",
-                  "value": "
-岑夫子，丹丘生，将进酒，杯莫停。",
+                  "value": "岑夫子，丹丘生，将进酒，杯莫停。",
                 },
                 {
                   "type": "break",
                 },
                 {
                   "type": "text",
-                  "value": "
-与君歌一曲，请君为我倾耳听。",
+                  "value": "与君歌一曲，请君为我倾耳听。",
                 },
                 {
                   "type": "break",
                 },
                 {
                   "type": "text",
-                  "value": "
-钟鼓馔玉不足贵，但愿长醉不复醒。",
+                  "value": "钟鼓馔玉不足贵，但愿长醉不复醒。",
                 },
                 {
                   "type": "break",
                 },
                 {
                   "type": "text",
-                  "value": "
-古来圣贤皆寂寞，惟有饮者留其名。",
+                  "value": "古来圣贤皆寂寞，惟有饮者留其名。",
                 },
                 {
                   "type": "break",
                 },
                 {
                   "type": "text",
-                  "value": "
-陈王昔时宴平乐，斗酒十千恣欢谑。",
+                  "value": "陈王昔时宴平乐，斗酒十千恣欢谑。",
                 },
                 {
                   "type": "break",
                 },
                 {
                   "type": "text",
-                  "value": "
-主人何为言少钱，径须沽取对君酌。",
+                  "value": "主人何为言少钱，径须沽取对君酌。",
                 },
                 {
                   "type": "break",
                 },
                 {
                   "type": "text",
-                  "value": "
-五花马、千金裘，呼儿将出换美酒，与尔同销万古愁。",
+                  "value": "五花马、千金裘，呼儿将出换美酒，与尔同销万古愁。",
                 },
               ],
               "type": "paragraph",

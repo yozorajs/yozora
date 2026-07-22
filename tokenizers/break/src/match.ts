@@ -85,7 +85,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
         type: 'full',
         markerType,
         startIndex: _start,
-        endIndex: i,
+        endIndex: i + 1,
       }
     }
     return null

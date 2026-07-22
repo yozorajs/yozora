@@ -61,9 +61,9 @@
                     "offset": 3
                   },
                   "end": {
-                    "line": 1,
-                    "column": 9,
-                    "offset": 8
+                    "line": 2,
+                    "column": 1,
+                    "offset": 9
                   }
                 }
               },
@@ -71,9 +71,9 @@
                 "type": "text",
                 "position": {
                   "start": {
-                    "line": 1,
-                    "column": 9,
-                    "offset": 8
+                    "line": 2,
+                    "column": 1,
+                    "offset": 9
                   },
                   "end": {
                     "line": 2,
@@ -81,7 +81,7 @@
                     "offset": 12
                   }
                 },
-                "value": "\nbbb"
+                "value": "bbb"
               }
             ]
           }

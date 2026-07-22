@@ -76,9 +76,9 @@
                         "offset": 4
                       },
                       "end": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
+                        "line": 2,
+                        "column": 1,
+                        "offset": 7
                       }
                     }
                   },
@@ -86,9 +86,9 @@
                     "type": "text",
                     "position": {
                       "start": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
+                        "line": 2,
+                        "column": 1,
+                        "offset": 7
                       },
                       "end": {
                         "line": 2,
@@ -96,7 +96,7 @@
                         "offset": 10
                       }
                     },
-                    "value": "\nbar"
+                    "value": "bar"
                   }
                 ]
               }
