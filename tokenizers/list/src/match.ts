@@ -368,5 +368,9 @@ function eatTaskStatus(
     default:
       return { status: null, nextIndex: startIndex }
   }
-  return { status, nextIndex: i + 4 }
+
+  for (i += 3; i < endIndex; ++i) {
+    if (!isWhitespaceCharacter(nodePoints[i].codePoint)) break
+  }
+  return { status, nextIndex: i }
 }

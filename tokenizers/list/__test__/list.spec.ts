@@ -107,3 +107,49 @@ test('interrupts a paragraph with a task-like non-empty item', () => {
     children: [{ type: 'paragraph' }, { type: 'list' }],
   })
 })
+
+test.each([
+  ['five spaces', '     '],
+  ['one tab', '\t'],
+  ['two tabs', '\t\t'],
+])('consumes %s after a task list marker', (_, whitespace) => {
+  expect(parsers.yozora.parse(`- [ ]${whitespace}foo`)).toMatchObject({
+    children: [
+      {
+        type: 'list',
+        children: [
+          {
+            type: 'listItem',
+            status: 'todo',
+            children: [{ type: 'text', value: 'foo' }],
+          },
+        ],
+      },
+    ],
+  })
+})
+
+test.each([
+  ['continuation', '- [ ]     foo\n  bar', [{ type: 'text', value: 'foo\nbar' }]],
+  ['nested list', '- [ ]     parent\n  - child', [{ type: 'text' }, { type: 'list' }]],
+  [
+    'indented code',
+    '- [ ]     foo\n\n      code',
+    [{ type: 'paragraph' }, { type: 'code', value: 'code\n' }],
+  ],
+])('keeps %s aligned to the list indentation', (_, input, children) => {
+  expect(parsers.yozora.parse(input)).toMatchObject({
+    children: [
+      {
+        type: 'list',
+        children: [
+          {
+            type: 'listItem',
+            status: 'todo',
+            children,
+          },
+        ],
+      },
+    ],
+  })
+})
