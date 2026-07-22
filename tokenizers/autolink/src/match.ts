@@ -74,7 +74,6 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
       startIndex: delimiter.startIndex,
       endIndex: delimiter.endIndex,
       contentType: delimiter.contentType,
-      children: api.resolveFallbackTokens([], delimiter.startIndex + 1, delimiter.endIndex - 1),
     }
     return [token]
   }

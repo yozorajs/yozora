@@ -31,3 +31,16 @@ describe('URI autolinks with non-ASCII characters', () => {
     })
   })
 })
+
+test('preserves backslashes in an autolink label', () => {
+  expect(parsers.gfm.parse('<foo:a\\*b>').children[0]).toMatchObject({
+    type: 'paragraph',
+    children: [
+      {
+        type: 'link',
+        url: 'foo:a%5C*b',
+        children: [{ type: 'text', value: 'foo:a\\*b' }],
+      },
+    ],
+  })
+})

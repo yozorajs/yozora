@@ -1,6 +1,9 @@
 import type { Text } from '@yozora/ast'
-import { TextType } from '@yozora/ast'
-import type { INodeMarkup, INodeWeaver } from '../types'
+import { LinkType, TextType } from '@yozora/ast'
+import type { INodeMarkup, INodeMarkupWeaveContext, INodeWeaver } from '../types'
+
+const linkBackslashRegex =
+  /\\(?=$|\r\n?|\n|[\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u007e])/g
 
 /**
  * Text represents everything that is just text.
@@ -14,7 +17,13 @@ export class TextWeaver implements INodeWeaver<Text> {
   public readonly type = TextType
   public readonly isBlockLevel = (): boolean => false
 
-  public weave(node: Text): INodeMarkup {
-    return { content: node.value }
+  public weave(node: Text, ctx: INodeMarkupWeaveContext): INodeMarkup {
+    if (!ctx.ancestors.some(ancestor => ancestor.type === LinkType)) {
+      return { content: node.value }
+    }
+
+    // Preserve literal backslashes before contextual escapers handle their following character.
+    const content = node.value.replace(linkBackslashRegex, '\\\\')
+    return { content }
   }
 }
