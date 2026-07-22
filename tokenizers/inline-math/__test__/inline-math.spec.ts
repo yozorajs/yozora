@@ -41,3 +41,13 @@ test('handles many unmatched backtick candidates', function () {
   expect(text.type).toBe('text')
   expect(text.value).toBe(value)
 })
+
+test.each([
+  ['optional backticks', '$\tfoo\t$'],
+  ['required backticks', '`$\tfoo\t$`'],
+])('preserves boundary tabs with %s', (_, source) => {
+  const ast = parsers.yozora.parse(source)
+  const inlineMath = (ast.children[0] as any).children[0]
+
+  expect(inlineMath).toMatchObject({ type: 'inlineMath', value: '\tfoo\t' })
+})

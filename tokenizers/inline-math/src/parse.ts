@@ -1,6 +1,6 @@
 import { InlineMathType } from '@yozora/ast'
-import type { INodePoint } from '@yozora/character'
-import { calcStringFromNodePoints, isSpaceLike } from '@yozora/character'
+import type { ICodePoint, INodePoint } from '@yozora/character'
+import { AsciiCodePoint, VirtualCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type { IParseInlineHookCreator } from '@yozora/core-tokenizer'
 import type { INode, IThis, IToken, T } from './types'
 
@@ -14,7 +14,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
 
         let isAllSpace = true
         for (let i = startIndex; i < endIndex; ++i) {
-          if (isSpaceLike(nodePoints[i].codePoint)) continue
+          if (isCodePadding(nodePoints[i].codePoint)) continue
           isAllSpace = false
           break
         }
@@ -37,7 +37,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
         if (!isAllSpace && startIndex + 2 < endIndex) {
           const firstCharacter = nodePoints[startIndex].codePoint
           const lastCharacter = nodePoints[endIndex - 1].codePoint
-          if (isSpaceLike(firstCharacter) && isSpaceLike(lastCharacter)) {
+          if (isCodePadding(firstCharacter) && isCodePadding(lastCharacter)) {
             startIndex += 1
             endIndex -= 1
           }
@@ -50,4 +50,8 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
         return node
       }),
   }
+}
+
+function isCodePadding(codePoint: ICodePoint): boolean {
+  return codePoint === AsciiCodePoint.SPACE || codePoint === VirtualCodePoint.LINE_END
 }
