@@ -53,8 +53,8 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 15,
+                    "line": 2,
+                    "column": 1,
                     "offset": 14
                   }
                 },
@@ -136,8 +136,8 @@
                     "offset": 28
                   },
                   "end": {
-                    "line": 3,
-                    "column": 9,
+                    "line": 4,
+                    "column": 1,
                     "offset": 36
                   }
                 },
@@ -179,13 +179,13 @@
                     "type": "tableCell",
                     "position": {
                       "start": {
-                        "line": 3,
-                        "column": 9,
+                        "line": 4,
+                        "column": 1,
                         "offset": 36
                       },
                       "end": {
-                        "line": 3,
-                        "column": 9,
+                        "line": 4,
+                        "column": 1,
                         "offset": 36
                       }
                     },

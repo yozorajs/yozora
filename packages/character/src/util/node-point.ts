@@ -97,22 +97,22 @@ export function* createNodePointGenerator(
           column = 1
           line += 1
           break
-        case AsciiCodePoint.CR:
+        case AsciiCodePoint.CR: {
+          const isCrLf = i < content.length && content.charCodeAt(i) === AsciiCodePoint.LF
           nodePoints.push({
             line,
             column,
             offset,
             codePoint: VirtualCodePoint.LINE_END,
+            ...(isCrLf ? { sourceWidth: 2 } : {}),
           })
-          offset += 1
+          offset += isCrLf ? 2 : 1
           column = 1
           line += 1
 
-          if (i < content.length && content.charCodeAt(i) === AsciiCodePoint.LF) {
-            offset += 1
-            i += 1
-          }
+          if (isCrLf) i += 1
           break
+        }
         /**
          * For security reasons, the Unicode character U+0000 must be replaced
          * with the REPLACEMENT CHARACTER (U+FFFD).

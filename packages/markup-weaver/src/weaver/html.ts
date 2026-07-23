@@ -1,6 +1,7 @@
 import type { Html, Node } from '@yozora/ast'
 import { HtmlType, ParagraphType } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaveContext, INodeWeaver } from '../types'
+import { calcLastSourceLine } from './position'
 
 /**
  * HTML (Literal) represents a fragment of raw HTML.
@@ -28,11 +29,11 @@ function _isBlockLevel(node: Html, ctx: INodeMarkupWeaveContext, childIndex: num
   const siblings: Node[] = ctx.ancestors[ctx.ancestors.length - 1].children
   if (childIndex > 0) {
     const prevNode = siblings[childIndex - 1]
-    if (prevNode.position?.end.line === node.position?.start.line) return false
+    if (calcLastSourceLine(prevNode.position) === node.position?.start.line) return false
   }
   if (childIndex + 1 < siblings.length) {
     const nextNode = siblings[childIndex + 1]
-    if (node.position?.end.line === nextNode.position?.start.line) return false
+    if (calcLastSourceLine(node.position) === nextNode.position?.start.line) return false
   }
   return true
 }

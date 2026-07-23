@@ -28,6 +28,10 @@ describe('node-point', function () {
       VirtualCodePoint.LINE_END,
       0xfffd,
     ])
+
+    expect(points[5].sourceWidth).toBe(2)
+    expect(points[7].sourceWidth).toBeUndefined()
+    expect(points[9].sourceWidth).toBeUndefined()
   })
 
   for (const content of ['a\r\nb', 'a😀b', 'a\r\n😀b', 'text\r', 'text\uD800']) {

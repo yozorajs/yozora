@@ -27,6 +27,12 @@ export interface INodePoint {
    * Unicode code point of content (`String.codePointAt()`)
    */
   readonly codePoint: ICodePoint
+  /**
+   * Number of UTF-16 code units occupied by the normalized source character.
+   * Present only when it differs from the width implied by `codePoint`;
+   * currently only a CRLF line ending (two units, one virtual point) sets it.
+   */
+  readonly sourceWidth?: number
 }
 
 /**

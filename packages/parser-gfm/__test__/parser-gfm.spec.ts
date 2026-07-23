@@ -81,6 +81,17 @@ test('tracks astral Unicode positions in UTF-16 code units', () => {
   })
 })
 
+test.each([
+  ['LF', 'a\n', { line: 2, column: 1, offset: 2 }],
+  ['CR', 'a\r', { line: 2, column: 1, offset: 2 }],
+  ['CRLF', 'a\r\n', { line: 2, column: 1, offset: 3 }],
+])('tracks positions after terminal %s line endings', (_, input, end) => {
+  expect(parsers.gfm.parse(input)).toMatchObject({
+    position: { end },
+    children: [{ type: 'paragraph', position: { end } }],
+  })
+})
+
 test('preserves tokenizer order when replacing at the same priority', () => {
   const parser = new GfmParser().replaceTokenizer(new ImageTokenizer())
 

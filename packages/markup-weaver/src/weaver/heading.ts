@@ -1,6 +1,7 @@
 import type { Heading } from '@yozora/ast'
 import { HeadingType } from '@yozora/ast'
 import type { INodeMarkup, INodeWeaver } from '../types'
+import { calcLastSourceLine } from './position'
 
 /**
  * Heading represents a heading of a section.
@@ -16,7 +17,7 @@ export class HeadingWeaver implements INodeWeaver<Heading> {
   public readonly isBlockLevel = (): boolean => true
 
   public weave(node: Heading): INodeMarkup {
-    if (node.position?.start.line !== node.position?.end.line) {
+    if (node.position?.start.line !== calcLastSourceLine(node.position)) {
       if (node.depth === 1) return { closer: '\n===' }
       if (node.depth === 2) return { closer: '\n---' }
     }

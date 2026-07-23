@@ -29,8 +29,8 @@ exports[`snapshot > basic > should reserve position 1`] = `
               "depth": 3,
               "position": {
                 "end": {
-                  "column": 11,
-                  "line": 5,
+                  "column": 1,
+                  "line": 6,
                   "offset": 37,
                 },
                 "start": {
@@ -403,8 +403,8 @@ exports[`snapshot > basic > should reserve position 1`] = `
               ],
               "position": {
                 "end": {
-                  "column": 28,
-                  "line": 18,
+                  "column": 1,
+                  "line": 19,
                   "offset": 290,
                 },
                 "start": {
@@ -454,8 +454,8 @@ exports[`snapshot > basic > should reserve position 1`] = `
           ],
           "position": {
             "end": {
-              "column": 11,
-              "line": 21,
+              "column": 1,
+              "line": 22,
               "offset": 303,
             },
             "start": {
@@ -470,8 +470,8 @@ exports[`snapshot > basic > should reserve position 1`] = `
       "keyword": "tip",
       "position": {
         "end": {
-          "column": 5,
-          "line": 22,
+          "column": 1,
+          "line": 23,
           "offset": 307,
         },
         "start": {
@@ -619,8 +619,8 @@ exports[`snapshot > basic > should reserve position 1`] = `
       ],
       "position": {
         "end": {
-          "column": 31,
-          "line": 24,
+          "column": 1,
+          "line": 25,
           "offset": 338,
         },
         "start": {
@@ -686,8 +686,8 @@ exports[`snapshot > basic > should reserve position 1`] = `
       ],
       "position": {
         "end": {
-          "column": 41,
-          "line": 26,
+          "column": 1,
+          "line": 27,
           "offset": 379,
         },
         "start": {
@@ -753,8 +753,8 @@ exports[`snapshot > basic > should reserve position 1`] = `
       ],
       "position": {
         "end": {
-          "column": 33,
-          "line": 28,
+          "column": 1,
+          "line": 29,
           "offset": 412,
         },
         "start": {
@@ -787,8 +787,8 @@ exports[`snapshot > basic > should reserve position 1`] = `
       "depth": 1,
       "position": {
         "end": {
-          "column": 11,
-          "line": 31,
+          "column": 1,
+          "line": 32,
           "offset": 439,
         },
         "start": {
@@ -820,8 +820,8 @@ exports[`snapshot > basic > should reserve position 1`] = `
       ],
       "position": {
         "end": {
-          "column": 30,
-          "line": 33,
+          "column": 1,
+          "line": 34,
           "offset": 469,
         },
         "start": {
@@ -875,8 +875,8 @@ exports[`snapshot > basic > should reserve position 1`] = `
                   ],
                   "position": {
                     "end": {
-                      "column": 13,
-                      "line": 36,
+                      "column": 1,
+                      "line": 37,
                       "offset": 492,
                     },
                     "start": {
@@ -909,8 +909,8 @@ exports[`snapshot > basic > should reserve position 1`] = `
                   ],
                   "position": {
                     "end": {
-                      "column": 13,
-                      "line": 37,
+                      "column": 1,
+                      "line": 38,
                       "offset": 504,
                     },
                     "start": {
@@ -928,8 +928,8 @@ exports[`snapshot > basic > should reserve position 1`] = `
               "ordered": false,
               "position": {
                 "end": {
-                  "column": 13,
-                  "line": 37,
+                  "column": 1,
+                  "line": 38,
                   "offset": 504,
                 },
                 "start": {
@@ -945,8 +945,8 @@ exports[`snapshot > basic > should reserve position 1`] = `
           ],
           "position": {
             "end": {
-              "column": 13,
-              "line": 37,
+              "column": 1,
+              "line": 38,
               "offset": 504,
             },
             "start": {
@@ -979,8 +979,8 @@ exports[`snapshot > basic > should reserve position 1`] = `
           ],
           "position": {
             "end": {
-              "column": 11,
-              "line": 38,
+              "column": 1,
+              "line": 39,
               "offset": 514,
             },
             "start": {
@@ -998,8 +998,8 @@ exports[`snapshot > basic > should reserve position 1`] = `
       "ordered": false,
       "position": {
         "end": {
-          "column": 11,
-          "line": 38,
+          "column": 1,
+          "line": 39,
           "offset": 514,
         },
         "start": {
@@ -1035,8 +1035,8 @@ exports[`snapshot > basic > should reserve position 1`] = `
           ],
           "position": {
             "end": {
-              "column": 24,
-              "line": 40,
+              "column": 1,
+              "line": 41,
               "offset": 538,
             },
             "start": {
@@ -1068,8 +1068,8 @@ exports[`snapshot > basic > should reserve position 1`] = `
           ],
           "position": {
             "end": {
-              "column": 24,
-              "line": 42,
+              "column": 1,
+              "line": 43,
               "offset": 563,
             },
             "start": {
@@ -1083,8 +1083,8 @@ exports[`snapshot > basic > should reserve position 1`] = `
       ],
       "position": {
         "end": {
-          "column": 24,
-          "line": 42,
+          "column": 1,
+          "line": 43,
           "offset": 563,
         },
         "start": {
@@ -1100,8 +1100,8 @@ exports[`snapshot > basic > should reserve position 1`] = `
       "meta": "title="demo.ts"",
       "position": {
         "end": {
-          "column": 5,
-          "line": 49,
+          "column": 1,
+          "line": 50,
           "offset": 705,
         },
         "start": {
@@ -1138,8 +1138,8 @@ console.log('This is a typescript code snippets')
       ],
       "position": {
         "end": {
-          "column": 20,
-          "line": 51,
+          "column": 1,
+          "line": 52,
           "offset": 725,
         },
         "start": {
@@ -1155,8 +1155,8 @@ console.log('This is a typescript code snippets')
       "meta": "title="demo.ts" linenos=false",
       "position": {
         "end": {
-          "column": 5,
-          "line": 58,
+          "column": 1,
+          "line": 59,
           "offset": 881,
         },
         "start": {
@@ -1193,8 +1193,8 @@ console.log('This is a typescript code snippets')
       ],
       "position": {
         "end": {
-          "column": 23,
-          "line": 60,
+          "column": 1,
+          "line": 61,
           "offset": 904,
         },
         "start": {
@@ -1208,8 +1208,8 @@ console.log('This is a typescript code snippets')
     {
       "position": {
         "end": {
-          "column": 127,
-          "line": 62,
+          "column": 1,
+          "line": 63,
           "offset": 1031,
         },
         "start": {
@@ -1225,8 +1225,8 @@ console.log('This is a typescript code snippets')
     {
       "position": {
         "end": {
-          "column": 5,
-          "line": 64,
+          "column": 1,
+          "line": 65,
           "offset": 1036,
         },
         "start": {
@@ -1259,8 +1259,8 @@ console.log('This is a typescript code snippets')
       "depth": 1,
       "position": {
         "end": {
-          "column": 12,
-          "line": 66,
+          "column": 1,
+          "line": 67,
           "offset": 1048,
         },
         "start": {
@@ -1293,8 +1293,8 @@ console.log('This is a typescript code snippets')
       "depth": 2,
       "position": {
         "end": {
-          "column": 13,
-          "line": 67,
+          "column": 1,
+          "line": 68,
           "offset": 1060,
         },
         "start": {
@@ -1327,8 +1327,8 @@ console.log('This is a typescript code snippets')
       "depth": 3,
       "position": {
         "end": {
-          "column": 14,
-          "line": 68,
+          "column": 1,
+          "line": 69,
           "offset": 1073,
         },
         "start": {
@@ -1361,8 +1361,8 @@ console.log('This is a typescript code snippets')
       "depth": 4,
       "position": {
         "end": {
-          "column": 15,
-          "line": 69,
+          "column": 1,
+          "line": 70,
           "offset": 1087,
         },
         "start": {
@@ -1395,8 +1395,8 @@ console.log('This is a typescript code snippets')
       "depth": 5,
       "position": {
         "end": {
-          "column": 16,
-          "line": 70,
+          "column": 1,
+          "line": 71,
           "offset": 1102,
         },
         "start": {
@@ -1429,8 +1429,8 @@ console.log('This is a typescript code snippets')
       "depth": 6,
       "position": {
         "end": {
-          "column": 17,
-          "line": 71,
+          "column": 1,
+          "line": 72,
           "offset": 1118,
         },
         "start": {
@@ -1444,8 +1444,8 @@ console.log('This is a typescript code snippets')
     {
       "position": {
         "end": {
-          "column": 5,
-          "line": 73,
+          "column": 1,
+          "line": 74,
           "offset": 1123,
         },
         "start": {
@@ -1526,8 +1526,8 @@ console.log('This is a typescript code snippets')
       ],
       "position": {
         "end": {
-          "column": 38,
-          "line": 75,
+          "column": 1,
+          "line": 76,
           "offset": 1161,
         },
         "start": {
@@ -1561,8 +1561,8 @@ console.log('This is a typescript code snippets')
           ],
           "position": {
             "end": {
-              "column": 42,
-              "line": 77,
+              "column": 1,
+              "line": 78,
               "offset": 1203,
             },
             "start": {
@@ -1578,8 +1578,8 @@ console.log('This is a typescript code snippets')
       "label": "foo-2",
       "position": {
         "end": {
-          "column": 42,
-          "line": 77,
+          "column": 1,
+          "line": 78,
           "offset": 1203,
         },
         "start": {
@@ -1628,8 +1628,8 @@ console.log('This is a typescript code snippets')
       ],
       "position": {
         "end": {
-          "column": 39,
-          "line": 79,
+          "column": 1,
+          "line": 80,
           "offset": 1242,
         },
         "start": {
@@ -1643,8 +1643,8 @@ console.log('This is a typescript code snippets')
     {
       "position": {
         "end": {
-          "column": 5,
-          "line": 81,
+          "column": 1,
+          "line": 82,
           "offset": 1247,
         },
         "start": {
@@ -1676,8 +1676,8 @@ console.log('This is a typescript code snippets')
       ],
       "position": {
         "end": {
-          "column": 14,
-          "line": 83,
+          "column": 1,
+          "line": 84,
           "offset": 1261,
         },
         "start": {
@@ -1693,8 +1693,8 @@ console.log('This is a typescript code snippets')
       "label": "logo",
       "position": {
         "end": {
-          "column": 44,
-          "line": 85,
+          "column": 1,
+          "line": 86,
           "offset": 1305,
         },
         "start": {
@@ -1712,8 +1712,8 @@ console.log('This is a typescript code snippets')
       "label": "bar",
       "position": {
         "end": {
-          "column": 22,
-          "line": 86,
+          "column": 1,
+          "line": 87,
           "offset": 1326,
         },
         "start": {
@@ -1731,8 +1731,8 @@ console.log('This is a typescript code snippets')
       "label": "baz",
       "position": {
         "end": {
-          "column": 13,
-          "line": 87,
+          "column": 1,
+          "line": 88,
           "offset": 1338,
         },
         "start": {
@@ -1822,8 +1822,8 @@ console.log('This is a typescript code snippets')
         {
           "position": {
             "end": {
-              "column": 18,
-              "line": 89,
+              "column": 1,
+              "line": 90,
               "offset": 1356,
             },
             "start": {
@@ -1927,8 +1927,8 @@ console.log('This is a typescript code snippets')
         {
           "position": {
             "end": {
-              "column": 19,
-              "line": 90,
+              "column": 1,
+              "line": 91,
               "offset": 1374,
             },
             "start": {
@@ -1980,8 +1980,8 @@ console.log('This is a typescript code snippets')
       ],
       "position": {
         "end": {
-          "column": 10,
-          "line": 91,
+          "column": 1,
+          "line": 92,
           "offset": 1383,
         },
         "start": {
@@ -2016,8 +2016,8 @@ console.log('This is a typescript code snippets')
       ],
       "position": {
         "end": {
-          "column": 11,
-          "line": 93,
+          "column": 1,
+          "line": 94,
           "offset": 1394,
         },
         "start": {
@@ -2084,8 +2084,8 @@ console.log('This is a typescript code snippets')
       ],
       "position": {
         "end": {
-          "column": 89,
-          "line": 95,
+          "column": 1,
+          "line": 96,
           "offset": 1483,
         },
         "start": {
@@ -2119,8 +2119,8 @@ console.log('This is a typescript code snippets')
       ],
       "position": {
         "end": {
-          "column": 76,
-          "line": 97,
+          "column": 1,
+          "line": 98,
           "offset": 1559,
         },
         "start": {
@@ -2134,8 +2134,8 @@ console.log('This is a typescript code snippets')
   ],
   "position": {
     "end": {
-      "column": 76,
-      "line": 97,
+      "column": 1,
+      "line": 98,
       "offset": 1559,
     },
     "start": {

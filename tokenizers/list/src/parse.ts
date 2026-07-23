@@ -60,7 +60,11 @@ const resolveList = (tokens: IToken[], api: IParseBlockPhaseApi): INode | null =
     let previousPosition: Position = item.children[0].position
     for (let j = 1; j < item.children.length; ++j) {
       const currentPosition: Position = item.children[j].position
-      if (previousPosition.end.line + 1 < currentPosition.start.line) {
+      // A column-1 end already points to the following source line.
+      if (
+        previousPosition.end.line + (previousPosition.end.column === 1 ? 0 : 1) <
+        currentPosition.start.line
+      ) {
         return true
       }
       previousPosition = currentPosition
@@ -73,8 +77,11 @@ const resolveList = (tokens: IToken[], api: IParseBlockPhaseApi): INode | null =
     for (let i = 1; i < tokens.length; ++i) {
       const currentItem = tokens[i]
 
-      // If there exists blank line between list items, then the list is loose.
-      if (previousItem.position.end.line + 1 < currentItem.position.start.line) {
+      // Account for exclusive column-1 ends when checking for a separating blank line.
+      if (
+        previousItem.position.end.line + (previousItem.position.end.column === 1 ? 0 : 1) <
+        currentItem.position.start.line
+      ) {
         spread = true
         break
       }

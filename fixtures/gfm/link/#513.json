@@ -80,8 +80,8 @@
                     "offset": 20
                   },
                   "end": {
-                    "line": 1,
-                    "column": 22,
+                    "line": 2,
+                    "column": 1,
                     "offset": 21
                   }
                 },
@@ -131,8 +131,8 @@
                     "offset": 41
                   },
                   "end": {
-                    "line": 2,
-                    "column": 22,
+                    "line": 3,
+                    "column": 1,
                     "offset": 42
                   }
                 },
