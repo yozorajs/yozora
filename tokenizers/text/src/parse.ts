@@ -20,10 +20,11 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
 }
 
 /**
- * Spaces at the end of the line and beginning of the next line are removed
+ * GFM spaces at the end of the line and beginning of the next line are removed.
+ * Other Unicode whitespace remains textual content.
  * @see https://github.github.com/gfm/#example-670
  */
-const _stripRegex = /[^\S\n]*\n[^\S\n]*/g
+const _stripRegex = /[ \t]*\n[ \t]*/g
 const stripSpaces = (text: string): string => {
   return text.replace(_stripRegex, '\n')
 }
