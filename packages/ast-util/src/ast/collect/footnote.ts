@@ -1,20 +1,24 @@
 import type {
+  Admonition,
   Footnote,
   FootnoteDefinition,
   FootnoteReference,
+  Node,
   NodeType,
   Paragraph,
+  Parent,
   Root,
 } from '@yozora/ast'
 import {
+  AdmonitionType,
   FootnoteDefinitionType,
   FootnoteReferenceType,
   FootnoteType,
   ParagraphType,
 } from '@yozora/ast'
-import { shallowMutateAstInPostorder } from '../mutate/post-order'
 import { traverseAst } from '../traverse'
-import type { INodeMatcher } from './misc'
+import type { INodeMatcher, IShallowNodeCollector } from './misc'
+import { createShallowNodeCollector } from './misc'
 import { collectNodes } from './node'
 
 export const defaultFootnoteIdentifierPrefix = 'footnote-'
@@ -153,8 +157,7 @@ export function replaceFootnotesInReferences(
     }
   }
 
-  const root: Root = shallowMutateAstInPostorder(immutableRoot, [FootnoteType], node => {
-    const footnote = node as Footnote
+  const root: Root = mutateFootnotesInPostorder(immutableRoot, footnote => {
     const { label, identifier } = nextIdentifier()
 
     const paragraph: Paragraph = {
@@ -192,4 +195,116 @@ export function replaceFootnotesInReferences(
   return newFootnoteDefinitions.length > 0
     ? { ...root, children: root.children.concat(newFootnoteDefinitions) }
     : root
+}
+
+interface IFootnoteMutationFrame {
+  immutableNode: Readonly<Node>
+  node: Node
+  fieldIndex: number
+  children: readonly Node[] | null
+  collector0: IShallowNodeCollector<Node> | null
+  childIndex: number
+  nextChildren: Node[] | null
+  collector1: IShallowNodeCollector<Node> | null
+  nextChildIndex: number
+  parentChildIndex: number
+}
+
+/**
+ * Unlike regular parent children, an admonition title is stored in a separate
+ * node array. Traverse the title before the body so its footnotes receive
+ * identifiers first, while preserving the existing post-order within each array.
+ */
+function mutateFootnotesInPostorder(
+  immutableRoot: Readonly<Root>,
+  replace: (footnote: Readonly<Footnote>) => Node,
+): Root {
+  const createFrame = (
+    immutableNode: Readonly<Node>,
+    parentChildIndex: number,
+  ): IFootnoteMutationFrame => ({
+    immutableNode,
+    node: immutableNode as Node,
+    fieldIndex: immutableNode.type === AdmonitionType ? 0 : 1,
+    children: null,
+    collector0: null,
+    childIndex: 0,
+    nextChildren: null,
+    collector1: null,
+    nextChildIndex: 0,
+    parentChildIndex,
+  })
+
+  const stack: IFootnoteMutationFrame[] = [createFrame(immutableRoot, -1)]
+  while (stack.length > 0) {
+    const frame = stack[stack.length - 1]
+    if (frame.children == null) {
+      if (frame.fieldIndex === 0) {
+        frame.children = (frame.immutableNode as Admonition).title
+      } else if (frame.fieldIndex === 1) {
+        const children = (frame.immutableNode as Parent).children
+        if (children == null) {
+          frame.fieldIndex += 1
+          continue
+        }
+        frame.children = children
+      } else {
+        stack.pop()
+        if (stack.length <= 0) return frame.node as Root
+
+        const parentFrame = stack[stack.length - 1]
+        parentFrame.collector0!.add(frame.node, frame.immutableNode, frame.parentChildIndex)
+        continue
+      }
+
+      if (frame.children.length <= 0) {
+        frame.fieldIndex += 1
+        frame.children = null
+        continue
+      }
+      frame.collector0 = createShallowNodeCollector(frame.children as Node[])
+      frame.childIndex = 0
+    }
+
+    if (frame.nextChildren == null) {
+      if (frame.childIndex < frame.children.length) {
+        const childIndex = frame.childIndex++
+        const child = frame.children[childIndex]
+        const title = child.type === AdmonitionType ? (child as Admonition).title : null
+        const children = (child as Parent).children
+        if ((title?.length ?? 0) > 0 || (children?.length ?? 0) > 0) {
+          stack.push(createFrame(child, childIndex))
+        } else {
+          frame.collector0!.add(child, child, childIndex)
+        }
+        continue
+      }
+
+      frame.nextChildren = frame.collector0!.collect()
+      frame.collector1 = createShallowNodeCollector(frame.nextChildren)
+      frame.nextChildIndex = 0
+    }
+
+    if (frame.nextChildIndex < frame.nextChildren.length) {
+      const childIndex = frame.nextChildIndex++
+      const child = frame.nextChildren[childIndex]
+      const nextChild = child.type === FootnoteType ? replace(child as Footnote) : child
+      frame.collector1!.add(nextChild, child, childIndex)
+      continue
+    }
+
+    const finalChildren = frame.collector1!.collect()
+    if (finalChildren !== frame.children) {
+      frame.node =
+        frame.fieldIndex === 0
+          ? ({ ...(frame.node as Admonition), title: finalChildren } as Admonition)
+          : ({ ...(frame.node as Parent), children: finalChildren } as Parent)
+    }
+    frame.fieldIndex += 1
+    frame.children = null
+    frame.collector0 = null
+    frame.nextChildren = null
+    frame.collector1 = null
+  }
+  return immutableRoot
 }

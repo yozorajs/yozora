@@ -6,6 +6,7 @@ import {
   collectNodes,
   collectTexts,
   removePositions,
+  replaceFootnotesInReferences,
   searchNode,
   shallowCloneAst,
   shallowMutateAstInPostorder,
@@ -74,6 +75,7 @@ test('clones a deep AST without overflowing the call stack', function () {
 
 test('mutates a deep AST without overflowing the call stack', async function () {
   const ast = createDeepAst()
+  const astWithoutFootnotes = replaceFootnotesInReferences(ast, Object.create(null))
   const replace = (node: Readonly<Node>): Literal => ({ ...(node as Literal), value: 'y' })
   const replaceAsync = async (node: Readonly<Node>): Promise<Literal> => replace(node)
 
@@ -88,5 +90,6 @@ test('mutates a deep AST without overflowing the call stack', async function () 
     expect(result === ast).toBe(false)
     expect((getLeaf(result) as Literal).value).toBe('y')
   }
+  expect(astWithoutFootnotes).toBe(ast)
   expect((getLeaf(ast) as Literal).value).toBe('x')
 })
