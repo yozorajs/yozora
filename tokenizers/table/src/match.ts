@@ -143,7 +143,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
        */
       if (p.codePoint === AsciiCodePoint.BACKSLASH) pIndex += 1
     }
-    if (hasNonWhitespaceBeforePipe && columns.length > 1) cellCount += 1
+    if (hasNonWhitespaceBeforePipe) cellCount += 1
     if (cellCount !== columns.length) return null
 
     const row = calcTableRow(previousLine, columns)
