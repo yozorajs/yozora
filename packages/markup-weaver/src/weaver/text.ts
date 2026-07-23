@@ -1,8 +1,8 @@
 import type { Text } from '@yozora/ast'
-import { LinkType, TextType } from '@yozora/ast'
+import { TextType } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaveContext, INodeWeaver } from '../types'
 
-const linkBackslashRegex =
+const literalBackslashRegex =
   /\\(?=$|\r\n?|\n|[\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u007e])/g
 
 /**
@@ -17,13 +17,11 @@ export class TextWeaver implements INodeWeaver<Text> {
   public readonly type = TextType
   public readonly isBlockLevel = (): boolean => false
 
-  public weave(node: Text, ctx: INodeMarkupWeaveContext): INodeMarkup {
-    if (!ctx.ancestors.some(ancestor => ancestor.type === LinkType)) {
-      return { content: node.value }
-    }
+  public weave(node: Text, _ctx: INodeMarkupWeaveContext): INodeMarkup {
+    if (!node.value.includes('\\')) return { content: node.value }
 
-    // Preserve literal backslashes before contextual escapers handle their following character.
-    const content = node.value.replace(linkBackslashRegex, '\\\\')
+    // Markdown consumes these sequences as escapes or hard-break markers.
+    const content = node.value.replace(literalBackslashRegex, '\\\\')
     return { content }
   }
 }

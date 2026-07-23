@@ -124,9 +124,8 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
       case TextType: {
         const { value: v1 } = node1 as Text
         const { value: v2 } = node2 as Text
-        const normalize = (v: string): string => v.replace(/\\([\s\S])/g, '$1')
-        if (normalize(v1) === normalize(v2)) return true
-        return false
+        if (v1 !== v2) return false
+        break
       }
       default:
         if (!this._areSomeObject(data1, data2)) return false
