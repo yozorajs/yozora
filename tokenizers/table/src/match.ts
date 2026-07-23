@@ -123,6 +123,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
      * @see https://github.github.com/gfm/#example-203
      */
     let cellCount = 0,
+      hasSeenPipe = false,
       hasNonWhitespaceBeforePipe = false
     const previousLine = lines[lines.length - 1]
     for (let pIndex = previousLine.startIndex; pIndex < previousLine.endIndex; ++pIndex) {
@@ -130,7 +131,9 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
       if (isWhitespaceCharacter(p.codePoint)) continue
 
       if (p.codePoint === AsciiCodePoint.VERTICAL_SLASH) {
-        if (hasNonWhitespaceBeforePipe || cellCount > 0) cellCount += 1
+        // A pipe after the optional leading pipe also closes an empty first cell.
+        if (hasNonWhitespaceBeforePipe || hasSeenPipe) cellCount += 1
+        hasSeenPipe = true
         hasNonWhitespaceBeforePipe = false
         continue
       }
