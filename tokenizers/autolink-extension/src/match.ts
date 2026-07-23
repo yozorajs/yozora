@@ -4,24 +4,26 @@ import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
   IMatchInlineHookCreator,
   IResultOfProcessSingleDelimiter,
+  IResultOfRequiredEater,
 } from '@yozora/core-tokenizer'
 import { genFindDelimiter } from '@yozora/core-tokenizer'
-import type {
-  AutolinkExtensionContentType,
-  ContentHelper,
-  IDelimiter,
-  IThis,
-  IToken,
-  T,
-} from './types'
-import { eatExtendEmailAddress } from './util/email'
-import { eatExtendedUrl, eatWWWDomain } from './util/uri'
+import type { AutolinkExtensionContentType, IDelimiter, IThis, IToken, T } from './types'
+import { eatExtendEmailAddressFromLocalPartEnd, eatExtendEmailLocalPart } from './util/email'
+import { eatDomainSegment, eatExtendedUrl, eatWWWDomain } from './util/uri'
 
-const helpers: readonly ContentHelper[] = [
-  { contentType: 'uri', eat: eatExtendedUrl },
-  { contentType: 'uri-www', eat: eatWWWDomain },
-  { contentType: 'email', eat: eatExtendEmailAddress },
-]
+const isW = (codePoint: number): boolean =>
+  codePoint === AsciiCodePoint.LOWERCASE_W || codePoint === AsciiCodePoint.UPPERCASE_W
+
+const hasWWWPrefix = (
+  nodePoints: readonly INodePoint[],
+  startIndex: number,
+  endIndex: number,
+): boolean =>
+  startIndex + 3 < endIndex &&
+  isW(nodePoints[startIndex].codePoint) &&
+  isW(nodePoints[startIndex + 1].codePoint) &&
+  isW(nodePoints[startIndex + 2].codePoint) &&
+  nodePoints[startIndex + 3].codePoint === AsciiCodePoint.DOT
 
 /**
  * @see https://github.github.com/gfm/#autolinks-extension-
@@ -35,6 +37,28 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
   function _findDelimiter(startIndex: number, endIndex: number): IDelimiter | null {
     const nodePoints: readonly INodePoint[] = api.getNodePoints()
     const blockStartIndex: number = api.getBlockStartIndex()
+    let emailCheckedUntil = startIndex
+    let wwwCheckedUntil = startIndex
+
+    const eatEmailCandidate = (candidateStartIndex: number): IResultOfRequiredEater => {
+      if (candidateStartIndex < emailCheckedUntil) {
+        return { valid: false, nextIndex: emailCheckedUntil }
+      }
+
+      const localPartEndIndex = eatExtendEmailLocalPart(nodePoints, candidateStartIndex, endIndex)
+      // Starts inside the same local-part run reach the same first '@' or
+      // invalid character, so they cannot change a rejection into a match.
+      emailCheckedUntil = localPartEndIndex
+      const result = eatExtendEmailAddressFromLocalPartEnd(
+        nodePoints,
+        candidateStartIndex,
+        localPartEndIndex,
+        endIndex,
+      )
+      // Keep the boundary character available to the outer scanner.
+      return result.valid ? result : { valid: false, nextIndex: localPartEndIndex }
+    }
+
     for (let i = startIndex; i < endIndex; ++i) {
       /**
        * Autolinks can also be constructed without requiring the use of '<' and
@@ -74,7 +98,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
         if (j >= endIndex) break
 
         if (emailStartIndex >= 0) {
-          const emailResult = eatExtendEmailAddress(nodePoints, emailStartIndex, endIndex)
+          const emailResult = eatEmailCandidate(emailStartIndex)
           if (emailResult.valid) {
             return {
               type: 'full',
@@ -87,20 +111,46 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
         i = j
       }
 
-      let nextIndex: number = endIndex
-      let contentType: AutolinkExtensionContentType | null = null
-      for (const helper of helpers) {
-        const eatResult = helper.eat(nodePoints, i, endIndex)
+      const urlResult = eatExtendedUrl(nodePoints, i, endIndex)
+      let nextIndex: number = Math.min(endIndex, urlResult.nextIndex)
+      let contentType: AutolinkExtensionContentType | null = urlResult.valid ? 'uri' : null
+      if (urlResult.valid) nextIndex = urlResult.nextIndex
+
+      const hasWWW = hasWWWPrefix(nodePoints, i, endIndex)
+      if (contentType == null && hasWWW) {
+        if (i < wwwCheckedUntil) {
+          nextIndex = Math.min(nextIndex, wwwCheckedUntil)
+        } else {
+          const eatResult = eatWWWDomain(nodePoints, i, endIndex)
+          nextIndex = Math.min(nextIndex, eatResult.nextIndex)
+          if (eatResult.valid) {
+            contentType = 'uri-www'
+            nextIndex = eatResult.nextIndex
+          } else {
+            // A later `www.` in the same domain run has the same final segments,
+            // so it cannot change this rejection into a match.
+            wwwCheckedUntil = eatResult.nextIndex
+          }
+        }
+      }
+
+      if (contentType == null) {
+        const eatResult = eatEmailCandidate(i)
         nextIndex = Math.min(nextIndex, eatResult.nextIndex)
         if (eatResult.valid) {
-          contentType = helper.contentType
+          contentType = 'email'
           nextIndex = eatResult.nextIndex
-          break
         }
       }
 
       // Optimization: move forward to the next latest potential position.
       if (contentType == null) {
+        if (!hasWWW) {
+          // Preserve the domain-segment boundary that eatWWWDomain used to
+          // contribute, without scanning beyond the current skip window.
+          const segment = eatDomainSegment(nodePoints, i, nextIndex)
+          nextIndex = Math.min(nextIndex, segment.nextIndex)
+        }
         i = Math.max(i, nextIndex - 1)
         continue
       }

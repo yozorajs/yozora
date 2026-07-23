@@ -1,4 +1,4 @@
-export * from './util/email'
+export { eatExtendEmailAddress } from './util/email'
 export * from './util/uri'
 export { match as autolinkExtensionMatch } from './match'
 export { parse as autolinkExtensionParse } from './parse'

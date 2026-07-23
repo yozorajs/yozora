@@ -1,9 +1,7 @@
 import type { Link, LinkType } from '@yozora/ast'
-import type { INodePoint } from '@yozora/character'
 import type {
   IBaseInlineTokenizerProps,
   IPartialInlineToken,
-  IResultOfRequiredEater,
   ITokenDelimiter,
   ITokenizer,
 } from '@yozora/core-tokenizer'
@@ -34,14 +32,3 @@ export interface IDelimiter extends ITokenDelimiter {
 export type IThis = ITokenizer
 
 export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>
-
-export type ContentEater = (
-  nodePoints: readonly INodePoint[],
-  startIndex: number,
-  endIndex: number,
-) => IResultOfRequiredEater
-
-export interface ContentHelper {
-  contentType: AutolinkExtensionContentType
-  eat: ContentEater
-}

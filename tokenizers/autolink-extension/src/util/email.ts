@@ -20,19 +20,17 @@ export function eatExtendEmailAddress(
   startIndex: number,
   endIndex: number,
 ): IResultOfRequiredEater {
-  let i = startIndex
-  for (; i < endIndex; i += 1) {
-    const c = nodePoints[i].codePoint
-    if (
-      isAlphanumeric(c) ||
-      c === AsciiCodePoint.DOT ||
-      c === AsciiCodePoint.MINUS_SIGN ||
-      c === AsciiCodePoint.UNDERSCORE ||
-      c === AsciiCodePoint.PLUS_SIGN
-    )
-      continue
-    break
-  }
+  const localPartEndIndex = eatExtendEmailLocalPart(nodePoints, startIndex, endIndex)
+  return eatExtendEmailAddressFromLocalPartEnd(nodePoints, startIndex, localPartEndIndex, endIndex)
+}
+
+export function eatExtendEmailAddressFromLocalPartEnd(
+  nodePoints: readonly INodePoint[],
+  startIndex: number,
+  localPartEndIndex: number,
+  endIndex: number,
+): IResultOfRequiredEater {
+  let i = localPartEndIndex
 
   // Match an '@' symbol.
   if (
@@ -72,4 +70,31 @@ export function eatExtendEmailAddress(
   // There must be at least one period.
   if (countOfPeriod <= 0) return { valid: false, nextIndex: i }
   return { valid: true, nextIndex: i }
+}
+
+/**
+ * Find the first character after an extended-email local part.
+ *
+ * Kept separate so the matcher avoids repeatedly scanning suffixes within the
+ * same local-part run.
+ */
+export function eatExtendEmailLocalPart(
+  nodePoints: readonly INodePoint[],
+  startIndex: number,
+  endIndex: number,
+): number {
+  let i = startIndex
+  for (; i < endIndex; i += 1) {
+    const c = nodePoints[i].codePoint
+    if (
+      isAlphanumeric(c) ||
+      c === AsciiCodePoint.DOT ||
+      c === AsciiCodePoint.MINUS_SIGN ||
+      c === AsciiCodePoint.UNDERSCORE ||
+      c === AsciiCodePoint.PLUS_SIGN
+    )
+      continue
+    break
+  }
+  return i
 }

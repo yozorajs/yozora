@@ -1,3 +1,4 @@
+import { createNodePointGenerator } from '@yozora/character'
 import { createTokenizerTesters } from '@yozora/test-util'
 import { parsers } from 'vitest.setup'
 import AutolinkExtensionTokenizer from '../src'
@@ -36,6 +37,20 @@ describe('extended URL boundaries', () => {
       children: [{ type: 'text', value: source }],
     })
   })
+
+  test.each([
+    ['aa._https://example.com', 'https://example.com'],
+    ['aa._www.example.com', 'http://www.example.com'],
+  ])('recognizes %s after an underscore delimiter', (source, url) => {
+    const value = source.slice(4)
+    expect(parsers.gfmEx.parse(source, { shouldReservePosition: false }).children[0]).toEqual({
+      type: 'paragraph',
+      children: [
+        { type: 'text', value: 'aa._' },
+        { type: 'link', url, children: [{ type: 'text', value }] },
+      ],
+    })
+  })
 })
 
 describe('extended email boundaries', () => {
@@ -66,3 +81,37 @@ describe('extended email boundaries', () => {
     })
   })
 })
+
+test.each(['_a'.repeat(2_000), '_www.'.repeat(1_000)])(
+  'does not rescan rejected underscore-prefixed candidates',
+  source => {
+    const originalNodePoints = Array.from(createNodePointGenerator(source)).flat()
+    let nodePointReads = 0
+    const nodePoints = new Proxy(originalNodePoints, {
+      get: (target, property, receiver) => {
+        if (typeof property === 'string' && Number.isInteger(Number(property))) {
+          nodePointReads += 1
+        }
+        return Reflect.get(target, property, receiver)
+      },
+    })
+    const hook = new AutolinkExtensionTokenizer().match({
+      getBlockStartIndex: () => 0,
+      getNodePoints: () => nodePoints,
+    } as any)
+    const findDelimiter = hook.findDelimiter()
+    findDelimiter.next()
+
+    expect(findDelimiter.next([0, nodePoints.length]).value).toBeNull()
+    expect(nodePointReads).toBeLessThan(nodePoints.length * 64)
+    expect(parsers.gfmEx.parse(source, { shouldReservePosition: false })).toEqual({
+      type: 'root',
+      children: [
+        {
+          type: 'paragraph',
+          children: [{ type: 'text', value: source }],
+        },
+      ],
+    })
+  },
+)
