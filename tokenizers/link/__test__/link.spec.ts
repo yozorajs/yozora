@@ -1,4 +1,4 @@
-import { InlineCodeType, LinkReferenceType, LinkType } from '@yozora/ast'
+import { FootnoteType, InlineCodeType, LinkReferenceType, LinkType } from '@yozora/ast'
 import { createNodePointGenerator } from '@yozora/character'
 import type { IInlineToken } from '@yozora/core-tokenizer'
 import { encodeLinkDestination, isValidLinkText } from '@yozora/core-tokenizer'
@@ -171,4 +171,72 @@ test.each([LinkType, LinkReferenceType])('rejects nested %s tokens', nodeType =>
   ]
 
   expect(isValidLinkText(nodePoints, 0, nodePoints.length, internalTokens)).toBe(false)
+})
+
+test('rejects link tokens nested in another inline token', () => {
+  const nodePoints = [...createNodePointGenerator('foo')].flat()
+  const internalTokens: IInlineToken[] = [
+    {
+      _tokenizer: 'test',
+      nodeType: FootnoteType,
+      startIndex: 0,
+      endIndex: nodePoints.length,
+      children: [
+        {
+          _tokenizer: 'test',
+          nodeType: LinkType,
+          startIndex: 1,
+          endIndex: 2,
+        },
+      ],
+    },
+  ]
+
+  expect(isValidLinkText(nodePoints, 0, nodePoints.length, internalTokens)).toBe(false)
+})
+
+test('ignores nested link tokens outside the link-text range', () => {
+  const nodePoints = [...createNodePointGenerator('foo')].flat()
+  const internalTokens: IInlineToken[] = [
+    {
+      _tokenizer: 'test',
+      nodeType: FootnoteType,
+      startIndex: 0,
+      endIndex: nodePoints.length,
+      children: [
+        {
+          _tokenizer: 'test',
+          nodeType: LinkType,
+          startIndex: 2,
+          endIndex: 3,
+        },
+      ],
+    },
+  ]
+
+  expect(isValidLinkText(nodePoints, 0, 2, internalTokens)).toBe(true)
+})
+
+test('does not create a link containing another link through a footnote', () => {
+  const ast = parsers.yozora.parse('[outer ^[[inner](u)]](v)', {
+    shouldReservePosition: false,
+  })
+
+  expect(ast.children[0]).toEqual({
+    type: 'paragraph',
+    children: [
+      { type: 'text', value: '[outer ' },
+      {
+        type: 'footnote',
+        children: [
+          {
+            type: 'link',
+            url: 'u',
+            children: [{ type: 'text', value: 'inner' }],
+          },
+        ],
+      },
+      { type: 'text', value: '](v)' },
+    ],
+  })
 })

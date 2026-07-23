@@ -9,9 +9,9 @@ import type {
 } from '@yozora/core-tokenizer'
 import {
   checkBalancedBracketsStatus,
+  containsLinkToken,
   eatOptionalWhitespaces,
   genFindDelimiter,
-  isLinkToken,
 } from '@yozora/core-tokenizer'
 import type { IDelimiter, IThis, IToken, T } from './types'
 import { eatLinkDestination } from './util/link-destination'
@@ -167,15 +167,8 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
      * @see https://github.github.com/gfm/#example-540
      * @see https://github.github.com/gfm/#example-541
      */
-    for (const token of internalTokens) {
-      // Tokens are sorted by startIndex, so later tokens cannot overlap link text.
-      if (token.startIndex >= closerDelimiter.startIndex) break
-      if (token.endIndex <= openerDelimiter.endIndex) continue
-
-      if (isLinkToken(token)) {
-        // Detected internal link token.
-        return { paired: false, opener: false, closer: false }
-      }
+    if (containsLinkToken(internalTokens, openerDelimiter.endIndex, closerDelimiter.startIndex)) {
+      return { paired: false, opener: false, closer: false }
     }
 
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(

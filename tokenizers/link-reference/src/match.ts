@@ -1,7 +1,7 @@
 import { LinkReferenceType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
-import { eatLinkLabel, genFindDelimiter, isLinkToken } from '@yozora/core-tokenizer'
+import { containsLinkToken, eatLinkLabel, genFindDelimiter } from '@yozora/core-tokenizer'
 import type {
   IInlineToken,
   IMatchInlineHookCreator,
@@ -232,8 +232,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
      * @see https://github.github.com/gfm/#example-540
      * @see https://github.github.com/gfm/#example-541
      */
-    const hasInternalLinkToken: boolean = internalTokens.find(isLinkToken) != null
-    if (hasInternalLinkToken) {
+    if (containsLinkToken(internalTokens, openerDelimiter.endIndex, closerDelimiter.startIndex)) {
       return { paired: false, opener: false, closer: false }
     }
 

@@ -147,6 +147,37 @@ export function isLinkToken(token: IInlineToken): boolean {
 }
 
 /**
+ * Check whether an overlapping token or one of its descendants is a link.
+ *
+ * @param tokens
+ * @param startIndex Inclusive start of the source range.
+ * @param endIndex Exclusive end of the source range.
+ */
+export function containsLinkToken(
+  tokens: readonly IInlineToken[],
+  startIndex: number,
+  endIndex: number,
+): boolean {
+  if (startIndex >= endIndex || tokens.length <= 0) return false
+
+  const stack: Array<{ tokens: readonly IInlineToken[]; index: number }> = [{ tokens, index: 0 }]
+
+  while (stack.length > 0) {
+    const frame = stack[stack.length - 1]
+    if (frame.index >= frame.tokens.length) {
+      stack.pop()
+      continue
+    }
+
+    const token = frame.tokens[frame.index++]
+    if (token.endIndex <= startIndex || token.startIndex >= endIndex) continue
+    if (isLinkToken(token)) return true
+    if (token.children?.length) stack.push({ tokens: token.children, index: 0 })
+  }
+  return false
+}
+
+/**
  * The link text may contain balanced brackets, but not unbalanced ones,
  * unless they are escaped. Brackets inside higher-priority inline tokens are
  * ignored.
@@ -242,11 +273,7 @@ export function isValidLinkText(
 ): boolean {
   if (startIndex < 0 || endIndex > nodePoints.length || startIndex > endIndex) return false
 
-  for (const token of internalTokens) {
-    if (token.startIndex >= endIndex) break
-    if (token.endIndex <= startIndex) continue
-    if (isLinkToken(token)) return false
-  }
+  if (containsLinkToken(internalTokens, startIndex, endIndex)) return false
 
   return checkBalancedBracketsStatus(startIndex, endIndex, internalTokens, nodePoints) === 0
 }
