@@ -1,5 +1,5 @@
 {
-  "title": "GFM#42 https://github.github.com/gfm/#example-42",
+  "title": "GFM#42 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L900",
   "cases": [
     {
       "description": "It need not be the same length as the opening sequence",

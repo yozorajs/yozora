@@ -1,5 +1,5 @@
 {
-  "title": "GFM#521 https://github.github.com/gfm/#example-521",
+  "title": "GFM#521 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L8096",
   "cases": [
     {
       "description": "The link text may contain balanced brackets, but not unbalanced ones, unless they are escaped",

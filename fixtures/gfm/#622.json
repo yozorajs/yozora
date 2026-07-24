@@ -1,5 +1,5 @@
 {
-  "title": "GFM#622 https://github.github.com/gfm/#example-622",
+  "title": "GFM#622 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9221",
   "cases": [
     {
       "description": "After a valid domain, zero or more non-space non-< characters may follow",

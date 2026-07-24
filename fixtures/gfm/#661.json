@@ -1,11 +1,11 @@
 {
-  "title": "GFM#661 https://github.github.com/gfm/#example-661",
+  "title": "GFM#661 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9752",
   "cases": [
     {
       "description": "Line breaks do not occur inside code spans",
-      "input": "`code  \nspan`",
-      "markupAnswer": "`code   span`",
-      "htmlAnswer": "<p><code>code   span</code></p>",
+      "input": "`code\\\nspan`",
+      "markupAnswer": "`code\\ span`",
+      "htmlAnswer": "<p><code>code\\ span</code></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -17,7 +17,7 @@
           "end": {
             "line": 2,
             "column": 6,
-            "offset": 13
+            "offset": 12
           }
         },
         "children": [
@@ -32,7 +32,7 @@
               "end": {
                 "line": 2,
                 "column": 6,
-                "offset": 13
+                "offset": 12
               }
             },
             "children": [
@@ -47,10 +47,10 @@
                   "end": {
                     "line": 2,
                     "column": 6,
-                    "offset": 13
+                    "offset": 12
                   }
                 },
-                "value": "code   span"
+                "value": "code\\ span"
               }
             ]
           }

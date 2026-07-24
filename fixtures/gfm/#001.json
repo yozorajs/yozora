@@ -1,5 +1,5 @@
 {
-  "title": "GFM#1 https://github.github.com/gfm/#example-1",
+  "title": "GFM#1 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L368",
   "cases": [
     {
       "description": "Thus, for example, a tab can be used instead of four spaces in an indented code block. (Note, however, that internal tabs are passed through as literal tabs, not expanded to spaces.)",

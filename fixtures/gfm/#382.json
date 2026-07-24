@@ -1,5 +1,5 @@
 {
-  "title": "GFM#382 https://github.github.com/gfm/#example-382",
+  "title": "GFM#382 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L6784",
   "cases": [
     {
       "description": "This is emphasis within emphasis",

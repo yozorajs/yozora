@@ -1,5 +1,5 @@
 {
-  "title": "GFM#77 https://github.github.com/gfm/#example-77",
+  "title": "GFM#77 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1421",
   "cases": [
     {
       "description": "An indented code block cannot interrupt a paragraph, so there must be a blank line between a paragraph and a following indented code block. (A blank line is not needed, however, between a code block and a following paragraph.)",

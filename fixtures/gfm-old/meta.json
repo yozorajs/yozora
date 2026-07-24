@@ -1,0 +1,17 @@
+{
+  "source": {
+    "repository": "https://github.github.com/gfm"
+  },
+  "groups": {
+    "unclassified": {
+      "Entity and numeric character references": ["#324"]
+    },
+    "ast": {
+      "link-reference": {
+        "full": ["#548"]
+      },
+      "autolink-extension": ["#628"],
+      "html-inline": ["#644", "#645", "#646"]
+    }
+  }
+}

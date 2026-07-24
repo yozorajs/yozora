@@ -1,5 +1,5 @@
 {
-  "title": "GFM#198 https://github.github.com/gfm/#example-198",
+  "title": "GFM#198 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L3326",
   "cases": [
     {
       "description": "The delimiter row consists of cells whose only content are hyphens (-), and optionally, a leading or trailing colon (:), or both, to indicate left, right, or center alignment respectively.",

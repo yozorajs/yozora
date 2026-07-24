@@ -1,5 +1,5 @@
 {
-  "title": "GFM#388 https://github.github.com/gfm/#example-388",
+  "title": "GFM#388 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L6837",
   "cases": [
     {
       "description": "This is not strong emphasis, because the opening delimiter is followed by whitespace",

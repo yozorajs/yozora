@@ -1,5 +1,5 @@
 {
-  "title": "GFM#189 https://github.github.com/gfm/#example-189",
+  "title": "GFM#189 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L3184",
   "cases": [
     {
       "description": "A simple example with two paragraphs",

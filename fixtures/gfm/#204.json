@@ -1,5 +1,5 @@
 {
-  "title": "GFM#204 https://github.github.com/gfm/#example-204",
+  "title": "GFM#204 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L3471",
   "cases": [
     {
       "description": "The remainder of the table’s rows may vary in the number of cells. If there are a number of cells fewer than the number of cells in the header row, empty cells are inserted. If there are greater, the excess is ignored",

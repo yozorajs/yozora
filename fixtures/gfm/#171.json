@@ -1,5 +1,5 @@
 {
-  "title": "GFM#171 https://github.github.com/gfm/#example-171",
+  "title": "GFM#171 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L2953",
   "cases": [
     {
       "description": "Both title and destination can contain backslash escapes and literal backslashes",

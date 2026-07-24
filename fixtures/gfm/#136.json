@@ -1,5 +1,5 @@
 {
-  "title": "GFM#136 https://github.github.com/gfm/#example-136",
+  "title": "GFM#136 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L2354",
   "cases": [
     {
       "description": "These rules are designed to allow us to work with tags that can function as either block-level or inline-level tags. The <del> tag is a nice example. We can surround content with <del> tags in three different ways. In this case, we get a raw HTML block, because the <del> tag is on a line by itself",

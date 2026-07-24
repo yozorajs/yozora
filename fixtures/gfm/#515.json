@@ -1,5 +1,5 @@
 {
-  "title": "GFM#515 https://github.github.com/gfm/#example-515",
+  "title": "GFM#515 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L8026",
   "cases": [
     {
       "description": "Titles must be separated from the link using a whitespace. Other Unicode whitespace like non-breaking space doesn’t work.",

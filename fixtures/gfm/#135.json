@@ -1,5 +1,5 @@
 {
-  "title": "GFM#135 https://github.github.com/gfm/#example-135",
+  "title": "GFM#135 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L2339",
   "cases": [
     {
       "description": "In type 7 blocks, the tag name can be anything",

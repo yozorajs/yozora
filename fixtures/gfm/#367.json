@@ -1,5 +1,5 @@
 {
-  "title": "GFM#367 https://github.github.com/gfm/#example-367",
+  "title": "GFM#367 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L6635",
   "cases": [
     {
       "description": "This is not emphasis, because the opening _ is followed by whitespace",

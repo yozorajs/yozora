@@ -1,5 +1,5 @@
 {
-  "title": "GFM#319 https://github.github.com/gfm/#example-319",
+  "title": "GFM#319 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L5906",
   "cases": [
     {
       "description": "But they work in all other contexts, including URLs and link titles, link references, and info strings in fenced code blocks",

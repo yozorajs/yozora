@@ -1,5 +1,5 @@
 {
-  "title": "GFM#76 https://github.github.com/gfm/#example-76",
+  "title": "GFM#76 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1393",
   "cases": [
     {
       "description": "Authors who want interpretation 3 can use backslash escapes",

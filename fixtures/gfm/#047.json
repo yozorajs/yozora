@@ -1,5 +1,5 @@
 {
-  "title": "GFM#47 https://github.github.com/gfm/#example-47",
+  "title": "GFM#47 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L955",
   "cases": [
     {
       "description": "ATX headings need not be separated from surrounding content by blank lines, and they can interrupt paragraphs",

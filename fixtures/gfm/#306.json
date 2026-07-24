@@ -1,5 +1,5 @@
 {
-  "title": "GFM#306 https://github.github.com/gfm/#example-306",
+  "title": "GFM#306 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L5743",
   "cases": [
     {
       "description": "Here the outer list is loose, the inner list tight",

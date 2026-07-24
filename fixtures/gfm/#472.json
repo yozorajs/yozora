@@ -1,5 +1,5 @@
 {
-  "title": "GFM#472 https://github.github.com/gfm/#example-472",
+  "title": "GFM#472 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L7557",
   "cases": [
     {
       "description": "Rule 13 implies that if you want emphasis nested directly inside emphasis, you must use different delimiters",

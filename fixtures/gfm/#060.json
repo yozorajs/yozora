@@ -1,5 +1,5 @@
 {
-  "title": "GFM#60 https://github.github.com/gfm/#example-60",
+  "title": "GFM#60 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1158",
   "cases": [
     {
       "description": "Nor does a backslash at the end",

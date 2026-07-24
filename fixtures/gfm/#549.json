@@ -1,5 +1,5 @@
 {
-  "title": "GFM#549 https://github.github.com/gfm/#example-549",
+  "title": "GFM#549 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L8390",
   "cases": [
     {
       "description": "Consecutive internal whitespace is treated as one space for purposes of determining matching",

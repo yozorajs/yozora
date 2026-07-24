@@ -1,5 +1,5 @@
 {
-  "title": "GFM#43 https://github.github.com/gfm/#example-43",
+  "title": "GFM#43 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L911",
   "cases": [
     {
       "description": "Spaces are allowed after the closing sequence",

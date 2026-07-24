@@ -1,5 +1,5 @@
 {
-  "title": "GFM#331 https://github.github.com/gfm/#example-331",
+  "title": "GFM#331 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L6067",
   "cases": [
     {
       "description": "Entity and numeric character references are treated as literal text in code spans and code blocks",

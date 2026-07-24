@@ -1,5 +1,5 @@
 {
-  "title": "GFM#610 https://github.github.com/gfm/#example-610",
+  "title": "GFM#610 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9093",
   "cases": [
     {
       "description": "Spaces are not allowed in autolinks",

@@ -1,5 +1,5 @@
 {
-  "title": "GFM#600 https://github.github.com/gfm/#example-600",
+  "title": "GFM#600 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L8983",
   "cases": [
     {
       "description": "If you just want a literal ! followed by bracketed text, you can backslash-escape the opening [",

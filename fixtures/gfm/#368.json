@@ -1,5 +1,5 @@
 {
-  "title": "GFM#368 https://github.github.com/gfm/#example-368",
+  "title": "GFM#368 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L6645",
   "cases": [
     {
       "description": "This is not emphasis, because the opening _ is preceded by an alphanumeric and followed by punctuation",

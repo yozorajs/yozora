@@ -1,5 +1,5 @@
 {
-  "title": "GFM#558 https://github.github.com/gfm/#example-558",
+  "title": "GFM#558 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L8521",
   "cases": [
     {
       "description": "Note that in this example ] is not backslash-escaped",

@@ -1,5 +1,5 @@
 {
-  "title": "GFM#507 https://github.github.com/gfm/#example-507",
+  "title": "GFM#507 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L7931",
   "cases": [
     {
       "description": "However, if you have unbalanced parentheses, you need to escape or use the <...> form",

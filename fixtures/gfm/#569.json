@@ -1,5 +1,5 @@
 {
-  "title": "GFM#569 https://github.github.com/gfm/#example-569",
+  "title": "GFM#569 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L8656",
   "cases": [
     {
       "description": "The link labels are case-insensitive",

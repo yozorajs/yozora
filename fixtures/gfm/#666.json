@@ -1,11 +1,11 @@
 {
-  "title": "GFM#666 https://github.github.com/gfm/#example-666",
+  "title": "GFM#666 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9798",
   "cases": [
     {
       "description": "Hard line breaks are for separating inline content within a block. Neither syntax for hard line breaks works at the end of a paragraph or other block element",
-      "input": "foo  ",
-      "markupAnswer": "foo",
-      "htmlAnswer": "<p>foo</p>",
+      "input": "### foo\\",
+      "markupAnswer": "### foo\\\\",
+      "htmlAnswer": "<h3>foo\\</h3>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,13 +16,13 @@
           },
           "end": {
             "line": 1,
-            "column": 6,
-            "offset": 5
+            "column": 9,
+            "offset": 8
           }
         },
         "children": [
           {
-            "type": "paragraph",
+            "type": "heading",
             "position": {
               "start": {
                 "line": 1,
@@ -31,26 +31,27 @@
               },
               "end": {
                 "line": 1,
-                "column": 6,
-                "offset": 5
+                "column": 9,
+                "offset": 8
               }
             },
+            "depth": 3,
             "children": [
               {
                 "type": "text",
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 1,
-                    "offset": 0
+                    "column": 5,
+                    "offset": 4
                   },
                   "end": {
                     "line": 1,
-                    "column": 4,
-                    "offset": 3
+                    "column": 9,
+                    "offset": 8
                   }
                 },
-                "value": "foo"
+                "value": "foo\\"
               }
             ]
           }

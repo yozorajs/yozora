@@ -1,11 +1,11 @@
 {
-  "title": "GFM#436 https://github.github.com/gfm/#example-436",
+  "title": "GFM#436 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L7282",
   "cases": [
     {
-      "description": "In particular, emphasis and strong emphasis can be nested inside strong emphasis",
+      "description": "Emphasis and strong emphasis (example 436)",
       "input": "**foo **bar****",
       "markupAnswer": "**foo **bar****",
-      "htmlAnswer": "<p><strong>foo <strong>bar</strong></strong></p>",
+      "htmlAnswer": "<p><strong>foo bar</strong></p>",
       "parseAnswer": {
         "type": "root",
         "position": {

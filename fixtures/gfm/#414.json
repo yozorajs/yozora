@@ -1,5 +1,5 @@
 {
-  "title": "GFM#414 https://github.github.com/gfm/#example-414",
+  "title": "GFM#414 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L7083",
   "cases": [
     {
       "description": "Any nonempty sequence of inline elements can be the contents of an emphasized span.",

@@ -1,5 +1,5 @@
 {
-  "title": "GFM#179 https://github.github.com/gfm/#example-179",
+  "title": "GFM#179 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L3040",
   "cases": [
     {
       "description": "This is a link reference definition, but it has no title",

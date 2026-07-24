@@ -1,5 +1,5 @@
 {
-  "title": "GFM#87 https://github.github.com/gfm/#example-87",
+  "title": "GFM#87 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1583",
   "cases": [
     {
       "description": "Blank lines preceding or following an indented code block are not included in it",

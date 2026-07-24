@@ -1,5 +1,5 @@
 {
-  "title": "GFM#377 https://github.github.com/gfm/#example-377",
+  "title": "GFM#377 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L6733",
   "cases": [
     {
       "description": "This is not emphasis, because the second * is preceded by punctuation and followed by an alphanumeric (hence it is not part of a right-flanking delimiter run",

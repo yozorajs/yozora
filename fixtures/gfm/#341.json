@@ -1,5 +1,5 @@
 {
-  "title": "GFM#341 https://github.github.com/gfm/#example-341",
+  "title": "GFM#341 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L6177",
   "cases": [
     {
       "description": "Note that only one space is stripped",

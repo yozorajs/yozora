@@ -1,5 +1,5 @@
 {
-  "title": "GFM#642 https://github.github.com/gfm/#example-642",
+  "title": "GFM#642 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9534",
   "cases": [
     {
       "description": "Closing tags",

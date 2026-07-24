@@ -1,5 +1,5 @@
 {
-  "title": "GFM#279 https://github.github.com/gfm/#example-279",
+  "title": "GFM#279 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L5108",
   "cases": [
     {
       "description": "This spec does not define how the checkbox elements are interacted with: in practice, implementors are free to render the checkboxes as disabled or inmutable elements, or they may dynamically handle dynamic interactions (i.e. checking, unchecking) in the final rendered document.",

@@ -1,5 +1,5 @@
 {
-  "title": "GFM#626 https://github.github.com/gfm/#example-626",
+  "title": "GFM#626 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9277",
   "cases": [
     {
       "description": "If an autolink ends in a semicolon (;), we check to see if it appears to resemble an entity reference; if the preceding text is & followed by one or more alphanumeric characters. If so, it is excluded from the autolink",

@@ -1,5 +1,5 @@
 {
-  "title": "GFM#346 https://github.github.com/gfm/#example-346",
+  "title": "GFM#346 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L6224",
   "cases": [
     {
       "description": "Line endings are treated like spaces",

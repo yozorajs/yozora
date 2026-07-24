@@ -1,5 +1,5 @@
 {
-  "title": "GFM#564 https://github.github.com/gfm/#example-564",
+  "title": "GFM#564 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L8598",
   "cases": [
     {
       "description": "As with full reference links, whitespace is not allowed between the two sets of brackets",

@@ -1,5 +1,5 @@
 {
-  "title": "GFM#73 https://github.github.com/gfm/#example-73",
+  "title": "GFM#73 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1344",
   "cases": [
     {
       "description": "We find interpretation 4 most natural, and interpretation 4 increases the expressive power of CommonMark, by allowing multiline headings. Authors who want interpretation 1 can put a blank line after the first paragraph",

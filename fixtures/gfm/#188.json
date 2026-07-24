@@ -1,5 +1,5 @@
 {
-  "title": "GFM#188 https://github.github.com/gfm/#example-188",
+  "title": "GFM#188 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L3167",
   "cases": [
     {
       "description": "Whether something is a link reference definition is independent of whether the link reference it defines is used in the document. Thus, for example, the following document contains just a link reference definition, and no visible content",

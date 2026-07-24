@@ -1,11 +1,11 @@
 {
-  "title": "GFM#646 https://github.github.com/gfm/#example-646",
+  "title": "GFM#646 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9572",
   "cases": [
     {
-      "description": "Not comments",
-      "input": "foo <!--> foo -->\n\nfoo <!-- foo--->",
-      "markupAnswer": "foo <!--> foo -->\n\nfoo <!-- foo--->",
-      "htmlAnswer": "<p>foo &lt;!--&gt; foo --&gt;</p>\n<p>foo &lt;!-- foo---&gt;</p>",
+      "description": "Processing instructions",
+      "input": "foo <?php echo $a; ?>",
+      "markupAnswer": "foo <?php echo $a; ?>",
+      "htmlAnswer": "<p>foo <?php echo $a; ?></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 3,
-            "column": 17,
-            "offset": 35
+            "line": 1,
+            "column": 22,
+            "offset": 21
           }
         },
         "children": [
@@ -30,9 +30,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 18
+                "line": 1,
+                "column": 22,
+                "offset": 21
               }
             },
             "children": [
@@ -46,44 +46,27 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 18,
-                    "offset": 17
+                    "column": 5,
+                    "offset": 4
                   }
                 },
-                "value": "foo <!--> foo -->"
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 19
+                "value": "foo "
               },
-              "end": {
-                "line": 3,
-                "column": 17,
-                "offset": 35
-              }
-            },
-            "children": [
               {
-                "type": "text",
+                "type": "html",
                 "position": {
                   "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 19
+                    "line": 1,
+                    "column": 5,
+                    "offset": 4
                   },
                   "end": {
-                    "line": 3,
-                    "column": 17,
-                    "offset": 35
+                    "line": 1,
+                    "column": 22,
+                    "offset": 21
                   }
                 },
-                "value": "foo <!-- foo--->"
+                "value": "<?php echo $a; ?>"
               }
             ]
           }

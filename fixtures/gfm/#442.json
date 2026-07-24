@@ -1,5 +1,5 @@
 {
-  "title": "GFM#442 https://github.github.com/gfm/#example-442",
+  "title": "GFM#442 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L7328",
   "cases": [
     {
       "description": "Indefinite levels of nesting are possible",

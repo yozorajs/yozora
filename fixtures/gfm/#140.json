@@ -1,5 +1,5 @@
 {
-  "title": "GFM#140 https://github.github.com/gfm/#example-140",
+  "title": "GFM#140 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L2424",
   "cases": [
     {
       "description": "A script tag (type 1)",

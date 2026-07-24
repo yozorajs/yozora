@@ -1,0 +1,52 @@
+{
+  "fixtureGroupsRevision": "0.29.0.gfm.13",
+  "fixtureOverrides": {
+    "#083": {
+      "description": "An indented code block cannot interrupt a paragraph. (This allows hanging indents and the like.)",
+      "input": "Foo\n    bar"
+    },
+    "#087": {
+      "description": "Blank lines preceding or following an indented code block are not included in it",
+      "input": "\n    \n    foo\n    "
+    },
+    "#543": {
+      "description": "The following cases illustrate the precedence of link text grouping over emphasis grouping",
+      "input": "[foo *bar][ref]*\n\n[ref]: /uri",
+      "htmlAnswer": "<p><a href=\"/uri\">foo *bar</a>*</p>"
+    }
+  },
+  "htmlAnswerUnsupportedExamples": [
+    "#398",
+    "#426",
+    "#434",
+    "#435",
+    "#436",
+    "#473",
+    "#474",
+    "#475",
+    "#477",
+    "#644",
+    "#645"
+  ],
+  "markupAnswerExcludedExamples": [
+    "#036",
+    "#310",
+    "#333",
+    "#334",
+    "#335",
+    "#336",
+    "#337",
+    "#359",
+    "#502",
+    "#534",
+    "#553",
+    "#571",
+    "#600",
+    "#601",
+    "#614",
+    "#624",
+    "#625",
+    "#628",
+    "#631"
+  ]
+}

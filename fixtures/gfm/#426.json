@@ -1,11 +1,11 @@
 {
-  "title": "GFM#426 https://github.github.com/gfm/#example-426",
+  "title": "GFM#426 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L7197",
   "cases": [
     {
-      "description": "When the lengths of the interior closing and opening delimiter runs are both multiples of 3, though, they can match to create emphasis",
+      "description": "Emphasis and strong emphasis (example 426)",
       "input": "foo******bar*********baz",
       "markupAnswer": "foo******bar*********baz",
-      "htmlAnswer": "<p>foo<strong><strong><strong>bar</strong></strong></strong>***baz</p>",
+      "htmlAnswer": "<p>foo<strong>bar</strong>***baz</p>",
       "parseAnswer": {
         "type": "root",
         "position": {

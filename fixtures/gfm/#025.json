@@ -1,5 +1,5 @@
 {
-  "title": "GFM#25 https://github.github.com/gfm/#example-25",
+  "title": "GFM#25 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L666",
   "cases": [
     {
       "description": "However, no other characters may occur in the line",

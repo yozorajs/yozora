@@ -1,5 +1,5 @@
 {
-  "title": "GFM#30 https://github.github.com/gfm/#example-30",
+  "title": "GFM#30 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L738",
   "cases": [
     {
       "description": "When both a thematic break and a list item are possible interpretations of a line, the thematic break takes precedence",

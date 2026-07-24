@@ -1,5 +1,5 @@
 {
-  "title": "GFM#505 https://github.github.com/gfm/#example-505",
+  "title": "GFM#505 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L7915",
   "cases": [
     {
       "description": "Any number of parentheses are allowed without escaping, as long as they are balanced",

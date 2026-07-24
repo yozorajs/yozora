@@ -1,5 +1,5 @@
 {
-  "title": "GFM#12 https://github.github.com/gfm/#example-12",
+  "title": "GFM#12 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L512",
   "cases": [
     {
       "description": "Indicators of block structure always take precedence over indicators of inline structure. So, for example, the following is a list with two items, not a list with one item containing a code span",

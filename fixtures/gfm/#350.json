@@ -1,5 +1,5 @@
 {
-  "title": "GFM#350 https://github.github.com/gfm/#example-350",
+  "title": "GFM#350 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L6269",
   "cases": [
     {
       "description": "Backslash escapes are never needed, because one can always choose a string of n backtick characters as delimiters, where the code does not contain any strings of exactly n backtick characters.",

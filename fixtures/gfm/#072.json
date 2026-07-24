@@ -1,5 +1,5 @@
 {
-  "title": "GFM#72 https://github.github.com/gfm/#example-72",
+  "title": "GFM#72 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1313",
   "cases": [
     {
       "description": "If you want a heading with > foo as its literal text, you can use backslash escapes",

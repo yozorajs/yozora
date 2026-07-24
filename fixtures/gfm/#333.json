@@ -1,5 +1,5 @@
 {
-  "title": "GFM#333 https://github.github.com/gfm/#example-333",
+  "title": "GFM#333 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L6086",
   "cases": [
     {
       "description": "Entity and numeric character references cannot be used in place of symbols indicating structure in CommonMark documents.",

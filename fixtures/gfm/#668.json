@@ -1,11 +1,11 @@
 {
-  "title": "GFM#668 https://github.github.com/gfm/#example-668",
+  "title": "GFM#668 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9820",
   "cases": [
     {
-      "description": "Hard line breaks are for separating inline content within a block. Neither syntax for hard line breaks works at the end of a paragraph or other block element",
-      "input": "### foo  ",
-      "markupAnswer": "### foo",
-      "htmlAnswer": "<h3>foo</h3>",
+      "description": "A regular line break (not in a code span or HTML tag) that is not preceded by two or more spaces or a backslash is parsed as a softbreak. (A softbreak may be rendered in HTML either as a line ending or as a space. The result will be the same in browsers. In the examples here, a line ending will be used.)",
+      "input": "foo\nbaz",
+      "markupAnswer": "foo\nbaz",
+      "htmlAnswer": "<p>foo\nbaz</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,14 +15,14 @@
             "offset": 0
           },
           "end": {
-            "line": 1,
-            "column": 10,
-            "offset": 9
+            "line": 2,
+            "column": 4,
+            "offset": 7
           }
         },
         "children": [
           {
-            "type": "heading",
+            "type": "paragraph",
             "position": {
               "start": {
                 "line": 1,
@@ -30,28 +30,27 @@
                 "offset": 0
               },
               "end": {
-                "line": 1,
-                "column": 10,
-                "offset": 9
+                "line": 2,
+                "column": 4,
+                "offset": 7
               }
             },
-            "depth": 3,
             "children": [
               {
                 "type": "text",
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 5,
-                    "offset": 4
+                    "column": 1,
+                    "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 8,
+                    "line": 2,
+                    "column": 4,
                     "offset": 7
                   }
                 },
-                "value": "foo"
+                "value": "foo\nbaz"
               }
             ]
           }

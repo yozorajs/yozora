@@ -1,5 +1,5 @@
 {
-  "title": "GFM#495 https://github.github.com/gfm/#example-495",
+  "title": "GFM#495 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L7827",
   "cases": [
     {
       "description": "Both the title and the destination may be omitted",

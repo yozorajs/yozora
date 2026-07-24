@@ -1,5 +1,5 @@
 {
-  "title": "GFM#542 https://github.github.com/gfm/#example-542",
+  "title": "GFM#542 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L8317",
   "cases": [
     {
       "description": "The following cases illustrate the precedence of link text grouping over emphasis grouping",

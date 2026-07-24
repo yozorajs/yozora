@@ -1,11 +1,11 @@
 {
-  "title": "GFM#645 https://github.github.com/gfm/#example-645",
+  "title": "GFM#645 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9560",
   "cases": [
     {
-      "description": "Comments",
-      "input": "foo <!-- not a comment -- two hyphens -->",
-      "markupAnswer": "foo <!-- not a comment -- two hyphens -->",
-      "htmlAnswer": "<p>foo &lt;!-- not a comment -- two hyphens --&gt;</p>",
+      "description": "Raw HTML (example 645)",
+      "input": "foo <!--> foo -->\n\nfoo <!---> foo -->",
+      "markupAnswer": "foo <!--> foo -->\n\nfoo <!---> foo -->",
+      "htmlAnswer": "<p>foo <!--> foo --&gt;</p>\n<p>foo <!---> foo --&gt;</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 1,
-            "column": 42,
-            "offset": 41
+            "line": 3,
+            "column": 19,
+            "offset": 37
           }
         },
         "children": [
@@ -30,9 +30,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 1,
-                "column": 42,
-                "offset": 41
+                "line": 2,
+                "column": 1,
+                "offset": 18
               }
             },
             "children": [
@@ -46,11 +46,44 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 42,
-                    "offset": 41
+                    "column": 18,
+                    "offset": 17
                   }
                 },
-                "value": "foo <!-- not a comment -- two hyphens -->"
+                "value": "foo <!--> foo -->"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 19
+              },
+              "end": {
+                "line": 3,
+                "column": 19,
+                "offset": 37
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 19
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 19,
+                    "offset": 37
+                  }
+                },
+                "value": "foo <!---> foo -->"
               }
             ]
           }

@@ -1,5 +1,5 @@
 {
-  "title": "GFM#293 https://github.github.com/gfm/#example-293",
+  "title": "GFM#293 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L5475",
   "cases": [
     {
       "description": "And here, 3. c is treated as in indented code block, because it is indented four spaces and preceded by a blank line.",

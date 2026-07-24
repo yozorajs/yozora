@@ -1,5 +1,5 @@
 {
-  "title": "GFM#58 https://github.github.com/gfm/#example-58",
+  "title": "GFM#58 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1132",
   "cases": [
     {
       "description": "The setext heading underline cannot contain internal spaces",

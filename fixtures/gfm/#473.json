@@ -1,11 +1,11 @@
 {
-  "title": "GFM#473 https://github.github.com/gfm/#example-473",
+  "title": "GFM#473 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L7567",
   "cases": [
     {
-      "description": "However, strong emphasis within strong emphasis is possible without switching delimiters",
+      "description": "Emphasis and strong emphasis (example 473)",
       "input": "****foo****",
       "markupAnswer": "****foo****",
-      "htmlAnswer": "<p><strong><strong>foo</strong></strong></p>",
+      "htmlAnswer": "<p><strong>foo</strong></p>",
       "parseAnswer": {
         "type": "root",
         "position": {

@@ -1,5 +1,5 @@
 {
-  "title": "GFM#321 https://github.github.com/gfm/#example-321",
+  "title": "GFM#321 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L5952",
   "cases": [
     {
       "description": "Entity references consist of & + any of the valid HTML5 entity names + ;. The document https://html.spec.whatwg.org/multipage/entities.json is used as an authoritative source for the valid entity references and their corresponding code points.",

@@ -1,5 +1,5 @@
 {
-  "title": "GFM#342 https://github.github.com/gfm/#example-342",
+  "title": "GFM#342 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L6186",
   "cases": [
     {
       "description": "The stripping only happens if the space is on both sides of the string",

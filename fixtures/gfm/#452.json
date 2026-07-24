@@ -1,5 +1,5 @@
 {
-  "title": "GFM#452 https://github.github.com/gfm/#example-452",
+  "title": "GFM#452 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L7407",
   "cases": [
     {
       "description": "Note that when delimiters do not match evenly, Rule 11 determines that the excess literal * characters will appear outside of the emphasis, rather than inside it",

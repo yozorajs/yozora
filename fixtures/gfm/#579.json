@@ -1,5 +1,5 @@
 {
-  "title": "GFM#579 https://github.github.com/gfm/#example-579",
+  "title": "GFM#579 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L8766",
   "cases": [
     {
       "description": "Here [foo] is not parsed as a shortcut reference, because it is followed by a link label (even though [bar] is not defined)",

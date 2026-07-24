@@ -1,5 +1,5 @@
 {
-  "title": "GFM#228 https://github.github.com/gfm/#example-228",
+  "title": "GFM#228 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L3909",
   "cases": [
     {
       "description": "It is a consequence of the Laziness rule that any number of initial >s may be omitted on a continuation line of a nested block quote",

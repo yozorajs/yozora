@@ -1,11 +1,11 @@
 {
-  "title": "GFM#475 https://github.github.com/gfm/#example-475",
+  "title": "GFM#475 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L7585",
   "cases": [
     {
-      "description": "Rule 13 can be applied to arbitrarily long sequences of delimiters",
+      "description": "Emphasis and strong emphasis (example 475)",
       "input": "******foo******",
       "markupAnswer": "******foo******",
-      "htmlAnswer": "<p><strong><strong><strong>foo</strong></strong></strong></p>",
+      "htmlAnswer": "<p><strong>foo</strong></p>",
       "parseAnswer": {
         "type": "root",
         "position": {

@@ -1,5 +1,5 @@
 {
-  "title": "GFM#94 https://github.github.com/gfm/#example-94",
+  "title": "GFM#94 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1716",
   "cases": [
     {
       "description": "The closing code fence must be at least as long as the opening fence",

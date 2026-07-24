@@ -1,5 +1,5 @@
 {
-  "title": "GFM#115 https://github.github.com/gfm/#example-115",
+  "title": "GFM#115 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1998",
   "cases": [
     {
       "description": "Info strings for backtick code blocks cannot contain backticks",

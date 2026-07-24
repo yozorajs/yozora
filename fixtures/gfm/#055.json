@@ -1,5 +1,5 @@
 {
-  "title": "GFM#55 https://github.github.com/gfm/#example-55",
+  "title": "GFM#55 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1092",
   "cases": [
     {
       "description": "Four spaces indent is too much",

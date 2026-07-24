@@ -1,5 +1,5 @@
 {
-  "title": "GFM#252 https://github.github.com/gfm/#example-252",
+  "title": "GFM#252 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L4376",
   "cases": [
     {
       "description": "Note that an additional space indent is interpreted as space inside the code block",

@@ -1,5 +1,5 @@
 {
-  "title": "GFM#155 https://github.github.com/gfm/#example-155",
+  "title": "GFM#155 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L2663",
   "cases": [
     {
       "description": "However, a following blank line is needed, except at the end of a document, and except for blocks of types 1–5, above",

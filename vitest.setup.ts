@@ -8,6 +8,7 @@ import type { BaseTester } from '@yozora/test-util'
 import fs from 'node:fs'
 import path from 'node:path'
 import url from 'node:url'
+import gfmConfig from './script/fixtures/gfm/config.json'
 
 export const parsers = {
   get gfm(): IParser {
@@ -50,120 +51,170 @@ export interface IGfmFixtureSelection {
   excludeExamples?: readonly string[]
 }
 
-const gfmFixtureDirectory = path.join(workspaceRootDir, 'fixtures/gfm')
-const gfmFixtureMeta: unknown = JSON.parse(
-  fs.readFileSync(path.join(gfmFixtureDirectory, 'meta.json'), 'utf8'),
-)
-const gfmFixtureGroups = new Map<string, string[]>()
-const allGfmExampleIds = new Set<string>()
+interface IGfmFixtureCatalog {
+  directoryName: string
+  groups: Map<string, string[]>
+  groupNames: string[]
+  exampleIds: Set<string>
+}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return value != null && typeof value === 'object' && !Array.isArray(value)
 }
 
-function collectGfmFixtureGroups(group: unknown, groupPath: string[]): void {
-  if (!Array.isArray(group)) {
-    if (!isRecord(group) || Object.keys(group).length === 0) {
-      throw new TypeError(`Invalid GFM fixture group ${JSON.stringify(groupPath.join('/'))}`)
-    }
-    for (const [name, child] of Object.entries(group)) {
-      if (name.length === 0 || name.includes('/')) {
-        throw new TypeError(`Invalid GFM fixture group name ${JSON.stringify(name)}`)
+function loadGfmFixtureCatalog(directoryName: string): IGfmFixtureCatalog {
+  const directory = path.join(workspaceRootDir, 'fixtures', directoryName)
+  const metadata: unknown = JSON.parse(fs.readFileSync(path.join(directory, 'meta.json'), 'utf8'))
+  const groups = new Map<string, string[]>()
+  const exampleIds = new Set<string>()
+
+  function collectGroups(group: unknown, groupPath: string[]): void {
+    if (!Array.isArray(group)) {
+      if (!isRecord(group) || Object.keys(group).length === 0) {
+        throw new TypeError(
+          `Invalid ${directoryName} fixture group ${JSON.stringify(groupPath.join('/'))}`,
+        )
       }
-      collectGfmFixtureGroups(child, [...groupPath, name])
+      for (const [name, child] of Object.entries(group)) {
+        if (name.length === 0 || name.includes('/')) {
+          throw new TypeError(`Invalid ${directoryName} fixture group name ${JSON.stringify(name)}`)
+        }
+        collectGroups(child, [...groupPath, name])
+      }
+      return
     }
-    return
+
+    const groupName = groupPath.join('/')
+    if (groupName.length === 0 || group.length === 0) {
+      throw new TypeError(`Invalid ${directoryName} fixture group ${JSON.stringify(groupName)}`)
+    }
+    const groupExampleIds: string[] = []
+    for (const exampleId of group) {
+      if (typeof exampleId !== 'string' || !/^#\d{3}$/.test(exampleId)) {
+        throw new TypeError(
+          `Invalid ${directoryName} fixture ID ${JSON.stringify(exampleId)} in ${groupName}`,
+        )
+      }
+      if (exampleIds.has(exampleId)) {
+        throw new Error(`${directoryName} fixture ${exampleId} belongs to more than one group`)
+      }
+      exampleIds.add(exampleId)
+      groupExampleIds.push(exampleId)
+    }
+    groups.set(groupName, groupExampleIds)
   }
 
-  const groupName = groupPath.join('/')
-  if (groupName.length === 0 || group.length === 0) {
-    throw new TypeError(`Invalid GFM fixture group ${JSON.stringify(groupName)}`)
+  if (!isRecord(metadata) || !isRecord(metadata['groups'])) {
+    throw new TypeError(`Invalid fixtures/${directoryName}/meta.json`)
   }
-  for (const exampleId of group) {
-    if (typeof exampleId !== 'string' || !/^#\d{3}$/.test(exampleId)) {
-      throw new TypeError(`Invalid GFM fixture ID ${JSON.stringify(exampleId)} in ${groupName}`)
-    }
-    if (allGfmExampleIds.has(exampleId)) {
-      throw new Error(`GFM fixture ${exampleId} belongs to more than one group`)
-    }
-    allGfmExampleIds.add(exampleId)
+  const metadataGroups = metadata['groups']
+  const groupScopes = Object.keys(metadataGroups).sort()
+  if (groupScopes.join('\n') !== 'ast\nunclassified') {
+    throw new TypeError(`${directoryName} fixture groups must contain only ast and unclassified`)
   }
-  gfmFixtureGroups.set(groupName, group)
+  collectGroups(metadataGroups['ast'], [])
+  collectGroups(metadataGroups['unclassified'], ['unclassified'])
+
+  const actualExampleIds = fs
+    .readdirSync(directory, { withFileTypes: true })
+    .map(entry => {
+      if (entry.isDirectory())
+        throw new Error(`${directoryName} fixtures must be flat: ${entry.name}`)
+      if (/^#\d{3}[.]json$/.test(entry.name)) return entry.name.slice(0, -5)
+      if (entry.name !== 'meta.json' && entry.name.endsWith('.json')) {
+        throw new Error(`Unexpected ${directoryName} fixture file ${entry.name}`)
+      }
+      return null
+    })
+    .filter((exampleId): exampleId is string => exampleId != null)
+    .sort()
+  const metadataExampleIds = Array.from(exampleIds).sort()
+
+  if (actualExampleIds.join('\n') !== metadataExampleIds.join('\n')) {
+    throw new Error(
+      `fixtures/${directoryName}/meta.json does not match the flat ${directoryName} fixture files`,
+    )
+  }
+
+  return { directoryName, groups, groupNames: Array.from(groups.keys()), exampleIds }
 }
 
-if (!isRecord(gfmFixtureMeta) || !isRecord(gfmFixtureMeta['groups'])) {
-  throw new TypeError('Invalid fixtures/gfm/meta.json')
-}
-const metaGroups = gfmFixtureMeta['groups']
-const groupScopes = Object.keys(metaGroups).sort()
-if (groupScopes.join('\n') !== 'ast\nunclassified') {
-  throw new TypeError('GFM fixture groups must contain only ast and unclassified')
-}
-collectGfmFixtureGroups(metaGroups['ast'], [])
-collectGfmFixtureGroups(metaGroups['unclassified'], ['unclassified'])
-const gfmGroupNames = Array.from(gfmFixtureGroups.keys())
-
-const actualGfmExampleIds = fs
-  .readdirSync(gfmFixtureDirectory, { withFileTypes: true })
-  .map(entry => {
-    if (entry.isDirectory()) throw new Error(`GFM fixtures must be flat: ${entry.name}`)
-    if (/^#\d{3}[.]json$/.test(entry.name)) return entry.name.slice(0, -5)
-    if (entry.name !== 'meta.json' && entry.name.endsWith('.json')) {
-      throw new Error(`Unexpected GFM fixture file ${entry.name}`)
+const gfmFixtureCatalogs = ['gfm', 'gfm-old'].map(loadGfmFixtureCatalog)
+const currentGfmFixtureCatalog = gfmFixtureCatalogs[0]
+const gfmGroupNames = currentGfmFixtureCatalog.groupNames
+for (const catalog of gfmFixtureCatalogs.slice(1)) {
+  for (const groupName of catalog.groupNames) {
+    if (!gfmGroupNames.includes(groupName)) {
+      throw new Error(`Unknown ${catalog.directoryName} fixture group: ${groupName}`)
     }
-    return null
-  })
-  .filter((exampleId): exampleId is string => exampleId != null)
-  .sort()
-const metadataGfmExampleIds = Array.from(allGfmExampleIds).sort()
-
-if (actualGfmExampleIds.join('\n') !== metadataGfmExampleIds.join('\n')) {
-  throw new Error('fixtures/gfm/meta.json does not match the flat GFM fixture files')
+  }
 }
 
-function selectGfmGroups(selectors: readonly string[], optionName: string): string[] {
+for (const exampleId of gfmConfig.htmlAnswerUnsupportedExamples) {
+  if (!currentGfmFixtureCatalog.exampleIds.has(exampleId)) {
+    throw new Error(`HTML-answer-unsupported GFM fixture does not exist: ${exampleId}`)
+  }
+}
+
+function validateGfmGroupSelectors(selectors: readonly string[], optionName: string): void {
   for (const selector of selectors) {
     if (!gfmGroupNames.some(name => name === selector || name.startsWith(`${selector}/`))) {
       throw new Error(`Unknown GFM fixture group in ${optionName}: ${selector}`)
     }
   }
-  return gfmGroupNames.filter(name =>
-    selectors.some(selector => name === selector || name.startsWith(`${selector}/`)),
-  )
 }
 
 function selectGfmExamples({
   includeGroups,
   excludeGroups = [],
   excludeExamples = [],
-}: IGfmFixtureSelection): Set<string> {
-  const selectedGroups = new Set(
-    includeGroups == null ? gfmGroupNames : selectGfmGroups(includeGroups, 'includeGroups'),
-  )
-  for (const groupName of selectGfmGroups(excludeGroups, 'excludeGroups')) {
-    selectedGroups.delete(groupName)
+}: IGfmFixtureSelection): Map<IGfmFixtureCatalog, Set<string>> {
+  if (includeGroups != null) validateGfmGroupSelectors(includeGroups, 'includeGroups')
+  validateGfmGroupSelectors(excludeGroups, 'excludeGroups')
+
+  const selectedExamplesByCatalog = new Map<IGfmFixtureCatalog, Set<string>>()
+  for (const catalog of gfmFixtureCatalogs) {
+    const selectedGroups = catalog.groupNames.filter(
+      groupName =>
+        (includeGroups == null ||
+          includeGroups.some(
+            selector => groupName === selector || groupName.startsWith(`${selector}/`),
+          )) &&
+        !excludeGroups.some(
+          selector => groupName === selector || groupName.startsWith(`${selector}/`),
+        ),
+    )
+
+    selectedExamplesByCatalog.set(
+      catalog,
+      new Set(selectedGroups.flatMap(groupName => catalog.groups.get(groupName)!)),
+    )
   }
 
-  const selectedExamples = new Set(
-    Array.from(selectedGroups).flatMap(groupName => gfmFixtureGroups.get(groupName)!),
-  )
   for (const exampleId of excludeExamples) {
-    if (!selectedExamples.delete(exampleId)) {
+    let deleted = false
+    for (const selectedExamples of selectedExamplesByCatalog.values()) {
+      deleted = selectedExamples.delete(exampleId) || deleted
+    }
+    if (!deleted) {
       throw new Error(`Excluded GFM fixture is not selected: ${exampleId}`)
     }
   }
-
-  return selectedExamples
+  return selectedExamplesByCatalog
 }
 
 export function scanGfmFixtures<T extends BaseTester>(
   tester: T,
   selection: IGfmFixtureSelection = {},
 ): T {
-  const selectedExamples = selectGfmExamples(selection)
-  return tester.scan('gfm/#*.json', undefined, filepath =>
-    selectedExamples.has(path.basename(filepath, '.json')),
-  )
+  const selectedExamplesByCatalog = selectGfmExamples(selection)
+  for (const catalog of gfmFixtureCatalogs) {
+    const selectedExamples = selectedExamplesByCatalog.get(catalog)!
+    tester.scan(`${catalog.directoryName}/#*.json`, undefined, filepath =>
+      selectedExamples.has(path.basename(filepath, '.json')),
+    )
+  }
+  return tester
 }
 
 /**

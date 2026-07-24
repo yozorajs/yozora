@@ -1,5 +1,5 @@
 {
-  "title": "GFM#41 https://github.github.com/gfm/#example-41",
+  "title": "GFM#41 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L889",
   "cases": [
     {
       "description": "A closing sequence of # characters is optional",

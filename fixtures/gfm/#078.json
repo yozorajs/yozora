@@ -1,5 +1,5 @@
 {
-  "title": "GFM#78 https://github.github.com/gfm/#example-78",
+  "title": "GFM#78 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1435",
   "cases": [
     {
       "description": "If there is any ambiguity between an interpretation of indentation as a code block and as indicating that material belongs to a list item, the list item interpretation takes precedence",

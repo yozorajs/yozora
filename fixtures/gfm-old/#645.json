@@ -1,11 +1,11 @@
 {
-  "title": "GFM#673 https://github.github.com/gfm/#example-673",
+  "title": "GFM#645 https://github.github.com/gfm/#example-645",
   "cases": [
     {
-      "description": "Internal spaces are preserved verbatim",
-      "input": "Multiple     spaces",
-      "markupAnswer": "Multiple     spaces",
-      "htmlAnswer": "<p>Multiple     spaces</p>",
+      "description": "Comments",
+      "input": "foo <!-- not a comment -- two hyphens -->",
+      "markupAnswer": "foo <!-- not a comment -- two hyphens -->",
+      "htmlAnswer": "<p>foo &lt;!-- not a comment -- two hyphens --&gt;</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 20,
-            "offset": 19
+            "column": 42,
+            "offset": 41
           }
         },
         "children": [
@@ -31,8 +31,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 20,
-                "offset": 19
+                "column": 42,
+                "offset": 41
               }
             },
             "children": [
@@ -46,11 +46,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 20,
-                    "offset": 19
+                    "column": 42,
+                    "offset": 41
                   }
                 },
-                "value": "Multiple     spaces"
+                "value": "foo <!-- not a comment -- two hyphens -->"
               }
             ]
           }

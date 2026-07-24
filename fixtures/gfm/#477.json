@@ -1,11 +1,11 @@
 {
-  "title": "GFM#477 https://github.github.com/gfm/#example-477",
+  "title": "GFM#477 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L7601",
   "cases": [
     {
-      "description": "Rule 14",
+      "description": "Emphasis and strong emphasis (example 477)",
       "input": "_____foo_____",
       "markupAnswer": "*****foo*****",
-      "htmlAnswer": "<p><em><strong><strong>foo</strong></strong></em></p>",
+      "htmlAnswer": "<p><em><strong>foo</strong></em></p>",
       "parseAnswer": {
         "type": "root",
         "position": {

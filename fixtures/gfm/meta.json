@@ -1,4 +1,10 @@
 {
+  "source": {
+    "repository": "https://github.com/github/cmark-gfm",
+    "revision": "0.29.0.gfm.13",
+    "specUrl": "https://raw.githubusercontent.com/github/cmark-gfm/0.29.0.gfm.13/test/spec.txt",
+    "sha256": "7d8e5814befec287ac116786d81ff14e0adc9b13295b4494649e995408fd871c"
+  },
   "groups": {
     "unclassified": {
       "tabs": [
@@ -508,7 +514,6 @@
           "#545",
           "#546",
           "#547",
-          "#548",
           "#549",
           "#550",
           "#551",
@@ -601,11 +606,11 @@
         "#648",
         "#649",
         "#650",
-        "#651",
-        "#652"
+        "#651"
       ],
       "break": {
         "hard line breaks": [
+          "#653",
           "#654",
           "#655",
           "#656",
@@ -619,12 +624,11 @@
           "#664",
           "#665",
           "#666",
-          "#667",
-          "#668"
+          "#667"
         ],
-        "soft line breaks": ["#669", "#670"]
+        "soft line breaks": ["#668", "#669"]
       },
-      "text": ["#671", "#672", "#673"]
+      "text": ["#670", "#671", "#672"]
     }
   }
 }

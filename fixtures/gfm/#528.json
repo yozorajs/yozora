@@ -1,5 +1,5 @@
 {
-  "title": "GFM#528 https://github.github.com/gfm/#example-528",
+  "title": "GFM#528 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L8149",
   "cases": [
     {
       "description": "However, links may not contain other links, at any level of nesting.",

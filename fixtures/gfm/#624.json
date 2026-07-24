@@ -1,5 +1,5 @@
 {
-  "title": "GFM#624 https://github.github.com/gfm/#example-624",
+  "title": "GFM#624 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9247",
   "cases": [
     {
       "description": "When an autolink ends in ), we scan the entire autolink for the total number of parentheses. If there is a greater number of closing parentheses than opening ones, we don’t consider the unmatched trailing parentheses part of the autolink, in order to facilitate including an autolink inside a parenthesis",

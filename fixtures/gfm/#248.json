@@ -1,5 +1,5 @@
 {
-  "title": "GFM#248 https://github.github.com/gfm/#example-248",
+  "title": "GFM#248 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L4303",
   "cases": [
     {
       "description": "An indented code block will have to be indented four spaces beyond the edge of the region where text will be included in the list item. In the following case that is 6 spaces",

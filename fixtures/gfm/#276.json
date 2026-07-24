@@ -1,5 +1,5 @@
 {
-  "title": "GFM#276 https://github.github.com/gfm/#example-276",
+  "title": "GFM#276 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L4847",
   "cases": [
     {
       "description": "A list may be the first block in a list item",

@@ -1,5 +1,5 @@
 {
-  "title": "GFM#433 https://github.github.com/gfm/#example-433",
+  "title": "GFM#433 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L7261",
   "cases": [
     {
       "description": "In particular, emphasis and strong emphasis can be nested inside strong emphasis",

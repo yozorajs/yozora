@@ -1,5 +1,5 @@
 {
-  "title": "GFM#602 https://github.github.com/gfm/#example-602",
+  "title": "GFM#602 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9028",
   "cases": [
     {
       "description": "Here are some valid autolinks",

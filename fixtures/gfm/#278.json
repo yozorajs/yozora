@@ -1,5 +1,5 @@
 {
-  "title": "GFM#278 https://github.github.com/gfm/#example-278",
+  "title": "GFM#278 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L4879",
   "cases": [
     {
       "description": "A list item can contain a heading",

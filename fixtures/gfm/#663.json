@@ -1,11 +1,11 @@
 {
-  "title": "GFM#663 https://github.github.com/gfm/#example-663",
+  "title": "GFM#663 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9771",
   "cases": [
     {
       "description": "or HTML tags",
-      "input": "<a href=\"foo  \nbar\">",
-      "markupAnswer": "<a href=\"foo  \nbar\">",
-      "htmlAnswer": "<p><a href=\"foo  \nbar\"></p>",
+      "input": "<a href=\"foo\\\nbar\">",
+      "markupAnswer": "<a href=\"foo\\\nbar\">",
+      "htmlAnswer": "<p><a href=\"foo\\\nbar\"></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -17,7 +17,7 @@
           "end": {
             "line": 2,
             "column": 6,
-            "offset": 20
+            "offset": 19
           }
         },
         "children": [
@@ -32,7 +32,7 @@
               "end": {
                 "line": 2,
                 "column": 6,
-                "offset": 20
+                "offset": 19
               }
             },
             "children": [
@@ -47,10 +47,10 @@
                   "end": {
                     "line": 2,
                     "column": 6,
-                    "offset": 20
+                    "offset": 19
                   }
                 },
-                "value": "<a href=\"foo  \nbar\">"
+                "value": "<a href=\"foo\\\nbar\">"
               }
             ]
           }

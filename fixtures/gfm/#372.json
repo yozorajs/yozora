@@ -1,5 +1,5 @@
 {
-  "title": "GFM#372 https://github.github.com/gfm/#example-372",
+  "title": "GFM#372 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L6678",
   "cases": [
     {
       "description": "Here _ does not generate emphasis, because the first delimiter run is right-flanking and the second left-flanking",

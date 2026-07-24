@@ -1,5 +1,5 @@
 {
-  "title": "GFM#71 https://github.github.com/gfm/#example-71",
+  "title": "GFM#71 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1299",
   "cases": [
     {
       "description": "Setext heading text lines must not be interpretable as block constructs other than paragraphs. So, the line of dashes in these examples gets interpreted as a thematic break",

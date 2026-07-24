@@ -1,5 +1,5 @@
 {
-  "title": "GFM#66 https://github.github.com/gfm/#example-66",
+  "title": "GFM#66 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1240",
   "cases": [
     {
       "description": "But in general a blank line is not required before or after setext headings",

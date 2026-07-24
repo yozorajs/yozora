@@ -1,5 +1,5 @@
 {
-  "title": "GFM#643 https://github.github.com/gfm/#example-643",
+  "title": "GFM#643 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9543",
   "cases": [
     {
       "description": "Illegal attributes in closing tag",

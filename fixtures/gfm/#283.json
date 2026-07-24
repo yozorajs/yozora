@@ -1,5 +1,5 @@
 {
-  "title": "GFM#283 https://github.github.com/gfm/#example-283",
+  "title": "GFM#283 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L5206",
   "cases": [
     {
       "description": "In CommonMark, a list can interrupt a paragraph. That is, no blank line is needed to separate a paragraph from a following list",

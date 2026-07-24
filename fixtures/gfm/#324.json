@@ -1,11 +1,11 @@
 {
-  "title": "GFM#324 https://github.github.com/gfm/#example-324",
+  "title": "GFM#324 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L5993",
   "cases": [
     {
-      "description": "Here are some nonentities",
-      "input": "&nbsp &x; &#; &#x;\n&#87654321;\n&#abcdef0;\n&ThisIsNotDefined; &hi?;",
-      "markupAnswer": "&nbsp &x; &#; &#x;\n&#87654321;\n&#abcdef0;\n&ThisIsNotDefined; &hi?;",
-      "htmlAnswer": "<p>&amp;nbsp &amp;x; &amp;#; &amp;#x;\n&amp;#87654321;\n&amp;#abcdef0;\n&amp;ThisIsNotDefined; &amp;hi?;</p>",
+      "description": "Entity and numeric character references (example 324)",
+      "input": "&nbsp &x; &#; &#x;\n&#987654321;\n&#abcdef0;\n&ThisIsNotDefined; &hi?;",
+      "markupAnswer": "&nbsp &x; &#; &#x;\n&#987654321;\n&#abcdef0;\n&ThisIsNotDefined; &hi?;",
+      "htmlAnswer": "<p>&amp;nbsp &amp;x; &amp;#; &amp;#x;\n&amp;#987654321;\n&amp;#abcdef0;\n&amp;ThisIsNotDefined; &amp;hi?;</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -17,7 +17,7 @@
           "end": {
             "line": 4,
             "column": 25,
-            "offset": 66
+            "offset": 67
           }
         },
         "children": [
@@ -32,7 +32,7 @@
               "end": {
                 "line": 4,
                 "column": 25,
-                "offset": 66
+                "offset": 67
               }
             },
             "children": [
@@ -47,10 +47,10 @@
                   "end": {
                     "line": 4,
                     "column": 25,
-                    "offset": 66
+                    "offset": 67
                   }
                 },
-                "value": "&nbsp &x; &#; &#x;\n&#87654321;\n&#abcdef0;\n&ThisIsNotDefined; &hi?;"
+                "value": "&nbsp &x; &#; &#x;\n&#987654321;\n&#abcdef0;\n&ThisIsNotDefined; &hi?;"
               }
             ]
           }

@@ -1,5 +1,5 @@
 {
-  "title": "GFM#497 https://github.github.com/gfm/#example-497",
+  "title": "GFM#497 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L7843",
   "cases": [
     {
       "description": "The destination can only contain spaces if it is enclosed in pointy brackets",

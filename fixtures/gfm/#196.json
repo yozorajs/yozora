@@ -1,5 +1,5 @@
 {
-  "title": "GFM#196 https://github.github.com/gfm/#example-196",
+  "title": "GFM#196 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L3274",
   "cases": [
     {
       "description": "Final spaces are stripped before inline parsing, so a paragraph that ends with two or more spaces will not end with a hard line break",

@@ -1,5 +1,5 @@
 {
-  "title": "GFM#203 https://github.github.com/gfm/#example-203",
+  "title": "GFM#203 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L3457",
   "cases": [
     {
       "description": "The header row must match the delimiter row in the number of cells. If not, a table will not be recognized",

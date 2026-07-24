@@ -1,5 +1,5 @@
 {
-  "title": "GFM#304 https://github.github.com/gfm/#example-304",
+  "title": "GFM#304 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L5706",
   "cases": [
     {
       "description": "This list is loose, because of the blank line between the two block elements in the list item",

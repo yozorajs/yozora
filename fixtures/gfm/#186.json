@@ -1,5 +1,5 @@
 {
-  "title": "GFM#186 https://github.github.com/gfm/#example-186",
+  "title": "GFM#186 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L3129",
   "cases": [
     {
       "description": "Several link reference definitions can occur one after another, without intervening blank lines.",

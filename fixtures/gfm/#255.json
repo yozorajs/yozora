@@ -1,5 +1,5 @@
 {
-  "title": "GFM#255 https://github.github.com/gfm/#example-255",
+  "title": "GFM#255 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L4430",
   "cases": [
     {
       "description": "This is not a significant restriction, because when a block begins with 1-3 spaces indent, the indentation can always be removed without a change in interpretation, allowing rule #1 to be applied. So, in the above case",

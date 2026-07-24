@@ -1,5 +1,5 @@
 {
-  "title": "GFM#63 https://github.github.com/gfm/#example-63",
+  "title": "GFM#63 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1199",
   "cases": [
     {
       "description": "The setext heading underline cannot be a lazy continuation line in a list item or block quote",

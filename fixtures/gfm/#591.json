@@ -1,5 +1,5 @@
 {
-  "title": "GFM#591 https://github.github.com/gfm/#example-591",
+  "title": "GFM#591 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L8883",
   "cases": [
     {
       "description": "Reference-style",

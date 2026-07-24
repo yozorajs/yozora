@@ -1,5 +1,5 @@
 {
-  "title": "GFM#571 https://github.github.com/gfm/#example-571",
+  "title": "GFM#571 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L8679",
   "cases": [
     {
       "description": "If you just want bracketed text, you can backslash-escape the opening bracket to avoid links",

@@ -1,5 +1,5 @@
 {
-  "title": "GFM#492 https://github.github.com/gfm/#example-492",
+  "title": "GFM#492 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L7723",
   "cases": [
     {
       "description": "As with regular emphasis delimiters, a new paragraph will cause strikethrough parsing to cease",

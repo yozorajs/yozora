@@ -1,5 +1,5 @@
 {
-  "title": "GFM#46 https://github.github.com/gfm/#example-46",
+  "title": "GFM#46 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L941",
   "cases": [
     {
       "description": "Backslash-escaped # characters do not count as part of the closing sequence",

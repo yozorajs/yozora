@@ -1,5 +1,5 @@
 {
-  "title": "GFM#343 https://github.github.com/gfm/#example-343",
+  "title": "GFM#343 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L6195",
   "cases": [
     {
       "description": "Only spaces, and not unicode whitespace in general, are stripped in this way",

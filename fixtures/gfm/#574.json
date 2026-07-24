@@ -1,5 +1,5 @@
 {
-  "title": "GFM#574 https://github.github.com/gfm/#example-574",
+  "title": "GFM#574 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L8712",
   "cases": [
     {
       "description": "Full and compact references take precedence over shortcut references",

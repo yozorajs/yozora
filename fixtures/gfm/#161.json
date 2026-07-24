@@ -1,5 +1,5 @@
 {
-  "title": "GFM#161 https://github.github.com/gfm/#example-161",
+  "title": "GFM#161 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L2829",
   "cases": [
     {
       "description": "A link reference definition does not correspond to a structural element of a document. Instead, it defines a label which can be used in reference links and reference-style images elsewhere in the document. Link reference definitions can come either before or after the links that use them.",

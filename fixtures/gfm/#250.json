@@ -1,5 +1,5 @@
 {
-  "title": "GFM#250 https://github.github.com/gfm/#example-250",
+  "title": "GFM#250 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L4339",
   "cases": [
     {
       "description": "If the first block in the list item is an indented code block, then by rule #2, the contents must be indented one space after the list marker",

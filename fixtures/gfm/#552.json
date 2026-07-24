@@ -1,5 +1,5 @@
 {
-  "title": "GFM#552 https://github.github.com/gfm/#example-552",
+  "title": "GFM#552 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L8453",
   "cases": [
     {
       "description": "When there are multiple matching link reference definitions, the first is used",

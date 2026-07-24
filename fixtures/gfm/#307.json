@@ -1,5 +1,5 @@
 {
-  "title": "GFM#307 https://github.github.com/gfm/#example-307",
+  "title": "GFM#307 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L5777",
   "cases": [
     {
       "description": "Inlines are parsed sequentially from the beginning of the character stream to the end (left to right, in left-to-right languages). Thus, for example, in",

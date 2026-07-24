@@ -1,5 +1,5 @@
 {
-  "title": "GFM#344 https://github.github.com/gfm/#example-344",
+  "title": "GFM#344 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L6203",
   "cases": [
     {
       "description": "No stripping occurs if the code span contains only spaces",

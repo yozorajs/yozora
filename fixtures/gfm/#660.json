@@ -1,11 +1,11 @@
 {
-  "title": "GFM#660 https://github.github.com/gfm/#example-660",
+  "title": "GFM#660 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9744",
   "cases": [
     {
-      "description": "Line breaks can occur inside emphasis, links, and other constructs that allow inline content",
-      "input": "*foo\\\nbar*",
-      "markupAnswer": "*foo\\\nbar*",
-      "htmlAnswer": "<p><em>foo<br />\nbar</em></p>",
+      "description": "Line breaks do not occur inside code spans",
+      "input": "`code  \nspan`",
+      "markupAnswer": "`code   span`",
+      "htmlAnswer": "<p><code>code   span</code></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 2,
-            "column": 5,
-            "offset": 10
+            "column": 6,
+            "offset": 13
           }
         },
         "children": [
@@ -31,13 +31,13 @@
               },
               "end": {
                 "line": 2,
-                "column": 5,
-                "offset": 10
+                "column": 6,
+                "offset": 13
               }
             },
             "children": [
               {
-                "type": "emphasis",
+                "type": "inlineCode",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,59 +46,11 @@
                   },
                   "end": {
                     "line": 2,
-                    "column": 5,
-                    "offset": 10
+                    "column": 6,
+                    "offset": 13
                   }
                 },
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 2,
-                        "offset": 1
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 5,
-                        "offset": 4
-                      }
-                    },
-                    "value": "foo"
-                  },
-                  {
-                    "type": "break",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 5,
-                        "offset": 4
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 1,
-                        "offset": 6
-                      }
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 2,
-                        "column": 1,
-                        "offset": 6
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 4,
-                        "offset": 9
-                      }
-                    },
-                    "value": "bar"
-                  }
-                ]
+                "value": "code   span"
               }
             ]
           }

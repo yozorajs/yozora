@@ -1,11 +1,11 @@
 {
-  "title": "GFM#652 https://github.github.com/gfm/#example-652",
+  "title": "GFM#324 https://github.github.com/gfm/#example-324",
   "cases": [
     {
-      "description": "Backslash escapes do not work in HTML attributes",
-      "input": "<a href=\"\\\"\">",
-      "markupAnswer": "<a href=\"\"\">",
-      "htmlAnswer": "<p>&lt;a href=&quot;&quot;&quot;&gt;</p>",
+      "description": "Here are some nonentities",
+      "input": "&nbsp &x; &#; &#x;\n&#87654321;\n&#abcdef0;\n&ThisIsNotDefined; &hi?;",
+      "markupAnswer": "&nbsp &x; &#; &#x;\n&#87654321;\n&#abcdef0;\n&ThisIsNotDefined; &hi?;",
+      "htmlAnswer": "<p>&amp;nbsp &amp;x; &amp;#; &amp;#x;\n&amp;#87654321;\n&amp;#abcdef0;\n&amp;ThisIsNotDefined; &amp;hi?;</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 1,
-            "column": 14,
-            "offset": 13
+            "line": 4,
+            "column": 25,
+            "offset": 66
           }
         },
         "children": [
@@ -30,9 +30,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 1,
-                "column": 14,
-                "offset": 13
+                "line": 4,
+                "column": 25,
+                "offset": 66
               }
             },
             "children": [
@@ -45,12 +45,12 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 14,
-                    "offset": 13
+                    "line": 4,
+                    "column": 25,
+                    "offset": 66
                   }
                 },
-                "value": "<a href=\"\"\">"
+                "value": "&nbsp &x; &#; &#x;\n&#87654321;\n&#abcdef0;\n&ThisIsNotDefined; &hi?;"
               }
             ]
           }

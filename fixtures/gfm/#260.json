@@ -1,5 +1,5 @@
 {
-  "title": "GFM#260 https://github.github.com/gfm/#example-260",
+  "title": "GFM#260 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L4527",
   "cases": [
     {
       "description": "It does not matter whether there are spaces following the list marker",

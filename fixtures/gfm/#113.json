@@ -1,5 +1,5 @@
 {
-  "title": "GFM#113 https://github.github.com/gfm/#example-113",
+  "title": "GFM#113 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1974",
   "cases": [
     {
       "description": "An info string can be provided after the opening code fence. Although this spec doesn’t mandate any particular treatment of the info string, the first word is typically used to specify the language of the code block. In HTML output, the language is normally indicated by adding a class to the code element consisting of language- followed by the language name.",

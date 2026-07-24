@@ -1,11 +1,11 @@
 {
-  "title": "GFM#649 https://github.github.com/gfm/#example-649",
+  "title": "GFM#649 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9600",
   "cases": [
     {
-      "description": "CDATA sections",
-      "input": "foo <![CDATA[>&<]]>",
-      "markupAnswer": "foo <![CDATA[>&<]]>",
-      "htmlAnswer": "<p>foo <![CDATA[>&<]]></p>",
+      "description": "Entity and numeric character references are preserved in HTML attributes",
+      "input": "foo <a href=\"&ouml;\">",
+      "markupAnswer": "foo <a href=\"&ouml;\">",
+      "htmlAnswer": "<p>foo <a href=\"&ouml;\"></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 20,
-            "offset": 19
+            "column": 22,
+            "offset": 21
           }
         },
         "children": [
@@ -31,8 +31,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 20,
-                "offset": 19
+                "column": 22,
+                "offset": 21
               }
             },
             "children": [
@@ -62,11 +62,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 20,
-                    "offset": 19
+                    "column": 22,
+                    "offset": 21
                   }
                 },
-                "value": "<![CDATA[>&<]]>"
+                "value": "<a href=\"&ouml;\">"
               }
             ]
           }

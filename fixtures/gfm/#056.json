@@ -1,5 +1,5 @@
 {
-  "title": "GFM#56 https://github.github.com/gfm/#example-56",
+  "title": "GFM#56 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1111",
   "cases": [
     {
       "description": "The setext heading underline can be indented up to three spaces, and may have trailing spaces",

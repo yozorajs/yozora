@@ -1,11 +1,11 @@
 {
-  "title": "GFM#670 https://github.github.com/gfm/#example-670",
+  "title": "GFM#670 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9852",
   "cases": [
     {
-      "description": "Spaces at the end of the line and beginning of the next line are removed",
-      "input": "foo \n baz",
-      "markupAnswer": "foo\nbaz",
-      "htmlAnswer": "<p>foo\nbaz</p>",
+      "description": "Any characters not given an interpretation by the above rules will be parsed as plain textual content.",
+      "input": "hello $.;'there",
+      "markupAnswer": "hello $.;'there",
+      "htmlAnswer": "<p>hello $.;'there</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 2,
-            "column": 5,
-            "offset": 9
+            "line": 1,
+            "column": 16,
+            "offset": 15
           }
         },
         "children": [
@@ -30,9 +30,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 5,
-                "offset": 9
+                "line": 1,
+                "column": 16,
+                "offset": 15
               }
             },
             "children": [
@@ -45,12 +45,12 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 2,
-                    "column": 5,
-                    "offset": 9
+                    "line": 1,
+                    "column": 16,
+                    "offset": 15
                   }
                 },
-                "value": "foo\nbaz"
+                "value": "hello $.;'there"
               }
             ]
           }

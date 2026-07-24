@@ -1,11 +1,11 @@
 {
-  "title": "GFM#398 https://github.github.com/gfm/#example-398",
+  "title": "GFM#398 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L6926",
   "cases": [
     {
-      "description": "Intraword strong emphasis is forbidden with __",
+      "description": "Emphasis and strong emphasis (example 398)",
       "input": "__foo, __bar__, baz__",
       "markupAnswer": "**foo, **bar**, baz**",
-      "htmlAnswer": "<p><strong>foo, <strong>bar</strong>, baz</strong></p>",
+      "htmlAnswer": "<p><strong>foo, bar, baz</strong></p>",
       "parseAnswer": {
         "type": "root",
         "position": {

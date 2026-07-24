@@ -1,5 +1,5 @@
 {
-  "title": "GFM#109 https://github.github.com/gfm/#example-109",
+  "title": "GFM#109 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1907",
   "cases": [
     {
       "description": "Code fences (opening and closing) cannot contain internal spaces",

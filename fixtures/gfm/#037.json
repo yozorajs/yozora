@@ -1,5 +1,5 @@
 {
-  "title": "GFM#37 https://github.github.com/gfm/#example-37",
+  "title": "GFM#37 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L848",
   "cases": [
     {
       "description": "Leading and trailing whitespace is ignored in parsing inline content",

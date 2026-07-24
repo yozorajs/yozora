@@ -1,5 +1,5 @@
 {
-  "title": "GFM#82 https://github.github.com/gfm/#example-82",
+  "title": "GFM#82 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1508",
   "cases": [
     {
       "description": "Any initial spaces beyond four will be included in the content, even in interior blank lines",

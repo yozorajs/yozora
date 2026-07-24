@@ -1,5 +1,5 @@
 {
-  "title": "GFM#408 https://github.github.com/gfm/#example-408",
+  "title": "GFM#408 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L7030",
   "cases": [
     {
       "description": "The point of this restriction is more easily appreciated with this example",

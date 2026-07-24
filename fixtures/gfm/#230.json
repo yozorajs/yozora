@@ -1,5 +1,5 @@
 {
-  "title": "GFM#230 https://github.github.com/gfm/#example-230",
+  "title": "GFM#230 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L3946",
   "cases": [
     {
       "description": "When including an indented code block in a block quote, remember that the block quote marker includes both the > and a following space. So five spaces are needed after the >",

@@ -1,5 +1,5 @@
 {
-  "title": "GFM#207 https://github.github.com/gfm/#example-207",
+  "title": "GFM#207 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L3580",
   "cases": [
     {
       "description": "The spaces after the > characters can be omitted",

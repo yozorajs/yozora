@@ -1,5 +1,5 @@
 {
-  "title": "GFM#634 https://github.github.com/gfm/#example-634",
+  "title": "GFM#634 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9452",
   "cases": [
     {
       "description": "Whitespace is allowed",

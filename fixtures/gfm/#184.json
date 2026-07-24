@@ -1,5 +1,5 @@
 {
-  "title": "GFM#184 https://github.github.com/gfm/#example-184",
+  "title": "GFM#184 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L3106",
   "cases": [
     {
       "description": "However, it can directly follow other block elements, such as headings and thematic breaks, and it need not be followed by a blank line.",

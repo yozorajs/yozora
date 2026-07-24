@@ -1,11 +1,11 @@
 {
-  "title": "GFM#658 https://github.github.com/gfm/#example-658",
+  "title": "GFM#658 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9724",
   "cases": [
     {
-      "description": "Leading spaces at the beginning of the next line are ignored",
-      "input": "foo\\\n     bar",
-      "markupAnswer": "foo\\\nbar",
-      "htmlAnswer": "<p>foo<br />\nbar</p>",
+      "description": "Line breaks can occur inside emphasis, links, and other constructs that allow inline content",
+      "input": "*foo  \nbar*",
+      "markupAnswer": "*foo\\\nbar*",
+      "htmlAnswer": "<p><em>foo<br />\nbar</em></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 2,
-            "column": 9,
-            "offset": 13
+            "column": 5,
+            "offset": 11
           }
         },
         "children": [
@@ -31,13 +31,13 @@
               },
               "end": {
                 "line": 2,
-                "column": 9,
-                "offset": 13
+                "column": 5,
+                "offset": 11
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "emphasis",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,43 +45,60 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 4,
-                    "offset": 3
+                    "line": 2,
+                    "column": 5,
+                    "offset": 11
                   }
                 },
-                "value": "foo"
-              },
-              {
-                "type": "break",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 4,
-                    "offset": 3
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      }
+                    },
+                    "value": "foo"
                   },
-                  "end": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 5
-                  }
-                }
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 6,
-                    "offset": 10
+                  {
+                    "type": "break",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 7
+                      }
+                    }
                   },
-                  "end": {
-                    "line": 2,
-                    "column": 9,
-                    "offset": 13
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 7
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 4,
+                        "offset": 10
+                      }
+                    },
+                    "value": "bar"
                   }
-                },
-                "value": "bar"
+                ]
               }
             ]
           }

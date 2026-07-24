@@ -1,5 +1,5 @@
 {
-  "title": "GFM#556 https://github.github.com/gfm/#example-556",
+  "title": "GFM#556 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L8500",
   "cases": [
     {
       "description": "Link labels cannot contain brackets, unless they are backslash-escaped",

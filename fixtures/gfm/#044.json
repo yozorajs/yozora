@@ -1,5 +1,5 @@
 {
-  "title": "GFM#44 https://github.github.com/gfm/#example-44",
+  "title": "GFM#44 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L922",
   "cases": [
     {
       "description": "A sequence of # characters with anything but spaces following it is not a closing sequence, but counts as part of the contents of the heading",

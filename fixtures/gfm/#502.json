@@ -1,5 +1,5 @@
 {
-  "title": "GFM#502 https://github.github.com/gfm/#example-502",
+  "title": "GFM#502 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L7885",
   "cases": [
     {
       "description": "Pointy brackets that enclose links must be unescaped",

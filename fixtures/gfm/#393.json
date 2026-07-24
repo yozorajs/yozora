@@ -1,5 +1,5 @@
 {
-  "title": "GFM#393 https://github.github.com/gfm/#example-393",
+  "title": "GFM#393 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L6884",
   "cases": [
     {
       "description": "A newline counts as whitespace",

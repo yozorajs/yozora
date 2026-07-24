@@ -1,5 +1,5 @@
 {
-  "title": "GFM#607 https://github.github.com/gfm/#example-607",
+  "title": "GFM#607 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9070",
   "cases": [
     {
       "description": "Note that many strings that count as absolute URIs for purposes of this spec are not valid URIs, because their schemes are not registered or because of other problems with their syntax",

@@ -1,5 +1,5 @@
 {
-  "title": "GFM#605 https://github.github.com/gfm/#example-605",
+  "title": "GFM#605 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9051",
   "cases": [
     {
       "description": "Uppercase is also fine",

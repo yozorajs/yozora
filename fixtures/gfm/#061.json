@@ -1,5 +1,5 @@
 {
-  "title": "GFM#61 https://github.github.com/gfm/#example-61",
+  "title": "GFM#61 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1169",
   "cases": [
     {
       "description": "Since indicators of block structure take precedence over indicators of inline structure, the following are setext headings",

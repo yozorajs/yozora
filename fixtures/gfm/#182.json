@@ -1,5 +1,5 @@
 {
-  "title": "GFM#182 https://github.github.com/gfm/#example-182",
+  "title": "GFM#182 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L3080",
   "cases": [
     {
       "description": "A link reference definition cannot interrupt a paragraph.",

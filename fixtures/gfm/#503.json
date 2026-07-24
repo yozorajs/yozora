@@ -1,5 +1,5 @@
 {
-  "title": "GFM#503 https://github.github.com/gfm/#example-503",
+  "title": "GFM#503 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L7894",
   "cases": [
     {
       "description": "These are not links, because the opening pointy bracket is not matched properly",

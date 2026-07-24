@@ -1,5 +1,5 @@
 {
-  "title": "GFM#538 https://github.github.com/gfm/#example-538",
+  "title": "GFM#538 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L8273",
   "cases": [
     {
       "description": "The link text may contain inline content",

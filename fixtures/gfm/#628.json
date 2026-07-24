@@ -1,10 +1,10 @@
 {
-  "title": "GFM#628 https://github.github.com/gfm/#example-628",
+  "title": "GFM#628 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9299",
   "cases": [
     {
-      "description": "An extended url autolink will be recognised when one of the schemes http://, or https://, followed by a valid domain, then zero or more non-space non-< characters according to extended autolink path validation",
-      "input": "http://commonmark.org\n\n(Visit https://encrypted.google.com/search?q=Markup+(business))",
-      "htmlAnswer": "<p><a href=\"http://commonmark.org\">http://commonmark.org</a></p>\n<p>(Visit <a href=\"https://encrypted.google.com/search?q=Markup+(business)\">https://encrypted.google.com/search?q=Markup+(business)</a>)</p>",
+      "description": "Autolinks (extension) (example 628)",
+      "input": "http://commonmark.org\n\n(Visit https://encrypted.google.com/search?q=Markup+(business))\n\nAnonymous FTP is available at ftp://foo.bar.baz.",
+      "htmlAnswer": "<p><a href=\"http://commonmark.org\">http://commonmark.org</a></p>\n<p>(Visit <a href=\"https://encrypted.google.com/search?q=Markup+(business)\">https://encrypted.google.com/search?q=Markup+(business)</a>)</p>\n<p>Anonymous FTP is available at <a href=\"ftp://foo.bar.baz\">ftp://foo.bar.baz</a>.</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -14,9 +14,9 @@
             "offset": 0
           },
           "end": {
-            "line": 3,
-            "column": 64,
-            "offset": 86
+            "line": 5,
+            "column": 49,
+            "offset": 136
           }
         },
         "children": [
@@ -80,9 +80,9 @@
                 "offset": 23
               },
               "end": {
-                "line": 3,
-                "column": 64,
-                "offset": 86
+                "line": 4,
+                "column": 1,
+                "offset": 87
               }
             },
             "children": [
@@ -151,6 +151,89 @@
                   }
                 },
                 "value": ")"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 88
+              },
+              "end": {
+                "line": 5,
+                "column": 49,
+                "offset": 136
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 88
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 31,
+                    "offset": 118
+                  }
+                },
+                "value": "Anonymous FTP is available at "
+              },
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 31,
+                    "offset": 118
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 48,
+                    "offset": 135
+                  }
+                },
+                "url": "ftp://foo.bar.baz",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 5,
+                        "column": 31,
+                        "offset": 118
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 48,
+                        "offset": 135
+                      }
+                    },
+                    "value": "ftp://foo.bar.baz"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 48,
+                    "offset": 135
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 49,
+                    "offset": 136
+                  }
+                },
+                "value": "."
               }
             ]
           }

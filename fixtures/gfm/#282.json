@@ -1,5 +1,5 @@
 {
-  "title": "GFM#282 https://github.github.com/gfm/#example-282",
+  "title": "GFM#282 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L5187",
   "cases": [
     {
       "description": "Changing the bullet or ordered list delimiter starts a new list",

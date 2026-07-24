@@ -1,5 +1,5 @@
 {
-  "title": "GFM#301 https://github.github.com/gfm/#example-301",
+  "title": "GFM#301 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L5657",
   "cases": [
     {
       "description": "This list is tight, because the consecutive block elements are not separated by blank lines",

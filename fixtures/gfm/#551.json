@@ -1,5 +1,5 @@
 {
-  "title": "GFM#551 https://github.github.com/gfm/#example-551",
+  "title": "GFM#551 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L8412",
   "cases": [
     {
       "description": "No whitespace is allowed between the link text and the link label",

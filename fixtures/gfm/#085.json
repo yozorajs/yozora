@@ -1,5 +1,5 @@
 {
-  "title": "GFM#85 https://github.github.com/gfm/#example-85",
+  "title": "GFM#85 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1550",
   "cases": [
     {
       "description": "And indented code can occur immediately before and after other kinds of blocks",

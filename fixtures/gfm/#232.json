@@ -1,5 +1,5 @@
 {
-  "title": "GFM#232 https://github.github.com/gfm/#example-232",
+  "title": "GFM#232 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L4022",
   "cases": [
     {
       "description": "And let M be the marker 1., and N = 2. Then rule #1 says that the following is an ordered list item with start number 1, and the same contents as Ls",

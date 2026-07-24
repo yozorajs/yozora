@@ -1,5 +1,5 @@
 {
-  "title": "GFM#52 https://github.github.com/gfm/#example-52",
+  "title": "GFM#52 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L1047",
   "cases": [
     {
       "description": "The contents are the result of parsing the headings’s raw content as inlines. The heading’s raw content is formed by concatenating the lines and removing initial and final whitespace.",

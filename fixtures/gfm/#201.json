@@ -1,5 +1,5 @@
 {
-  "title": "GFM#201 https://github.github.com/gfm/#example-201",
+  "title": "GFM#201 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L3400",
   "cases": [
     {
       "description": "The table is broken at the first empty line, or beginning of another block-level structure",

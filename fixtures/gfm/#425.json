@@ -1,5 +1,5 @@
 {
-  "title": "GFM#425 https://github.github.com/gfm/#example-425",
+  "title": "GFM#425 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L7191",
   "cases": [
     {
       "description": "When the lengths of the interior closing and opening delimiter runs are both multiples of 3, though, they can match to create emphasis",

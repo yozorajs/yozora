@@ -1,5 +1,5 @@
 {
-  "title": "GFM#361 https://github.github.com/gfm/#example-361",
+  "title": "GFM#361 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L6580",
   "cases": [
     {
       "description": "This is not emphasis, because the opening * is followed by whitespace, and hence not part of a left-flanking delimiter run",

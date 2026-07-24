@@ -1,5 +1,5 @@
 {
-  "title": "GFM#373 https://github.github.com/gfm/#example-373",
+  "title": "GFM#373 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L6689",
   "cases": [
     {
       "description": "This is emphasis, even though the opening delimiter is both left- and right-flanking, because it is preceded by punctuation",

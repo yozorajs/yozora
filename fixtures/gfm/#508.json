@@ -1,5 +1,5 @@
 {
-  "title": "GFM#508 https://github.github.com/gfm/#example-508",
+  "title": "GFM#508 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L7941",
   "cases": [
     {
       "description": "Parentheses and other symbols can also be escaped, as usual in Markdown",

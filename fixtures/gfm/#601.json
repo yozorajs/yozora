@@ -1,5 +1,5 @@
 {
-  "title": "GFM#601 https://github.github.com/gfm/#example-601",
+  "title": "GFM#601 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L8995",
   "cases": [
     {
       "description": "If you want a link after a literal !, backslash-escape the !",

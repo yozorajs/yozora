@@ -1,5 +1,5 @@
 {
-  "title": "GFM#142 https://github.github.com/gfm/#example-142",
+  "title": "GFM#142 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L2466",
   "cases": [
     {
       "description": "If there is no matching end tag, the block will end at the end of the document (or the enclosing block quote or list item)",

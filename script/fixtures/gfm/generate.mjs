@@ -6,10 +6,34 @@ import { repositoryRoot } from '../../internal/repository.mjs'
 const __filename = fileURLToPath(import.meta.url)
 const readLocalJson = filename =>
   JSON.parse(fs.readFileSync(new URL(filename, import.meta.url), 'utf8'))
-const examples = readLocalJson('./examples.json')
+const config = readLocalJson('./config.json')
+const snapshot = readLocalJson('./examples.json')
 const groups = readLocalJson('./groups.json')
 
 const toGreen = text => `\u001b[32m${text}\u001b[0m`
+const toFixtureId = exampleNumber => `#${String(exampleNumber).padStart(3, '0')}`
+
+function validateFixtureGroups(gfmExamples, groups) {
+  const coveredFixtureIds = new Set()
+  for (const group of groups) {
+    for (let i = group.start; i <= group.end; ++i) {
+      const fixtureId = toFixtureId(i)
+      if (gfmExamples[i] == null) throw new Error(`Missing GFM example ${fixtureId}`)
+      if (coveredFixtureIds.has(fixtureId)) {
+        throw new Error(`GFM fixture ${fixtureId} belongs to more than one group`)
+      }
+      coveredFixtureIds.add(fixtureId)
+    }
+  }
+
+  const ungroupedFixtureIds = gfmExamples
+    .slice(1)
+    .map(example => toFixtureId(example.number))
+    .filter(fixtureId => !coveredFixtureIds.has(fixtureId))
+  if (ungroupedFixtureIds.length > 0) {
+    throw new Error(`Ungrouped GFM fixtures: ${ungroupedFixtureIds.join(', ')}`)
+  }
+}
 
 function setGroupFixtureIds(groupTree, groupPath, fixtureIds) {
   let current = groupTree
@@ -32,42 +56,50 @@ function setGroupFixtureIds(groupTree, groupPath, fixtureIds) {
 }
 
 class GFMFixtureGenerator {
-  constructor(gfmExamples) {
+  constructor(gfmExamples, source) {
     this.gfmExamples = gfmExamples
+    this.source = source
   }
 
   writeFixtures(caseRootDir, groups) {
-    const metadata = { groups: { unclassified: {}, ast: {} } }
+    validateFixtureGroups(this.gfmExamples, groups)
+    const metadata = { source: this.source, groups: { unclassified: {}, ast: {} } }
     const fixtureIds = new Set()
     fs.mkdirSync(caseRootDir, { recursive: true })
+    const previousCases = this.collectPreviousCases(caseRootDir)
 
     for (const group of groups) {
       const excluded = group.excluded || []
       const groupFixtureIds = []
       for (let i = group.start; i <= group.end; ++i) {
         if (excluded.includes(i)) continue
-        const fixtureId = `#${String(i).padStart(3, '0')}`
+        const fixtureId = toFixtureId(i)
         if (fixtureIds.has(fixtureId)) {
           throw new Error(`GFM fixture ${fixtureId} belongs to more than one group`)
         }
 
         const gfmExample = this.gfmExamples[i]
         if (gfmExample == null) throw new Error(`Missing GFM example ${fixtureId}`)
+        if (gfmExample.number !== i) {
+          throw new Error(`Unexpected GFM example number ${gfmExample.number} at ${fixtureId}`)
+        }
 
         fixtureIds.add(fixtureId)
         groupFixtureIds.push(fixtureId)
         const caseFilePath = path.join(caseRootDir, `${fixtureId}.json`)
-        const data = this.mapGFMExampleDataToCase(gfmExample)
-        const content = JSON.stringify(data, null, 2)
+        const data = this.mapGFMExampleDataToCase(gfmExample, previousCases)
+        const content = `${JSON.stringify(data, null, 2)}\n`
         fs.writeFileSync(caseFilePath, content, 'utf-8')
         console.log(toGreen(`Add case ${caseFilePath}`))
       }
 
-      const groupPath = group.name.split('/')
-      const isUnclassified = groupPath[0] === 'unclassified'
-      if (isUnclassified) groupPath.shift()
-      const groupTree = isUnclassified ? metadata.groups.unclassified : metadata.groups.ast
-      setGroupFixtureIds(groupTree, groupPath, groupFixtureIds)
+      if (groupFixtureIds.length > 0) {
+        const groupPath = group.name.split('/')
+        const isUnclassified = groupPath[0] === 'unclassified'
+        if (isUnclassified) groupPath.shift()
+        const groupTree = isUnclassified ? metadata.groups.unclassified : metadata.groups.ast
+        setGroupFixtureIds(groupTree, groupPath, groupFixtureIds)
+      }
     }
 
     for (const entry of fs.readdirSync(caseRootDir, { withFileTypes: true })) {
@@ -85,23 +117,59 @@ class GFMFixtureGenerator {
     return this
   }
 
-  mapGFMExampleDataToCase(gfmExample) {
+  collectPreviousCases(caseRootDir) {
+    const previousCases = new Map()
+    for (const entry of fs
+      .readdirSync(caseRootDir, { withFileTypes: true })
+      .sort((a, b) => a.name.localeCompare(b.name))) {
+      if (!entry.isFile() || !/^#\d{3}[.]json$/.test(entry.name)) continue
+      const fixture = JSON.parse(fs.readFileSync(path.join(caseRootDir, entry.name), 'utf8'))
+      const testcase = fixture.cases?.[0]
+      if (testcase == null || typeof testcase.input !== 'string') continue
+      const key = `${testcase.input}\u0000${testcase.htmlAnswer ?? ''}`
+      const matchingCases = previousCases.get(key)
+      if (matchingCases == null) previousCases.set(key, [testcase])
+      else matchingCases.push(testcase)
+    }
+    return previousCases
+  }
+
+  mapGFMExampleDataToCase(gfmExample, previousCases) {
+    const fixtureOverride = config.fixtureOverrides?.[toFixtureId(gfmExample.number)]
+    const input = fixtureOverride?.input ?? gfmExample.markdown
+    const htmlAnswer = fixtureOverride?.htmlAnswer ?? gfmExample.html
+    const previousCase = previousCases.get(`${input}\u0000${htmlAnswer}`)?.shift()
+    const testcase = {
+      description:
+        fixtureOverride?.description ??
+        previousCase?.description ??
+        `${gfmExample.section} (example ${gfmExample.number})`,
+      input,
+    }
+    if (previousCase != null && Object.hasOwn(previousCase, 'markupAnswer')) {
+      testcase.markupAnswer = previousCase.markupAnswer
+    }
+    testcase.htmlAnswer = htmlAnswer
+    if (previousCase != null && Object.hasOwn(previousCase, 'parseAnswer')) {
+      testcase.parseAnswer = previousCase.parseAnswer
+    }
+
     const result = {
-      title: gfmExample.title,
-      cases: [
-        {
-          description: gfmExample.description,
-          input: gfmExample.content,
-          htmlAnswer: gfmExample.expectedHtml,
-        },
-      ],
+      title: `GFM#${gfmExample.number} ${this.source.repository}/blob/${this.source.revision}/test/spec.txt#L${gfmExample.startLine}`,
+      cases: [testcase],
     }
     return result
   }
 }
 
 export function generateGFMFixtures(rootDir = repositoryRoot) {
-  const generator = new GFMFixtureGenerator(examples)
+  if (snapshot.source.revision !== config.fixtureGroupsRevision) {
+    throw new Error(
+      `GFM fixture groups target ${config.fixtureGroupsRevision}, received ${snapshot.source.revision}`,
+    )
+  }
+  const examples = [null, ...snapshot.examples]
+  const generator = new GFMFixtureGenerator(examples, snapshot.source)
   generator.writeFixtures(path.resolve(rootDir, 'fixtures/gfm'), groups)
 }
 

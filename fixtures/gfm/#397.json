@@ -1,5 +1,5 @@
 {
-  "title": "GFM#397 https://github.github.com/gfm/#example-397",
+  "title": "GFM#397 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L6919",
   "cases": [
     {
       "description": "Intraword strong emphasis is forbidden with __",

@@ -1,5 +1,5 @@
 {
-  "title": "GFM#40 https://github.github.com/gfm/#example-40",
+  "title": "GFM#40 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L878",
   "cases": [
     {
       "description": "Four spaces are too much",

@@ -1,5 +1,5 @@
 {
-  "title": "GFM#289 https://github.github.com/gfm/#example-289",
+  "title": "GFM#289 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L5379",
   "cases": [
     {
       "description": "To separate consecutive lists of the same type, or to separate a list from an indented code block that would otherwise be parsed as a subparagraph of the final list item, you can insert a blank HTML comment",

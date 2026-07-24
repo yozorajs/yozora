@@ -1,11 +1,11 @@
 {
-  "title": "GFM#651 https://github.github.com/gfm/#example-651",
+  "title": "GFM#651 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L9616",
   "cases": [
     {
       "description": "Backslash escapes do not work in HTML attributes",
-      "input": "foo <a href=\"\\*\">",
-      "markupAnswer": "foo <a href=\"\\*\">",
-      "htmlAnswer": "<p>foo <a href=\"\\*\"></p>",
+      "input": "<a href=\"\\\"\">",
+      "markupAnswer": "<a href=\"\"\">",
+      "htmlAnswer": "<p>&lt;a href=&quot;&quot;&quot;&gt;</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 18,
-            "offset": 17
+            "column": 14,
+            "offset": 13
           }
         },
         "children": [
@@ -31,8 +31,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 18,
-                "offset": 17
+                "column": 14,
+                "offset": 13
               }
             },
             "children": [
@@ -46,27 +46,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 5,
-                    "offset": 4
+                    "column": 14,
+                    "offset": 13
                   }
                 },
-                "value": "foo "
-              },
-              {
-                "type": "html",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 5,
-                    "offset": 4
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 18,
-                    "offset": 17
-                  }
-                },
-                "value": "<a href=\"\\*\">"
+                "value": "<a href=\"\"\">"
               }
             ]
           }

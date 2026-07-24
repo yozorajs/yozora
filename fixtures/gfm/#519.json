@@ -1,5 +1,5 @@
 {
-  "title": "GFM#519 https://github.github.com/gfm/#example-519",
+  "title": "GFM#519 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L8079",
   "cases": [
     {
       "description": "But it is not allowed between the link text and the following parenthesis",

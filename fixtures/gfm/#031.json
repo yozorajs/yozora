@@ -1,5 +1,5 @@
 {
-  "title": "GFM#31 https://github.github.com/gfm/#example-31",
+  "title": "GFM#31 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L755",
   "cases": [
     {
       "description": "If you want a thematic break in a list item, use a different bullet",

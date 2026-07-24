@@ -1,5 +1,5 @@
 {
-  "title": "GFM#257 https://github.github.com/gfm/#example-257",
+  "title": "GFM#257 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L4484",
   "cases": [
     {
       "description": "When the list item starts with a blank line, the number of spaces following the list marker doesn’t change the required indentation",

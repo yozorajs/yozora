@@ -1,5 +1,5 @@
 {
-  "title": "GFM#150 https://github.github.com/gfm/#example-150",
+  "title": "GFM#150 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L2579",
   "cases": [
     {
       "description": "A declaration (type 4)",

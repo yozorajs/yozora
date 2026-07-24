@@ -1,5 +1,5 @@
 {
-  "title": "GFM#347 https://github.github.com/gfm/#example-347",
+  "title": "GFM#347 https://github.com/github/cmark-gfm/blob/0.29.0.gfm.13/test/spec.txt#L6235",
   "cases": [
     {
       "description": "Interior spaces are not collapsed",
