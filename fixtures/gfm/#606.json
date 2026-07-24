@@ -2,10 +2,10 @@
   "title": "GFM#606 https://github.github.com/gfm/#example-606",
   "cases": [
     {
-      "description": "Note that many strings that count as absolute URIs for purposes of this spec are not valid URIs, because their schemes are not registered or because of other problems with their syntax",
-      "input": "<a+b+c:d>",
-      "markupAnswer": "[a+b+c:d](a+b+c:d)",
-      "htmlAnswer": "<p><a href=\"a+b+c:d\">a+b+c:d</a></p>",
+      "description": "Uppercase is also fine",
+      "input": "<MAILTO:FOO@BAR.BAZ>",
+      "markupAnswer": "[MAILTO:FOO@BAR.BAZ](MAILTO:FOO@BAR.BAZ)",
+      "htmlAnswer": "<p><a href=\"MAILTO:FOO@BAR.BAZ\">MAILTO:FOO@BAR.BAZ</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 10,
-            "offset": 9
+            "column": 21,
+            "offset": 20
           }
         },
         "children": [
@@ -31,8 +31,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 10,
-                "offset": 9
+                "column": 21,
+                "offset": 20
               }
             },
             "children": [
@@ -46,11 +46,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 10,
-                    "offset": 9
+                    "column": 21,
+                    "offset": 20
                   }
                 },
-                "url": "a+b+c:d",
+                "url": "MAILTO:FOO@BAR.BAZ",
                 "children": [
                   {
                     "type": "text",
@@ -62,11 +62,11 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 9,
-                        "offset": 8
+                        "column": 20,
+                        "offset": 19
                       }
                     },
-                    "value": "a+b+c:d"
+                    "value": "MAILTO:FOO@BAR.BAZ"
                   }
                 ]
               }

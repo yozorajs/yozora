@@ -2,10 +2,10 @@
   "title": "GFM#529 https://github.github.com/gfm/#example-529",
   "cases": [
     {
-      "description": "These cases illustrate the precedence of link text grouping over emphasis grouping",
-      "input": "*[foo*](/uri)",
-      "markupAnswer": "*[foo*](/uri)",
-      "htmlAnswer": "<p>*<a href=\"/uri\">foo*</a></p>",
+      "description": "However, links may not contain other links, at any level of nesting.",
+      "input": "![[[foo](uri1)](uri2)](uri3)",
+      "markupAnswer": "![\\[foo\\]\\(uri2\\)](uri3)",
+      "htmlAnswer": "<p><img src=\"uri3\" alt=\"[foo](uri2)\" /></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 14,
-            "offset": 13
+            "column": 29,
+            "offset": 28
           }
         },
         "children": [
@@ -31,13 +31,13 @@
               },
               "end": {
                 "line": 1,
-                "column": 14,
-                "offset": 13
+                "column": 29,
+                "offset": 28
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "image",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,45 +46,12 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 2,
-                    "offset": 1
+                    "column": 29,
+                    "offset": 28
                   }
                 },
-                "value": "*"
-              },
-              {
-                "type": "link",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 2,
-                    "offset": 1
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 14,
-                    "offset": 13
-                  }
-                },
-                "url": "/uri",
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 3,
-                        "offset": 2
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
-                      }
-                    },
-                    "value": "foo*"
-                  }
-                ]
+                "url": "uri3",
+                "alt": "[foo](uri2)"
               }
             ]
           }

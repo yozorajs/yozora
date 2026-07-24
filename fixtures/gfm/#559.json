@@ -2,10 +2,10 @@
   "title": "GFM#559 https://github.github.com/gfm/#example-559",
   "cases": [
     {
-      "description": "A link label must contain at least one non-whitespace character",
-      "input": "[]\n\n[]: /uri",
-      "markupAnswer": "[]\n\n[]: /uri",
-      "htmlAnswer": "<p>[]</p>\n<p>[]: /uri</p>",
+      "description": "Note that in this example ] is not backslash-escaped",
+      "input": "[bar\\\\]: /uri\n\n[bar\\\\]",
+      "markupAnswer": "[bar\\\\]: /uri\n\n[bar\\\\][]",
+      "htmlAnswer": "<p><a href=\"/uri\">bar\\</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,13 +16,13 @@
           },
           "end": {
             "line": 3,
-            "column": 9,
-            "offset": 12
+            "column": 8,
+            "offset": 22
           }
         },
         "children": [
           {
-            "type": "paragraph",
+            "type": "definition",
             "position": {
               "start": {
                 "line": 1,
@@ -32,27 +32,12 @@
               "end": {
                 "line": 2,
                 "column": 1,
-                "offset": 3
+                "offset": 14
               }
             },
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 3,
-                    "offset": 2
-                  }
-                },
-                "value": "[]"
-              }
-            ]
+            "identifier": "bar\\\\",
+            "label": "bar\\\\",
+            "url": "/uri"
           },
           {
             "type": "paragraph",
@@ -60,30 +45,50 @@
               "start": {
                 "line": 3,
                 "column": 1,
-                "offset": 4
+                "offset": 15
               },
               "end": {
                 "line": 3,
-                "column": 9,
-                "offset": 12
+                "column": 8,
+                "offset": 22
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "linkReference",
                 "position": {
                   "start": {
                     "line": 3,
                     "column": 1,
-                    "offset": 4
+                    "offset": 15
                   },
                   "end": {
                     "line": 3,
-                    "column": 9,
-                    "offset": 12
+                    "column": 8,
+                    "offset": 22
                   }
                 },
-                "value": "[]: /uri"
+                "identifier": "bar\\\\",
+                "label": "bar\\\\",
+                "referenceType": "shortcut",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 2,
+                        "offset": 16
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 7,
+                        "offset": 21
+                      }
+                    },
+                    "value": "bar\\"
+                  }
+                ]
               }
             ]
           }

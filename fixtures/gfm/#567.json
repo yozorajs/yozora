@@ -3,9 +3,9 @@
   "cases": [
     {
       "description": "A shortcut reference link consists of a link label that matches a link reference definition elsewhere in the document and is not followed by [] or a link label. The contents of the first link label are parsed as inlines, which are used as the link’s text. The link’s URI and title are provided by the matching link reference definition. Thus, [foo] is equivalent to [foo][].",
-      "input": "[[*foo* bar]]\n\n[*foo* bar]: /url \"title\"",
-      "markupAnswer": "[[*foo* bar][]]\n\n[*foo* bar]: /url \"title\"",
-      "htmlAnswer": "<p>[<a href=\"/url\" title=\"title\"><em>foo</em> bar</a>]</p>",
+      "input": "[*foo* bar]\n\n[*foo* bar]: /url \"title\"",
+      "markupAnswer": "[*foo* bar][]\n\n[*foo* bar]: /url \"title\"",
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title\"><em>foo</em> bar</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -17,7 +17,7 @@
           "end": {
             "line": 3,
             "column": 26,
-            "offset": 40
+            "offset": 38
           }
         },
         "children": [
@@ -32,12 +32,12 @@
               "end": {
                 "line": 2,
                 "column": 1,
-                "offset": 14
+                "offset": 12
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "linkReference",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,24 +46,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 2,
-                    "offset": 1
-                  }
-                },
-                "value": "["
-              },
-              {
-                "type": "linkReference",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 2,
-                    "offset": 1
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 13,
-                    "offset": 12
+                    "column": 12,
+                    "offset": 11
                   }
                 },
                 "identifier": "*foo* bar",
@@ -75,13 +59,13 @@
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 3,
-                        "offset": 2
+                        "column": 2,
+                        "offset": 1
                       },
                       "end": {
                         "line": 1,
-                        "column": 8,
-                        "offset": 7
+                        "column": 7,
+                        "offset": 6
                       }
                     },
                     "children": [
@@ -90,13 +74,13 @@
                         "position": {
                           "start": {
                             "line": 1,
-                            "column": 4,
-                            "offset": 3
+                            "column": 3,
+                            "offset": 2
                           },
                           "end": {
                             "line": 1,
-                            "column": 7,
-                            "offset": 6
+                            "column": 6,
+                            "offset": 5
                           }
                         },
                         "value": "foo"
@@ -108,34 +92,18 @@
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 8,
-                        "offset": 7
+                        "column": 7,
+                        "offset": 6
                       },
                       "end": {
                         "line": 1,
-                        "column": 12,
-                        "offset": 11
+                        "column": 11,
+                        "offset": 10
                       }
                     },
                     "value": " bar"
                   }
                 ]
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 13,
-                    "offset": 12
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 14,
-                    "offset": 13
-                  }
-                },
-                "value": "]"
               }
             ]
           },
@@ -145,12 +113,12 @@
               "start": {
                 "line": 3,
                 "column": 1,
-                "offset": 15
+                "offset": 13
               },
               "end": {
                 "line": 3,
                 "column": 26,
-                "offset": 40
+                "offset": 38
               }
             },
             "identifier": "*foo* bar",

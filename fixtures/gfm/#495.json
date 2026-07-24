@@ -2,10 +2,10 @@
   "title": "GFM#495 https://github.github.com/gfm/#example-495",
   "cases": [
     {
-      "description": "Both the title and the destination may be omitted",
-      "input": "[link]()",
-      "markupAnswer": "[link]()",
-      "htmlAnswer": "<p><a href=\"\">link</a></p>",
+      "description": "The title may be omitted",
+      "input": "[link](/uri)",
+      "markupAnswer": "[link](/uri)",
+      "htmlAnswer": "<p><a href=\"/uri\">link</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 9,
-            "offset": 8
+            "column": 13,
+            "offset": 12
           }
         },
         "children": [
@@ -31,8 +31,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 9,
-                "offset": 8
+                "column": 13,
+                "offset": 12
               }
             },
             "children": [
@@ -46,11 +46,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 9,
-                    "offset": 8
+                    "column": 13,
+                    "offset": 12
                   }
                 },
-                "url": "",
+                "url": "/uri",
                 "children": [
                   {
                     "type": "text",

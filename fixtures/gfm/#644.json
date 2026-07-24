@@ -2,10 +2,10 @@
   "title": "GFM#644 https://github.github.com/gfm/#example-644",
   "cases": [
     {
-      "description": "Comments",
-      "input": "foo <!-- this is a\ncomment - with hyphen -->",
-      "markupAnswer": "foo <!-- this is a\ncomment - with hyphen -->",
-      "htmlAnswer": "<p>foo <!-- this is a\ncomment - with hyphen --></p>",
+      "description": "Illegal whitespace",
+      "input": "< a><\nfoo><bar/ >\n<foo bar=baz\nbim!bop />",
+      "markupAnswer": "< a><\nfoo><bar/ >\n<foo bar=baz\nbim!bop />",
+      "htmlAnswer": "<p>&lt; a&gt;&lt;\nfoo&gt;&lt;bar/ &gt;\n&lt;foo bar=baz\nbim!bop /&gt;</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 2,
-            "column": 26,
-            "offset": 44
+            "line": 4,
+            "column": 11,
+            "offset": 41
           }
         },
         "children": [
@@ -30,9 +30,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 26,
-                "offset": 44
+                "line": 4,
+                "column": 11,
+                "offset": 41
               }
             },
             "children": [
@@ -45,28 +45,12 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 5,
-                    "offset": 4
+                    "line": 4,
+                    "column": 11,
+                    "offset": 41
                   }
                 },
-                "value": "foo "
-              },
-              {
-                "type": "html",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 5,
-                    "offset": 4
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 26,
-                    "offset": 44
-                  }
-                },
-                "value": "<!-- this is a\ncomment - with hyphen -->"
+                "value": "< a><\nfoo><bar/ >\n<foo bar=baz\nbim!bop />"
               }
             ]
           }

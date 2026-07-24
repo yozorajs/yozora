@@ -2,10 +2,10 @@
   "title": "GFM#663 https://github.github.com/gfm/#example-663",
   "cases": [
     {
-      "description": "or HTML tags",
-      "input": "<a href=\"foo  \nbar\">",
-      "markupAnswer": "<a href=\"foo  \nbar\">",
-      "htmlAnswer": "<p><a href=\"foo  \nbar\"></p>",
+      "description": "Line breaks can occur inside emphasis, links, and other constructs that allow inline content",
+      "input": "*foo  \nbar*",
+      "markupAnswer": "*foo\\\nbar*",
+      "htmlAnswer": "<p><em>foo<br />\nbar</em></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 2,
-            "column": 6,
-            "offset": 20
+            "column": 5,
+            "offset": 11
           }
         },
         "children": [
@@ -31,13 +31,13 @@
               },
               "end": {
                 "line": 2,
-                "column": 6,
-                "offset": 20
+                "column": 5,
+                "offset": 11
               }
             },
             "children": [
               {
-                "type": "html",
+                "type": "emphasis",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,11 +46,59 @@
                   },
                   "end": {
                     "line": 2,
-                    "column": 6,
-                    "offset": 20
+                    "column": 5,
+                    "offset": 11
                   }
                 },
-                "value": "<a href=\"foo  \nbar\">"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      }
+                    },
+                    "value": "foo"
+                  },
+                  {
+                    "type": "break",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 7
+                      }
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 7
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 4,
+                        "offset": 10
+                      }
+                    },
+                    "value": "bar"
+                  }
+                ]
               }
             ]
           }

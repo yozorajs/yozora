@@ -1,11 +1,11 @@
 {
-  "title": "GFM#633 https://github.github.com/gfm/#example-633",
+  "title": "GFM#674 https://github.github.com/gfm/#example-674",
   "cases": [
     {
-      "description": "Empty elements",
-      "input": "<a/><b2/>",
-      "markupAnswer": "<a/><b2/>",
-      "htmlAnswer": "<p><a/><b2/></p>",
+      "description": "Spaces at the end of the line and beginning of the next line are removed",
+      "input": "foo \n baz",
+      "markupAnswer": "foo\nbaz",
+      "htmlAnswer": "<p>foo\nbaz</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,8 +15,8 @@
             "offset": 0
           },
           "end": {
-            "line": 1,
-            "column": 10,
+            "line": 2,
+            "column": 5,
             "offset": 9
           }
         },
@@ -30,14 +30,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 1,
-                "column": 10,
+                "line": 2,
+                "column": 5,
                 "offset": 9
               }
             },
             "children": [
               {
-                "type": "html",
+                "type": "text",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,28 +45,12 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
+                    "line": 2,
                     "column": 5,
-                    "offset": 4
-                  }
-                },
-                "value": "<a/>"
-              },
-              {
-                "type": "html",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 5,
-                    "offset": 4
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 10,
                     "offset": 9
                   }
                 },
-                "value": "<b2/>"
+                "value": "foo\nbaz"
               }
             ]
           }

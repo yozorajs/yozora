@@ -2,10 +2,10 @@
   "title": "GFM#516 https://github.github.com/gfm/#example-516",
   "cases": [
     {
-      "description": "Nested balanced quotes are not allowed without escaping",
-      "input": "[link](/url \"title \"and\" title\")",
-      "markupAnswer": "[link](/url \"title \"and\" title\")",
-      "htmlAnswer": "<p>[link](/url &quot;title &quot;and&quot; title&quot;)</p>",
+      "description": "Titles must be separated from the link using a whitespace. Other Unicode whitespace like non-breaking space doesn’t work.",
+      "input": "[link](/url \"title\")",
+      "markupAnswer": "[link](/url%C2%A0%22title%22)",
+      "htmlAnswer": "<p><a href=\"/url%C2%A0%22title%22\">link</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 33,
-            "offset": 32
+            "column": 21,
+            "offset": 20
           }
         },
         "children": [
@@ -31,13 +31,13 @@
               },
               "end": {
                 "line": 1,
-                "column": 33,
-                "offset": 32
+                "column": 21,
+                "offset": 20
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "link",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,11 +46,29 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 33,
-                    "offset": 32
+                    "column": 21,
+                    "offset": 20
                   }
                 },
-                "value": "[link](/url \"title \"and\" title\")"
+                "url": "/url%C2%A0%22title%22",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 6,
+                        "offset": 5
+                      }
+                    },
+                    "value": "link"
+                  }
+                ]
               }
             ]
           }

@@ -2,10 +2,10 @@
   "title": "GFM#580 https://github.github.com/gfm/#example-580",
   "cases": [
     {
-      "description": "Syntax for images is like the syntax for links, with one difference. Instead of link text, we have an image description. The rules for this are the same as for link text, except that (a) an image description starts with ![ rather than [, and (b) an image description may contain links. An image description has inline elements as its contents. When an image is rendered to HTML, this is standardly used as the image’s alt attribute.",
-      "input": "![foo](/url \"title\")",
-      "markupAnswer": "![foo](/url \"title\")",
-      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" /></p>",
+      "description": "Here [foo] is not parsed as a shortcut reference, because it is followed by a link label (even though [bar] is not defined)",
+      "input": "[foo][bar][baz]\n\n[baz]: /url1\n[foo]: /url2",
+      "markupAnswer": "[foo][bar][baz]\n\n[baz]: /url1\n\n[foo]: /url2",
+      "htmlAnswer": "<p>[foo]<a href=\"/url1\">bar</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 1,
-            "column": 21,
-            "offset": 20
+            "line": 4,
+            "column": 13,
+            "offset": 42
           }
         },
         "children": [
@@ -30,14 +30,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 1,
-                "column": 21,
-                "offset": 20
+                "line": 2,
+                "column": 1,
+                "offset": 16
               }
             },
             "children": [
               {
-                "type": "image",
+                "type": "text",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,15 +46,85 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 21,
-                    "offset": 20
+                    "column": 6,
+                    "offset": 5
                   }
                 },
-                "url": "/url",
-                "alt": "foo",
-                "title": "title"
+                "value": "[foo]"
+              },
+              {
+                "type": "linkReference",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 6,
+                    "offset": 5
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 16,
+                    "offset": 15
+                  }
+                },
+                "identifier": "baz",
+                "label": "baz",
+                "referenceType": "full",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 10,
+                        "offset": 9
+                      }
+                    },
+                    "value": "bar"
+                  }
+                ]
               }
             ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 17
+              },
+              "end": {
+                "line": 4,
+                "column": 1,
+                "offset": 30
+              }
+            },
+            "identifier": "baz",
+            "label": "baz",
+            "url": "/url1"
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 30
+              },
+              "end": {
+                "line": 4,
+                "column": 13,
+                "offset": 42
+              }
+            },
+            "identifier": "foo",
+            "label": "foo",
+            "url": "/url2"
           }
         ]
       }

@@ -2,9 +2,10 @@
   "title": "GFM#600 https://github.github.com/gfm/#example-600",
   "cases": [
     {
-      "description": "If you just want a literal ! followed by bracketed text, you can backslash-escape the opening [",
-      "input": "!\\[foo]\n\n[foo]: /url \"title\"",
-      "htmlAnswer": "<p>![foo]</p>",
+      "description": "The link labels are case-insensitive",
+      "input": "![Foo]\n\n[foo]: /url \"title\"",
+      "markupAnswer": "![Foo][]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"Foo\" title=\"title\" /></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,7 +17,7 @@
           "end": {
             "line": 3,
             "column": 20,
-            "offset": 28
+            "offset": 27
           }
         },
         "children": [
@@ -31,12 +32,12 @@
               "end": {
                 "line": 2,
                 "column": 1,
-                "offset": 8
+                "offset": 7
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "imageReference",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,11 +46,14 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 8,
-                    "offset": 7
+                    "column": 7,
+                    "offset": 6
                   }
                 },
-                "value": "![foo]"
+                "identifier": "foo",
+                "label": "Foo",
+                "referenceType": "shortcut",
+                "alt": "Foo"
               }
             ]
           },
@@ -59,12 +63,12 @@
               "start": {
                 "line": 3,
                 "column": 1,
-                "offset": 9
+                "offset": 8
               },
               "end": {
                 "line": 3,
                 "column": 20,
-                "offset": 28
+                "offset": 27
               }
             },
             "identifier": "foo",

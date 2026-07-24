@@ -2,10 +2,10 @@
   "title": "GFM#584 https://github.github.com/gfm/#example-584",
   "cases": [
     {
-      "description": "Though this spec is concerned with parsing, not rendering, it is recommended that in rendering to HTML, only the plain string content of the image description be used. Note that in the above example, the alt attribute’s value is foo bar, not foo [bar](/url) or foo <a href=\"/url\">bar</a>. Only the plain string content is rendered, without formatting.",
-      "input": "![foo *bar*][]\n\n[foo *bar*]: train.jpg \"train & tracks\"",
-      "markupAnswer": "![foo bar][foo *bar*]\n\n[foo *bar*]: train.jpg \"train & tracks\"",
-      "htmlAnswer": "<p><img src=\"train.jpg\" alt=\"foo bar\" title=\"train &amp; tracks\" /></p>",
+      "description": "Syntax for images is like the syntax for links, with one difference. Instead of link text, we have an image description. The rules for this are the same as for link text, except that (a) an image description starts with ![ rather than [, and (b) an image description may contain links. An image description has inline elements as its contents. When an image is rendered to HTML, this is standardly used as the image’s alt attribute.",
+      "input": "![foo [bar](/url)](/url2)",
+      "markupAnswer": "![foo bar](/url2)",
+      "htmlAnswer": "<p><img src=\"/url2\" alt=\"foo bar\" /></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 3,
-            "column": 40,
-            "offset": 55
+            "line": 1,
+            "column": 26,
+            "offset": 25
           }
         },
         "children": [
@@ -30,14 +30,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 15
+                "line": 1,
+                "column": 26,
+                "offset": 25
               }
             },
             "children": [
               {
-                "type": "imageReference",
+                "type": "image",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,35 +46,14 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 15,
-                    "offset": 14
+                    "column": 26,
+                    "offset": 25
                   }
                 },
-                "identifier": "foo *bar*",
-                "label": "foo *bar*",
-                "referenceType": "collapsed",
+                "url": "/url2",
                 "alt": "foo bar"
               }
             ]
-          },
-          {
-            "type": "definition",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 16
-              },
-              "end": {
-                "line": 3,
-                "column": 40,
-                "offset": 55
-              }
-            },
-            "identifier": "foo *bar*",
-            "label": "foo *bar*",
-            "url": "train.jpg",
-            "title": "train & tracks"
           }
         ]
       }

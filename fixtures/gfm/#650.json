@@ -2,10 +2,10 @@
   "title": "GFM#650 https://github.github.com/gfm/#example-650",
   "cases": [
     {
-      "description": "Entity and numeric character references are preserved in HTML attributes",
-      "input": "foo <a href=\"&ouml;\">",
-      "markupAnswer": "foo <a href=\"&ouml;\">",
-      "htmlAnswer": "<p>foo <a href=\"&ouml;\"></p>",
+      "description": "Not comments",
+      "input": "foo <!--> foo -->\n\nfoo <!-- foo--->",
+      "markupAnswer": "foo <!--> foo -->\n\nfoo <!-- foo--->",
+      "htmlAnswer": "<p>foo &lt;!--&gt; foo --&gt;</p>\n<p>foo &lt;!-- foo---&gt;</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 1,
-            "column": 22,
-            "offset": 21
+            "line": 3,
+            "column": 17,
+            "offset": 35
           }
         },
         "children": [
@@ -30,9 +30,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 1,
-                "column": 22,
-                "offset": 21
+                "line": 2,
+                "column": 1,
+                "offset": 18
               }
             },
             "children": [
@@ -46,27 +46,44 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 5,
-                    "offset": 4
+                    "column": 18,
+                    "offset": 17
                   }
                 },
-                "value": "foo "
+                "value": "foo <!--> foo -->"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 19
               },
+              "end": {
+                "line": 3,
+                "column": 17,
+                "offset": 35
+              }
+            },
+            "children": [
               {
-                "type": "html",
+                "type": "text",
                 "position": {
                   "start": {
-                    "line": 1,
-                    "column": 5,
-                    "offset": 4
+                    "line": 3,
+                    "column": 1,
+                    "offset": 19
                   },
                   "end": {
-                    "line": 1,
-                    "column": 22,
-                    "offset": 21
+                    "line": 3,
+                    "column": 17,
+                    "offset": 35
                   }
                 },
-                "value": "<a href=\"&ouml;\">"
+                "value": "foo <!-- foo--->"
               }
             ]
           }

@@ -2,9 +2,9 @@
   "title": "GFM#625 https://github.github.com/gfm/#example-625",
   "cases": [
     {
-      "description": "This check is only done when the link ends in a closing parentheses ), so if the only parentheses are in the interior of the autolink, no special rules are applied",
-      "input": "www.google.com/search?q=(business))+ok",
-      "htmlAnswer": "<p><a href=\"http://www.google.com/search?q=(business))+ok\">www.google.com/search?q=(business))+ok</a></p>",
+      "description": "When an autolink ends in ), we scan the entire autolink for the total number of parentheses. If there is a greater number of closing parentheses than opening ones, we don’t consider the unmatched trailing parentheses part of the autolink, in order to facilitate including an autolink inside a parenthesis",
+      "input": "www.google.com/search?q=Markup+(business)\n\nwww.google.com/search?q=Markup+(business)))\n\n(www.google.com/search?q=Markup+(business))\n\n(www.google.com/search?q=Markup+(business)",
+      "htmlAnswer": "<p><a href=\"http://www.google.com/search?q=Markup+(business)\">www.google.com/search?q=Markup+(business)</a></p>\n<p><a href=\"http://www.google.com/search?q=Markup+(business)\">www.google.com/search?q=Markup+(business)</a>))</p>\n<p>(<a href=\"http://www.google.com/search?q=Markup+(business)\">www.google.com/search?q=Markup+(business)</a>)</p>\n<p>(<a href=\"http://www.google.com/search?q=Markup+(business)\">www.google.com/search?q=Markup+(business)</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -14,9 +14,9 @@
             "offset": 0
           },
           "end": {
-            "line": 1,
-            "column": 39,
-            "offset": 38
+            "line": 7,
+            "column": 43,
+            "offset": 175
           }
         },
         "children": [
@@ -29,9 +29,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 1,
-                "column": 39,
-                "offset": 38
+                "line": 2,
+                "column": 1,
+                "offset": 42
               }
             },
             "children": [
@@ -45,11 +45,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 39,
-                    "offset": 38
+                    "column": 42,
+                    "offset": 41
                   }
                 },
-                "url": "http://www.google.com/search?q=(business))+ok",
+                "url": "http://www.google.com/search?q=Markup+(business)",
                 "children": [
                   {
                     "type": "text",
@@ -61,11 +61,228 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 39,
-                        "offset": 38
+                        "column": 42,
+                        "offset": 41
                       }
                     },
-                    "value": "www.google.com/search?q=(business))+ok"
+                    "value": "www.google.com/search?q=Markup+(business)"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 43
+              },
+              "end": {
+                "line": 4,
+                "column": 1,
+                "offset": 87
+              }
+            },
+            "children": [
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 43
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 42,
+                    "offset": 84
+                  }
+                },
+                "url": "http://www.google.com/search?q=Markup+(business)",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 43
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 42,
+                        "offset": 84
+                      }
+                    },
+                    "value": "www.google.com/search?q=Markup+(business)"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 42,
+                    "offset": 84
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 44,
+                    "offset": 86
+                  }
+                },
+                "value": "))"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 88
+              },
+              "end": {
+                "line": 6,
+                "column": 1,
+                "offset": 132
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 88
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 2,
+                    "offset": 89
+                  }
+                },
+                "value": "("
+              },
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 2,
+                    "offset": 89
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 43,
+                    "offset": 130
+                  }
+                },
+                "url": "http://www.google.com/search?q=Markup+(business)",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 5,
+                        "column": 2,
+                        "offset": 89
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 43,
+                        "offset": 130
+                      }
+                    },
+                    "value": "www.google.com/search?q=Markup+(business)"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 43,
+                    "offset": 130
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 44,
+                    "offset": 131
+                  }
+                },
+                "value": ")"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 133
+              },
+              "end": {
+                "line": 7,
+                "column": 43,
+                "offset": 175
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 133
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 2,
+                    "offset": 134
+                  }
+                },
+                "value": "("
+              },
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 7,
+                    "column": 2,
+                    "offset": 134
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 43,
+                    "offset": 175
+                  }
+                },
+                "url": "http://www.google.com/search?q=Markup+(business)",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 7,
+                        "column": 2,
+                        "offset": 134
+                      },
+                      "end": {
+                        "line": 7,
+                        "column": 43,
+                        "offset": 175
+                      }
+                    },
+                    "value": "www.google.com/search?q=Markup+(business)"
                   }
                 ]
               }

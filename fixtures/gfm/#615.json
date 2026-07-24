@@ -2,10 +2,9 @@
   "title": "GFM#615 https://github.github.com/gfm/#example-615",
   "cases": [
     {
-      "description": "These are not autolinks",
-      "input": "<>",
-      "markupAnswer": "<>",
-      "htmlAnswer": "<p>&lt;&gt;</p>",
+      "description": "Backslash-escapes do not work inside email autolinks",
+      "input": "<foo\\+@bar.example.com>",
+      "htmlAnswer": "<p>&lt;foo+@bar.example.com&gt;</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +15,8 @@
           },
           "end": {
             "line": 1,
-            "column": 3,
-            "offset": 2
+            "column": 24,
+            "offset": 23
           }
         },
         "children": [
@@ -31,8 +30,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 3,
-                "offset": 2
+                "column": 24,
+                "offset": 23
               }
             },
             "children": [
@@ -46,11 +45,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 3,
-                    "offset": 2
+                    "column": 24,
+                    "offset": 23
                   }
                 },
-                "value": "<>"
+                "value": "<foo+@bar.example.com>"
               }
             ]
           }

@@ -1,11 +1,11 @@
 {
-  "title": "GFM#635 https://github.github.com/gfm/#example-635",
+  "title": "GFM#677 https://github.github.com/gfm/#example-677",
   "cases": [
     {
-      "description": "With attributes",
-      "input": "<a foo=\"bar\" bam = 'baz <em>\"</em>'\n_boolean zoop:33=zoop:33 />",
-      "markupAnswer": "<a foo=\"bar\" bam = 'baz <em>\"</em>'\n_boolean zoop:33=zoop:33 />",
-      "htmlAnswer": "<p><a foo=\"bar\" bam = 'baz <em>\"</em>'\n_boolean zoop:33=zoop:33 /></p>",
+      "description": "Internal spaces are preserved verbatim",
+      "input": "Multiple     spaces",
+      "markupAnswer": "Multiple     spaces",
+      "htmlAnswer": "<p>Multiple     spaces</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 2,
-            "column": 28,
-            "offset": 63
+            "line": 1,
+            "column": 20,
+            "offset": 19
           }
         },
         "children": [
@@ -30,14 +30,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 28,
-                "offset": 63
+                "line": 1,
+                "column": 20,
+                "offset": 19
               }
             },
             "children": [
               {
-                "type": "html",
+                "type": "text",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,12 +45,12 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 2,
-                    "column": 28,
-                    "offset": 63
+                    "line": 1,
+                    "column": 20,
+                    "offset": 19
                   }
                 },
-                "value": "<a foo=\"bar\" bam = 'baz <em>\"</em>'\n_boolean zoop:33=zoop:33 />"
+                "value": "Multiple     spaces"
               }
             ]
           }

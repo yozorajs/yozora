@@ -1,28 +1,9 @@
 import { createMarkupTester } from '@yozora/test-util'
 import { parsers, scanGfmFixtures, weavers } from 'vitest.setup'
+import gfmConfig from '../../../script/fixtures/gfm/config.json'
 
 void scanGfmFixtures(createMarkupTester(parsers.yozora, weavers.yozora), {
-  excludeExamples: [
-    '#036',
-    '#310',
-    '#333',
-    '#334',
-    '#335',
-    '#336',
-    '#337',
-    '#359',
-    '#502',
-    '#534',
-    '#553',
-    '#571',
-    '#600',
-    '#601',
-    '#614',
-    '#624',
-    '#625',
-    '#628',
-    '#631',
-  ],
+  excludeExamples: gfmConfig.markupAnswerExcludedExamples,
 })
   .scan([
     'custom/**/*.json',

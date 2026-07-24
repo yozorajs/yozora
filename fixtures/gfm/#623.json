@@ -2,10 +2,10 @@
   "title": "GFM#623 https://github.github.com/gfm/#example-623",
   "cases": [
     {
-      "description": "Trailing punctuation (specifically, ?, !, ., ,, :, *, _, and ~) will not be considered part of the autolink, though they may be included in the interior of the link",
-      "input": "Visit www.commonmark.org.\n\nVisit www.commonmark.org/a.b.",
-      "markupAnswer": "Visit [www.commonmark.org](http://www.commonmark.org).\n\nVisit [www.commonmark.org/a.b](http://www.commonmark.org/a.b).",
-      "htmlAnswer": "<p>Visit <a href=\"http://www.commonmark.org\">www.commonmark.org</a>.</p>\n<p>Visit <a href=\"http://www.commonmark.org/a.b\">www.commonmark.org/a.b</a>.</p>",
+      "description": "After a valid domain, zero or more non-space non-< characters may follow",
+      "input": "Visit www.commonmark.org/help for more information.",
+      "markupAnswer": "Visit [www.commonmark.org/help](http://www.commonmark.org/help) for more information.",
+      "htmlAnswer": "<p>Visit <a href=\"http://www.commonmark.org/help\">www.commonmark.org/help</a> for more information.</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 3,
-            "column": 30,
-            "offset": 56
+            "line": 1,
+            "column": 52,
+            "offset": 51
           }
         },
         "children": [
@@ -30,9 +30,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 26
+                "line": 1,
+                "column": 52,
+                "offset": 51
               }
             },
             "children": [
@@ -62,11 +62,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 25,
-                    "offset": 24
+                    "column": 30,
+                    "offset": 29
                   }
                 },
-                "url": "http://www.commonmark.org",
+                "url": "http://www.commonmark.org/help",
                 "children": [
                   {
                     "type": "text",
@@ -78,11 +78,11 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 25,
-                        "offset": 24
+                        "column": 30,
+                        "offset": 29
                       }
                     },
-                    "value": "www.commonmark.org"
+                    "value": "www.commonmark.org/help"
                   }
                 ]
               },
@@ -91,99 +91,16 @@
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 25,
-                    "offset": 24
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 26,
-                    "offset": 25
-                  }
-                },
-                "value": "."
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 27
-              },
-              "end": {
-                "line": 3,
-                "column": 30,
-                "offset": 56
-              }
-            },
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 27
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 7,
-                    "offset": 33
-                  }
-                },
-                "value": "Visit "
-              },
-              {
-                "type": "link",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 7,
-                    "offset": 33
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 29,
-                    "offset": 55
-                  }
-                },
-                "url": "http://www.commonmark.org/a.b",
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 7,
-                        "offset": 33
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 29,
-                        "offset": 55
-                      }
-                    },
-                    "value": "www.commonmark.org/a.b"
-                  }
-                ]
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 29,
-                    "offset": 55
-                  },
-                  "end": {
-                    "line": 3,
                     "column": 30,
-                    "offset": 56
+                    "offset": 29
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 52,
+                    "offset": 51
                   }
                 },
-                "value": "."
+                "value": " for more information."
               }
             ]
           }

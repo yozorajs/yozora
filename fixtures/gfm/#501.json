@@ -2,10 +2,10 @@
   "title": "GFM#501 https://github.github.com/gfm/#example-501",
   "cases": [
     {
-      "description": "The destination can contain ) if it is enclosed in pointy brackets",
-      "input": "[a](<b)c>)",
-      "markupAnswer": "[a](<b)c>)",
-      "htmlAnswer": "<p><a href=\"b)c\">a</a></p>",
+      "description": "The destination cannot contain line breaks, even if enclosed in pointy brackets",
+      "input": "[link](<foo\nbar>)",
+      "markupAnswer": "[link](<foo\nbar>)",
+      "htmlAnswer": "<p>[link](<foo\nbar>)</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 1,
-            "column": 11,
-            "offset": 10
+            "line": 2,
+            "column": 6,
+            "offset": 17
           }
         },
         "children": [
@@ -30,14 +30,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 1,
-                "column": 11,
-                "offset": 10
+                "line": 2,
+                "column": 6,
+                "offset": 17
               }
             },
             "children": [
               {
-                "type": "link",
+                "type": "text",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,29 +46,43 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 11,
-                    "offset": 10
+                    "column": 8,
+                    "offset": 7
                   }
                 },
-                "url": "b)c",
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 2,
-                        "offset": 1
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 3,
-                        "offset": 2
-                      }
-                    },
-                    "value": "a"
+                "value": "[link]("
+              },
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 8,
+                    "offset": 7
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 5,
+                    "offset": 16
                   }
-                ]
+                },
+                "value": "<foo\nbar>"
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 5,
+                    "offset": 16
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 6,
+                    "offset": 17
+                  }
+                },
+                "value": ")"
               }
             ]
           }

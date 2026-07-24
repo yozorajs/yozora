@@ -2,10 +2,10 @@
   "title": "GFM#654 https://github.github.com/gfm/#example-654",
   "cases": [
     {
-      "description": "A line break (not in a code span or HTML tag) that is preceded by two or more spaces and does not occur at the end of a block is parsed as a hard line break (rendered in HTML as a <br /> tag)",
-      "input": "foo  \nbaz",
-      "markupAnswer": "foo\\\nbaz",
-      "htmlAnswer": "<p>foo<br />\nbaz</p>",
+      "description": "Entity and numeric character references are preserved in HTML attributes",
+      "input": "foo <a href=\"&ouml;\">",
+      "markupAnswer": "foo <a href=\"&ouml;\">",
+      "htmlAnswer": "<p>foo <a href=\"&ouml;\"></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 2,
-            "column": 4,
-            "offset": 9
+            "line": 1,
+            "column": 22,
+            "offset": 21
           }
         },
         "children": [
@@ -30,9 +30,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 4,
-                "offset": 9
+                "line": 1,
+                "column": 22,
+                "offset": 21
               }
             },
             "children": [
@@ -46,42 +46,27 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 4,
-                    "offset": 3
+                    "column": 5,
+                    "offset": 4
                   }
                 },
-                "value": "foo"
+                "value": "foo "
               },
               {
-                "type": "break",
+                "type": "html",
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 4,
-                    "offset": 3
+                    "column": 5,
+                    "offset": 4
                   },
                   "end": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 6
-                  }
-                }
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 6
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 4,
-                    "offset": 9
+                    "line": 1,
+                    "column": 22,
+                    "offset": 21
                   }
                 },
-                "value": "baz"
+                "value": "<a href=\"&ouml;\">"
               }
             ]
           }

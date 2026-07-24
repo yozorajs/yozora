@@ -2,10 +2,10 @@
   "title": "GFM#610 https://github.github.com/gfm/#example-610",
   "cases": [
     {
-      "description": "Spaces are not allowed in autolinks",
-      "input": "<http://foo.bar/baz bim>",
-      "markupAnswer": "<http://foo.bar/baz bim>",
-      "htmlAnswer": "<p>&lt;http://foo.bar/baz bim&gt;</p>",
+      "description": "Note that many strings that count as absolute URIs for purposes of this spec are not valid URIs, because their schemes are not registered or because of other problems with their syntax",
+      "input": "<localhost:5001/foo>",
+      "markupAnswer": "[localhost:5001/foo](localhost:5001/foo)",
+      "htmlAnswer": "<p><a href=\"localhost:5001/foo\">localhost:5001/foo</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 25,
-            "offset": 24
+            "column": 21,
+            "offset": 20
           }
         },
         "children": [
@@ -31,13 +31,13 @@
               },
               "end": {
                 "line": 1,
-                "column": 25,
-                "offset": 24
+                "column": 21,
+                "offset": 20
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "link",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,11 +46,29 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 25,
-                    "offset": 24
+                    "column": 21,
+                    "offset": 20
                   }
                 },
-                "value": "<http://foo.bar/baz bim>"
+                "url": "localhost:5001/foo",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 20,
+                        "offset": 19
+                      }
+                    },
+                    "value": "localhost:5001/foo"
+                  }
+                ]
               }
             ]
           }

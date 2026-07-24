@@ -2,10 +2,10 @@
   "title": "GFM#536 https://github.github.com/gfm/#example-536",
   "cases": [
     {
-      "description": "The link text may contain balanced brackets, but not unbalanced ones, unless they are escaped",
-      "input": "[link [foo [bar]]][ref]\n\n[ref]: /uri",
-      "markupAnswer": "[link \\[foo \\[bar\\]\\]][ref]\n\n[ref]: /uri",
-      "htmlAnswer": "<p><a href=\"/uri\">link [foo [bar]]</a></p>",
+      "description": "Here is a simple example",
+      "input": "[foo][bar]\n\n[bar]: /url \"title\"",
+      "markupAnswer": "[foo][bar]\n\n[bar]: /url \"title\"",
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">foo</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 3,
-            "column": 12,
-            "offset": 36
+            "column": 20,
+            "offset": 31
           }
         },
         "children": [
@@ -32,7 +32,7 @@
               "end": {
                 "line": 2,
                 "column": 1,
-                "offset": 24
+                "offset": 11
               }
             },
             "children": [
@@ -46,12 +46,12 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 24,
-                    "offset": 23
+                    "column": 11,
+                    "offset": 10
                   }
                 },
-                "identifier": "ref",
-                "label": "ref",
+                "identifier": "bar",
+                "label": "bar",
                 "referenceType": "full",
                 "children": [
                   {
@@ -64,11 +64,11 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 18,
-                        "offset": 17
+                        "column": 5,
+                        "offset": 4
                       }
                     },
-                    "value": "link [foo [bar]]"
+                    "value": "foo"
                   }
                 ]
               }
@@ -80,17 +80,18 @@
               "start": {
                 "line": 3,
                 "column": 1,
-                "offset": 25
+                "offset": 12
               },
               "end": {
                 "line": 3,
-                "column": 12,
-                "offset": 36
+                "column": 20,
+                "offset": 31
               }
             },
-            "identifier": "ref",
-            "label": "ref",
-            "url": "/uri"
+            "identifier": "bar",
+            "label": "bar",
+            "url": "/url",
+            "title": "title"
           }
         ]
       }

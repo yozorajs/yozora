@@ -3,9 +3,9 @@
   "cases": [
     {
       "description": "Here are some valid autolinks",
-      "input": "<irc://foo.bar:2233/baz>",
-      "markupAnswer": "[irc://foo.bar:2233/baz](irc://foo.bar:2233/baz)",
-      "htmlAnswer": "<p><a href=\"irc://foo.bar:2233/baz\">irc://foo.bar:2233/baz</a></p>",
+      "input": "<http://foo.bar.baz/test?q=hello&id=22&boolean>",
+      "markupAnswer": "[http://foo.bar.baz/test?q=hello&id=22&boolean](http://foo.bar.baz/test?q=hello&id=22&boolean)",
+      "htmlAnswer": "<p><a href=\"http://foo.bar.baz/test?q=hello&amp;id=22&amp;boolean\">http://foo.bar.baz/test?q=hello&amp;id=22&amp;boolean</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 25,
-            "offset": 24
+            "column": 48,
+            "offset": 47
           }
         },
         "children": [
@@ -31,8 +31,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 25,
-                "offset": 24
+                "column": 48,
+                "offset": 47
               }
             },
             "children": [
@@ -46,11 +46,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 25,
-                    "offset": 24
+                    "column": 48,
+                    "offset": 47
                   }
                 },
-                "url": "irc://foo.bar:2233/baz",
+                "url": "http://foo.bar.baz/test?q=hello&id=22&boolean",
                 "children": [
                   {
                     "type": "text",
@@ -62,11 +62,11 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 24,
-                        "offset": 23
+                        "column": 47,
+                        "offset": 46
                       }
                     },
-                    "value": "irc://foo.bar:2233/baz"
+                    "value": "http://foo.bar.baz/test?q=hello&id=22&boolean"
                   }
                 ]
               }

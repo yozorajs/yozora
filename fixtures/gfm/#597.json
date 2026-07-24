@@ -3,9 +3,9 @@
   "cases": [
     {
       "description": "Shortcut",
-      "input": "![*foo* bar]\n\n[*foo* bar]: /url \"title\"",
-      "markupAnswer": "![foo bar][*foo* bar]\n\n[*foo* bar]: /url \"title\"",
-      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo bar\" title=\"title\" /></p>",
+      "input": "![foo]\n\n[foo]: /url \"title\"",
+      "markupAnswer": "![foo][]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" /></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 3,
-            "column": 26,
-            "offset": 39
+            "column": 20,
+            "offset": 27
           }
         },
         "children": [
@@ -32,7 +32,7 @@
               "end": {
                 "line": 2,
                 "column": 1,
-                "offset": 13
+                "offset": 7
               }
             },
             "children": [
@@ -46,14 +46,14 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 13,
-                    "offset": 12
+                    "column": 7,
+                    "offset": 6
                   }
                 },
-                "identifier": "*foo* bar",
-                "label": "*foo* bar",
+                "identifier": "foo",
+                "label": "foo",
                 "referenceType": "shortcut",
-                "alt": "foo bar"
+                "alt": "foo"
               }
             ]
           },
@@ -63,16 +63,16 @@
               "start": {
                 "line": 3,
                 "column": 1,
-                "offset": 14
+                "offset": 8
               },
               "end": {
                 "line": 3,
-                "column": 26,
-                "offset": 39
+                "column": 20,
+                "offset": 27
               }
             },
-            "identifier": "*foo* bar",
-            "label": "*foo* bar",
+            "identifier": "foo",
+            "label": "foo",
             "url": "/url",
             "title": "title"
           }

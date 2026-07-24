@@ -3,9 +3,9 @@
   "cases": [
     {
       "description": "A shortcut reference link consists of a link label that matches a link reference definition elsewhere in the document and is not followed by [] or a link label. The contents of the first link label are parsed as inlines, which are used as the link’s text. The link’s URI and title are provided by the matching link reference definition. Thus, [foo] is equivalent to [foo][].",
-      "input": "[*foo* bar]\n\n[*foo* bar]: /url \"title\"",
-      "markupAnswer": "[*foo* bar][]\n\n[*foo* bar]: /url \"title\"",
-      "htmlAnswer": "<p><a href=\"/url\" title=\"title\"><em>foo</em> bar</a></p>",
+      "input": "[foo]\n\n[foo]: /url \"title\"",
+      "markupAnswer": "[foo][]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">foo</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 3,
-            "column": 26,
-            "offset": 38
+            "column": 20,
+            "offset": 26
           }
         },
         "children": [
@@ -32,7 +32,7 @@
               "end": {
                 "line": 2,
                 "column": 1,
-                "offset": 12
+                "offset": 6
               }
             },
             "children": [
@@ -46,16 +46,16 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 12,
-                    "offset": 11
+                    "column": 6,
+                    "offset": 5
                   }
                 },
-                "identifier": "*foo* bar",
-                "label": "*foo* bar",
+                "identifier": "foo",
+                "label": "foo",
                 "referenceType": "shortcut",
                 "children": [
                   {
-                    "type": "emphasis",
+                    "type": "text",
                     "position": {
                       "start": {
                         "line": 1,
@@ -64,44 +64,11 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 7,
-                        "offset": 6
+                        "column": 5,
+                        "offset": 4
                       }
                     },
-                    "children": [
-                      {
-                        "type": "text",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 3,
-                            "offset": 2
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 6,
-                            "offset": 5
-                          }
-                        },
-                        "value": "foo"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 11,
-                        "offset": 10
-                      }
-                    },
-                    "value": " bar"
+                    "value": "foo"
                   }
                 ]
               }
@@ -113,16 +80,16 @@
               "start": {
                 "line": 3,
                 "column": 1,
-                "offset": 13
+                "offset": 7
               },
               "end": {
                 "line": 3,
-                "column": 26,
-                "offset": 38
+                "column": 20,
+                "offset": 26
               }
             },
-            "identifier": "*foo* bar",
-            "label": "*foo* bar",
+            "identifier": "foo",
+            "label": "foo",
             "url": "/url",
             "title": "title"
           }

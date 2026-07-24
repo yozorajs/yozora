@@ -3,9 +3,9 @@
   "cases": [
     {
       "description": "Though this spec is concerned with parsing, not rendering, it is recommended that in rendering to HTML, only the plain string content of the image description be used. Note that in the above example, the alt attribute’s value is foo bar, not foo [bar](/url) or foo <a href=\"/url\">bar</a>. Only the plain string content is rendered, without formatting.",
-      "input": "My ![foo bar](/path/to/train.jpg  \"title\"   )",
-      "markupAnswer": "My ![foo bar](/path/to/train.jpg \"title\")",
-      "htmlAnswer": "<p>My <img src=\"/path/to/train.jpg\" alt=\"foo bar\" title=\"title\" /></p>",
+      "input": "![foo](train.jpg)",
+      "markupAnswer": "![foo](train.jpg)",
+      "htmlAnswer": "<p><img src=\"train.jpg\" alt=\"foo\" /></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 46,
-            "offset": 45
+            "column": 18,
+            "offset": 17
           }
         },
         "children": [
@@ -31,13 +31,13 @@
               },
               "end": {
                 "line": 1,
-                "column": 46,
-                "offset": 45
+                "column": 18,
+                "offset": 17
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "image",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,29 +46,12 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 4,
-                    "offset": 3
+                    "column": 18,
+                    "offset": 17
                   }
                 },
-                "value": "My "
-              },
-              {
-                "type": "image",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 4,
-                    "offset": 3
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 46,
-                    "offset": 45
-                  }
-                },
-                "url": "/path/to/train.jpg",
-                "alt": "foo bar",
-                "title": "title"
+                "url": "train.jpg",
+                "alt": "foo"
               }
             ]
           }

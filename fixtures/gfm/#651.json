@@ -2,10 +2,10 @@
   "title": "GFM#651 https://github.github.com/gfm/#example-651",
   "cases": [
     {
-      "description": "Backslash escapes do not work in HTML attributes",
-      "input": "foo <a href=\"\\*\">",
-      "markupAnswer": "foo <a href=\"\\*\">",
-      "htmlAnswer": "<p>foo <a href=\"\\*\"></p>",
+      "description": "Processing instructions",
+      "input": "foo <?php echo $a; ?>",
+      "markupAnswer": "foo <?php echo $a; ?>",
+      "htmlAnswer": "<p>foo <?php echo $a; ?></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 18,
-            "offset": 17
+            "column": 22,
+            "offset": 21
           }
         },
         "children": [
@@ -31,8 +31,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 18,
-                "offset": 17
+                "column": 22,
+                "offset": 21
               }
             },
             "children": [
@@ -62,11 +62,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 18,
-                    "offset": 17
+                    "column": 22,
+                    "offset": 21
                   }
                 },
-                "value": "<a href=\"\\*\">"
+                "value": "<?php echo $a; ?>"
               }
             ]
           }

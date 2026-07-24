@@ -2,10 +2,9 @@
   "title": "GFM#503 https://github.github.com/gfm/#example-503",
   "cases": [
     {
-      "description": "These are not links, because the opening pointy bracket is not matched properly",
-      "input": "[a](<b)c\n[a](<b)c>\n[a](<b>c)",
-      "markupAnswer": "[a](<b)c\n[a](<b)c>\n[a](<b>c)",
-      "htmlAnswer": "<p>[a](&lt;b)c\n[a](&lt;b)c&gt;\n[a](<b>c)</p>",
+      "description": "Pointy brackets that enclose links must be unescaped",
+      "input": "[link](<foo\\>)",
+      "htmlAnswer": "<p>[link](&lt;foo&gt;)</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +14,9 @@
             "offset": 0
           },
           "end": {
-            "line": 3,
-            "column": 10,
-            "offset": 28
+            "line": 1,
+            "column": 15,
+            "offset": 14
           }
         },
         "children": [
@@ -30,9 +29,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 3,
-                "column": 10,
-                "offset": 28
+                "line": 1,
+                "column": 15,
+                "offset": 14
               }
             },
             "children": [
@@ -45,44 +44,12 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 3,
-                    "column": 5,
-                    "offset": 23
+                    "line": 1,
+                    "column": 15,
+                    "offset": 14
                   }
                 },
-                "value": "[a](<b)c\n[a](<b)c>\n[a]("
-              },
-              {
-                "type": "html",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 5,
-                    "offset": 23
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 8,
-                    "offset": 26
-                  }
-                },
-                "value": "<b>"
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 8,
-                    "offset": 26
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 10,
-                    "offset": 28
-                  }
-                },
-                "value": "c)"
+                "value": "[link](<foo>)"
               }
             ]
           }

@@ -2,10 +2,10 @@
   "title": "GFM#594 https://github.github.com/gfm/#example-594",
   "cases": [
     {
-      "description": "The labels are case-insensitive",
-      "input": "![Foo][]\n\n[foo]: /url \"title\"",
-      "markupAnswer": "![Foo][]\n\n[foo]: /url \"title\"",
-      "htmlAnswer": "<p><img src=\"/url\" alt=\"Foo\" title=\"title\" /></p>",
+      "description": "Collapsed",
+      "input": "![*foo* bar][]\n\n[*foo* bar]: /url \"title\"",
+      "markupAnswer": "![foo bar][*foo* bar]\n\n[*foo* bar]: /url \"title\"",
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo bar\" title=\"title\" /></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 3,
-            "column": 20,
-            "offset": 29
+            "column": 26,
+            "offset": 41
           }
         },
         "children": [
@@ -32,7 +32,7 @@
               "end": {
                 "line": 2,
                 "column": 1,
-                "offset": 9
+                "offset": 15
               }
             },
             "children": [
@@ -46,14 +46,14 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 9,
-                    "offset": 8
+                    "column": 15,
+                    "offset": 14
                   }
                 },
-                "identifier": "foo",
-                "label": "Foo",
+                "identifier": "*foo* bar",
+                "label": "*foo* bar",
                 "referenceType": "collapsed",
-                "alt": "Foo"
+                "alt": "foo bar"
               }
             ]
           },
@@ -63,16 +63,16 @@
               "start": {
                 "line": 3,
                 "column": 1,
-                "offset": 10
+                "offset": 16
               },
               "end": {
                 "line": 3,
-                "column": 20,
-                "offset": 29
+                "column": 26,
+                "offset": 41
               }
             },
-            "identifier": "foo",
-            "label": "foo",
+            "identifier": "*foo* bar",
+            "label": "*foo* bar",
             "url": "/url",
             "title": "title"
           }

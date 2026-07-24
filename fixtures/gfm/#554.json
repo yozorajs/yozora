@@ -2,10 +2,9 @@
   "title": "GFM#554 https://github.github.com/gfm/#example-554",
   "cases": [
     {
-      "description": "Link labels cannot contain brackets, unless they are backslash-escaped",
-      "input": "[foo][ref[]\n\n[ref[]: /uri",
-      "markupAnswer": "[foo][ref[]\n\n[ref[]: /uri",
-      "htmlAnswer": "<p>[foo][ref[]</p>\n<p>[ref[]: /uri</p>",
+      "description": "Note that matching is performed on normalized strings, not parsed inline content. So the following does not match, even though the labels define equivalent inline content",
+      "input": "[bar][foo\\!]\n\n[foo!]: /url",
+      "htmlAnswer": "<p>[bar][foo!]</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -17,7 +16,7 @@
           "end": {
             "line": 3,
             "column": 13,
-            "offset": 25
+            "offset": 26
           }
         },
         "children": [
@@ -32,7 +31,7 @@
               "end": {
                 "line": 2,
                 "column": 1,
-                "offset": 12
+                "offset": 13
               }
             },
             "children": [
@@ -46,46 +45,31 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 12,
-                    "offset": 11
+                    "column": 13,
+                    "offset": 12
                   }
                 },
-                "value": "[foo][ref[]"
+                "value": "[bar][foo!]"
               }
             ]
           },
           {
-            "type": "paragraph",
+            "type": "definition",
             "position": {
               "start": {
                 "line": 3,
                 "column": 1,
-                "offset": 13
+                "offset": 14
               },
               "end": {
                 "line": 3,
                 "column": 13,
-                "offset": 25
+                "offset": 26
               }
             },
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 13
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 13,
-                    "offset": 25
-                  }
-                },
-                "value": "[ref[]: /uri"
-              }
-            ]
+            "identifier": "foo!",
+            "label": "foo!",
+            "url": "/url"
           }
         ]
       }

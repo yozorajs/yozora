@@ -2,9 +2,9 @@
   "title": "GFM#601 https://github.github.com/gfm/#example-601",
   "cases": [
     {
-      "description": "If you want a link after a literal !, backslash-escape the !",
-      "input": "\\![foo]\n\n[foo]: /url \"title\"",
-      "htmlAnswer": "<p>!<a href=\"/url\" title=\"title\">foo</a></p>",
+      "description": "If you just want a literal ! followed by bracketed text, you can backslash-escape the opening [",
+      "input": "!\\[foo]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p>![foo]</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -45,47 +45,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 3,
-                    "offset": 2
-                  }
-                },
-                "value": "!"
-              },
-              {
-                "type": "linkReference",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 3,
-                    "offset": 2
-                  },
-                  "end": {
-                    "line": 1,
                     "column": 8,
                     "offset": 7
                   }
                 },
-                "identifier": "foo",
-                "label": "foo",
-                "referenceType": "shortcut",
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 4,
-                        "offset": 3
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
-                      }
-                    },
-                    "value": "foo"
-                  }
-                ]
+                "value": "![foo]"
               }
             ]
           },

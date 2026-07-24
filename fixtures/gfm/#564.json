@@ -2,10 +2,10 @@
   "title": "GFM#564 https://github.github.com/gfm/#example-564",
   "cases": [
     {
-      "description": "As with full reference links, whitespace is not allowed between the two sets of brackets",
-      "input": "[foo] \n[]\n\n[foo]: /url \"title\"",
-      "markupAnswer": "[foo][]\n[]\n\n[foo]: /url \"title\"",
-      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">foo</a>\n[]</p>",
+      "description": "The link labels are case-insensitive",
+      "input": "[Foo][]\n\n[foo]: /url \"title\"",
+      "markupAnswer": "[Foo][]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">Foo</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 4,
+            "line": 3,
             "column": 20,
-            "offset": 30
+            "offset": 28
           }
         },
         "children": [
@@ -30,9 +30,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 3,
+                "line": 2,
                 "column": 1,
-                "offset": 10
+                "offset": 8
               }
             },
             "children": [
@@ -46,13 +46,13 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 6,
-                    "offset": 5
+                    "column": 8,
+                    "offset": 7
                   }
                 },
                 "identifier": "foo",
-                "label": "foo",
-                "referenceType": "shortcut",
+                "label": "Foo",
+                "referenceType": "collapsed",
                 "children": [
                   {
                     "type": "text",
@@ -68,25 +68,9 @@
                         "offset": 4
                       }
                     },
-                    "value": "foo"
+                    "value": "Foo"
                   }
                 ]
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 6,
-                    "offset": 5
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 3,
-                    "offset": 9
-                  }
-                },
-                "value": "\n[]"
               }
             ]
           },
@@ -94,14 +78,14 @@
             "type": "definition",
             "position": {
               "start": {
-                "line": 4,
+                "line": 3,
                 "column": 1,
-                "offset": 11
+                "offset": 9
               },
               "end": {
-                "line": 4,
+                "line": 3,
                 "column": 20,
-                "offset": 30
+                "offset": 28
               }
             },
             "identifier": "foo",

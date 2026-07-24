@@ -3,9 +3,9 @@
   "cases": [
     {
       "description": "No whitespace is allowed between the link text and the link label",
-      "input": "[foo]\n[bar]\n\n[bar]: /url \"title\"",
-      "markupAnswer": "[foo]\n[bar][]\n\n[bar]: /url \"title\"",
-      "htmlAnswer": "<p>[foo]\n<a href=\"/url\" title=\"title\">bar</a></p>",
+      "input": "[foo] [bar]\n\n[bar]: /url \"title\"",
+      "markupAnswer": "[foo] [bar][]\n\n[bar]: /url \"title\"",
+      "htmlAnswer": "<p>[foo] <a href=\"/url\" title=\"title\">bar</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,7 +15,7 @@
             "offset": 0
           },
           "end": {
-            "line": 4,
+            "line": 3,
             "column": 20,
             "offset": 32
           }
@@ -30,7 +30,7 @@
                 "offset": 0
               },
               "end": {
-                "line": 3,
+                "line": 2,
                 "column": 1,
                 "offset": 12
               }
@@ -45,24 +45,24 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 2,
-                    "column": 1,
+                    "line": 1,
+                    "column": 7,
                     "offset": 6
                   }
                 },
-                "value": "[foo]\n"
+                "value": "[foo] "
               },
               {
                 "type": "linkReference",
                 "position": {
                   "start": {
-                    "line": 2,
-                    "column": 1,
+                    "line": 1,
+                    "column": 7,
                     "offset": 6
                   },
                   "end": {
-                    "line": 2,
-                    "column": 6,
+                    "line": 1,
+                    "column": 12,
                     "offset": 11
                   }
                 },
@@ -74,13 +74,13 @@
                     "type": "text",
                     "position": {
                       "start": {
-                        "line": 2,
-                        "column": 2,
+                        "line": 1,
+                        "column": 8,
                         "offset": 7
                       },
                       "end": {
-                        "line": 2,
-                        "column": 5,
+                        "line": 1,
+                        "column": 11,
                         "offset": 10
                       }
                     },
@@ -94,12 +94,12 @@
             "type": "definition",
             "position": {
               "start": {
-                "line": 4,
+                "line": 3,
                 "column": 1,
                 "offset": 13
               },
               "end": {
-                "line": 4,
+                "line": 3,
                 "column": 20,
                 "offset": 32
               }

@@ -2,10 +2,10 @@
   "title": "GFM#577 https://github.github.com/gfm/#example-577",
   "cases": [
     {
-      "description": "In the following case [bar][baz] is parsed as a reference, [foo] as normal text",
-      "input": "[foo][bar][baz]\n\n[baz]: /url",
-      "markupAnswer": "[foo][bar][baz]\n\n[baz]: /url",
-      "htmlAnswer": "<p>[foo]<a href=\"/url\">bar</a></p>",
+      "description": "Inline links also take precedence",
+      "input": "[foo](not a link)\n\n[foo]: /url1",
+      "markupAnswer": "[foo][](not a link)\n\n[foo]: /url1",
+      "htmlAnswer": "<p><a href=\"/url1\">foo</a>(not a link)</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 3,
-            "column": 12,
-            "offset": 28
+            "column": 13,
+            "offset": 31
           }
         },
         "children": [
@@ -32,12 +32,12 @@
               "end": {
                 "line": 2,
                 "column": 1,
-                "offset": 16
+                "offset": 18
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "linkReference",
                 "position": {
                   "start": {
                     "line": 1,
@@ -50,10 +50,30 @@
                     "offset": 5
                   }
                 },
-                "value": "[foo]"
+                "identifier": "foo",
+                "label": "foo",
+                "referenceType": "shortcut",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      }
+                    },
+                    "value": "foo"
+                  }
+                ]
               },
               {
-                "type": "linkReference",
+                "type": "text",
                 "position": {
                   "start": {
                     "line": 1,
@@ -62,31 +82,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 16,
-                    "offset": 15
+                    "column": 18,
+                    "offset": 17
                   }
                 },
-                "identifier": "baz",
-                "label": "baz",
-                "referenceType": "full",
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 10,
-                        "offset": 9
-                      }
-                    },
-                    "value": "bar"
-                  }
-                ]
+                "value": "(not a link)"
               }
             ]
           },
@@ -96,17 +96,17 @@
               "start": {
                 "line": 3,
                 "column": 1,
-                "offset": 17
+                "offset": 19
               },
               "end": {
                 "line": 3,
-                "column": 12,
-                "offset": 28
+                "column": 13,
+                "offset": 31
               }
             },
-            "identifier": "baz",
-            "label": "baz",
-            "url": "/url"
+            "identifier": "foo",
+            "label": "foo",
+            "url": "/url1"
           }
         ]
       }

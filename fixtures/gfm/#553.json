@@ -2,9 +2,10 @@
   "title": "GFM#553 https://github.github.com/gfm/#example-553",
   "cases": [
     {
-      "description": "Note that matching is performed on normalized strings, not parsed inline content. So the following does not match, even though the labels define equivalent inline content",
-      "input": "[bar][foo\\!]\n\n[foo!]: /url",
-      "htmlAnswer": "<p>[bar][foo!]</p>",
+      "description": "When there are multiple matching link reference definitions, the first is used",
+      "input": "[foo]: /url1\n\n[foo]: /url2\n\n[bar][foo]",
+      "markupAnswer": "[foo]: /url1\n\n[foo]: /url2\n\n[bar][foo]",
+      "htmlAnswer": "<p><a href=\"/url1\">bar</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -14,14 +15,14 @@
             "offset": 0
           },
           "end": {
-            "line": 3,
-            "column": 13,
-            "offset": 26
+            "line": 5,
+            "column": 11,
+            "offset": 38
           }
         },
         "children": [
           {
-            "type": "paragraph",
+            "type": "definition",
             "position": {
               "start": {
                 "line": 1,
@@ -34,24 +35,9 @@
                 "offset": 13
               }
             },
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 13,
-                    "offset": 12
-                  }
-                },
-                "value": "[bar][foo!]"
-              }
-            ]
+            "identifier": "foo",
+            "label": "foo",
+            "url": "/url1"
           },
           {
             "type": "definition",
@@ -62,14 +48,67 @@
                 "offset": 14
               },
               "end": {
-                "line": 3,
-                "column": 13,
-                "offset": 26
+                "line": 4,
+                "column": 1,
+                "offset": 27
               }
             },
-            "identifier": "foo!",
-            "label": "foo!",
-            "url": "/url"
+            "identifier": "foo",
+            "label": "foo",
+            "url": "/url2"
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 28
+              },
+              "end": {
+                "line": 5,
+                "column": 11,
+                "offset": 38
+              }
+            },
+            "children": [
+              {
+                "type": "linkReference",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 28
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 11,
+                    "offset": 38
+                  }
+                },
+                "identifier": "foo",
+                "label": "foo",
+                "referenceType": "full",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 5,
+                        "column": 2,
+                        "offset": 29
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 5,
+                        "offset": 32
+                      }
+                    },
+                    "value": "bar"
+                  }
+                ]
+              }
+            ]
           }
         ]
       }

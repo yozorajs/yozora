@@ -3,9 +3,9 @@
   "cases": [
     {
       "description": "These cases illustrate the precedence of link text grouping over emphasis grouping",
-      "input": "[foo *bar](baz*)",
-      "markupAnswer": "[foo *bar](baz*)",
-      "htmlAnswer": "<p><a href=\"baz*\">foo *bar</a></p>",
+      "input": "*[foo*](/uri)",
+      "markupAnswer": "*[foo*](/uri)",
+      "htmlAnswer": "<p>*<a href=\"/uri\">foo*</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 17,
-            "offset": 16
+            "column": 14,
+            "offset": 13
           }
         },
         "children": [
@@ -31,13 +31,13 @@
               },
               "end": {
                 "line": 1,
-                "column": 17,
-                "offset": 16
+                "column": 14,
+                "offset": 13
               }
             },
             "children": [
               {
-                "type": "link",
+                "type": "text",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,27 +46,43 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 17,
-                    "offset": 16
+                    "column": 2,
+                    "offset": 1
                   }
                 },
-                "url": "baz*",
+                "value": "*"
+              },
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 2,
+                    "offset": 1
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 14,
+                    "offset": 13
+                  }
+                },
+                "url": "/uri",
                 "children": [
                   {
                     "type": "text",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 2,
-                        "offset": 1
+                        "column": 3,
+                        "offset": 2
                       },
                       "end": {
                         "line": 1,
-                        "column": 10,
-                        "offset": 9
+                        "column": 7,
+                        "offset": 6
                       }
                     },
-                    "value": "foo *bar"
+                    "value": "foo*"
                   }
                 ]
               }

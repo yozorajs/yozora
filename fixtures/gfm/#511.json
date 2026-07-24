@@ -2,10 +2,10 @@
   "title": "GFM#511 https://github.github.com/gfm/#example-511",
   "cases": [
     {
-      "description": "URL-escaping should be left alone inside the destination, as all URL-escaped characters are also valid URL characters. Entity and numerical character references in the destination will be parsed into the corresponding Unicode code points, as usual. These may be optionally URL-escaped when written as HTML, but this spec does not enforce any particular policy for rendering URLs in HTML or other formats. Renderers may make different decisions about how to escape or normalize URLs in the output.",
-      "input": "[link](foo%20b&auml;)",
-      "markupAnswer": "[link](foo%20b%C3%A4)",
-      "htmlAnswer": "<p><a href=\"foo%20b%C3%A4\">link</a></p>",
+      "description": "Note that a backslash before a non-escapable character is just a backslash",
+      "input": "[link](foo\\bar)",
+      "markupAnswer": "[link](foo%5Cbar)",
+      "htmlAnswer": "<p><a href=\"foo%5Cbar\">link</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 22,
-            "offset": 21
+            "column": 16,
+            "offset": 15
           }
         },
         "children": [
@@ -31,8 +31,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 22,
-                "offset": 21
+                "column": 16,
+                "offset": 15
               }
             },
             "children": [
@@ -46,11 +46,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 22,
-                    "offset": 21
+                    "column": 16,
+                    "offset": 15
                   }
                 },
-                "url": "foo%20b%C3%A4",
+                "url": "foo%5Cbar",
                 "children": [
                   {
                     "type": "text",

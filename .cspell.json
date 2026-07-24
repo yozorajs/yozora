@@ -11,6 +11,7 @@
     "packages/character/src/constant/unicode/**"
   ],
   "words": [
+    "apos",
     "autolinks",
     "backticks",
     "barusu",
@@ -29,6 +30,7 @@
     "editorconfig",
     "eslintconfig",
     "eslintignore",
+    "examplenum",
     "extglob",
     "frontmatter",
     "funcs",
@@ -71,6 +73,7 @@
     "standardly",
     "strikethrough",
     "styl",
+    "tagfilter",
     "tsbuildinfo",
     "typeof",
     "unmount",

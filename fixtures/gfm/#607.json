@@ -3,9 +3,9 @@
   "cases": [
     {
       "description": "Note that many strings that count as absolute URIs for purposes of this spec are not valid URIs, because their schemes are not registered or because of other problems with their syntax",
-      "input": "<made-up-scheme://foo,bar>",
-      "markupAnswer": "[made-up-scheme://foo,bar](made-up-scheme://foo,bar)",
-      "htmlAnswer": "<p><a href=\"made-up-scheme://foo,bar\">made-up-scheme://foo,bar</a></p>",
+      "input": "<a+b+c:d>",
+      "markupAnswer": "[a+b+c:d](a+b+c:d)",
+      "htmlAnswer": "<p><a href=\"a+b+c:d\">a+b+c:d</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 27,
-            "offset": 26
+            "column": 10,
+            "offset": 9
           }
         },
         "children": [
@@ -31,8 +31,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 27,
-                "offset": 26
+                "column": 10,
+                "offset": 9
               }
             },
             "children": [
@@ -46,11 +46,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 27,
-                    "offset": 26
+                    "column": 10,
+                    "offset": 9
                   }
                 },
-                "url": "made-up-scheme://foo,bar",
+                "url": "a+b+c:d",
                 "children": [
                   {
                     "type": "text",
@@ -62,11 +62,11 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 26,
-                        "offset": 25
+                        "column": 9,
+                        "offset": 8
                       }
                     },
-                    "value": "made-up-scheme://foo,bar"
+                    "value": "a+b+c:d"
                   }
                 ]
               }

@@ -2,10 +2,10 @@
   "title": "GFM#515 https://github.github.com/gfm/#example-515",
   "cases": [
     {
-      "description": "Titles must be separated from the link using a whitespace. Other Unicode whitespace like non-breaking space doesn’t work.",
-      "input": "[link](/url \"title\")",
-      "markupAnswer": "[link](/url%C2%A0%22title%22)",
-      "htmlAnswer": "<p><a href=\"/url%C2%A0%22title%22\">link</a></p>",
+      "description": "Backslash escapes and entity and numeric character references may be used in titles",
+      "input": "[link](/url \"title \\\"&quot;\")",
+      "markupAnswer": "[link](/url \"title \\\"\\\"\")",
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title &quot;&quot;\">link</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 21,
-            "offset": 20
+            "column": 30,
+            "offset": 29
           }
         },
         "children": [
@@ -31,8 +31,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 21,
-                "offset": 20
+                "column": 30,
+                "offset": 29
               }
             },
             "children": [
@@ -46,11 +46,12 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 21,
-                    "offset": 20
+                    "column": 30,
+                    "offset": 29
                   }
                 },
-                "url": "/url%C2%A0%22title%22",
+                "url": "/url",
+                "title": "title \"\"",
                 "children": [
                   {
                     "type": "text",

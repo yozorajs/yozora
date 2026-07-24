@@ -2,10 +2,10 @@
   "title": "GFM#640 https://github.github.com/gfm/#example-640",
   "cases": [
     {
-      "description": "Illegal whitespace",
-      "input": "< a><\nfoo><bar/ >\n<foo bar=baz\nbim!bop />",
-      "markupAnswer": "< a><\nfoo><bar/ >\n<foo bar=baz\nbim!bop />",
-      "htmlAnswer": "<p>&lt; a&gt;&lt;\nfoo&gt;&lt;bar/ &gt;\n&lt;foo bar=baz\nbim!bop /&gt;</p>",
+      "description": "Custom tag names can be used",
+      "input": "Foo <responsive-image src=\"foo.jpg\" />",
+      "markupAnswer": "Foo <responsive-image src=\"foo.jpg\" />",
+      "htmlAnswer": "<p>Foo <responsive-image src=\"foo.jpg\" /></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 4,
-            "column": 11,
-            "offset": 41
+            "line": 1,
+            "column": 39,
+            "offset": 38
           }
         },
         "children": [
@@ -30,9 +30,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 4,
-                "column": 11,
-                "offset": 41
+                "line": 1,
+                "column": 39,
+                "offset": 38
               }
             },
             "children": [
@@ -45,12 +45,28 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 4,
-                    "column": 11,
-                    "offset": 41
+                    "line": 1,
+                    "column": 5,
+                    "offset": 4
                   }
                 },
-                "value": "< a><\nfoo><bar/ >\n<foo bar=baz\nbim!bop />"
+                "value": "Foo "
+              },
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 5,
+                    "offset": 4
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 39,
+                    "offset": 38
+                  }
+                },
+                "value": "<responsive-image src=\"foo.jpg\" />"
               }
             ]
           }

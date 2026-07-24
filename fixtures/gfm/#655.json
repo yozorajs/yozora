@@ -2,10 +2,10 @@
   "title": "GFM#655 https://github.github.com/gfm/#example-655",
   "cases": [
     {
-      "description": "For a more visible alternative, a backslash before the line ending may be used instead of two spaces",
-      "input": "foo\\\nbaz",
-      "markupAnswer": "foo\\\nbaz",
-      "htmlAnswer": "<p>foo<br />\nbaz</p>",
+      "description": "Backslash escapes do not work in HTML attributes",
+      "input": "foo <a href=\"\\*\">",
+      "markupAnswer": "foo <a href=\"\\*\">",
+      "htmlAnswer": "<p>foo <a href=\"\\*\"></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 2,
-            "column": 4,
-            "offset": 8
+            "line": 1,
+            "column": 18,
+            "offset": 17
           }
         },
         "children": [
@@ -30,9 +30,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 4,
-                "offset": 8
+                "line": 1,
+                "column": 18,
+                "offset": 17
               }
             },
             "children": [
@@ -46,42 +46,27 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 4,
-                    "offset": 3
+                    "column": 5,
+                    "offset": 4
                   }
                 },
-                "value": "foo"
+                "value": "foo "
               },
               {
-                "type": "break",
+                "type": "html",
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 4,
-                    "offset": 3
+                    "column": 5,
+                    "offset": 4
                   },
                   "end": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 5
-                  }
-                }
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 5
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 4,
-                    "offset": 8
+                    "line": 1,
+                    "column": 18,
+                    "offset": 17
                   }
                 },
-                "value": "baz"
+                "value": "<a href=\"\\*\">"
               }
             ]
           }

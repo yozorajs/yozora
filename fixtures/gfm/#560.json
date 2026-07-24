@@ -3,9 +3,9 @@
   "cases": [
     {
       "description": "A link label must contain at least one non-whitespace character",
-      "input": "[\n ]\n\n[\n ]: /uri",
-      "markupAnswer": "[\n]\n\n[\n]: /uri",
-      "htmlAnswer": "<p>[\n]</p>\n<p>[\n]: /uri</p>",
+      "input": "[]\n\n[]: /uri",
+      "markupAnswer": "[]\n\n[]: /uri",
+      "htmlAnswer": "<p>[]</p>\n<p>[]: /uri</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 5,
+            "line": 3,
             "column": 9,
-            "offset": 16
+            "offset": 12
           }
         },
         "children": [
@@ -30,9 +30,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 3,
+                "line": 2,
                 "column": 1,
-                "offset": 5
+                "offset": 3
               }
             },
             "children": [
@@ -45,12 +45,12 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 2,
+                    "line": 1,
                     "column": 3,
-                    "offset": 4
+                    "offset": 2
                   }
                 },
-                "value": "[\n]"
+                "value": "[]"
               }
             ]
           },
@@ -58,14 +58,14 @@
             "type": "paragraph",
             "position": {
               "start": {
-                "line": 4,
+                "line": 3,
                 "column": 1,
-                "offset": 6
+                "offset": 4
               },
               "end": {
-                "line": 5,
+                "line": 3,
                 "column": 9,
-                "offset": 16
+                "offset": 12
               }
             },
             "children": [
@@ -73,17 +73,17 @@
                 "type": "text",
                 "position": {
                   "start": {
-                    "line": 4,
+                    "line": 3,
                     "column": 1,
-                    "offset": 6
+                    "offset": 4
                   },
                   "end": {
-                    "line": 5,
+                    "line": 3,
                     "column": 9,
-                    "offset": 16
+                    "offset": 12
                   }
                 },
-                "value": "[\n]: /uri"
+                "value": "[]: /uri"
               }
             ]
           }

@@ -2,10 +2,10 @@
   "title": "GFM#535 https://github.github.com/gfm/#example-535",
   "cases": [
     {
-      "description": "Here is a simple example",
-      "input": "[foo][bar]\n\n[bar]: /url \"title\"",
-      "markupAnswer": "[foo][bar]\n\n[bar]: /url \"title\"",
-      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">foo</a></p>",
+      "description": "These cases illustrate the precedence of HTML tags, code spans, and autolinks over link grouping",
+      "input": "[foo<http://example.com/?search=](uri)>",
+      "markupAnswer": "[foo[http://example.com/?search=\\]\\(uri\\)](http://example.com/?search=%5D\\(uri\\))",
+      "htmlAnswer": "<p>[foo<a href=\"http://example.com/?search=%5D(uri)\">http://example.com/?search=](uri)</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 3,
-            "column": 20,
-            "offset": 31
+            "line": 1,
+            "column": 40,
+            "offset": 39
           }
         },
         "children": [
@@ -30,14 +30,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 11
+                "line": 1,
+                "column": 40,
+                "offset": 39
               }
             },
             "children": [
               {
-                "type": "linkReference",
+                "type": "text",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,52 +46,47 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 11,
-                    "offset": 10
+                    "column": 5,
+                    "offset": 4
                   }
                 },
-                "identifier": "bar",
-                "label": "bar",
-                "referenceType": "full",
+                "value": "[foo"
+              },
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 5,
+                    "offset": 4
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 40,
+                    "offset": 39
+                  }
+                },
+                "url": "http://example.com/?search=%5D(uri)",
                 "children": [
                   {
                     "type": "text",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 2,
-                        "offset": 1
+                        "column": 6,
+                        "offset": 5
                       },
                       "end": {
                         "line": 1,
-                        "column": 5,
-                        "offset": 4
+                        "column": 39,
+                        "offset": 38
                       }
                     },
-                    "value": "foo"
+                    "value": "http://example.com/?search=](uri)"
                   }
                 ]
               }
             ]
-          },
-          {
-            "type": "definition",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 12
-              },
-              "end": {
-                "line": 3,
-                "column": 20,
-                "offset": 31
-              }
-            },
-            "identifier": "bar",
-            "label": "bar",
-            "url": "/url",
-            "title": "title"
           }
         ]
       }

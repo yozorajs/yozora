@@ -2,10 +2,10 @@
   "title": "GFM#636 https://github.github.com/gfm/#example-636",
   "cases": [
     {
-      "description": "Custom tag names can be used",
-      "input": "Foo <responsive-image src=\"foo.jpg\" />",
-      "markupAnswer": "Foo <responsive-image src=\"foo.jpg\" />",
-      "htmlAnswer": "<p>Foo <responsive-image src=\"foo.jpg\" /></p>",
+      "description": "Here are some simple open tags",
+      "input": "<a><bab><c2c>",
+      "markupAnswer": "<a><bab><c2c>",
+      "htmlAnswer": "<p><a><bab><c2c></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 39,
-            "offset": 38
+            "column": 14,
+            "offset": 13
           }
         },
         "children": [
@@ -31,13 +31,13 @@
               },
               "end": {
                 "line": 1,
-                "column": 39,
-                "offset": 38
+                "column": 14,
+                "offset": 13
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "html",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,27 +46,43 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 5,
-                    "offset": 4
+                    "column": 4,
+                    "offset": 3
                   }
                 },
-                "value": "Foo "
+                "value": "<a>"
               },
               {
                 "type": "html",
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 5,
-                    "offset": 4
+                    "column": 4,
+                    "offset": 3
                   },
                   "end": {
                     "line": 1,
-                    "column": 39,
-                    "offset": 38
+                    "column": 9,
+                    "offset": 8
                   }
                 },
-                "value": "<responsive-image src=\"foo.jpg\" />"
+                "value": "<bab>"
+              },
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 9,
+                    "offset": 8
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 14,
+                    "offset": 13
+                  }
+                },
+                "value": "<c2c>"
               }
             ]
           }

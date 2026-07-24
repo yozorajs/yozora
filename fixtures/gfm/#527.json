@@ -3,9 +3,9 @@
   "cases": [
     {
       "description": "However, links may not contain other links, at any level of nesting.",
-      "input": "[foo *[bar [baz](/uri)](/uri)*](/uri)",
-      "markupAnswer": "[foo *[bar [baz](/uri)](/uri)*](/uri)",
-      "htmlAnswer": "<p>[foo <em>[bar <a href=\"/uri\">baz</a>](/uri)</em>](/uri)</p>",
+      "input": "[foo [bar](/uri)](/uri)",
+      "markupAnswer": "[foo [bar](/uri)](/uri)",
+      "htmlAnswer": "<p>[foo <a href=\"/uri\">bar</a>](/uri)</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 38,
-            "offset": 37
+            "column": 24,
+            "offset": 23
           }
         },
         "children": [
@@ -31,8 +31,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 38,
-                "offset": 37
+                "column": 24,
+                "offset": 23
               }
             },
             "children": [
@@ -53,7 +53,7 @@
                 "value": "[foo "
               },
               {
-                "type": "emphasis",
+                "type": "link",
                 "position": {
                   "start": {
                     "line": 1,
@@ -62,10 +62,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 31,
-                    "offset": 30
+                    "column": 17,
+                    "offset": 16
                   }
                 },
+                "url": "/uri",
                 "children": [
                   {
                     "type": "text",
@@ -77,61 +78,11 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 12,
-                        "offset": 11
+                        "column": 10,
+                        "offset": 9
                       }
                     },
-                    "value": "[bar "
-                  },
-                  {
-                    "type": "link",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 12,
-                        "offset": 11
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 23,
-                        "offset": 22
-                      }
-                    },
-                    "url": "/uri",
-                    "children": [
-                      {
-                        "type": "text",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 13,
-                            "offset": 12
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 16,
-                            "offset": 15
-                          }
-                        },
-                        "value": "baz"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 23,
-                        "offset": 22
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 30,
-                        "offset": 29
-                      }
-                    },
-                    "value": "](/uri)"
+                    "value": "bar"
                   }
                 ]
               },
@@ -140,13 +91,13 @@
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 31,
-                    "offset": 30
+                    "column": 17,
+                    "offset": 16
                   },
                   "end": {
                     "line": 1,
-                    "column": 38,
-                    "offset": 37
+                    "column": 24,
+                    "offset": 23
                   }
                 },
                 "value": "](/uri)"

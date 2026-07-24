@@ -2,10 +2,10 @@
   "title": "GFM#595 https://github.github.com/gfm/#example-595",
   "cases": [
     {
-      "description": "As with reference links, whitespace is not allowed between the two sets of brackets",
-      "input": "![foo] \n[]\n\n[foo]: /url \"title\"",
-      "markupAnswer": "![foo][]\n[]\n\n[foo]: /url \"title\"",
-      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" />\n[]</p>",
+      "description": "The labels are case-insensitive",
+      "input": "![Foo][]\n\n[foo]: /url \"title\"",
+      "markupAnswer": "![Foo][]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"Foo\" title=\"title\" /></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 4,
+            "line": 3,
             "column": 20,
-            "offset": 31
+            "offset": 29
           }
         },
         "children": [
@@ -30,9 +30,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 3,
+                "line": 2,
                 "column": 1,
-                "offset": 11
+                "offset": 9
               }
             },
             "children": [
@@ -46,30 +46,14 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 7,
-                    "offset": 6
+                    "column": 9,
+                    "offset": 8
                   }
                 },
                 "identifier": "foo",
-                "label": "foo",
-                "referenceType": "shortcut",
-                "alt": "foo"
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 7,
-                    "offset": 6
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 3,
-                    "offset": 10
-                  }
-                },
-                "value": "\n[]"
+                "label": "Foo",
+                "referenceType": "collapsed",
+                "alt": "Foo"
               }
             ]
           },
@@ -77,14 +61,14 @@
             "type": "definition",
             "position": {
               "start": {
-                "line": 4,
+                "line": 3,
                 "column": 1,
-                "offset": 12
+                "offset": 10
               },
               "end": {
-                "line": 4,
+                "line": 3,
                 "column": 20,
-                "offset": 31
+                "offset": 29
               }
             },
             "identifier": "foo",

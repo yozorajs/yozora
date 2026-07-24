@@ -2,10 +2,10 @@
   "title": "GFM#599 https://github.github.com/gfm/#example-599",
   "cases": [
     {
-      "description": "The link labels are case-insensitive",
-      "input": "![Foo]\n\n[foo]: /url \"title\"",
-      "markupAnswer": "![Foo][]\n\n[foo]: /url \"title\"",
-      "htmlAnswer": "<p><img src=\"/url\" alt=\"Foo\" title=\"title\" /></p>",
+      "description": "Note that link labels cannot contain unescaped brackets",
+      "input": "![[foo]]\n\n[[foo]]: /url \"title\"",
+      "markupAnswer": "![[foo]]\n\n[[foo]]: /url \"title\"",
+      "htmlAnswer": "<p>![[foo]]</p>\n<p>[[foo]]: /url &quot;title&quot;</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 3,
-            "column": 20,
-            "offset": 27
+            "column": 22,
+            "offset": 31
           }
         },
         "children": [
@@ -32,12 +32,12 @@
               "end": {
                 "line": 2,
                 "column": 1,
-                "offset": 7
+                "offset": 9
               }
             },
             "children": [
               {
-                "type": "imageReference",
+                "type": "text",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,35 +46,46 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 7,
-                    "offset": 6
+                    "column": 9,
+                    "offset": 8
                   }
                 },
-                "identifier": "foo",
-                "label": "Foo",
-                "referenceType": "shortcut",
-                "alt": "Foo"
+                "value": "![[foo]]"
               }
             ]
           },
           {
-            "type": "definition",
+            "type": "paragraph",
             "position": {
               "start": {
                 "line": 3,
                 "column": 1,
-                "offset": 8
+                "offset": 10
               },
               "end": {
                 "line": 3,
-                "column": 20,
-                "offset": 27
+                "column": 22,
+                "offset": 31
               }
             },
-            "identifier": "foo",
-            "label": "foo",
-            "url": "/url",
-            "title": "title"
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 10
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 22,
+                    "offset": 31
+                  }
+                },
+                "value": "[[foo]]: /url \"title\""
+              }
+            ]
           }
         ]
       }

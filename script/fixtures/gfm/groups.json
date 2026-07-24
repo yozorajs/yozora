@@ -254,91 +254,97 @@
   {
     "name": "delete",
     "start": 491,
-    "end": 492,
-    "excluded": []
+    "end": 493,
+    "excluded": [491, 493]
   },
   {
     "name": "link",
-    "start": 493,
-    "end": 534,
+    "start": 494,
+    "end": 535,
     "excluded": []
   },
   {
     "name": "link-reference/full",
-    "start": 535,
-    "end": 560,
+    "start": 536,
+    "end": 561,
     "excluded": []
   },
   {
     "name": "link-reference/collapsed",
-    "start": 561,
-    "end": 564,
+    "start": 562,
+    "end": 565,
     "excluded": []
   },
   {
     "name": "link-reference/shortcut",
-    "start": 565,
-    "end": 579,
+    "start": 566,
+    "end": 580,
     "excluded": []
   },
   {
     "name": "image",
-    "start": 580,
-    "end": 589,
+    "start": 581,
+    "end": 590,
     "excluded": []
   },
   {
     "name": "image-reference/full",
-    "start": 590,
-    "end": 591,
+    "start": 591,
+    "end": 592,
     "excluded": []
   },
   {
     "name": "image-reference/collapsed",
-    "start": 592,
-    "end": 595,
+    "start": 593,
+    "end": 596,
     "excluded": []
   },
   {
     "name": "image-reference/shortcut",
-    "start": 596,
-    "end": 601,
+    "start": 597,
+    "end": 602,
     "excluded": []
   },
   {
     "name": "autolink",
-    "start": 602,
-    "end": 620,
+    "start": 603,
+    "end": 621,
     "excluded": []
   },
   {
     "name": "autolink-extension",
-    "start": 621,
-    "end": 631,
-    "excluded": []
+    "start": 622,
+    "end": 635,
+    "excluded": [633, 634, 635]
   },
   {
     "name": "html-inline",
-    "start": 632,
-    "end": 652,
+    "start": 636,
+    "end": 656,
     "excluded": []
   },
   {
+    "name": "unclassified/tagfilter",
+    "start": 657,
+    "end": 657,
+    "excluded": [657]
+  },
+  {
     "name": "break/hard line breaks",
-    "start": 654,
-    "end": 668,
+    "start": 658,
+    "end": 672,
     "excluded": []
   },
   {
     "name": "break/soft line breaks",
-    "start": 669,
-    "end": 670,
+    "start": 673,
+    "end": 674,
     "excluded": []
   },
   {
     "name": "text",
-    "start": 671,
-    "end": 673,
+    "start": 675,
+    "end": 677,
     "excluded": []
   }
 ]

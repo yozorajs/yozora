@@ -2,10 +2,10 @@
   "title": "GFM#579 https://github.github.com/gfm/#example-579",
   "cases": [
     {
-      "description": "Here [foo] is not parsed as a shortcut reference, because it is followed by a link label (even though [bar] is not defined)",
-      "input": "[foo][bar][baz]\n\n[baz]: /url1\n[foo]: /url2",
-      "markupAnswer": "[foo][bar][baz]\n\n[baz]: /url1\n\n[foo]: /url2",
-      "htmlAnswer": "<p>[foo]<a href=\"/url1\">bar</a></p>",
+      "description": "Here, though, [foo][bar] is parsed as a reference, since [bar] is defined",
+      "input": "[foo][bar][baz]\n\n[baz]: /url1\n[bar]: /url2",
+      "markupAnswer": "[foo][bar][baz][]\n\n[baz]: /url1\n\n[bar]: /url2",
+      "htmlAnswer": "<p><a href=\"/url2\">foo</a><a href=\"/url1\">baz</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -37,7 +37,7 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "linkReference",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,19 +46,39 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 6,
-                    "offset": 5
+                    "column": 11,
+                    "offset": 10
                   }
                 },
-                "value": "[foo]"
+                "identifier": "bar",
+                "label": "bar",
+                "referenceType": "full",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      }
+                    },
+                    "value": "foo"
+                  }
+                ]
               },
               {
                 "type": "linkReference",
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 6,
-                    "offset": 5
+                    "column": 11,
+                    "offset": 10
                   },
                   "end": {
                     "line": 1,
@@ -68,23 +88,23 @@
                 },
                 "identifier": "baz",
                 "label": "baz",
-                "referenceType": "full",
+                "referenceType": "shortcut",
                 "children": [
                   {
                     "type": "text",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 7,
-                        "offset": 6
+                        "column": 12,
+                        "offset": 11
                       },
                       "end": {
                         "line": 1,
-                        "column": 10,
-                        "offset": 9
+                        "column": 15,
+                        "offset": 14
                       }
                     },
-                    "value": "bar"
+                    "value": "baz"
                   }
                 ]
               }
@@ -122,8 +142,8 @@
                 "offset": 42
               }
             },
-            "identifier": "foo",
-            "label": "foo",
+            "identifier": "bar",
+            "label": "bar",
             "url": "/url2"
           }
         ]

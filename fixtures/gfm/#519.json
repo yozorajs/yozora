@@ -2,10 +2,10 @@
   "title": "GFM#519 https://github.github.com/gfm/#example-519",
   "cases": [
     {
-      "description": "But it is not allowed between the link text and the following parenthesis",
-      "input": "[link] (/uri)",
-      "markupAnswer": "[link] (/uri)",
-      "htmlAnswer": "<p>[link] (/uri)</p>",
+      "description": "Whitespace is allowed around the destination and title",
+      "input": "[link](   /uri\n  \"title\"  )",
+      "markupAnswer": "[link](/uri \"title\")",
+      "htmlAnswer": "<p><a href=\"/uri\" title=\"title\">link</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 1,
-            "column": 14,
-            "offset": 13
+            "line": 2,
+            "column": 13,
+            "offset": 27
           }
         },
         "children": [
@@ -30,14 +30,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 1,
-                "column": 14,
-                "offset": 13
+                "line": 2,
+                "column": 13,
+                "offset": 27
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "link",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,12 +45,31 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 14,
-                    "offset": 13
+                    "line": 2,
+                    "column": 13,
+                    "offset": 27
                   }
                 },
-                "value": "[link] (/uri)"
+                "url": "/uri",
+                "title": "title",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 6,
+                        "offset": 5
+                      }
+                    },
+                    "value": "link"
+                  }
+                ]
               }
             ]
           }

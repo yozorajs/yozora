@@ -2,10 +2,10 @@
   "title": "GFM#575 https://github.github.com/gfm/#example-575",
   "cases": [
     {
-      "description": "Inline links also take precedence",
-      "input": "[foo]()\n\n[foo]: /url1",
-      "markupAnswer": "[foo]()\n\n[foo]: /url1",
-      "htmlAnswer": "<p><a href=\"\">foo</a></p>",
+      "description": "Full and compact references take precedence over shortcut references",
+      "input": "[foo][]\n\n[foo]: /url1",
+      "markupAnswer": "[foo][]\n\n[foo]: /url1",
+      "htmlAnswer": "<p><a href=\"/url1\">foo</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -37,7 +37,7 @@
             },
             "children": [
               {
-                "type": "link",
+                "type": "linkReference",
                 "position": {
                   "start": {
                     "line": 1,
@@ -50,7 +50,9 @@
                     "offset": 7
                   }
                 },
-                "url": "",
+                "identifier": "foo",
+                "label": "foo",
+                "referenceType": "collapsed",
                 "children": [
                   {
                     "type": "text",

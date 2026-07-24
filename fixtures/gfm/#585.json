@@ -3,8 +3,8 @@
   "cases": [
     {
       "description": "Though this spec is concerned with parsing, not rendering, it is recommended that in rendering to HTML, only the plain string content of the image description be used. Note that in the above example, the alt attribute’s value is foo bar, not foo [bar](/url) or foo <a href=\"/url\">bar</a>. Only the plain string content is rendered, without formatting.",
-      "input": "![foo *bar*][foobar]\n\n[FOOBAR]: train.jpg \"train & tracks\"",
-      "markupAnswer": "![foo bar][foobar]\n\n[FOOBAR]: train.jpg \"train & tracks\"",
+      "input": "![foo *bar*][]\n\n[foo *bar*]: train.jpg \"train & tracks\"",
+      "markupAnswer": "![foo bar][foo *bar*]\n\n[foo *bar*]: train.jpg \"train & tracks\"",
       "htmlAnswer": "<p><img src=\"train.jpg\" alt=\"foo bar\" title=\"train &amp; tracks\" /></p>",
       "parseAnswer": {
         "type": "root",
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 3,
-            "column": 37,
-            "offset": 58
+            "column": 40,
+            "offset": 55
           }
         },
         "children": [
@@ -32,7 +32,7 @@
               "end": {
                 "line": 2,
                 "column": 1,
-                "offset": 21
+                "offset": 15
               }
             },
             "children": [
@@ -46,13 +46,13 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 21,
-                    "offset": 20
+                    "column": 15,
+                    "offset": 14
                   }
                 },
-                "identifier": "foobar",
-                "label": "foobar",
-                "referenceType": "full",
+                "identifier": "foo *bar*",
+                "label": "foo *bar*",
+                "referenceType": "collapsed",
                 "alt": "foo bar"
               }
             ]
@@ -63,16 +63,16 @@
               "start": {
                 "line": 3,
                 "column": 1,
-                "offset": 22
+                "offset": 16
               },
               "end": {
                 "line": 3,
-                "column": 37,
-                "offset": 58
+                "column": 40,
+                "offset": 55
               }
             },
-            "identifier": "foobar",
-            "label": "FOOBAR",
+            "identifier": "foo *bar*",
+            "label": "foo *bar*",
             "url": "train.jpg",
             "title": "train & tracks"
           }

@@ -2,10 +2,10 @@
   "title": "GFM#513 https://github.github.com/gfm/#example-513",
   "cases": [
     {
-      "description": "Titles may be in single quotes, double quotes, or parentheses",
-      "input": "[link](/url \"title\")\n[link](/url 'title')\n[link](/url (title))",
-      "markupAnswer": "[link](/url \"title\")\n[link](/url \"title\")\n[link](/url \"title\")",
-      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">link</a>\n<a href=\"/url\" title=\"title\">link</a>\n<a href=\"/url\" title=\"title\">link</a></p>",
+      "description": "Note that, because titles can often be parsed as destinations, if you try to omit the destination and keep the title, you’ll get unexpected results",
+      "input": "[link](\"title\")",
+      "markupAnswer": "[link](%22title%22)",
+      "htmlAnswer": "<p><a href=\"%22title%22\">link</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 3,
-            "column": 21,
-            "offset": 62
+            "line": 1,
+            "column": 16,
+            "offset": 15
           }
         },
         "children": [
@@ -30,9 +30,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 3,
-                "column": 21,
-                "offset": 62
+                "line": 1,
+                "column": 16,
+                "offset": 15
               }
             },
             "children": [
@@ -46,12 +46,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 21,
-                    "offset": 20
+                    "column": 16,
+                    "offset": 15
                   }
                 },
-                "url": "/url",
-                "title": "title",
+                "url": "%22title%22",
                 "children": [
                   {
                     "type": "text",
@@ -65,108 +64,6 @@
                         "line": 1,
                         "column": 6,
                         "offset": 5
-                      }
-                    },
-                    "value": "link"
-                  }
-                ]
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 21,
-                    "offset": 20
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 21
-                  }
-                },
-                "value": "\n"
-              },
-              {
-                "type": "link",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 21
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 21,
-                    "offset": 41
-                  }
-                },
-                "url": "/url",
-                "title": "title",
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 2,
-                        "column": 2,
-                        "offset": 22
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 6,
-                        "offset": 26
-                      }
-                    },
-                    "value": "link"
-                  }
-                ]
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 21,
-                    "offset": 41
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 42
-                  }
-                },
-                "value": "\n"
-              },
-              {
-                "type": "link",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 42
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 21,
-                    "offset": 62
-                  }
-                },
-                "url": "/url",
-                "title": "title",
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 2,
-                        "offset": 43
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 6,
-                        "offset": 47
                       }
                     },
                     "value": "link"

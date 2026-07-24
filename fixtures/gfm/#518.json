@@ -2,10 +2,10 @@
   "title": "GFM#518 https://github.github.com/gfm/#example-518",
   "cases": [
     {
-      "description": "Whitespace is allowed around the destination and title",
-      "input": "[link](   /uri\n  \"title\"  )",
-      "markupAnswer": "[link](/uri \"title\")",
-      "htmlAnswer": "<p><a href=\"/uri\" title=\"title\">link</a></p>",
+      "description": "But it is easy to work around this by using a different quote type",
+      "input": "[link](/url 'title \"and\" title')",
+      "markupAnswer": "[link](/url \"title \\\"and\\\" title\")",
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title &quot;and&quot; title\">link</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 2,
-            "column": 13,
-            "offset": 27
+            "line": 1,
+            "column": 33,
+            "offset": 32
           }
         },
         "children": [
@@ -30,9 +30,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 13,
-                "offset": 27
+                "line": 1,
+                "column": 33,
+                "offset": 32
               }
             },
             "children": [
@@ -45,13 +45,13 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 2,
-                    "column": 13,
-                    "offset": 27
+                    "line": 1,
+                    "column": 33,
+                    "offset": 32
                   }
                 },
-                "url": "/uri",
-                "title": "title",
+                "url": "/url",
+                "title": "title \"and\" title",
                 "children": [
                   {
                     "type": "text",

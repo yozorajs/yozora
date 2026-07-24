@@ -2,10 +2,10 @@
   "title": "GFM#660 https://github.github.com/gfm/#example-660",
   "cases": [
     {
-      "description": "Line breaks can occur inside emphasis, links, and other constructs that allow inline content",
-      "input": "*foo\\\nbar*",
-      "markupAnswer": "*foo\\\nbar*",
-      "htmlAnswer": "<p><em>foo<br />\nbar</em></p>",
+      "description": "More than two spaces can be used",
+      "input": "foo       \nbaz",
+      "markupAnswer": "foo\\\nbaz",
+      "htmlAnswer": "<p>foo<br />\nbaz</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 2,
-            "column": 5,
-            "offset": 10
+            "column": 4,
+            "offset": 14
           }
         },
         "children": [
@@ -31,13 +31,13 @@
               },
               "end": {
                 "line": 2,
-                "column": 5,
-                "offset": 10
+                "column": 4,
+                "offset": 14
               }
             },
             "children": [
               {
-                "type": "emphasis",
+                "type": "text",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,60 +45,43 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 2,
-                    "column": 5,
-                    "offset": 10
+                    "line": 1,
+                    "column": 4,
+                    "offset": 3
                   }
                 },
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 2,
-                        "offset": 1
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 5,
-                        "offset": 4
-                      }
-                    },
-                    "value": "foo"
+                "value": "foo"
+              },
+              {
+                "type": "break",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 4,
+                    "offset": 3
                   },
-                  {
-                    "type": "break",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 5,
-                        "offset": 4
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 1,
-                        "offset": 6
-                      }
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 2,
-                        "column": 1,
-                        "offset": 6
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 4,
-                        "offset": 9
-                      }
-                    },
-                    "value": "bar"
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 11
                   }
-                ]
+                }
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 11
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 4,
+                    "offset": 14
+                  }
+                },
+                "value": "baz"
               }
             ]
           }

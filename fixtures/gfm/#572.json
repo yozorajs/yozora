@@ -2,10 +2,9 @@
   "title": "GFM#572 https://github.github.com/gfm/#example-572",
   "cases": [
     {
-      "description": "Note that this is a link, because a link label ends with the first following closing bracket",
-      "input": "[foo*]: /url\n\n*[foo*]",
-      "markupAnswer": "[foo*]: /url\n\n*[foo*][]",
-      "htmlAnswer": "<p>*<a href=\"/url\">foo*</a></p>",
+      "description": "If you just want bracketed text, you can backslash-escape the opening bracket to avoid links",
+      "input": "\\[foo]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p>[foo]</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,13 +15,13 @@
           },
           "end": {
             "line": 3,
-            "column": 8,
-            "offset": 21
+            "column": 20,
+            "offset": 27
           }
         },
         "children": [
           {
-            "type": "definition",
+            "type": "paragraph",
             "position": {
               "start": {
                 "line": 1,
@@ -32,25 +31,7 @@
               "end": {
                 "line": 2,
                 "column": 1,
-                "offset": 13
-              }
-            },
-            "identifier": "foo*",
-            "label": "foo*",
-            "url": "/url"
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 14
-              },
-              "end": {
-                "line": 3,
-                "column": 8,
-                "offset": 21
+                "offset": 7
               }
             },
             "children": [
@@ -58,55 +39,38 @@
                 "type": "text",
                 "position": {
                   "start": {
-                    "line": 3,
+                    "line": 1,
                     "column": 1,
-                    "offset": 14
+                    "offset": 0
                   },
                   "end": {
-                    "line": 3,
-                    "column": 2,
-                    "offset": 15
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
                   }
                 },
-                "value": "*"
-              },
-              {
-                "type": "linkReference",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 2,
-                    "offset": 15
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 8,
-                    "offset": 21
-                  }
-                },
-                "identifier": "foo*",
-                "label": "foo*",
-                "referenceType": "shortcut",
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 3,
-                        "offset": 16
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 7,
-                        "offset": 20
-                      }
-                    },
-                    "value": "foo*"
-                  }
-                ]
+                "value": "[foo]"
               }
             ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 8
+              },
+              "end": {
+                "line": 3,
+                "column": 20,
+                "offset": 27
+              }
+            },
+            "identifier": "foo",
+            "label": "foo",
+            "url": "/url",
+            "title": "title"
           }
         ]
       }

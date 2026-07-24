@@ -2,10 +2,10 @@
   "title": "GFM#549 https://github.github.com/gfm/#example-549",
   "cases": [
     {
-      "description": "Consecutive internal whitespace is treated as one space for purposes of determining matching",
-      "input": "[Foo\n  bar]: /url\n\n[Baz][Foo bar]",
-      "markupAnswer": "[Foo\nbar]: /url\n\n[Baz][Foo bar]",
-      "htmlAnswer": "<p><a href=\"/url\">Baz</a></p>",
+      "description": "Unicode case fold is used",
+      "input": "[ẞ]\n\n[SS]: /url",
+      "markupAnswer": "[ẞ][]\n\n[SS]: /url",
+      "htmlAnswer": "<p><a href=\"/url\">ẞ</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,14 +15,14 @@
             "offset": 0
           },
           "end": {
-            "line": 4,
-            "column": 15,
-            "offset": 33
+            "line": 3,
+            "column": 11,
+            "offset": 15
           }
         },
         "children": [
           {
-            "type": "definition",
+            "type": "paragraph",
             "position": {
               "start": {
                 "line": 1,
@@ -30,27 +30,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 3,
+                "line": 2,
                 "column": 1,
-                "offset": 18
-              }
-            },
-            "identifier": "foo bar",
-            "label": "Foo\nbar",
-            "url": "/url"
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 19
-              },
-              "end": {
-                "line": 4,
-                "column": 15,
-                "offset": 33
+                "offset": 4
               }
             },
             "children": [
@@ -58,39 +40,57 @@
                 "type": "linkReference",
                 "position": {
                   "start": {
-                    "line": 4,
+                    "line": 1,
                     "column": 1,
-                    "offset": 19
+                    "offset": 0
                   },
                   "end": {
-                    "line": 4,
-                    "column": 15,
-                    "offset": 33
+                    "line": 1,
+                    "column": 4,
+                    "offset": 3
                   }
                 },
-                "identifier": "foo bar",
-                "label": "Foo bar",
-                "referenceType": "full",
+                "identifier": "ss",
+                "label": "ẞ",
+                "referenceType": "shortcut",
                 "children": [
                   {
                     "type": "text",
                     "position": {
                       "start": {
-                        "line": 4,
+                        "line": 1,
                         "column": 2,
-                        "offset": 20
+                        "offset": 1
                       },
                       "end": {
-                        "line": 4,
-                        "column": 5,
-                        "offset": 23
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
                       }
                     },
-                    "value": "Baz"
+                    "value": "ẞ"
                   }
                 ]
               }
             ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 5
+              },
+              "end": {
+                "line": 3,
+                "column": 11,
+                "offset": 15
+              }
+            },
+            "identifier": "ss",
+            "label": "SS",
+            "url": "/url"
           }
         ]
       }

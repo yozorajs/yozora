@@ -2,10 +2,10 @@
   "title": "GFM#558 https://github.github.com/gfm/#example-558",
   "cases": [
     {
-      "description": "Note that in this example ] is not backslash-escaped",
-      "input": "[bar\\\\]: /uri\n\n[bar\\\\]",
-      "markupAnswer": "[bar\\\\]: /uri\n\n[bar\\\\][]",
-      "htmlAnswer": "<p><a href=\"/uri\">bar\\</a></p>",
+      "description": "Link labels cannot contain brackets, unless they are backslash-escaped",
+      "input": "[foo][ref\\[]\n\n[ref\\[]: /uri",
+      "markupAnswer": "[foo][ref\\[]\n\n[ref\\[]: /uri",
+      "htmlAnswer": "<p><a href=\"/uri\">foo</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,13 +16,13 @@
           },
           "end": {
             "line": 3,
-            "column": 8,
-            "offset": 22
+            "column": 14,
+            "offset": 27
           }
         },
         "children": [
           {
-            "type": "definition",
+            "type": "paragraph",
             "position": {
               "start": {
                 "line": 1,
@@ -32,25 +32,7 @@
               "end": {
                 "line": 2,
                 "column": 1,
-                "offset": 14
-              }
-            },
-            "identifier": "bar\\\\",
-            "label": "bar\\\\",
-            "url": "/uri"
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 15
-              },
-              "end": {
-                "line": 3,
-                "column": 8,
-                "offset": 22
+                "offset": 13
               }
             },
             "children": [
@@ -58,39 +40,57 @@
                 "type": "linkReference",
                 "position": {
                   "start": {
-                    "line": 3,
+                    "line": 1,
                     "column": 1,
-                    "offset": 15
+                    "offset": 0
                   },
                   "end": {
-                    "line": 3,
-                    "column": 8,
-                    "offset": 22
+                    "line": 1,
+                    "column": 13,
+                    "offset": 12
                   }
                 },
-                "identifier": "bar\\\\",
-                "label": "bar\\\\",
-                "referenceType": "shortcut",
+                "identifier": "ref\\[",
+                "label": "ref\\[",
+                "referenceType": "full",
                 "children": [
                   {
                     "type": "text",
                     "position": {
                       "start": {
-                        "line": 3,
+                        "line": 1,
                         "column": 2,
-                        "offset": 16
+                        "offset": 1
                       },
                       "end": {
-                        "line": 3,
-                        "column": 7,
-                        "offset": 21
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
                       }
                     },
-                    "value": "bar\\"
+                    "value": "foo"
                   }
                 ]
               }
             ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 14
+              },
+              "end": {
+                "line": 3,
+                "column": 14,
+                "offset": 27
+              }
+            },
+            "identifier": "ref\\[",
+            "label": "ref\\[",
+            "url": "/uri"
           }
         ]
       }

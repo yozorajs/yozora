@@ -2,10 +2,10 @@
   "title": "GFM#590 https://github.github.com/gfm/#example-590",
   "cases": [
     {
-      "description": "Reference-style",
-      "input": "![foo][bar]\n\n[bar]: /url",
-      "markupAnswer": "![foo][bar]\n\n[bar]: /url",
-      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" /></p>",
+      "description": "Though this spec is concerned with parsing, not rendering, it is recommended that in rendering to HTML, only the plain string content of the image description be used. Note that in the above example, the alt attribute’s value is foo bar, not foo [bar](/url) or foo <a href=\"/url\">bar</a>. Only the plain string content is rendered, without formatting.",
+      "input": "![](/url)",
+      "markupAnswer": "![](/url)",
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"\" /></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 3,
-            "column": 12,
-            "offset": 24
+            "line": 1,
+            "column": 10,
+            "offset": 9
           }
         },
         "children": [
@@ -30,14 +30,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 12
+                "line": 1,
+                "column": 10,
+                "offset": 9
               }
             },
             "children": [
               {
-                "type": "imageReference",
+                "type": "image",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,34 +46,14 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 12,
-                    "offset": 11
+                    "column": 10,
+                    "offset": 9
                   }
                 },
-                "identifier": "bar",
-                "label": "bar",
-                "referenceType": "full",
-                "alt": "foo"
+                "url": "/url",
+                "alt": ""
               }
             ]
-          },
-          {
-            "type": "definition",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 13
-              },
-              "end": {
-                "line": 3,
-                "column": 12,
-                "offset": 24
-              }
-            },
-            "identifier": "bar",
-            "label": "bar",
-            "url": "/url"
           }
         ]
       }

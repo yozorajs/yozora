@@ -2,10 +2,10 @@
   "title": "GFM#563 https://github.github.com/gfm/#example-563",
   "cases": [
     {
-      "description": "The link labels are case-insensitive",
-      "input": "[Foo][]\n\n[foo]: /url \"title\"",
-      "markupAnswer": "[Foo][]\n\n[foo]: /url \"title\"",
-      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">Foo</a></p>",
+      "description": "A collapsed reference link consists of a link label that matches a link reference definition elsewhere in the document, followed by the string []. The contents of the first link label are parsed as inlines, which are used as the link’s text. The link’s URI and title are provided by the matching reference link definition. Thus, [foo][] is equivalent to [foo][foo].",
+      "input": "[*foo* bar][]\n\n[*foo* bar]: /url \"title\"",
+      "markupAnswer": "[*foo* bar][]\n\n[*foo* bar]: /url \"title\"",
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title\"><em>foo</em> bar</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 3,
-            "column": 20,
-            "offset": 28
+            "column": 26,
+            "offset": 40
           }
         },
         "children": [
@@ -32,7 +32,7 @@
               "end": {
                 "line": 2,
                 "column": 1,
-                "offset": 8
+                "offset": 14
               }
             },
             "children": [
@@ -46,16 +46,16 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 8,
-                    "offset": 7
+                    "column": 14,
+                    "offset": 13
                   }
                 },
-                "identifier": "foo",
-                "label": "Foo",
+                "identifier": "*foo* bar",
+                "label": "*foo* bar",
                 "referenceType": "collapsed",
                 "children": [
                   {
-                    "type": "text",
+                    "type": "emphasis",
                     "position": {
                       "start": {
                         "line": 1,
@@ -64,11 +64,44 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 5,
-                        "offset": 4
+                        "column": 7,
+                        "offset": 6
                       }
                     },
-                    "value": "Foo"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 6,
+                            "offset": 5
+                          }
+                        },
+                        "value": "foo"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 11,
+                        "offset": 10
+                      }
+                    },
+                    "value": " bar"
                   }
                 ]
               }
@@ -80,16 +113,16 @@
               "start": {
                 "line": 3,
                 "column": 1,
-                "offset": 9
+                "offset": 15
               },
               "end": {
                 "line": 3,
-                "column": 20,
-                "offset": 28
+                "column": 26,
+                "offset": 40
               }
             },
-            "identifier": "foo",
-            "label": "foo",
+            "identifier": "*foo* bar",
+            "label": "*foo* bar",
             "url": "/url",
             "title": "title"
           }

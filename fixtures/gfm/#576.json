@@ -3,9 +3,9 @@
   "cases": [
     {
       "description": "Inline links also take precedence",
-      "input": "[foo](not a link)\n\n[foo]: /url1",
-      "markupAnswer": "[foo][](not a link)\n\n[foo]: /url1",
-      "htmlAnswer": "<p><a href=\"/url1\">foo</a>(not a link)</p>",
+      "input": "[foo]()\n\n[foo]: /url1",
+      "markupAnswer": "[foo]()\n\n[foo]: /url1",
+      "htmlAnswer": "<p><a href=\"\">foo</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -17,7 +17,7 @@
           "end": {
             "line": 3,
             "column": 13,
-            "offset": 31
+            "offset": 21
           }
         },
         "children": [
@@ -32,12 +32,12 @@
               "end": {
                 "line": 2,
                 "column": 1,
-                "offset": 18
+                "offset": 8
               }
             },
             "children": [
               {
-                "type": "linkReference",
+                "type": "link",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,13 +46,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 6,
-                    "offset": 5
+                    "column": 8,
+                    "offset": 7
                   }
                 },
-                "identifier": "foo",
-                "label": "foo",
-                "referenceType": "shortcut",
+                "url": "",
                 "children": [
                   {
                     "type": "text",
@@ -71,22 +69,6 @@
                     "value": "foo"
                   }
                 ]
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 6,
-                    "offset": 5
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 18,
-                    "offset": 17
-                  }
-                },
-                "value": "(not a link)"
               }
             ]
           },
@@ -96,12 +78,12 @@
               "start": {
                 "line": 3,
                 "column": 1,
-                "offset": 19
+                "offset": 9
               },
               "end": {
                 "line": 3,
                 "column": 13,
-                "offset": 31
+                "offset": 21
               }
             },
             "identifier": "foo",

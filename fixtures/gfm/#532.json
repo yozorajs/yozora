@@ -2,10 +2,10 @@
   "title": "GFM#532 https://github.github.com/gfm/#example-532",
   "cases": [
     {
-      "description": "These cases illustrate the precedence of HTML tags, code spans, and autolinks over link grouping",
-      "input": "[foo <bar attr=\"](baz)\">",
-      "markupAnswer": "[foo <bar attr=\"](baz)\">",
-      "htmlAnswer": "<p>[foo <bar attr=\"](baz)\"></p>",
+      "description": "Note that brackets that aren’t part of links do not take precedence",
+      "input": "*foo [bar* baz]",
+      "markupAnswer": "*foo [bar* baz]",
+      "htmlAnswer": "<p><em>foo [bar</em> baz]</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 25,
-            "offset": 24
+            "column": 16,
+            "offset": 15
           }
         },
         "children": [
@@ -31,13 +31,13 @@
               },
               "end": {
                 "line": 1,
-                "column": 25,
-                "offset": 24
+                "column": 16,
+                "offset": 15
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "emphasis",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,27 +46,44 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 6,
-                    "offset": 5
+                    "column": 11,
+                    "offset": 10
                   }
                 },
-                "value": "[foo "
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 10,
+                        "offset": 9
+                      }
+                    },
+                    "value": "foo [bar"
+                  }
+                ]
               },
               {
-                "type": "html",
+                "type": "text",
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 6,
-                    "offset": 5
+                    "column": 11,
+                    "offset": 10
                   },
                   "end": {
                     "line": 1,
-                    "column": 25,
-                    "offset": 24
+                    "column": 16,
+                    "offset": 15
                   }
                 },
-                "value": "<bar attr=\"](baz)\">"
+                "value": " baz]"
               }
             ]
           }

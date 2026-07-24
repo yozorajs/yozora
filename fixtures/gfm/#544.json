@@ -2,10 +2,10 @@
   "title": "GFM#544 https://github.github.com/gfm/#example-544",
   "cases": [
     {
-      "description": "These cases illustrate the precedence of HTML tags, code spans, and autolinks over link grouping",
-      "input": "[foo <bar attr=\"][ref]\">\n\n[ref]: /uri",
-      "markupAnswer": "[foo <bar attr=\"][ref]\">\n\n[ref]: /uri",
-      "htmlAnswer": "<p>[foo <bar attr=\"][ref]\"></p>",
+      "description": "The following cases illustrate the precedence of link text grouping over emphasis grouping",
+      "input": "[foo *bar][ref]*\n\n[ref]: /uri",
+      "markupAnswer": "[foo *bar][ref]*\n\n[ref]: /uri",
+      "htmlAnswer": "<p><a href=\"/uri\">foo *bar</a>*</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -17,7 +17,7 @@
           "end": {
             "line": 3,
             "column": 12,
-            "offset": 37
+            "offset": 29
           }
         },
         "children": [
@@ -32,12 +32,12 @@
               "end": {
                 "line": 2,
                 "column": 1,
-                "offset": 25
+                "offset": 17
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "linkReference",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,27 +46,47 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 6,
-                    "offset": 5
+                    "column": 16,
+                    "offset": 15
                   }
                 },
-                "value": "[foo "
+                "identifier": "ref",
+                "label": "ref",
+                "referenceType": "full",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 10,
+                        "offset": 9
+                      }
+                    },
+                    "value": "foo *bar"
+                  }
+                ]
               },
               {
-                "type": "html",
+                "type": "text",
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 6,
-                    "offset": 5
+                    "column": 16,
+                    "offset": 15
                   },
                   "end": {
                     "line": 1,
-                    "column": 25,
-                    "offset": 24
+                    "column": 17,
+                    "offset": 16
                   }
                 },
-                "value": "<bar attr=\"][ref]\">"
+                "value": "*"
               }
             ]
           },
@@ -76,12 +96,12 @@
               "start": {
                 "line": 3,
                 "column": 1,
-                "offset": 26
+                "offset": 18
               },
               "end": {
                 "line": 3,
                 "column": 12,
-                "offset": 37
+                "offset": 29
               }
             },
             "identifier": "ref",

@@ -3,9 +3,9 @@
   "cases": [
     {
       "description": "Syntax for images is like the syntax for links, with one difference. Instead of link text, we have an image description. The rules for this are the same as for link text, except that (a) an image description starts with ![ rather than [, and (b) an image description may contain links. An image description has inline elements as its contents. When an image is rendered to HTML, this is standardly used as the image’s alt attribute.",
-      "input": "![foo ![bar](/url)](/url2)",
-      "markupAnswer": "![foo bar](/url2)",
-      "htmlAnswer": "<p><img src=\"/url2\" alt=\"foo bar\" /></p>",
+      "input": "![foo *bar*]\n\n[foo *bar*]: train.jpg \"train & tracks\"",
+      "markupAnswer": "![foo bar][foo *bar*]\n\n[foo *bar*]: train.jpg \"train & tracks\"",
+      "htmlAnswer": "<p><img src=\"train.jpg\" alt=\"foo bar\" title=\"train &amp; tracks\" /></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 1,
-            "column": 27,
-            "offset": 26
+            "line": 3,
+            "column": 40,
+            "offset": 53
           }
         },
         "children": [
@@ -30,14 +30,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 1,
-                "column": 27,
-                "offset": 26
+                "line": 2,
+                "column": 1,
+                "offset": 13
               }
             },
             "children": [
               {
-                "type": "image",
+                "type": "imageReference",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,14 +46,35 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 27,
-                    "offset": 26
+                    "column": 13,
+                    "offset": 12
                   }
                 },
-                "url": "/url2",
+                "identifier": "foo *bar*",
+                "label": "foo *bar*",
+                "referenceType": "shortcut",
                 "alt": "foo bar"
               }
             ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 14
+              },
+              "end": {
+                "line": 3,
+                "column": 40,
+                "offset": 53
+              }
+            },
+            "identifier": "foo *bar*",
+            "label": "foo *bar*",
+            "url": "train.jpg",
+            "title": "train & tracks"
           }
         ]
       }

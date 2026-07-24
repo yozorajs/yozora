@@ -3,9 +3,9 @@
   "cases": [
     {
       "description": "The destination cannot contain line breaks, even if enclosed in pointy brackets",
-      "input": "[link](<foo\nbar>)",
-      "markupAnswer": "[link](<foo\nbar>)",
-      "htmlAnswer": "<p>[link](<foo\nbar>)</p>",
+      "input": "[link](foo\nbar)",
+      "markupAnswer": "[link](foo\nbar)",
+      "htmlAnswer": "<p>[link](foo\nbar)</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 2,
-            "column": 6,
-            "offset": 17
+            "column": 5,
+            "offset": 15
           }
         },
         "children": [
@@ -31,8 +31,8 @@
               },
               "end": {
                 "line": 2,
-                "column": 6,
-                "offset": 17
+                "column": 5,
+                "offset": 15
               }
             },
             "children": [
@@ -45,44 +45,12 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 8,
-                    "offset": 7
-                  }
-                },
-                "value": "[link]("
-              },
-              {
-                "type": "html",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 8,
-                    "offset": 7
-                  },
-                  "end": {
                     "line": 2,
                     "column": 5,
-                    "offset": 16
+                    "offset": 15
                   }
                 },
-                "value": "<foo\nbar>"
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 5,
-                    "offset": 16
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 6,
-                    "offset": 17
-                  }
-                },
-                "value": ")"
+                "value": "[link](foo\nbar)"
               }
             ]
           }

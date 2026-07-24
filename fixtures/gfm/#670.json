@@ -2,10 +2,10 @@
   "title": "GFM#670 https://github.github.com/gfm/#example-670",
   "cases": [
     {
-      "description": "Spaces at the end of the line and beginning of the next line are removed",
-      "input": "foo \n baz",
-      "markupAnswer": "foo\nbaz",
-      "htmlAnswer": "<p>foo\nbaz</p>",
+      "description": "Hard line breaks are for separating inline content within a block. Neither syntax for hard line breaks works at the end of a paragraph or other block element",
+      "input": "foo  ",
+      "markupAnswer": "foo",
+      "htmlAnswer": "<p>foo</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 2,
-            "column": 5,
-            "offset": 9
+            "line": 1,
+            "column": 6,
+            "offset": 5
           }
         },
         "children": [
@@ -30,9 +30,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 5,
-                "offset": 9
+                "line": 1,
+                "column": 6,
+                "offset": 5
               }
             },
             "children": [
@@ -45,12 +45,12 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 2,
-                    "column": 5,
-                    "offset": 9
+                    "line": 1,
+                    "column": 4,
+                    "offset": 3
                   }
                 },
-                "value": "foo\nbaz"
+                "value": "foo"
               }
             ]
           }

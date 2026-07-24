@@ -2,10 +2,10 @@
   "title": "GFM#561 https://github.github.com/gfm/#example-561",
   "cases": [
     {
-      "description": "A collapsed reference link consists of a link label that matches a link reference definition elsewhere in the document, followed by the string []. The contents of the first link label are parsed as inlines, which are used as the link’s text. The link’s URI and title are provided by the matching reference link definition. Thus, [foo][] is equivalent to [foo][foo].",
-      "input": "[foo][]\n\n[foo]: /url \"title\"",
-      "markupAnswer": "[foo][]\n\n[foo]: /url \"title\"",
-      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">foo</a></p>",
+      "description": "A link label must contain at least one non-whitespace character",
+      "input": "[\n ]\n\n[\n ]: /uri",
+      "markupAnswer": "[\n]\n\n[\n]: /uri",
+      "htmlAnswer": "<p>[\n]</p>\n<p>[\n]: /uri</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 3,
-            "column": 20,
-            "offset": 28
+            "line": 5,
+            "column": 9,
+            "offset": 16
           }
         },
         "children": [
@@ -30,14 +30,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
+                "line": 3,
                 "column": 1,
-                "offset": 8
+                "offset": 5
               }
             },
             "children": [
               {
-                "type": "linkReference",
+                "type": "text",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,53 +45,47 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 8,
-                    "offset": 7
+                    "line": 2,
+                    "column": 3,
+                    "offset": 4
                   }
                 },
-                "identifier": "foo",
-                "label": "foo",
-                "referenceType": "collapsed",
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 2,
-                        "offset": 1
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 5,
-                        "offset": 4
-                      }
-                    },
-                    "value": "foo"
-                  }
-                ]
+                "value": "[\n]"
               }
             ]
           },
           {
-            "type": "definition",
+            "type": "paragraph",
             "position": {
               "start": {
-                "line": 3,
+                "line": 4,
                 "column": 1,
-                "offset": 9
+                "offset": 6
               },
               "end": {
-                "line": 3,
-                "column": 20,
-                "offset": 28
+                "line": 5,
+                "column": 9,
+                "offset": 16
               }
             },
-            "identifier": "foo",
-            "label": "foo",
-            "url": "/url",
-            "title": "title"
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 6
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 9,
+                    "offset": 16
+                  }
+                },
+                "value": "[\n]: /uri"
+              }
+            ]
           }
         ]
       }

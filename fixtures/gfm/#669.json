@@ -2,10 +2,10 @@
   "title": "GFM#669 https://github.github.com/gfm/#example-669",
   "cases": [
     {
-      "description": "A regular line break (not in a code span or HTML tag) that is not preceded by two or more spaces or a backslash is parsed as a softbreak. (A softbreak may be rendered in HTML either as a line ending or as a space. The result will be the same in browsers. In the examples here, a line ending will be used.)",
-      "input": "foo\nbaz",
-      "markupAnswer": "foo\nbaz",
-      "htmlAnswer": "<p>foo\nbaz</p>",
+      "description": "Hard line breaks are for separating inline content within a block. Neither syntax for hard line breaks works at the end of a paragraph or other block element",
+      "input": "foo\\",
+      "markupAnswer": "foo\\\\",
+      "htmlAnswer": "<p>foo\\</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 2,
-            "column": 4,
-            "offset": 7
+            "line": 1,
+            "column": 5,
+            "offset": 4
           }
         },
         "children": [
@@ -30,9 +30,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 4,
-                "offset": 7
+                "line": 1,
+                "column": 5,
+                "offset": 4
               }
             },
             "children": [
@@ -45,12 +45,12 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 2,
-                    "column": 4,
-                    "offset": 7
+                    "line": 1,
+                    "column": 5,
+                    "offset": 4
                   }
                 },
-                "value": "foo\nbaz"
+                "value": "foo\\"
               }
             ]
           }

@@ -2,10 +2,10 @@
   "title": "GFM#565 https://github.github.com/gfm/#example-565",
   "cases": [
     {
-      "description": "A shortcut reference link consists of a link label that matches a link reference definition elsewhere in the document and is not followed by [] or a link label. The contents of the first link label are parsed as inlines, which are used as the link’s text. The link’s URI and title are provided by the matching link reference definition. Thus, [foo] is equivalent to [foo][].",
-      "input": "[foo]\n\n[foo]: /url \"title\"",
-      "markupAnswer": "[foo][]\n\n[foo]: /url \"title\"",
-      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">foo</a></p>",
+      "description": "As with full reference links, whitespace is not allowed between the two sets of brackets",
+      "input": "[foo] \n[]\n\n[foo]: /url \"title\"",
+      "markupAnswer": "[foo][]\n[]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">foo</a>\n[]</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 3,
+            "line": 4,
             "column": 20,
-            "offset": 26
+            "offset": 30
           }
         },
         "children": [
@@ -30,9 +30,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
+                "line": 3,
                 "column": 1,
-                "offset": 6
+                "offset": 10
               }
             },
             "children": [
@@ -71,6 +71,22 @@
                     "value": "foo"
                   }
                 ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 6,
+                    "offset": 5
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 3,
+                    "offset": 9
+                  }
+                },
+                "value": "\n[]"
               }
             ]
           },
@@ -78,14 +94,14 @@
             "type": "definition",
             "position": {
               "start": {
-                "line": 3,
+                "line": 4,
                 "column": 1,
-                "offset": 7
+                "offset": 11
               },
               "end": {
-                "line": 3,
+                "line": 4,
                 "column": 20,
-                "offset": 26
+                "offset": 30
               }
             },
             "identifier": "foo",

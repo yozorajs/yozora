@@ -3,9 +3,9 @@
   "cases": [
     {
       "description": "These are not autolinks",
-      "input": "<m:abc>",
-      "markupAnswer": "<m:abc>",
-      "htmlAnswer": "<p>&lt;m:abc&gt;</p>",
+      "input": "< http://foo.bar >",
+      "markupAnswer": "< [http://foo.bar](http://foo.bar) \\>",
+      "htmlAnswer": "<p>&lt; http://foo.bar &gt;</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 8,
-            "offset": 7
+            "column": 19,
+            "offset": 18
           }
         },
         "children": [
@@ -31,8 +31,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 8,
-                "offset": 7
+                "column": 19,
+                "offset": 18
               }
             },
             "children": [
@@ -46,11 +46,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 8,
-                    "offset": 7
+                    "column": 19,
+                    "offset": 18
                   }
                 },
-                "value": "<m:abc>"
+                "value": "< http://foo.bar >"
               }
             ]
           }

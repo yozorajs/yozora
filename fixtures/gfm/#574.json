@@ -3,9 +3,9 @@
   "cases": [
     {
       "description": "Full and compact references take precedence over shortcut references",
-      "input": "[foo][]\n\n[foo]: /url1",
-      "markupAnswer": "[foo][]\n\n[foo]: /url1",
-      "htmlAnswer": "<p><a href=\"/url1\">foo</a></p>",
+      "input": "[foo][bar]\n\n[foo]: /url1\n[bar]: /url2",
+      "markupAnswer": "[foo][bar]\n\n[foo]: /url1\n\n[bar]: /url2",
+      "htmlAnswer": "<p><a href=\"/url2\">foo</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 3,
+            "line": 4,
             "column": 13,
-            "offset": 21
+            "offset": 37
           }
         },
         "children": [
@@ -32,7 +32,7 @@
               "end": {
                 "line": 2,
                 "column": 1,
-                "offset": 8
+                "offset": 11
               }
             },
             "children": [
@@ -46,13 +46,13 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 8,
-                    "offset": 7
+                    "column": 11,
+                    "offset": 10
                   }
                 },
-                "identifier": "foo",
-                "label": "foo",
-                "referenceType": "collapsed",
+                "identifier": "bar",
+                "label": "bar",
+                "referenceType": "full",
                 "children": [
                   {
                     "type": "text",
@@ -80,17 +80,35 @@
               "start": {
                 "line": 3,
                 "column": 1,
-                "offset": 9
+                "offset": 12
               },
               "end": {
-                "line": 3,
-                "column": 13,
-                "offset": 21
+                "line": 4,
+                "column": 1,
+                "offset": 25
               }
             },
             "identifier": "foo",
             "label": "foo",
             "url": "/url1"
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 25
+              },
+              "end": {
+                "line": 4,
+                "column": 13,
+                "offset": 37
+              }
+            },
+            "identifier": "bar",
+            "label": "bar",
+            "url": "/url2"
           }
         ]
       }

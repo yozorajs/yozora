@@ -2,10 +2,10 @@
   "title": "GFM#622 https://github.github.com/gfm/#example-622",
   "cases": [
     {
-      "description": "After a valid domain, zero or more non-space non-< characters may follow",
-      "input": "Visit www.commonmark.org/help for more information.",
-      "markupAnswer": "Visit [www.commonmark.org/help](http://www.commonmark.org/help) for more information.",
-      "htmlAnswer": "<p>Visit <a href=\"http://www.commonmark.org/help\">www.commonmark.org/help</a> for more information.</p>",
+      "description": "The scheme http will be inserted automatically",
+      "input": "www.commonmark.org",
+      "markupAnswer": "[www.commonmark.org](http://www.commonmark.org)",
+      "htmlAnswer": "<p><a href=\"http://www.commonmark.org\">www.commonmark.org</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 52,
-            "offset": 51
+            "column": 19,
+            "offset": 18
           }
         },
         "children": [
@@ -31,13 +31,13 @@
               },
               "end": {
                 "line": 1,
-                "column": 52,
-                "offset": 51
+                "column": 19,
+                "offset": 18
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "link",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,61 +46,29 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 7,
-                    "offset": 6
+                    "column": 19,
+                    "offset": 18
                   }
                 },
-                "value": "Visit "
-              },
-              {
-                "type": "link",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 7,
-                    "offset": 6
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 30,
-                    "offset": 29
-                  }
-                },
-                "url": "http://www.commonmark.org/help",
+                "url": "http://www.commonmark.org",
                 "children": [
                   {
                     "type": "text",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 7,
-                        "offset": 6
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 1,
-                        "column": 30,
-                        "offset": 29
+                        "column": 19,
+                        "offset": 18
                       }
                     },
-                    "value": "www.commonmark.org/help"
+                    "value": "www.commonmark.org"
                   }
                 ]
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 30,
-                    "offset": 29
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 52,
-                    "offset": 51
-                  }
-                },
-                "value": " for more information."
               }
             ]
           }

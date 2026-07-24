@@ -2,10 +2,10 @@
   "title": "GFM#506 https://github.github.com/gfm/#example-506",
   "cases": [
     {
-      "description": "However, if you have unbalanced parentheses, you need to escape or use the <...> form",
-      "input": "[link](foo\\(and\\(bar\\))",
-      "markupAnswer": "[link](<foo(and(bar)>)",
-      "htmlAnswer": "<p><a href=\"foo(and(bar)\">link</a></p>",
+      "description": "Any number of parentheses are allowed without escaping, as long as they are balanced",
+      "input": "[link](foo(and(bar)))",
+      "markupAnswer": "[link](<foo(and(bar))>)",
+      "htmlAnswer": "<p><a href=\"foo(and(bar))\">link</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 1,
-            "column": 24,
-            "offset": 23
+            "column": 22,
+            "offset": 21
           }
         },
         "children": [
@@ -31,8 +31,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 24,
-                "offset": 23
+                "column": 22,
+                "offset": 21
               }
             },
             "children": [
@@ -46,11 +46,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 24,
-                    "offset": 23
+                    "column": 22,
+                    "offset": 21
                   }
                 },
-                "url": "foo(and(bar)",
+                "url": "foo(and(bar))",
                 "children": [
                   {
                     "type": "text",

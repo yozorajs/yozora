@@ -2,10 +2,10 @@
   "title": "GFM#611 https://github.github.com/gfm/#example-611",
   "cases": [
     {
-      "description": "Backslash-escapes do not work inside autolinks",
-      "input": "<http://example.com/\\[\\>",
-      "markupAnswer": "[http://example.com/\\\\\\[\\\\](http://example.com/%5C%5B%5C)",
-      "htmlAnswer": "<p><a href=\"http://example.com/%5C%5B%5C\">http://example.com/\\[\\</a></p>",
+      "description": "Spaces are not allowed in autolinks",
+      "input": "<http://foo.bar/baz bim>",
+      "markupAnswer": "<http://foo.bar/baz bim>",
+      "htmlAnswer": "<p>&lt;http://foo.bar/baz bim&gt;</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -37,7 +37,7 @@
             },
             "children": [
               {
-                "type": "link",
+                "type": "text",
                 "position": {
                   "start": {
                     "line": 1,
@@ -50,25 +50,7 @@
                     "offset": 24
                   }
                 },
-                "url": "http://example.com/%5C%5B%5C",
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 2,
-                        "offset": 1
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 24,
-                        "offset": 23
-                      }
-                    },
-                    "value": "http://example.com/\\[\\"
-                  }
-                ]
+                "value": "<http://foo.bar/baz bim>"
               }
             ]
           }

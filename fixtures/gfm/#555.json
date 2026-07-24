@@ -3,9 +3,9 @@
   "cases": [
     {
       "description": "Link labels cannot contain brackets, unless they are backslash-escaped",
-      "input": "[foo][ref[bar]]\n\n[ref[bar]]: /uri",
-      "markupAnswer": "[foo][ref[bar]]\n\n[ref[bar]]: /uri",
-      "htmlAnswer": "<p>[foo][ref[bar]]</p>\n<p>[ref[bar]]: /uri</p>",
+      "input": "[foo][ref[]\n\n[ref[]: /uri",
+      "markupAnswer": "[foo][ref[]\n\n[ref[]: /uri",
+      "htmlAnswer": "<p>[foo][ref[]</p>\n<p>[ref[]: /uri</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 3,
-            "column": 17,
-            "offset": 33
+            "column": 13,
+            "offset": 25
           }
         },
         "children": [
@@ -32,7 +32,7 @@
               "end": {
                 "line": 2,
                 "column": 1,
-                "offset": 16
+                "offset": 12
               }
             },
             "children": [
@@ -46,11 +46,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 16,
-                    "offset": 15
+                    "column": 12,
+                    "offset": 11
                   }
                 },
-                "value": "[foo][ref[bar]]"
+                "value": "[foo][ref[]"
               }
             ]
           },
@@ -60,12 +60,12 @@
               "start": {
                 "line": 3,
                 "column": 1,
-                "offset": 17
+                "offset": 13
               },
               "end": {
                 "line": 3,
-                "column": 17,
-                "offset": 33
+                "column": 13,
+                "offset": 25
               }
             },
             "children": [
@@ -75,15 +75,15 @@
                   "start": {
                     "line": 3,
                     "column": 1,
-                    "offset": 17
+                    "offset": 13
                   },
                   "end": {
                     "line": 3,
-                    "column": 17,
-                    "offset": 33
+                    "column": 13,
+                    "offset": 25
                   }
                 },
-                "value": "[ref[bar]]: /uri"
+                "value": "[ref[]: /uri"
               }
             ]
           }

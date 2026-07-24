@@ -2,10 +2,10 @@
   "title": "GFM#666 https://github.github.com/gfm/#example-666",
   "cases": [
     {
-      "description": "Hard line breaks are for separating inline content within a block. Neither syntax for hard line breaks works at the end of a paragraph or other block element",
-      "input": "foo  ",
-      "markupAnswer": "foo",
-      "htmlAnswer": "<p>foo</p>",
+      "description": "Line breaks do not occur inside code spans",
+      "input": "`code\\\nspan`",
+      "markupAnswer": "`code\\ span`",
+      "htmlAnswer": "<p><code>code\\ span</code></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 1,
+            "line": 2,
             "column": 6,
-            "offset": 5
+            "offset": 12
           }
         },
         "children": [
@@ -30,14 +30,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 1,
+                "line": 2,
                 "column": 6,
-                "offset": 5
+                "offset": 12
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "inlineCode",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,12 +45,12 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 4,
-                    "offset": 3
+                    "line": 2,
+                    "column": 6,
+                    "offset": 12
                   }
                 },
-                "value": "foo"
+                "value": "code\\ span"
               }
             ]
           }

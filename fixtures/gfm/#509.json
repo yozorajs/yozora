@@ -2,10 +2,10 @@
   "title": "GFM#509 https://github.github.com/gfm/#example-509",
   "cases": [
     {
-      "description": "A link can contain fragment identifiers and queries",
-      "input": "[link](#fragment)\n\n[link](http://example.com#fragment)\n\n[link](http://example.com?foo=3#frag)",
-      "markupAnswer": "[link](#fragment)\n\n[link](http://example.com#fragment)\n\n[link](http://example.com?foo=3#frag)",
-      "htmlAnswer": "<p><a href=\"#fragment\">link</a></p>\n<p><a href=\"http://example.com#fragment\">link</a></p>\n<p><a href=\"http://example.com?foo=3#frag\">link</a></p>",
+      "description": "Parentheses and other symbols can also be escaped, as usual in Markdown",
+      "input": "[link](foo\\)\\:)",
+      "markupAnswer": "[link](<foo):>)",
+      "htmlAnswer": "<p><a href=\"foo):\">link</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 5,
-            "column": 38,
-            "offset": 93
+            "line": 1,
+            "column": 16,
+            "offset": 15
           }
         },
         "children": [
@@ -30,9 +30,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 18
+                "line": 1,
+                "column": 16,
+                "offset": 15
               }
             },
             "children": [
@@ -46,11 +46,11 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 18,
-                    "offset": 17
+                    "column": 16,
+                    "offset": 15
                   }
                 },
-                "url": "#fragment",
+                "url": "foo):",
                 "children": [
                   {
                     "type": "text",
@@ -64,108 +64,6 @@
                         "line": 1,
                         "column": 6,
                         "offset": 5
-                      }
-                    },
-                    "value": "link"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 19
-              },
-              "end": {
-                "line": 4,
-                "column": 1,
-                "offset": 55
-              }
-            },
-            "children": [
-              {
-                "type": "link",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 19
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 36,
-                    "offset": 54
-                  }
-                },
-                "url": "http://example.com#fragment",
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 2,
-                        "offset": 20
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 6,
-                        "offset": 24
-                      }
-                    },
-                    "value": "link"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 5,
-                "column": 1,
-                "offset": 56
-              },
-              "end": {
-                "line": 5,
-                "column": 38,
-                "offset": 93
-              }
-            },
-            "children": [
-              {
-                "type": "link",
-                "position": {
-                  "start": {
-                    "line": 5,
-                    "column": 1,
-                    "offset": 56
-                  },
-                  "end": {
-                    "line": 5,
-                    "column": 38,
-                    "offset": 93
-                  }
-                },
-                "url": "http://example.com?foo=3#frag",
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 5,
-                        "column": 2,
-                        "offset": 57
-                      },
-                      "end": {
-                        "line": 5,
-                        "column": 6,
-                        "offset": 61
                       }
                     },
                     "value": "link"

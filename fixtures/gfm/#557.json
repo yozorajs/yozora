@@ -3,9 +3,9 @@
   "cases": [
     {
       "description": "Link labels cannot contain brackets, unless they are backslash-escaped",
-      "input": "[foo][ref\\[]\n\n[ref\\[]: /uri",
-      "markupAnswer": "[foo][ref\\[]\n\n[ref\\[]: /uri",
-      "htmlAnswer": "<p><a href=\"/uri\">foo</a></p>",
+      "input": "[[[foo]]]\n\n[[[foo]]]: /url",
+      "markupAnswer": "[[[foo]]]\n\n[[[foo]]]: /url",
+      "htmlAnswer": "<p>[[[foo]]]</p>\n<p>[[[foo]]]: /url</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -16,8 +16,8 @@
           },
           "end": {
             "line": 3,
-            "column": 14,
-            "offset": 27
+            "column": 16,
+            "offset": 26
           }
         },
         "children": [
@@ -32,12 +32,12 @@
               "end": {
                 "line": 2,
                 "column": 1,
-                "offset": 13
+                "offset": 10
               }
             },
             "children": [
               {
-                "type": "linkReference",
+                "type": "text",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,51 +46,46 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 13,
-                    "offset": 12
+                    "column": 10,
+                    "offset": 9
                   }
                 },
-                "identifier": "ref\\[",
-                "label": "ref\\[",
-                "referenceType": "full",
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 2,
-                        "offset": 1
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 5,
-                        "offset": 4
-                      }
-                    },
-                    "value": "foo"
-                  }
-                ]
+                "value": "[[[foo]]]"
               }
             ]
           },
           {
-            "type": "definition",
+            "type": "paragraph",
             "position": {
               "start": {
                 "line": 3,
                 "column": 1,
-                "offset": 14
+                "offset": 11
               },
               "end": {
                 "line": 3,
-                "column": 14,
-                "offset": 27
+                "column": 16,
+                "offset": 26
               }
             },
-            "identifier": "ref\\[",
-            "label": "ref\\[",
-            "url": "/uri"
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 11
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 16,
+                    "offset": 26
+                  }
+                },
+                "value": "[[[foo]]]: /url"
+              }
+            ]
           }
         ]
       }

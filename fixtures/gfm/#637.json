@@ -2,10 +2,10 @@
   "title": "GFM#637 https://github.github.com/gfm/#example-637",
   "cases": [
     {
-      "description": "Illegal tag names, not parsed as HTML",
-      "input": "<33> <__>",
-      "markupAnswer": "<33> <__>",
-      "htmlAnswer": "<p>&lt;33&gt; &lt;__&gt;</p>",
+      "description": "Empty elements",
+      "input": "<a/><b2/>",
+      "markupAnswer": "<a/><b2/>",
+      "htmlAnswer": "<p><a/><b2/></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -37,7 +37,7 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "html",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,11 +46,27 @@
                   },
                   "end": {
                     "line": 1,
+                    "column": 5,
+                    "offset": 4
+                  }
+                },
+                "value": "<a/>"
+              },
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 5,
+                    "offset": 4
+                  },
+                  "end": {
+                    "line": 1,
                     "column": 10,
                     "offset": 9
                   }
                 },
-                "value": "<33> <__>"
+                "value": "<b2/>"
               }
             ]
           }

@@ -2,10 +2,10 @@
   "title": "GFM#504 https://github.github.com/gfm/#example-504",
   "cases": [
     {
-      "description": "Parentheses inside the link destination may be escaped",
-      "input": "[link](\\(foo\\))",
-      "markupAnswer": "[link](<(foo)>)",
-      "htmlAnswer": "<p><a href=\"(foo)\">link</a></p>",
+      "description": "These are not links, because the opening pointy bracket is not matched properly",
+      "input": "[a](<b)c\n[a](<b)c>\n[a](<b>c)",
+      "markupAnswer": "[a](<b)c\n[a](<b)c>\n[a](<b>c)",
+      "htmlAnswer": "<p>[a](&lt;b)c\n[a](&lt;b)c&gt;\n[a](<b>c)</p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +15,9 @@
             "offset": 0
           },
           "end": {
-            "line": 1,
-            "column": 16,
-            "offset": 15
+            "line": 3,
+            "column": 10,
+            "offset": 28
           }
         },
         "children": [
@@ -30,14 +30,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 1,
-                "column": 16,
-                "offset": 15
+                "line": 3,
+                "column": 10,
+                "offset": 28
               }
             },
             "children": [
               {
-                "type": "link",
+                "type": "text",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,30 +45,44 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 16,
-                    "offset": 15
+                    "line": 3,
+                    "column": 5,
+                    "offset": 23
                   }
                 },
-                "url": "(foo)",
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 2,
-                        "offset": 1
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 6,
-                        "offset": 5
-                      }
-                    },
-                    "value": "link"
+                "value": "[a](<b)c\n[a](<b)c>\n[a]("
+              },
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 5,
+                    "offset": 23
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 8,
+                    "offset": 26
                   }
-                ]
+                },
+                "value": "<b>"
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 8,
+                    "offset": 26
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 10,
+                    "offset": 28
+                  }
+                },
+                "value": "c)"
               }
             ]
           }

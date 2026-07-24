@@ -2,10 +2,9 @@
   "title": "GFM#602 https://github.github.com/gfm/#example-602",
   "cases": [
     {
-      "description": "Here are some valid autolinks",
-      "input": "<http://foo.bar.baz>",
-      "markupAnswer": "[http://foo.bar.baz](http://foo.bar.baz)",
-      "htmlAnswer": "<p><a href=\"http://foo.bar.baz\">http://foo.bar.baz</a></p>",
+      "description": "If you want a link after a literal !, backslash-escape the !",
+      "input": "\\![foo]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p>!<a href=\"/url\" title=\"title\">foo</a></p>",
       "parseAnswer": {
         "type": "root",
         "position": {
@@ -15,9 +14,9 @@
             "offset": 0
           },
           "end": {
-            "line": 1,
-            "column": 21,
-            "offset": 20
+            "line": 3,
+            "column": 20,
+            "offset": 28
           }
         },
         "children": [
@@ -30,14 +29,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 1,
-                "column": 21,
-                "offset": 20
+                "line": 2,
+                "column": 1,
+                "offset": 8
               }
             },
             "children": [
               {
-                "type": "link",
+                "type": "text",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,31 +45,68 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 21,
-                    "offset": 20
+                    "column": 3,
+                    "offset": 2
                   }
                 },
-                "url": "http://foo.bar.baz",
+                "value": "!"
+              },
+              {
+                "type": "linkReference",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 3,
+                    "offset": 2
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 8,
+                    "offset": 7
+                  }
+                },
+                "identifier": "foo",
+                "label": "foo",
+                "referenceType": "shortcut",
                 "children": [
                   {
                     "type": "text",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 2,
-                        "offset": 1
+                        "column": 4,
+                        "offset": 3
                       },
                       "end": {
                         "line": 1,
-                        "column": 20,
-                        "offset": 19
+                        "column": 7,
+                        "offset": 6
                       }
                     },
-                    "value": "http://foo.bar.baz"
+                    "value": "foo"
                   }
                 ]
               }
             ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 9
+              },
+              "end": {
+                "line": 3,
+                "column": 20,
+                "offset": 28
+              }
+            },
+            "identifier": "foo",
+            "label": "foo",
+            "url": "/url",
+            "title": "title"
           }
         ]
       }
