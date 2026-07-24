@@ -1,10 +1,12 @@
 import type { Table } from '@yozora/ast'
 import { createTokenizerTesters } from '@yozora/test-util'
 import { expect, test } from 'vitest'
-import { parsers } from 'vitest.setup'
+import { parsers, scanGfmFixtures } from 'vitest.setup'
 
 createTokenizerTesters(parsers.yozora).forEach(tester =>
-  tester.scan(['gfm/table', 'custom/table']).runTest(),
+  scanGfmFixtures(tester, { includeGroups: ['table'] })
+    .scan('custom/table')
+    .runTest(),
 )
 
 test('preserves a trailing backslash in the final table cell', function () {

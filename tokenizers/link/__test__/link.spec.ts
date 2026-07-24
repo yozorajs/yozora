@@ -4,10 +4,10 @@ import type { IInlineToken } from '@yozora/core-tokenizer'
 import { encodeLinkDestination, isValidLinkText } from '@yozora/core-tokenizer'
 import { createTokenizerTesters } from '@yozora/test-util'
 import { expect, test } from 'vitest'
-import { parsers } from 'vitest.setup'
+import { parsers, scanGfmFixtures } from 'vitest.setup'
 
 createTokenizerTesters(parsers.gfm, parsers.gfmEx, parsers.yozora).forEach(tester =>
-  tester.scan('gfm/link').runTest(),
+  scanGfmFixtures(tester, { includeGroups: ['link'] }).runTest(),
 )
 
 test('link node should omit position when shouldReservePosition is false', function () {

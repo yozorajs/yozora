@@ -3,7 +3,7 @@ import { createTokenizerTester } from '@yozora/test-util'
 import ImageTokenizer from '@yozora/tokenizer-image'
 import { ImageReferenceTokenizerName } from '@yozora/tokenizer-image-reference'
 import { expect, test } from 'vitest'
-import { parsers } from 'vitest.setup'
+import { parsers, scanGfmFixtures } from 'vitest.setup'
 import GfmParser from '../src'
 
 class ShallowImageTokenizer extends ImageTokenizer {
@@ -13,15 +13,9 @@ class ShallowImageTokenizer extends ImageTokenizer {
   })
 }
 
-createTokenizerTester(parsers.gfm)
-  .scan([
-    'gfm/**/*.json',
-    '!gfm/autolink-extension/**/*',
-    '!gfm/delete/**/*',
-    '!gfm/list-item/task list items\\(extension\\)/**/*',
-    '!gfm/table/**/*',
-  ])
-  .runTest()
+scanGfmFixtures(createTokenizerTester(parsers.gfm), {
+  excludeGroups: ['autolink-extension', 'delete', 'list-item/task list items(extension)', 'table'],
+}).runTest()
 
 test('parses chunked input independently of chunk boundaries', () => {
   const content = 'a\r\nb😀c'

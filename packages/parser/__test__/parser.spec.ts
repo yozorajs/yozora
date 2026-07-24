@@ -7,11 +7,12 @@ import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
 import ParagraphTokenizer from '@yozora/tokenizer-paragraph'
 import TextTokenizer from '@yozora/tokenizer-text'
 import { describe, expect, test } from 'vitest'
-import { loadFixtures, parsers } from 'vitest.setup'
+import { loadFixtures, parsers, scanGfmFixtures } from 'vitest.setup'
 
-createTokenizerTester(parsers.yozora)
+scanGfmFixtures(createTokenizerTester(parsers.yozora), {
+  excludeExamples: ['#616', '#619', '#620'],
+})
   .scan(['custom/**/*.json', '!custom/inline-math/backtick-required'])
-  .scan(['gfm/**/*.json', '!gfm/**/#616.json', '!gfm/**/#619.json', '!gfm/**/#620.json'])
   .runTest()
 
 createTokenizerTester(

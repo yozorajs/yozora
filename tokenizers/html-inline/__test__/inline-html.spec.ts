@@ -2,10 +2,10 @@ import { createNodePointGenerator } from '@yozora/character'
 import { createTokenizerTesters } from '@yozora/test-util'
 import { HtmlInlineTokenizer } from '@yozora/tokenizer-html-inline'
 import { expect, test } from 'vitest'
-import { parsers } from 'vitest.setup'
+import { parsers, scanGfmFixtures } from 'vitest.setup'
 
 createTokenizerTesters(parsers.gfm, parsers.gfmEx, parsers.yozora).forEach(tester =>
-  tester.scan('gfm/html-inline').runTest(),
+  scanGfmFixtures(tester, { includeGroups: ['html-inline'] }).runTest(),
 )
 
 test.each([

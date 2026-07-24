@@ -1,34 +1,36 @@
 import { createMarkupTester } from '@yozora/test-util'
-import { parsers, weavers } from 'vitest.setup'
+import { parsers, scanGfmFixtures, weavers } from 'vitest.setup'
 
-void createMarkupTester(parsers.yozora, weavers.yozora)
+void scanGfmFixtures(createMarkupTester(parsers.yozora, weavers.yozora), {
+  excludeExamples: [
+    '#036',
+    '#310',
+    '#333',
+    '#334',
+    '#335',
+    '#336',
+    '#337',
+    '#359',
+    '#502',
+    '#534',
+    '#553',
+    '#571',
+    '#600',
+    '#601',
+    '#614',
+    '#624',
+    '#625',
+    '#628',
+    '#631',
+  ],
+})
   .scan([
-    'gfm/**/*.json',
     'custom/**/*.json',
 
     // Temporary skipped.
     '!custom/math/multiple-line/#2.json',
 
     // Skipped cases.
-    '!gfm/autolink/**/#614.json',
-    '!gfm/autolink-extension/**/#624.json',
-    '!gfm/autolink-extension/**/#625.json',
-    '!gfm/autolink-extension/**/#628.json',
-    '!gfm/autolink-extension/**/#631.json',
-    '!gfm/heading/**/#036.json',
-    '!gfm/image-reference/**/#600.json',
-    '!gfm/image-reference/**/#601.json',
-    '!gfm/inline-code/**/#359.json',
-    '!gfm/link/**/#502.json',
-    '!gfm/link/**/#534.json',
-    '!gfm/link-reference/**/#553.json',
-    '!gfm/link-reference/**/#571.json',
-    '!gfm/unclassified/**/#310.json',
-    '!gfm/unclassified/**/#333.json',
-    '!gfm/unclassified/**/#334.json',
-    '!gfm/unclassified/**/#335.json',
-    '!gfm/unclassified/**/#336.json',
-    '!gfm/unclassified/**/#337.json',
     '!custom/footnote/escape.json',
     '!custom/inline-math/backtick-optional/#008.json',
     '!custom/inline-math/backtick-required/#008.json',

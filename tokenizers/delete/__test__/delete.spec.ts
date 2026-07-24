@@ -1,13 +1,13 @@
 import { createTokenizerTesters } from '@yozora/test-util'
 import { expect, test } from 'vitest'
-import { parsers } from 'vitest.setup'
+import { parsers, scanGfmFixtures } from 'vitest.setup'
 import DeleteTokenizer from '../src'
 
 createTokenizerTesters(
   parsers.gfm.useTokenizer(new DeleteTokenizer()),
   parsers.gfmEx,
   parsers.yozora,
-).forEach(tester => tester.scan('gfm/delete').runTest())
+).forEach(tester => scanGfmFixtures(tester, { includeGroups: ['delete'] }).runTest())
 
 test('delete node should omit position when shouldReservePosition is false', function () {
   const parser = parsers.gfm.useTokenizer(new DeleteTokenizer())

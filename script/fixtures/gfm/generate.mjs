@@ -11,28 +11,77 @@ const groups = readLocalJson('./groups.json')
 
 const toGreen = text => `\u001b[32m${text}\u001b[0m`
 
+function setGroupFixtureIds(groupTree, groupPath, fixtureIds) {
+  let current = groupTree
+  for (let i = 0; i < groupPath.length; ++i) {
+    const name = groupPath[i]
+    if (i === groupPath.length - 1) {
+      if (current[name] != null) {
+        throw new Error(`Duplicate GFM fixture group ${groupPath.join('/')}`)
+      }
+      current[name] = fixtureIds
+      return
+    }
+
+    const child = current[name]
+    if (Array.isArray(child)) {
+      throw new Error(`GFM fixture group conflicts with ${groupPath.slice(0, i + 1).join('/')}`)
+    }
+    current = child || (current[name] = {})
+  }
+}
+
 class GFMFixtureGenerator {
   constructor(gfmExamples) {
     this.gfmExamples = gfmExamples
-    this.numberLength = gfmExamples.length.toString().length
   }
 
-  writeGroups(caseRootDir, groups) {
+  writeFixtures(caseRootDir, groups) {
+    const metadata = { groups: { unclassified: {}, ast: {} } }
+    const fixtureIds = new Set()
+    fs.mkdirSync(caseRootDir, { recursive: true })
+
     for (const group of groups) {
       const excluded = group.excluded || []
-      const groupDir = path.resolve(caseRootDir, group.name)
-      if (!fs.existsSync(groupDir)) fs.mkdirSync(groupDir, { recursive: true })
+      const groupFixtureIds = []
       for (let i = group.start; i <= group.end; ++i) {
         if (excluded.includes(i)) continue
-        const fileName = '#' + ('' + i).padStart(this.numberLength, '0') + '.json'
-        const caseFilePath = path.join(groupDir, fileName)
+        const fixtureId = `#${String(i).padStart(3, '0')}`
+        if (fixtureIds.has(fixtureId)) {
+          throw new Error(`GFM fixture ${fixtureId} belongs to more than one group`)
+        }
+
         const gfmExample = this.gfmExamples[i]
+        if (gfmExample == null) throw new Error(`Missing GFM example ${fixtureId}`)
+
+        fixtureIds.add(fixtureId)
+        groupFixtureIds.push(fixtureId)
+        const caseFilePath = path.join(caseRootDir, `${fixtureId}.json`)
         const data = this.mapGFMExampleDataToCase(gfmExample)
         const content = JSON.stringify(data, null, 2)
         fs.writeFileSync(caseFilePath, content, 'utf-8')
         console.log(toGreen(`Add case ${caseFilePath}`))
       }
+
+      const groupPath = group.name.split('/')
+      const isUnclassified = groupPath[0] === 'unclassified'
+      if (isUnclassified) groupPath.shift()
+      const groupTree = isUnclassified ? metadata.groups.unclassified : metadata.groups.ast
+      setGroupFixtureIds(groupTree, groupPath, groupFixtureIds)
     }
+
+    for (const entry of fs.readdirSync(caseRootDir, { withFileTypes: true })) {
+      if (!entry.isFile() || !/^#\d{3}[.]json$/.test(entry.name)) continue
+      if (!fixtureIds.has(entry.name.slice(0, -5))) {
+        fs.unlinkSync(path.join(caseRootDir, entry.name))
+      }
+    }
+
+    fs.writeFileSync(
+      path.join(caseRootDir, 'meta.json'),
+      JSON.stringify(metadata, null, 2) + '\n',
+      'utf-8',
+    )
     return this
   }
 
@@ -53,7 +102,7 @@ class GFMFixtureGenerator {
 
 export function generateGFMFixtures(rootDir = repositoryRoot) {
   const generator = new GFMFixtureGenerator(examples)
-  generator.writeGroups(path.resolve(rootDir, 'fixtures/gfm'), groups)
+  generator.writeFixtures(path.resolve(rootDir, 'fixtures/gfm'), groups)
 }
 
 if (process.argv[1] === __filename) generateGFMFixtures()

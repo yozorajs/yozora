@@ -1,16 +1,12 @@
 import { createTokenizerTesters } from '@yozora/test-util'
 import { expect, test } from 'vitest'
-import { parsers } from 'vitest.setup'
+import { parsers, scanGfmFixtures } from 'vitest.setup'
 
 createTokenizerTesters(parsers.gfm, parsers.gfmEx, parsers.yozora).forEach(tester =>
-  tester
-    .scan([
-      'gfm/image',
-      'gfm/link',
-      'gfm/image-reference',
-      'gfm/link-reference',
-      'custom/link-reference',
-    ])
+  scanGfmFixtures(tester, {
+    includeGroups: ['image', 'link', 'image-reference', 'link-reference'],
+  })
+    .scan('custom/link-reference')
     .runTest(),
 )
 
