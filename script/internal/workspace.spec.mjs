@@ -3,7 +3,7 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { test } from 'node:test'
-import { workspacePackages } from './workspace-aliases.mjs'
+import { workspacePackages, yozoraWorkspacePackages } from './workspace.mjs'
 
 /**
  * Build a throwaway workspace root under the OS temp dir, registered for cleanup
@@ -11,7 +11,7 @@ import { workspacePackages } from './workspace-aliases.mjs'
  * `tokenizers/`; a null `json` means the dir has no package.json at all.
  */
 function makeRoot(t, entries) {
-  const root = mkdtempSync(join(tmpdir(), 'yozora-workspace-aliases-'))
+  const root = mkdtempSync(join(tmpdir(), 'yozora-workspace-'))
   t.after(() => rmSync(root, { recursive: true, force: true }))
   for (const ws of ['packages', 'tokenizers']) mkdirSync(join(root, ws), { recursive: true })
   for (const { ws, dir, json } of entries) {
@@ -22,26 +22,54 @@ function makeRoot(t, entries) {
   return root
 }
 
-test('collects @yozora packages sorted by name; skips non-@yozora and dirs without package.json', t => {
+test('collects workspace packages once and derives @yozora aliases', t => {
   const root = makeRoot(t, [
-    { ws: 'packages', dir: 'table', json: JSON.stringify({ name: '@yozora/table' }) },
-    { ws: 'packages', dir: 'ast', json: JSON.stringify({ name: '@yozora/ast' }) },
-    { ws: 'packages', dir: 'other', json: JSON.stringify({ name: 'not-yozora' }) },
+    {
+      ws: 'packages',
+      dir: 'table',
+      json: JSON.stringify({ name: '@yozora/table', version: '1.0.0' }),
+    },
+    {
+      ws: 'packages',
+      dir: 'ast',
+      json: JSON.stringify({ name: '@yozora/ast', version: '1.0.0' }),
+    },
+    {
+      ws: 'packages',
+      dir: 'other',
+      json: JSON.stringify({ name: 'not-yozora', version: '1.0.0' }),
+    },
     { ws: 'tokenizers', dir: 'plain', json: null },
-    { ws: 'tokenizers', dir: 'link', json: JSON.stringify({ name: '@yozora/link' }) },
+    {
+      ws: 'tokenizers',
+      dir: 'link',
+      json: JSON.stringify({ name: '@yozora/link', version: '1.0.0' }),
+    },
   ])
-  const result = workspacePackages(root)
+  const packages = workspacePackages(root)
   assert.deepEqual(
-    result.map(p => p.name),
+    packages.map(pkg => pkg.name),
+    ['@yozora/ast', '@yozora/link', '@yozora/table', 'not-yozora'],
+  )
+  assert.equal(packages.find(pkg => pkg.name === '@yozora/link').dir, 'tokenizers/link')
+  assert.deepEqual(
+    yozoraWorkspacePackages(root).map(pkg => pkg.name),
     ['@yozora/ast', '@yozora/link', '@yozora/table'],
   )
-  assert.equal(result.find(p => p.name === '@yozora/link').dir, 'tokenizers/link')
 })
 
-test('throws on duplicate @yozora package names, naming both directories', t => {
+test('throws on duplicate package names, naming both directories', t => {
   const root = makeRoot(t, [
-    { ws: 'packages', dir: 'a', json: JSON.stringify({ name: '@yozora/dup' }) },
-    { ws: 'tokenizers', dir: 'b', json: JSON.stringify({ name: '@yozora/dup' }) },
+    {
+      ws: 'packages',
+      dir: 'a',
+      json: JSON.stringify({ name: '@yozora/dup', version: '1.0.0' }),
+    },
+    {
+      ws: 'tokenizers',
+      dir: 'b',
+      json: JSON.stringify({ name: '@yozora/dup', version: '1.0.0' }),
+    },
   ])
   assert.throws(
     () => workspacePackages(root),
@@ -58,12 +86,14 @@ test('throws on a package.json with a missing name', t => {
   const root = makeRoot(t, [
     { ws: 'packages', dir: 'a', json: JSON.stringify({ version: '1.0.0' }) },
   ])
-  assert.throws(() => workspacePackages(root), /expected a string "name" field/)
+  assert.throws(() => workspacePackages(root), /expected a non-empty string "name"/)
 })
 
 test('throws on a package.json with a non-string name', t => {
-  const root = makeRoot(t, [{ ws: 'packages', dir: 'a', json: JSON.stringify({ name: 123 }) }])
-  assert.throws(() => workspacePackages(root), /expected a string "name" field/)
+  const root = makeRoot(t, [
+    { ws: 'packages', dir: 'a', json: JSON.stringify({ name: 123, version: '1.0.0' }) },
+  ])
+  assert.throws(() => workspacePackages(root), /expected a non-empty string "name"/)
 })
 
 test('propagates malformed package.json (JSON.parse throws)', t => {
@@ -72,7 +102,7 @@ test('propagates malformed package.json (JSON.parse throws)', t => {
 })
 
 test('rethrows a non-ENOENT read error (package.json is a directory -> EISDIR)', t => {
-  const root = mkdtempSync(join(tmpdir(), 'yozora-workspace-aliases-'))
+  const root = mkdtempSync(join(tmpdir(), 'yozora-workspace-'))
   t.after(() => rmSync(root, { recursive: true, force: true }))
   for (const ws of ['packages', 'tokenizers']) mkdirSync(join(root, ws), { recursive: true })
   const pkgDir = join(root, 'packages', 'a')

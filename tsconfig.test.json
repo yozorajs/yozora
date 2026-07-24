@@ -14,7 +14,7 @@
     "packages/*/__test__",
     "tokenizers/*/src",
     "tokenizers/*/__test__",
-    "scripts/**/*.ts",
+    "script/**/*.ts",
     "vitest.config.ts",
     "vitest.setup.ts"
   ]

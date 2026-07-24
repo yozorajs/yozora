@@ -46,7 +46,7 @@ issues are caught before you push.
 5. Run `pnpm sync:paths` to register the workspace alias in `tsconfig.json` (vitest resolves the
    `@yozora/*` aliases automatically at runtime from the workspace, so it needs no manual edit).
 6. Add fixtures and a spec under `__test__/`, then run `pnpm test`.
-7. Add its metadata and example to `scripts/handlebar/tokenizer.ts`, then run `pnpm doc` to
+7. Add its metadata and example to `script/docs/generate-tokenizers.ts`, then run `pnpm doc` to
    regenerate the package README.
 
 ## Commit messages
@@ -57,7 +57,7 @@ Follow `:gitmoji: <type>(<scope>): <description>` (e.g.
 ## Releasing
 
 The whole monorepo shares one lockstep version, so there are no per-change changeset files.
-Maintainers cut a release with the zero-dependency scripts under `script/version/`:
+Maintainers cut a release with the zero-dependency scripts under `script/release/`:
 
 ```bash
 pnpm :version <patch|minor|major|x.y.z-tag> --write   # bump all packages + prepend CHANGELOGs

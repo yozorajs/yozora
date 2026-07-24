@@ -42,7 +42,7 @@ export function parseGFMExample(exampleEl) {
   return result
 }
 
-export function fetchGFMExamples(...exampleNos) {
+export function extractGFMExamples(...exampleNos) {
   const exampleEls = exampleNos.map(exampleNo => {
     const id = 'example-' + exampleNo
     const elementEl = document.getElementById(id)
@@ -53,13 +53,13 @@ export function fetchGFMExamples(...exampleNos) {
   return JSON.stringify(result, null, 2)
 }
 
-export function fetchGFMExamplesInRange(left, right = left) {
+export function extractGFMExamplesInRange(left, right = left) {
   const exampleNos = []
   for (let i = left; i <= right; ++i) exampleNos.push(i)
-  return fetchGFMExamples(...exampleNos)
+  return extractGFMExamples(...exampleNos)
 }
 
-export function fetchExamplesAll() {
+export function extractAllGFMExamples() {
   const exampleEls = document.querySelectorAll('[id^=example]')
   const result = Array.from(exampleEls).map(exampleEl => parseGFMExample(exampleEl))
   return JSON.stringify(result, null, 2)

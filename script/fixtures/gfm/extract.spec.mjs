@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { describe, test } from 'node:test'
-import { parseGFMExample } from '../scripts/gfm/fetch.mjs'
+import { parseGFMExample } from './extract.mjs'
 
 describe('parseGFMExample', () => {
   test('parses a valid example id', () => {

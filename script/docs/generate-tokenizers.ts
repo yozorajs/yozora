@@ -1,6 +1,7 @@
-import fs from 'node:fs'
 import path from 'node:path'
-import { renderMarkdown, SCRIPT_DIRPATH } from './util'
+import { repositoryRoot } from '../internal/repository.mjs'
+import { workspacePackages } from '../internal/workspace.mjs'
+import { renderMarkdown } from './render'
 
 interface HandlebarData {
   packageName?: string
@@ -543,20 +544,16 @@ ___
 ]
 
 // Perform replace
+const workspacePackageByDirectory = new Map(workspacePackages().map(pkg => [pkg.dir, pkg]))
 items.forEach((item): void => {
   const data = item
   data.packageDirectory ??= 'tokenizers/' + data.tokenizerName
-  const packageJsonFilepath = path.join(
-    SCRIPT_DIRPATH,
-    '../../',
-    data.packageDirectory,
-    'package.json',
-  )
-  const packageJson = JSON.parse(fs.readFileSync(packageJsonFilepath, 'utf-8')) as {
-    version: string
+  const pkg = workspacePackageByDirectory.get(data.packageDirectory)
+  if (pkg == null || typeof pkg.manifest.version !== 'string') {
+    throw new Error(`Cannot find a versioned workspace package at ${data.packageDirectory}`)
   }
-  data.repositoryRef = `v${packageJson.version}`
-  const docFilepath = path.join(SCRIPT_DIRPATH, '../../', data.packageDirectory, 'README.md')
+  data.repositoryRef = `v${pkg.manifest.version}`
+  const docFilepath = path.join(repositoryRoot, data.packageDirectory, 'README.md')
   data.packageName ??= `@yozora/tokenizer-${data.tokenizerName}`
   data.shortPackageName ??= `tokenizer-${data.tokenizerName}`
   data.inGfm ??= false

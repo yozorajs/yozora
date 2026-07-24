@@ -1,20 +1,23 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import url from 'node:url'
-import parserGfmData from './data-classify/parser-gfm.json'
-import gfmClassifyData from './data.json'
+import { fileURLToPath } from 'node:url'
+import { repositoryRoot } from '../../internal/repository.mjs'
 
-const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
-const rootDir = path.resolve(__dirname, '../../')
+const __filename = fileURLToPath(import.meta.url)
+const readLocalJson = filename =>
+  JSON.parse(fs.readFileSync(new URL(filename, import.meta.url), 'utf8'))
+const examples = readLocalJson('./examples.json')
+const groups = readLocalJson('./groups.json')
+
 const toGreen = text => `\u001b[32m${text}\u001b[0m`
 
-class GFMExampleClassifier {
+class GFMFixtureGenerator {
   constructor(gfmExamples) {
     this.gfmExamples = gfmExamples
     this.numberLength = gfmExamples.length.toString().length
   }
 
-  classifyToPath(caseRootDir, groups) {
+  writeGroups(caseRootDir, groups) {
     for (const group of groups) {
       const excluded = group.excluded || []
       const groupDir = path.resolve(caseRootDir, group.name)
@@ -48,7 +51,9 @@ class GFMExampleClassifier {
   }
 }
 
-const classifier = new GFMExampleClassifier(gfmClassifyData)
+export function generateGFMFixtures(rootDir = repositoryRoot) {
+  const generator = new GFMFixtureGenerator(examples)
+  generator.writeGroups(path.resolve(rootDir, 'fixtures/gfm'), groups)
+}
 
-// parser-gfm test cases
-classifier.classifyToPath(path.resolve(rootDir, 'fixtures/gfm'), parserGfmData)
+if (process.argv[1] === __filename) generateGFMFixtures()

@@ -1,8 +1,8 @@
 import { readFileSync, writeFileSync } from 'node:fs'
-import { dirname, join } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { join } from 'node:path'
 import { format, resolveConfig } from 'prettier'
-import { workspacePackages } from './workspace-aliases.mjs'
+import { repositoryRoot } from '../internal/repository.mjs'
+import { yozoraWorkspacePackages } from '../internal/workspace.mjs'
 
 /**
  * Regenerate `tsconfig.json` compilerOptions.paths from the single source of
@@ -11,11 +11,11 @@ import { workspacePackages } from './workspace-aliases.mjs'
  * through Prettier so the file stays format-check clean and the sync is
  * idempotent.
  */
-const rootDir = join(dirname(fileURLToPath(import.meta.url)), '..')
-const tsconfigPath = join(rootDir, 'tsconfig.json')
+const tsconfigPath = join(repositoryRoot, 'tsconfig.json')
 
 const paths = {}
-for (const { name, dir } of workspacePackages(rootDir)) {
+const packages = yozoraWorkspacePackages()
+for (const { name, dir } of packages) {
   paths[name] = [`./${dir}/src`]
 }
 paths['vitest.setup'] = ['./vitest.setup.ts']
@@ -30,4 +30,4 @@ const formatted = await format(JSON.stringify(tsconfig), {
   filepath: tsconfigPath,
 })
 writeFileSync(tsconfigPath, formatted)
-console.log(`Synced ${workspacePackages(rootDir).length} @yozora/* paths into tsconfig.json`)
+console.log(`Synced ${packages.length} @yozora/* paths into tsconfig.json`)

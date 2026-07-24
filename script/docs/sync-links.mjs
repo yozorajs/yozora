@@ -5,14 +5,13 @@
  * Updates homepage URLs in package.json and badge URLs in README.md files.
  */
 
-import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
-import { dirname, join } from 'node:path'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { readPackageJson } from './package-json.mjs'
+import { repositoryRoot } from '../internal/repository.mjs'
+import { workspacePackages } from '../internal/workspace.mjs'
 
 const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
-const rootDir = join(__dirname, '..')
 
 const REPO_OWNER = 'yozorajs'
 const REPO_NAME = 'yozora'
@@ -39,49 +38,17 @@ export function replaceVersionLinks(content, version) {
 }
 
 /**
- * Get all workspace package directories
- */
-function getWorkspacePackages() {
-  const packages = []
-  const workspaceDirs = ['packages', 'tokenizers']
-
-  for (const workspaceDir of workspaceDirs) {
-    const workspacePath = join(rootDir, workspaceDir)
-    const entries = readdirSync(workspacePath)
-    for (const entry of entries) {
-      const entryPath = join(workspacePath, entry)
-      const stat = statSync(entryPath)
-      if (stat.isDirectory()) {
-        const pkgJsonPath = join(entryPath, 'package.json')
-        const pkgJson = readPackageJson(pkgJsonPath, { allowMissing: true })
-        if (pkgJson == null || pkgJson.private) continue
-        packages.push({
-          name: pkgJson.name,
-          version: pkgJson.version,
-          path: entryPath,
-          pkgJsonPath,
-          directory: `${workspaceDir}/${entry}`,
-        })
-      }
-    }
-  }
-
-  return packages
-}
-
-/**
  * Update homepage URL in package.json
  */
 function updatePackageJson(pkg) {
-  const content = readFileSync(pkg.pkgJsonPath, 'utf-8')
-  const pkgJson = JSON.parse(content)
+  const pkgJson = pkg.manifest
 
-  const newHomepage = `https://github.com/${REPO_OWNER}/${REPO_NAME}/tree/v${pkg.version}/${pkg.directory}#readme`
+  const newHomepage = `https://github.com/${REPO_OWNER}/${REPO_NAME}/tree/v${pkgJson.version}/${pkg.dir}#readme`
 
   if (pkgJson.homepage !== newHomepage) {
     pkgJson.homepage = newHomepage
-    writeFileSync(pkg.pkgJsonPath, JSON.stringify(pkgJson, null, 2) + '\n', 'utf-8')
-    console.log(`Updated homepage in ${pkg.pkgJsonPath}`)
+    writeFileSync(pkg.packageJsonPath, JSON.stringify(pkgJson, null, 2) + '\n', 'utf-8')
+    console.log(`Updated homepage in ${pkg.packageJsonPath}`)
     return true
   }
 
@@ -92,18 +59,19 @@ function updatePackageJson(pkg) {
  * Update version badge and links in README.md
  */
 function updateReadme(pkg, filename) {
-  const readmePath = join(pkg.path, filename)
+  const packagePath = join(repositoryRoot, pkg.dir)
+  const readmePath = join(packagePath, filename)
   if (!existsSync(readmePath)) return false
 
   let content = readFileSync(readmePath, 'utf-8')
 
   let updated = false
   const originalContent = content
-  content = replaceVersionLinks(content, pkg.version)
+  content = replaceVersionLinks(content, pkg.manifest.version)
 
   if (content !== originalContent) {
     writeFileSync(readmePath, content, 'utf-8')
-    console.log(`Updated README.md in ${pkg.path}`)
+    console.log(`Updated README.md in ${packagePath}`)
     updated = true
   }
 
@@ -116,7 +84,7 @@ function updateReadme(pkg, filename) {
 function main() {
   console.log('Syncing documentation links...\n')
 
-  const packages = getWorkspacePackages()
+  const packages = workspacePackages().filter(pkg => pkg.manifest.private !== true)
   console.log(`Found ${packages.length} packages\n`)
 
   let updatedCount = 0

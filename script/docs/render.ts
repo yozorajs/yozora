@@ -3,7 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-export const SCRIPT_DIRPATH = path.dirname(fileURLToPath(import.meta.url))
+const TEMPLATE_DIRPATH = path.join(path.dirname(fileURLToPath(import.meta.url)), 'templates')
 
 /**
  * Convert a kebab-case identifier (e.g. 'inline-code') into PascalCase
@@ -25,9 +25,7 @@ Handlebars.registerHelper('toPascalCase', toPascalCase)
  */
 const templates: Record<string, HandlebarsTemplateDelegate> = {}
 export function renderTemplate(templateName: string, data: unknown): string {
-  const templatePath = path
-    .join(SCRIPT_DIRPATH, 'boilerplate', templateName)
-    .replace(/([.]hbs)?$/, '.hbs')
+  const templatePath = path.join(TEMPLATE_DIRPATH, templateName).replace(/([.]hbs)?$/, '.hbs')
 
   if (templates[templatePath] == null) {
     const templateContent = fs.readFileSync(templatePath, 'utf-8')

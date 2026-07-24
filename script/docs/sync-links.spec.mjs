@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { replaceVersionLinks } from './sync-doc-link.mjs'
+import { replaceVersionLinks } from './sync-links.mjs'
 
 test('replaces stable and prerelease version links', () => {
   const nextVersion = '2.4.0-alpha.1'

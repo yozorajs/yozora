@@ -14,22 +14,21 @@
  * default changelog range (--first-release to bootstrap).
  *
  * Usage:
- *   node script/version/version.mjs <patch|minor|major|x.y.z[-tag]> \
+ *   node script/release/version.mjs <patch|minor|major|x.y.z[-tag]> \
  *     [--write] [--note "..."] [--allow-downgrade] [--first-release]
  *   (dry-run by default; pass --write to apply)
  */
 
 import { execFileSync } from 'node:child_process'
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { dirname, join, relative } from 'node:path'
-import { fileURLToPath } from 'node:url'
-import { readPackageJson } from '../package-json.mjs'
+import { readFileSync, writeFileSync } from 'node:fs'
+import { join, relative } from 'node:path'
+import { repositoryRoot } from '../internal/repository.mjs'
+import { workspacePackages } from '../internal/workspace.mjs'
 import { bump } from './bump.mjs'
 import { changelogBlock, commitsForRelease, prependChangelog } from './changelog.mjs'
 
-const rootDir = join(dirname(fileURLToPath(import.meta.url)), '..', '..')
 const USAGE =
-  'Usage: node script/version/version.mjs <patch|minor|major|x.y.z[-tag]> [--write] [--note "..."] [--allow-downgrade] [--first-release]'
+  'Usage: node script/release/version.mjs <patch|minor|major|x.y.z[-tag]> [--write] [--note "..."] [--allow-downgrade] [--first-release]'
 
 function fail(msg) {
   console.error(msg)
@@ -43,18 +42,13 @@ function die(msg) {
 }
 
 // ---- collect publishable manifests ----
-const manifests = ['packages', 'tokenizers']
-  .flatMap(ws =>
-    readdirSync(join(rootDir, ws), { withFileTypes: true })
-      .filter(d => d.isDirectory())
-      .map(d => join(rootDir, ws, d.name)),
-  )
-  .map(dir => {
-    const pkgJsonPath = join(dir, 'package.json')
-    const pkg = readPackageJson(pkgJsonPath, { allowMissing: true })
-    return pkg == null ? null : { dir, path: pkgJsonPath, pkg }
-  })
-  .filter(m => m != null && !m.pkg.private)
+const manifests = workspacePackages()
+  .filter(pkg => pkg.manifest.private !== true)
+  .map(pkg => ({
+    dir: join(repositoryRoot, pkg.dir),
+    path: pkg.packageJsonPath,
+    pkg: pkg.manifest,
+  }))
 
 if (manifests.length === 0) die('No publishable packages found under packages/ or tokenizers/.')
 
@@ -80,7 +74,7 @@ for (let i = 0; i < argv.length; i++) {
 if (!kind) fail('Missing bump type.')
 
 // ---- assert lockstep invariant: all packages share exactly one version ----
-const rel = p => relative(rootDir, p)
+const rel = p => relative(repositoryRoot, p)
 const byVersion = new Map()
 for (const m of manifests) {
   byVersion.set(m.pkg.version, [...(byVersion.get(m.pkg.version) ?? []), rel(m.dir)])
@@ -109,7 +103,7 @@ try {
   releases = manifests.map(manifest => {
     const lines =
       noteLines ??
-      commitsForRelease(rootDir, current, {
+      commitsForRelease(repositoryRoot, current, {
         firstRelease,
         pathSpec: rel(manifest.dir),
       })
@@ -148,5 +142,5 @@ if (bad.length) {
   )
 }
 
-execFileSync('node', [join(rootDir, 'script/sync-doc-link.mjs')], { stdio: 'inherit' })
+execFileSync('node', [join(repositoryRoot, 'script/docs/sync-links.mjs')], { stdio: 'inherit' })
 console.log(`\nApplied to ${manifests.length} packages + synced doc links.`)

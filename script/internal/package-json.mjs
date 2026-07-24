@@ -1,11 +1,19 @@
 import { readFileSync } from 'node:fs'
 
 /**
+ * @typedef {Record<string, unknown> & {
+ *   name: string,
+ *   version?: string,
+ *   private?: boolean,
+ * }} PackageJson
+ */
+
+/**
  * Read and validate a workspace package manifest.
  *
  * @param {string} filepath
  * @param {{ allowMissing?: boolean }} options
- * @returns {Record<string, unknown> | null}
+ * @returns {PackageJson | null}
  */
 export function readPackageJson(filepath, { allowMissing = false } = {}) {
   let raw

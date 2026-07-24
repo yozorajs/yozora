@@ -1,7 +1,7 @@
 /**
  * @see https://www.fileformat.info/info/unicode/category/Pd/list.htm
  */
-export function fetchUnicodeCharacter(tbody) {
+export function extractUnicodeCharacters(tbody) {
   const trList = tbody.querySelectorAll('tr')
   const items = []
   for (let i = 0; i < trList.length; ++i) {
