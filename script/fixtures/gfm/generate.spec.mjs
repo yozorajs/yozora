@@ -20,7 +20,7 @@ test('generates flat fixtures and complete group metadata', t => {
     console.log = originalLog
   }
 
-  const fixtureDir = join(rootDir, 'fixtures/gfm')
+  const fixtureDir = join(rootDir, 'fixtures/gfm0')
   const entries = readdirSync(fixtureDir, { withFileTypes: true })
   assert.equal(
     entries.some(entry => entry.isDirectory()),
@@ -41,7 +41,7 @@ test('generates flat fixtures and complete group metadata', t => {
   assert.deepEqual(metadataIds.slice().sort(), fixtureIds)
 
   const checkedInMeta = JSON.parse(
-    readFileSync(new URL('../../../fixtures/gfm/meta.json', import.meta.url), 'utf8'),
+    readFileSync(new URL('../../../fixtures/gfm0/meta.json', import.meta.url), 'utf8'),
   )
   assert.deepEqual(meta, checkedInMeta)
 })

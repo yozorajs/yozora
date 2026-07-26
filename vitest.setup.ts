@@ -50,7 +50,7 @@ export interface IGfmFixtureSelection {
   excludeExamples?: readonly string[]
 }
 
-const gfmFixtureDirectory = path.join(workspaceRootDir, 'fixtures/gfm')
+const gfmFixtureDirectory = path.join(workspaceRootDir, 'fixtures/gfm0')
 const gfmFixtureMeta: unknown = JSON.parse(
   fs.readFileSync(path.join(gfmFixtureDirectory, 'meta.json'), 'utf8'),
 )
@@ -92,7 +92,7 @@ function collectGfmFixtureGroups(group: unknown, groupPath: string[]): void {
 }
 
 if (!isRecord(gfmFixtureMeta) || !isRecord(gfmFixtureMeta['groups'])) {
-  throw new TypeError('Invalid fixtures/gfm/meta.json')
+  throw new TypeError('Invalid fixtures/gfm0/meta.json')
 }
 const metaGroups = gfmFixtureMeta['groups']
 const groupScopes = Object.keys(metaGroups).sort()
@@ -118,7 +118,7 @@ const actualGfmExampleIds = fs
 const metadataGfmExampleIds = Array.from(allGfmExampleIds).sort()
 
 if (actualGfmExampleIds.join('\n') !== metadataGfmExampleIds.join('\n')) {
-  throw new Error('fixtures/gfm/meta.json does not match the flat GFM fixture files')
+  throw new Error('fixtures/gfm0/meta.json does not match the flat GFM fixture files')
 }
 
 function selectGfmGroups(selectors: readonly string[], optionName: string): string[] {
@@ -161,7 +161,7 @@ export function scanGfmFixtures<T extends BaseTester>(
   selection: IGfmFixtureSelection = {},
 ): T {
   const selectedExamples = selectGfmExamples(selection)
-  return tester.scan('gfm/#*.json', undefined, filepath =>
+  return tester.scan('gfm0/#*.json', undefined, filepath =>
     selectedExamples.has(path.basename(filepath, '.json')),
   )
 }

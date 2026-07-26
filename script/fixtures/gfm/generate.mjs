@@ -102,7 +102,7 @@ class GFMFixtureGenerator {
 
 export function generateGFMFixtures(rootDir = repositoryRoot) {
   const generator = new GFMFixtureGenerator(examples)
-  generator.writeFixtures(path.resolve(rootDir, 'fixtures/gfm'), groups)
+  generator.writeFixtures(path.resolve(rootDir, 'fixtures/gfm0'), groups)
 }
 
 if (process.argv[1] === __filename) generateGFMFixtures()
