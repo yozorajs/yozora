@@ -1,0 +1,83 @@
+{
+  "title": "GFM#594 https://github.github.com/gfm/#example-594",
+  "cases": [
+    {
+      "description": "Collapsed",
+      "input": "![*foo* bar][]\n\n[*foo* bar]: /url \"title\"",
+      "markupAnswer": "![foo bar][*foo* bar]\n\n[*foo* bar]: /url \"title\"",
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo bar\" title=\"title\" /></p>",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 26,
+            "offset": 41
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 1,
+                "offset": 15
+              }
+            },
+            "children": [
+              {
+                "type": "imageReference",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 15,
+                    "offset": 14
+                  }
+                },
+                "identifier": "*foo* bar",
+                "label": "*foo* bar",
+                "referenceType": "collapsed",
+                "alt": "foo bar"
+              }
+            ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 16
+              },
+              "end": {
+                "line": 3,
+                "column": 26,
+                "offset": 41
+              }
+            },
+            "identifier": "*foo* bar",
+            "label": "*foo* bar",
+            "url": "/url",
+            "title": "title"
+          }
+        ]
+      }
+    }
+  ]
+}

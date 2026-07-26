@@ -1,0 +1,95 @@
+{
+  "title": "GFM#628 https://github.github.com/gfm/#example-628",
+  "cases": [
+    {
+      "description": "< immediately ends an autolink.",
+      "input": "www.commonmark.org/he<lp",
+      "markupAnswer": "[www.commonmark.org/he](http://www.commonmark.org/he)<lp",
+      "htmlAnswer": "<p><a href=\"http://www.commonmark.org/he\">www.commonmark.org/he</a>&lt;lp</p>",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 25,
+            "offset": 24
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 25,
+                "offset": 24
+              }
+            },
+            "children": [
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 22,
+                    "offset": 21
+                  }
+                },
+                "url": "http://www.commonmark.org/he",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 22,
+                        "offset": 21
+                      }
+                    },
+                    "value": "www.commonmark.org/he"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 22,
+                    "offset": 21
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 25,
+                    "offset": 24
+                  }
+                },
+                "value": "<lp"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

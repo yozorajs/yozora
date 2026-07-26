@@ -1,0 +1,100 @@
+{
+  "title": "GFM#564 https://github.github.com/gfm/#example-564",
+  "cases": [
+    {
+      "description": "The link labels are case-insensitive",
+      "input": "[Foo][]\n\n[foo]: /url \"title\"",
+      "markupAnswer": "[Foo][]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">Foo</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 20,
+            "offset": 28
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 1,
+                "offset": 8
+              }
+            },
+            "children": [
+              {
+                "type": "linkReference",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 8,
+                    "offset": 7
+                  }
+                },
+                "identifier": "foo",
+                "label": "Foo",
+                "referenceType": "collapsed",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      }
+                    },
+                    "value": "Foo"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 9
+              },
+              "end": {
+                "line": 3,
+                "column": 20,
+                "offset": 28
+              }
+            },
+            "identifier": "foo",
+            "label": "foo",
+            "url": "/url",
+            "title": "title"
+          }
+        ]
+      }
+    }
+  ]
+}

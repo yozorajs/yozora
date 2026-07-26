@@ -1,0 +1,77 @@
+{
+  "title": "GFM#637 https://github.github.com/gfm/#example-637",
+  "cases": [
+    {
+      "description": "Empty elements",
+      "input": "<a/><b2/>",
+      "markupAnswer": "<a/><b2/>",
+      "htmlAnswer": "<p><a/><b2/></p>",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 10,
+            "offset": 9
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 10,
+                "offset": 9
+              }
+            },
+            "children": [
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 5,
+                    "offset": 4
+                  }
+                },
+                "value": "<a/>"
+              },
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 5,
+                    "offset": 4
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 10,
+                    "offset": 9
+                  }
+                },
+                "value": "<b2/>"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

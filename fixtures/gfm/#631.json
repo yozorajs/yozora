@@ -1,0 +1,111 @@
+{
+  "title": "GFM#631 https://github.github.com/gfm/#example-631",
+  "cases": [
+    {
+      "description": "+ can occur before the @, but not after.",
+      "input": "hello@mail+xyz.example isn't valid, but hello+xyz@mail.example is.",
+      "markupAnswer": "hello@mail+xyz.example isn't valid, but [hello+xyz@mail.example](mailto:hello+xyz@mail.example) is.",
+      "htmlAnswer": "<p>hello@mail+xyz.example isn't valid, but <a href=\"mailto:hello+xyz@mail.example\">hello+xyz@mail.example</a> is.</p>",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 67,
+            "offset": 66
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 67,
+                "offset": 66
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 41,
+                    "offset": 40
+                  }
+                },
+                "value": "hello@mail+xyz.example isn't valid, but "
+              },
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 41,
+                    "offset": 40
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 63,
+                    "offset": 62
+                  }
+                },
+                "url": "mailto:hello+xyz@mail.example",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 41,
+                        "offset": 40
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 63,
+                        "offset": 62
+                      }
+                    },
+                    "value": "hello+xyz@mail.example"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 63,
+                    "offset": 62
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 67,
+                    "offset": 66
+                  }
+                },
+                "value": " is."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

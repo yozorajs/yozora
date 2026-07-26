@@ -1,0 +1,10 @@
+{
+  "title": "GFM#493 https://github.github.com/gfm/#example-493",
+  "cases": [
+    {
+      "description": "Three or more tildes do not create a strikethrough",
+      "input": "This will ~~~not~~~ strike.",
+      "htmlAnswer": "<p>This will ~~~not~~~ strike.</p>"
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "title": "GFM#535 https://github.github.com/gfm/#example-535",
+  "cases": [
+    {
+      "description": "These cases illustrate the precedence of HTML tags, code spans, and autolinks over link grouping",
+      "input": "[foo<http://example.com/?search=](uri)>",
+      "markupAnswer": "[foo[http://example.com/?search=\\]\\(uri\\)](http://example.com/?search=%5D\\(uri\\))",
+      "htmlAnswer": "<p>[foo<a href=\"http://example.com/?search=%5D(uri)\">http://example.com/?search=](uri)</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 40,
+            "offset": 39
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 40,
+                "offset": 39
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 5,
+                    "offset": 4
+                  }
+                },
+                "value": "[foo"
+              },
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 5,
+                    "offset": 4
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 40,
+                    "offset": 39
+                  }
+                },
+                "url": "http://example.com/?search=%5D(uri)",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 6,
+                        "offset": 5
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 39,
+                        "offset": 38
+                      }
+                    },
+                    "value": "http://example.com/?search=](uri)"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

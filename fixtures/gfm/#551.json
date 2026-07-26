@@ -1,0 +1,116 @@
+{
+  "title": "GFM#551 https://github.github.com/gfm/#example-551",
+  "cases": [
+    {
+      "description": "No whitespace is allowed between the link text and the link label",
+      "input": "[foo] [bar]\n\n[bar]: /url \"title\"",
+      "markupAnswer": "[foo] [bar][]\n\n[bar]: /url \"title\"",
+      "htmlAnswer": "<p>[foo] <a href=\"/url\" title=\"title\">bar</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 20,
+            "offset": 32
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 1,
+                "offset": 12
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  }
+                },
+                "value": "[foo] "
+              },
+              {
+                "type": "linkReference",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 12,
+                    "offset": 11
+                  }
+                },
+                "identifier": "bar",
+                "label": "bar",
+                "referenceType": "shortcut",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 8,
+                        "offset": 7
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 11,
+                        "offset": 10
+                      }
+                    },
+                    "value": "bar"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 13
+              },
+              "end": {
+                "line": 3,
+                "column": 20,
+                "offset": 32
+              }
+            },
+            "identifier": "bar",
+            "label": "bar",
+            "url": "/url",
+            "title": "title"
+          }
+        ]
+      }
+    }
+  ]
+}

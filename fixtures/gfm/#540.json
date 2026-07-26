@@ -1,0 +1,100 @@
+{
+  "title": "GFM#540 https://github.github.com/gfm/#example-540",
+  "cases": [
+    {
+      "description": "The link text may contain inline content",
+      "input": "[![moon](moon.jpg)][ref]\n\n[ref]: /uri",
+      "markupAnswer": "[![moon](moon.jpg)][ref]\n\n[ref]: /uri",
+      "htmlAnswer": "<p><a href=\"/uri\"><img src=\"moon.jpg\" alt=\"moon\" /></a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 12,
+            "offset": 37
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 1,
+                "offset": 25
+              }
+            },
+            "children": [
+              {
+                "type": "linkReference",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 25,
+                    "offset": 24
+                  }
+                },
+                "identifier": "ref",
+                "label": "ref",
+                "referenceType": "full",
+                "children": [
+                  {
+                    "type": "image",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 19,
+                        "offset": 18
+                      }
+                    },
+                    "url": "moon.jpg",
+                    "alt": "moon"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 26
+              },
+              "end": {
+                "line": 3,
+                "column": 12,
+                "offset": 37
+              }
+            },
+            "identifier": "ref",
+            "label": "ref",
+            "url": "/uri"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -74,7 +74,7 @@ is an algorithm that parses Markdown or its extended syntax into an abstract syn
 
 - 🔖 Fully supports all the rules mentioned in the [GFM specification][gfm-spec], and has passed
   almost all test cases created based on the examples in the specification (except for
-  https://github.github.com/gfm/#example-653, as there is no plan to support native HTML tags in the
+  https://github.github.com/gfm/#example-657, as there is no plan to support native HTML tags in the
   [React Renderer][yozora-react] for Yozora AST, so I'm a little lazy to do the tag filtering. If
   you need it, you can do the filtering yourself).
 

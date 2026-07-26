@@ -1,0 +1,61 @@
+{
+  "title": "GFM#500 https://github.github.com/gfm/#example-500",
+  "cases": [
+    {
+      "description": "The destination cannot contain line breaks, even if enclosed in pointy brackets",
+      "input": "[link](foo\nbar)",
+      "markupAnswer": "[link](foo\nbar)",
+      "htmlAnswer": "<p>[link](foo\nbar)</p>",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 5,
+            "offset": 15
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 5,
+                "offset": 15
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 5,
+                    "offset": 15
+                  }
+                },
+                "value": "[link](foo\nbar)"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

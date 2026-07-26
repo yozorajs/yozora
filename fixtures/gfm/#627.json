@@ -1,0 +1,146 @@
+{
+  "title": "GFM#627 https://github.github.com/gfm/#example-627",
+  "cases": [
+    {
+      "description": "If an autolink ends in a semicolon (;), we check to see if it appears to resemble an entity reference; if the preceding text is & followed by one or more alphanumeric characters. If so, it is excluded from the autolink",
+      "input": "www.google.com/search?q=commonmark&hl=en\n\nwww.google.com/search?q=commonmark&hl;",
+      "markupAnswer": "[www.google.com/search?q=commonmark&hl=en](http://www.google.com/search?q=commonmark&hl=en)\n\n[www.google.com/search?q=commonmark](http://www.google.com/search?q=commonmark)&hl;",
+      "htmlAnswer": "<p><a href=\"http://www.google.com/search?q=commonmark&amp;hl=en\">www.google.com/search?q=commonmark&amp;hl=en</a></p>\n<p><a href=\"http://www.google.com/search?q=commonmark\">www.google.com/search?q=commonmark</a>&amp;hl;</p>",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 39,
+            "offset": 80
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 1,
+                "offset": 41
+              }
+            },
+            "children": [
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 41,
+                    "offset": 40
+                  }
+                },
+                "url": "http://www.google.com/search?q=commonmark&hl=en",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 41,
+                        "offset": 40
+                      }
+                    },
+                    "value": "www.google.com/search?q=commonmark&hl=en"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 42
+              },
+              "end": {
+                "line": 3,
+                "column": 39,
+                "offset": 80
+              }
+            },
+            "children": [
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 42
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 35,
+                    "offset": 76
+                  }
+                },
+                "url": "http://www.google.com/search?q=commonmark",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 42
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 35,
+                        "offset": 76
+                      }
+                    },
+                    "value": "www.google.com/search?q=commonmark"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 35,
+                    "offset": 76
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 39,
+                    "offset": 80
+                  }
+                },
+                "value": "&hl;"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

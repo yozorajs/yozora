@@ -10,7 +10,7 @@ createTokenizerTesters(
 ).forEach(tester =>
   scanGfmFixtures(scanGfmFixtures(tester, { includeGroups: ['autolink-extension'] }), {
     includeGroups: ['autolink'],
-    excludeExamples: ['#616', '#619', '#620'],
+    excludeExamples: ['#617', '#620', '#621'],
   }).runTest(),
 )
 

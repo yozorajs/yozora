@@ -10,7 +10,7 @@ import { describe, expect, test } from 'vitest'
 import { loadFixtures, parsers, scanGfmFixtures } from 'vitest.setup'
 
 scanGfmFixtures(createTokenizerTester(parsers.yozora), {
-  excludeExamples: ['#616', '#619', '#620'],
+  excludeExamples: ['#617', '#620', '#621'],
 })
   .scan(['custom/**/*.json', '!custom/inline-math/backtick-required'])
   .runTest()

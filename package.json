@@ -30,6 +30,7 @@
     "doc:tokenizer": "tsx script/docs/generate-tokenizers.ts",
     "doc:parser": "tsx script/docs/generate-parsers.ts",
     "sync:paths": "node script/workspace/sync-tsconfig-paths.mjs",
+    "sync:gfm": "node script/fixtures/gfm/sync.mjs",
     "format": "pnpm format:lintfix && pnpm format:prettier",
     "format:prettier": "prettier . --write",
     "format:check": "prettier . --check",

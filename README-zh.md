@@ -69,7 +69,7 @@
 ## ✨ Features
 
 - 🔖 完整地支持了 [GFM 规范][gfm-spec] 中提到的所有规则，并通过了几乎所有由规范中的示例改造成的测试
-  用例（除了由示例 https://github.github.com/gfm/#example-653 所展示的标签过滤规则，因为我不打算让
+  用例（除了由示例 https://github.github.com/gfm/#example-657 所展示的标签过滤规则，因为我不打算让
   [Yozora AST 的 React 渲染器][yozora-react] 支持原生的 HTML 标签，所以懒得做标签过滤，如果有需要可
   以自行做一下过滤）。
 

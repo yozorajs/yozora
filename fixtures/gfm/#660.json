@@ -1,0 +1,92 @@
+{
+  "title": "GFM#660 https://github.github.com/gfm/#example-660",
+  "cases": [
+    {
+      "description": "More than two spaces can be used",
+      "input": "foo       \nbaz",
+      "markupAnswer": "foo\\\nbaz",
+      "htmlAnswer": "<p>foo<br />\nbaz</p>",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 4,
+            "offset": 14
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 4,
+                "offset": 14
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 4,
+                    "offset": 3
+                  }
+                },
+                "value": "foo"
+              },
+              {
+                "type": "break",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 4,
+                    "offset": 3
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 11
+                  }
+                }
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 11
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 4,
+                    "offset": 14
+                  }
+                },
+                "value": "baz"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

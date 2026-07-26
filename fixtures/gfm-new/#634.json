@@ -1,0 +1,10 @@
+{
+  "title": "GFM#634 https://github.github.com/gfm/#example-634",
+  "cases": [
+    {
+      "description": "A described in the specification xmpp offers an optional / followed by a resource. The resource can contain all alphanumeric characters, as well as @ and ..",
+      "input": "xmpp:foo@bar.baz/txt\n\nxmpp:foo@bar.baz/txt@bin\n\nxmpp:foo@bar.baz/txt@bin.com",
+      "htmlAnswer": "<p><a href=\"xmpp:foo@bar.baz/txt\">xmpp:foo@bar.baz/txt</a></p>\n<p><a href=\"xmpp:foo@bar.baz/txt@bin\">xmpp:foo@bar.baz/txt@bin</a></p>\n<p><a href=\"xmpp:foo@bar.baz/txt@bin.com\">xmpp:foo@bar.baz/txt@bin.com</a></p>"
+    }
+  ]
+}

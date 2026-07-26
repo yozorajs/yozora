@@ -1,0 +1,79 @@
+{
+  "title": "GFM#521 https://github.github.com/gfm/#example-521",
+  "cases": [
+    {
+      "description": "The link text may contain balanced brackets, but not unbalanced ones, unless they are escaped",
+      "input": "[link [foo [bar]]](/uri)",
+      "markupAnswer": "[link \\[foo \\[bar\\]\\]](/uri)",
+      "htmlAnswer": "<p><a href=\"/uri\">link [foo [bar]]</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 25,
+            "offset": 24
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 25,
+                "offset": 24
+              }
+            },
+            "children": [
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 25,
+                    "offset": 24
+                  }
+                },
+                "url": "/uri",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 18,
+                        "offset": 17
+                      }
+                    },
+                    "value": "link [foo [bar]]"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

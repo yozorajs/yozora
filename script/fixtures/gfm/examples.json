@@ -1,5 +1,5 @@
 [
-  {},
+  null,
   {
     "title": "GFM#1 https://github.github.com/gfm/#example-1",
     "description": "Thus, for example, a tab can be used instead of four spaces in an indented code block. (Note, however, that internal tabs are passed through as literal tabs, not expanded to spaces.)",
@@ -2942,9 +2942,9 @@
   },
   {
     "title": "GFM#491 https://github.github.com/gfm/#example-491",
-    "description": "Strikethrough text is any text wrapped in two tildes (~).",
-    "content": "~~Hi~~ Hello, world!",
-    "expectedHtml": "<p><del>Hi</del> Hello, world!</p>"
+    "description": "Strikethrough text is any text wrapped in a matching pair of one or two tildes (~).",
+    "content": "~~Hi~~ Hello, ~there~ world!",
+    "expectedHtml": "<p><del>Hi</del> Hello, <del>there</del> world!</p>"
   },
   {
     "title": "GFM#492 https://github.github.com/gfm/#example-492",
@@ -2954,1086 +2954,1110 @@
   },
   {
     "title": "GFM#493 https://github.github.com/gfm/#example-493",
+    "description": "Three or more tildes do not create a strikethrough",
+    "content": "This will ~~~not~~~ strike.",
+    "expectedHtml": "<p>This will ~~~not~~~ strike.</p>"
+  },
+  {
+    "title": "GFM#494 https://github.github.com/gfm/#example-494",
     "description": "Here is a simple inline link",
     "content": "[link](/uri \"title\")",
     "expectedHtml": "<p><a href=\"/uri\" title=\"title\">link</a></p>"
   },
   {
-    "title": "GFM#494 https://github.github.com/gfm/#example-494",
+    "title": "GFM#495 https://github.github.com/gfm/#example-495",
     "description": "The title may be omitted",
     "content": "[link](/uri)",
     "expectedHtml": "<p><a href=\"/uri\">link</a></p>"
   },
   {
-    "title": "GFM#495 https://github.github.com/gfm/#example-495",
+    "title": "GFM#496 https://github.github.com/gfm/#example-496",
     "description": "Both the title and the destination may be omitted",
     "content": "[link]()",
     "expectedHtml": "<p><a href=\"\">link</a></p>"
   },
   {
-    "title": "GFM#496 https://github.github.com/gfm/#example-496",
+    "title": "GFM#497 https://github.github.com/gfm/#example-497",
     "description": "Both the title and the destination may be omitted",
     "content": "[link](<>)",
     "expectedHtml": "<p><a href=\"\">link</a></p>"
   },
   {
-    "title": "GFM#497 https://github.github.com/gfm/#example-497",
+    "title": "GFM#498 https://github.github.com/gfm/#example-498",
     "description": "The destination can only contain spaces if it is enclosed in pointy brackets",
     "content": "[link](/my uri)",
     "expectedHtml": "<p>[link](/my uri)</p>"
   },
   {
-    "title": "GFM#498 https://github.github.com/gfm/#example-498",
+    "title": "GFM#499 https://github.github.com/gfm/#example-499",
     "description": "The destination can only contain spaces if it is enclosed in pointy brackets",
     "content": "[link](</my uri>)",
     "expectedHtml": "<p><a href=\"/my%20uri\">link</a></p>"
   },
   {
-    "title": "GFM#499 https://github.github.com/gfm/#example-499",
+    "title": "GFM#500 https://github.github.com/gfm/#example-500",
     "description": "The destination cannot contain line breaks, even if enclosed in pointy brackets",
     "content": "[link](foo\nbar)",
     "expectedHtml": "<p>[link](foo\nbar)</p>"
   },
   {
-    "title": "GFM#500 https://github.github.com/gfm/#example-500",
+    "title": "GFM#501 https://github.github.com/gfm/#example-501",
     "description": "The destination cannot contain line breaks, even if enclosed in pointy brackets",
     "content": "[link](<foo\nbar>)",
     "expectedHtml": "<p>[link](<foo\nbar>)</p>"
   },
   {
-    "title": "GFM#501 https://github.github.com/gfm/#example-501",
+    "title": "GFM#502 https://github.github.com/gfm/#example-502",
     "description": "The destination can contain ) if it is enclosed in pointy brackets",
     "content": "[a](<b)c>)",
     "expectedHtml": "<p><a href=\"b)c\">a</a></p>"
   },
   {
-    "title": "GFM#502 https://github.github.com/gfm/#example-502",
+    "title": "GFM#503 https://github.github.com/gfm/#example-503",
     "description": "Pointy brackets that enclose links must be unescaped",
     "content": "[link](<foo\\>)",
     "expectedHtml": "<p>[link](&lt;foo&gt;)</p>"
   },
   {
-    "title": "GFM#503 https://github.github.com/gfm/#example-503",
+    "title": "GFM#504 https://github.github.com/gfm/#example-504",
     "description": "These are not links, because the opening pointy bracket is not matched properly",
     "content": "[a](<b)c\n[a](<b)c>\n[a](<b>c)",
     "expectedHtml": "<p>[a](&lt;b)c\n[a](&lt;b)c&gt;\n[a](<b>c)</p>"
   },
   {
-    "title": "GFM#504 https://github.github.com/gfm/#example-504",
+    "title": "GFM#505 https://github.github.com/gfm/#example-505",
     "description": "Parentheses inside the link destination may be escaped",
     "content": "[link](\\(foo\\))",
     "expectedHtml": "<p><a href=\"(foo)\">link</a></p>"
   },
   {
-    "title": "GFM#505 https://github.github.com/gfm/#example-505",
+    "title": "GFM#506 https://github.github.com/gfm/#example-506",
     "description": "Any number of parentheses are allowed without escaping, as long as they are balanced",
     "content": "[link](foo(and(bar)))",
     "expectedHtml": "<p><a href=\"foo(and(bar))\">link</a></p>"
   },
   {
-    "title": "GFM#506 https://github.github.com/gfm/#example-506",
+    "title": "GFM#507 https://github.github.com/gfm/#example-507",
     "description": "However, if you have unbalanced parentheses, you need to escape or use the <...> form",
     "content": "[link](foo\\(and\\(bar\\))",
     "expectedHtml": "<p><a href=\"foo(and(bar)\">link</a></p>"
   },
   {
-    "title": "GFM#507 https://github.github.com/gfm/#example-507",
+    "title": "GFM#508 https://github.github.com/gfm/#example-508",
     "description": "However, if you have unbalanced parentheses, you need to escape or use the <...> form",
     "content": "[link](<foo(and(bar)>)",
     "expectedHtml": "<p><a href=\"foo(and(bar)\">link</a></p>"
   },
   {
-    "title": "GFM#508 https://github.github.com/gfm/#example-508",
+    "title": "GFM#509 https://github.github.com/gfm/#example-509",
     "description": "Parentheses and other symbols can also be escaped, as usual in Markdown",
     "content": "[link](foo\\)\\:)",
     "expectedHtml": "<p><a href=\"foo):\">link</a></p>"
   },
   {
-    "title": "GFM#509 https://github.github.com/gfm/#example-509",
+    "title": "GFM#510 https://github.github.com/gfm/#example-510",
     "description": "A link can contain fragment identifiers and queries",
     "content": "[link](#fragment)\n\n[link](http://example.com#fragment)\n\n[link](http://example.com?foo=3#frag)",
     "expectedHtml": "<p><a href=\"#fragment\">link</a></p>\n<p><a href=\"http://example.com#fragment\">link</a></p>\n<p><a href=\"http://example.com?foo=3#frag\">link</a></p>"
   },
   {
-    "title": "GFM#510 https://github.github.com/gfm/#example-510",
+    "title": "GFM#511 https://github.github.com/gfm/#example-511",
     "description": "Note that a backslash before a non-escapable character is just a backslash",
     "content": "[link](foo\\bar)",
     "expectedHtml": "<p><a href=\"foo%5Cbar\">link</a></p>"
   },
   {
-    "title": "GFM#511 https://github.github.com/gfm/#example-511",
+    "title": "GFM#512 https://github.github.com/gfm/#example-512",
     "description": "URL-escaping should be left alone inside the destination, as all URL-escaped characters are also valid URL characters. Entity and numerical character references in the destination will be parsed into the corresponding Unicode code points, as usual. These may be optionally URL-escaped when written as HTML, but this spec does not enforce any particular policy for rendering URLs in HTML or other formats. Renderers may make different decisions about how to escape or normalize URLs in the output.",
     "content": "[link](foo%20b&auml;)",
     "expectedHtml": "<p><a href=\"foo%20b%C3%A4\">link</a></p>"
   },
   {
-    "title": "GFM#512 https://github.github.com/gfm/#example-512",
+    "title": "GFM#513 https://github.github.com/gfm/#example-513",
     "description": "Note that, because titles can often be parsed as destinations, if you try to omit the destination and keep the title, you’ll get unexpected results",
     "content": "[link](\"title\")",
     "expectedHtml": "<p><a href=\"%22title%22\">link</a></p>"
   },
   {
-    "title": "GFM#513 https://github.github.com/gfm/#example-513",
+    "title": "GFM#514 https://github.github.com/gfm/#example-514",
     "description": "Titles may be in single quotes, double quotes, or parentheses",
     "content": "[link](/url \"title\")\n[link](/url 'title')\n[link](/url (title))",
     "expectedHtml": "<p><a href=\"/url\" title=\"title\">link</a>\n<a href=\"/url\" title=\"title\">link</a>\n<a href=\"/url\" title=\"title\">link</a></p>"
   },
   {
-    "title": "GFM#514 https://github.github.com/gfm/#example-514",
+    "title": "GFM#515 https://github.github.com/gfm/#example-515",
     "description": "Backslash escapes and entity and numeric character references may be used in titles",
     "content": "[link](/url \"title \\\"&quot;\")",
     "expectedHtml": "<p><a href=\"/url\" title=\"title &quot;&quot;\">link</a></p>"
   },
   {
-    "title": "GFM#515 https://github.github.com/gfm/#example-515",
+    "title": "GFM#516 https://github.github.com/gfm/#example-516",
     "description": "Titles must be separated from the link using a whitespace. Other Unicode whitespace like non-breaking space doesn’t work.",
     "content": "[link](/url \"title\")",
     "expectedHtml": "<p><a href=\"/url%C2%A0%22title%22\">link</a></p>"
   },
   {
-    "title": "GFM#516 https://github.github.com/gfm/#example-516",
+    "title": "GFM#517 https://github.github.com/gfm/#example-517",
     "description": "Nested balanced quotes are not allowed without escaping",
     "content": "[link](/url \"title \"and\" title\")",
     "expectedHtml": "<p>[link](/url &quot;title &quot;and&quot; title&quot;)</p>"
   },
   {
-    "title": "GFM#517 https://github.github.com/gfm/#example-517",
+    "title": "GFM#518 https://github.github.com/gfm/#example-518",
     "description": "But it is easy to work around this by using a different quote type",
     "content": "[link](/url 'title \"and\" title')",
     "expectedHtml": "<p><a href=\"/url\" title=\"title &quot;and&quot; title\">link</a></p>"
   },
   {
-    "title": "GFM#518 https://github.github.com/gfm/#example-518",
+    "title": "GFM#519 https://github.github.com/gfm/#example-519",
     "description": "Whitespace is allowed around the destination and title",
     "content": "[link](   /uri\n  \"title\"  )",
     "expectedHtml": "<p><a href=\"/uri\" title=\"title\">link</a></p>"
   },
   {
-    "title": "GFM#519 https://github.github.com/gfm/#example-519",
+    "title": "GFM#520 https://github.github.com/gfm/#example-520",
     "description": "But it is not allowed between the link text and the following parenthesis",
     "content": "[link] (/uri)",
     "expectedHtml": "<p>[link] (/uri)</p>"
   },
   {
-    "title": "GFM#520 https://github.github.com/gfm/#example-520",
+    "title": "GFM#521 https://github.github.com/gfm/#example-521",
     "description": "The link text may contain balanced brackets, but not unbalanced ones, unless they are escaped",
     "content": "[link [foo [bar]]](/uri)",
     "expectedHtml": "<p><a href=\"/uri\">link [foo [bar]]</a></p>"
   },
   {
-    "title": "GFM#521 https://github.github.com/gfm/#example-521",
+    "title": "GFM#522 https://github.github.com/gfm/#example-522",
     "description": "The link text may contain balanced brackets, but not unbalanced ones, unless they are escaped",
     "content": "[link] bar](/uri)",
     "expectedHtml": "<p>[link] bar](/uri)</p>"
   },
   {
-    "title": "GFM#522 https://github.github.com/gfm/#example-522",
+    "title": "GFM#523 https://github.github.com/gfm/#example-523",
     "description": "The link text may contain balanced brackets, but not unbalanced ones, unless they are escaped",
     "content": "[link [bar](/uri)",
     "expectedHtml": "<p>[link <a href=\"/uri\">bar</a></p>"
   },
   {
-    "title": "GFM#523 https://github.github.com/gfm/#example-523",
+    "title": "GFM#524 https://github.github.com/gfm/#example-524",
     "description": "The link text may contain balanced brackets, but not unbalanced ones, unless they are escaped",
     "content": "[link \\[bar](/uri)",
     "expectedHtml": "<p><a href=\"/uri\">link [bar</a></p>"
   },
   {
-    "title": "GFM#524 https://github.github.com/gfm/#example-524",
+    "title": "GFM#525 https://github.github.com/gfm/#example-525",
     "description": "The link text may contain inline content",
     "content": "[link *foo **bar** `#`*](/uri)",
     "expectedHtml": "<p><a href=\"/uri\">link <em>foo <strong>bar</strong> <code>#</code></em></a></p>"
   },
   {
-    "title": "GFM#525 https://github.github.com/gfm/#example-525",
+    "title": "GFM#526 https://github.github.com/gfm/#example-526",
     "description": "The link text may contain inline content",
     "content": "[![moon](moon.jpg)](/uri)",
     "expectedHtml": "<p><a href=\"/uri\"><img src=\"moon.jpg\" alt=\"moon\" /></a></p>"
   },
   {
-    "title": "GFM#526 https://github.github.com/gfm/#example-526",
+    "title": "GFM#527 https://github.github.com/gfm/#example-527",
     "description": "However, links may not contain other links, at any level of nesting.",
     "content": "[foo [bar](/uri)](/uri)",
     "expectedHtml": "<p>[foo <a href=\"/uri\">bar</a>](/uri)</p>"
   },
   {
-    "title": "GFM#527 https://github.github.com/gfm/#example-527",
+    "title": "GFM#528 https://github.github.com/gfm/#example-528",
     "description": "However, links may not contain other links, at any level of nesting.",
     "content": "[foo *[bar [baz](/uri)](/uri)*](/uri)",
     "expectedHtml": "<p>[foo <em>[bar <a href=\"/uri\">baz</a>](/uri)</em>](/uri)</p>"
   },
   {
-    "title": "GFM#528 https://github.github.com/gfm/#example-528",
+    "title": "GFM#529 https://github.github.com/gfm/#example-529",
     "description": "However, links may not contain other links, at any level of nesting.",
     "content": "![[[foo](uri1)](uri2)](uri3)",
     "expectedHtml": "<p><img src=\"uri3\" alt=\"[foo](uri2)\" /></p>"
   },
   {
-    "title": "GFM#529 https://github.github.com/gfm/#example-529",
+    "title": "GFM#530 https://github.github.com/gfm/#example-530",
     "description": "These cases illustrate the precedence of link text grouping over emphasis grouping",
     "content": "*[foo*](/uri)",
     "expectedHtml": "<p>*<a href=\"/uri\">foo*</a></p>"
   },
   {
-    "title": "GFM#530 https://github.github.com/gfm/#example-530",
+    "title": "GFM#531 https://github.github.com/gfm/#example-531",
     "description": "These cases illustrate the precedence of link text grouping over emphasis grouping",
     "content": "[foo *bar](baz*)",
     "expectedHtml": "<p><a href=\"baz*\">foo *bar</a></p>"
   },
   {
-    "title": "GFM#531 https://github.github.com/gfm/#example-531",
+    "title": "GFM#532 https://github.github.com/gfm/#example-532",
     "description": "Note that brackets that aren’t part of links do not take precedence",
     "content": "*foo [bar* baz]",
     "expectedHtml": "<p><em>foo [bar</em> baz]</p>"
   },
   {
-    "title": "GFM#532 https://github.github.com/gfm/#example-532",
+    "title": "GFM#533 https://github.github.com/gfm/#example-533",
     "description": "These cases illustrate the precedence of HTML tags, code spans, and autolinks over link grouping",
     "content": "[foo <bar attr=\"](baz)\">",
     "expectedHtml": "<p>[foo <bar attr=\"](baz)\"></p>"
   },
   {
-    "title": "GFM#533 https://github.github.com/gfm/#example-533",
+    "title": "GFM#534 https://github.github.com/gfm/#example-534",
     "description": "These cases illustrate the precedence of HTML tags, code spans, and autolinks over link grouping",
     "content": "[foo`](/uri)`",
     "expectedHtml": "<p>[foo<code>](/uri)</code></p>"
   },
   {
-    "title": "GFM#534 https://github.github.com/gfm/#example-534",
+    "title": "GFM#535 https://github.github.com/gfm/#example-535",
     "description": "These cases illustrate the precedence of HTML tags, code spans, and autolinks over link grouping",
     "content": "[foo<http://example.com/?search=](uri)>",
     "expectedHtml": "<p>[foo<a href=\"http://example.com/?search=%5D(uri)\">http://example.com/?search=](uri)</a></p>"
   },
   {
-    "title": "GFM#535 https://github.github.com/gfm/#example-535",
+    "title": "GFM#536 https://github.github.com/gfm/#example-536",
     "description": "Here is a simple example",
     "content": "[foo][bar]\n\n[bar]: /url \"title\"",
     "expectedHtml": "<p><a href=\"/url\" title=\"title\">foo</a></p>"
   },
   {
-    "title": "GFM#536 https://github.github.com/gfm/#example-536",
+    "title": "GFM#537 https://github.github.com/gfm/#example-537",
     "description": "The link text may contain balanced brackets, but not unbalanced ones, unless they are escaped",
     "content": "[link [foo [bar]]][ref]\n\n[ref]: /uri",
     "expectedHtml": "<p><a href=\"/uri\">link [foo [bar]]</a></p>"
   },
   {
-    "title": "GFM#537 https://github.github.com/gfm/#example-537",
+    "title": "GFM#538 https://github.github.com/gfm/#example-538",
     "description": "The link text may contain balanced brackets, but not unbalanced ones, unless they are escaped",
     "content": "[link \\[bar][ref]\n\n[ref]: /uri",
     "expectedHtml": "<p><a href=\"/uri\">link [bar</a></p>"
   },
   {
-    "title": "GFM#538 https://github.github.com/gfm/#example-538",
+    "title": "GFM#539 https://github.github.com/gfm/#example-539",
     "description": "The link text may contain inline content",
     "content": "[link *foo **bar** `#`*][ref]\n\n[ref]: /uri",
     "expectedHtml": "<p><a href=\"/uri\">link <em>foo <strong>bar</strong> <code>#</code></em></a></p>"
   },
   {
-    "title": "GFM#539 https://github.github.com/gfm/#example-539",
+    "title": "GFM#540 https://github.github.com/gfm/#example-540",
     "description": "The link text may contain inline content",
     "content": "[![moon](moon.jpg)][ref]\n\n[ref]: /uri",
     "expectedHtml": "<p><a href=\"/uri\"><img src=\"moon.jpg\" alt=\"moon\" /></a></p>"
   },
   {
-    "title": "GFM#540 https://github.github.com/gfm/#example-540",
+    "title": "GFM#541 https://github.github.com/gfm/#example-541",
     "description": "However, links may not contain other links, at any level of nesting.",
     "content": "[foo [bar](/uri)][ref]\n\n[ref]: /uri",
     "expectedHtml": "<p>[foo <a href=\"/uri\">bar</a>]<a href=\"/uri\">ref</a></p>"
   },
   {
-    "title": "GFM#541 https://github.github.com/gfm/#example-541",
+    "title": "GFM#542 https://github.github.com/gfm/#example-542",
     "description": "However, links may not contain other links, at any level of nesting.",
     "content": "[foo *bar [baz][ref]*][ref]\n\n[ref]: /uri",
     "expectedHtml": "<p>[foo <em>bar <a href=\"/uri\">baz</a></em>]<a href=\"/uri\">ref</a></p>"
   },
   {
-    "title": "GFM#542 https://github.github.com/gfm/#example-542",
+    "title": "GFM#543 https://github.github.com/gfm/#example-543",
     "description": "The following cases illustrate the precedence of link text grouping over emphasis grouping",
     "content": "*[foo*][ref]\n\n[ref]: /uri",
     "expectedHtml": "<p>*<a href=\"/uri\">foo*</a></p>"
   },
   {
-    "title": "GFM#543 https://github.github.com/gfm/#example-543",
+    "title": "GFM#544 https://github.github.com/gfm/#example-544",
     "description": "The following cases illustrate the precedence of link text grouping over emphasis grouping",
     "content": "[foo *bar][ref]*\n\n[ref]: /uri",
     "expectedHtml": "<p><a href=\"/uri\">foo *bar</a>*</p>"
   },
   {
-    "title": "GFM#544 https://github.github.com/gfm/#example-544",
+    "title": "GFM#545 https://github.github.com/gfm/#example-545",
     "description": "These cases illustrate the precedence of HTML tags, code spans, and autolinks over link grouping",
     "content": "[foo <bar attr=\"][ref]\">\n\n[ref]: /uri",
     "expectedHtml": "<p>[foo <bar attr=\"][ref]\"></p>"
   },
   {
-    "title": "GFM#545 https://github.github.com/gfm/#example-545",
+    "title": "GFM#546 https://github.github.com/gfm/#example-546",
     "description": "These cases illustrate the precedence of HTML tags, code spans, and autolinks over link grouping",
     "content": "[foo`][ref]`\n\n[ref]: /uri",
     "expectedHtml": "<p>[foo<code>][ref]</code></p>"
   },
   {
-    "title": "GFM#546 https://github.github.com/gfm/#example-546",
+    "title": "GFM#547 https://github.github.com/gfm/#example-547",
     "description": "These cases illustrate the precedence of HTML tags, code spans, and autolinks over link grouping",
     "content": "[foo<http://example.com/?search=][ref]>\n\n[ref]: /uri",
     "expectedHtml": "<p>[foo<a href=\"http://example.com/?search=%5D%5Bref%5D\">http://example.com/?search=][ref]</a></p>"
   },
   {
-    "title": "GFM#547 https://github.github.com/gfm/#example-547",
+    "title": "GFM#548 https://github.github.com/gfm/#example-548",
     "description": "Matching is case-insensitive",
     "content": "[foo][BaR]\n\n[bar]: /url \"title\"",
     "expectedHtml": "<p><a href=\"/url\" title=\"title\">foo</a></p>"
   },
   {
-    "title": "GFM#548 https://github.github.com/gfm/#example-548",
+    "title": "GFM#549 https://github.github.com/gfm/#example-549",
     "description": "Unicode case fold is used",
     "content": "[ẞ]\n\n[SS]: /url",
     "expectedHtml": "<p><a href=\"/url\">ẞ</a></p>"
   },
   {
-    "title": "GFM#549 https://github.github.com/gfm/#example-549",
+    "title": "GFM#550 https://github.github.com/gfm/#example-550",
     "description": "Consecutive internal whitespace is treated as one space for purposes of determining matching",
     "content": "[Foo\n  bar]: /url\n\n[Baz][Foo bar]",
     "expectedHtml": "<p><a href=\"/url\">Baz</a></p>"
   },
   {
-    "title": "GFM#550 https://github.github.com/gfm/#example-550",
+    "title": "GFM#551 https://github.github.com/gfm/#example-551",
     "description": "No whitespace is allowed between the link text and the link label",
     "content": "[foo] [bar]\n\n[bar]: /url \"title\"",
     "expectedHtml": "<p>[foo] <a href=\"/url\" title=\"title\">bar</a></p>"
   },
   {
-    "title": "GFM#551 https://github.github.com/gfm/#example-551",
+    "title": "GFM#552 https://github.github.com/gfm/#example-552",
     "description": "No whitespace is allowed between the link text and the link label",
     "content": "[foo]\n[bar]\n\n[bar]: /url \"title\"",
     "expectedHtml": "<p>[foo]\n<a href=\"/url\" title=\"title\">bar</a></p>"
   },
   {
-    "title": "GFM#552 https://github.github.com/gfm/#example-552",
+    "title": "GFM#553 https://github.github.com/gfm/#example-553",
     "description": "When there are multiple matching link reference definitions, the first is used",
     "content": "[foo]: /url1\n\n[foo]: /url2\n\n[bar][foo]",
     "expectedHtml": "<p><a href=\"/url1\">bar</a></p>"
   },
   {
-    "title": "GFM#553 https://github.github.com/gfm/#example-553",
+    "title": "GFM#554 https://github.github.com/gfm/#example-554",
     "description": "Note that matching is performed on normalized strings, not parsed inline content. So the following does not match, even though the labels define equivalent inline content",
     "content": "[bar][foo\\!]\n\n[foo!]: /url",
     "expectedHtml": "<p>[bar][foo!]</p>"
   },
   {
-    "title": "GFM#554 https://github.github.com/gfm/#example-554",
+    "title": "GFM#555 https://github.github.com/gfm/#example-555",
     "description": "Link labels cannot contain brackets, unless they are backslash-escaped",
     "content": "[foo][ref[]\n\n[ref[]: /uri",
     "expectedHtml": "<p>[foo][ref[]</p>\n<p>[ref[]: /uri</p>"
   },
   {
-    "title": "GFM#555 https://github.github.com/gfm/#example-555",
+    "title": "GFM#556 https://github.github.com/gfm/#example-556",
     "description": "Link labels cannot contain brackets, unless they are backslash-escaped",
     "content": "[foo][ref[bar]]\n\n[ref[bar]]: /uri",
     "expectedHtml": "<p>[foo][ref[bar]]</p>\n<p>[ref[bar]]: /uri</p>"
   },
   {
-    "title": "GFM#556 https://github.github.com/gfm/#example-556",
+    "title": "GFM#557 https://github.github.com/gfm/#example-557",
     "description": "Link labels cannot contain brackets, unless they are backslash-escaped",
     "content": "[[[foo]]]\n\n[[[foo]]]: /url",
     "expectedHtml": "<p>[[[foo]]]</p>\n<p>[[[foo]]]: /url</p>"
   },
   {
-    "title": "GFM#557 https://github.github.com/gfm/#example-557",
+    "title": "GFM#558 https://github.github.com/gfm/#example-558",
     "description": "Link labels cannot contain brackets, unless they are backslash-escaped",
     "content": "[foo][ref\\[]\n\n[ref\\[]: /uri",
     "expectedHtml": "<p><a href=\"/uri\">foo</a></p>"
   },
   {
-    "title": "GFM#558 https://github.github.com/gfm/#example-558",
+    "title": "GFM#559 https://github.github.com/gfm/#example-559",
     "description": "Note that in this example ] is not backslash-escaped",
     "content": "[bar\\\\]: /uri\n\n[bar\\\\]",
     "expectedHtml": "<p><a href=\"/uri\">bar\\</a></p>"
   },
   {
-    "title": "GFM#559 https://github.github.com/gfm/#example-559",
+    "title": "GFM#560 https://github.github.com/gfm/#example-560",
     "description": "A link label must contain at least one non-whitespace character",
     "content": "[]\n\n[]: /uri",
     "expectedHtml": "<p>[]</p>\n<p>[]: /uri</p>"
   },
   {
-    "title": "GFM#560 https://github.github.com/gfm/#example-560",
+    "title": "GFM#561 https://github.github.com/gfm/#example-561",
     "description": "A link label must contain at least one non-whitespace character",
     "content": "[\n ]\n\n[\n ]: /uri",
     "expectedHtml": "<p>[\n]</p>\n<p>[\n]: /uri</p>"
   },
   {
-    "title": "GFM#561 https://github.github.com/gfm/#example-561",
+    "title": "GFM#562 https://github.github.com/gfm/#example-562",
     "description": "A collapsed reference link consists of a link label that matches a link reference definition elsewhere in the document, followed by the string []. The contents of the first link label are parsed as inlines, which are used as the link’s text. The link’s URI and title are provided by the matching reference link definition. Thus, [foo][] is equivalent to [foo][foo].",
     "content": "[foo][]\n\n[foo]: /url \"title\"",
     "expectedHtml": "<p><a href=\"/url\" title=\"title\">foo</a></p>"
   },
   {
-    "title": "GFM#562 https://github.github.com/gfm/#example-562",
+    "title": "GFM#563 https://github.github.com/gfm/#example-563",
     "description": "A collapsed reference link consists of a link label that matches a link reference definition elsewhere in the document, followed by the string []. The contents of the first link label are parsed as inlines, which are used as the link’s text. The link’s URI and title are provided by the matching reference link definition. Thus, [foo][] is equivalent to [foo][foo].",
     "content": "[*foo* bar][]\n\n[*foo* bar]: /url \"title\"",
     "expectedHtml": "<p><a href=\"/url\" title=\"title\"><em>foo</em> bar</a></p>"
   },
   {
-    "title": "GFM#563 https://github.github.com/gfm/#example-563",
+    "title": "GFM#564 https://github.github.com/gfm/#example-564",
     "description": "The link labels are case-insensitive",
     "content": "[Foo][]\n\n[foo]: /url \"title\"",
     "expectedHtml": "<p><a href=\"/url\" title=\"title\">Foo</a></p>"
   },
   {
-    "title": "GFM#564 https://github.github.com/gfm/#example-564",
+    "title": "GFM#565 https://github.github.com/gfm/#example-565",
     "description": "As with full reference links, whitespace is not allowed between the two sets of brackets",
     "content": "[foo] \n[]\n\n[foo]: /url \"title\"",
     "expectedHtml": "<p><a href=\"/url\" title=\"title\">foo</a>\n[]</p>"
   },
   {
-    "title": "GFM#565 https://github.github.com/gfm/#example-565",
+    "title": "GFM#566 https://github.github.com/gfm/#example-566",
     "description": "A shortcut reference link consists of a link label that matches a link reference definition elsewhere in the document and is not followed by [] or a link label. The contents of the first link label are parsed as inlines, which are used as the link’s text. The link’s URI and title are provided by the matching link reference definition. Thus, [foo] is equivalent to [foo][].",
     "content": "[foo]\n\n[foo]: /url \"title\"",
     "expectedHtml": "<p><a href=\"/url\" title=\"title\">foo</a></p>"
   },
   {
-    "title": "GFM#566 https://github.github.com/gfm/#example-566",
+    "title": "GFM#567 https://github.github.com/gfm/#example-567",
     "description": "A shortcut reference link consists of a link label that matches a link reference definition elsewhere in the document and is not followed by [] or a link label. The contents of the first link label are parsed as inlines, which are used as the link’s text. The link’s URI and title are provided by the matching link reference definition. Thus, [foo] is equivalent to [foo][].",
     "content": "[*foo* bar]\n\n[*foo* bar]: /url \"title\"",
     "expectedHtml": "<p><a href=\"/url\" title=\"title\"><em>foo</em> bar</a></p>"
   },
   {
-    "title": "GFM#567 https://github.github.com/gfm/#example-567",
+    "title": "GFM#568 https://github.github.com/gfm/#example-568",
     "description": "A shortcut reference link consists of a link label that matches a link reference definition elsewhere in the document and is not followed by [] or a link label. The contents of the first link label are parsed as inlines, which are used as the link’s text. The link’s URI and title are provided by the matching link reference definition. Thus, [foo] is equivalent to [foo][].",
     "content": "[[*foo* bar]]\n\n[*foo* bar]: /url \"title\"",
     "expectedHtml": "<p>[<a href=\"/url\" title=\"title\"><em>foo</em> bar</a>]</p>"
   },
   {
-    "title": "GFM#568 https://github.github.com/gfm/#example-568",
+    "title": "GFM#569 https://github.github.com/gfm/#example-569",
     "description": "A shortcut reference link consists of a link label that matches a link reference definition elsewhere in the document and is not followed by [] or a link label. The contents of the first link label are parsed as inlines, which are used as the link’s text. The link’s URI and title are provided by the matching link reference definition. Thus, [foo] is equivalent to [foo][].",
     "content": "[[bar [foo]\n\n[foo]: /url",
     "expectedHtml": "<p>[[bar <a href=\"/url\">foo</a></p>"
   },
   {
-    "title": "GFM#569 https://github.github.com/gfm/#example-569",
+    "title": "GFM#570 https://github.github.com/gfm/#example-570",
     "description": "The link labels are case-insensitive",
     "content": "[Foo]\n\n[foo]: /url \"title\"",
     "expectedHtml": "<p><a href=\"/url\" title=\"title\">Foo</a></p>"
   },
   {
-    "title": "GFM#570 https://github.github.com/gfm/#example-570",
+    "title": "GFM#571 https://github.github.com/gfm/#example-571",
     "description": "A space after the link text should be preserved",
     "content": "[foo] bar\n\n[foo]: /url",
     "expectedHtml": "<p><a href=\"/url\">foo</a> bar</p>"
   },
   {
-    "title": "GFM#571 https://github.github.com/gfm/#example-571",
+    "title": "GFM#572 https://github.github.com/gfm/#example-572",
     "description": "If you just want bracketed text, you can backslash-escape the opening bracket to avoid links",
     "content": "\\[foo]\n\n[foo]: /url \"title\"",
     "expectedHtml": "<p>[foo]</p>"
   },
   {
-    "title": "GFM#572 https://github.github.com/gfm/#example-572",
+    "title": "GFM#573 https://github.github.com/gfm/#example-573",
     "description": "Note that this is a link, because a link label ends with the first following closing bracket",
     "content": "[foo*]: /url\n\n*[foo*]",
     "expectedHtml": "<p>*<a href=\"/url\">foo*</a></p>"
   },
   {
-    "title": "GFM#573 https://github.github.com/gfm/#example-573",
+    "title": "GFM#574 https://github.github.com/gfm/#example-574",
     "description": "Full and compact references take precedence over shortcut references",
     "content": "[foo][bar]\n\n[foo]: /url1\n[bar]: /url2",
     "expectedHtml": "<p><a href=\"/url2\">foo</a></p>"
   },
   {
-    "title": "GFM#574 https://github.github.com/gfm/#example-574",
+    "title": "GFM#575 https://github.github.com/gfm/#example-575",
     "description": "Full and compact references take precedence over shortcut references",
     "content": "[foo][]\n\n[foo]: /url1",
     "expectedHtml": "<p><a href=\"/url1\">foo</a></p>"
   },
   {
-    "title": "GFM#575 https://github.github.com/gfm/#example-575",
+    "title": "GFM#576 https://github.github.com/gfm/#example-576",
     "description": "Inline links also take precedence",
     "content": "[foo]()\n\n[foo]: /url1",
     "expectedHtml": "<p><a href=\"\">foo</a></p>"
   },
   {
-    "title": "GFM#576 https://github.github.com/gfm/#example-576",
+    "title": "GFM#577 https://github.github.com/gfm/#example-577",
     "description": "Inline links also take precedence",
     "content": "[foo](not a link)\n\n[foo]: /url1",
     "expectedHtml": "<p><a href=\"/url1\">foo</a>(not a link)</p>"
   },
   {
-    "title": "GFM#577 https://github.github.com/gfm/#example-577",
+    "title": "GFM#578 https://github.github.com/gfm/#example-578",
     "description": "In the following case [bar][baz] is parsed as a reference, [foo] as normal text",
     "content": "[foo][bar][baz]\n\n[baz]: /url",
     "expectedHtml": "<p>[foo]<a href=\"/url\">bar</a></p>"
   },
   {
-    "title": "GFM#578 https://github.github.com/gfm/#example-578",
+    "title": "GFM#579 https://github.github.com/gfm/#example-579",
     "description": "Here, though, [foo][bar] is parsed as a reference, since [bar] is defined",
     "content": "[foo][bar][baz]\n\n[baz]: /url1\n[bar]: /url2",
     "expectedHtml": "<p><a href=\"/url2\">foo</a><a href=\"/url1\">baz</a></p>"
   },
   {
-    "title": "GFM#579 https://github.github.com/gfm/#example-579",
+    "title": "GFM#580 https://github.github.com/gfm/#example-580",
     "description": "Here [foo] is not parsed as a shortcut reference, because it is followed by a link label (even though [bar] is not defined)",
     "content": "[foo][bar][baz]\n\n[baz]: /url1\n[foo]: /url2",
     "expectedHtml": "<p>[foo]<a href=\"/url1\">bar</a></p>"
   },
   {
-    "title": "GFM#580 https://github.github.com/gfm/#example-580",
+    "title": "GFM#581 https://github.github.com/gfm/#example-581",
     "description": "Syntax for images is like the syntax for links, with one difference. Instead of link text, we have an image description. The rules for this are the same as for link text, except that (a) an image description starts with ![ rather than [, and (b) an image description may contain links. An image description has inline elements as its contents. When an image is rendered to HTML, this is standardly used as the image’s alt attribute.",
     "content": "![foo](/url \"title\")",
     "expectedHtml": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" /></p>"
   },
   {
-    "title": "GFM#581 https://github.github.com/gfm/#example-581",
+    "title": "GFM#582 https://github.github.com/gfm/#example-582",
     "description": "Syntax for images is like the syntax for links, with one difference. Instead of link text, we have an image description. The rules for this are the same as for link text, except that (a) an image description starts with ![ rather than [, and (b) an image description may contain links. An image description has inline elements as its contents. When an image is rendered to HTML, this is standardly used as the image’s alt attribute.",
     "content": "![foo *bar*]\n\n[foo *bar*]: train.jpg \"train & tracks\"",
     "expectedHtml": "<p><img src=\"train.jpg\" alt=\"foo bar\" title=\"train &amp; tracks\" /></p>"
   },
   {
-    "title": "GFM#582 https://github.github.com/gfm/#example-582",
+    "title": "GFM#583 https://github.github.com/gfm/#example-583",
     "description": "Syntax for images is like the syntax for links, with one difference. Instead of link text, we have an image description. The rules for this are the same as for link text, except that (a) an image description starts with ![ rather than [, and (b) an image description may contain links. An image description has inline elements as its contents. When an image is rendered to HTML, this is standardly used as the image’s alt attribute.",
     "content": "![foo ![bar](/url)](/url2)",
     "expectedHtml": "<p><img src=\"/url2\" alt=\"foo bar\" /></p>"
   },
   {
-    "title": "GFM#583 https://github.github.com/gfm/#example-583",
+    "title": "GFM#584 https://github.github.com/gfm/#example-584",
     "description": "Syntax for images is like the syntax for links, with one difference. Instead of link text, we have an image description. The rules for this are the same as for link text, except that (a) an image description starts with ![ rather than [, and (b) an image description may contain links. An image description has inline elements as its contents. When an image is rendered to HTML, this is standardly used as the image’s alt attribute.",
     "content": "![foo [bar](/url)](/url2)",
     "expectedHtml": "<p><img src=\"/url2\" alt=\"foo bar\" /></p>"
   },
   {
-    "title": "GFM#584 https://github.github.com/gfm/#example-584",
+    "title": "GFM#585 https://github.github.com/gfm/#example-585",
     "description": "Though this spec is concerned with parsing, not rendering, it is recommended that in rendering to HTML, only the plain string content of the image description be used. Note that in the above example, the alt attribute’s value is foo bar, not foo [bar](/url) or foo <a href=\"/url\">bar</a>. Only the plain string content is rendered, without formatting.",
     "content": "![foo *bar*][]\n\n[foo *bar*]: train.jpg \"train & tracks\"",
     "expectedHtml": "<p><img src=\"train.jpg\" alt=\"foo bar\" title=\"train &amp; tracks\" /></p>"
   },
   {
-    "title": "GFM#585 https://github.github.com/gfm/#example-585",
+    "title": "GFM#586 https://github.github.com/gfm/#example-586",
     "description": "Though this spec is concerned with parsing, not rendering, it is recommended that in rendering to HTML, only the plain string content of the image description be used. Note that in the above example, the alt attribute’s value is foo bar, not foo [bar](/url) or foo <a href=\"/url\">bar</a>. Only the plain string content is rendered, without formatting.",
     "content": "![foo *bar*][foobar]\n\n[FOOBAR]: train.jpg \"train & tracks\"",
     "expectedHtml": "<p><img src=\"train.jpg\" alt=\"foo bar\" title=\"train &amp; tracks\" /></p>"
   },
   {
-    "title": "GFM#586 https://github.github.com/gfm/#example-586",
+    "title": "GFM#587 https://github.github.com/gfm/#example-587",
     "description": "Though this spec is concerned with parsing, not rendering, it is recommended that in rendering to HTML, only the plain string content of the image description be used. Note that in the above example, the alt attribute’s value is foo bar, not foo [bar](/url) or foo <a href=\"/url\">bar</a>. Only the plain string content is rendered, without formatting.",
     "content": "![foo](train.jpg)",
     "expectedHtml": "<p><img src=\"train.jpg\" alt=\"foo\" /></p>"
   },
   {
-    "title": "GFM#587 https://github.github.com/gfm/#example-587",
+    "title": "GFM#588 https://github.github.com/gfm/#example-588",
     "description": "Though this spec is concerned with parsing, not rendering, it is recommended that in rendering to HTML, only the plain string content of the image description be used. Note that in the above example, the alt attribute’s value is foo bar, not foo [bar](/url) or foo <a href=\"/url\">bar</a>. Only the plain string content is rendered, without formatting.",
     "content": "My ![foo bar](/path/to/train.jpg  \"title\"   )",
     "expectedHtml": "<p>My <img src=\"/path/to/train.jpg\" alt=\"foo bar\" title=\"title\" /></p>"
   },
   {
-    "title": "GFM#588 https://github.github.com/gfm/#example-588",
+    "title": "GFM#589 https://github.github.com/gfm/#example-589",
     "description": "Though this spec is concerned with parsing, not rendering, it is recommended that in rendering to HTML, only the plain string content of the image description be used. Note that in the above example, the alt attribute’s value is foo bar, not foo [bar](/url) or foo <a href=\"/url\">bar</a>. Only the plain string content is rendered, without formatting.",
     "content": "![foo](<url>)",
     "expectedHtml": "<p><img src=\"url\" alt=\"foo\" /></p>"
   },
   {
-    "title": "GFM#589 https://github.github.com/gfm/#example-589",
+    "title": "GFM#590 https://github.github.com/gfm/#example-590",
     "description": "Though this spec is concerned with parsing, not rendering, it is recommended that in rendering to HTML, only the plain string content of the image description be used. Note that in the above example, the alt attribute’s value is foo bar, not foo [bar](/url) or foo <a href=\"/url\">bar</a>. Only the plain string content is rendered, without formatting.",
     "content": "![](/url)",
     "expectedHtml": "<p><img src=\"/url\" alt=\"\" /></p>"
   },
   {
-    "title": "GFM#590 https://github.github.com/gfm/#example-590",
+    "title": "GFM#591 https://github.github.com/gfm/#example-591",
     "description": "Reference-style",
     "content": "![foo][bar]\n\n[bar]: /url",
     "expectedHtml": "<p><img src=\"/url\" alt=\"foo\" /></p>"
   },
   {
-    "title": "GFM#591 https://github.github.com/gfm/#example-591",
+    "title": "GFM#592 https://github.github.com/gfm/#example-592",
     "description": "Reference-style",
     "content": "![foo][bar]\n\n[BAR]: /url",
     "expectedHtml": "<p><img src=\"/url\" alt=\"foo\" /></p>"
   },
   {
-    "title": "GFM#592 https://github.github.com/gfm/#example-592",
+    "title": "GFM#593 https://github.github.com/gfm/#example-593",
     "description": "Collapsed",
     "content": "![foo][]\n\n[foo]: /url \"title\"",
     "expectedHtml": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" /></p>"
   },
   {
-    "title": "GFM#593 https://github.github.com/gfm/#example-593",
+    "title": "GFM#594 https://github.github.com/gfm/#example-594",
     "description": "Collapsed",
     "content": "![*foo* bar][]\n\n[*foo* bar]: /url \"title\"",
     "expectedHtml": "<p><img src=\"/url\" alt=\"foo bar\" title=\"title\" /></p>"
   },
   {
-    "title": "GFM#594 https://github.github.com/gfm/#example-594",
+    "title": "GFM#595 https://github.github.com/gfm/#example-595",
     "description": "The labels are case-insensitive",
     "content": "![Foo][]\n\n[foo]: /url \"title\"",
     "expectedHtml": "<p><img src=\"/url\" alt=\"Foo\" title=\"title\" /></p>"
   },
   {
-    "title": "GFM#595 https://github.github.com/gfm/#example-595",
+    "title": "GFM#596 https://github.github.com/gfm/#example-596",
     "description": "As with reference links, whitespace is not allowed between the two sets of brackets",
     "content": "![foo] \n[]\n\n[foo]: /url \"title\"",
     "expectedHtml": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" />\n[]</p>"
   },
   {
-    "title": "GFM#596 https://github.github.com/gfm/#example-596",
+    "title": "GFM#597 https://github.github.com/gfm/#example-597",
     "description": "Shortcut",
     "content": "![foo]\n\n[foo]: /url \"title\"",
     "expectedHtml": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" /></p>"
   },
   {
-    "title": "GFM#597 https://github.github.com/gfm/#example-597",
+    "title": "GFM#598 https://github.github.com/gfm/#example-598",
     "description": "Shortcut",
     "content": "![*foo* bar]\n\n[*foo* bar]: /url \"title\"",
     "expectedHtml": "<p><img src=\"/url\" alt=\"foo bar\" title=\"title\" /></p>"
   },
   {
-    "title": "GFM#598 https://github.github.com/gfm/#example-598",
+    "title": "GFM#599 https://github.github.com/gfm/#example-599",
     "description": "Note that link labels cannot contain unescaped brackets",
     "content": "![[foo]]\n\n[[foo]]: /url \"title\"",
     "expectedHtml": "<p>![[foo]]</p>\n<p>[[foo]]: /url &quot;title&quot;</p>"
   },
   {
-    "title": "GFM#599 https://github.github.com/gfm/#example-599",
+    "title": "GFM#600 https://github.github.com/gfm/#example-600",
     "description": "The link labels are case-insensitive",
     "content": "![Foo]\n\n[foo]: /url \"title\"",
     "expectedHtml": "<p><img src=\"/url\" alt=\"Foo\" title=\"title\" /></p>"
   },
   {
-    "title": "GFM#600 https://github.github.com/gfm/#example-600",
+    "title": "GFM#601 https://github.github.com/gfm/#example-601",
     "description": "If you just want a literal ! followed by bracketed text, you can backslash-escape the opening [",
     "content": "!\\[foo]\n\n[foo]: /url \"title\"",
     "expectedHtml": "<p>![foo]</p>"
   },
   {
-    "title": "GFM#601 https://github.github.com/gfm/#example-601",
+    "title": "GFM#602 https://github.github.com/gfm/#example-602",
     "description": "If you want a link after a literal !, backslash-escape the !",
     "content": "\\![foo]\n\n[foo]: /url \"title\"",
     "expectedHtml": "<p>!<a href=\"/url\" title=\"title\">foo</a></p>"
   },
   {
-    "title": "GFM#602 https://github.github.com/gfm/#example-602",
+    "title": "GFM#603 https://github.github.com/gfm/#example-603",
     "description": "Here are some valid autolinks",
     "content": "<http://foo.bar.baz>",
     "expectedHtml": "<p><a href=\"http://foo.bar.baz\">http://foo.bar.baz</a></p>"
   },
   {
-    "title": "GFM#603 https://github.github.com/gfm/#example-603",
+    "title": "GFM#604 https://github.github.com/gfm/#example-604",
     "description": "Here are some valid autolinks",
     "content": "<http://foo.bar.baz/test?q=hello&id=22&boolean>",
     "expectedHtml": "<p><a href=\"http://foo.bar.baz/test?q=hello&amp;id=22&amp;boolean\">http://foo.bar.baz/test?q=hello&amp;id=22&amp;boolean</a></p>"
   },
   {
-    "title": "GFM#604 https://github.github.com/gfm/#example-604",
+    "title": "GFM#605 https://github.github.com/gfm/#example-605",
     "description": "Here are some valid autolinks",
     "content": "<irc://foo.bar:2233/baz>",
     "expectedHtml": "<p><a href=\"irc://foo.bar:2233/baz\">irc://foo.bar:2233/baz</a></p>"
   },
   {
-    "title": "GFM#605 https://github.github.com/gfm/#example-605",
+    "title": "GFM#606 https://github.github.com/gfm/#example-606",
     "description": "Uppercase is also fine",
     "content": "<MAILTO:FOO@BAR.BAZ>",
     "expectedHtml": "<p><a href=\"MAILTO:FOO@BAR.BAZ\">MAILTO:FOO@BAR.BAZ</a></p>"
   },
   {
-    "title": "GFM#606 https://github.github.com/gfm/#example-606",
+    "title": "GFM#607 https://github.github.com/gfm/#example-607",
     "description": "Note that many strings that count as absolute URIs for purposes of this spec are not valid URIs, because their schemes are not registered or because of other problems with their syntax",
     "content": "<a+b+c:d>",
     "expectedHtml": "<p><a href=\"a+b+c:d\">a+b+c:d</a></p>"
   },
   {
-    "title": "GFM#607 https://github.github.com/gfm/#example-607",
+    "title": "GFM#608 https://github.github.com/gfm/#example-608",
     "description": "Note that many strings that count as absolute URIs for purposes of this spec are not valid URIs, because their schemes are not registered or because of other problems with their syntax",
     "content": "<made-up-scheme://foo,bar>",
     "expectedHtml": "<p><a href=\"made-up-scheme://foo,bar\">made-up-scheme://foo,bar</a></p>"
   },
   {
-    "title": "GFM#608 https://github.github.com/gfm/#example-608",
+    "title": "GFM#609 https://github.github.com/gfm/#example-609",
     "description": "Note that many strings that count as absolute URIs for purposes of this spec are not valid URIs, because their schemes are not registered or because of other problems with their syntax",
     "content": "<http://../>",
     "expectedHtml": "<p><a href=\"http://../\">http://../</a></p>"
   },
   {
-    "title": "GFM#609 https://github.github.com/gfm/#example-609",
+    "title": "GFM#610 https://github.github.com/gfm/#example-610",
     "description": "Note that many strings that count as absolute URIs for purposes of this spec are not valid URIs, because their schemes are not registered or because of other problems with their syntax",
     "content": "<localhost:5001/foo>",
     "expectedHtml": "<p><a href=\"localhost:5001/foo\">localhost:5001/foo</a></p>"
   },
   {
-    "title": "GFM#610 https://github.github.com/gfm/#example-610",
+    "title": "GFM#611 https://github.github.com/gfm/#example-611",
     "description": "Spaces are not allowed in autolinks",
     "content": "<http://foo.bar/baz bim>",
     "expectedHtml": "<p>&lt;http://foo.bar/baz bim&gt;</p>"
   },
   {
-    "title": "GFM#611 https://github.github.com/gfm/#example-611",
+    "title": "GFM#612 https://github.github.com/gfm/#example-612",
     "description": "Backslash-escapes do not work inside autolinks",
     "content": "<http://example.com/\\[\\>",
     "expectedHtml": "<p><a href=\"http://example.com/%5C%5B%5C\">http://example.com/\\[\\</a></p>"
   },
   {
-    "title": "GFM#612 https://github.github.com/gfm/#example-612",
+    "title": "GFM#613 https://github.github.com/gfm/#example-613",
     "description": "Examples of email autolinks",
     "content": "<foo@bar.example.com>",
     "expectedHtml": "<p><a href=\"mailto:foo@bar.example.com\">foo@bar.example.com</a></p>"
   },
   {
-    "title": "GFM#613 https://github.github.com/gfm/#example-613",
+    "title": "GFM#614 https://github.github.com/gfm/#example-614",
     "description": "Examples of email autolinks",
     "content": "<foo+special@Bar.baz-bar0.com>",
     "expectedHtml": "<p><a href=\"mailto:foo+special@Bar.baz-bar0.com\">foo+special@Bar.baz-bar0.com</a></p>"
   },
   {
-    "title": "GFM#614 https://github.github.com/gfm/#example-614",
+    "title": "GFM#615 https://github.github.com/gfm/#example-615",
     "description": "Backslash-escapes do not work inside email autolinks",
     "content": "<foo\\+@bar.example.com>",
     "expectedHtml": "<p>&lt;foo+@bar.example.com&gt;</p>"
   },
   {
-    "title": "GFM#615 https://github.github.com/gfm/#example-615",
+    "title": "GFM#616 https://github.github.com/gfm/#example-616",
     "description": "These are not autolinks",
     "content": "<>",
     "expectedHtml": "<p>&lt;&gt;</p>"
   },
   {
-    "title": "GFM#616 https://github.github.com/gfm/#example-616",
+    "title": "GFM#617 https://github.github.com/gfm/#example-617",
     "description": "These are not autolinks",
     "content": "< http://foo.bar >",
     "expectedHtml": "<p>&lt; http://foo.bar &gt;</p>"
   },
   {
-    "title": "GFM#617 https://github.github.com/gfm/#example-617",
+    "title": "GFM#618 https://github.github.com/gfm/#example-618",
     "description": "These are not autolinks",
     "content": "<m:abc>",
     "expectedHtml": "<p>&lt;m:abc&gt;</p>"
   },
   {
-    "title": "GFM#618 https://github.github.com/gfm/#example-618",
+    "title": "GFM#619 https://github.github.com/gfm/#example-619",
     "description": "These are not autolinks",
     "content": "<foo.bar.baz>",
     "expectedHtml": "<p>&lt;foo.bar.baz&gt;</p>"
   },
   {
-    "title": "GFM#619 https://github.github.com/gfm/#example-619",
+    "title": "GFM#620 https://github.github.com/gfm/#example-620",
     "description": "These are not autolinks",
     "content": "http://example.com",
     "expectedHtml": "<p>http://example.com</p>"
   },
   {
-    "title": "GFM#620 https://github.github.com/gfm/#example-620",
+    "title": "GFM#621 https://github.github.com/gfm/#example-621",
     "description": "These are not autolinks",
     "content": "foo@bar.example.com",
     "expectedHtml": "<p>foo@bar.example.com</p>"
   },
   {
-    "title": "GFM#621 https://github.github.com/gfm/#example-621",
+    "title": "GFM#622 https://github.github.com/gfm/#example-622",
     "description": "The scheme http will be inserted automatically",
     "content": "www.commonmark.org",
     "expectedHtml": "<p><a href=\"http://www.commonmark.org\">www.commonmark.org</a></p>"
   },
   {
-    "title": "GFM#622 https://github.github.com/gfm/#example-622",
+    "title": "GFM#623 https://github.github.com/gfm/#example-623",
     "description": "After a valid domain, zero or more non-space non-< characters may follow",
     "content": "Visit www.commonmark.org/help for more information.",
     "expectedHtml": "<p>Visit <a href=\"http://www.commonmark.org/help\">www.commonmark.org/help</a> for more information.</p>"
   },
   {
-    "title": "GFM#623 https://github.github.com/gfm/#example-623",
+    "title": "GFM#624 https://github.github.com/gfm/#example-624",
     "description": "Trailing punctuation (specifically, ?, !, ., ,, :, *, _, and ~) will not be considered part of the autolink, though they may be included in the interior of the link",
     "content": "Visit www.commonmark.org.\n\nVisit www.commonmark.org/a.b.",
     "expectedHtml": "<p>Visit <a href=\"http://www.commonmark.org\">www.commonmark.org</a>.</p>\n<p>Visit <a href=\"http://www.commonmark.org/a.b\">www.commonmark.org/a.b</a>.</p>"
   },
   {
-    "title": "GFM#624 https://github.github.com/gfm/#example-624",
+    "title": "GFM#625 https://github.github.com/gfm/#example-625",
     "description": "When an autolink ends in ), we scan the entire autolink for the total number of parentheses. If there is a greater number of closing parentheses than opening ones, we don’t consider the unmatched trailing parentheses part of the autolink, in order to facilitate including an autolink inside a parenthesis",
     "content": "www.google.com/search?q=Markup+(business)\n\nwww.google.com/search?q=Markup+(business)))\n\n(www.google.com/search?q=Markup+(business))\n\n(www.google.com/search?q=Markup+(business)",
     "expectedHtml": "<p><a href=\"http://www.google.com/search?q=Markup+(business)\">www.google.com/search?q=Markup+(business)</a></p>\n<p><a href=\"http://www.google.com/search?q=Markup+(business)\">www.google.com/search?q=Markup+(business)</a>))</p>\n<p>(<a href=\"http://www.google.com/search?q=Markup+(business)\">www.google.com/search?q=Markup+(business)</a>)</p>\n<p>(<a href=\"http://www.google.com/search?q=Markup+(business)\">www.google.com/search?q=Markup+(business)</a></p>"
   },
   {
-    "title": "GFM#625 https://github.github.com/gfm/#example-625",
+    "title": "GFM#626 https://github.github.com/gfm/#example-626",
     "description": "This check is only done when the link ends in a closing parentheses ), so if the only parentheses are in the interior of the autolink, no special rules are applied",
     "content": "www.google.com/search?q=(business))+ok",
     "expectedHtml": "<p><a href=\"http://www.google.com/search?q=(business))+ok\">www.google.com/search?q=(business))+ok</a></p>"
   },
   {
-    "title": "GFM#626 https://github.github.com/gfm/#example-626",
+    "title": "GFM#627 https://github.github.com/gfm/#example-627",
     "description": "If an autolink ends in a semicolon (;), we check to see if it appears to resemble an entity reference; if the preceding text is & followed by one or more alphanumeric characters. If so, it is excluded from the autolink",
     "content": "www.google.com/search?q=commonmark&hl=en\n\nwww.google.com/search?q=commonmark&hl;",
     "expectedHtml": "<p><a href=\"http://www.google.com/search?q=commonmark&amp;hl=en\">www.google.com/search?q=commonmark&amp;hl=en</a></p>\n<p><a href=\"http://www.google.com/search?q=commonmark\">www.google.com/search?q=commonmark</a>&amp;hl;</p>"
   },
   {
-    "title": "GFM#627 https://github.github.com/gfm/#example-627",
+    "title": "GFM#628 https://github.github.com/gfm/#example-628",
     "description": "< immediately ends an autolink.",
     "content": "www.commonmark.org/he<lp",
     "expectedHtml": "<p><a href=\"http://www.commonmark.org/he\">www.commonmark.org/he</a>&lt;lp</p>"
   },
   {
-    "title": "GFM#628 https://github.github.com/gfm/#example-628",
+    "title": "GFM#629 https://github.github.com/gfm/#example-629",
     "description": "An extended url autolink will be recognised when one of the schemes http://, or https://, followed by a valid domain, then zero or more non-space non-< characters according to extended autolink path validation",
     "content": "http://commonmark.org\n\n(Visit https://encrypted.google.com/search?q=Markup+(business))",
     "expectedHtml": "<p><a href=\"http://commonmark.org\">http://commonmark.org</a></p>\n<p>(Visit <a href=\"https://encrypted.google.com/search?q=Markup+(business)\">https://encrypted.google.com/search?q=Markup+(business)</a>)</p>"
   },
   {
-    "title": "GFM#629 https://github.github.com/gfm/#example-629",
+    "title": "GFM#630 https://github.github.com/gfm/#example-630",
     "description": "The scheme mailto: will automatically be added to the generated link",
     "content": "foo@bar.baz",
     "expectedHtml": "<p><a href=\"mailto:foo@bar.baz\">foo@bar.baz</a></p>"
   },
   {
-    "title": "GFM#630 https://github.github.com/gfm/#example-630",
+    "title": "GFM#631 https://github.github.com/gfm/#example-631",
     "description": "+ can occur before the @, but not after.",
     "content": "hello@mail+xyz.example isn't valid, but hello+xyz@mail.example is.",
     "expectedHtml": "<p>hello@mail+xyz.example isn't valid, but <a href=\"mailto:hello+xyz@mail.example\">hello+xyz@mail.example</a> is.</p>"
   },
   {
-    "title": "GFM#631 https://github.github.com/gfm/#example-631",
+    "title": "GFM#632 https://github.github.com/gfm/#example-632",
     "description": "., -, and _ can occur on both sides of the @, but only . may occur at the end of the email address, in which case it will not be considered part of the address",
     "content": "a.b-c_d@a.b\n\na.b-c_d@a.b.\n\na.b-c_d@a.b-\n\na.b-c_d@a.b_",
     "expectedHtml": "<p><a href=\"mailto:a.b-c_d@a.b\">a.b-c_d@a.b</a></p>\n<p><a href=\"mailto:a.b-c_d@a.b\">a.b-c_d@a.b</a>.</p>\n<p>a.b-c_d@a.b-</p>\n<p>a.b-c_d@a.b_</p>"
   },
   {
-    "title": "GFM#632 https://github.github.com/gfm/#example-632",
+    "title": "GFM#633 https://github.github.com/gfm/#example-633",
+    "description": "The scheme of the protocol will automatically be added to the generated link. All the rules of email address autolinking apply.",
+    "content": "mailto:foo@bar.baz\n\nmailto:a.b-c_d@a.b\n\nmailto:a.b-c_d@a.b.\n\nmailto:a.b-c_d@a.b/\n\nmailto:a.b-c_d@a.b-\n\nmailto:a.b-c_d@a.b_\n\nxmpp:foo@bar.baz\n\nxmpp:foo@bar.baz.",
+    "expectedHtml": "<p><a href=\"mailto:foo@bar.baz\">mailto:foo@bar.baz</a></p>\n<p><a href=\"mailto:a.b-c_d@a.b\">mailto:a.b-c_d@a.b</a></p>\n<p><a href=\"mailto:a.b-c_d@a.b\">mailto:a.b-c_d@a.b</a>.</p>\n<p><a href=\"mailto:a.b-c_d@a.b\">mailto:a.b-c_d@a.b</a>/</p>\n<p>mailto:a.b-c_d@a.b-</p>\n<p>mailto:a.b-c_d@a.b_</p>\n<p><a href=\"xmpp:foo@bar.baz\">xmpp:foo@bar.baz</a></p>\n<p><a href=\"xmpp:foo@bar.baz\">xmpp:foo@bar.baz</a>.</p>"
+  },
+  {
+    "title": "GFM#634 https://github.github.com/gfm/#example-634",
+    "description": "A described in the specification xmpp offers an optional / followed by a resource. The resource can contain all alphanumeric characters, as well as @ and ..",
+    "content": "xmpp:foo@bar.baz/txt\n\nxmpp:foo@bar.baz/txt@bin\n\nxmpp:foo@bar.baz/txt@bin.com",
+    "expectedHtml": "<p><a href=\"xmpp:foo@bar.baz/txt\">xmpp:foo@bar.baz/txt</a></p>\n<p><a href=\"xmpp:foo@bar.baz/txt@bin\">xmpp:foo@bar.baz/txt@bin</a></p>\n<p><a href=\"xmpp:foo@bar.baz/txt@bin.com\">xmpp:foo@bar.baz/txt@bin.com</a></p>"
+  },
+  {
+    "title": "GFM#635 https://github.github.com/gfm/#example-635",
+    "description": "Further / characters are not considered part of the domain",
+    "content": "xmpp:foo@bar.baz/txt/bin",
+    "expectedHtml": "<p><a href=\"xmpp:foo@bar.baz/txt\">xmpp:foo@bar.baz/txt</a>/bin</p>"
+  },
+  {
+    "title": "GFM#636 https://github.github.com/gfm/#example-636",
     "description": "Here are some simple open tags",
     "content": "<a><bab><c2c>",
     "expectedHtml": "<p><a><bab><c2c></p>"
   },
   {
-    "title": "GFM#633 https://github.github.com/gfm/#example-633",
+    "title": "GFM#637 https://github.github.com/gfm/#example-637",
     "description": "Empty elements",
     "content": "<a/><b2/>",
     "expectedHtml": "<p><a/><b2/></p>"
   },
   {
-    "title": "GFM#634 https://github.github.com/gfm/#example-634",
+    "title": "GFM#638 https://github.github.com/gfm/#example-638",
     "description": "Whitespace is allowed",
     "content": "<a  /><b2\ndata=\"foo\" >",
     "expectedHtml": "<p><a  /><b2\ndata=\"foo\" ></p>"
   },
   {
-    "title": "GFM#635 https://github.github.com/gfm/#example-635",
+    "title": "GFM#639 https://github.github.com/gfm/#example-639",
     "description": "With attributes",
     "content": "<a foo=\"bar\" bam = 'baz <em>\"</em>'\n_boolean zoop:33=zoop:33 />",
     "expectedHtml": "<p><a foo=\"bar\" bam = 'baz <em>\"</em>'\n_boolean zoop:33=zoop:33 /></p>"
   },
   {
-    "title": "GFM#636 https://github.github.com/gfm/#example-636",
+    "title": "GFM#640 https://github.github.com/gfm/#example-640",
     "description": "Custom tag names can be used",
     "content": "Foo <responsive-image src=\"foo.jpg\" />",
     "expectedHtml": "<p>Foo <responsive-image src=\"foo.jpg\" /></p>"
   },
   {
-    "title": "GFM#637 https://github.github.com/gfm/#example-637",
+    "title": "GFM#641 https://github.github.com/gfm/#example-641",
     "description": "Illegal tag names, not parsed as HTML",
     "content": "<33> <__>",
     "expectedHtml": "<p>&lt;33&gt; &lt;__&gt;</p>"
   },
   {
-    "title": "GFM#638 https://github.github.com/gfm/#example-638",
+    "title": "GFM#642 https://github.github.com/gfm/#example-642",
     "description": "Illegal attribute names",
     "content": "<a h*#ref=\"hi\">",
     "expectedHtml": "<p>&lt;a h*#ref=&quot;hi&quot;&gt;</p>"
   },
   {
-    "title": "GFM#639 https://github.github.com/gfm/#example-639",
+    "title": "GFM#643 https://github.github.com/gfm/#example-643",
     "description": "Illegal attribute values",
     "content": "<a href=\"hi'> <a href=hi'>",
     "expectedHtml": "<p>&lt;a href=&quot;hi'&gt; &lt;a href=hi'&gt;</p>"
   },
   {
-    "title": "GFM#640 https://github.github.com/gfm/#example-640",
+    "title": "GFM#644 https://github.github.com/gfm/#example-644",
     "description": "Illegal whitespace",
     "content": "< a><\nfoo><bar/ >\n<foo bar=baz\nbim!bop />",
     "expectedHtml": "<p>&lt; a&gt;&lt;\nfoo&gt;&lt;bar/ &gt;\n&lt;foo bar=baz\nbim!bop /&gt;</p>"
   },
   {
-    "title": "GFM#641 https://github.github.com/gfm/#example-641",
+    "title": "GFM#645 https://github.github.com/gfm/#example-645",
     "description": "Missing whitespace",
     "content": "<a href='bar'title=title>",
     "expectedHtml": "<p>&lt;a href='bar'title=title&gt;</p>"
   },
   {
-    "title": "GFM#642 https://github.github.com/gfm/#example-642",
+    "title": "GFM#646 https://github.github.com/gfm/#example-646",
     "description": "Closing tags",
     "content": "</a></foo >",
     "expectedHtml": "<p></a></foo ></p>"
   },
   {
-    "title": "GFM#643 https://github.github.com/gfm/#example-643",
+    "title": "GFM#647 https://github.github.com/gfm/#example-647",
     "description": "Illegal attributes in closing tag",
     "content": "</a href=\"foo\">",
     "expectedHtml": "<p>&lt;/a href=&quot;foo&quot;&gt;</p>"
   },
   {
-    "title": "GFM#644 https://github.github.com/gfm/#example-644",
+    "title": "GFM#648 https://github.github.com/gfm/#example-648",
     "description": "Comments",
     "content": "foo <!-- this is a\ncomment - with hyphen -->",
     "expectedHtml": "<p>foo <!-- this is a\ncomment - with hyphen --></p>"
   },
   {
-    "title": "GFM#645 https://github.github.com/gfm/#example-645",
+    "title": "GFM#649 https://github.github.com/gfm/#example-649",
     "description": "Comments",
     "content": "foo <!-- not a comment -- two hyphens -->",
     "expectedHtml": "<p>foo &lt;!-- not a comment -- two hyphens --&gt;</p>"
   },
   {
-    "title": "GFM#646 https://github.github.com/gfm/#example-646",
+    "title": "GFM#650 https://github.github.com/gfm/#example-650",
     "description": "Not comments",
     "content": "foo <!--> foo -->\n\nfoo <!-- foo--->",
     "expectedHtml": "<p>foo &lt;!--&gt; foo --&gt;</p>\n<p>foo &lt;!-- foo---&gt;</p>"
   },
   {
-    "title": "GFM#647 https://github.github.com/gfm/#example-647",
+    "title": "GFM#651 https://github.github.com/gfm/#example-651",
     "description": "Processing instructions",
     "content": "foo <?php echo $a; ?>",
     "expectedHtml": "<p>foo <?php echo $a; ?></p>"
   },
   {
-    "title": "GFM#648 https://github.github.com/gfm/#example-648",
+    "title": "GFM#652 https://github.github.com/gfm/#example-652",
     "description": "Declarations",
     "content": "foo <!ELEMENT br EMPTY>",
     "expectedHtml": "<p>foo <!ELEMENT br EMPTY></p>"
   },
   {
-    "title": "GFM#649 https://github.github.com/gfm/#example-649",
+    "title": "GFM#653 https://github.github.com/gfm/#example-653",
     "description": "CDATA sections",
     "content": "foo <![CDATA[>&<]]>",
     "expectedHtml": "<p>foo <![CDATA[>&<]]></p>"
   },
   {
-    "title": "GFM#650 https://github.github.com/gfm/#example-650",
+    "title": "GFM#654 https://github.github.com/gfm/#example-654",
     "description": "Entity and numeric character references are preserved in HTML attributes",
     "content": "foo <a href=\"&ouml;\">",
     "expectedHtml": "<p>foo <a href=\"&ouml;\"></p>"
   },
   {
-    "title": "GFM#651 https://github.github.com/gfm/#example-651",
+    "title": "GFM#655 https://github.github.com/gfm/#example-655",
     "description": "Backslash escapes do not work in HTML attributes",
     "content": "foo <a href=\"\\*\">",
     "expectedHtml": "<p>foo <a href=\"\\*\"></p>"
   },
   {
-    "title": "GFM#652 https://github.github.com/gfm/#example-652",
+    "title": "GFM#656 https://github.github.com/gfm/#example-656",
     "description": "Backslash escapes do not work in HTML attributes",
     "content": "<a href=\"\\\"\">",
     "expectedHtml": "<p>&lt;a href=&quot;&quot;&quot;&gt;</p>"
   },
   {
-    "title": "GFM#653 https://github.github.com/gfm/#example-653",
+    "title": "GFM#657 https://github.github.com/gfm/#example-657",
     "description": "All other HTML tags are left untouched.",
     "content": "<strong> <title> <style> <em>\n\n<blockquote>\n  <xmp> is disallowed.  <XMP> is also disallowed.\n</blockquote>",
     "expectedHtml": "<p><strong> &lt;title> &lt;style> <em></p>\n<blockquote>\n  &lt;xmp> is disallowed.  &lt;XMP> is also disallowed.\n</blockquote>"
   },
   {
-    "title": "GFM#654 https://github.github.com/gfm/#example-654",
+    "title": "GFM#658 https://github.github.com/gfm/#example-658",
     "description": "A line break (not in a code span or HTML tag) that is preceded by two or more spaces and does not occur at the end of a block is parsed as a hard line break (rendered in HTML as a <br /> tag)",
     "content": "foo  \nbaz",
     "expectedHtml": "<p>foo<br />\nbaz</p>"
   },
   {
-    "title": "GFM#655 https://github.github.com/gfm/#example-655",
+    "title": "GFM#659 https://github.github.com/gfm/#example-659",
     "description": "For a more visible alternative, a backslash before the line ending may be used instead of two spaces",
     "content": "foo\\\nbaz",
     "expectedHtml": "<p>foo<br />\nbaz</p>"
   },
   {
-    "title": "GFM#656 https://github.github.com/gfm/#example-656",
+    "title": "GFM#660 https://github.github.com/gfm/#example-660",
     "description": "More than two spaces can be used",
     "content": "foo       \nbaz",
     "expectedHtml": "<p>foo<br />\nbaz</p>"
   },
   {
-    "title": "GFM#657 https://github.github.com/gfm/#example-657",
+    "title": "GFM#661 https://github.github.com/gfm/#example-661",
     "description": "Leading spaces at the beginning of the next line are ignored",
     "content": "foo  \n     bar",
     "expectedHtml": "<p>foo<br />\nbar</p>"
   },
   {
-    "title": "GFM#658 https://github.github.com/gfm/#example-658",
+    "title": "GFM#662 https://github.github.com/gfm/#example-662",
     "description": "Leading spaces at the beginning of the next line are ignored",
     "content": "foo\\\n     bar",
     "expectedHtml": "<p>foo<br />\nbar</p>"
   },
   {
-    "title": "GFM#659 https://github.github.com/gfm/#example-659",
+    "title": "GFM#663 https://github.github.com/gfm/#example-663",
     "description": "Line breaks can occur inside emphasis, links, and other constructs that allow inline content",
     "content": "*foo  \nbar*",
     "expectedHtml": "<p><em>foo<br />\nbar</em></p>"
   },
   {
-    "title": "GFM#660 https://github.github.com/gfm/#example-660",
+    "title": "GFM#664 https://github.github.com/gfm/#example-664",
     "description": "Line breaks can occur inside emphasis, links, and other constructs that allow inline content",
     "content": "*foo\\\nbar*",
     "expectedHtml": "<p><em>foo<br />\nbar</em></p>"
   },
   {
-    "title": "GFM#661 https://github.github.com/gfm/#example-661",
+    "title": "GFM#665 https://github.github.com/gfm/#example-665",
     "description": "Line breaks do not occur inside code spans",
     "content": "`code  \nspan`",
     "expectedHtml": "<p><code>code   span</code></p>"
   },
   {
-    "title": "GFM#662 https://github.github.com/gfm/#example-662",
+    "title": "GFM#666 https://github.github.com/gfm/#example-666",
     "description": "Line breaks do not occur inside code spans",
     "content": "`code\\\nspan`",
     "expectedHtml": "<p><code>code\\ span</code></p>"
   },
   {
-    "title": "GFM#663 https://github.github.com/gfm/#example-663",
+    "title": "GFM#667 https://github.github.com/gfm/#example-667",
     "description": "or HTML tags",
     "content": "<a href=\"foo  \nbar\">",
     "expectedHtml": "<p><a href=\"foo  \nbar\"></p>"
   },
   {
-    "title": "GFM#664 https://github.github.com/gfm/#example-664",
+    "title": "GFM#668 https://github.github.com/gfm/#example-668",
     "description": "or HTML tags",
     "content": "<a href=\"foo\\\nbar\">",
     "expectedHtml": "<p><a href=\"foo\\\nbar\"></p>"
   },
   {
-    "title": "GFM#665 https://github.github.com/gfm/#example-665",
+    "title": "GFM#669 https://github.github.com/gfm/#example-669",
     "description": "Hard line breaks are for separating inline content within a block. Neither syntax for hard line breaks works at the end of a paragraph or other block element",
     "content": "foo\\",
     "expectedHtml": "<p>foo\\</p>"
   },
   {
-    "title": "GFM#666 https://github.github.com/gfm/#example-666",
+    "title": "GFM#670 https://github.github.com/gfm/#example-670",
     "description": "Hard line breaks are for separating inline content within a block. Neither syntax for hard line breaks works at the end of a paragraph or other block element",
     "content": "foo  ",
     "expectedHtml": "<p>foo</p>"
   },
   {
-    "title": "GFM#667 https://github.github.com/gfm/#example-667",
+    "title": "GFM#671 https://github.github.com/gfm/#example-671",
     "description": "Hard line breaks are for separating inline content within a block. Neither syntax for hard line breaks works at the end of a paragraph or other block element",
     "content": "### foo\\",
     "expectedHtml": "<h3>foo\\</h3>"
   },
   {
-    "title": "GFM#668 https://github.github.com/gfm/#example-668",
+    "title": "GFM#672 https://github.github.com/gfm/#example-672",
     "description": "Hard line breaks are for separating inline content within a block. Neither syntax for hard line breaks works at the end of a paragraph or other block element",
     "content": "### foo  ",
     "expectedHtml": "<h3>foo</h3>"
   },
   {
-    "title": "GFM#669 https://github.github.com/gfm/#example-669",
+    "title": "GFM#673 https://github.github.com/gfm/#example-673",
     "description": "A regular line break (not in a code span or HTML tag) that is not preceded by two or more spaces or a backslash is parsed as a softbreak. (A softbreak may be rendered in HTML either as a line ending or as a space. The result will be the same in browsers. In the examples here, a line ending will be used.)",
     "content": "foo\nbaz",
     "expectedHtml": "<p>foo\nbaz</p>"
   },
   {
-    "title": "GFM#670 https://github.github.com/gfm/#example-670",
+    "title": "GFM#674 https://github.github.com/gfm/#example-674",
     "description": "Spaces at the end of the line and beginning of the next line are removed",
     "content": "foo \n baz",
     "expectedHtml": "<p>foo\nbaz</p>"
   },
   {
-    "title": "GFM#671 https://github.github.com/gfm/#example-671",
+    "title": "GFM#675 https://github.github.com/gfm/#example-675",
     "description": "Any characters not given an interpretation by the above rules will be parsed as plain textual content.",
     "content": "hello $.;'there",
     "expectedHtml": "<p>hello $.;'there</p>"
   },
   {
-    "title": "GFM#672 https://github.github.com/gfm/#example-672",
+    "title": "GFM#676 https://github.github.com/gfm/#example-676",
     "description": "Any characters not given an interpretation by the above rules will be parsed as plain textual content.",
     "content": "Foo χρῆν",
     "expectedHtml": "<p>Foo χρῆν</p>"
   },
   {
-    "title": "GFM#673 https://github.github.com/gfm/#example-673",
+    "title": "GFM#677 https://github.github.com/gfm/#example-677",
     "description": "Internal spaces are preserved verbatim",
     "content": "Multiple     spaces",
     "expectedHtml": "<p>Multiple     spaces</p>"

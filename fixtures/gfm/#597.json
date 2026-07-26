@@ -1,0 +1,83 @@
+{
+  "title": "GFM#597 https://github.github.com/gfm/#example-597",
+  "cases": [
+    {
+      "description": "Shortcut",
+      "input": "![foo]\n\n[foo]: /url \"title\"",
+      "markupAnswer": "![foo][]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" /></p>",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 20,
+            "offset": 27
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 1,
+                "offset": 7
+              }
+            },
+            "children": [
+              {
+                "type": "imageReference",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  }
+                },
+                "identifier": "foo",
+                "label": "foo",
+                "referenceType": "shortcut",
+                "alt": "foo"
+              }
+            ]
+          },
+          {
+            "type": "definition",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 8
+              },
+              "end": {
+                "line": 3,
+                "column": 20,
+                "offset": 27
+              }
+            },
+            "identifier": "foo",
+            "label": "foo",
+            "url": "/url",
+            "title": "title"
+          }
+        ]
+      }
+    }
+  ]
+}

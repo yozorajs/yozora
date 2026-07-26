@@ -1,0 +1,61 @@
+{
+  "title": "GFM#674 https://github.github.com/gfm/#example-674",
+  "cases": [
+    {
+      "description": "Spaces at the end of the line and beginning of the next line are removed",
+      "input": "foo \n baz",
+      "markupAnswer": "foo\nbaz",
+      "htmlAnswer": "<p>foo\nbaz</p>",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 5,
+            "offset": 9
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 5,
+                "offset": 9
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 5,
+                    "offset": 9
+                  }
+                },
+                "value": "foo\nbaz"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
