@@ -12,7 +12,9 @@ export const uniqueName = '@yozora/tokenizer-delete'
 
 export type IToken = IPartialInlineToken<T>
 
-export type IDelimiter = ITokenDelimiter
+export interface IDelimiter extends ITokenDelimiter {
+  thickness: 1 | 2
+}
 
 export type IThis = ITokenizer
 

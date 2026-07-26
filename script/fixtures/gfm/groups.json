@@ -255,7 +255,7 @@
     "name": "delete",
     "start": 491,
     "end": 493,
-    "excluded": [491, 493]
+    "excluded": [493]
   },
   {
     "name": "link",

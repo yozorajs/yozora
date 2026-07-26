@@ -4,13 +4,14 @@ import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
   IInlineToken,
   IMatchInlineHookCreator,
+  IResultOfIsDelimiterPair,
   IResultOfProcessDelimiterPair,
 } from '@yozora/core-tokenizer'
 import { eatOptionalCharacters, genFindDelimiter } from '@yozora/core-tokenizer'
 import type { IDelimiter, IThis, IToken, T } from './types'
 
 /**
- * Strikethrough text is any text wrapped in two tildes (~).
+ * Strikethrough text is any text wrapped in a matching pair of one or two tildes (~).
  *
  * @see https://github.com/syntax-tree/mdast#delete
  * @see https://github.github.com/gfm/#strikethrough-extension-
@@ -18,6 +19,7 @@ import type { IDelimiter, IThis, IToken, T } from './types'
 export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = function (api) {
   return {
     findDelimiter: () => genFindDelimiter<IDelimiter>(_findDelimiter),
+    isDelimiterPair,
     processDelimiterPair,
   }
 
@@ -31,13 +33,14 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
           i += 1
           break
         /**
-         * Strike through text is any text wrapped in two tildes '~'
+         * Strikethrough text is wrapped in one or two tildes '~'.
          * @see https://github.github.com/gfm/#strikethrough-extension-
          */
         case AsciiCodePoint.TILDE: {
           const _startIndex = i
           i = eatOptionalCharacters(nodePoints, i + 1, endIndex, c) - 1
-          if (i - _startIndex !== 1) break
+          const thickness = i - _startIndex + 1
+          if (thickness !== 1 && thickness !== 2) break
 
           let delimiterType: IDelimiter['type'] = 'both'
 
@@ -68,11 +71,21 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
             type: delimiterType,
             startIndex: _startIndex,
             endIndex: i + 1,
+            thickness,
           }
         }
       }
     }
     return null
+  }
+
+  function isDelimiterPair(
+    openerDelimiter: IDelimiter,
+    closerDelimiter: IDelimiter,
+  ): IResultOfIsDelimiterPair {
+    return openerDelimiter.thickness === closerDelimiter.thickness
+      ? { paired: true }
+      : { paired: false, opener: true, closer: true }
   }
 
   function processDelimiterPair(

@@ -1,0 +1,143 @@
+{
+  "title": "GFM#491 https://github.github.com/gfm/#example-491",
+  "cases": [
+    {
+      "description": "Strikethrough text is any text wrapped in a matching pair of one or two tildes (~).",
+      "input": "~~Hi~~ Hello, ~there~ world!",
+      "markupAnswer": "~~Hi~~ Hello, ~~there~~ world!",
+      "htmlAnswer": "<p><del>Hi</del> Hello, <del>there</del> world!</p>",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 29,
+            "offset": 28
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 29,
+                "offset": 28
+              }
+            },
+            "children": [
+              {
+                "type": "delete",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      }
+                    },
+                    "value": "Hi"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 15,
+                    "offset": 14
+                  }
+                },
+                "value": " Hello, "
+              },
+              {
+                "type": "delete",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 15,
+                    "offset": 14
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 22,
+                    "offset": 21
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 16,
+                        "offset": 15
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 21,
+                        "offset": 20
+                      }
+                    },
+                    "value": "there"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 22,
+                    "offset": 21
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 29,
+                    "offset": 28
+                  }
+                },
+                "value": " world!"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
