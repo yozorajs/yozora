@@ -80,14 +80,14 @@ test('is byte-idempotent and preserves all checked-in answers', async t => {
     ]),
   )
 
-  assert.deepEqual(summary, { currentExamples: 677, matched: 675, new: 2, old: 1 })
+  assert.deepEqual(summary, { currentExamples: 677, matched: 676, new: 1, old: 1 })
   assert.deepEqual(after, before)
 
   const mainCases = Object.entries(after.gfm)
     .filter(([filename]) => /^#\d{3}[.]json$/.test(filename))
     .map(([, raw]) => JSON.parse(raw).cases[0])
-  assert.equal(mainCases.filter(fixtureCase => 'parseAnswer' in fixtureCase).length, 675)
-  assert.equal(mainCases.filter(fixtureCase => 'markupAnswer' in fixtureCase).length, 657)
+  assert.equal(mainCases.filter(fixtureCase => 'parseAnswer' in fixtureCase).length, 676)
+  assert.equal(mainCases.filter(fixtureCase => 'markupAnswer' in fixtureCase).length, 658)
 })
 
 test('partitions renumbered duplicate inputs and preserves archived bytes', async t => {
@@ -225,8 +225,8 @@ test('validates the checked-in partition and pinned source metadata', () => {
   assert.equal(source.url, 'https://github.github.com/gfm/')
   assert.equal(source.exampleCount, examples.length - 1)
   assert.match(source.sha256, /^[\da-f]{64}$/)
-  assert.equal(currentIds.length, 675)
-  assert.deepEqual(newIds, ['#493', '#657'])
+  assert.equal(currentIds.length, 676)
+  assert.deepEqual(newIds, ['#657'])
   assert.deepEqual(oldIds, ['#491'])
 
   for (const [directory, fixtureIds] of [

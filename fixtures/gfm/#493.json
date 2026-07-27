@@ -1,0 +1,61 @@
+{
+  "title": "GFM#493 https://github.github.com/gfm/#example-493",
+  "cases": [
+    {
+      "description": "Three or more tildes do not create a strikethrough",
+      "input": "This will ~~~not~~~ strike.",
+      "markupAnswer": "This will ~~~not~~~ strike.",
+      "htmlAnswer": "<p>This will ~~~not~~~ strike.</p>",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 28,
+            "offset": 27
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 28,
+                "offset": 27
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 28,
+                    "offset": 27
+                  }
+                },
+                "value": "This will ~~~not~~~ strike."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
