@@ -1,5 +1,5 @@
-import type { Link } from '@yozora/ast'
-import { LinkType } from '@yozora/ast'
+import type { Link, Text } from '@yozora/ast'
+import { LinkType, TextType } from '@yozora/ast'
 import type { IEscaper, INodeMarkup, INodeWeaver } from '../types'
 import { createCharacterEscaper } from '../util'
 
@@ -23,6 +23,16 @@ export class LinkWeaver implements INodeWeaver<Link> {
   protected readonly escapeTitle = _escapeTitle
 
   public weave(node: Link): INodeMarkup {
+    const child = node.children.length === 1 ? node.children[0] : null
+    if (
+      node.title == null &&
+      child?.type === TextType &&
+      (child as Text).value === node.url &&
+      /^(?:mailto|xmpp):/.test(node.url)
+    ) {
+      return { content: node.url }
+    }
+
     const url: string = /[()]/.test(node.url) ? `<${node.url}>` : node.url
     const title = node.title ? this.escapeTitle(node.title) : undefined
     return {

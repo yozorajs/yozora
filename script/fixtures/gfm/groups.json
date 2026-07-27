@@ -315,7 +315,7 @@
     "name": "autolink-extension",
     "start": 622,
     "end": 635,
-    "excluded": [633, 634, 635]
+    "excluded": []
   },
   {
     "name": "html-inline",

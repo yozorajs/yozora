@@ -9,6 +9,7 @@ import type {
 import { genFindDelimiter } from '@yozora/core-tokenizer'
 import type { AutolinkExtensionContentType, IDelimiter, IThis, IToken, T } from './types'
 import { eatExtendEmailAddressFromLocalPartEnd, eatExtendEmailLocalPart } from './util/email'
+import { eatExtendedProtocolAutolink } from './util/protocol'
 import { eatDomainSegment, eatExtendedUrl, eatWWWDomain } from './util/uri'
 
 const isW = (codePoint: number): boolean =>
@@ -74,6 +75,25 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
         // `_` is both an autolink boundary and a valid email local-part character.
         let emailStartIndex = -1
         for (; j < endIndex; ++j) {
+          const protocol =
+            flag || j === blockStartIndex
+              ? eatExtendedProtocolAutolink(nodePoints, j, endIndex)
+              : null
+          if (protocol?.recognized) {
+            if (protocol.valid) {
+              return {
+                type: 'full',
+                startIndex: j,
+                endIndex: protocol.nextIndex,
+                contentType: 'uri',
+              }
+            }
+            j = Math.max(j, protocol.nextIndex - 1)
+            flag = false
+            emailStartIndex = -1
+            continue
+          }
+
           const c = nodePoints[j].codePoint
           if (
             isWhitespaceCharacter(c) ||

@@ -1,0 +1,448 @@
+{
+  "title": "GFM#633 https://github.github.com/gfm/#example-633",
+  "cases": [
+    {
+      "description": "The scheme of the protocol will automatically be added to the generated link. All the rules of email address autolinking apply.",
+      "input": "mailto:foo@bar.baz\n\nmailto:a.b-c_d@a.b\n\nmailto:a.b-c_d@a.b.\n\nmailto:a.b-c_d@a.b/\n\nmailto:a.b-c_d@a.b-\n\nmailto:a.b-c_d@a.b_\n\nxmpp:foo@bar.baz\n\nxmpp:foo@bar.baz.",
+      "markupAnswer": "mailto:foo@bar.baz\n\nmailto:a.b-c_d@a.b\n\nmailto:a.b-c_d@a.b.\n\nmailto:a.b-c_d@a.b/\n\nmailto:a.b-c_d@a.b-\n\nmailto:a.b-c_d@a.b_\n\nxmpp:foo@bar.baz\n\nxmpp:foo@bar.baz.",
+      "htmlAnswer": "<p><a href=\"mailto:foo@bar.baz\">mailto:foo@bar.baz</a></p>\n<p><a href=\"mailto:a.b-c_d@a.b\">mailto:a.b-c_d@a.b</a></p>\n<p><a href=\"mailto:a.b-c_d@a.b\">mailto:a.b-c_d@a.b</a>.</p>\n<p><a href=\"mailto:a.b-c_d@a.b\">mailto:a.b-c_d@a.b</a>/</p>\n<p>mailto:a.b-c_d@a.b-</p>\n<p>mailto:a.b-c_d@a.b_</p>\n<p><a href=\"xmpp:foo@bar.baz\">xmpp:foo@bar.baz</a></p>\n<p><a href=\"xmpp:foo@bar.baz\">xmpp:foo@bar.baz</a>.</p>",
+      "parseAnswer": {
+        "type": "root",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 15,
+            "column": 18,
+            "offset": 159
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 1,
+                "offset": 19
+              }
+            },
+            "children": [
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 19,
+                    "offset": 18
+                  }
+                },
+                "url": "mailto:foo@bar.baz",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 19,
+                        "offset": 18
+                      }
+                    },
+                    "value": "mailto:foo@bar.baz"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 20
+              },
+              "end": {
+                "line": 4,
+                "column": 1,
+                "offset": 39
+              }
+            },
+            "children": [
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 20
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 19,
+                    "offset": 38
+                  }
+                },
+                "url": "mailto:a.b-c_d@a.b",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 20
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 19,
+                        "offset": 38
+                      }
+                    },
+                    "value": "mailto:a.b-c_d@a.b"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 40
+              },
+              "end": {
+                "line": 6,
+                "column": 1,
+                "offset": 60
+              }
+            },
+            "children": [
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 40
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 19,
+                    "offset": 58
+                  }
+                },
+                "url": "mailto:a.b-c_d@a.b",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 5,
+                        "column": 1,
+                        "offset": 40
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 19,
+                        "offset": 58
+                      }
+                    },
+                    "value": "mailto:a.b-c_d@a.b"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 19,
+                    "offset": 58
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 20,
+                    "offset": 59
+                  }
+                },
+                "value": "."
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 61
+              },
+              "end": {
+                "line": 8,
+                "column": 1,
+                "offset": 81
+              }
+            },
+            "children": [
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 61
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 19,
+                    "offset": 79
+                  }
+                },
+                "url": "mailto:a.b-c_d@a.b",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 7,
+                        "column": 1,
+                        "offset": 61
+                      },
+                      "end": {
+                        "line": 7,
+                        "column": 19,
+                        "offset": 79
+                      }
+                    },
+                    "value": "mailto:a.b-c_d@a.b"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 7,
+                    "column": 19,
+                    "offset": 79
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 20,
+                    "offset": 80
+                  }
+                },
+                "value": "/"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 82
+              },
+              "end": {
+                "line": 10,
+                "column": 1,
+                "offset": 102
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 82
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 20,
+                    "offset": 101
+                  }
+                },
+                "value": "mailto:a.b-c_d@a.b-"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 103
+              },
+              "end": {
+                "line": 12,
+                "column": 1,
+                "offset": 123
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 103
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 20,
+                    "offset": 122
+                  }
+                },
+                "value": "mailto:a.b-c_d@a.b_"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 124
+              },
+              "end": {
+                "line": 14,
+                "column": 1,
+                "offset": 141
+              }
+            },
+            "children": [
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 13,
+                    "column": 1,
+                    "offset": 124
+                  },
+                  "end": {
+                    "line": 13,
+                    "column": 17,
+                    "offset": 140
+                  }
+                },
+                "url": "xmpp:foo@bar.baz",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 13,
+                        "column": 1,
+                        "offset": 124
+                      },
+                      "end": {
+                        "line": 13,
+                        "column": 17,
+                        "offset": 140
+                      }
+                    },
+                    "value": "xmpp:foo@bar.baz"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "position": {
+              "start": {
+                "line": 15,
+                "column": 1,
+                "offset": 142
+              },
+              "end": {
+                "line": 15,
+                "column": 18,
+                "offset": 159
+              }
+            },
+            "children": [
+              {
+                "type": "link",
+                "position": {
+                  "start": {
+                    "line": 15,
+                    "column": 1,
+                    "offset": 142
+                  },
+                  "end": {
+                    "line": 15,
+                    "column": 17,
+                    "offset": 158
+                  }
+                },
+                "url": "xmpp:foo@bar.baz",
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 15,
+                        "column": 1,
+                        "offset": 142
+                      },
+                      "end": {
+                        "line": 15,
+                        "column": 17,
+                        "offset": 158
+                      }
+                    },
+                    "value": "xmpp:foo@bar.baz"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "position": {
+                  "start": {
+                    "line": 15,
+                    "column": 17,
+                    "offset": 158
+                  },
+                  "end": {
+                    "line": 15,
+                    "column": 18,
+                    "offset": 159
+                  }
+                },
+                "value": "."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -77,6 +77,95 @@ describe('extended email boundaries', () => {
   })
 })
 
+describe('extended protocol autolinks', () => {
+  test.each([
+    ['mailto:foo@bar.baz', 'mailto:foo@bar.baz'],
+    ['xmpp:foo@bar.baz', 'xmpp:foo@bar.baz'],
+    ['xmpp:foo@bar.baz/txt@bin.com', 'xmpp:foo@bar.baz/txt@bin.com'],
+  ])('recognizes %s', (source, url) => {
+    expect(parsers.gfmEx.parse(source, { shouldReservePosition: false }).children[0]).toEqual({
+      type: 'paragraph',
+      children: [{ type: 'link', url, children: [{ type: 'text', value: source }] }],
+    })
+  })
+
+  test('recognizes a protocol after whitespace within a text node', () => {
+    expect(
+      parsers.gfmEx.parse('prefix mailto:foo@bar.baz', { shouldReservePosition: false })
+        .children[0],
+    ).toEqual({
+      type: 'paragraph',
+      children: [
+        { type: 'text', value: 'prefix ' },
+        {
+          type: 'link',
+          url: 'mailto:foo@bar.baz',
+          children: [{ type: 'text', value: 'mailto:foo@bar.baz' }],
+        },
+      ],
+    })
+  })
+
+  test('does not override an explicit link whose label starts with a protocol', () => {
+    expect(
+      parsers.gfmEx.parse('[mailto:foo@bar.baz](https://example.com)', {
+        shouldReservePosition: false,
+      }).children[0],
+    ).toEqual({
+      type: 'paragraph',
+      children: [
+        {
+          type: 'link',
+          url: 'https://example.com',
+          children: [{ type: 'text', value: 'mailto:foo@bar.baz' }],
+        },
+      ],
+    })
+  })
+
+  test.each(['mailto:a.b-c_d@a.b-', 'mailto:a.b-c_d@a.b_'])(
+    'does not recognize an email suffix inside invalid %s',
+    source => {
+      expect(parsers.gfmEx.parse(source, { shouldReservePosition: false }).children[0]).toEqual({
+        type: 'paragraph',
+        children: [{ type: 'text', value: source }],
+      })
+    },
+  )
+
+  test('keeps trailing mailto punctuation outside the link', () => {
+    expect(
+      parsers.gfmEx.parse('mailto:a.b-c_d@a.b./', { shouldReservePosition: false }).children[0],
+    ).toEqual({
+      type: 'paragraph',
+      children: [
+        {
+          type: 'link',
+          url: 'mailto:a.b-c_d@a.b',
+          children: [{ type: 'text', value: 'mailto:a.b-c_d@a.b' }],
+        },
+        { type: 'text', value: './' },
+      ],
+    })
+  })
+
+  test('limits an XMPP resource to one slash', () => {
+    expect(
+      parsers.gfmEx.parse('xmpp:foo@bar.baz/txt/bin', { shouldReservePosition: false }).children[0],
+    ).toEqual({
+      type: 'paragraph',
+      children: [
+        {
+          type: 'link',
+          url: 'xmpp:foo@bar.baz/txt',
+          children: [{ type: 'text', value: 'xmpp:foo@bar.baz/txt' }],
+        },
+        { type: 'text', value: '/bin' },
+      ],
+    })
+  })
+})
+
 test.each(['_a'.repeat(2_000), '_www.'.repeat(1_000)])(
   'does not rescan rejected underscore-prefixed candidates',
   source => {
