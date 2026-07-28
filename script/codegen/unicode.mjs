@@ -1,4 +1,12 @@
 /**
+ * Browser-console generator for the Unicode code-point tables in
+ * `packages/character/src/constant/unicode/*.ts` (categories Pc, Pd, Pe, Pf, Pi,
+ * Po, Ps). Open the category listing page linked below (e.g. the Pd
+ * "Punctuation, Dash" list), pass the results table's `<tbody>` element to this
+ * function in the browser devtools, then paste the returned enum members into
+ * the corresponding `*.ts` file. It is a manual, run-in-the-browser aid and is
+ * intentionally not wired into any pnpm or CI command.
+ *
  * @see https://www.fileformat.info/info/unicode/category/Pd/list.htm
  */
 export function extractUnicodeCharacters(tbody) {
