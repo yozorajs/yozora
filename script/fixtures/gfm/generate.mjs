@@ -9,7 +9,7 @@ const readLocalJson = filename =>
   JSON.parse(fs.readFileSync(new URL(filename, import.meta.url), 'utf8'))
 const defaultExamples = readLocalJson('./examples.json')
 const defaultGroups = readLocalJson('./groups.json')
-const fixtureDirectoryNames = ['gfm', 'gfm-new', 'gfm-old']
+const fixtureDirectoryNames = ['gfm', 'gfm-new']
 const transactionArtifactPattern = /[.]gfm-(?:sync|backup)-/
 
 const formatFixtureId = exampleNo => `#${String(exampleNo).padStart(3, '0')}`
@@ -280,12 +280,12 @@ function buildMetadata(groups, mainFixtureIds) {
   return metadata
 }
 
-function createPlannedFile(data, preferredRecord, exactRaw = false) {
+function createPlannedFile(data, preferredRecord) {
   const raw =
     preferredRecord != null && isDeepStrictEqual(data, preferredRecord.data)
       ? preferredRecord.raw
       : null
-  return { data, raw, exactRaw }
+  return { data, raw }
 }
 
 function addPlannedFile(directory, filename, plannedFile) {
@@ -300,12 +300,11 @@ export function createGFMFixturePlan(
   const fixturesRoot = path.resolve(rootDir, 'fixtures')
   const main = readFixtureDirectory(fixturesRoot, 'gfm', true)
   const currentNew = readFixtureDirectory(fixturesRoot, 'gfm-new')
-  const archived = readFixtureDirectory(fixturesRoot, 'gfm-old')
   const metadataPath = path.join(fixturesRoot, 'gfm/meta.json')
 
   if (main.meta == null) throw new Error(`Missing GFM metadata ${metadataPath}`)
   validateBaselineMetadata(main.meta, main.records, metadataPath)
-  for (const record of [...main.records, ...archived.records]) {
+  for (const record of main.records) {
     if (!hasOwn(record.data.cases[0], 'parseAnswer')) {
       throw new Error(`Cannot preserve parseAnswer from ${record.source}/${record.filename}`)
     }
@@ -318,10 +317,16 @@ export function createGFMFixturePlan(
   }
 
   const currentExamples = validateExamples(examples)
-  const partition = pairFixturesByInput(currentExamples, [...main.records, ...archived.records])
+  const partition = pairFixturesByInput(currentExamples, main.records)
+  if (partition.legacyOnly.length > 0) {
+    const orphanIds = partition.legacyOnly.map(record => formatFixtureId(record.exampleNo))
+    throw new Error(
+      `Orphaned answered GFM fixtures no longer match upstream: ${orphanIds.join(', ')}. ` +
+        `Delete the stale fixture(s) or correct the source, then rerun.`,
+    )
+  }
   const plannedMain = new Map()
   const plannedNew = new Map()
-  const plannedOld = new Map()
   const currentNewById = new Map(currentNew.records.map(record => [record.exampleNo, record]))
 
   for (const { current, legacy } of partition.matches) {
@@ -338,9 +343,6 @@ export function createGFMFixturePlan(
       createPlannedFile(data, currentNewById.get(current.exampleNo)),
     )
   }
-  for (const legacy of partition.legacyOnly) {
-    addPlannedFile(plannedOld, legacy.filename, createPlannedFile(legacy.data, legacy, true))
-  }
 
   const mainFixtureIds = new Set([...plannedMain.keys()].map(filename => filename.slice(0, -5)))
   const metadata = buildMetadata(groups, mainFixtureIds)
@@ -355,13 +357,11 @@ export function createGFMFixturePlan(
     directories: {
       gfm: plannedMain,
       'gfm-new': plannedNew,
-      'gfm-old': plannedOld,
     },
     summary: {
       currentExamples: currentExamples.length,
       matched: partition.matches.length,
       new: partition.currentOnly.length,
-      old: partition.legacyOnly.length,
     },
   }
 }
@@ -384,10 +384,6 @@ function listPlanChanges(rootDir, plan) {
         continue
       }
       const raw = fs.readFileSync(filepath, 'utf8')
-      if (planned.exactRaw) {
-        if (raw !== planned.raw) changes.push(path.relative(rootDir, filepath))
-        continue
-      }
       const actual = parseJson(raw, filepath)
       if (!isDeepStrictEqual(actual, planned.data)) changes.push(path.relative(rootDir, filepath))
     }

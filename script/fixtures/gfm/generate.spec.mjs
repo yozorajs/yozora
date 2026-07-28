@@ -60,13 +60,13 @@ test('is byte-idempotent and preserves all checked-in answers', async t => {
   t.after(() => rmSync(rootDir, { recursive: true, force: true }))
   mkdirSync(fixturesRoot)
 
-  for (const directoryName of ['gfm', 'gfm-new', 'gfm-old']) {
+  for (const directoryName of ['gfm', 'gfm-new']) {
     cpSync(join(checkedInFixturesRoot, directoryName), join(fixturesRoot, directoryName), {
       recursive: true,
     })
   }
   const before = Object.fromEntries(
-    ['gfm', 'gfm-new', 'gfm-old'].map(directoryName => [
+    ['gfm', 'gfm-new'].map(directoryName => [
       directoryName,
       snapshotDirectory(join(fixturesRoot, directoryName)),
     ]),
@@ -74,13 +74,13 @@ test('is byte-idempotent and preserves all checked-in answers', async t => {
 
   const summary = await generateGFMFixtures(rootDir)
   const after = Object.fromEntries(
-    ['gfm', 'gfm-new', 'gfm-old'].map(directoryName => [
+    ['gfm', 'gfm-new'].map(directoryName => [
       directoryName,
       snapshotDirectory(join(fixturesRoot, directoryName)),
     ]),
   )
 
-  assert.deepEqual(summary, { currentExamples: 677, matched: 676, new: 1, old: 1 })
+  assert.deepEqual(summary, { currentExamples: 677, matched: 676, new: 1 })
   assert.deepEqual(after, before)
 
   const mainCases = Object.entries(after.gfm)
@@ -90,14 +90,13 @@ test('is byte-idempotent and preserves all checked-in answers', async t => {
   assert.equal(mainCases.filter(fixtureCase => 'markupAnswer' in fixtureCase).length, 658)
 })
 
-test('partitions renumbered duplicate inputs and preserves archived bytes', async t => {
+test('partitions renumbered duplicate inputs and preserves answers', async t => {
   const rootDir = mkdtempSync(join(tmpdir(), 'yozora-gfm-partition-'))
   const fixturesRoot = join(rootDir, 'fixtures')
   const mainDir = join(fixturesRoot, 'gfm')
   const newDir = join(fixturesRoot, 'gfm-new')
-  const oldDir = join(fixturesRoot, 'gfm-old')
   t.after(() => rmSync(rootDir, { recursive: true, force: true }))
-  for (const directory of [mainDir, newDir, oldDir]) mkdirSync(directory, { recursive: true })
+  for (const directory of [mainDir, newDir]) mkdirSync(directory, { recursive: true })
 
   writeJson(join(mainDir, '#001.json'), createFixture(1, 'duplicate', { id: 'one' }, 'one'))
   writeJson(join(mainDir, '#002.json'), createFixture(2, 'duplicate', { id: 'two' }, 'two'))
@@ -108,8 +107,6 @@ test('partitions renumbered duplicate inputs and preserves archived bytes', asyn
     title: 'GFM#9 https://github.github.com/gfm/#example-9',
     cases: [{ input: 'stale', htmlAnswer: '<p>stale</p>' }],
   })
-  const archivedRaw = JSON.stringify(createFixture(5, 'old only', { id: 'old' }, 'old'), null, 2)
-  writeFileSync(join(oldDir, '#005.json'), archivedRaw)
 
   const examples = [
     null,
@@ -122,7 +119,7 @@ test('partitions renumbered duplicate inputs and preserves archived bytes', asyn
 
   const rollbackPlan = createGFMFixturePlan(rootDir, { examples, groups })
   const beforeRollback = Object.fromEntries(
-    ['gfm', 'gfm-new', 'gfm-old'].map(directoryName => [
+    ['gfm', 'gfm-new'].map(directoryName => [
       directoryName,
       snapshotDirectory(join(fixturesRoot, directoryName)),
     ]),
@@ -141,7 +138,7 @@ test('partitions renumbered duplicate inputs and preserves archived bytes', asyn
   }
   assert.deepEqual(
     Object.fromEntries(
-      ['gfm', 'gfm-new', 'gfm-old'].map(directoryName => [
+      ['gfm', 'gfm-new'].map(directoryName => [
         directoryName,
         snapshotDirectory(join(fixturesRoot, directoryName)),
       ]),
@@ -163,10 +160,9 @@ test('partitions renumbered duplicate inputs and preserves archived bytes', asyn
 
   const summary = await generateGFMFixtures(rootDir, { examples, groups })
 
-  assert.deepEqual(summary, { currentExamples: 4, matched: 2, new: 2, old: 1 })
+  assert.deepEqual(summary, { currentExamples: 4, matched: 2, new: 2 })
   assert.deepEqual(listFixtureIds(mainDir), ['#003', '#004'])
   assert.deepEqual(listFixtureIds(newDir), ['#001', '#002'])
-  assert.deepEqual(listFixtureIds(oldDir), ['#005'])
   assert.deepEqual(JSON.parse(readFileSync(join(mainDir, '#003.json'), 'utf8')).cases[0], {
     description: 'current 3',
     input: 'duplicate',
@@ -181,7 +177,6 @@ test('partitions renumbered duplicate inputs and preserves archived bytes', asyn
     htmlAnswer: '<p>current 4</p>',
     parseAnswer: { id: 'two' },
   })
-  assert.equal(readFileSync(join(oldDir, '#005.json'), 'utf8'), archivedRaw)
   assert.deepEqual(JSON.parse(readFileSync(join(mainDir, 'meta.json'), 'utf8')), {
     groups: { unclassified: {}, ast: { duplicate: ['#003', '#004'] } },
   })
@@ -215,19 +210,37 @@ test('partitions renumbered duplicate inputs and preserves archived bytes', asyn
   assert.equal(readdirSync(fixturesRoot).includes('.gfm-sync.lock'), false)
 })
 
+test('aborts when an answered fixture no longer matches upstream', t => {
+  const rootDir = mkdtempSync(join(tmpdir(), 'yozora-gfm-orphan-'))
+  const mainDir = join(rootDir, 'fixtures', 'gfm')
+  t.after(() => rmSync(rootDir, { recursive: true, force: true }))
+  mkdirSync(mainDir, { recursive: true })
+
+  writeJson(join(mainDir, '#001.json'), createFixture(1, 'stale input', { id: 'one' }, 'one'))
+  writeJson(join(mainDir, 'meta.json'), {
+    groups: { unclassified: {}, ast: { legacy: ['#001'] } },
+  })
+
+  const examples = [null, createExample(1, 'fresh input')]
+  const groups = [{ name: 'legacy', start: 1, end: 1, excluded: [] }]
+
+  assert.throws(
+    () => createGFMFixturePlan(rootDir, { examples, groups }),
+    /Orphaned answered GFM fixtures no longer match upstream: #001/,
+  )
+})
+
 test('validates the checked-in partition and pinned source metadata', () => {
   const examples = JSON.parse(readFileSync(new URL('./examples.json', import.meta.url), 'utf8'))
   const source = JSON.parse(readFileSync(new URL('./source.json', import.meta.url), 'utf8'))
   const currentIds = listFixtureIds(new URL('gfm/', new URL('../../../fixtures/', import.meta.url)))
   const newIds = listFixtureIds(new URL('gfm-new/', new URL('../../../fixtures/', import.meta.url)))
-  const oldIds = listFixtureIds(new URL('gfm-old/', new URL('../../../fixtures/', import.meta.url)))
 
   assert.equal(source.url, 'https://github.github.com/gfm/')
   assert.equal(source.exampleCount, examples.length - 1)
   assert.match(source.sha256, /^[\da-f]{64}$/)
   assert.equal(currentIds.length, 676)
   assert.deepEqual(newIds, ['#657'])
-  assert.deepEqual(oldIds, ['#491'])
 
   for (const [directory, fixtureIds] of [
     ['gfm', currentIds],
@@ -265,10 +278,4 @@ test('validates the checked-in partition and pinned source metadata', () => {
     coveredIds,
     Array.from({ length: 677 }, (_, index) => index + 1),
   )
-
-  const oldFixture = JSON.parse(
-    readFileSync(new URL('../../../fixtures/gfm-old/%23491.json', import.meta.url), 'utf8'),
-  )
-  const latestInputs = new Set(examples.slice(1).map(example => example.content))
-  assert.equal(latestInputs.has(oldFixture.cases[0].input), false)
 })

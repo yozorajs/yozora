@@ -184,7 +184,7 @@ export async function syncGFM(argv = process.argv.slice(2)) {
     ],
   })
   console.log(
-    `Synchronized ${plan.summary.currentExamples} GFM examples: ${plan.summary.matched} matched, ${plan.summary.new} new, ${plan.summary.old} old`,
+    `Synchronized ${plan.summary.currentExamples} GFM examples: ${plan.summary.matched} matched, ${plan.summary.new} new`,
   )
   return plan.summary
 }
