@@ -22,6 +22,21 @@ test('link node should omit position when shouldReservePosition is false', funct
   expect(node.position).toBeUndefined()
 })
 
+test.each(['[x]()', '[x](<>)'])('formats an empty link destination in %s', source => {
+  const formattedUrls: string[] = []
+  const ast = parsers.gfm.parse(source, {
+    shouldReservePosition: false,
+    formatUrl: url => {
+      formattedUrls.push(url)
+      return `formatted:${url}`
+    },
+  })
+  const node = (ast.children[0] as any).children[0]
+
+  expect(formattedUrls).toEqual([''])
+  expect(node).toMatchObject({ type: 'link', url: 'formatted:' })
+})
+
 test.each([
   [
     'autolink after inline link',

@@ -18,3 +18,18 @@ test('image node should omit position when shouldReservePosition is false', func
   expect(node.title).toBe('title')
   expect(node.position).toBeUndefined()
 })
+
+test.each(['![x]()', '![x](<>)'])('formats an empty image destination in %s', source => {
+  const formattedUrls: string[] = []
+  const ast = parsers.gfm.parse(source, {
+    shouldReservePosition: false,
+    formatUrl: url => {
+      formattedUrls.push(url)
+      return `formatted:${url}`
+    },
+  })
+  const node = (ast.children[0] as any).children[0]
+
+  expect(formattedUrls).toEqual([''])
+  expect(node).toMatchObject({ type: 'image', url: 'formatted:' })
+})

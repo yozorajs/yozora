@@ -12,21 +12,16 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
         const nodePoints: readonly INodePoint[] = api.getNodePoints()
 
         // calc url
-        let url = ''
+        let destination = ''
         if (token.destinationContent != null) {
           let { startIndex, endIndex } = token.destinationContent
           if (nodePoints[startIndex].codePoint === AsciiCodePoint.OPEN_ANGLE) {
             startIndex += 1
             endIndex -= 1
           }
-          const destination = calcEscapedStringFromNodePoints(
-            nodePoints,
-            startIndex,
-            endIndex,
-            true,
-          )
-          url = api.formatUrl(destination)
+          destination = calcEscapedStringFromNodePoints(nodePoints, startIndex, endIndex, true)
         }
+        const url = api.formatUrl(destination)
 
         // calc title
         let title: string | undefined
