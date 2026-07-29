@@ -33,6 +33,23 @@ describe('extended URL boundaries', () => {
     })
   })
 
+  test.each(['(', '*', '~'])(
+    'recognizes a valid www autolink after an invalid candidate and %s',
+    boundary => {
+      const prefix = `www.foo_bar.com${boundary}`
+      const value = 'www.good.com'
+      expect(
+        parsers.gfmEx.parse(prefix + value, { shouldReservePosition: false }).children[0],
+      ).toEqual({
+        type: 'paragraph',
+        children: [
+          { type: 'text', value: prefix },
+          { type: 'link', url: `http://${value}`, children: [{ type: 'text', value }] },
+        ],
+      })
+    },
+  )
+
   test.each([
     ['aa._https://example.com', 'https://example.com'],
     ['aa._www.example.com', 'http://www.example.com'],
@@ -166,36 +183,37 @@ describe('extended protocol autolinks', () => {
   })
 })
 
-test.each(['_a'.repeat(2_000), '_www.'.repeat(1_000)])(
-  'does not rescan rejected underscore-prefixed candidates',
-  source => {
-    const originalNodePoints = Array.from(createNodePointGenerator(source)).flat()
-    let nodePointReads = 0
-    const nodePoints = new Proxy(originalNodePoints, {
-      get: (target, property, receiver) => {
-        if (typeof property === 'string' && Number.isInteger(Number(property))) {
-          nodePointReads += 1
-        }
-        return Reflect.get(target, property, receiver)
-      },
-    })
-    const hook = new AutolinkExtensionTokenizer().match({
-      getBlockStartIndex: () => 0,
-      getNodePoints: () => nodePoints,
-    } as any)
-    const findDelimiter = hook.findDelimiter()
-    findDelimiter.next()
+test.each([
+  ['email local-part', '_a'.repeat(2_000)],
+  ['www domain', '_www.'.repeat(1_000)],
+  ['protocol URL domain', 'http://foo_bar.com('.repeat(1_000)],
+])('does not rescan rejected %s candidates', (_, source) => {
+  const originalNodePoints = Array.from(createNodePointGenerator(source)).flat()
+  let nodePointReads = 0
+  const nodePoints = new Proxy(originalNodePoints, {
+    get: (target, property, receiver) => {
+      if (typeof property === 'string' && Number.isInteger(Number(property))) {
+        nodePointReads += 1
+      }
+      return Reflect.get(target, property, receiver)
+    },
+  })
+  const hook = new AutolinkExtensionTokenizer().match({
+    getBlockStartIndex: () => 0,
+    getNodePoints: () => nodePoints,
+  } as any)
+  const findDelimiter = hook.findDelimiter()
+  findDelimiter.next()
 
-    expect(findDelimiter.next([0, nodePoints.length]).value).toBeNull()
-    expect(nodePointReads).toBeLessThan(nodePoints.length * 64)
-    expect(parsers.gfmEx.parse(source, { shouldReservePosition: false })).toEqual({
-      type: 'root',
-      children: [
-        {
-          type: 'paragraph',
-          children: [{ type: 'text', value: source }],
-        },
-      ],
-    })
-  },
-)
+  expect(findDelimiter.next([0, nodePoints.length]).value).toBeNull()
+  expect(nodePointReads).toBeLessThan(nodePoints.length * 64)
+  expect(parsers.gfmEx.parse(source, { shouldReservePosition: false })).toEqual({
+    type: 'root',
+    children: [
+      {
+        type: 'paragraph',
+        children: [{ type: 'text', value: source }],
+      },
+    ],
+  })
+})

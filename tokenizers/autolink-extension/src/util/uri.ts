@@ -28,7 +28,9 @@ export function eatExtendedUrl(
     return { valid: false, nextIndex: nextIndex + 1 }
 
   const result = eatValidDomain(nodePoints, nextIndex + 3, endIndex)
-  result.nextIndex = eatOptionalDomainFollows(nodePoints, result.nextIndex, endIndex)
+  if (result.valid) {
+    result.nextIndex = eatOptionalDomainFollows(nodePoints, result.nextIndex, endIndex)
+  }
   return result
 }
 
@@ -59,7 +61,9 @@ export function eatWWWDomain(
   }
 
   const result = eatValidDomain(nodePoints, nextIndex + 1, endIndex)
-  result.nextIndex = eatOptionalDomainFollows(nodePoints, result.nextIndex, endIndex)
+  if (result.valid) {
+    result.nextIndex = eatOptionalDomainFollows(nodePoints, result.nextIndex, endIndex)
+  }
   return result
 }
 
