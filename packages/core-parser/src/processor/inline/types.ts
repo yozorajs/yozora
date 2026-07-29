@@ -77,6 +77,10 @@ export interface IDelimiterProcessorHook {
  */
 export interface IDelimiterItem {
   /**
+   * Index in the global delimiter stack.
+   */
+  delimiterStackIndex: number
+  /**
    * Hook which produce this delimiter.
    */
   hook: IDelimiterProcessorHook

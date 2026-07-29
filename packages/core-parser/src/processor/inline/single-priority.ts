@@ -1,4 +1,5 @@
 import type { IInlineToken, ITokenDelimiter } from '@yozora/core-tokenizer'
+import invariant from '@yozora/invariant'
 import type { IDelimiterItem, IDelimiterProcessor, IDelimiterProcessorHook } from './types'
 
 /**
@@ -7,8 +8,30 @@ import type { IDelimiterItem, IDelimiterProcessor, IDelimiterProcessorHook } fro
 export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor => {
   let htIndex = 0
   const higherPriorityTokens: IInlineToken[] = []
+
+  /**
+   * The global stack owns nesting order. Per-hook stacks are non-owning indexes
+   * that avoid scanning unrelated delimiters. This processor closure is the
+   * state owner; push, cut, and clear keep both representations synchronized,
+   * and divergence aborts through the invariant below.
+   */
   const delimiterStack: IDelimiterItem[] = []
+  const hookDelimiterStackMap = new Map<IDelimiterProcessorHook, IDelimiterItem[]>()
   const tokenStack: IInlineToken[] = []
+
+  const getHookDelimiterStack = (hook: IDelimiterProcessorHook): IDelimiterItem[] => {
+    let stack = hookDelimiterStackMap.get(hook)
+    if (stack == null) {
+      stack = []
+      hookDelimiterStackMap.set(hook, stack)
+    }
+    return stack
+  }
+
+  const clearDelimiterStacks = (): void => {
+    delimiterStack.length = 0
+    hookDelimiterStackMap.clear()
+  }
 
   /**
    * Clear the delimiter nodes those are no longer active (deactivated) at the top
@@ -18,7 +41,16 @@ export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor =>
   const cutStaleBranch = (startStackIndex: number): void => {
     let top = startStackIndex - 1
     while (top >= 0 && delimiterStack[top].inactive) top -= 1
-    delimiterStack.length = top + 1
+
+    while (delimiterStack.length > top + 1) {
+      const item = delimiterStack.pop()!
+      const hookDelimiterStack = hookDelimiterStackMap.get(item.hook)
+      invariant(
+        hookDelimiterStack != null && hookDelimiterStack[hookDelimiterStack.length - 1] === item,
+        '[DelimiterProcessor] hook delimiter stack is out of sync.',
+      )
+      hookDelimiterStack.pop()
+    }
   }
 
   /**
@@ -27,12 +59,15 @@ export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor =>
    * @param delimiter
    */
   const push = (hook: IDelimiterProcessorHook, delimiter: ITokenDelimiter): void => {
-    delimiterStack.push({
+    const item: IDelimiterItem = {
+      delimiterStackIndex: delimiterStack.length,
       hook,
       delimiter,
       inactive: false,
       tokenStackIndex: tokenStack.length,
-    })
+    }
+    delimiterStack.push(item)
+    getHookDelimiterStack(hook).push(item)
   }
 
   /**
@@ -66,11 +101,12 @@ export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor =>
     hook: IDelimiterProcessorHook,
     closerDelimiter: ITokenDelimiter,
   ): ITokenDelimiter | null => {
-    if (delimiterStack.length <= 0) return null
+    const hookDelimiterStack = hookDelimiterStackMap.get(hook)
+    if (hookDelimiterStack == null || hookDelimiterStack.length <= 0) return null
 
-    for (let i = delimiterStack.length - 1; i >= 0; --i) {
-      const item = delimiterStack[i]
-      if (item.inactive || item.hook !== hook) continue
+    for (let i = hookDelimiterStack.length - 1; i >= 0; --i) {
+      const item = hookDelimiterStack[i]
+      if (item.inactive) continue
       const openerDelimiter = item.delimiter
 
       // Pair selection runs before process() moves pending higher-priority
@@ -95,6 +131,7 @@ export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor =>
     closerDelimiter: ITokenDelimiter,
   ): ITokenDelimiter | null => {
     if (delimiterStack.length <= 0) return closerDelimiter
+    const hookDelimiterStack = hookDelimiterStackMap.get(hook) ?? []
 
     let remainOpenerDelimiter: ITokenDelimiter | undefined
     let remainCloserDelimiter: ITokenDelimiter | undefined = closerDelimiter
@@ -102,9 +139,9 @@ export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor =>
 
     // A closer delimiter may consume multiple opener / both delimiters in
     // the stack.
-    for (let i = delimiterStack.length - 1; i >= 0; --i) {
-      const item = delimiterStack[i]
-      if (item.hook !== hook || item.inactive) continue
+    for (let i = hookDelimiterStack.length - 1; i >= 0; --i) {
+      const item = hookDelimiterStack[i]
+      if (item.inactive) continue
 
       const openerTokenStackIndex = item.tokenStackIndex
       if (openerTokenStackIndex < tokenStack.length) {
@@ -180,8 +217,8 @@ export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor =>
         remainOpenerDelimiter = result.remainOpenerDelimiter
         remainCloserDelimiter = result.remainCloserDelimiter
 
-        cutStaleBranch(i)
-        i = Math.min(i, delimiterStack.length)
+        cutStaleBranch(item.delimiterStackIndex)
+        i = Math.min(i, hookDelimiterStack.length)
         if (remainOpenerDelimiter != null) push(hook, remainOpenerDelimiter)
       }
 
@@ -246,7 +283,7 @@ export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor =>
       }
     }
 
-    delimiterStack.length = 0
+    clearDelimiterStacks()
     if (tokens.length > 0) {
       const nextTokenStack = mergeSortedTokenStack(tokenStack, tokens)
       tokenStack.length = 0
@@ -265,7 +302,7 @@ export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor =>
     }
 
     htIndex = 0
-    delimiterStack.length = 0
+    clearDelimiterStacks()
     tokenStack.length = 0
   }
 

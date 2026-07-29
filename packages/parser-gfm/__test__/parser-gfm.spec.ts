@@ -154,6 +154,14 @@ test('matches 10,000 nested images without rescanning resolved contents', () => 
   expect((ast.children[0] as any).children).toEqual([{ type: 'image', url: '', alt: '' }])
 })
 
+test('handles unmatched cross-tokenizer delimiters without quadratic scans', () => {
+  const count = 100_000
+  const source = '[x]: <'.repeat(count)
+  const ast = parsers.gfm.parse(source, { shouldReservePosition: false })
+
+  expect(ast.children).toEqual([{ type: 'paragraph', children: [{ type: 'text', value: source }] }])
+})
+
 test('materializes wide sibling lists without exceeding the argument limit', () => {
   const count = 150_000
   const ast = parsers.gfm.parse('x\n\n'.repeat(count), { shouldReservePosition: false })
