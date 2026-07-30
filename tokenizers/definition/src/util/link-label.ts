@@ -2,6 +2,8 @@ import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
 
+const maxCollectedLinkLabelLength = 1000
+
 /**
  * The processing token of eatAndCollectLinkLabel, used to save
  * intermediate data to support multiple codePosition fragment processing
@@ -81,6 +83,8 @@ export function eatAndCollectLinkLabel(
   }
 
   for (; i < endIndex; ++i) {
+    if (state.nodePoints.length > maxCollectedLinkLabelLength) return { nextIndex: -1, state }
+
     const p = nodePoints[i]
     switch (p.codePoint) {
       case AsciiCodePoint.BACKSLASH:

@@ -88,11 +88,11 @@ export function eatAndCollectLinkDestination(
       const p = nodePoints[i]
       switch (p.codePoint) {
         case AsciiCodePoint.BACKSLASH:
+          state.nodePoints.push(p)
           if (i + 1 < endIndex) {
-            state.nodePoints.push(p)
             state.nodePoints.push(nodePoints[i + 1])
+            i += 1
           }
-          i += 1
           break
         case AsciiCodePoint.OPEN_ANGLE:
         case VirtualCodePoint.LINE_END:
@@ -122,11 +122,11 @@ export function eatAndCollectLinkDestination(
     const p = nodePoints[i]
     switch (p.codePoint) {
       case AsciiCodePoint.BACKSLASH:
+        state.nodePoints.push(p)
         if (i + 1 < endIndex) {
-          state.nodePoints.push(p)
           state.nodePoints.push(nodePoints[i + 1])
+          i += 1
         }
-        i += 1
         break
       case AsciiCodePoint.OPEN_PARENTHESIS:
         state.openParensCount += 1

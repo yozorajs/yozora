@@ -67,6 +67,24 @@ test.each([
   ['gfm', parsers.gfm],
   ['gfmEx', parsers.gfmEx],
   ['yozora', parsers.yozora],
+])('%s limits definition labels to 999 characters', (_name, parser) => {
+  const acceptedSource = `[${'a'.repeat(999)}]: /url`
+  expect(parser.parse(acceptedSource, { shouldReservePosition: false }).children[0]?.type).toBe(
+    'definition',
+  )
+
+  for (const length of [1_000, 1_001]) {
+    const rejectedSource = `[${'a'.repeat(length)}]: /url`
+    expect(parser.parse(rejectedSource, { shouldReservePosition: false }).children[0]?.type).toBe(
+      'paragraph',
+    )
+  }
+})
+
+test.each([
+  ['gfm', parsers.gfm],
+  ['gfmEx', parsers.gfmEx],
+  ['yozora', parsers.yozora],
 ])('%s resolves Unicode case-fold-equivalent link labels', (_name, parser) => {
   for (const source of ['[\u1C80]: /url\n\n[\u0432]', '[\u0432]: /url\n\n[\u1C80]']) {
     const ast = parser.parse(source, { shouldReservePosition: false })
@@ -99,6 +117,25 @@ test.each([
       ],
     })
   }
+})
+
+test.each([
+  ['gfm', parsers.gfm],
+  ['gfmEx', parsers.gfmEx],
+  ['yozora', parsers.yozora],
+])('%s preserves a trailing backslash in a definition destination at EOF', (_name, parser) => {
+  expect(parser.parse('[foo]: /url\\', { shouldReservePosition: false })).toEqual({
+    type: 'root',
+    children: [
+      {
+        type: 'definition',
+        identifier: 'foo',
+        label: 'foo',
+        url: '/url%5C',
+        title: undefined,
+      },
+    ],
+  })
 })
 
 test.each([
