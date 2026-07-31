@@ -5,7 +5,6 @@ import { createNodeMatcher } from './ast/collect/misc'
 
 const URL_PREFIX_PATTERN = /^(?:(?:[A-Za-z][A-Za-z\d+.-]*:)?[/]{2}[^/]*|[A-Za-z][A-Za-z\d+.-]*:)/
 const URL_SUFFIX_DELIMITER_PATTERN = /[?#]/
-const OPAQUE_URL_PREFIX_PATTERN = /^(?:blob|data|mailto|urn):$/i
 
 /**
  * Resolve url.
@@ -13,9 +12,9 @@ const OPAQUE_URL_PREFIX_PATTERN = /^(?:blob|data|mailto|urn):$/i
 export type IUrlResolver = (...pathPieces: (string | null | undefined)[]) => string
 
 /**
- * Join URL path pieces using directory-base semantics and normalize literal dot segments.
- * Absolute paths and URI schemes replace preceding pieces. Query-only and fragment-only
- * references update the current result without adding a path separator.
+ * Join URL path pieces using directory-base semantics. Normalize literal dot segments only when
+ * no URI scheme is present or the URL has an authority component. A piece beginning with `/` or
+ * a URI scheme replaces preceding pieces; query-only and fragment-only references update the result.
  *
  * @param pathPieces
  * @returns
@@ -96,9 +95,7 @@ function normalizeUrlPath(path: string): string {
   const pathname = path.slice(prefix.length)
 
   if (pathname.length <= 0) return prefix
-
-  // These scheme-specific payloads are not hierarchical paths.
-  if (OPAQUE_URL_PREFIX_PATTERN.test(prefix)) return path
+  if (prefix.endsWith(':')) return path
 
   const absolute = pathname.startsWith('/')
   const preserveTrailingSlash =

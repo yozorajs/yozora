@@ -42,7 +42,11 @@ describe('defaultUrlResolver', function () {
     ['opaque data URI', ['prefix', 'data:text/plain,a/../b'], 'data:text/plain,a/../b'],
     ['opaque mailto URI', ['mailto:user/../admin@example.com'], 'mailto:user/../admin@example.com'],
     ['opaque URN', ['urn:example:a/../b'], 'urn:example:a/../b'],
-    ['hierarchical custom URI', ['custom:/a/../b'], 'custom:/b'],
+    ['opaque about URI', ['about:foo/../bar'], 'about:foo/../bar'],
+    ['opaque JavaScript URI', ['javascript:render("/a/../b")'], 'javascript:render("/a/../b")'],
+    ['rootless custom URI', ['pkg:docs/a/../b'], 'pkg:docs/a/../b'],
+    ['single-slash custom URI', ['custom:/a/../b'], 'custom:/a/../b'],
+    ['authority-based custom URI', ['custom://host/a/../b'], 'custom://host/b'],
   ])('normalizes %s', (_name, pathPieces, expected) => {
     expect(defaultUrlResolver(...pathPieces)).toBe(expected)
   })
