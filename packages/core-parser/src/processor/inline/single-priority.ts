@@ -275,7 +275,9 @@ export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor =>
 
   const done = (): readonly IInlineToken[] => {
     const tokens: IInlineToken[] = []
-    for (const { delimiter, hook } of delimiterStack) {
+    for (const { delimiter, hook, inactive } of delimiterStack) {
+      if (inactive) continue
+
       const result = hook.processSingleDelimiter(delimiter)
       for (const token of result) {
         token._tokenizer = hook.name
