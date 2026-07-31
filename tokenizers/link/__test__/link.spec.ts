@@ -37,6 +37,23 @@ test.each(['[x]()', '[x](<>)'])('formats an empty link destination in %s', sourc
   expect(node).toMatchObject({ type: 'link', url: 'formatted:' })
 })
 
+test.each(['[x](a\\ b)', '[x](<a\\\nb>)', '![x](a\\ b)', '![x](<a\\\nb>)'])(
+  'rejects a destination containing whitespace after a backslash in %s',
+  source => {
+    const formattedUrls: string[] = []
+
+    parsers.gfm.parse(source, {
+      shouldReservePosition: false,
+      formatUrl: url => {
+        formattedUrls.push(url)
+        return url
+      },
+    })
+
+    expect(formattedUrls).toEqual([])
+  },
+)
+
 test.each([
   [
     'autolink after inline link',

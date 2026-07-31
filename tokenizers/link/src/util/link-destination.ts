@@ -3,6 +3,7 @@ import {
   AsciiCodePoint,
   VirtualCodePoint,
   isAsciiControlCharacter,
+  isAsciiPunctuationCharacter,
   isWhitespaceCharacter,
 } from '@yozora/character'
 
@@ -46,7 +47,9 @@ export function eatLinkDestination(
         const p = nodePoints[i]
         switch (p.codePoint) {
           case AsciiCodePoint.BACKSLASH:
-            i += 1
+            if (i + 1 < endIndex && isAsciiPunctuationCharacter(nodePoints[i + 1].codePoint)) {
+              i += 1
+            }
             break
           case AsciiCodePoint.OPEN_ANGLE:
           case VirtualCodePoint.LINE_END:
@@ -73,7 +76,9 @@ export function eatLinkDestination(
         const c = nodePoints[i].codePoint
         switch (c) {
           case AsciiCodePoint.BACKSLASH:
-            i += 1
+            if (i + 1 < endIndex && isAsciiPunctuationCharacter(nodePoints[i + 1].codePoint)) {
+              i += 1
+            }
             break
           case AsciiCodePoint.OPEN_PARENTHESIS:
             openParensCount += 1

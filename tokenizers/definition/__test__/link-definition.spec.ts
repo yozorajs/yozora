@@ -142,6 +142,22 @@ test.each([
   ['gfm', parsers.gfm],
   ['gfmEx', parsers.gfmEx],
   ['yozora', parsers.yozora],
+])('%s rejects whitespace escaped in a definition destination', (_name, parser) => {
+  const ast = parser.parse('[x]: a\\ b\n\n[x]', {
+    shouldReservePosition: false,
+  })
+
+  expect(ast.children.some(node => node.type === 'definition')).toBe(false)
+  expect(ast.children.at(-1)).toEqual({
+    type: 'paragraph',
+    children: [{ type: 'text', value: '[x]' }],
+  })
+})
+
+test.each([
+  ['gfm', parsers.gfm],
+  ['gfmEx', parsers.gfmEx],
+  ['yozora', parsers.yozora],
 ])('%s validates trailing content after a parenthesized definition title', (_name, parser) => {
   for (const source of ['[foo]: /url (title)  ', '[foo]: /url (title)  \n']) {
     expect(parser.parse(source, { shouldReservePosition: false })).toEqual({

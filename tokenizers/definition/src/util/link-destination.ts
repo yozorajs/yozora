@@ -3,6 +3,7 @@ import {
   AsciiCodePoint,
   VirtualCodePoint,
   isAsciiControlCharacter,
+  isAsciiPunctuationCharacter,
   isWhitespaceCharacter,
 } from '@yozora/character'
 import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
@@ -89,7 +90,7 @@ export function eatAndCollectLinkDestination(
       switch (p.codePoint) {
         case AsciiCodePoint.BACKSLASH:
           state.nodePoints.push(p)
-          if (i + 1 < endIndex) {
+          if (i + 1 < endIndex && isAsciiPunctuationCharacter(nodePoints[i + 1].codePoint)) {
             state.nodePoints.push(nodePoints[i + 1])
             i += 1
           }
@@ -123,7 +124,7 @@ export function eatAndCollectLinkDestination(
     switch (p.codePoint) {
       case AsciiCodePoint.BACKSLASH:
         state.nodePoints.push(p)
-        if (i + 1 < endIndex) {
+        if (i + 1 < endIndex && isAsciiPunctuationCharacter(nodePoints[i + 1].codePoint)) {
           state.nodePoints.push(nodePoints[i + 1])
           i += 1
         }
