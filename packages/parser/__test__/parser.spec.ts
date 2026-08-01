@@ -106,6 +106,80 @@ describe('fallback tokenizer registration', () => {
   })
 })
 
+describe('tokenizer unmounting', () => {
+  const sharedTokenizerName = 'shared'
+
+  const createParser = (): {
+    parser: DefaultParser
+    blockTokenizer: FencedCodeTokenizer
+    inlineTokenizer: InlineCodeTokenizer
+  } => {
+    const blockTokenizer = new FencedCodeTokenizer({ name: sharedTokenizerName })
+    const inlineTokenizer = new InlineCodeTokenizer({ name: sharedTokenizerName })
+    const parser = new DefaultParser({
+      blockFallbackTokenizer: new ParagraphTokenizer(),
+      inlineFallbackTokenizer: new TextTokenizer(),
+    })
+      .useTokenizer(blockTokenizer)
+      .useTokenizer(inlineTokenizer)
+    return { parser, blockTokenizer, inlineTokenizer }
+  }
+
+  test('unmounts only the block tokenizer when passed an object', () => {
+    const { parser, blockTokenizer } = createParser()
+
+    parser.unmountTokenizer(blockTokenizer)
+
+    expect(parser.parse('`code`')).toMatchObject({
+      children: [{ type: 'paragraph', children: [{ type: 'inlineCode', value: 'code' }] }],
+    })
+    expect(parser.parse('```\ncode\n```').children[0]).toMatchObject({ type: 'paragraph' })
+  })
+
+  test('unmounts only the inline tokenizer when passed an object', () => {
+    const { parser, inlineTokenizer } = createParser()
+
+    parser.unmountTokenizer(inlineTokenizer)
+
+    expect(parser.parse('```\ncode\n```').children[0]).toMatchObject({
+      type: 'code',
+      value: 'code\n',
+    })
+    expect(parser.parse('`code`')).toMatchObject({
+      children: [{ type: 'paragraph', children: [{ type: 'text', value: '`code`' }] }],
+    })
+  })
+
+  test('unmounts both tokenizer types when passed a name', () => {
+    const { parser } = createParser()
+
+    parser.unmountTokenizer(sharedTokenizerName)
+
+    expect(parser.parse('```\ncode\n```').children[0]).toMatchObject({ type: 'paragraph' })
+    expect(parser.parse('`code`')).toMatchObject({
+      children: [{ type: 'paragraph', children: [{ type: 'text', value: '`code`' }] }],
+    })
+  })
+
+  test('replaces same-name fallback tokenizers independently', () => {
+    const sharedFallbackName = 'shared-fallback'
+    const parser = new DefaultParser({
+      blockFallbackTokenizer: new ParagraphTokenizer({ name: sharedFallbackName }),
+      inlineFallbackTokenizer: new TextTokenizer({ name: sharedFallbackName }),
+    })
+
+    parser.useFallbackTokenizer(new ParagraphTokenizer({ name: sharedFallbackName }))
+    expect(parser.parse('plain')).toMatchObject({
+      children: [{ type: 'paragraph', children: [{ type: 'text', value: 'plain' }] }],
+    })
+
+    parser.useFallbackTokenizer(new TextTokenizer({ name: sharedFallbackName }))
+    expect(parser.parse('plain')).toMatchObject({
+      children: [{ type: 'paragraph', children: [{ type: 'text', value: 'plain' }] }],
+    })
+  })
+})
+
 describe('parse options', () => {
   test('formats inline link and autolink URLs consistently', () => {
     const parser = new YozoraParser({

@@ -77,8 +77,14 @@ export class DefaultParser implements IParser {
   }
 
   public unmountTokenizer(tokenizerOrName: ITokenizer | string): this {
-    this._unregisterTokenizer(this.inlineTokenizers, this.inlineTokenizerMap, tokenizerOrName)
-    this._unregisterTokenizer(this.blockTokenizers, this.blockTokenizerMap, tokenizerOrName)
+    if (typeof tokenizerOrName === 'string') {
+      this._unregisterTokenizer(this.inlineTokenizers, this.inlineTokenizerMap, tokenizerOrName)
+      this._unregisterTokenizer(this.blockTokenizers, this.blockTokenizerMap, tokenizerOrName)
+    } else if (tokenizerOrName.type === TokenizerType.BLOCK) {
+      this._unregisterTokenizer(this.blockTokenizers, this.blockTokenizerMap, tokenizerOrName)
+    } else {
+      this._unregisterTokenizer(this.inlineTokenizers, this.inlineTokenizerMap, tokenizerOrName)
+    }
     return this
   }
 
@@ -227,14 +233,14 @@ export class DefaultParser implements IParser {
       typeof tokenizerOrName === 'string' ? tokenizerOrName : tokenizerOrName.name
 
     // Unregister from tokenizerMap.
-    const existed: boolean = tokenizerMap.delete(tokenizerName)
-    if (!existed) return
+    const registeredTokenizer = tokenizerMap.get(tokenizerName)
+    if (registeredTokenizer == null || !tokenizerMap.delete(tokenizerName)) return
 
     // Check if it is blockFallbackTokenizer
-    if (this.blockFallbackTokenizer?.name === tokenizerName) this.blockFallbackTokenizer = null
+    if (this.blockFallbackTokenizer === registeredTokenizer) this.blockFallbackTokenizer = null
 
     // Check if it is inlineFallbackTokenizer
-    if (this.inlineFallbackTokenizer?.name === tokenizerName) this.inlineFallbackTokenizer = null
+    if (this.inlineFallbackTokenizer === registeredTokenizer) this.inlineFallbackTokenizer = null
 
     // Unregister from tokenizers
     const index: number = tokenizers.findIndex(tokenizer => tokenizer.name === tokenizerName)
