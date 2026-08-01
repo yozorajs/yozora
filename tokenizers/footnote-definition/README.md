@@ -321,7 +321,6 @@ another,[^long note],
 [doc-@yozora/tokenizer-table]:                https://yozora.guanghechen.com/docs/package/tokenizer-table
 [doc-@yozora/tokenizer-text]:                 https://yozora.guanghechen.com/docs/package/tokenizer-text
 [doc-@yozora/tokenizer-thematic-break]:       https://yozora.guanghechen.com/docs/package/tokenizer-thematic-break
-[doc-@yozora/parser-gfm]:                     https://yozora.guanghechen.com/docs/package/parser-gfm
 
 [gfm-atx-heading]:                            https://github.github.com/gfm/#atx-heading
 [gfm-autolink]:                               https://github.github.com/gfm/#autolinks

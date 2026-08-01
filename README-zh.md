@@ -6,7 +6,7 @@
     </div>
   </h1>
   <div align="center">
-    <a href="#license">
+    <a href="#-license">
       <img
         alt="License"
         src="https://img.shields.io/github/license/yozorajs/yozora"
@@ -282,7 +282,6 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/main/LICEN
 - [@yozora/html-markdown][]: 一个用于将 Yozora AST 渲染成 HTML 字符串的库。
 
 [ghc-post-yozora]: https://me.guanghechen.com/essay/tada/
-[gfm-spec]: https://github.github.com/gfm/
 [github-tokenizers]: https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers
 [src-INodePoint]: https://github.com/yozorajs/yozora/blob/main/packages/character/src/types.ts#L10
 [yozora-docs]: https://yozora.guanghechen.com/
@@ -293,7 +292,6 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/main/LICEN
 [@yozora/gatsby-images]:
   https://github.com/yozorajs/gatsby-scaffolds/blob/main/packages/gatsby-images#readme
 [@yozora/html-markdown]: https://github.com/yozorajs/yozora-html/tree/main/packages/markdown
-[@yozora/react-markdown]: https://github.com/yozorajs/yozora-react/tree/main/packages/markdown
 
 <!-- :begin use tokenizer/definitions -->
 
@@ -403,7 +401,6 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/main/LICEN
 [doc-@yozora/tokenizer-table]:                https://yozora.guanghechen.com/docs/package/tokenizer-table
 [doc-@yozora/tokenizer-text]:                 https://yozora.guanghechen.com/docs/package/tokenizer-text
 [doc-@yozora/tokenizer-thematic-break]:       https://yozora.guanghechen.com/docs/package/tokenizer-thematic-break
-[doc-@yozora/parser-gfm]:                     https://yozora.guanghechen.com/docs/package/parser-gfm
 
 [gfm-atx-heading]:                            https://github.github.com/gfm/#atx-heading
 [gfm-autolink]:                               https://github.github.com/gfm/#autolinks

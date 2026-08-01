@@ -6,7 +6,7 @@
     </div>
   </h1>
   <div align="center">
-    <a href="#license">
+    <a href="#-license">
       <img
         alt="License"
         src="https://img.shields.io/github/license/yozorajs/yozora"
@@ -297,7 +297,6 @@ Yozora is [MIT licensed](https://github.com/yozorajs/yozora/blob/main/LICENSE).
 - [@yozora/html-markdown][]: A library that renders Yozora AST into HTML strings.
 
 [ghc-post-yozora]: https://me.guanghechen.com/essay/tada/
-[gfm-spec]: https://github.github.com/gfm/
 [github-tokenizers]: https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers
 [src-NodePoint]: https://github.com/yozorajs/yozora/blob/main/packages/character/src/types.ts#L10
 [yozora-docs]: https://yozora.guanghechen.com/
@@ -308,7 +307,6 @@ Yozora is [MIT licensed](https://github.com/yozorajs/yozora/blob/main/LICENSE).
 [@yozora/gatsby-images]:
   https://github.com/yozorajs/gatsby-scaffolds/blob/main/packages/gatsby-images#readme
 [@yozora/html-markdown]: https://github.com/yozorajs/yozora-html/tree/main/packages/markdown
-[@yozora/react-markdown]: https://github.com/yozorajs/yozora-react/tree/main/packages/markdown
 
 <!-- :begin use tokenizer/definitions -->
 
@@ -418,7 +416,6 @@ Yozora is [MIT licensed](https://github.com/yozorajs/yozora/blob/main/LICENSE).
 [doc-@yozora/tokenizer-table]:                https://yozora.guanghechen.com/docs/package/tokenizer-table
 [doc-@yozora/tokenizer-text]:                 https://yozora.guanghechen.com/docs/package/tokenizer-text
 [doc-@yozora/tokenizer-thematic-break]:       https://yozora.guanghechen.com/docs/package/tokenizer-thematic-break
-[doc-@yozora/parser-gfm]:                     https://yozora.guanghechen.com/docs/package/parser-gfm
 
 [gfm-atx-heading]:                            https://github.github.com/gfm/#atx-heading
 [gfm-autolink]:                               https://github.github.com/gfm/#autolinks

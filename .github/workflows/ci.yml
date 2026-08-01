@@ -65,6 +65,8 @@ jobs:
         run: pnpm typecheck
       - name: Format check
         run: pnpm format:check
+      - name: Check docs
+        run: pnpm doc:check
       - name: Spellcheck
         run: pnpm spellcheck
       - name: Test scripts

@@ -26,6 +26,7 @@
     "build": "cross-env NODE_ENV=production ROLLUP_SHOULD_SOURCEMAP=true pnpm -r --filter='!@yozora/test-util' run build",
     "build:production": "cross-env NODE_ENV=production ROLLUP_SHOULD_SOURCEMAP=false pnpm -r --filter='!@yozora/test-util' run build",
     "clean": "pnpm -r --filter='!@yozora/test-util' run clean",
+    "doc:check": "tsx script/docs/verify.mjs",
     "doc": "pnpm doc:tokenizer && pnpm doc:parser",
     "doc:tokenizer": "tsx script/docs/generate-tokenizers.ts",
     "doc:parser": "tsx script/docs/generate-parsers.ts",

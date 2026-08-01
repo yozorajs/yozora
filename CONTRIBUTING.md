@@ -26,13 +26,14 @@ This installs all workspace dependencies and sets up the git hooks via `@guanghe
 | `pnpm test:coverage` | Run tests with coverage                              |
 | `pnpm lint`          | Lint with ESLint                                     |
 | `pnpm typecheck`     | Type-check with `tsc --noEmit`                       |
+| `pnpm doc:check`     | Validate Markdown structure and local links          |
 | `pnpm spellcheck`    | Spell-check sources with cspell                      |
 | `pnpm format`        | Auto-fix lint + format with Prettier                 |
 | `pnpm doc`           | Regenerate package READMEs from Handlebars templates |
 
-CI runs `lint`, `typecheck`, `format:check`, and `spellcheck` (the `check` job), plus `build` +
-`test:coverage` across Node 20/22/24. A pre-commit hook runs `lint-staged` on staged files, so most
-issues are caught before you push.
+CI runs `lint`, `typecheck`, `format:check`, `doc:check`, and `spellcheck` (the `check` job), plus
+`build` + `test:coverage` across Node 22/24/26. A pre-commit hook runs `lint-staged` on staged
+files, so most issues are caught before you push.
 
 ## Adding a new tokenizer
 
