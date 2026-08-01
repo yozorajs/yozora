@@ -1,5 +1,27 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :bug: fix(ast-util): preserve non-authority URI payloads
+- :bug: fix(ast-util): replace footnotes in admonition titles
+- :bug: fix(ast-util): preserve blob URLs
+- :bug: fix(ast-util): resolve admonition title URLs
+- :bug: fix(ast-util): preserve known opaque URI payloads
+- :bug: fix(ast-util): ignore empty excerpt separators
+- :bug: fix(ast-util): preserve valid Unicode in excerpts
+- :bug: fix(core): avoid argument limits for wide sibling lists
+- :bug: fix(ast-util): normalize joined URL references
+- :bug: fix(ast-util): include image alt text in heading identifiers
+- :bug: fix(ast-util): avoid call stack overflows
+- :bug: fix(ast-util): propagate clone termination
+- :bug: fix(ast-util): exclude excerpt separator
+- :bug: fix(ast-util): recognize absolute URI schemes
+- :bug: fix(ast-util): handle duplicate heading identifiers efficiently
+- :bug: fix(ast-util): preserve array metadata when removing positions
+- :memo: docs: update documentation and generation tooling
+- :bug: fix(ast-util): truncate excerpts within literals
+- :bug: fix(ast-util): preserve prototype-named definitions
+
 ## 2.3.17 (2026-07-10)
 
 - :white_check_mark: test(ast-util): assert mock AST as Root so typecheck passes

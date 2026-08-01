@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :bug: fix(inline): preserve boundary tabs
+- :zap: perf(inline): avoid quadratic backtick delimiter pairing
+- :memo: docs: update documentation and generation tooling
+
 ## 2.3.17 (2026-07-10)
 
 - :memo: docs: sync package homepage/README links to v2.3.16

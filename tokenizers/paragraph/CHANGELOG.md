@@ -1,5 +1,14 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :recycle: refactor(fixtures): flatten GFM test cases
+- :zap: perf(parser): reduce node point allocations
+- :rewind: revert(core-tokenizer): restore countOfPrecedeSpaces
+- :memo: docs: update documentation and generation tooling
+- :boom: refactor(core-tokenizer)!: remove countOfPrecedeSpaces
+- :bug: fix(block): track visual indentation width
+
 ## 2.3.17 (2026-07-10)
 
 - :memo: docs: sync package homepage/README links to v2.3.16

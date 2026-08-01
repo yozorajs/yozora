@@ -1,5 +1,14 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :bug: fix(ecma-import): reject duplicate local bindings
+- :bug: fix(ecma-import): normalize absent default imports
+- :bug: fix(ecma-import): accept trailing commas in named imports
+- :bug: fix(ecma-import): validate import identifiers
+- :memo: docs: update documentation and generation tooling
+- :bug: fix(block): track visual indentation width
+
 ## 2.3.17 (2026-07-10)
 
 - :memo: docs: sync package homepage/README links to v2.3.16

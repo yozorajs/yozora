@@ -1,5 +1,21 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :bug: fix(link): reject nested descendant links
+- :bug: fix(position): calculate exclusive end points
+- :bug: fix(core-tokenizer): preserve Unicode whitespace in link labels
+- :zap: perf(parser): reduce node point allocations
+- :bug: fix(core-tokenizer): validate link text
+- :rewind: revert(core-tokenizer): restore countOfPrecedeSpaces
+- :memo: docs: update documentation and generation tooling
+- :bug: fix(position): account for astral UTF-16 width
+- :bug: fix(list): prevent empty items from interrupting paragraphs
+- :boom: refactor(core-tokenizer)!: remove countOfPrecedeSpaces
+- :bug: fix(block): track visual indentation width
+- :bug: fix(list): consume continuation indentation by columns
+- :bug: fix(uri): preserve link destination escaping
+
 ## 2.3.17 (2026-07-10)
 
 - :memo: docs: sync package homepage/README links to v2.3.16

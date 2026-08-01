@@ -1,5 +1,20 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :bug: fix(position): calculate exclusive end points
+- :bug: fix(character): correct brace entity values
+- :bug: fix(character): add missing Cyrillic case folds
+- :bug: fix(character): update Unicode punctuation tables
+- :zap: perf(parser): reduce node point allocations
+- :zap: perf(character): avoid intermediate code point array
+- :bug: fix(character): avoid merging partial adjacent tabs
+- :bug: fix(character): handle overlapping Han whitespace boundaries
+- :memo: docs: update documentation and generation tooling
+- :bug: fix(character): validate numeric entity boundaries
+- :bug: fix(position): account for astral UTF-16 width
+- :bug: fix(character): preserve code points across chunks
+
 ## 2.3.17 (2026-07-10)
 
 - :memo: docs: sync package homepage/README links to v2.3.16

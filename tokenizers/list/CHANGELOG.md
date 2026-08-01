@@ -1,5 +1,17 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :recycle: refactor(fixtures): flatten GFM test cases
+- :bug: fix(position): calculate exclusive end points
+- :bug: fix(list): consume task marker whitespace
+- :arrow_up: chore(deps): upgrade development toolchain
+- :memo: docs: update documentation and generation tooling
+- :bug: fix(list): prevent empty items from interrupting paragraphs
+- :bug: fix(block): consume marker separators by columns
+- :bug: fix(block): track visual indentation width
+- :bug: fix(list): consume continuation indentation by columns
+
 ## 2.3.17 (2026-07-10)
 
 - :memo: docs: sync package homepage/README links to v2.3.16

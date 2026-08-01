@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :recycle: refactor(fixtures): flatten GFM test cases
+- :arrow_up: chore(deps): upgrade development toolchain
+- :bug: fix(html-block): validate complete CDATA opener
+- :memo: docs: update documentation and generation tooling
+- :bug: fix(block): track visual indentation width
+
 ## 2.3.17 (2026-07-10)
 
 - :arrow_up: chore(deps): upgrade development dependencies

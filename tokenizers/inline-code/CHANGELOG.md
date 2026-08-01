@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :recycle: refactor(fixtures): flatten GFM test cases
+- :bug: fix(inline): preserve boundary tabs
+- :zap: perf(inline): avoid quadratic backtick delimiter pairing
+- :memo: docs: update documentation and generation tooling
+
 ## 2.3.17 (2026-07-10)
 
 - :pencil2: fix(tokenizer): fix typos in footnote/inline-code doc comments

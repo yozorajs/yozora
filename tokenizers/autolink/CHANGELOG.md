@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :recycle: refactor(fixtures): sync with current GFM specification
+- :recycle: refactor(fixtures): flatten GFM test cases
+- :bug: fix(autolink): preserve literal backslashes
+- :bug: fix(autolink): allow non-ASCII URI characters
+- :memo: docs: update documentation and generation tooling
+
 ## 2.3.17 (2026-07-10)
 
 - :arrow_up: chore(deps): upgrade development dependencies

@@ -1,5 +1,16 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :recycle: refactor(fixtures): flatten GFM test cases
+- :bug: fix(table): recognize empty header cells
+- :bug: fix(table): recognize pipeless single-column tables
+- :bug: fix(table): handle trailing backslashes at EOF
+- :rewind: revert(core-tokenizer): restore countOfPrecedeSpaces
+- :memo: docs: update documentation and generation tooling
+- :boom: refactor(core-tokenizer)!: remove countOfPrecedeSpaces
+- :bug: fix(block): track visual indentation width
+
 ## 2.3.17 (2026-07-10)
 
 - :arrow_up: chore(deps): upgrade development dependencies

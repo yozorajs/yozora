@@ -1,5 +1,26 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :bug: fix(core-parser): isolate tokenizer unmounting
+- :bug: fix(parser): skip inactive delimiters during finalization
+- :zap: perf(parser): avoid scanning unrelated delimiters
+- :bug: fix(core): avoid argument limits for wide sibling lists
+- :wrench: chore(deps): remove unused parser dependencies
+- :bug: fix(core-parser): correct inline parse error label
+- :bug: fix(core-parser): avoid root sibling access after rollback
+- :bug: fix(core-parser): preserve tokenizer replacement order
+- :zap: perf(parser): reduce node point allocations
+- :rewind: revert(core-tokenizer): restore countOfPrecedeSpaces
+- :arrow_up: chore(deps): upgrade development toolchain
+- :zap: perf(core-parser): reuse resolved tokens in delimiter preflight
+- :memo: docs: update documentation and generation tooling
+- :bug: fix(core-parser): allow construction without options
+- :bug: fix(core-parser): preserve defaults for undefined options
+- :bug: fix(core-parser): reject fallback tokenizer name collisions
+- :boom: refactor(core-tokenizer)!: remove countOfPrecedeSpaces
+- :bug: fix(block): track visual indentation width
+
 ## 2.3.17 (2026-07-10)
 
 - :arrow_up: chore(deps): upgrade development dependencies

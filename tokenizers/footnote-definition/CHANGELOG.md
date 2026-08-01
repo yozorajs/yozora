@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :bug: fix(footnote-definition): handle escaped and maximum-length labels
+- :memo: docs: update documentation and generation tooling
+- :bug: fix(block): track visual indentation width
+
 ## 2.3.17 (2026-07-10)
 
 - :pencil2: fix(tokenizer): fix typos in footnote/inline-code doc comments

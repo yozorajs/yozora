@@ -1,5 +1,18 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :sparkles: feat(autolink): support mailto and xmpp protocols
+- :recycle: refactor(fixtures): sync with current GFM specification
+- :recycle: refactor(fixtures): flatten GFM test cases
+- :bug: fix(markup-weaver): preserve literal backslashes
+- :bug: fix(position): calculate exclusive end points
+- :bug: fix(markup-weaver): preserve nested escaper state
+- :bug: fix(break): consume hard break line endings
+- :bug: fix(autolink): preserve literal backslashes
+- :arrow_up: chore(deps): upgrade development toolchain
+- :memo: docs: update documentation and generation tooling
+
 ## 2.3.17 (2026-07-10)
 
 - :arrow_up: chore(deps): upgrade development dependencies

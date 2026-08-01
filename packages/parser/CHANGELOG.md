@@ -1,5 +1,21 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :bug: fix(core-parser): isolate tokenizer unmounting
+- :bug: fix(parser): skip inactive delimiters during finalization
+- :recycle: refactor(fixtures): sync with current GFM specification
+- :recycle: refactor(fixtures): flatten GFM test cases
+- :bug: fix(position): calculate exclusive end points
+- :bug: fix(break): consume hard break line endings
+- :bug: fix(autolink-extension): apply configured URL formatter
+- :wrench: chore(deps): remove unused parser dependencies
+- :memo: docs: update documentation and generation tooling
+- :bug: fix(core-parser): allow construction without options
+- :bug: fix(core-parser): preserve defaults for undefined options
+- :bug: fix(core-parser): reject fallback tokenizer name collisions
+- :bug: fix(block): track visual indentation width
+
 ## 2.3.17 (2026-07-10)
 
 - :memo: docs: sync package homepage/README links to v2.3.16

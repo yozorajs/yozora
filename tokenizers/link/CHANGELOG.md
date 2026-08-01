@@ -1,5 +1,17 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :bug: fix(link): validate destination backslash escapes
+- :bug: fix(parser): format empty resource destinations
+- :recycle: refactor(fixtures): flatten GFM test cases
+- :bug: fix(link): reject nested descendant links
+- :bug: fix(core-tokenizer): validate link text
+- :zap: perf(link): bound destination nesting
+- :memo: docs: update documentation and generation tooling
+- :bug: fix(link): scope nested-link checks to link text
+- :bug: fix(uri): preserve link destination escaping
+
 ## 2.3.17 (2026-07-10)
 
 - :memo: docs: sync package homepage/README links to v2.3.16

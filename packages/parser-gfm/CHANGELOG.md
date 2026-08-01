@@ -1,5 +1,20 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :zap: perf(parser): avoid scanning unrelated delimiters
+- :recycle: refactor(fixtures): flatten GFM test cases
+- :bug: fix(position): calculate exclusive end points
+- :bug: fix(core): avoid argument limits for wide sibling lists
+- :wrench: chore(deps): remove unused parser dependencies
+- :bug: fix(core-parser): avoid root sibling access after rollback
+- :bug: fix(core-parser): preserve tokenizer replacement order
+- :zap: perf(core-parser): reuse resolved tokens in delimiter preflight
+- :memo: docs: update documentation and generation tooling
+- :bug: fix(position): account for astral UTF-16 width
+- :bug: fix(block): track visual indentation width
+- :bug: fix(character): preserve code points across chunks
+
 ## 2.3.17 (2026-07-10)
 
 - :memo: docs: sync package homepage/README links to v2.3.16

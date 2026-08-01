@@ -1,5 +1,18 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :bug: fix(autolink): handle rejected URL candidates
+- :sparkles: feat(autolink): support mailto and xmpp protocols
+- :recycle: refactor(fixtures): sync with current GFM specification
+- :recycle: refactor(fixtures): flatten GFM test cases
+- :zap: perf(autolink-extension): avoid quadratic suffix rescans
+- :bug: fix(autolink-extension): apply configured URL formatter
+- :bug: fix(autolink-extension): recognize punctuation-prefixed emails
+- :bug: fix(autolink-extension): reject empty email domain segments
+- :memo: docs: update documentation and generation tooling
+- :bug: fix(autolink-extension): correct extended URL validation
+
 ## 2.3.17 (2026-07-10)
 
 - :arrow_up: chore(deps): upgrade development dependencies

@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :memo: docs: update documentation and generation tooling
+
 ## 2.3.17 (2026-07-10)
 
 - :wrench: chore(tsconfig): enable four low-cost strict flags (S6 tier 1)

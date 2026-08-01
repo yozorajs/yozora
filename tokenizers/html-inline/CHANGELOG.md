@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :recycle: refactor(fixtures): flatten GFM test cases
+- :zap: perf(html-inline): avoid repeated suffix scans
+- :arrow_up: chore(deps): upgrade development toolchain
+- :memo: docs: update documentation and generation tooling
+
 ## 2.3.17 (2026-07-10)
 
 - :arrow_up: chore(deps): upgrade development dependencies

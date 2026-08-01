@@ -1,5 +1,18 @@
 # Change Log
 
+## 2.4.0 (2026-08-01)
+
+- :bug: fix(link): validate destination backslash escapes
+- :bug: fix(definition): handle destination and label boundaries
+- :recycle: refactor(fixtures): flatten GFM test cases
+- :bug: fix(character): add missing Cyrillic case folds
+- :bug: fix(core-tokenizer): preserve Unicode whitespace in link labels
+- :bug: fix(definition): validate destination and title boundaries
+- :bug: fix(definition): preserve destination before parsing title
+- :memo: docs: update documentation and generation tooling
+- :bug: fix(block): track visual indentation width
+- :bug: fix(definition): preserve text after invalid title
+
 ## 2.3.17 (2026-07-10)
 
 - :memo: docs: sync package homepage/README links to v2.3.16

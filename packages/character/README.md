@@ -2,7 +2,7 @@
 
 <header>
   <h1 align="center">
-    <a href="https://github.com/yozorajs/yozora/tree/v2.3.17/packages/character#readme">@yozora/character</a>
+    <a href="https://github.com/yozorajs/yozora/tree/v2.4.0/packages/character#readme">@yozora/character</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/character">
@@ -89,4 +89,4 @@ Key exports include:
 
 - [homepage][]
 
-[homepage]: https://github.com/yozorajs/yozora/tree/v2.3.17/packages/character#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/v2.4.0/packages/character#readme
