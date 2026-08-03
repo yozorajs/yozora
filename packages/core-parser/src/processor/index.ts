@@ -4,6 +4,7 @@ import type {
   IBlockToken,
   IInlineToken,
   IParseBlockHook,
+  IParseBlockPhaseContext,
   IParseInlineHook,
   IPhrasingContentLine,
 } from '@yozora/core-tokenizer'
@@ -14,6 +15,12 @@ import type { IBlockTokenTree, IMatchBlockPhaseHook } from './block/types'
 import { createPhrasingContentProcessor, createProcessorHookGroups } from './inline'
 import type { IDelimiterProcessorHook } from './inline/types'
 import type { IProcessor, IProcessorApis, IProcessorOptions } from './types'
+
+interface IParseBlockFrame {
+  parentToken: IBlockToken | null
+  tokenIndex: number
+  tokens: readonly IBlockToken[]
+}
 
 /**
  * @param options
@@ -54,7 +61,6 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       shouldReservePosition,
       formatUrl,
       processInlines,
-      parseBlockTokens,
     },
     matchInlineApi: {
       hasDefinition: identifier => definitionIdentifierSet.has(identifier),
@@ -218,9 +224,80 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     return root
   }
 
+  /**
+   * Parse block tokens iteratively in post-order so nesting depth does not
+   * consume the JavaScript call stack. The processor owns traversal and keeps
+   * child results only until their parent hook returns.
+   */
   function parseBlockTokens(tokens?: readonly IBlockToken[]): Node[] {
     if (tokens === undefined || tokens.length <= 0) return []
 
+    const parsedChildrenMap = new Map<IBlockToken, Node[]>()
+    const visitingTokenSet = new Set<IBlockToken>()
+    const frameStack: IParseBlockFrame[] = []
+    const ctx = Object.freeze<IParseBlockPhaseContext>({
+      getChildren: token => {
+        const children = parsedChildrenMap.get(token as IBlockToken)
+        if (children !== undefined) return children
+
+        invariant(
+          token.children == null || token.children.length <= 0,
+          `[parseBlock] children of tokenizer '${token._tokenizer}' have not been parsed`,
+        )
+        return []
+      },
+    })
+
+    const pushFrame = (
+      parentToken: IBlockToken | null,
+      childTokens: readonly IBlockToken[],
+    ): void => {
+      if (parentToken != null) {
+        invariant(
+          !visitingTokenSet.has(parentToken),
+          `[parseBlock] cyclic token tree at tokenizer '${parentToken._tokenizer}'`,
+        )
+        visitingTokenSet.add(parentToken)
+      }
+      frameStack.push({ parentToken, tokenIndex: 0, tokens: childTokens })
+    }
+
+    const popFrame = (): Node[] => {
+      const frame = frameStack.pop()
+      invariant(frame != null, '[parseBlock] frame stack is empty')
+
+      const nodes = parseFlatBlockTokens(frame.tokens, ctx)
+      for (const token of frame.tokens) parsedChildrenMap.delete(token)
+
+      if (frame.parentToken != null) {
+        parsedChildrenMap.set(frame.parentToken, nodes)
+        visitingTokenSet.delete(frame.parentToken)
+      }
+      return nodes
+    }
+
+    pushFrame(null, tokens)
+    let nodes: Node[] = []
+    while (frameStack.length > 0) {
+      const frame = frameStack[frameStack.length - 1]
+      if (frame.tokenIndex >= frame.tokens.length) {
+        nodes = popFrame()
+        continue
+      }
+
+      const token = frame.tokens[frame.tokenIndex]
+      frame.tokenIndex += 1
+      if (token.children == null || token.children.length <= 0) continue
+
+      pushFrame(token, token.children)
+    }
+    return nodes
+  }
+
+  function parseFlatBlockTokens(
+    tokens: readonly IBlockToken[],
+    ctx: IParseBlockPhaseContext,
+  ): Node[] {
     const results: Node[] = []
     for (let i0 = 0, i1: number; i0 < tokens.length; i0 = i1) {
       const _tokenizer: string = tokens[i0]._tokenizer
@@ -231,7 +308,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       // cannot find matched tokenizer
       invariant(hook !== undefined, `[parseBlock] tokenizer '${_tokenizer}' not found`)
 
-      const nodes: Node[] = hook.parse(tokens.slice(i0, i1))
+      const nodes: Node[] = hook.parse(tokens.slice(i0, i1), ctx)
       for (const node of nodes) results.push(node)
     }
     return results

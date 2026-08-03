@@ -159,7 +159,9 @@ The lifecycle methods at this stage are subdivided into the following methods (s
 This phase contains the following lifecycle method (see [parse-block][lifecycle-parse-block] for the
 complete type definitions):
 
-- `parse`: Convert a list of Block Tokens into Yozora AST nodes.
+- `parse`: Convert a list of Block Tokens into Yozora AST nodes. The core parser resolves nested
+  tokens iteratively in post-order before invoking this hook. Use the hook's
+  `ctx.getChildren(token)` argument to read a token's parsed child nodes.
 
 ---
 

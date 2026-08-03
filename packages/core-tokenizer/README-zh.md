@@ -144,7 +144,9 @@ export interface IPhrasingContentLine extends INodeInterval {
 
 此阶段的生命周期函数细分成下列函数（完整的类型定义见 [parse-block][lifecycle-parse-block]）：
 
-- `parse`: 将 Block Token 列表转换成 Yozora AST nodes
+- `parse`: 将 Block Token 列表转换成 Yozora AST nodes。core parser 会先以 iterative post-order
+  解析嵌套 token；tokenizer 通过 hook 的 `ctx.getChildren(token)` 参数读取当前 token 已解析的
+  child nodes。
 
 ---
 

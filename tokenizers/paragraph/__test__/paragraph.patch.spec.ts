@@ -71,10 +71,9 @@ describe('paragraph patch test', function () {
         processInlineCalls.push(args)
         return children
       },
-      parseBlockTokens: () => [],
     }
 
-    expect(paragraphParse.call(tokenizer, api).parse([token])).toEqual([
+    expect(paragraphParse.call(tokenizer, api).parse([token], { getChildren: () => [] })).toEqual([
       { type: ParagraphType, children },
     ])
     expect(processInlineCalls).toEqual([[nodePoints, 0, 13]])

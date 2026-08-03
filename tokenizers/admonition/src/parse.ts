@@ -8,7 +8,7 @@ import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (api) {
   return {
-    parse: tokens =>
+    parse: (tokens, ctx) =>
       tokens.map(token => {
         const infoString = token.infoString
 
@@ -44,7 +44,7 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
           keywordNodePoints.length,
           true,
         )
-        const children: Node[] = api.parseBlockTokens(token.children)
+        const children: Node[] = ctx.getChildren(token)
 
         const node: INode = api.shouldReservePosition
           ? { type: AdmonitionType, position: token.position, keyword, title, children }
