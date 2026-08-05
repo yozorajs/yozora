@@ -1,5 +1,8 @@
-import { ImageType } from '@yozora/ast'
+import type { Blockquote } from '@yozora/ast'
+import { BlockquoteType, ImageType } from '@yozora/ast'
+import type { IBlockToken, IParseBlockGenerator } from '@yozora/core-tokenizer'
 import { createTokenizerTester } from '@yozora/test-util'
+import BlockquoteTokenizer, { blockquoteMatch } from '@yozora/tokenizer-blockquote'
 import ImageTokenizer from '@yozora/tokenizer-image'
 import { ImageReferenceTokenizerName } from '@yozora/tokenizer-image-reference'
 import { expect, test } from 'vitest'
@@ -11,6 +14,130 @@ class ShallowImageTokenizer extends ImageTokenizer {
   public override readonly parse: ImageTokenizer['parse'] = () => ({
     parse: tokens => tokens.map(() => ({ type: ImageType, url: '', alt: '' })),
   })
+}
+
+class TrackingBlockquoteTokenizer extends BlockquoteTokenizer {
+  public readonly events: string[] = []
+
+  public constructor(private readonly shouldRequestChildren = true) {
+    super()
+  }
+
+  public override readonly parse: BlockquoteTokenizer['parse'] = api => {
+    const events = this.events
+    const shouldRequestChildren = this.shouldRequestChildren
+    return {
+      parse: function* (tokens) {
+        const nodes: Blockquote[] = []
+        for (const token of tokens) {
+          const column = token.position.start.column
+          events.push(`enter:${column}`)
+          const children = shouldRequestChildren
+            ? yield api.requestBlockTokens(token.children.filter(() => true))
+            : []
+          events.push(`exit:${column}`)
+          nodes.push(
+            api.shouldReservePosition
+              ? { type: BlockquoteType, position: token.position, children }
+              : { type: BlockquoteType, children },
+          )
+        }
+        return nodes
+      },
+    }
+  }
+}
+
+class CyclicBlockquoteTokenizer extends BlockquoteTokenizer {
+  public override readonly match: BlockquoteTokenizer['match'] = api => {
+    const hook = blockquoteMatch.call(this, api)
+    return {
+      ...hook,
+      onClose: token => {
+        token.children = [token as IBlockToken]
+      },
+    }
+  }
+}
+
+class AsyncBlockquoteTokenizer extends BlockquoteTokenizer {
+  public override readonly parse: BlockquoteTokenizer['parse'] = () => ({
+    parse: () =>
+      (async function* (): AsyncGenerator<never, Blockquote[]> {
+        yield* []
+        return []
+      })() as unknown as IParseBlockGenerator<Blockquote[]>,
+  })
+}
+
+class MalformedIteratorResultBlockquoteTokenizer extends BlockquoteTokenizer {
+  public override readonly parse: BlockquoteTokenizer['parse'] = () => ({
+    parse: () => {
+      const generator = {
+        [Symbol.iterator](): IParseBlockGenerator<Blockquote[]> {
+          return this as unknown as IParseBlockGenerator<Blockquote[]>
+        },
+        next: (): null => null,
+        throw: (error: unknown): never => {
+          throw error
+        },
+      }
+      return generator as unknown as IParseBlockGenerator<Blockquote[]>
+    },
+  })
+}
+
+class RecoveringBlockquoteTokenizer extends BlockquoteTokenizer {
+  public readonly events: string[] = []
+
+  public constructor(private readonly nestedFailure: 'iterator' | 'throw' = 'throw') {
+    super()
+  }
+
+  public override readonly parse: BlockquoteTokenizer['parse'] = api => {
+    const events = this.events
+    const nestedFailure = this.nestedFailure
+    return {
+      parse: function* (tokens) {
+        const nodes: Blockquote[] = []
+        for (const token of tokens) {
+          const column = token.position.start.column
+          try {
+            events.push(`enter:${column}`)
+            if (column > 1) {
+              if (nestedFailure === 'throw') throw new Error('nested blockquote failed')
+
+              const invalidNodes: Blockquote[] = []
+              Object.defineProperty(invalidNodes, Symbol.iterator, {
+                value: () => {
+                  throw new Error('nested blockquote iterator failed')
+                },
+              })
+              return invalidNodes
+            }
+
+            const children = yield api.requestBlockTokens(token.children)
+            nodes.push(
+              api.shouldReservePosition
+                ? { type: BlockquoteType, position: token.position, children }
+                : { type: BlockquoteType, children },
+            )
+          } catch (error) {
+            if (column > 1) throw error
+            events.push(`catch:${column}`)
+            nodes.push(
+              api.shouldReservePosition
+                ? { type: BlockquoteType, position: token.position, children: [] }
+                : { type: BlockquoteType, children: [] },
+            )
+          } finally {
+            events.push(`finally:${column}`)
+          }
+        }
+        return nodes
+      },
+    }
+  }
 }
 
 scanGfmFixtures(createTokenizerTester(parsers.gfm), {
@@ -141,6 +268,83 @@ test('reprocesses a failed multiline definition inside a blockquote', () => {
     type: 'blockquote',
     children: [{ type: 'paragraph' }, { type: 'heading', depth: 1 }],
   })
+})
+
+test('lazily parses a filtered token array in parent-before-child order', () => {
+  const tokenizer = new TrackingBlockquoteTokenizer()
+  const parser = new GfmParser().replaceTokenizer(tokenizer)
+
+  expect(parser.parse('>> x')).toMatchObject({
+    children: [{ type: BlockquoteType, children: [{ type: BlockquoteType }] }],
+  })
+  expect(tokenizer.events).toEqual(['enter:1', 'enter:2', 'exit:2', 'exit:1'])
+})
+
+test('does not parse block children that a parent hook does not request', () => {
+  const tokenizer = new TrackingBlockquoteTokenizer(false)
+  const parser = new GfmParser().replaceTokenizer(tokenizer)
+
+  expect(parser.parse('>> x')).toMatchObject({
+    children: [{ type: BlockquoteType, children: [] }],
+  })
+  expect(tokenizer.events).toEqual(['enter:1', 'exit:1'])
+})
+
+test('throws child failures back into the suspended parent generator', () => {
+  const tokenizer = new RecoveringBlockquoteTokenizer()
+  const parser = new GfmParser().replaceTokenizer(tokenizer)
+
+  expect(parser.parse('>> x')).toMatchObject({
+    children: [{ type: BlockquoteType, children: [] }],
+  })
+  expect(tokenizer.events).toEqual(['enter:1', 'enter:2', 'finally:2', 'catch:1', 'finally:1'])
+})
+
+test('throws generator result iteration failures back into the suspended parent', () => {
+  const tokenizer = new RecoveringBlockquoteTokenizer('iterator')
+  const parser = new GfmParser().replaceTokenizer(tokenizer)
+
+  expect(parser.parse('>> x')).toMatchObject({
+    children: [{ type: BlockquoteType, children: [] }],
+  })
+  expect(tokenizer.events).toEqual(['enter:1', 'enter:2', 'finally:2', 'catch:1', 'finally:1'])
+})
+
+test('parses 3,000 nested block quotes without recursive stack growth', () => {
+  const depth = 3_000
+  const ast = parsers.gfm.parse(`${'>'.repeat(depth)} x`)
+  let node: any = ast.children[0]
+
+  for (let i = 0; i < depth; ++i) node = node.children[0]
+
+  expect(node).toMatchObject({
+    type: 'paragraph',
+    children: [{ type: 'text', value: 'x' }],
+  })
+})
+
+test('rejects cyclic block token trees', () => {
+  const parser = new GfmParser().replaceTokenizer(new CyclicBlockquoteTokenizer())
+
+  expect(() => parser.parse('> x')).toThrowError(
+    "[parseBlock] cyclic or shared token tree at tokenizer '@yozora/tokenizer-blockquote'",
+  )
+})
+
+test('rejects asynchronous block hook generators', () => {
+  const parser = new GfmParser().replaceTokenizer(new AsyncBlockquoteTokenizer())
+
+  expect(() => parser.parse('> x')).toThrowError(
+    "[parseBlock] tokenizer '@yozora/tokenizer-blockquote' returned an invalid result",
+  )
+})
+
+test('rejects malformed generator iterator results', () => {
+  const parser = new GfmParser().replaceTokenizer(new MalformedIteratorResultBlockquoteTokenizer())
+
+  expect(() => parser.parse('> x')).toThrowError(
+    '[parseBlock] generator returned an invalid iterator result',
+  )
 })
 
 test('matches 10,000 nested images without rescanning resolved contents', () => {

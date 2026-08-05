@@ -2,6 +2,12 @@ import type { Node } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import type { IBlockToken } from '../token'
 
+/** A lazy request for the core parser to process block tokens. */
+export interface IParseBlockTokensRequest {
+  readonly type: 'blockTokens'
+  readonly tokens?: readonly IBlockToken[]
+}
+
 /**
  * Api in parse-block phase.
  */
@@ -23,8 +29,10 @@ export interface IParseBlockPhaseApi {
    */
   processInlines(nodePoints: readonly INodePoint[], startIndex?: number, endIndex?: number): Node[]
   /**
-   * Parse block tokens to Yozora AST nodes.
-   * @param tokens
+   * Create a request that a generator hook can yield without recursively
+   * parsing child tokens on the JavaScript call stack.
+   *
+   * @param tokens Block tokens to parse.
    */
-  parseBlockTokens(tokens?: readonly IBlockToken[]): Node[]
+  requestBlockTokens(tokens?: readonly IBlockToken[]): IParseBlockTokensRequest
 }

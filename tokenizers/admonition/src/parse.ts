@@ -8,8 +8,9 @@ import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (api) {
   return {
-    parse: tokens =>
-      tokens.map(token => {
+    parse: function* (tokens) {
+      const nodes: INode[] = []
+      for (const token of tokens) {
         const infoString = token.infoString
 
         // Match an admonition keyword.
@@ -44,12 +45,14 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
           keywordNodePoints.length,
           true,
         )
-        const children: Node[] = api.parseBlockTokens(token.children)
+        const children: Node[] = yield api.requestBlockTokens(token.children)
 
         const node: INode = api.shouldReservePosition
           ? { type: AdmonitionType, position: token.position, keyword, title, children }
           : { type: AdmonitionType, keyword, title, children }
-        return node
-      }),
+        nodes.push(node)
+      }
+      return nodes
+    },
   }
 }

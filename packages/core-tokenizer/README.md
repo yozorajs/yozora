@@ -159,7 +159,11 @@ The lifecycle methods at this stage are subdivided into the following methods (s
 This phase contains the following lifecycle method (see [parse-block][lifecycle-parse-block] for the
 complete type definitions):
 
-- `parse`: Convert a list of Block Tokens into Yozora AST nodes.
+- `parse`: Convert a list of Block Tokens into Yozora AST nodes. Return nodes directly when no child
+  parsing is needed. Otherwise, return a generator and run
+  `yield api.requestBlockTokens(tokens)` where nested blocks are needed. The core parser resolves
+  requested tokens lazily and resumes the generator with either their nodes or the thrown parsing
+  error.
 
 ---
 

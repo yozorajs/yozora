@@ -5,13 +5,16 @@ import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (api) {
   return {
-    parse: tokens =>
-      tokens.map(token => {
-        const children: Node[] = api.parseBlockTokens(token.children)
+    parse: function* (tokens) {
+      const nodes: INode[] = []
+      for (const token of tokens) {
+        const children: Node[] = yield api.requestBlockTokens(token.children)
         const node: INode = api.shouldReservePosition
           ? { type: BlockquoteType, position: token.position, children }
           : { type: BlockquoteType, children }
-        return node
-      }),
+        nodes.push(node)
+      }
+      return nodes
+    },
   }
 }

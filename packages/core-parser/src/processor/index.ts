@@ -10,6 +10,7 @@ import type {
 import { calcEndPoint, calcStartPoint } from '@yozora/core-tokenizer'
 import invariant from '@yozora/invariant'
 import { createBlockContentProcessor } from './block'
+import { parseBlockTokens } from './block/parse'
 import type { IBlockTokenTree, IMatchBlockPhaseHook } from './block/types'
 import { createPhrasingContentProcessor, createProcessorHookGroups } from './inline'
 import type { IDelimiterProcessorHook } from './inline/types'
@@ -54,7 +55,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       shouldReservePosition,
       formatUrl,
       processInlines,
-      parseBlockTokens,
+      requestBlockTokens: tokens => ({ type: 'blockTokens', tokens }),
     },
     matchInlineApi: {
       hasDefinition: identifier => definitionIdentifierSet.has(identifier),
@@ -129,7 +130,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       footnoteIdentifierSet.add(footnoteDefinition.identifier)
     }
 
-    const children: Node[] = parseBlockTokens(blockTokenTree.children)
+    const children: Node[] = parseBlockTokens(blockTokenTree.children, parseBlockHookMap)
     const ast: Root = shouldReservePosition
       ? { type: 'root', position: blockTokenTree.position, children }
       : { type: 'root', children }
@@ -216,25 +217,6 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
 
     const root = processor.done()
     return root
-  }
-
-  function parseBlockTokens(tokens?: readonly IBlockToken[]): Node[] {
-    if (tokens === undefined || tokens.length <= 0) return []
-
-    const results: Node[] = []
-    for (let i0 = 0, i1: number; i0 < tokens.length; i0 = i1) {
-      const _tokenizer: string = tokens[i0]._tokenizer
-      for (i1 = i0 + 1; i1 < tokens.length && tokens[i1]._tokenizer === _tokenizer;) i1 += 1
-
-      const hook = parseBlockHookMap.get(_tokenizer)
-
-      // cannot find matched tokenizer
-      invariant(hook !== undefined, `[parseBlock] tokenizer '${_tokenizer}' not found`)
-
-      const nodes: Node[] = hook.parse(tokens.slice(i0, i1))
-      for (const node of nodes) results.push(node)
-    }
-    return results
   }
 
   function processInlines(

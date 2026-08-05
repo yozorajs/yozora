@@ -144,7 +144,9 @@ export interface IPhrasingContentLine extends INodeInterval {
 
 此阶段的生命周期函数细分成下列函数（完整的类型定义见 [parse-block][lifecycle-parse-block]）：
 
-- `parse`: 将 Block Token 列表转换成 Yozora AST nodes
+- `parse`: 将 Block Token 列表转换成 Yozora AST nodes。无需解析子节点时直接返回 nodes；需要子节点时
+  返回 generator，并在原本解析嵌套 blocks 的位置执行 `yield api.requestBlockTokens(tokens)`。core
+  parser 会 lazy 地解析请求的 tokens，然后用对应 nodes 恢复 generator；解析错误会抛回 generator。
 
 ---
 

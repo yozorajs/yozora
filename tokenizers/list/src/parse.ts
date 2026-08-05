@@ -1,11 +1,15 @@
 import type { ListItem, Node, Paragraph, Position } from '@yozora/ast'
 import { ListItemType, ListType, ParagraphType } from '@yozora/ast'
-import type { IParseBlockHookCreator, IParseBlockPhaseApi } from '@yozora/core-tokenizer'
+import type {
+  IParseBlockGenerator,
+  IParseBlockHookCreator,
+  IParseBlockPhaseApi,
+} from '@yozora/core-tokenizer'
 import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (api) {
   return {
-    parse: tokens => {
+    parse: function* (tokens) {
       const results: INode[] = []
       let listItemTokens: IToken[] = []
       for (let i = 0; i < tokens.length; ++i) {
@@ -16,7 +20,7 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
           listItemTokens[0].orderType !== originalToken.orderType ||
           listItemTokens[0].marker !== originalToken.marker
         ) {
-          const node: INode | null = resolveList(listItemTokens, api)
+          const node: INode | null = yield* resolveList(listItemTokens, api)
           if (node) results.push(node)
 
           listItemTokens = [originalToken]
@@ -31,7 +35,7 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
         listItemTokens.push(originalToken)
       }
 
-      const node: INode | null = resolveList(listItemTokens, api)
+      const node: INode | null = yield* resolveList(listItemTokens, api)
       if (node) results.push(node)
       return results
     },
@@ -51,7 +55,10 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
  * to Phrasing content
  * @see https://github.com/syntax-tree/mdast#phrasingcontent
  */
-const resolveList = (tokens: IToken[], api: IParseBlockPhaseApi): INode | null => {
+function* resolveList(
+  tokens: IToken[],
+  api: IParseBlockPhaseApi,
+): IParseBlockGenerator<INode | null> {
   if (tokens.length <= 0) return null
 
   let spread = tokens.some((item): boolean => {
@@ -90,10 +97,11 @@ const resolveList = (tokens: IToken[], api: IParseBlockPhaseApi): INode | null =
     }
   }
 
-  const children: ListItem[] = tokens.map((listItemToken): ListItem => {
+  const children: ListItem[] = []
+  for (const listItemToken of tokens) {
     // Make list tighter if spread is false.
-    const nodes: Node[] = api.parseBlockTokens(listItemToken.children)
-    const children: Node[] = spread
+    const nodes: Node[] = yield api.requestBlockTokens(listItemToken.children)
+    const listItemChildren: Node[] = spread
       ? nodes
       : nodes
           .map(node => (node.type === ParagraphType ? (node as Paragraph).children : node))
@@ -104,11 +112,11 @@ const resolveList = (tokens: IToken[], api: IParseBlockPhaseApi): INode | null =
           type: ListItemType,
           position: listItemToken.position,
           status: listItemToken.status,
-          children,
+          children: listItemChildren,
         }
-      : { type: ListItemType, status: listItemToken.status, children }
-    return listItem
-  })
+      : { type: ListItemType, status: listItemToken.status, children: listItemChildren }
+    children.push(listItem)
+  }
 
   const node: INode = api.shouldReservePosition
     ? {

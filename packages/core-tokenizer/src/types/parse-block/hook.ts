@@ -1,7 +1,12 @@
 import type { Node, NodeType } from '@yozora/ast'
 import type { IPartialBlockToken } from '../token'
 import type { ITokenizer } from '../tokenizer'
-import type { IParseBlockPhaseApi } from './api'
+import type { IParseBlockPhaseApi, IParseBlockTokensRequest } from './api'
+
+/**
+ * A parse-block generator suspended while the core parser resolves children.
+ */
+export type IParseBlockGenerator<TResult> = Generator<IParseBlockTokensRequest, TResult, Node[]>
 
 export type IParseBlockHookCreator<
   T extends NodeType = NodeType,
@@ -20,7 +25,12 @@ export interface IParseBlockHook<
 > {
   /**
    * Processing token list to Node list.
-   * @param token       token on match phase
+   *
+   * Return nodes synchronously when no child parsing is needed. To parse
+   * children lazily without recursive call-stack growth, return a generator
+   * and yield requests created by `api.requestBlockTokens(tokens)`.
+   *
+   * @param tokens tokens on match phase
    */
-  parse(token: readonly IToken[]): INode[]
+  parse(tokens: readonly IToken[]): INode[] | IParseBlockGenerator<INode[]>
 }
