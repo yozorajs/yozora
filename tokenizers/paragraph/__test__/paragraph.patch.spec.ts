@@ -9,7 +9,7 @@ import {
   calcStartPoint,
 } from '@yozora/core-tokenizer'
 import type { IParagraphToken } from '../src'
-import { paragraphParse, ParagraphTokenizer, ParagraphTokenizerName } from '../src'
+import { ParagraphTokenizer, ParagraphTokenizerName, paragraphParse } from '../src'
 
 describe('paragraph patch test', function () {
   const tokenizer = new ParagraphTokenizer()

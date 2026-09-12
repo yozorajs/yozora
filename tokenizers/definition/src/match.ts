@@ -173,7 +173,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
     token: IToken,
   ): IResultOfEatContinuationText {
     // All parts of Definition have been matched
-    if (token.title != null && token.title.saturated) return { status: 'notMatched' }
+    if (token.title?.saturated) return { status: 'notMatched' }
 
     const { nodePoints, startIndex, firstNonWhitespaceIndex, endIndex } = line
     const lineNo = nodePoints[startIndex].line
@@ -283,6 +283,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
   }
 
   function onClose(token: IToken): IResultOfOnClose {
+    // biome-ignore lint/complexity/noUselessUndefinedInitialization: The void union requires initialization for TypeScript definite assignment.
     let result: IResultOfOnClose = undefined
 
     // Not all parts of Definition have been matched.

@@ -7,11 +7,11 @@ scanGfmFixtures(createTokenizerTester(parsers.gfm), {
   excludeGroups: ['list-item/task list items(extension)'],
 }).runTest()
 
-createTokenizerTesters(parsers.gfmEx, parsers.yozora).forEach(tester =>
+createTokenizerTesters(parsers.gfmEx, parsers.yozora).forEach(tester => {
   scanGfmFixtures(tester, { includeGroups: ['list', 'list-item'] })
     .scan('custom/list')
-    .runTest(),
-)
+    .runTest()
+})
 
 for (let spaceCount = 1; spaceCount <= 3; ++spaceCount) {
   test(`handles ${spaceCount}-space tab indentation in list items`, () => {

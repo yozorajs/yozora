@@ -1,7 +1,6 @@
 import { LinkReferenceType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
-import { containsLinkToken, eatLinkLabel, genFindDelimiter } from '@yozora/core-tokenizer'
 import type {
   IInlineToken,
   IMatchInlineHookCreator,
@@ -9,6 +8,7 @@ import type {
   IResultOfProcessDelimiterPair,
   IResultOfProcessSingleDelimiter,
 } from '@yozora/core-tokenizer'
+import { containsLinkToken, eatLinkLabel, genFindDelimiter } from '@yozora/core-tokenizer'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import type { IDelimiter, ILinkReferenceDelimiterBracket, IThis, IToken, T } from './types'
 
@@ -123,7 +123,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
             identifier: result1.labelAndIdentifier.identifier,
           })
 
-          for (i = result1.nextIndex; i < endIndex;) {
+          for (i = result1.nextIndex; i < endIndex; ) {
             if (nodePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET) break
             const { labelAndIdentifier, nextIndex } = eatLinkLabel(nodePoints, i, endIndex)
 
@@ -189,7 +189,7 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
             brackets,
           }
 
-          for (i = result1.nextIndex; i < endIndex;) {
+          for (i = result1.nextIndex; i < endIndex; ) {
             if (nodePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET) break
             const { labelAndIdentifier, nextIndex } = eatLinkLabel(nodePoints, i, endIndex)
 

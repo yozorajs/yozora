@@ -2,9 +2,9 @@ import { createTokenizerTesters } from '@yozora/test-util'
 import { expect, test } from 'vitest'
 import { parsers, scanGfmFixtures } from 'vitest.setup'
 
-createTokenizerTesters(parsers.gfm, parsers.gfmEx, parsers.yozora).forEach(tester =>
-  scanGfmFixtures(tester, { includeGroups: ['image'] }).runTest(),
-)
+createTokenizerTesters(parsers.gfm, parsers.gfmEx, parsers.yozora).forEach(tester => {
+  scanGfmFixtures(tester, { includeGroups: ['image'] }).runTest()
+})
 
 test('image node should omit position when shouldReservePosition is false', function () {
   const ast = parsers.gfm.parse('![alt](<https://example.com> "title")', {

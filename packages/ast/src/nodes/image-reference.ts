@@ -10,7 +10,10 @@ export type ImageReferenceType = typeof ImageReferenceType
  * @see https://github.com/syntax-tree/mdast#imagereference
  */
 export interface ImageReference
-  extends Node<ImageReferenceType>, Association, Reference, Alternative {}
+  extends Node<ImageReferenceType>,
+    Association,
+    Reference,
+    Alternative {}
 
 /**
  * Example:

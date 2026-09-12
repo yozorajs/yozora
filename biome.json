@@ -1,0 +1,102 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.13/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "includes": [
+      "**",
+      "!!**/.vscode",
+      "!!**/__tmp__",
+      "!!**/__test__/fixtures",
+      "!!**/__test__/cases",
+      "!!**/coverage",
+      "!!**/dist",
+      "!!**/doc",
+      "!!**/example",
+      "!!**/lib",
+      "!!**/resource",
+      "!!**/resources",
+      "!!**/test-workspace",
+      "!!packages/character/src/constant/entity.ts"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100,
+    "lineEnding": "lf"
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "jsxQuoteStyle": "double",
+      "semicolons": "asNeeded",
+      "trailingCommas": "all",
+      "arrowParentheses": "asNeeded",
+      "bracketSpacing": true
+    }
+  },
+  "json": {
+    "formatter": {
+      "trailingCommas": "none"
+    }
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [[":NODE:", ":PACKAGE:"], ":ALIAS:", ":PATH:"],
+            "identifierOrder": "lexicographic"
+          }
+        }
+      }
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended",
+      "complexity": {
+        "noBannedTypes": "off",
+        "useArrowFunction": "off"
+      },
+      "correctness": {
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error",
+        "noUnusedFunctionParameters": "error"
+      },
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noConfusingVoidType": "off",
+        "noAssignInExpressions": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "off",
+        "useImportType": {
+          "level": "error",
+          "options": { "style": "separatedType" }
+        }
+      }
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["**/__test__/**/*.ts", "vitest.helper.mts"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedVariables": "off",
+            "noUnusedFunctionParameters": "off"
+          }
+        }
+      }
+    }
+  ]
+}

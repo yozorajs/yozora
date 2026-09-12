@@ -6,8 +6,8 @@ import type {
   IResultOfProcessSingleDelimiter,
 } from '@yozora/core-tokenizer'
 import { genFindDelimiter } from '@yozora/core-tokenizer'
-import { BreakTokenMarkerType } from './types'
 import type { IDelimiter, IThis, IToken, T } from './types'
+import { BreakTokenMarkerType } from './types'
 
 /**
  * A line break (not in a code span or HTML tag) that is preceded by two or more

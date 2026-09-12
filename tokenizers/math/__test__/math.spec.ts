@@ -14,4 +14,6 @@ createTokenizerTesters(
     .useTokenizer(new InlineMathTokenizer({ backtickRequired: true }), InlineCodeTokenizerName)
     .useTokenizer(new InlineMathTokenizer({ backtickRequired: false }), InlineCodeTokenizerName),
   parsers.yozora,
-).forEach(tester => tester.scan('custom/math').runTest())
+).forEach(tester => {
+  tester.scan('custom/math').runTest()
+})

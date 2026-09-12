@@ -7,12 +7,12 @@ createTokenizerTesters(
   parsers.gfm.useTokenizer(new AutolinkExtensionTokenizer()),
   parsers.gfmEx,
   parsers.yozora,
-).forEach(tester =>
+).forEach(tester => {
   scanGfmFixtures(scanGfmFixtures(tester, { includeGroups: ['autolink-extension'] }), {
     includeGroups: ['autolink'],
     excludeExamples: ['#617', '#620', '#621'],
-  }).runTest(),
-)
+  }).runTest()
+})
 
 describe('extended URL boundaries', () => {
   test.each(['ftp://example.com', 'http://example.com/'])(

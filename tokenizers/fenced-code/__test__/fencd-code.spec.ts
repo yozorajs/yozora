@@ -2,11 +2,11 @@ import { createTokenizerTesters } from '@yozora/test-util'
 import { expect, test } from 'vitest'
 import { parsers, scanGfmFixtures } from 'vitest.setup'
 
-createTokenizerTesters(parsers.gfm, parsers.gfmEx, parsers.yozora).forEach(tester =>
+createTokenizerTesters(parsers.gfm, parsers.gfmEx, parsers.yozora).forEach(tester => {
   scanGfmFixtures(tester, { includeGroups: ['fenced-code'] })
     .scan('custom/fenced-code')
-    .runTest(),
-)
+    .runTest()
+})
 
 test('fenced code node should omit position when shouldReservePosition is false', function () {
   const ast = parsers.gfm.parse('```ts meta\nconsole.log(1)\n```', {

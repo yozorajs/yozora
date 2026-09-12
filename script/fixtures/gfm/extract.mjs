@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 const DEFAULT_GFM_SOURCE_URL = 'https://github.github.com/gfm/'
 
 function decodeHtmlEntities(value) {

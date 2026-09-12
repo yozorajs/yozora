@@ -22,7 +22,6 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
          * @see https://github.github.com/gfm/#example-37
          * @see https://github.github.com/gfm/#example-43
          */
-        // eslint-disable-next-line prefer-const
         let [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(
           nodePoints,
           firstNonWhitespaceIndex + token.depth,

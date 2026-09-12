@@ -1,13 +1,14 @@
 .DS_Store
-.eslintignore
 .prettierignore
 
 **/*.hbs
+**/*.{js,jsx,cjs,mjs,ts,tsx,cts,mts,json,jsonc}
 **/README.md
 **/README-*.md
 **/CHANGELOG.md
 
 .nx/
+local/
 **/coverage/
 **/dist/
 **/doc/

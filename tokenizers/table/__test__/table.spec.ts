@@ -3,11 +3,11 @@ import { createTokenizerTesters } from '@yozora/test-util'
 import { expect, test } from 'vitest'
 import { parsers, scanGfmFixtures } from 'vitest.setup'
 
-createTokenizerTesters(parsers.yozora).forEach(tester =>
+createTokenizerTesters(parsers.yozora).forEach(tester => {
   scanGfmFixtures(tester, { includeGroups: ['table'] })
     .scan('custom/table')
-    .runTest(),
-)
+    .runTest()
+})
 
 test('preserves a trailing backslash in the final table cell', function () {
   const options = { shouldReservePosition: false }

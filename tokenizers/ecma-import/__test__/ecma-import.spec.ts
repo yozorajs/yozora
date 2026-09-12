@@ -8,7 +8,9 @@ createTokenizerTesters(
   parsers.gfm.useTokenizer(new EcmaImportTokenizer()),
   parsers.gfmEx.useTokenizer(new EcmaImportTokenizer()),
   parsers.yozora,
-).forEach(tester => tester.scan(['custom/ecma-import']).runTest())
+).forEach(tester => {
+  tester.scan(['custom/ecma-import']).runTest()
+})
 
 test('ecma import node should omit position when shouldReservePosition is false', function () {
   const parser = parsers.gfm.useTokenizer(new EcmaImportTokenizer())

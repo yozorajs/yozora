@@ -5,12 +5,12 @@ scanGfmFixtures(createTokenizerTester(parsers.gfm), {
   includeGroups: ['autolink'],
 }).runTest()
 
-createTokenizerTesters(parsers.gfmEx, parsers.yozora).forEach(tester =>
+createTokenizerTesters(parsers.gfmEx, parsers.yozora).forEach(tester => {
   scanGfmFixtures(tester, {
     includeGroups: ['autolink'],
     excludeExamples: ['#617', '#620', '#621'],
-  }).runTest(),
-)
+  }).runTest()
+})
 
 describe('URI autolinks with non-ASCII characters', () => {
   test.each([

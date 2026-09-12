@@ -1,8 +1,8 @@
-import type { IParser } from '@yozora/core-parser'
-import type { IMarkupWeaver } from '@yozora/markup-weaver'
 import fs from 'node:fs'
 import path from 'node:path'
 import url from 'node:url'
+import type { IParser } from '@yozora/core-parser'
+import type { IMarkupWeaver } from '@yozora/markup-weaver'
 import { MarkupTester } from './MarkupTester'
 import { TokenizerTester } from './TokenizerTester'
 

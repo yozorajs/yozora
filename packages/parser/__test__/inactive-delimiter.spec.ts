@@ -1,5 +1,5 @@
-import { LinkReferenceType } from '@yozora/ast'
 import type { LinkReference, Parent } from '@yozora/ast'
+import { LinkReferenceType } from '@yozora/ast'
 import { DefaultParser } from '@yozora/core-parser'
 import InlineCodeTokenizer from '@yozora/tokenizer-inline-code'
 import LinkReferenceTokenizer from '@yozora/tokenizer-link-reference'

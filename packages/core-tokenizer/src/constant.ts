@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-duplicate-enum-values */
+// biome-ignore-all lint/suspicious/noDuplicateEnumValues: Tokenizer categories intentionally share priorities.
 export enum TokenizerType {
   // Block tokenizer
   BLOCK = 'block',

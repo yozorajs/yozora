@@ -182,7 +182,7 @@ export function eatValidDomain(
   let nextIndex = segment.nextIndex,
     countOfPeriod = 0
   let countOfUnderscoreOfLastTwoSegment = segment.hasUnderscore ? 2 : 0
-  for (; nextIndex < endIndex;) {
+  for (; nextIndex < endIndex; ) {
     if (nodePoints[nextIndex].codePoint !== AsciiCodePoint.DOT) break
 
     const segment = eatDomainSegment(nodePoints, nextIndex + 1, endIndex)

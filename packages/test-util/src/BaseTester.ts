@@ -1,6 +1,6 @@
-import invariant from '@yozora/invariant'
 import fs from 'node:fs'
 import path from 'node:path'
+import invariant from '@yozora/invariant'
 import { describe } from 'vitest'
 import type { IYozoraUseCase, IYozoraUseCaseGroup } from './types'
 
@@ -307,7 +307,7 @@ export abstract class BaseTester<T = unknown> {
    */
   public format<T = unknown>(data: T): Partial<T> {
     const stringified = JSON.stringify(data, (key: string, val: any) => {
-      if (val && val.type && val.position) {
+      if (val?.type && val.position) {
         const { type, position, ...restData } = val
         return { type, position, ...restData }
       }

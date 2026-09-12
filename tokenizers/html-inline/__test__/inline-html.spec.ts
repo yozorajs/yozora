@@ -4,9 +4,9 @@ import { HtmlInlineTokenizer } from '@yozora/tokenizer-html-inline'
 import { expect, test } from 'vitest'
 import { parsers, scanGfmFixtures } from 'vitest.setup'
 
-createTokenizerTesters(parsers.gfm, parsers.gfmEx, parsers.yozora).forEach(tester =>
-  scanGfmFixtures(tester, { includeGroups: ['html-inline'] }).runTest(),
-)
+createTokenizerTesters(parsers.gfm, parsers.gfmEx, parsers.yozora).forEach(tester => {
+  scanGfmFixtures(tester, { includeGroups: ['html-inline'] }).runTest()
+})
 
 test.each([
   ['processing instruction', '<?'],

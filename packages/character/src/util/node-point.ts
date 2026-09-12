@@ -49,7 +49,7 @@ export function* createNodePointGenerator(
 
   for (const content of contents) {
     const nodePoints: INodePoint[] = []
-    for (let i = 0; i < content.length;) {
+    for (let i = 0; i < content.length; ) {
       const codePoint: ICodePoint = content.codePointAt(i)!
       const width = codePoint > 0xffff ? 2 : 1
       i += width
@@ -160,7 +160,7 @@ export function calcStringFromNodePoints(
   }
 
   let result = ''
-  for (let i = startIndex, j; i < endIndex; ++i) {
+  for (let i = startIndex, j: number; i < endIndex; ++i) {
     const c = nodePoints[i].codePoint
     switch (c) {
       // Handle tabs.
@@ -209,7 +209,7 @@ export function calcEscapedStringFromNodePoints(
   }
 
   let result = ''
-  for (let i = startIndex, j; i < endIndex; ++i) {
+  for (let i = startIndex, j: number; i < endIndex; ++i) {
     const c = nodePoints[i].codePoint
     if (c === AsciiCodePoint.BACKSLASH && i + 1 < endIndex) {
       const d = nodePoints[i + 1].codePoint

@@ -13,9 +13,9 @@ createTokenizerTesters(
     .useTokenizer(new InlineMathTokenizer({ backtickRequired: true }), InlineCodeTokenizerName)
     .useTokenizer(new InlineMathTokenizer({ backtickRequired: false })),
   parsers.yozora,
-).forEach(tester =>
-  tester.scan(['custom/inline-math', '!custom/inline-math/backtick-required']).runTest(),
-)
+).forEach(tester => {
+  tester.scan(['custom/inline-math', '!custom/inline-math/backtick-required']).runTest()
+})
 
 createTokenizerTesters(
   parsers.gfm.useTokenizer(
@@ -27,7 +27,9 @@ createTokenizerTesters(
     InlineCodeTokenizerName,
   ),
   parsers.yozora.unmountTokenizer(InlineMathTokenizerName),
-).forEach(tester => tester.scan('custom/inline-math/backtick-required').runTest())
+).forEach(tester => {
+  tester.scan('custom/inline-math/backtick-required').runTest()
+})
 
 test('handles many unmatched backtick candidates', function () {
   const size = 10_000

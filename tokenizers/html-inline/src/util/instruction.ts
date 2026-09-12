@@ -15,7 +15,8 @@ export interface IHtmlInlineInstructionTokenData {
 }
 
 export interface IHtmlInlineInstructionDelimiter
-  extends ITokenDelimiter, IHtmlInlineInstructionTokenData {
+  extends ITokenDelimiter,
+    IHtmlInlineInstructionTokenData {
   type: 'full'
 }
 

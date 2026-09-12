@@ -6,8 +6,8 @@ import type {
 import { BaseBlockTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import { match } from './match'
 import { parse } from './parse'
-import { uniqueName } from './types'
 import type { INode, IThis, IToken, ITokenizerProps, T } from './types'
+import { uniqueName } from './types'
 
 /**
  * Lexical Analyzer for Definition.

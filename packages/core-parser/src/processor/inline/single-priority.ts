@@ -178,7 +178,7 @@ export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor =>
               internalTokens = (tokens as IInlineToken[]).concat(internalTokens)
             }
 
-            // eslint-disable-next-line no-useless-assignment -- Keep local and stack state invalidation in sync.
+            // Keep local and stack state invalidation in sync.
             remainOpenerDelimiter = undefined
             item.inactive = true
           }
@@ -204,15 +204,11 @@ export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor =>
           remainCloserDelimiter,
           internalTokens,
         )
-
         // Set internalTokens returned by processDelimiterPair.
-
-        {
-          for (const token of result.tokens) {
-            if (token._tokenizer == null) token._tokenizer = hook.name
-          }
-          internalTokens = result.tokens as IInlineToken[]
+        for (const token of result.tokens) {
+          if (token._tokenizer == null) token._tokenizer = hook.name
         }
+        internalTokens = result.tokens as IInlineToken[]
 
         remainOpenerDelimiter = result.remainOpenerDelimiter
         remainCloserDelimiter = result.remainCloserDelimiter
@@ -332,7 +328,7 @@ const mergeSortedTokenStack = (
   const tokens: IInlineToken[] = []
   let i1 = 0
   let i2 = 0
-  for (; i1 < tokens1.length && i2 < tokens2.length;) {
+  for (; i1 < tokens1.length && i2 < tokens2.length; ) {
     if (tokens1[i1].startIndex < tokens2[i2].startIndex) {
       tokens.push(tokens1[i1])
       i1 += 1

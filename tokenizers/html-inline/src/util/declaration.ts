@@ -12,7 +12,8 @@ export interface IHtmlInlineDeclarationTokenData {
 }
 
 export interface IHtmlInlineDeclarationDelimiter
-  extends ITokenDelimiter, IHtmlInlineDeclarationTokenData {
+  extends ITokenDelimiter,
+    IHtmlInlineDeclarationTokenData {
   type: 'full'
 }
 

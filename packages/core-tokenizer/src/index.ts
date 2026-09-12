@@ -1,6 +1,6 @@
 export * from './constant'
-export * from './tokenizers/inline'
 export * from './tokenizers/block'
+export * from './tokenizers/inline'
 export * from './types/match-block/api'
 export * from './types/match-block/hook'
 export * from './types/match-inline/api'

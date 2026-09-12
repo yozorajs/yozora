@@ -38,7 +38,7 @@ export function createCodePointSearcher(
    *               range binary search may be more efficient
    */
   const orderedRangeCodePoints: ICodePoint[] = []
-  for (let i = 0, j; i < size; i += j) {
+  for (let i = 0, j: number; i < size; i += j) {
     const c = orderedCodePoints[i]
     for (j = 1; i + j < size; ++j) {
       if (orderedCodePoints[i + j] > c + j) break

@@ -135,7 +135,9 @@ export function createEntityReferenceTrie(): EntityReferenceTrie {
  * Default entity reference trie.
  */
 export const entityReferenceTrie = createEntityReferenceTrie()
-entityReferences.forEach(entity => entityReferenceTrie.insert(entity.key, entity.value))
+entityReferences.forEach(entity => {
+  entityReferenceTrie.insert(entity.key, entity.value)
+})
 
 /**
  * Eating an entity reference.

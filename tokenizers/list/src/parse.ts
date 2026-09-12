@@ -103,9 +103,7 @@ function* resolveList(
     const nodes: Node[] = yield api.requestBlockTokens(listItemToken.children)
     const listItemChildren: Node[] = spread
       ? nodes
-      : nodes
-          .map(node => (node.type === ParagraphType ? (node as Paragraph).children : node))
-          .flat()
+      : nodes.flatMap(node => (node.type === ParagraphType ? (node as Paragraph).children : node))
 
     const listItem: ListItem = api.shouldReservePosition
       ? {

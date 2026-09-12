@@ -71,7 +71,7 @@ export function eatIndentation(
 
   let column: number = 0
   let remainingWidth: number = indentWidth
-  for (let i = lineStartIndex; i < endIndex;) {
+  for (let i = lineStartIndex; i < endIndex; ) {
     if (i >= startIndex && remainingWidth <= 0) return i
 
     const nodePoint: INodePoint = nodePoints[i]
@@ -132,7 +132,7 @@ export function calcIndentWidth(
 
   let column: number = 0
   let indentWidth: number = 0
-  for (let i = lineStartIndex; i < endIndex;) {
+  for (let i = lineStartIndex; i < endIndex; ) {
     const nodePoint: INodePoint = nodePoints[i]
     if (nodePoint.codePoint !== VirtualCodePoint.SPACE) {
       if (i >= startIndex) {

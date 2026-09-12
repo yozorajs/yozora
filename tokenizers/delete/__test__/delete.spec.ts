@@ -7,7 +7,9 @@ createTokenizerTesters(
   parsers.gfm.useTokenizer(new DeleteTokenizer()),
   parsers.gfmEx,
   parsers.yozora,
-).forEach(tester => scanGfmFixtures(tester, { includeGroups: ['delete'] }).runTest())
+).forEach(tester => {
+  scanGfmFixtures(tester, { includeGroups: ['delete'] }).runTest()
+})
 
 test('delete node should omit position when shouldReservePosition is false', function () {
   const parser = parsers.gfm.useTokenizer(new DeleteTokenizer())

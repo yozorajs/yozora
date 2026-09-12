@@ -1,4 +1,4 @@
-import type { Math } from '@yozora/ast'
+import type { Math as MathNode } from '@yozora/ast'
 import { MathType } from '@yozora/ast'
 import type { INodeMarkup, INodeWeaver } from '../types'
 import { findMaxContinuousSymbol, lineRegex } from '../util'
@@ -15,7 +15,7 @@ export interface IMathMarkupWeaverOptions {
  * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#math
  * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/math
  */
-export class MathWeaver implements INodeWeaver<Math> {
+export class MathWeaver implements INodeWeaver<MathNode> {
   public readonly type = MathType
   public readonly isBlockLevel = (): boolean => true
   protected readonly preferBackTick: boolean
@@ -24,7 +24,7 @@ export class MathWeaver implements INodeWeaver<Math> {
     this.preferBackTick = options?.preferBacktick ?? false
   }
 
-  public weave(node: Math): INodeMarkup {
+  public weave(node: MathNode): INodeMarkup {
     const value = node.value.trim()
     const isMultipleLine: boolean = lineRegex.test(value)
     const dollarCnt: number = findMaxContinuousSymbol(value, closerLikeSymbolRegex)

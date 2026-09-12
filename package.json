@@ -33,10 +33,10 @@
     "sync:paths": "node script/codegen/sync-tsconfig-paths.mjs",
     "sync:gfm": "node script/fixtures/gfm/sync.mjs",
     "format": "pnpm format:lintfix && pnpm format:prettier",
-    "format:prettier": "prettier . --write",
-    "format:check": "prettier . --check",
-    "format:lintfix": "eslint . --fix",
-    "lint": "eslint .",
+    "format:prettier": "prettier \"**/*.{md,yaml,yml}\" --write",
+    "format:check": "biome format . && prettier \"**/*.{md,yaml,yml}\" --check",
+    "format:lintfix": "biome check --write .",
+    "lint": "biome check .",
     "spellcheck": "cspell --no-progress \"**/*.{ts,mjs}\"",
     "typecheck": "tsc -p tsconfig.test.json --noEmit",
     "postinstall": "githooks install",
@@ -51,7 +51,7 @@
     "test:update": "pnpm -r run --if-present test:update"
   },
   "devDependencies": {
-    "@eslint/js": "10.0.1",
+    "@biomejs/biome": "2.5.13",
     "@guanghechen/githooks": "^1.0.0",
     "@guanghechen/std": "^2.0.3",
     "@rollup/plugin-commonjs": "29.0.3",
@@ -62,10 +62,6 @@
     "@vitest/coverage-v8": "^4.1.10",
     "cross-env": "10.1.0",
     "cspell": "^10.0.1",
-    "eslint": "10.8.0",
-    "eslint-config-prettier": "10.1.8",
-    "eslint-plugin-import-x": "4.17.1",
-    "globals": "17.8.0",
     "handlebars": "4.7.9",
     "lint-staged": "17.2.0",
     "prettier": "3.9.6",
@@ -75,7 +71,6 @@
     "tslib": "^2.8.1",
     "tsx": "4.23.1",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.65.0",
     "vite": "8.2.0",
     "vitest": "^4.1.10"
   },
@@ -86,12 +81,9 @@
   },
   "lint-staged": {
     "*.{js,jsx,cjs,mjs,ts,tsx,cts,mts}": [
-      "eslint --fix",
-      "prettier --write",
+      "biome check --write --no-errors-on-unmatched",
       "cspell --no-must-find-files"
     ],
-    "*.{json,eslintrc}": [
-      "prettier --write"
-    ]
+    "*.{json,jsonc}": "biome check --write --no-errors-on-unmatched"
   }
 }

@@ -49,8 +49,8 @@ export class MarkupWeaver implements IMarkupWeaver {
     const escapeContent: IEscaper = content => {
       let result = content
       for (let i = escapers.length - 1; i >= 0; --i) {
-        const escape: IEscaper = escapers[i]
-        result = escape(result)
+        const escaper: IEscaper = escapers[i]
+        result = escaper(result)
       }
       return result
     }

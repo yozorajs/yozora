@@ -15,7 +15,9 @@ createTokenizerTesters(
     .useTokenizer(new FootnoteTokenizer())
     .useTokenizer(new FootnoteReferenceTokenizer()),
   parsers.yozora,
-).forEach(tester => tester.scan(['custom/footnote', 'custom/footnote-definition']).runTest())
+).forEach(tester => {
+  tester.scan(['custom/footnote', 'custom/footnote-definition']).runTest()
+})
 
 test('does not nest inline footnotes', () => {
   expect(parsers.yozora.parse('^[outer ^[inner]]', { shouldReservePosition: false })).toEqual({

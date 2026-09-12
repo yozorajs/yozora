@@ -1,13 +1,12 @@
 import { InlineMathType } from '@yozora/ast'
 import type { ICodePoint, INodePoint } from '@yozora/character'
 import { AsciiCodePoint, isPunctuationCharacter, isWhitespaceCharacter } from '@yozora/character'
-import {
-  type IMatchInlineHookCreator,
-  type IResultOfIsDelimiterPair,
-  type IResultOfProcessDelimiterPair,
-  eatOptionalCharacters,
-  genFindDelimiter,
+import type {
+  IMatchInlineHookCreator,
+  IResultOfIsDelimiterPair,
+  IResultOfProcessDelimiterPair,
 } from '@yozora/core-tokenizer'
+import { eatOptionalCharacters, genFindDelimiter } from '@yozora/core-tokenizer'
 import type { IDelimiter, IThis, IToken, T } from './types'
 
 export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = function (api) {

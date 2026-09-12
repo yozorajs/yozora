@@ -28,7 +28,8 @@ export abstract class BaseBlockTokenizer<
   IToken extends IPartialBlockToken<T> = IPartialBlockToken<T>,
   INode extends Node<T> = Node<T>,
   IThis extends ITokenizer = ITokenizer,
-> implements IBlockTokenizer<T, IToken, INode, IThis> {
+> implements IBlockTokenizer<T, IToken, INode, IThis>
+{
   public readonly type = TokenizerType.BLOCK
   public readonly name: string
   public readonly priority: number

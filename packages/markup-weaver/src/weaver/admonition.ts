@@ -1,5 +1,5 @@
-import { AdmonitionType } from '@yozora/ast'
 import type { Admonition } from '@yozora/ast'
+import { AdmonitionType } from '@yozora/ast'
 import type { INodeMarkup, INodeMarkupWeaveContext, INodeWeaver } from '../types'
 
 /**

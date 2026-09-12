@@ -16,7 +16,9 @@ createTokenizerTesters(
     .useTokenizer(new FootnoteTokenizer())
     .useTokenizer(new FootnoteReferenceTokenizer()),
   parsers.yozora,
-).forEach(tester => tester.scan(['custom/footnote', 'custom/footnote-definition']).runTest())
+).forEach(tester => {
+  tester.scan(['custom/footnote', 'custom/footnote-definition']).runTest()
+})
 
 test('recognizes a footnote definition after partial-tab indentation', () => {
   const parser = parsers.gfm

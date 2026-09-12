@@ -1,3 +1,6 @@
+import fs from 'node:fs'
+import path from 'node:path'
+import url from 'node:url'
 import type { IParser } from '@yozora/core-parser'
 import type { IMarkupWeaver } from '@yozora/markup-weaver'
 import { DefaultMarkupWeaver } from '@yozora/markup-weaver'
@@ -5,9 +8,6 @@ import YozoraParser from '@yozora/parser'
 import GfmParser from '@yozora/parser-gfm'
 import GfmExParser from '@yozora/parser-gfm-ex'
 import type { BaseTester } from '@yozora/test-util'
-import fs from 'node:fs'
-import path from 'node:path'
-import url from 'node:url'
 
 export const parsers = {
   get gfm(): IParser {

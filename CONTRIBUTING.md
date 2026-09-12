@@ -19,21 +19,25 @@ This installs all workspace dependencies and sets up the git hooks via `@guanghe
 
 ## Common commands
 
-| Command              | Description                                          |
-| :------------------- | :--------------------------------------------------- |
-| `pnpm build`         | Build all packages (rollup, dual ESM/CJS + `.d.ts`)  |
-| `pnpm test`          | Run the test suites (vitest)                         |
-| `pnpm test:coverage` | Run tests with coverage                              |
-| `pnpm lint`          | Lint with ESLint                                     |
-| `pnpm typecheck`     | Type-check with `tsc --noEmit`                       |
-| `pnpm doc:check`     | Validate Markdown structure and local links          |
-| `pnpm spellcheck`    | Spell-check sources with cspell                      |
-| `pnpm format`        | Auto-fix lint + format with Prettier                 |
-| `pnpm doc`           | Regenerate package READMEs from Handlebars templates |
+| Command              | Description                                             |
+| :------------------- | :------------------------------------------------------ |
+| `pnpm build`         | Build all packages (rollup, dual ESM/CJS + `.d.ts`)     |
+| `pnpm test`          | Run the test suites (vitest)                            |
+| `pnpm test:coverage` | Run tests with coverage                                 |
+| `pnpm lint`          | Check lint, imports, and formatting with Biome          |
+| `pnpm typecheck`     | Type-check with `tsc --noEmit`                          |
+| `pnpm doc:check`     | Validate Markdown structure and local links             |
+| `pnpm spellcheck`    | Spell-check sources with cspell                         |
+| `pnpm format`        | Auto-fix with Biome; format Markdown/YAML with Prettier |
+| `pnpm doc`           | Regenerate package READMEs from Handlebars templates    |
 
 CI runs `lint`, `typecheck`, `format:check`, `doc:check`, and `spellcheck` (the `check` job), plus
 `build` + `test:coverage` across Node 22/24/26. A pre-commit hook runs `lint-staged` on staged
 files, so most issues are caught before you push.
+
+Biome handles JavaScript, TypeScript, and JSON. Prettier remains available for Markdown/YAML and the
+fixture and tsconfig generation scripts. Generated fixtures and build output are excluded from Biome
+checks.
 
 ## Adding a new tokenizer
 

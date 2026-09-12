@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
 import { dirname, join } from 'node:path'
-import { fileURLToPath } from 'node:url'
 import { describe, test } from 'node:test'
+import { fileURLToPath } from 'node:url'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const cli = join(here, 'version.mjs')

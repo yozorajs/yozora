@@ -13,7 +13,7 @@ const fixtureDirectoryNames = ['gfm', 'gfm-new']
 const transactionArtifactPattern = /[.]gfm-(?:sync|backup)-/
 
 const formatFixtureId = exampleNo => `#${String(exampleNo).padStart(3, '0')}`
-const hasOwn = (value, key) => Object.prototype.hasOwnProperty.call(value, key)
+const hasOwn = (value, key) => Object.hasOwn(value, key)
 const isRecord = value => value != null && typeof value === 'object' && !Array.isArray(value)
 
 function parseJson(raw, filepath) {

@@ -1,6 +1,6 @@
 export * from './constant/ascii'
-export * from './constant/folding-case'
 export * from './constant/entity'
+export * from './constant/folding-case'
 export * from './constant/unicode/pc'
 export * from './constant/unicode/pd'
 export * from './constant/unicode/pe'

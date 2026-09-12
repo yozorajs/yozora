@@ -2,9 +2,9 @@ import { createTokenizerTesters } from '@yozora/test-util'
 import { expect, test } from 'vitest'
 import { parsers, scanGfmFixtures } from 'vitest.setup'
 
-createTokenizerTesters(parsers.gfm, parsers.gfmEx, parsers.yozora).forEach(tester =>
-  scanGfmFixtures(tester, { includeGroups: ['setext-heading'] }).runTest(),
-)
+createTokenizerTesters(parsers.gfm, parsers.gfmEx, parsers.yozora).forEach(tester => {
+  scanGfmFixtures(tester, { includeGroups: ['setext-heading'] }).runTest()
+})
 
 test.each([
   ['gfm', parsers.gfm],
