@@ -5,7 +5,7 @@ import type {
   IParseBlockHook,
   IParseBlockTokensRequest,
 } from '@yozora/core-tokenizer'
-import invariant from '@yozora/invariant'
+import { invariant } from '@yozora/invariant'
 
 /** Explicit replacement for one recursive block-token parse call. */
 interface IParseBlockFrame {

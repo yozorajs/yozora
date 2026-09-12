@@ -5,7 +5,7 @@ workflows.
 
 ## Prerequisites
 
-- **Node.js** >= 20
+- **Node.js** `^22.18.0 || ^24.11.0 || >=26.0.0`
 - **pnpm** — the repo pins a version via the `packageManager` field; run `corepack enable` to pick
   it up automatically.
 
@@ -21,7 +21,7 @@ This installs all workspace dependencies and sets up the git hooks via `@guanghe
 
 | Command              | Description                                             |
 | :------------------- | :------------------------------------------------------ |
-| `pnpm build`         | Build all packages (rollup, dual ESM/CJS + `.d.ts`)     |
+| `pnpm build`         | Build all packages (tsdown, dual ESM/CJS + `.d.ts`)     |
 | `pnpm test`          | Run the test suites (vitest)                            |
 | `pnpm test:coverage` | Run tests with coverage                                 |
 | `pnpm lint`          | Check lint, imports, and formatting with Biome          |
@@ -38,6 +38,15 @@ files, so most issues are caught before you push.
 Biome handles JavaScript, TypeScript, and JSON. Prettier remains available for Markdown/YAML and the
 fixture and tsconfig generation scripts. Generated fixtures and build output are excluded from Biome
 checks.
+
+Builds use tsdown and preserve `lib/esm/index.mjs`, `lib/cjs/index.cjs`, and `lib/types/index.d.ts`.
+`pnpm build` includes JavaScript source maps; `pnpm build:production` omits them. Use named imports
+between workspace packages so CJS bundles retain the same interop behavior as ESM. Public default
+exports remain available.
+
+`pnpm test:build` checks package-name imports in both formats, exercises the built parsers, and
+compiles ESM/CJS TypeScript consumers against the public declarations. Run it after either build
+mode.
 
 ## Adding a new tokenizer
 

@@ -7,7 +7,7 @@ import type {
   IResultOfEatContinuationText,
 } from '@yozora/core-tokenizer'
 import { calcEndPoint, calcIndentWidth } from '@yozora/core-tokenizer'
-import invariant from '@yozora/invariant'
+import { invariant } from '@yozora/invariant'
 import type {
   IBlockContentProcessor,
   IBlockTokenTree,

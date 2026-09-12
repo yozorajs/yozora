@@ -8,7 +8,7 @@ import type {
   IPhrasingContentLine,
 } from '@yozora/core-tokenizer'
 import { calcEndPoint, calcStartPoint } from '@yozora/core-tokenizer'
-import invariant from '@yozora/invariant'
+import { invariant } from '@yozora/invariant'
 import { createBlockContentProcessor } from './block'
 import { parseBlockTokens } from './block/parse'
 import type { IBlockTokenTree, IMatchBlockPhaseHook } from './block/types'

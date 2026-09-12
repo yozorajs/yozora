@@ -14,7 +14,7 @@
   "homepage": "https://github.com/yozorajs/yozora/tree/v2.4.0/packages/ast#readme",
   "type": "module",
   "scripts": {
-    "build": "rollup -c ../../rollup.config.mjs",
+    "build": "tsdown --config ../../tsdown.config.mjs",
     "clean": "rimraf lib"
   },
   "exports": {

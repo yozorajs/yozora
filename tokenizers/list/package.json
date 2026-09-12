@@ -13,7 +13,7 @@
   "homepage": "https://github.com/yozorajs/yozora/tree/v2.4.0/tokenizers/list#readme",
   "type": "module",
   "scripts": {
-    "build": "rollup -c ../../rollup.config.mjs",
+    "build": "tsdown --config ../../tsdown.config.mjs",
     "clean": "rimraf lib",
     "test": "vitest run --config ../../vitest.config.ts",
     "test:coverage": "vitest run --config ../../vitest.config.ts --coverage",

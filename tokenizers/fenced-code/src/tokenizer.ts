@@ -6,7 +6,7 @@ import type {
   IParseBlockHookCreator,
 } from '@yozora/core-tokenizer'
 import { TokenizerPriority } from '@yozora/core-tokenizer'
-import FencedBlockTokenizer from '@yozora/tokenizer-fenced-block'
+import { FencedBlockTokenizer } from '@yozora/tokenizer-fenced-block'
 import { match } from './match'
 import { parse } from './parse'
 import type { INode, IThis, IToken, ITokenizerProps, T } from './types'
