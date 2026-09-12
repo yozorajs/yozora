@@ -20,9 +20,6 @@ importers:
       '@guanghechen/githooks':
         specifier: ^1.0.0
         version: 1.0.0
-      '@guanghechen/std':
-        specifier: ^2.0.3
-        version: 2.0.3
       '@types/node':
         specifier: 24.13.3
         version: 24.13.3
@@ -1252,9 +1249,6 @@ packages:
     resolution: {integrity: sha512-r1EKAEtNNw8dNVXQXvkoLtj6KOjnDlejk4GCJSeZI5xN84he6SPiV+SLu3+gKPJu2pIzC4F44omvMYskCsMHog==}
     engines: {node: '>=18.0.0'}
     hasBin: true
-
-  '@guanghechen/std@2.0.3':
-    resolution: {integrity: sha512-AYVcXWys5gdtFOI8dhIdmMf2WeLCD3kahqw2dya5vq3PoXTCNzBgrjMAdkSfUYhv33z+BOVERrPNEPuCKZNOOw==}
 
   '@jridgewell/resolve-uri@3.1.2':
     resolution: {integrity: sha512-bRISgCIjP20/tbWSPWMEi54QVPRZExkuD9lJL+UIxUKtwVJA8wW1Trb1jMs1RFXo1CBTNZ/5hpC9QvmKWdopKw==}
@@ -2699,8 +2693,6 @@ snapshots:
     optional: true
 
   '@guanghechen/githooks@1.0.0': {}
-
-  '@guanghechen/std@2.0.3': {}
 
   '@jridgewell/resolve-uri@3.1.2': {}
 

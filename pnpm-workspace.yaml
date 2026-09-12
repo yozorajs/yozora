@@ -4,7 +4,6 @@ packages:
 
 allowBuilds:
   esbuild: true
-  unrs-resolver: true
 
 overrides:
   'brace-expansion@<1.1.13': 1.1.13
