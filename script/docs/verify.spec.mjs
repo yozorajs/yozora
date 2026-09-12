@@ -3,15 +3,12 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, relative } from 'node:path'
 import { afterEach, before, describe, test } from 'node:test'
-import { tsImport } from 'tsx/esm/api'
+import { createDocumentationParser } from './parser.mjs'
 import { githubSlug, scanSourcePolicy, verifyMarkdownFiles } from './verify.mjs'
 
 let parseMarkdown
 before(async () => {
-  const { default: YozoraParser } = await tsImport('@yozora/parser', import.meta.url)
-  const parser = new YozoraParser({
-    defaultParseOptions: { shouldReservePosition: true, formatUrl: url => url },
-  })
+  const parser = await createDocumentationParser()
   parseMarkdown = source => parser.parse(source)
 })
 

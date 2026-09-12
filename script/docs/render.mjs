@@ -1,3 +1,5 @@
+// @ts-check
+
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -8,8 +10,10 @@ const TEMPLATE_DIRPATH = path.join(path.dirname(fileURLToPath(import.meta.url)),
 /**
  * Convert a kebab-case identifier (e.g. 'inline-code') into PascalCase
  * (e.g. 'InlineCode'). Used by templates to render tokenizer class names.
+ * @param {string} text
+ * @returns {string}
  */
-function toPascalCase(text: string): string {
+function toPascalCase(text) {
   return text
     .split(/[^a-zA-Z0-9]+/)
     .filter(Boolean)
@@ -19,12 +23,16 @@ function toPascalCase(text: string): string {
 
 Handlebars.registerHelper('toPascalCase', toPascalCase)
 
+/** @type {Record<string, HandlebarsTemplateDelegate>} */
+const templates = {}
+
 /**
  * Load template
- * @param templateName
+ * @param {string} templateName
+ * @param {unknown} data
+ * @returns {string}
  */
-const templates: Record<string, HandlebarsTemplateDelegate> = {}
-export function renderTemplate(templateName: string, data: unknown): string {
+export function renderTemplate(templateName, data) {
   const templatePath = path.join(TEMPLATE_DIRPATH, templateName).replace(/([.]hbs)?$/, '.hbs')
 
   if (templates[templatePath] == null) {
@@ -39,14 +47,13 @@ export function renderTemplate(templateName: string, data: unknown): string {
 
 /**
  * Render markdown with handlebar templates.
- * @param filepath
- * @param data
+ * @template D
+ * @param {string} filepath
+ * @param {D} data
+ * @param {BufferEncoding} [encoding]
+ * @returns {void}
  */
-export function renderMarkdown<D>(
-  filepath: string,
-  data: D,
-  encoding: BufferEncoding = 'utf-8',
-): void {
+export function renderMarkdown(filepath, data, encoding = 'utf-8') {
   if (!fs.existsSync(filepath)) {
     console.warn(`cannot find ${filepath}.`)
     return
@@ -57,7 +64,7 @@ export function renderMarkdown<D>(
 
   const resolvedContent =
     content
-      .replace(regex, (_, templateName): string => {
+      .replace(regex, (_, templateName) => {
         const result = renderTemplate(templateName, data)
         return `\n\n<!-- :begin use ${templateName} -->\n\n${result}\n\n<!-- :end -->\n\n`
       })
@@ -67,12 +74,12 @@ export function renderMarkdown<D>(
 
 /**
  * Mark a legacy leading HTML banner as a generated template region.
+ * @param {string} filepath
+ * @param {string} templateName
+ * @param {BufferEncoding} [encoding]
+ * @returns {void}
  */
-export function ensureLeadingTemplateRegion(
-  filepath: string,
-  templateName: string,
-  encoding: BufferEncoding = 'utf-8',
-): void {
+export function ensureLeadingTemplateRegion(filepath, templateName, encoding = 'utf-8') {
   if (!fs.existsSync(filepath)) return
 
   const content = fs.readFileSync(filepath, encoding)

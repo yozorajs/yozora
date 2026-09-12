@@ -3,6 +3,7 @@ import { existsSync, readFileSync, realpathSync, statSync } from 'node:fs'
 import { basename, dirname, isAbsolute, join, normalize, relative, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { repositoryRoot } from '../internal/repository.mjs'
+import { createDocumentationParser } from './parser.mjs'
 
 const htmlLinkPattern = /\b(?:href|src)\s*=\s*["']([^"']+)["']/giu
 const htmlIdPattern = /<[A-Za-z][^>]*\bid\s*=\s*["']([^"']+)["'][^>]*>/giu
@@ -312,10 +313,7 @@ export function trackedMarkdownFiles(root = repositoryRoot) {
 const isMain =
   process.argv[1] != null && resolve(process.argv[1]) === fileURLToPath(import.meta.url)
 if (isMain) {
-  const { default: YozoraParser } = await import('@yozora/parser')
-  const parser = new YozoraParser({
-    defaultParseOptions: { shouldReservePosition: true, formatUrl: url => url },
-  })
+  const parser = await createDocumentationParser()
   const files = trackedMarkdownFiles()
   const issues = verifyMarkdownFiles(repositoryRoot, files, source => parser.parse(source))
   if (issues.length > 0) {

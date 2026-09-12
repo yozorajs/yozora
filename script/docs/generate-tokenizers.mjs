@@ -1,31 +1,36 @@
+// @ts-check
+
 import path from 'node:path'
 import { repositoryRoot } from '../internal/repository.mjs'
 import { workspacePackages } from '../internal/workspace.mjs'
-import { renderMarkdown } from './render'
+import { renderMarkdown } from './render.mjs'
 
-interface HandlebarData {
-  packageName?: string
-  repositoryRef?: string
-  packageDirectory?: string
-  shortPackageName?: string
-  tokenizerName: string
-  tokenizerPriority: string
-  inGfm?: boolean
-  inGfmEx?: boolean
-  isInlineTokenizer: boolean
-  isBlockTokenizer: boolean
-  isFallbackTokenizer?: boolean
-  hasListOptions?: boolean
-  optionsTable?: string
-  usageDemoSourceContent: string
-}
+/**
+ * @typedef {object} HandlebarData
+ * @property {string} [packageName]
+ * @property {string} [repositoryRef]
+ * @property {string} [packageDirectory]
+ * @property {string} [shortPackageName]
+ * @property {string} tokenizerName
+ * @property {string} tokenizerPriority
+ * @property {boolean} [inGfm]
+ * @property {boolean} [inGfmEx]
+ * @property {boolean} isInlineTokenizer
+ * @property {boolean} isBlockTokenizer
+ * @property {boolean} [isFallbackTokenizer]
+ * @property {boolean} [hasListOptions]
+ * @property {string} [optionsTable]
+ * @property {string} usageDemoSourceContent
+ */
 
-function renderOptionsTable(
-  packageName: string,
-  tokenizerPriority: string,
-  hasListOptions: boolean,
-): string {
-  const rows: string[][] = [
+/**
+ * @param {string} packageName
+ * @param {string} tokenizerPriority
+ * @param {boolean} hasListOptions
+ * @returns {string}
+ */
+function renderOptionsTable(packageName, tokenizerPriority, hasListOptions) {
+  const rows = [
     ['Name', 'Type', 'Required', 'Default'],
     ['`name`', '`string`', 'No', `\`"${packageName}"\``],
     ['`priority`', '`number`', 'No', `\`${tokenizerPriority}\``],
@@ -41,14 +46,15 @@ function renderOptionsTable(
   const widths = rows[0].map((_, columnIndex) =>
     Math.max(...rows.map(row => row[columnIndex].length)),
   )
-  const renderRow = (row: string[]): string =>
-    `| ${row.map((cell, index) => cell.padEnd(widths[index])).join(' | ')} |`
+  /** @param {string[]} row */
+  const renderRow = row => `| ${row.map((cell, index) => cell.padEnd(widths[index])).join(' | ')} |`
   const separator = widths.map(width => `:${'-'.repeat(width - 1)}`)
 
   return [renderRow(rows[0]), renderRow(separator), ...rows.slice(1).map(renderRow)].join('\n')
 }
 
-const items: HandlebarData[] = [
+/** @type {HandlebarData[]} */
+const items = [
   // admonition
   {
     tokenizerName: 'admonition',
@@ -545,7 +551,7 @@ ___
 
 // Perform replace
 const workspacePackageByDirectory = new Map(workspacePackages().map(pkg => [pkg.dir, pkg]))
-items.forEach((item): void => {
+items.forEach(item => {
   const data = item
   data.packageDirectory ??= 'tokenizers/' + data.tokenizerName
   const pkg = workspacePackageByDirectory.get(data.packageDirectory)
@@ -564,5 +570,5 @@ items.forEach((item): void => {
     data.tokenizerPriority,
     data.hasListOptions === true,
   )
-  renderMarkdown<HandlebarData>(docFilepath, data)
+  renderMarkdown(docFilepath, data)
 })

@@ -1,24 +1,29 @@
+// @ts-check
+
 import fs from 'node:fs'
 import path from 'node:path'
 import { repositoryRoot } from '../internal/repository.mjs'
 import { workspacePackages } from '../internal/workspace.mjs'
-import { ensureLeadingTemplateRegion, renderMarkdown } from './render'
+import { ensureLeadingTemplateRegion, renderMarkdown } from './render.mjs'
 
-interface HandlebarData {
-  packageName: string
-  repositoryRef: string
-  shortPackageName?: string
-  packageDirectory: string
-  parserName?: string
-}
+/**
+ * @typedef {object} HandlebarData
+ * @property {string} packageName
+ * @property {string} repositoryRef
+ * @property {string} [shortPackageName]
+ * @property {string} packageDirectory
+ * @property {string} [parserName]
+ */
 
-const PARSER_NAMES: Readonly<Record<string, string>> = {
+/** @type {Readonly<Record<string, string>>} */
+const PARSER_NAMES = {
   '@yozora/parser': 'YozoraParser',
   '@yozora/parser-gfm': 'GfmParser',
   '@yozora/parser-gfm-ex': 'GfmExParser',
 }
 
-const packageItems: HandlebarData[] = workspacePackages()
+/** @type {HandlebarData[]} */
+const packageItems = workspacePackages()
   .filter(pkg => pkg.dir.startsWith('packages/') && pkg.manifest.private !== true)
   .map(pkg => ({
     packageName: pkg.name,
@@ -27,7 +32,8 @@ const packageItems: HandlebarData[] = workspacePackages()
     parserName: PARSER_NAMES[pkg.name],
   }))
 
-const items: HandlebarData[] = [
+/** @type {HandlebarData[]} */
+const items = [
   // Top README
   {
     packageName: '@yozora/root',
@@ -38,7 +44,7 @@ const items: HandlebarData[] = [
 ]
 
 // Perform replace
-items.forEach((item): void => {
+items.forEach(item => {
   const data = item
   data.shortPackageName = data.packageName.replace(/^@[^/]*\//, '')
 
@@ -49,6 +55,6 @@ items.forEach((item): void => {
     if (data.packageDirectory !== '.') {
       ensureLeadingTemplateRegion(docFilepath, 'tokenizer/banner')
     }
-    renderMarkdown<HandlebarData>(docFilepath, data)
+    renderMarkdown(docFilepath, data)
   }
 })

@@ -48,6 +48,10 @@ exports remain available.
 compiles ESM/CJS TypeScript consumers against the public declarations. Run it after either build
 mode.
 
+Documentation generators are native ESM scripts, type-checked through JSDoc and `@ts-check`.
+Documentation checks and their tests bundle the parser sources with tsdown into a temporary
+directory that is removed after loading, so they do not require a package build first.
+
 ## Adding a new tokenizer
 
 1. Copy an existing tokenizer directory under `tokenizers/` (e.g. `tokenizers/emphasis`) as a
@@ -60,7 +64,7 @@ mode.
 5. Run `pnpm sync:paths` to register the workspace alias in `tsconfig.json` (vitest resolves the
    `@yozora/*` aliases automatically at runtime from the workspace, so it needs no manual edit).
 6. Add fixtures and a spec under `__test__/`, then run `pnpm test`.
-7. Add its metadata and example to `script/docs/generate-tokenizers.ts`, then run `pnpm doc` to
+7. Add its metadata and example to `script/docs/generate-tokenizers.mjs`, then run `pnpm doc` to
    regenerate the package README.
 
 ## Commit messages
