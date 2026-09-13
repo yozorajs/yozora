@@ -1,6 +1,11 @@
 import { TextType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
-import { calcEscapedStringFromNodePoints } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  VirtualCodePoint,
+  calcEscapedStringFromNodePoints,
+  isSpaceCharacter,
+} from '@yozora/character'
 import type { IParseInlineHookCreator } from '@yozora/core-tokenizer'
 import type { INode, IThis, IToken, T } from './types'
 
@@ -9,8 +14,7 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
     parse: tokens =>
       tokens.map(token => {
         const nodePoints: readonly INodePoint[] = api.getNodePoints()
-        let value = calcEscapedStringFromNodePoints(nodePoints, token.startIndex, token.endIndex)
-        value = stripSpaces(value)
+        const value = calcTextValue(nodePoints, token.startIndex, token.endIndex)
         const node: INode = api.shouldReservePosition
           ? { type: TextType, position: api.calcPosition(token), value }
           : { type: TextType, value }
@@ -20,32 +24,41 @@ export const parse: IParseInlineHookCreator<T, IToken, INode, IThis> = function 
 }
 
 /**
- * Trim ASCII spaces and tabs next to LF, preserving all other text.
- * Equivalent to this replacement, but with O(n) worst-case work:
+ * Trim source spaces and tabs around line endings before decoding entities.
+ * Entity-generated whitespace must remain literal text:
  *
- * ```ts
- * const pattern = new RegExp(String.raw`[ \t]*\n[ \t]*`, 'g')
- * text.replace(pattern, '\n')
+ * ```text
+ * Source: a &#10; b
+ * Value:  "a \n b"
  * ```
  *
- * The original regex can take O(n^2): when no LF follows a whitespace run,
- * it retries a suffix of that run from each starting position.
- *
- * ```ts
- * 'a' + ' '.repeat(n) + 'b'
- * 'before \na' + ' '.repeat(n) + 'b'
- * ```
- *
- * Group 1 keeps a matched LF. When no LF follows, the fallback consumes and
- * captures the entire whitespace run as group 2. `$1$2` preserves either
- * capture, and the next search starts after the run rather than inside it.
- *
- * The guard skips replacement unless trimming is needed. Once it is needed,
- * replacement processes all whitespace runs, including those kept unchanged.
- *
- * @see https://github.github.com/gfm/#example-670
+ * Decode each retained range separately so encoded spaces, tabs, and newlines
+ * cannot be mistaken for source whitespace. Each point is visited O(1) times.
  */
-function stripSpaces(text: string): string {
-  if (text.length < 2 || !/[ \t]\n|\n[ \t]/.test(text)) return text
-  return text.replace(/[ \t]*(\n)[ \t]*|([ \t]+)/g, '$1$2')
+function calcTextValue(
+  nodePoints: readonly INodePoint[],
+  startIndex: number,
+  endIndex: number,
+): string {
+  let value = ''
+  let i = startIndex
+  while (i < endIndex) {
+    const c = nodePoints[i].codePoint
+    i += 1
+    if (c !== VirtualCodePoint.LINE_END && c !== AsciiCodePoint.LF) continue
+
+    let lineEndIndex = i - 1
+    for (; lineEndIndex > startIndex; lineEndIndex -= 1) {
+      const c = nodePoints[lineEndIndex - 1].codePoint
+      if (!isSpaceCharacter(c) && c !== AsciiCodePoint.HT) break
+    }
+    value += calcEscapedStringFromNodePoints(nodePoints, startIndex, lineEndIndex) + '\n'
+
+    for (; i < endIndex; ++i) {
+      const c = nodePoints[i].codePoint
+      if (!isSpaceCharacter(c) && c !== AsciiCodePoint.HT) break
+    }
+    startIndex = i
+  }
+  return value + calcEscapedStringFromNodePoints(nodePoints, startIndex, endIndex)
 }

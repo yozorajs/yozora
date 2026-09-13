@@ -51,16 +51,50 @@ test.each([
 })
 
 test.each([
-  ['consecutive line breaks', 'foo \t&#10; \t&#10;\t bar', 'foo\n\nbar'],
-  ['mixed line breaks', 'foo&#10;bar &#10; baz&#10;qux', 'foo\nbar\nbaz\nqux'],
-  ['boundary line breaks', '&#10; \tfoo \t&#10;', '\nfoo\n'],
-  ['internal whitespace', 'foo \t bar &#10; baz \t qux', 'foo \t bar\nbaz \t qux'],
+  ['consecutive line breaks', 'foo \t&#10; \t&#10;\t bar', 'foo \t\n \t\n\t bar'],
+  ['mixed line breaks', 'foo&#10;bar &#10; baz&#10;qux', 'foo\nbar \n baz\nqux'],
+  ['boundary line breaks', '&#10; \tfoo \t&#10;', '\n \tfoo \t\n'],
+  ['internal whitespace', 'foo \t bar &#10; baz \t qux', 'foo \t bar \n baz \t qux'],
   ['token boundaries', '&#32;foo&#10;bar&#32;', ' foo\nbar '],
   ['Unicode whitespace boundaries', 'foo \u00a0&#10;\u00a0 bar', 'foo \u00a0\n\u00a0 bar'],
+  ['named line breaks', 'a &NewLine; b', 'a \n b'],
+  ['hexadecimal line breaks', 'a &#xA; b', 'a \n b'],
+  ['encoded space before source LF', 'a&#32;\nb', 'a \nb'],
+  ['encoded space after source LF', 'a\n&#32;b', 'a\n b'],
+  ['encoded tabs', 'a&Tab;\n&Tab;b', 'a\t\n\tb'],
+  ['mixed encoded and source spaces', 'a&#32; \n &#32;b', 'a \n b'],
+  ['escaped entity syntax', String.raw`a \&#10; b`, 'a &#10; b'],
+  ['single-pass entity decoding', 'a &amp;#10; b', 'a &#10; b'],
 ])('preserves text semantics around %s', function (_, source, value) {
   const ast = parsers.gfm.parse(source, { shouldReservePosition: false })
 
   expect(ast.children).toEqual([{ type: 'paragraph', children: [{ type: 'text', value }] }])
+})
+
+test.each([
+  ['a  \nb', [{ type: 'text', value: 'a' }, { type: 'break' }, { type: 'text', value: 'b' }]],
+  ['a\\\nb', [{ type: 'text', value: 'a' }, { type: 'break' }, { type: 'text', value: 'b' }]],
+  ['a&#32;&#32;\nb', [{ type: 'text', value: 'a  \nb' }]],
+  ['a&#92;\nb', [{ type: 'text', value: 'a\\\nb' }]],
+  ['a&#32;  \nb', [{ type: 'text', value: 'a ' }, { type: 'break' }, { type: 'text', value: 'b' }]],
+])('recognizes hard breaks from source characters in %j', (source, children) => {
+  expect(parsers.gfm.parse(source, { shouldReservePosition: false }).children).toEqual([
+    { type: 'paragraph', children },
+  ])
+})
+
+test('preserves source positions while decoding whitespace entities', () => {
+  const ast = parsers.gfm.parse('中&#32;\r\n&#32;😀', { shouldReservePosition: true })
+  const node = (ast.children[0] as any).children[0]
+
+  expect(node).toEqual({
+    type: 'text',
+    value: '中 \n 😀',
+    position: {
+      start: { line: 1, column: 1, offset: 0 },
+      end: { line: 2, column: 8, offset: 15 },
+    },
+  })
 })
 
 test.each([
