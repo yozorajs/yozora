@@ -49,3 +49,30 @@ test.each([
     },
   ])
 })
+
+test.each([
+  ['consecutive line breaks', 'foo \t&#10; \t&#10;\t bar', 'foo\n\nbar'],
+  ['mixed line breaks', 'foo&#10;bar &#10; baz&#10;qux', 'foo\nbar\nbaz\nqux'],
+  ['boundary line breaks', '&#10; \tfoo \t&#10;', '\nfoo\n'],
+  ['internal whitespace', 'foo \t bar &#10; baz \t qux', 'foo \t bar\nbaz \t qux'],
+  ['token boundaries', '&#32;foo&#10;bar&#32;', ' foo\nbar '],
+  ['Unicode whitespace boundaries', 'foo \u00a0&#10;\u00a0 bar', 'foo \u00a0\n\u00a0 bar'],
+])('preserves text semantics around %s', function (_, source, value) {
+  const ast = parsers.gfm.parse(source, { shouldReservePosition: false })
+
+  expect(ast.children).toEqual([{ type: 'paragraph', children: [{ type: 'text', value }] }])
+})
+
+test.each([
+  ['', ''],
+  ['before\n', 'before\n'],
+  ['before \n', 'before\n'],
+])('preserves a long whitespace run after %j', function (prefix, normalizedPrefix) {
+  const content = `a${' \t'.repeat(32_000)}b`
+  const source = prefix + content
+  const ast = parsers.gfm.parse(source, { shouldReservePosition: false })
+
+  expect(ast.children).toEqual([
+    { type: 'paragraph', children: [{ type: 'text', value: normalizedPrefix + content }] },
+  ])
+})
