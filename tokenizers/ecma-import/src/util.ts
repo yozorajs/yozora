@@ -63,7 +63,17 @@ const namedImportRegex = new RegExp(
   `\\{\\s*((?:${namedImportItemPattern}\\s*,\\s*)*${namedImportItemPattern})\\s*,?\\s*\\}\\s*`,
   'u',
 )
-const endRegex = /\s*;?\s*$/u
+
+/**
+ * Optimize the `\s*;?\s*$` suffix by separating its whitespace runs with a semicolon.
+ * This avoids quadratic suffix backtracking in the anchored import regexes:
+ *
+ * ```ts
+ * 'import "x"' + ' '.repeat(64_000) + '!'
+ * ```
+ *
+ */
+const endRegex = /\s*(?:;\s*)?$/u
 
 /**
  * import '@yozora.parser'

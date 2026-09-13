@@ -119,6 +119,28 @@ describe('identifier validation', () => {
 })
 
 describe('util', function () {
+  test.each([
+    ['import "pkg"', regex1, ['"', 'pkg']],
+    ['import Foo from "pkg"', regex2, ['Foo', '"', 'pkg']],
+    ['import { bar as baz } from "pkg"', regex3, [undefined, 'bar as baz', '"', 'pkg']],
+    ['import Foo, { bar as baz } from "pkg"', regex3, ['Foo', 'bar as baz', '"', 'pkg']],
+  ])('preserves import suffix syntax and captures for %s', (source, regex, captures) => {
+    for (const suffix of ['', ';', ' \t', ' \t; \t', '\u00a0;\uFEFF', '\r\n;\u2028']) {
+      expect(regex.exec(source + suffix)?.slice(1)).toEqual(captures)
+    }
+
+    for (const suffix of [
+      '!',
+      ';;',
+      ' ; ; ',
+      ' // comment',
+      ' '.repeat(16_000) + '!',
+      ' '.repeat(16_000) + ';' + ' '.repeat(16_000) + '!',
+    ]) {
+      expect(regex.exec(source + suffix)).toBeNull()
+    }
+  })
+
   test('regex1', function () {
     expect(regex1.test("import '@yozora/parser'")).toBe(true)
     expect(regex1.test('import "@yozora/parser"')).toBe(true)
