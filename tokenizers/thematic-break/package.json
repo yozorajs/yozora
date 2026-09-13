@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-thematic-break",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "tokenizers/thematic-break"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.4.0/tokenizers/thematic-break#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/thematic-break#readme",
   "type": "module",
   "scripts": {
     "build": "tsdown --config ../../tsdown.config.mjs",

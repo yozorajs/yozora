@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.4.1 (2026-09-13)
+
+- :wrench: chore(build): migrate Rollup to tsdown
+- :wrench: chore(tooling): migrate lint and formatting to Biome
+- :boom: refactor(parser)!: schedule nested block parsing iteratively
+- :memo: docs(tokenizers): remove duplicate parser links
+
 ## 2.4.0 (2026-08-01)
 
 - :recycle: refactor(fixtures): flatten GFM test cases

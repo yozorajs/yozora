@@ -2,7 +2,7 @@
 
 <header>
   <h1 align="center">
-    <a href="https://github.com/yozorajs/yozora/tree/v2.4.0/packages/ast-util#readme">@yozora/ast-util</a>
+    <a href="https://github.com/yozorajs/yozora/tree/v2.4.1/packages/ast-util#readme">@yozora/ast-util</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/ast-util">
@@ -96,5 +96,5 @@ const toc = calcHeadingToc(root)
 
 - [@yozora/ast][]
 
-[homepage]: https://github.com/yozorajs/yozora/tree/v2.4.0/packages/ast-util#readme
-[@yozora/ast]: https://github.com/yozorajs/yozora/tree/v2.4.0/packages/ast#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/v2.4.1/packages/ast-util#readme
+[@yozora/ast]: https://github.com/yozorajs/yozora/tree/v2.4.1/packages/ast#readme

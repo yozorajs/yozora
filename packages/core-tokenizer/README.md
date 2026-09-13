@@ -2,7 +2,7 @@
 
 <header>
   <h1 align="center">
-    <a href="https://github.com/yozorajs/yozora/tree/v2.4.0/packages/core-tokenizer#readme">@yozora/core-tokenizer</a>
+    <a href="https://github.com/yozorajs/yozora/tree/v2.4.1/packages/core-tokenizer#readme">@yozora/core-tokenizer</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/core-tokenizer">
@@ -213,7 +213,7 @@ the complete type definitions):
   - [match-inline][lifecycle-match-inline]
   - [parse-inline][lifecycle-parse-inline]
 
-[homepage]: https://github.com/yozorajs/yozora/tree/v2.4.0/packages/core-tokenizer#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/v2.4.1/packages/core-tokenizer#readme
 [homepage-zh]: ./README-zh.md
 [lifecycle-match-block]:
   https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/match-block/hook.ts

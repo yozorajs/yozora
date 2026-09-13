@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.4.1 (2026-09-13)
+
+- :wrench: chore(build): migrate Rollup to tsdown
+- :wrench: chore(tooling): migrate lint and formatting to Biome
+- :memo: docs(tokenizers): remove duplicate parser links
+
 ## 2.4.0 (2026-08-01)
 
 - :rewind: revert(core-tokenizer): restore countOfPrecedeSpaces

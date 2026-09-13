@@ -1,5 +1,14 @@
 # Change Log
 
+## 2.4.1 (2026-09-13)
+
+- :bug: fix(link): reject unbalanced destinations at whitespace
+- :bug: fix(link): require whitespace before titles
+- :bug: fix(link): reject unescaped parentheses in link titles
+- :wrench: chore(build): migrate Rollup to tsdown
+- :wrench: chore(tooling): migrate lint and formatting to Biome
+- :memo: docs(tokenizers): remove duplicate parser links
+
 ## 2.4.0 (2026-08-01)
 
 - :bug: fix(link): validate destination backslash escapes
