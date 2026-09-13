@@ -89,7 +89,9 @@ export function eatLinkDestination(
             if (openParensCount < 0) return i
             break
           default:
-            if (isWhitespaceCharacter(c) || isAsciiControlCharacter(c)) return i
+            if (isWhitespaceCharacter(c) || isAsciiControlCharacter(c)) {
+              return openParensCount === 0 ? i : -1
+            }
             break
         }
       }

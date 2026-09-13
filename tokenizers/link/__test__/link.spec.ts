@@ -5,6 +5,7 @@ import { encodeLinkDestination, isValidLinkText } from '@yozora/core-tokenizer'
 import { createTokenizerTesters } from '@yozora/test-util'
 import { expect, test } from 'vitest'
 import { parsers, scanGfmFixtures } from 'vitest.setup'
+import { eatLinkDestination } from '../src'
 
 createTokenizerTesters(parsers.gfm, parsers.gfmEx, parsers.yozora).forEach(tester => {
   scanGfmFixtures(tester, { includeGroups: ['link'] }).runTest()
@@ -100,6 +101,55 @@ test.each([
 
   expect(acceptedChildren[0].type).toBe(nodeType)
   expect(rejectedChildren.every((node: any) => node.type !== nodeType)).toBe(true)
+})
+
+test.each([' ', '\t', '\n', '\r\n', '\v', '\f', '\u0001', '\u007f'])(
+  'checks destination parentheses before %j',
+  separator => {
+    for (const destination of ['a(b', 'a(b(c)', String.raw`a(b\)`, String.raw`a\\(b`]) {
+      const nodePoints = [...createNodePointGenerator(destination + separator)].flat()
+
+      expect(eatLinkDestination(nodePoints, 0, nodePoints.length)).toBe(-1)
+    }
+    for (const destination of ['a(b)', String.raw`a\(b`, String.raw`a\)b`]) {
+      const nodePoints = [...createNodePointGenerator(destination + separator)].flat()
+
+      expect(eatLinkDestination(nodePoints, 0, nodePoints.length)).toBe(destination.length)
+    }
+  },
+)
+
+test.each(['a(b ', 'a(b\t', 'a(b\n', 'a(b "title"'])(
+  'rejects an unbalanced destination in %j',
+  content => {
+    for (const label of ['[x]', '![x]']) {
+      const formattedUrls: string[] = []
+      parsers.gfm.parse(`${label}(${content})`, {
+        formatUrl: url => {
+          formattedUrls.push(url)
+          return url
+        },
+      })
+
+      expect(formattedUrls).toEqual([])
+    }
+  },
+)
+
+test.each([
+  ['a(b)', 'a(b)'],
+  [String.raw`a\(b`, 'a(b'],
+  [String.raw`a\)b`, 'a)b'],
+  ['<a(b>', 'a(b'],
+])('preserves permitted parentheses in destination %s', (destination, url) => {
+  for (const label of ['[x]', '![x]']) {
+    const ast = parsers.gfm.parse(`${label}(${destination} "title")`, {
+      shouldReservePosition: false,
+    })
+    const node = (ast.children[0] as any).children[0]
+
+    expect(node).toMatchObject({ type: label === '[x]' ? 'link' : 'image', url, title: 'title' })
+  }
 })
 
 test.each(['[x]', '![x]'])('rejects unescaped opening parentheses in %s titles', label => {
