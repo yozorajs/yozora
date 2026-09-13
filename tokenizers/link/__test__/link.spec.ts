@@ -102,6 +102,36 @@ test.each([
   expect(rejectedChildren.every((node: any) => node.type !== nodeType)).toBe(true)
 })
 
+test.each(['[x]', '![x]'])('rejects unescaped opening parentheses in %s titles', label => {
+  const source: string = `${label}(url (a(b)c))`
+  const ast = parsers.gfm.parse(source, { shouldReservePosition: false })
+
+  expect(ast.children[0]).toEqual({
+    type: 'paragraph',
+    children: [{ type: 'text', value: source }],
+  })
+})
+
+test.each([
+  ['()', ''],
+  ['(title)', 'title'],
+  [String.raw`(a\(b\)c)`, 'a(b)c'],
+  ['"a(b)c"', 'a(b)c'],
+  ["'a(b)c'", 'a(b)c'],
+  ['(a\nb)', 'a\nb'],
+])('preserves valid title syntax %s', (title, expected) => {
+  for (const label of ['[x]', '![x]']) {
+    const ast = parsers.gfm.parse(`${label}(url ${title})`, { shouldReservePosition: false })
+    const node = (ast.children[0] as any).children[0]
+
+    expect(node).toMatchObject({
+      type: label === '[x]' ? 'link' : 'image',
+      url: 'url',
+      title: expected,
+    })
+  }
+})
+
 test.each([
   ['https://example.com/%2Fadmin', 'https://example.com/%2Fadmin'],
   ['https://example.com/%252Fadmin', 'https://example.com/%252Fadmin'],

@@ -47,7 +47,6 @@ export function eatLinkTitle(
       break
     }
     case AsciiCodePoint.OPEN_PARENTHESIS: {
-      let openParens = 1
       for (i += 1; i < endIndex; ++i) {
         const p = nodePoints[i]
         switch (p.codePoint) {
@@ -63,12 +62,9 @@ export function eatLinkTitle(
             break
           }
           case AsciiCodePoint.OPEN_PARENTHESIS:
-            openParens += 1
-            break
+            return -1
           case AsciiCodePoint.CLOSE_PARENTHESIS:
-            openParens -= 1
-            if (openParens === 0) return i + 1
-            break
+            return i + 1
         }
       }
       break
