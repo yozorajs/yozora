@@ -1,3 +1,4 @@
+import type { List } from '@yozora/ast'
 import { createTokenizerTester, createTokenizerTesters } from '@yozora/test-util'
 import { expect, test } from 'vitest'
 import { parsers, scanGfmFixtures } from 'vitest.setup'
@@ -155,4 +156,88 @@ test.each([
       },
     ],
   })
+})
+
+test.each(['# heading', '> quote', '- child', '1. child', '---', '```js', '[ref]: /url'])(
+  'keeps %s after a task marker as paragraph content',
+  content => {
+    const list = parsers.yozora.parse(`- [x] ${content}`, {
+      shouldReservePosition: false,
+    }).children[0] as List
+
+    expect(list.children[0]).toEqual({
+      type: 'listItem',
+      status: 'done',
+      children: [{ type: 'text', value: content }],
+    })
+  },
+)
+
+test.each([
+  ['-     [x] foo', '[x] foo\n'],
+  ['-\t\t[x] foo', '  [x] foo\n'],
+  ['1.     [x] foo', '[x] foo\n'],
+])('preserves task-like text in indented code: %s', (source, value) => {
+  const list = parsers.yozora.parse(source, { shouldReservePosition: false }).children[0] as List
+
+  expect(list.children[0].status).toBeUndefined()
+  expect(list.children[0].children).toMatchObject([{ type: 'code', value }])
+})
+
+test('does not recognize a task marker in a setext heading', () => {
+  const list = parsers.yozora.parse('- [x] heading\n  ---', {
+    shouldReservePosition: false,
+  }).children[0] as List
+
+  expect(list.children[0].status).toBeUndefined()
+  expect(list.children[0].children).toEqual([
+    { type: 'heading', depth: 2, children: [{ type: 'text', value: '[x] heading' }] },
+  ])
+})
+
+test('recognizes the first paragraph after an empty list opening line', () => {
+  const list = parsers.yozora.parse('-\n  [x] task', {
+    shouldReservePosition: false,
+  }).children[0] as List
+
+  expect(list.children[0]).toEqual({
+    type: 'listItem',
+    status: 'done',
+    children: [{ type: 'text', value: 'task' }],
+  })
+})
+
+test('leaves task-like text in later paragraphs unchanged', () => {
+  const list = parsers.yozora.parse('- # heading\n\n  [x] later', {
+    shouldReservePosition: false,
+  }).children[0] as List
+
+  expect(list.children[0].status).toBeUndefined()
+  expect(list.children[0].children[1]).toEqual({
+    type: 'paragraph',
+    children: [{ type: 'text', value: '[x] later' }],
+  })
+})
+
+test.each(['- [x] ', '- [x]\n', '- [x]\n  task', '- [x]\n\n  task'])(
+  'handles an empty task opening line in %j',
+  source => {
+    const list = parsers.yozora.parse(source, {
+      shouldReservePosition: false,
+    }).children[0] as List
+
+    expect(list.children[0].status).toBe('done')
+    expect(list.children[0].children).toEqual(
+      source.includes('task') ? [{ type: 'text', value: 'task' }] : [],
+    )
+  },
+)
+
+test('requires whitespace after a task marker', () => {
+  const list = parsers.yozora.parse('- [x]', {
+    shouldReservePosition: false,
+  }).children[0] as List
+
+  expect(list.children[0].status).toBeUndefined()
+  expect(list.children[0].children).toEqual([{ type: 'text', value: '[x]' }])
 })

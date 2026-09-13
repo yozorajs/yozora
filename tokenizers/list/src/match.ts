@@ -1,4 +1,4 @@
-import { ListType, TaskStatus } from '@yozora/ast'
+import { ListType, ParagraphType, TaskStatus } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
@@ -49,7 +49,7 @@ import type { IThis, IToken, T } from './types'
  * @see https://github.github.com/gfm/#list-items
  */
 
-export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
+export const match: IMatchBlockHookCreator<T, IToken, IThis> = function (api) {
   const { emptyItemCouldNotInterruptedTypes, enableTaskListItem } = this
 
   return {
@@ -57,6 +57,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
     eatOpener,
     eatAndInterruptPreviousSibling,
     eatContinuationText,
+    onClose,
   }
 
   function eatOpener(line: Readonly<IPhrasingContentLine>): IResultOfEatOpener<T, IToken> {
@@ -222,12 +223,6 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
     const indent = line.indentWidth + markerWidth + separatorWidth
     const isEmpty = isBlankRange(nodePoints, nextIndex, endIndex)
 
-    // Try to resolve task status.
-    let status: TaskStatus | null = null
-    if (enableTaskListItem) {
-      ;({ status, nextIndex } = eatTaskStatus(nodePoints, nextIndex, endIndex))
-    }
-
     const token: IToken = {
       _isEmpty: isEmpty,
       nodeType: ListType,
@@ -244,7 +239,6 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
       children: [],
     }
 
-    if (status != null) token.status = status
     return { token, nextIndex }
   }
 
@@ -316,6 +310,46 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
     }
 
     return { status: 'opening', nextIndex: continuationStartIndex }
+  }
+
+  function onClose(token: IToken): void {
+    const firstChild = token.children[0]
+    if (!enableTaskListItem || firstChild?.nodeType !== ParagraphType) return
+
+    const lines = api.extractPhrasingLines(firstChild)
+    if (lines == null || lines.length <= 0) return
+
+    const firstLine = lines[0]
+    const { status, nextIndex } = eatTaskStatus(
+      firstLine.nodePoints,
+      firstLine.firstNonWhitespaceIndex,
+      firstLine.endIndex,
+    )
+    if (status == null) return
+
+    /**
+     * Recognize task markers after block matching, then rebuild through the
+     * paragraph tokenizer so the remaining text cannot become a different block.
+     *
+     * ```md
+     * - [x] # heading
+     * ```
+     *
+     * The content remains paragraph text even after the task marker is removed.
+     */
+    const nextLines: IPhrasingContentLine[] = [
+      {
+        ...firstLine,
+        startIndex: nextIndex,
+        firstNonWhitespaceIndex: nextIndex,
+        indentWidth: 0,
+        countOfPrecedeSpaces: 0,
+      },
+      ...lines.slice(1),
+    ]
+    token.status = status
+    const children = api.rollbackPhrasingLines(nextLines, firstChild)
+    token.children = children.concat(token.children.slice(1))
   }
 }
 
