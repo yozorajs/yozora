@@ -132,6 +132,45 @@ test.each([
   }
 })
 
+test.each(['"title"', "'title'", '(title)', '""', "''", '()'])(
+  'requires whitespace between destination and title %s',
+  title => {
+    for (const label of ['[x]', '![x]']) {
+      for (const destination of ['<url>', '<>']) {
+        const formattedUrls: string[] = []
+        parsers.gfm.parse(`${label}(${destination}${title})`, {
+          formatUrl: url => {
+            formattedUrls.push(url)
+            return url
+          },
+        })
+
+        expect(formattedUrls).toEqual([])
+      }
+    }
+  },
+)
+
+test.each([
+  ['<url>', 'url', undefined],
+  ['<>', '', undefined],
+  ['url(title)', 'url(title)', undefined],
+  ['url"title"', 'url%22title%22', undefined],
+  ['<url> "title"', 'url', 'title'],
+  ["<url>\t'title'", 'url', 'title'],
+  ['<url>\n(title)', 'url', 'title'],
+  ['<> "title"', '', 'title'],
+  ['<url> ""', 'url', ''],
+  ['<url> ()', 'url', ''],
+])('preserves destination and optional title in %s', (content, url, title) => {
+  for (const label of ['[x]', '![x]']) {
+    const ast = parsers.gfm.parse(`${label}(${content})`, { shouldReservePosition: false })
+    const node = (ast.children[0] as any).children[0]
+
+    expect(node).toMatchObject({ type: label === '[x]' ? 'link' : 'image', url, title })
+  }
+})
+
 test.each([
   ['https://example.com/%2Fadmin', 'https://example.com/%2Fadmin'],
   ['https://example.com/%252Fadmin', 'https://example.com/%252Fadmin'],

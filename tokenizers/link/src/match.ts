@@ -118,7 +118,10 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
             destinationEndIndex,
             blockEndIndex,
           )
-          const titleEndIndex = eatLinkTitle(nodePoints, titleStartIndex, blockEndIndex)
+          const titleEndIndex =
+            titleStartIndex > destinationEndIndex
+              ? eatLinkTitle(nodePoints, titleStartIndex, blockEndIndex)
+              : titleStartIndex
           if (titleEndIndex < 0) break
 
           const _startIndex = i
