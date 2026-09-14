@@ -4,25 +4,12 @@
     {
       "description": "HTML blocks of type 7 cannot interrupt a paragraph",
       "input": "Foo\n<a href=\"bar\">\nbaz",
-      "markupAnswer": "Foo\n<a href=\"bar\">\nbaz",
-      "htmlAnswer": "<p>Foo\n<a href=\"bar\">\nbaz</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 4,
-            "offset": 22
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "Foo\n<a href=\"bar\">\nbaz",
+          "html": "<p>Foo\n<a href=\"bar\">\nbaz</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,48 +32,65 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 4
-                  }
-                },
-                "value": "Foo\n"
-              },
-              {
-                "type": "html",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 4
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 15,
-                    "offset": 18
-                  }
-                },
-                "value": "<a href=\"bar\">"
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 15,
-                    "offset": 18
-                  },
-                  "end": {
                     "line": 3,
                     "column": 4,
                     "offset": 22
                   }
                 },
-                "value": "\nbaz"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 4
+                      }
+                    },
+                    "value": "Foo\n"
+                  },
+                  {
+                    "type": "html",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 4
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 15,
+                        "offset": 18
+                      }
+                    },
+                    "value": "<a href=\"bar\">"
+                  },
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 15,
+                        "offset": 18
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 4,
+                        "offset": 22
+                      }
+                    },
+                    "value": "\nbaz"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

@@ -4,25 +4,12 @@
     {
       "description": "In type 6 blocks, the initial tag need not be on a line by itself",
       "input": "<table><tr><td>\nfoo\n</td></tr></table>",
-      "markupAnswer": "<table><tr><td>\nfoo\n</td></tr></table>",
-      "htmlAnswer": "<table><tr><td>\nfoo\n</td></tr></table>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 19,
-            "offset": 38
-          }
-        },
-        "children": [
-          {
-            "type": "html",
+      "answer": {
+        "gfm": {
+          "markup": "<table><tr><td>\nfoo\n</td></tr></table>",
+          "html": "<table><tr><td>\nfoo\n</td></tr></table>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,9 +22,26 @@
                 "offset": 38
               }
             },
-            "value": "<table><tr><td>\nfoo\n</td></tr></table>"
+            "children": [
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 19,
+                    "offset": 38
+                  }
+                },
+                "value": "<table><tr><td>\nfoo\n</td></tr></table>"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

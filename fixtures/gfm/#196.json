@@ -4,25 +4,12 @@
     {
       "description": "Final spaces are stripped before inline parsing, so a paragraph that ends with two or more spaces will not end with a hard line break",
       "input": "aaa     \nbbb     ",
-      "markupAnswer": "aaa\\\nbbb",
-      "htmlAnswer": "<p>aaa<br />\nbbb</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 9,
-            "offset": 17
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "aaa\\\nbbb",
+          "html": "<p>aaa<br />\nbbb</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,47 +32,64 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 4,
-                    "offset": 3
+                    "line": 2,
+                    "column": 9,
+                    "offset": 17
                   }
                 },
-                "value": "aaa"
-              },
-              {
-                "type": "break",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 4,
-                    "offset": 3
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      }
+                    },
+                    "value": "aaa"
                   },
-                  "end": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 9
-                  }
-                }
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 9
+                  {
+                    "type": "break",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 9
+                      }
+                    }
                   },
-                  "end": {
-                    "line": 2,
-                    "column": 4,
-                    "offset": 12
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 9
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 4,
+                        "offset": 12
+                      }
+                    },
+                    "value": "bbb"
                   }
-                },
-                "value": "bbb"
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

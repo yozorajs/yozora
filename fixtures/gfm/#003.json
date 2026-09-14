@@ -4,25 +4,12 @@
     {
       "description": "Thus, for example, a tab can be used instead of four spaces in an indented code block. (Note, however, that internal tabs are passed through as literal tabs, not expanded to spaces.)",
       "input": "    a\ta\n    ὐ\ta",
-      "markupAnswer": "```\na\ta\nὐ\ta\n```",
-      "htmlAnswer": "<pre><code>a\ta\nὐ\ta\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 8,
-            "offset": 15
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "```\na\ta\nὐ\ta\n```",
+          "html": "<pre><code>a\ta\nὐ\ta\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 15
               }
             },
-            "lang": null,
-            "meta": null,
-            "value": "a\ta\nὐ\ta\n"
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 8,
+                    "offset": 15
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "a\ta\nὐ\ta\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

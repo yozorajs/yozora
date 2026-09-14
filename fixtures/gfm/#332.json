@@ -4,25 +4,12 @@
     {
       "description": "Entity and numeric character references are treated as literal text in code spans and code blocks",
       "input": "    f&ouml;f&ouml;",
-      "markupAnswer": "```\nf&ouml;f&ouml;\n```",
-      "htmlAnswer": "<pre><code>f&amp;ouml;f&amp;ouml;\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 19,
-            "offset": 18
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "```\nf&ouml;f&ouml;\n```",
+          "html": "<pre><code>f&amp;ouml;f&amp;ouml;\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 18
               }
             },
-            "lang": null,
-            "meta": null,
-            "value": "f&ouml;f&ouml;\n"
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 19,
+                    "offset": 18
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "f&ouml;f&ouml;\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

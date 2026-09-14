@@ -241,11 +241,11 @@ export abstract class BaseTester<T = unknown> {
       const result = {
         title: caseGroup.title || caseGroup.dirpath.slice(parentDir.length),
         cases: caseGroup.cases.map(c => {
-          const { description, input, markupAnswer, htmlAnswer, parseAnswer } = {
+          const { description, input, answer } = {
             ...c,
             ...this._answerCase(c, caseGroup.filepath),
           }
-          return { description, input, markupAnswer, htmlAnswer, parseAnswer }
+          return { description, input, answer }
         }),
       }
       const content = this.stringify(result)
@@ -380,9 +380,7 @@ export abstract class BaseTester<T = unknown> {
       (c: IYozoraUseCase<T>, index: number): IYozoraUseCase<T> => ({
         description: c.description || 'case#' + index,
         input: c.input,
-        htmlAnswer: c.htmlAnswer,
-        parseAnswer: c.parseAnswer,
-        markupAnswer: c.markupAnswer,
+        answer: c.answer,
       }),
     )
 

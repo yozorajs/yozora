@@ -4,25 +4,12 @@
     {
       "description": "Note that in the following case, we have a lazy continuation line",
       "input": "> foo\n    - bar",
-      "markupAnswer": "> foo\n> \\- bar",
-      "htmlAnswer": "<blockquote>\n<p>foo\n- bar</p>\n</blockquote>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 10,
-            "offset": 15
-          }
-        },
-        "children": [
-          {
-            "type": "blockquote",
+      "answer": {
+        "gfm": {
+          "markup": "> foo\n> \\- bar",
+          "html": "<blockquote>\n<p>foo\n- bar</p>\n</blockquote>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,12 +24,12 @@
             },
             "children": [
               {
-                "type": "paragraph",
+                "type": "blockquote",
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 3,
-                    "offset": 2
+                    "column": 1,
+                    "offset": 0
                   },
                   "end": {
                     "line": 2,
@@ -52,7 +39,7 @@
                 },
                 "children": [
                   {
-                    "type": "text",
+                    "type": "paragraph",
                     "position": {
                       "start": {
                         "line": 1,
@@ -65,13 +52,30 @@
                         "offset": 15
                       }
                     },
-                    "value": "foo\n- bar"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 10,
+                            "offset": 15
+                          }
+                        },
+                        "value": "foo\n- bar"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

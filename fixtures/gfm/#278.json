@@ -4,25 +4,12 @@
     {
       "description": "A list item can contain a heading",
       "input": "- # Foo\n- Bar\n  ---\n  baz",
-      "markupAnswer": "- # Foo\n- Bar\n  ---\n  baz",
-      "htmlAnswer": "<ul>\n<li>\n<h1>Foo</h1>\n</li>\n<li>\n<h2>Bar</h2>\nbaz</li>\n</ul>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 6,
-            "offset": 25
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "- # Foo\n- Bar\n  ---\n  baz",
+          "html": "<ul>\n<li>\n<h1>Foo</h1>\n</li>\n<li>\n<h2>Bar</h2>\nbaz</li>\n</ul>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,12 +22,9 @@
                 "offset": 25
               }
             },
-            "ordered": false,
-            "marker": 45,
-            "spread": false,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -48,19 +32,22 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 8
+                    "line": 4,
+                    "column": 6,
+                    "offset": 25
                   }
                 },
+                "ordered": false,
+                "marker": 45,
+                "spread": false,
                 "children": [
                   {
-                    "type": "heading",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 3,
-                        "offset": 2
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 2,
@@ -68,84 +55,50 @@
                         "offset": 8
                       }
                     },
-                    "depth": 1,
                     "children": [
                       {
-                        "type": "text",
+                        "type": "heading",
                         "position": {
                           "start": {
                             "line": 1,
-                            "column": 5,
-                            "offset": 4
+                            "column": 3,
+                            "offset": 2
                           },
                           "end": {
-                            "line": 1,
-                            "column": 8,
-                            "offset": 7
+                            "line": 2,
+                            "column": 1,
+                            "offset": 8
                           }
                         },
-                        "value": "Foo"
+                        "depth": 1,
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 5,
+                                "offset": 4
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 8,
+                                "offset": 7
+                              }
+                            },
+                            "value": "Foo"
+                          }
+                        ]
                       }
                     ]
-                  }
-                ]
-              },
-              {
-                "type": "listItem",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 8
                   },
-                  "end": {
-                    "line": 4,
-                    "column": 6,
-                    "offset": 25
-                  }
-                },
-                "children": [
                   {
-                    "type": "heading",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 2,
-                        "column": 3,
-                        "offset": 10
-                      },
-                      "end": {
-                        "line": 4,
                         "column": 1,
-                        "offset": 20
-                      }
-                    },
-                    "depth": 2,
-                    "children": [
-                      {
-                        "type": "text",
-                        "position": {
-                          "start": {
-                            "line": 2,
-                            "column": 3,
-                            "offset": 10
-                          },
-                          "end": {
-                            "line": 2,
-                            "column": 6,
-                            "offset": 13
-                          }
-                        },
-                        "value": "Bar"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 4,
-                        "column": 3,
-                        "offset": 22
+                        "offset": 8
                       },
                       "end": {
                         "line": 4,
@@ -153,13 +106,64 @@
                         "offset": 25
                       }
                     },
-                    "value": "baz"
+                    "children": [
+                      {
+                        "type": "heading",
+                        "position": {
+                          "start": {
+                            "line": 2,
+                            "column": 3,
+                            "offset": 10
+                          },
+                          "end": {
+                            "line": 4,
+                            "column": 1,
+                            "offset": 20
+                          }
+                        },
+                        "depth": 2,
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 2,
+                                "column": 3,
+                                "offset": 10
+                              },
+                              "end": {
+                                "line": 2,
+                                "column": 6,
+                                "offset": 13
+                              }
+                            },
+                            "value": "Bar"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 4,
+                            "column": 3,
+                            "offset": 22
+                          },
+                          "end": {
+                            "line": 4,
+                            "column": 6,
+                            "offset": 25
+                          }
+                        },
+                        "value": "baz"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

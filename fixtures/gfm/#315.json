@@ -4,25 +4,12 @@
     {
       "description": "Backslash escapes do not work in code blocks, code spans, autolinks, or raw HTML",
       "input": "~~~\n\\[\\]\n~~~",
-      "markupAnswer": "```\n\\[\\]\n```",
-      "htmlAnswer": "<pre><code>\\[\\]\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 4,
-            "offset": 12
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "```\n\\[\\]\n```",
+          "html": "<pre><code>\\[\\]\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 12
               }
             },
-            "lang": null,
-            "meta": null,
-            "value": "\\[\\]\n"
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 4,
+                    "offset": 12
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "\\[\\]\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

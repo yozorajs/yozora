@@ -4,131 +4,17 @@
     {
       "description": "Since indicators of block structure take precedence over indicators of inline structure, the following are setext headings",
       "input": "`Foo\n----\n`\n\n<a title=\"a lot\n---\nof dashes\"/>",
-      "markupAnswer": "`Foo\n---\n\n`\n\n<a title=\"a lot\n---\n\nof dashes\"/>",
-      "htmlAnswer": "<h2>`Foo</h2>\n<p>`</p>\n<h2>&lt;a title=&quot;a lot</h2>\n<p>of dashes&quot;/&gt;</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 7,
-            "column": 13,
-            "offset": 45
-          }
-        },
-        "children": [
-          {
-            "type": "heading",
+      "answer": {
+        "gfm": {
+          "markup": "`Foo\n---\n\n`\n\n<a title=\"a lot\n---\n\nof dashes\"/>",
+          "html": "<h2>`Foo</h2>\n<p>`</p>\n<h2>&lt;a title=&quot;a lot</h2>\n<p>of dashes&quot;/&gt;</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 3,
-                "column": 1,
-                "offset": 10
-              }
-            },
-            "depth": 2,
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 5,
-                    "offset": 4
-                  }
-                },
-                "value": "`Foo"
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 10
-              },
-              "end": {
-                "line": 4,
-                "column": 1,
-                "offset": 12
-              }
-            },
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 10
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 2,
-                    "offset": 11
-                  }
-                },
-                "value": "`"
-              }
-            ]
-          },
-          {
-            "type": "heading",
-            "position": {
-              "start": {
-                "line": 5,
-                "column": 1,
-                "offset": 13
-              },
-              "end": {
-                "line": 7,
-                "column": 1,
-                "offset": 33
-              }
-            },
-            "depth": 2,
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 5,
-                    "column": 1,
-                    "offset": 13
-                  },
-                  "end": {
-                    "line": 5,
-                    "column": 16,
-                    "offset": 28
-                  }
-                },
-                "value": "<a title=\"a lot"
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 7,
-                "column": 1,
-                "offset": 33
               },
               "end": {
                 "line": 7,
@@ -138,7 +24,108 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "heading",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 10
+                  }
+                },
+                "depth": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      }
+                    },
+                    "value": "`Foo"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 10
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 12
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 10
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 2,
+                        "offset": 11
+                      }
+                    },
+                    "value": "`"
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 13
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 33
+                  }
+                },
+                "depth": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 5,
+                        "column": 1,
+                        "offset": 13
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 16,
+                        "offset": 28
+                      }
+                    },
+                    "value": "<a title=\"a lot"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 7,
@@ -151,11 +138,28 @@
                     "offset": 45
                   }
                 },
-                "value": "of dashes\"/>"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 7,
+                        "column": 1,
+                        "offset": 33
+                      },
+                      "end": {
+                        "line": 7,
+                        "column": 13,
+                        "offset": 45
+                      }
+                    },
+                    "value": "of dashes\"/>"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

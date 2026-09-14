@@ -4,25 +4,12 @@
     {
       "description": "A block quote can contain some lazy and some non-lazy continuation lines",
       "input": "> bar\nbaz\n> foo",
-      "markupAnswer": "> bar\n> baz\n> foo",
-      "htmlAnswer": "<blockquote>\n<p>bar\nbaz\nfoo</p>\n</blockquote>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 6,
-            "offset": 15
-          }
-        },
-        "children": [
-          {
-            "type": "blockquote",
+      "answer": {
+        "gfm": {
+          "markup": "> bar\n> baz\n> foo",
+          "html": "<blockquote>\n<p>bar\nbaz\nfoo</p>\n</blockquote>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,12 +24,12 @@
             },
             "children": [
               {
-                "type": "paragraph",
+                "type": "blockquote",
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 3,
-                    "offset": 2
+                    "column": 1,
+                    "offset": 0
                   },
                   "end": {
                     "line": 3,
@@ -52,7 +39,7 @@
                 },
                 "children": [
                   {
-                    "type": "text",
+                    "type": "paragraph",
                     "position": {
                       "start": {
                         "line": 1,
@@ -65,13 +52,30 @@
                         "offset": 15
                       }
                     },
-                    "value": "bar\nbaz\nfoo"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 6,
+                            "offset": 15
+                          }
+                        },
+                        "value": "bar\nbaz\nfoo"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

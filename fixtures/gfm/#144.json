@@ -4,25 +4,12 @@
     {
       "description": "If there is no matching end tag, the block will end at the end of the document (or the enclosing block quote or list item)",
       "input": "- <div>\n- foo",
-      "markupAnswer": "- <div>\n- foo",
-      "htmlAnswer": "<ul>\n<li>\n<div>\n</li>\n<li>foo</li>\n</ul>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 6,
-            "offset": 13
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "- <div>\n- foo",
+          "html": "<ul>\n<li>\n<div>\n</li>\n<li>foo</li>\n</ul>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,12 +22,9 @@
                 "offset": 13
               }
             },
-            "ordered": false,
-            "marker": 45,
-            "spread": false,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -49,18 +33,21 @@
                   },
                   "end": {
                     "line": 2,
-                    "column": 1,
-                    "offset": 8
+                    "column": 6,
+                    "offset": 13
                   }
                 },
+                "ordered": false,
+                "marker": 45,
+                "spread": false,
                 "children": [
                   {
-                    "type": "html",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 3,
-                        "offset": 2
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 2,
@@ -68,32 +55,32 @@
                         "offset": 8
                       }
                     },
-                    "value": "<div>\n"
-                  }
-                ]
-              },
-              {
-                "type": "listItem",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 8
+                    "children": [
+                      {
+                        "type": "html",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 1,
+                            "offset": 8
+                          }
+                        },
+                        "value": "<div>\n"
+                      }
+                    ]
                   },
-                  "end": {
-                    "line": 2,
-                    "column": 6,
-                    "offset": 13
-                  }
-                },
-                "children": [
                   {
-                    "type": "text",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 2,
-                        "column": 3,
-                        "offset": 10
+                        "column": 1,
+                        "offset": 8
                       },
                       "end": {
                         "line": 2,
@@ -101,13 +88,30 @@
                         "offset": 13
                       }
                     },
-                    "value": "foo"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 2,
+                            "column": 3,
+                            "offset": 10
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 6,
+                            "offset": 13
+                          }
+                        },
+                        "value": "foo"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

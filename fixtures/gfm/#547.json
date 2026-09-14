@@ -4,25 +4,12 @@
     {
       "description": "These cases illustrate the precedence of HTML tags, code spans, and autolinks over link grouping",
       "input": "[foo<http://example.com/?search=][ref]>\n\n[ref]: /uri",
-      "markupAnswer": "[foo[http://example.com/?search=\\]\\[ref\\]](http://example.com/?search=%5D%5Bref%5D)\n\n[ref]: /uri",
-      "htmlAnswer": "<p>[foo<a href=\"http://example.com/?search=%5D%5Bref%5D\">http://example.com/?search=][ref]</a></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 12,
-            "offset": 52
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "[foo[http://example.com/?search=\\]\\[ref\\]](http://example.com/?search=%5D%5Bref%5D)\n\n[ref]: /uri",
+          "html": "<p>[foo<a href=\"http://example.com/?search=%5D%5Bref%5D\">http://example.com/?search=][ref]</a></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -30,14 +17,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 40
+                "line": 3,
+                "column": 12,
+                "offset": 52
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,68 +32,85 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 5,
-                    "offset": 4
+                    "line": 2,
+                    "column": 1,
+                    "offset": 40
                   }
                 },
-                "value": "[foo"
-              },
-              {
-                "type": "link",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 5,
-                    "offset": 4
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 40,
-                    "offset": 39
-                  }
-                },
-                "url": "http://example.com/?search=%5D%5Bref%5D",
                 "children": [
                   {
                     "type": "text",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 6,
-                        "offset": 5
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 1,
-                        "column": 39,
-                        "offset": 38
+                        "column": 5,
+                        "offset": 4
                       }
                     },
-                    "value": "http://example.com/?search=][ref]"
+                    "value": "[foo"
+                  },
+                  {
+                    "type": "link",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 40,
+                        "offset": 39
+                      }
+                    },
+                    "url": "http://example.com/?search=%5D%5Bref%5D",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 6,
+                            "offset": 5
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 39,
+                            "offset": 38
+                          }
+                        },
+                        "value": "http://example.com/?search=][ref]"
+                      }
+                    ]
                   }
                 ]
+              },
+              {
+                "type": "definition",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 41
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 12,
+                    "offset": 52
+                  }
+                },
+                "identifier": "ref",
+                "label": "ref",
+                "url": "/uri"
               }
             ]
-          },
-          {
-            "type": "definition",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 41
-              },
-              "end": {
-                "line": 3,
-                "column": 12,
-                "offset": 52
-              }
-            },
-            "identifier": "ref",
-            "label": "ref",
-            "url": "/uri"
           }
-        ]
+        }
       }
     }
   ]

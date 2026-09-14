@@ -4,25 +4,12 @@
     {
       "description": "Any initial spaces beyond four will be included in the content, even in interior blank lines",
       "input": "    chunk1\n      \n      chunk2",
-      "markupAnswer": "```\nchunk1\n  \n  chunk2\n```",
-      "htmlAnswer": "<pre><code>chunk1\n  \n  chunk2\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 13,
-            "offset": 30
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "```\nchunk1\n  \n  chunk2\n```",
+          "html": "<pre><code>chunk1\n  \n  chunk2\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 30
               }
             },
-            "lang": null,
-            "meta": null,
-            "value": "chunk1\n  \n  chunk2\n"
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 13,
+                    "offset": 30
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "chunk1\n  \n  chunk2\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

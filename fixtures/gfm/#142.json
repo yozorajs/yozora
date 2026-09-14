@@ -4,25 +4,12 @@
     {
       "description": "If there is no matching end tag, the block will end at the end of the document (or the enclosing block quote or list item)",
       "input": "<style\n  type=\"text/css\">\n\nfoo",
-      "markupAnswer": "<style\n  type=\"text/css\">\n\nfoo",
-      "htmlAnswer": "<style\n  type=\"text/css\">\n\nfoo",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 4,
-            "offset": 30
-          }
-        },
-        "children": [
-          {
-            "type": "html",
+      "answer": {
+        "gfm": {
+          "markup": "<style\n  type=\"text/css\">\n\nfoo",
+          "html": "<style\n  type=\"text/css\">\n\nfoo",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,9 +22,26 @@
                 "offset": 30
               }
             },
-            "value": "<style\n  type=\"text/css\">\n\nfoo"
+            "children": [
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 4,
+                    "offset": 30
+                  }
+                },
+                "value": "<style\n  type=\"text/css\">\n\nfoo"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

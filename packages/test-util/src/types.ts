@@ -11,17 +11,9 @@ export interface IYozoraUseCase<T = unknown> {
    */
   readonly input: string
   /**
-   * Parsed answer in html format
+   * Expected representations, grouped by parser.
    */
-  readonly htmlAnswer?: string
-  /**
-   * Parsed answer in json format
-   */
-  readonly parseAnswer?: T
-  /**
-   * Markup content.
-   */
-  readonly markupAnswer?: string
+  readonly answer: IYozoraUseCaseAnswers<T>
 }
 
 /**
@@ -48,4 +40,24 @@ export interface IYozoraUseCaseGroup<T = unknown> {
    * Sub use case group
    */
   readonly subGroups: IYozoraUseCaseGroup<T>[]
+}
+
+export type ParserName = 'gfm' | 'gfm-ex' | 'yozora'
+
+/**
+ * Expected representations for one parser.
+ */
+export interface IYozoraUseCaseAnswer<T = unknown> {
+  readonly html?: string
+  readonly markup?: string
+  readonly ast?: T
+}
+
+/**
+ * Each representation falls back from yozora to gfm-ex, then to gfm.
+ */
+export interface IYozoraUseCaseAnswers<T = unknown> {
+  readonly gfm: IYozoraUseCaseAnswer<T>
+  readonly 'gfm-ex'?: IYozoraUseCaseAnswer<T>
+  readonly yozora?: IYozoraUseCaseAnswer<T>
 }

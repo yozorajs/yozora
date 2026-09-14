@@ -4,25 +4,12 @@
     {
       "description": "Info strings for tilde code blocks can contain backticks and tildes",
       "input": "~~~ aa ``` ~~~\nfoo\n~~~",
-      "markupAnswer": "~~~aa ``` ~~~\nfoo\n~~~",
-      "htmlAnswer": "<pre><code class=\"language-aa\">foo\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 4,
-            "offset": 22
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "~~~aa ``` ~~~\nfoo\n~~~",
+          "html": "<pre><code class=\"language-aa\">foo\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 22
               }
             },
-            "lang": "aa",
-            "meta": "``` ~~~",
-            "value": "foo\n"
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 4,
+                    "offset": 22
+                  }
+                },
+                "lang": "aa",
+                "meta": "``` ~~~",
+                "value": "foo\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

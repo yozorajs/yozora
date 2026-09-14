@@ -4,24 +4,11 @@
     {
       "description": "Entity and numeric character references cannot be used in place of symbols indicating structure in CommonMark documents.",
       "input": "&#42; foo\n\n* foo",
-      "htmlAnswer": "<p>* foo</p>\n<ul>\n<li>foo</li>\n</ul>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 6,
-            "offset": 16
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "html": "<p>* foo</p>\n<ul>\n<li>foo</li>\n</ul>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -29,14 +16,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 10
+                "line": 3,
+                "column": 6,
+                "offset": 16
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -44,35 +31,32 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 10,
-                    "offset": 9
+                    "line": 2,
+                    "column": 1,
+                    "offset": 10
                   }
                 },
-                "value": "* foo"
-              }
-            ]
-          },
-          {
-            "type": "list",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 11
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 10,
+                        "offset": 9
+                      }
+                    },
+                    "value": "* foo"
+                  }
+                ]
               },
-              "end": {
-                "line": 3,
-                "column": 6,
-                "offset": 16
-              }
-            },
-            "ordered": false,
-            "marker": 42,
-            "spread": false,
-            "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 3,
@@ -85,14 +69,17 @@
                     "offset": 16
                   }
                 },
+                "ordered": false,
+                "marker": 42,
+                "spread": false,
                 "children": [
                   {
-                    "type": "text",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 3,
-                        "column": 3,
-                        "offset": 13
+                        "column": 1,
+                        "offset": 11
                       },
                       "end": {
                         "line": 3,
@@ -100,13 +87,30 @@
                         "offset": 16
                       }
                     },
-                    "value": "foo"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 3,
+                            "column": 3,
+                            "offset": 13
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 6,
+                            "offset": 16
+                          }
+                        },
+                        "value": "foo"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

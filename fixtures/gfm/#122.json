@@ -4,25 +4,12 @@
     {
       "description": "Here we have two HTML blocks with a Markdown paragraph between them",
       "input": "<DIV CLASS=\"foo\">\n\n*Markdown*\n\n</DIV>",
-      "markupAnswer": "<DIV CLASS=\"foo\">\n\n*Markdown*\n\n</DIV>",
-      "htmlAnswer": "<DIV CLASS=\"foo\">\n<p><em>Markdown</em></p>\n</DIV>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 5,
-            "column": 7,
-            "offset": 37
-          }
-        },
-        "children": [
-          {
-            "type": "html",
+      "answer": {
+        "gfm": {
+          "markup": "<DIV CLASS=\"foo\">\n\n*Markdown*\n\n</DIV>",
+          "html": "<DIV CLASS=\"foo\">\n<p><em>Markdown</em></p>\n</DIV>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -30,30 +17,30 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 18
-              }
-            },
-            "value": "<DIV CLASS=\"foo\">\n"
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 19
-              },
-              "end": {
-                "line": 4,
-                "column": 1,
-                "offset": 30
+                "line": 5,
+                "column": 7,
+                "offset": 37
               }
             },
             "children": [
               {
-                "type": "emphasis",
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 18
+                  }
+                },
+                "value": "<DIV CLASS=\"foo\">\n"
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 3,
@@ -61,49 +48,66 @@
                     "offset": 19
                   },
                   "end": {
-                    "line": 3,
-                    "column": 11,
-                    "offset": 29
+                    "line": 4,
+                    "column": 1,
+                    "offset": 30
                   }
                 },
                 "children": [
                   {
-                    "type": "text",
+                    "type": "emphasis",
                     "position": {
                       "start": {
                         "line": 3,
-                        "column": 2,
-                        "offset": 20
+                        "column": 1,
+                        "offset": 19
                       },
                       "end": {
                         "line": 3,
-                        "column": 10,
-                        "offset": 28
+                        "column": 11,
+                        "offset": 29
                       }
                     },
-                    "value": "Markdown"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 3,
+                            "column": 2,
+                            "offset": 20
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 10,
+                            "offset": 28
+                          }
+                        },
+                        "value": "Markdown"
+                      }
+                    ]
                   }
                 ]
+              },
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 31
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 7,
+                    "offset": 37
+                  }
+                },
+                "value": "</DIV>"
               }
             ]
-          },
-          {
-            "type": "html",
-            "position": {
-              "start": {
-                "line": 5,
-                "column": 1,
-                "offset": 31
-              },
-              "end": {
-                "line": 5,
-                "column": 7,
-                "offset": 37
-              }
-            },
-            "value": "</DIV>"
           }
-        ]
+        }
       }
     }
   ]

@@ -4,47 +4,16 @@
     {
       "description": "Unexpected close1",
       "input": "[foo]: /url \n\"foo\nbar",
-      "markupAnswer": "[foo]: /url\n\n\"foo\nbar",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 4,
-            "offset": 21
-          }
-        },
-        "children": [
-          {
-            "type": "definition",
+      "answer": {
+        "gfm": {
+          "markup": "[foo]: /url\n\n\"foo\nbar",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 13
-              }
-            },
-            "identifier": "foo",
-            "label": "foo",
-            "url": "/url"
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 2,
-                "column": 1,
-                "offset": 13
               },
               "end": {
                 "line": 3,
@@ -54,7 +23,25 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "definition",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 13
+                  }
+                },
+                "identifier": "foo",
+                "label": "foo",
+                "url": "/url"
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 2,
@@ -67,75 +54,43 @@
                     "offset": 21
                   }
                 },
-                "value": "\"foo\nbar"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 13
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 4,
+                        "offset": 21
+                      }
+                    },
+                    "value": "\"foo\nbar"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     },
     {
       "description": "Unexpected close2",
       "input": "   [foo]: \n      /url  \n           'the \n foo",
-      "markupAnswer": "[foo]: /url\n\n```\n       'the \n```\n\nfoo",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 5,
-            "offset": 45
-          }
-        },
-        "children": [
-          {
-            "type": "definition",
+      "answer": {
+        "gfm": {
+          "markup": "[foo]: /url\n\n```\n       'the \n```\n\nfoo",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 3,
-                "column": 1,
-                "offset": 24
-              }
-            },
-            "identifier": "foo",
-            "label": "foo",
-            "url": "/url"
-          },
-          {
-            "type": "code",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 24
-              },
-              "end": {
-                "line": 4,
-                "column": 1,
-                "offset": 41
-              }
-            },
-            "lang": null,
-            "meta": null,
-            "value": "       'the \n"
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 41
               },
               "end": {
                 "line": 4,
@@ -145,12 +100,48 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "definition",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 24
+                  }
+                },
+                "identifier": "foo",
+                "label": "foo",
+                "url": "/url"
+              },
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 24
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 41
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "       'the \n"
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 4,
-                    "column": 2,
-                    "offset": 42
+                    "column": 1,
+                    "offset": 41
                   },
                   "end": {
                     "line": 4,
@@ -158,34 +149,38 @@
                     "offset": 45
                   }
                 },
-                "value": "foo"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 4,
+                        "column": 2,
+                        "offset": 42
+                      },
+                      "end": {
+                        "line": 4,
+                        "column": 5,
+                        "offset": 45
+                      }
+                    },
+                    "value": "foo"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     },
     {
       "description": "parentheses link title",
       "input": "[link]: /url (foo and bar)",
-      "markupAnswer": "[link]: /url \"foo and bar\"",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 27,
-            "offset": 26
-          }
-        },
-        "children": [
-          {
-            "type": "definition",
+      "answer": {
+        "gfm": {
+          "markup": "[link]: /url \"foo and bar\"",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -198,35 +193,39 @@
                 "offset": 26
               }
             },
-            "identifier": "link",
-            "label": "link",
-            "url": "/url",
-            "title": "foo and bar"
+            "children": [
+              {
+                "type": "definition",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 27,
+                    "offset": 26
+                  }
+                },
+                "identifier": "link",
+                "label": "link",
+                "url": "/url",
+                "title": "foo and bar"
+              }
+            ]
           }
-        ]
+        }
       }
     },
     {
       "description": "parentheses link title (escape allowed)",
       "input": "[link]: /url (foo \\( and \\) bar)",
-      "markupAnswer": "[link]: /url \"foo ( and ) bar\"",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 33,
-            "offset": 32
-          }
-        },
-        "children": [
-          {
-            "type": "definition",
+      "answer": {
+        "gfm": {
+          "markup": "[link]: /url \"foo ( and ) bar\"",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -239,50 +238,9 @@
                 "offset": 32
               }
             },
-            "identifier": "link",
-            "label": "link",
-            "url": "/url",
-            "title": "foo ( and ) bar"
-          }
-        ]
-      }
-    },
-    {
-      "description": "rolls back an invalid title after preceding blocks",
-      "input": "prefix\n\n[foo]: /url\n\"unterminated\nnext",
-      "markupAnswer": "prefix\n\n[foo]: /url\n\n\"unterminated\nnext",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 5,
-            "column": 5,
-            "offset": 38
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 7
-              }
-            },
             "children": [
               {
-                "type": "text",
+                "type": "definition",
                 "position": {
                   "start": {
                     "line": 1,
@@ -291,39 +249,33 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 7,
-                    "offset": 6
+                    "column": 33,
+                    "offset": 32
                   }
                 },
-                "value": "prefix"
+                "identifier": "link",
+                "label": "link",
+                "url": "/url",
+                "title": "foo ( and ) bar"
               }
             ]
-          },
-          {
-            "type": "definition",
+          }
+        }
+      }
+    },
+    {
+      "description": "rolls back an invalid title after preceding blocks",
+      "input": "prefix\n\n[foo]: /url\n\"unterminated\nnext",
+      "answer": {
+        "gfm": {
+          "markup": "prefix\n\n[foo]: /url\n\n\"unterminated\nnext",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
-                "line": 3,
+                "line": 1,
                 "column": 1,
-                "offset": 8
-              },
-              "end": {
-                "line": 4,
-                "column": 1,
-                "offset": 20
-              }
-            },
-            "identifier": "foo",
-            "label": "foo",
-            "url": "/url"
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 20
+                "offset": 0
               },
               "end": {
                 "line": 5,
@@ -333,7 +285,58 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 7
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      }
+                    },
+                    "value": "prefix"
+                  }
+                ]
+              },
+              {
+                "type": "definition",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 8
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 20
+                  }
+                },
+                "identifier": "foo",
+                "label": "foo",
+                "url": "/url"
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 4,
@@ -346,11 +349,28 @@
                     "offset": 38
                   }
                 },
-                "value": "\"unterminated\nnext"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 4,
+                        "column": 1,
+                        "offset": 20
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 5,
+                        "offset": 38
+                      }
+                    },
+                    "value": "\"unterminated\nnext"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

@@ -4,25 +4,12 @@
     {
       "description": "The heading content can be indented up to three spaces, and need not line up with the underlining",
       "input": "   Foo\n---\n\n  Foo\n-----\n\n  Foo\n  ===",
-      "markupAnswer": "Foo\n---\n\nFoo\n---\n\nFoo\n===",
-      "htmlAnswer": "<h2>Foo</h2>\n<h2>Foo</h2>\n<h1>Foo</h1>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 8,
-            "column": 6,
-            "offset": 36
-          }
-        },
-        "children": [
-          {
-            "type": "heading",
+      "answer": {
+        "gfm": {
+          "markup": "Foo\n---\n\nFoo\n---\n\nFoo\n===",
+          "html": "<h2>Foo</h2>\n<h2>Foo</h2>\n<h1>Foo</h1>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -30,100 +17,117 @@
                 "offset": 0
               },
               "end": {
-                "line": 3,
-                "column": 1,
-                "offset": 11
-              }
-            },
-            "depth": 2,
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 4,
-                    "offset": 3
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 7,
-                    "offset": 6
-                  }
-                },
-                "value": "Foo"
-              }
-            ]
-          },
-          {
-            "type": "heading",
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 12
-              },
-              "end": {
-                "line": 6,
-                "column": 1,
-                "offset": 24
-              }
-            },
-            "depth": 2,
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 4,
-                    "column": 3,
-                    "offset": 14
-                  },
-                  "end": {
-                    "line": 4,
-                    "column": 6,
-                    "offset": 17
-                  }
-                },
-                "value": "Foo"
-              }
-            ]
-          },
-          {
-            "type": "heading",
-            "position": {
-              "start": {
-                "line": 7,
-                "column": 1,
-                "offset": 25
-              },
-              "end": {
                 "line": 8,
                 "column": 6,
                 "offset": 36
               }
             },
-            "depth": 1,
             "children": [
               {
-                "type": "text",
+                "type": "heading",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 11
+                  }
+                },
+                "depth": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      }
+                    },
+                    "value": "Foo"
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "position": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 12
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 1,
+                    "offset": 24
+                  }
+                },
+                "depth": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 4,
+                        "column": 3,
+                        "offset": 14
+                      },
+                      "end": {
+                        "line": 4,
+                        "column": 6,
+                        "offset": 17
+                      }
+                    },
+                    "value": "Foo"
+                  }
+                ]
+              },
+              {
+                "type": "heading",
                 "position": {
                   "start": {
                     "line": 7,
-                    "column": 3,
-                    "offset": 27
+                    "column": 1,
+                    "offset": 25
                   },
                   "end": {
-                    "line": 7,
+                    "line": 8,
                     "column": 6,
-                    "offset": 30
+                    "offset": 36
                   }
                 },
-                "value": "Foo"
+                "depth": 1,
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 7,
+                        "column": 3,
+                        "offset": 27
+                      },
+                      "end": {
+                        "line": 7,
+                        "column": 6,
+                        "offset": 30
+                      }
+                    },
+                    "value": "Foo"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

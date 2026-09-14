@@ -4,25 +4,12 @@
     {
       "description": "Note that anything on the last line after the end tag will be included in the HTML block",
       "input": "<script>\nfoo\n</script>1. *bar*",
-      "markupAnswer": "<script>\nfoo\n</script>1. *bar*",
-      "htmlAnswer": "<script>\nfoo\n</script>1. *bar*",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 18,
-            "offset": 30
-          }
-        },
-        "children": [
-          {
-            "type": "html",
+      "answer": {
+        "gfm": {
+          "markup": "<script>\nfoo\n</script>1. *bar*",
+          "html": "<script>\nfoo\n</script>1. *bar*",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,9 +22,26 @@
                 "offset": 30
               }
             },
-            "value": "<script>\nfoo\n</script>1. *bar*"
+            "children": [
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 18,
+                    "offset": 30
+                  }
+                },
+                "value": "<script>\nfoo\n</script>1. *bar*"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

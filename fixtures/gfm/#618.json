@@ -4,25 +4,12 @@
     {
       "description": "These are not autolinks",
       "input": "<m:abc>",
-      "markupAnswer": "<m:abc>",
-      "htmlAnswer": "<p>&lt;m:abc&gt;</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 8,
-            "offset": 7
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "<m:abc>",
+          "html": "<p>&lt;m:abc&gt;</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -50,11 +37,28 @@
                     "offset": 7
                   }
                 },
-                "value": "<m:abc>"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 8,
+                        "offset": 7
+                      }
+                    },
+                    "value": "<m:abc>"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

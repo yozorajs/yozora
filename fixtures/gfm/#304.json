@@ -4,25 +4,12 @@
     {
       "description": "This list is loose, because of the blank line between the two block elements in the list item",
       "input": "1. ```\n   foo\n   ```\n\n   bar",
-      "markupAnswer": "1. ```\n   foo\n   ```\n   \n   bar",
-      "htmlAnswer": "<ol>\n<li>\n<pre><code>foo\n</code></pre>\n<p>bar</p>\n</li>\n</ol>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 5,
-            "column": 7,
-            "offset": 28
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "1. ```\n   foo\n   ```\n   \n   bar",
+          "html": "<ol>\n<li>\n<pre><code>foo\n</code></pre>\n<p>bar</p>\n</li>\n</ol>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,14 +22,9 @@
                 "offset": 28
               }
             },
-            "ordered": true,
-            "orderType": "1",
-            "start": 1,
-            "marker": 46,
-            "spread": true,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -55,32 +37,19 @@
                     "offset": 28
                   }
                 },
+                "ordered": true,
+                "orderType": "1",
+                "start": 1,
+                "marker": 46,
+                "spread": true,
                 "children": [
                   {
-                    "type": "code",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 4,
-                        "offset": 3
-                      },
-                      "end": {
-                        "line": 4,
                         "column": 1,
-                        "offset": 21
-                      }
-                    },
-                    "lang": null,
-                    "meta": null,
-                    "value": "foo\n"
-                  },
-                  {
-                    "type": "paragraph",
-                    "position": {
-                      "start": {
-                        "line": 5,
-                        "column": 4,
-                        "offset": 25
+                        "offset": 0
                       },
                       "end": {
                         "line": 5,
@@ -90,7 +59,25 @@
                     },
                     "children": [
                       {
-                        "type": "text",
+                        "type": "code",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 4,
+                            "offset": 3
+                          },
+                          "end": {
+                            "line": 4,
+                            "column": 1,
+                            "offset": 21
+                          }
+                        },
+                        "lang": null,
+                        "meta": null,
+                        "value": "foo\n"
+                      },
+                      {
+                        "type": "paragraph",
                         "position": {
                           "start": {
                             "line": 5,
@@ -103,7 +90,24 @@
                             "offset": 28
                           }
                         },
-                        "value": "bar"
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 5,
+                                "column": 4,
+                                "offset": 25
+                              },
+                              "end": {
+                                "line": 5,
+                                "column": 7,
+                                "offset": 28
+                              }
+                            },
+                            "value": "bar"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -111,7 +115,7 @@
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

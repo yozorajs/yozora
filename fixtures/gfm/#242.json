@@ -4,25 +4,12 @@
     {
       "description": "A list item that contains an indented code block will preserve empty lines within the code block verbatim.",
       "input": "- Foo\n\n      bar\n\n\n      baz",
-      "markupAnswer": "- Foo\n  \n  ```\n  bar\n  \n  \n  baz\n  ```",
-      "htmlAnswer": "<ul>\n<li>\n<p>Foo</p>\n<pre><code>bar\n\n\nbaz\n</code></pre>\n</li>\n</ul>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 6,
-            "column": 10,
-            "offset": 28
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "- Foo\n  \n  ```\n  bar\n  \n  \n  baz\n  ```",
+          "html": "<ul>\n<li>\n<p>Foo</p>\n<pre><code>bar\n\n\nbaz\n</code></pre>\n</li>\n</ul>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,12 +22,9 @@
                 "offset": 28
               }
             },
-            "ordered": false,
-            "marker": 45,
-            "spread": true,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -53,47 +37,17 @@
                     "offset": 28
                   }
                 },
+                "ordered": false,
+                "marker": 45,
+                "spread": true,
                 "children": [
                   {
-                    "type": "paragraph",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 3,
-                        "offset": 2
-                      },
-                      "end": {
-                        "line": 2,
                         "column": 1,
-                        "offset": 6
-                      }
-                    },
-                    "children": [
-                      {
-                        "type": "text",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 3,
-                            "offset": 2
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 6,
-                            "offset": 5
-                          }
-                        },
-                        "value": "Foo"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "code",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 3,
-                        "offset": 9
+                        "offset": 0
                       },
                       "end": {
                         "line": 6,
@@ -101,15 +55,65 @@
                         "offset": 28
                       }
                     },
-                    "lang": null,
-                    "meta": null,
-                    "value": "bar\n\n\nbaz\n"
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 1,
+                            "offset": 6
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 3,
+                                "offset": 2
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 6,
+                                "offset": 5
+                              }
+                            },
+                            "value": "Foo"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "code",
+                        "position": {
+                          "start": {
+                            "line": 3,
+                            "column": 3,
+                            "offset": 9
+                          },
+                          "end": {
+                            "line": 6,
+                            "column": 10,
+                            "offset": 28
+                          }
+                        },
+                        "lang": null,
+                        "meta": null,
+                        "value": "bar\n\n\nbaz\n"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

@@ -4,349 +4,16 @@
     {
       "description": "inline footnote",
       "input": "Here is a footnote reference,[^1]\nanother,[^longnote],\nand optionally there are inline\nnotes.^[you can type them inline, which may be easier, since you don’t\nhave to pick an identifier and move down to type the note.]\n\n[^1]: Here is the footnote.\n\n[^longnote]: Here’s one with multiple blocks.\n\n    Subsequent paragraphs are indented to show that they\nbelong to the previous footnote.\n\n        { some.code }\n\n    The whole paragraph can be indented, or just the first\n    line.  In this way, multi-paragraph footnotes work like\n    multi-paragraph list items.\n\nThis paragraph won’t be part of the note, because it\nisn’t indented.",
-      "markupAnswer": "Here is a footnote reference,[^1]\nanother,[^longnote],\nand optionally there are inline\nnotes.^[you can type them inline, which may be easier, since you don’t\nhave to pick an identifier and move down to type the note.]\n\n[^1]: Here is the footnote.\n\n[^longnote]: Here’s one with multiple blocks.\n    \n    Subsequent paragraphs are indented to show that they\n    belong to the previous footnote.\n    \n    ```\n    { some.code }\n    ```\n    \n    The whole paragraph can be indented, or just the first\n    line.  In this way, multi-paragraph footnotes work like\n    multi-paragraph list items.\n\nThis paragraph won’t be part of the note, because it\nisn’t indented.",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 21,
-            "column": 16,
-            "offset": 629
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "Here is a footnote reference,[^1]\nanother,[^longnote],\nand optionally there are inline\nnotes.^[you can type them inline, which may be easier, since you don’t\nhave to pick an identifier and move down to type the note.]\n\n[^1]: Here is the footnote.\n\n[^longnote]: Here’s one with multiple blocks.\n    \n    Subsequent paragraphs are indented to show that they\n    belong to the previous footnote.\n    \n    ```\n    { some.code }\n    ```\n    \n    The whole paragraph can be indented, or just the first\n    line.  In this way, multi-paragraph footnotes work like\n    multi-paragraph list items.\n\nThis paragraph won’t be part of the note, because it\nisn’t indented.",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 6,
-                "column": 1,
-                "offset": 218
-              }
-            },
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 30,
-                    "offset": 29
-                  }
-                },
-                "value": "Here is a footnote reference,"
-              },
-              {
-                "type": "footnoteReference",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 30,
-                    "offset": 29
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 34,
-                    "offset": 33
-                  }
-                },
-                "identifier": "1",
-                "label": "1"
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 34,
-                    "offset": 33
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 9,
-                    "offset": 42
-                  }
-                },
-                "value": "\nanother,"
-              },
-              {
-                "type": "footnoteReference",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 9,
-                    "offset": 42
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 20,
-                    "offset": 53
-                  }
-                },
-                "identifier": "longnote",
-                "label": "longnote"
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 20,
-                    "offset": 53
-                  },
-                  "end": {
-                    "line": 4,
-                    "column": 7,
-                    "offset": 93
-                  }
-                },
-                "value": ",\nand optionally there are inline\nnotes."
-              },
-              {
-                "type": "footnote",
-                "position": {
-                  "start": {
-                    "line": 4,
-                    "column": 7,
-                    "offset": 93
-                  },
-                  "end": {
-                    "line": 5,
-                    "column": 60,
-                    "offset": 217
-                  }
-                },
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 4,
-                        "column": 9,
-                        "offset": 95
-                      },
-                      "end": {
-                        "line": 5,
-                        "column": 59,
-                        "offset": 216
-                      }
-                    },
-                    "value": "you can type them inline, which may be easier, since you don’t\nhave to pick an identifier and move down to type the note."
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "footnoteDefinition",
-            "position": {
-              "start": {
-                "line": 7,
-                "column": 1,
-                "offset": 219
-              },
-              "end": {
-                "line": 8,
-                "column": 1,
-                "offset": 247
-              }
-            },
-            "identifier": "1",
-            "label": "1",
-            "children": [
-              {
-                "type": "paragraph",
-                "position": {
-                  "start": {
-                    "line": 7,
-                    "column": 6,
-                    "offset": 224
-                  },
-                  "end": {
-                    "line": 8,
-                    "column": 1,
-                    "offset": 247
-                  }
-                },
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 7,
-                        "column": 7,
-                        "offset": 225
-                      },
-                      "end": {
-                        "line": 7,
-                        "column": 28,
-                        "offset": 246
-                      }
-                    },
-                    "value": "Here is the footnote."
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "footnoteDefinition",
-            "position": {
-              "start": {
-                "line": 9,
-                "column": 1,
-                "offset": 248
-              },
-              "end": {
-                "line": 19,
-                "column": 1,
-                "offset": 560
-              }
-            },
-            "identifier": "longnote",
-            "label": "longnote",
-            "children": [
-              {
-                "type": "paragraph",
-                "position": {
-                  "start": {
-                    "line": 9,
-                    "column": 13,
-                    "offset": 260
-                  },
-                  "end": {
-                    "line": 10,
-                    "column": 1,
-                    "offset": 294
-                  }
-                },
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 9,
-                        "column": 14,
-                        "offset": 261
-                      },
-                      "end": {
-                        "line": 9,
-                        "column": 46,
-                        "offset": 293
-                      }
-                    },
-                    "value": "Here’s one with multiple blocks."
-                  }
-                ]
-              },
-              {
-                "type": "paragraph",
-                "position": {
-                  "start": {
-                    "line": 11,
-                    "column": 5,
-                    "offset": 299
-                  },
-                  "end": {
-                    "line": 13,
-                    "column": 1,
-                    "offset": 385
-                  }
-                },
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 11,
-                        "column": 5,
-                        "offset": 299
-                      },
-                      "end": {
-                        "line": 12,
-                        "column": 33,
-                        "offset": 384
-                      }
-                    },
-                    "value": "Subsequent paragraphs are indented to show that they\nbelong to the previous footnote."
-                  }
-                ]
-              },
-              {
-                "type": "code",
-                "position": {
-                  "start": {
-                    "line": 14,
-                    "column": 5,
-                    "offset": 390
-                  },
-                  "end": {
-                    "line": 16,
-                    "column": 1,
-                    "offset": 409
-                  }
-                },
-                "lang": null,
-                "meta": null,
-                "value": "{ some.code }\n"
-              },
-              {
-                "type": "paragraph",
-                "position": {
-                  "start": {
-                    "line": 16,
-                    "column": 5,
-                    "offset": 413
-                  },
-                  "end": {
-                    "line": 19,
-                    "column": 1,
-                    "offset": 560
-                  }
-                },
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 16,
-                        "column": 5,
-                        "offset": 413
-                      },
-                      "end": {
-                        "line": 18,
-                        "column": 32,
-                        "offset": 559
-                      }
-                    },
-                    "value": "The whole paragraph can be indented, or just the first\nline.  In this way, multi-paragraph footnotes work like\nmulti-paragraph list items."
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 20,
-                "column": 1,
-                "offset": 561
               },
               "end": {
                 "line": 21,
@@ -356,7 +23,327 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 1,
+                    "offset": 218
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 30,
+                        "offset": 29
+                      }
+                    },
+                    "value": "Here is a footnote reference,"
+                  },
+                  {
+                    "type": "footnoteReference",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 30,
+                        "offset": 29
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 34,
+                        "offset": 33
+                      }
+                    },
+                    "identifier": "1",
+                    "label": "1"
+                  },
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 34,
+                        "offset": 33
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 9,
+                        "offset": 42
+                      }
+                    },
+                    "value": "\nanother,"
+                  },
+                  {
+                    "type": "footnoteReference",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 9,
+                        "offset": 42
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 20,
+                        "offset": 53
+                      }
+                    },
+                    "identifier": "longnote",
+                    "label": "longnote"
+                  },
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 20,
+                        "offset": 53
+                      },
+                      "end": {
+                        "line": 4,
+                        "column": 7,
+                        "offset": 93
+                      }
+                    },
+                    "value": ",\nand optionally there are inline\nnotes."
+                  },
+                  {
+                    "type": "footnote",
+                    "position": {
+                      "start": {
+                        "line": 4,
+                        "column": 7,
+                        "offset": 93
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 60,
+                        "offset": 217
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 4,
+                            "column": 9,
+                            "offset": 95
+                          },
+                          "end": {
+                            "line": 5,
+                            "column": 59,
+                            "offset": 216
+                          }
+                        },
+                        "value": "you can type them inline, which may be easier, since you don’t\nhave to pick an identifier and move down to type the note."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "footnoteDefinition",
+                "position": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 219
+                  },
+                  "end": {
+                    "line": 8,
+                    "column": 1,
+                    "offset": 247
+                  }
+                },
+                "identifier": "1",
+                "label": "1",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "position": {
+                      "start": {
+                        "line": 7,
+                        "column": 6,
+                        "offset": 224
+                      },
+                      "end": {
+                        "line": 8,
+                        "column": 1,
+                        "offset": 247
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 7,
+                            "column": 7,
+                            "offset": 225
+                          },
+                          "end": {
+                            "line": 7,
+                            "column": 28,
+                            "offset": 246
+                          }
+                        },
+                        "value": "Here is the footnote."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "footnoteDefinition",
+                "position": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 248
+                  },
+                  "end": {
+                    "line": 19,
+                    "column": 1,
+                    "offset": 560
+                  }
+                },
+                "identifier": "longnote",
+                "label": "longnote",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "position": {
+                      "start": {
+                        "line": 9,
+                        "column": 13,
+                        "offset": 260
+                      },
+                      "end": {
+                        "line": 10,
+                        "column": 1,
+                        "offset": 294
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 9,
+                            "column": 14,
+                            "offset": 261
+                          },
+                          "end": {
+                            "line": 9,
+                            "column": 46,
+                            "offset": 293
+                          }
+                        },
+                        "value": "Here’s one with multiple blocks."
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "position": {
+                      "start": {
+                        "line": 11,
+                        "column": 5,
+                        "offset": 299
+                      },
+                      "end": {
+                        "line": 13,
+                        "column": 1,
+                        "offset": 385
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 11,
+                            "column": 5,
+                            "offset": 299
+                          },
+                          "end": {
+                            "line": 12,
+                            "column": 33,
+                            "offset": 384
+                          }
+                        },
+                        "value": "Subsequent paragraphs are indented to show that they\nbelong to the previous footnote."
+                      }
+                    ]
+                  },
+                  {
+                    "type": "code",
+                    "position": {
+                      "start": {
+                        "line": 14,
+                        "column": 5,
+                        "offset": 390
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 409
+                      }
+                    },
+                    "lang": null,
+                    "meta": null,
+                    "value": "{ some.code }\n"
+                  },
+                  {
+                    "type": "paragraph",
+                    "position": {
+                      "start": {
+                        "line": 16,
+                        "column": 5,
+                        "offset": 413
+                      },
+                      "end": {
+                        "line": 19,
+                        "column": 1,
+                        "offset": 560
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 16,
+                            "column": 5,
+                            "offset": 413
+                          },
+                          "end": {
+                            "line": 18,
+                            "column": 32,
+                            "offset": 559
+                          }
+                        },
+                        "value": "The whole paragraph can be indented, or just the first\nline.  In this way, multi-paragraph footnotes work like\nmulti-paragraph list items."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 20,
@@ -369,11 +356,28 @@
                     "offset": 629
                   }
                 },
-                "value": "This paragraph won’t be part of the note, because it\nisn’t indented."
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 20,
+                        "column": 1,
+                        "offset": 561
+                      },
+                      "end": {
+                        "line": 21,
+                        "column": 16,
+                        "offset": 629
+                      }
+                    },
+                    "value": "This paragraph won’t be part of the note, because it\nisn’t indented."
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

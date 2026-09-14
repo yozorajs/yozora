@@ -4,25 +4,12 @@
     {
       "description": "Spaces are allowed between the characters",
       "input": "-     -      -      -",
-      "markupAnswer": "---",
-      "htmlAnswer": "<hr />",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 22,
-            "offset": 21
-          }
-        },
-        "children": [
-          {
-            "type": "thematicBreak",
+      "answer": {
+        "gfm": {
+          "markup": "---",
+          "html": "<hr />",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -34,9 +21,26 @@
                 "column": 22,
                 "offset": 21
               }
-            }
+            },
+            "children": [
+              {
+                "type": "thematicBreak",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 22,
+                    "offset": 21
+                  }
+                }
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

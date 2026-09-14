@@ -4,25 +4,12 @@
     {
       "description": "And here, 3. c is treated as in indented code block, because it is indented four spaces and preceded by a blank line.",
       "input": "1. a\n\n  2. b\n\n    3. c",
-      "markupAnswer": "1. a\n\n2. b\n\n```\n3. c\n```",
-      "htmlAnswer": "<ol>\n<li>\n<p>a</p>\n</li>\n<li>\n<p>b</p>\n</li>\n</ol>\n<pre><code>3. c\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 5,
-            "column": 9,
-            "offset": 22
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "1. a\n\n2. b\n\n```\n3. c\n```",
+          "html": "<ol>\n<li>\n<p>a</p>\n</li>\n<li>\n<p>b</p>\n</li>\n</ol>\n<pre><code>3. c\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -30,19 +17,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 4,
-                "column": 1,
-                "offset": 13
+                "line": 5,
+                "column": 9,
+                "offset": 22
               }
             },
-            "ordered": true,
-            "orderType": "1",
-            "start": 1,
-            "marker": 46,
-            "spread": true,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -50,19 +32,24 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 2,
+                    "line": 4,
                     "column": 1,
-                    "offset": 5
+                    "offset": 13
                   }
                 },
+                "ordered": true,
+                "orderType": "1",
+                "start": 1,
+                "marker": 46,
+                "spread": true,
                 "children": [
                   {
-                    "type": "paragraph",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 4,
-                        "offset": 3
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 2,
@@ -72,7 +59,7 @@
                     },
                     "children": [
                       {
-                        "type": "text",
+                        "type": "paragraph",
                         "position": {
                           "start": {
                             "line": 1,
@@ -80,39 +67,39 @@
                             "offset": 3
                           },
                           "end": {
-                            "line": 1,
-                            "column": 5,
-                            "offset": 4
+                            "line": 2,
+                            "column": 1,
+                            "offset": 5
                           }
                         },
-                        "value": "a"
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 4,
+                                "offset": 3
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 5,
+                                "offset": 4
+                              }
+                            },
+                            "value": "a"
+                          }
+                        ]
                       }
                     ]
-                  }
-                ]
-              },
-              {
-                "type": "listItem",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 6
                   },
-                  "end": {
-                    "line": 4,
-                    "column": 1,
-                    "offset": 13
-                  }
-                },
-                "children": [
                   {
-                    "type": "paragraph",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 3,
-                        "column": 6,
-                        "offset": 11
+                        "column": 1,
+                        "offset": 6
                       },
                       "end": {
                         "line": 4,
@@ -122,7 +109,7 @@
                     },
                     "children": [
                       {
-                        "type": "text",
+                        "type": "paragraph",
                         "position": {
                           "start": {
                             "line": 3,
@@ -130,38 +117,55 @@
                             "offset": 11
                           },
                           "end": {
-                            "line": 3,
-                            "column": 7,
-                            "offset": 12
+                            "line": 4,
+                            "column": 1,
+                            "offset": 13
                           }
                         },
-                        "value": "b"
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 3,
+                                "column": 6,
+                                "offset": 11
+                              },
+                              "end": {
+                                "line": 3,
+                                "column": 7,
+                                "offset": 12
+                              }
+                            },
+                            "value": "b"
+                          }
+                        ]
                       }
                     ]
                   }
                 ]
+              },
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 14
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 9,
+                    "offset": 22
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "3. c\n"
               }
             ]
-          },
-          {
-            "type": "code",
-            "position": {
-              "start": {
-                "line": 5,
-                "column": 1,
-                "offset": 14
-              },
-              "end": {
-                "line": 5,
-                "column": 9,
-                "offset": 22
-              }
-            },
-            "lang": null,
-            "meta": null,
-            "value": "3. c\n"
           }
-        ]
+        }
       }
     }
   ]

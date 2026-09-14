@@ -4,25 +4,12 @@
     {
       "description": "Line breaks can occur inside emphasis, links, and other constructs that allow inline content",
       "input": "*foo\\\nbar*",
-      "markupAnswer": "*foo\\\nbar*",
-      "htmlAnswer": "<p><em>foo<br />\nbar</em></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 5,
-            "offset": 10
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "*foo\\\nbar*",
+          "html": "<p><em>foo<br />\nbar</em></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "emphasis",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -52,57 +39,74 @@
                 },
                 "children": [
                   {
-                    "type": "text",
+                    "type": "emphasis",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 2,
-                        "offset": 1
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
-                        "line": 1,
+                        "line": 2,
                         "column": 5,
-                        "offset": 4
+                        "offset": 10
                       }
                     },
-                    "value": "foo"
-                  },
-                  {
-                    "type": "break",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 5,
-                        "offset": 4
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 2,
+                            "offset": 1
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 5,
+                            "offset": 4
+                          }
+                        },
+                        "value": "foo"
                       },
-                      "end": {
-                        "line": 2,
-                        "column": 1,
-                        "offset": 6
-                      }
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 2,
-                        "column": 1,
-                        "offset": 6
+                      {
+                        "type": "break",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 5,
+                            "offset": 4
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 1,
+                            "offset": 6
+                          }
+                        }
                       },
-                      "end": {
-                        "line": 2,
-                        "column": 4,
-                        "offset": 9
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 2,
+                            "column": 1,
+                            "offset": 6
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 4,
+                            "offset": 9
+                          }
+                        },
+                        "value": "bar"
                       }
-                    },
-                    "value": "bar"
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

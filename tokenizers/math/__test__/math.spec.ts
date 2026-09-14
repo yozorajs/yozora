@@ -5,15 +5,21 @@ import { parsers } from 'vitest.setup'
 import MathTokenizer from '../src'
 
 createTokenizerTesters(
-  parsers.gfm
-    .useTokenizer(new MathTokenizer())
-    .useTokenizer(new InlineMathTokenizer({ backtickRequired: true }), InlineCodeTokenizerName)
-    .useTokenizer(new InlineMathTokenizer({ backtickRequired: false }), InlineCodeTokenizerName),
-  parsers.gfmEx
-    .useTokenizer(new MathTokenizer())
-    .useTokenizer(new InlineMathTokenizer({ backtickRequired: true }), InlineCodeTokenizerName)
-    .useTokenizer(new InlineMathTokenizer({ backtickRequired: false }), InlineCodeTokenizerName),
-  parsers.yozora,
+  [
+    'gfm',
+    parsers.gfm
+      .useTokenizer(new MathTokenizer())
+      .useTokenizer(new InlineMathTokenizer({ backtickRequired: true }), InlineCodeTokenizerName)
+      .useTokenizer(new InlineMathTokenizer({ backtickRequired: false }), InlineCodeTokenizerName),
+  ],
+  [
+    'gfm-ex',
+    parsers.gfmEx
+      .useTokenizer(new MathTokenizer())
+      .useTokenizer(new InlineMathTokenizer({ backtickRequired: true }), InlineCodeTokenizerName)
+      .useTokenizer(new InlineMathTokenizer({ backtickRequired: false }), InlineCodeTokenizerName),
+  ],
+  ['yozora', parsers.yozora],
 ).forEach(tester => {
   tester.scan('custom/math').runTest()
 })

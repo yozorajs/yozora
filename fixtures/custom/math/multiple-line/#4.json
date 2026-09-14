@@ -4,24 +4,11 @@
     {
       "description": "Number of marker symbols on the opener and closer needs to be the same",
       "input": "$$$\nf(x)=\\left\\lbrace\\begin{aligned}\n&x^2, &x < 0\\\\\n&0, &x = 0\\\\\n&x^3, &x > 0\n\\end{aligned}\\right.\n$$",
-      "markupAnswer": "$$$\nf(x)=\\left\\lbrace\\begin{aligned}\n&x^2, &x < 0\\\\\n&0, &x = 0\\\\\n&x^3, &x > 0\n\\end{aligned}\\right.\n$$\n$$$",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 7,
-            "column": 3,
-            "offset": 101
-          }
-        },
-        "children": [
-          {
-            "type": "math",
+      "answer": {
+        "gfm": {
+          "markup": "$$$\nf(x)=\\left\\lbrace\\begin{aligned}\n&x^2, &x < 0\\\\\n&0, &x = 0\\\\\n&x^3, &x > 0\n\\end{aligned}\\right.\n$$\n$$$",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -34,9 +21,26 @@
                 "offset": 101
               }
             },
-            "value": "f(x)=\\left\\lbrace\\begin{aligned}\n&x^2, &x < 0\\\\\n&0, &x = 0\\\\\n&x^3, &x > 0\n\\end{aligned}\\right.\n$$\n"
+            "children": [
+              {
+                "type": "math",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 3,
+                    "offset": 101
+                  }
+                },
+                "value": "f(x)=\\left\\lbrace\\begin{aligned}\n&x^2, &x < 0\\\\\n&0, &x = 0\\\\\n&x^3, &x > 0\n\\end{aligned}\\right.\n$$\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

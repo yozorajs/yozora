@@ -4,48 +4,17 @@
     {
       "description": "Note that this is a link, because a link label ends with the first following closing bracket",
       "input": "[foo*]: /url\n\n*[foo*]",
-      "markupAnswer": "[foo*]: /url\n\n*[foo*][]",
-      "htmlAnswer": "<p>*<a href=\"/url\">foo*</a></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 8,
-            "offset": 21
-          }
-        },
-        "children": [
-          {
-            "type": "definition",
+      "answer": {
+        "gfm": {
+          "markup": "[foo*]: /url\n\n*[foo*][]",
+          "html": "<p>*<a href=\"/url\">foo*</a></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 13
-              }
-            },
-            "identifier": "foo*",
-            "label": "foo*",
-            "url": "/url"
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 14
               },
               "end": {
                 "line": 3,
@@ -55,7 +24,25 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "definition",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 13
+                  }
+                },
+                "identifier": "foo*",
+                "label": "foo*",
+                "url": "/url"
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 3,
@@ -64,51 +51,68 @@
                   },
                   "end": {
                     "line": 3,
-                    "column": 2,
-                    "offset": 15
-                  }
-                },
-                "value": "*"
-              },
-              {
-                "type": "linkReference",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 2,
-                    "offset": 15
-                  },
-                  "end": {
-                    "line": 3,
                     "column": 8,
                     "offset": 21
                   }
                 },
-                "identifier": "foo*",
-                "label": "foo*",
-                "referenceType": "shortcut",
                 "children": [
                   {
                     "type": "text",
                     "position": {
                       "start": {
                         "line": 3,
-                        "column": 3,
-                        "offset": 16
+                        "column": 1,
+                        "offset": 14
                       },
                       "end": {
                         "line": 3,
-                        "column": 7,
-                        "offset": 20
+                        "column": 2,
+                        "offset": 15
                       }
                     },
-                    "value": "foo*"
+                    "value": "*"
+                  },
+                  {
+                    "type": "linkReference",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 2,
+                        "offset": 15
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 8,
+                        "offset": 21
+                      }
+                    },
+                    "identifier": "foo*",
+                    "label": "foo*",
+                    "referenceType": "shortcut",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 3,
+                            "column": 3,
+                            "offset": 16
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 7,
+                            "offset": 20
+                          }
+                        },
+                        "value": "foo*"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

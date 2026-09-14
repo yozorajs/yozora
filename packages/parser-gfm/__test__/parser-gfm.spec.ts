@@ -140,7 +140,7 @@ class RecoveringBlockquoteTokenizer extends BlockquoteTokenizer {
   }
 }
 
-scanGfmFixtures(createTokenizerTester(parsers.gfm), {
+scanGfmFixtures(createTokenizerTester('gfm', parsers.gfm), {
   excludeGroups: ['autolink-extension', 'delete', 'list-item/task list items(extension)', 'table'],
 }).runTest()
 

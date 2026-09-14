@@ -4,25 +4,12 @@
     {
       "description": "We may still get an unintended result in cases like",
       "input": "The number of windows in my house is\n1.  The number of doors is 6.",
-      "markupAnswer": "The number of windows in my house is\n\n1. The number of doors is 6.",
-      "htmlAnswer": "<p>The number of windows in my house is</p>\n<ol>\n<li>The number of doors is 6.</li>\n</ol>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 30,
-            "offset": 66
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "The number of windows in my house is\n\n1. The number of doors is 6.",
+          "html": "<p>The number of windows in my house is</p>\n<ol>\n<li>The number of doors is 6.</li>\n</ol>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -31,13 +18,13 @@
               },
               "end": {
                 "line": 2,
-                "column": 1,
-                "offset": 37
+                "column": 30,
+                "offset": 66
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,37 +32,32 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 37,
-                    "offset": 36
+                    "line": 2,
+                    "column": 1,
+                    "offset": 37
                   }
                 },
-                "value": "The number of windows in my house is"
-              }
-            ]
-          },
-          {
-            "type": "list",
-            "position": {
-              "start": {
-                "line": 2,
-                "column": 1,
-                "offset": 37
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 37,
+                        "offset": 36
+                      }
+                    },
+                    "value": "The number of windows in my house is"
+                  }
+                ]
               },
-              "end": {
-                "line": 2,
-                "column": 30,
-                "offset": 66
-              }
-            },
-            "ordered": true,
-            "orderType": "1",
-            "start": 1,
-            "marker": 46,
-            "spread": false,
-            "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 2,
@@ -88,14 +70,19 @@
                     "offset": 66
                   }
                 },
+                "ordered": true,
+                "orderType": "1",
+                "start": 1,
+                "marker": 46,
+                "spread": false,
                 "children": [
                   {
-                    "type": "text",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 2,
-                        "column": 5,
-                        "offset": 41
+                        "column": 1,
+                        "offset": 37
                       },
                       "end": {
                         "line": 2,
@@ -103,13 +90,30 @@
                         "offset": 66
                       }
                     },
-                    "value": "The number of doors is 6."
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 2,
+                            "column": 5,
+                            "offset": 41
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 30,
+                            "offset": 66
+                          }
+                        },
+                        "value": "The number of doors is 6."
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

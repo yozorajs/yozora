@@ -12,8 +12,9 @@ import { removePositions } from '@yozora/ast-util'
 import type { IParser } from '@yozora/core-parser'
 import type { IMarkupWeaver } from '@yozora/markup-weaver'
 import { expect, test } from 'vitest'
+import { resolveAnswer } from './answer'
 import { BaseTester } from './BaseTester'
-import type { IYozoraUseCase } from './types'
+import type { IYozoraUseCase, ParserName } from './types'
 
 /**
  * Params for construct TokenizerTester
@@ -28,6 +29,10 @@ interface IMarkupTesterProps {
    */
   parser: IParser
   /**
+   * Parser whose expected answers are selected and updated.
+   */
+  parserName: ParserName
+  /**
    * Markup weaver
    */
   weaver: IMarkupWeaver
@@ -35,11 +40,13 @@ interface IMarkupTesterProps {
 
 export class MarkupTester<T = unknown> extends BaseTester<T> {
   public readonly parser: IParser
+  public readonly parserName: ParserName
   public readonly weaver: IMarkupWeaver
 
   constructor(props: IMarkupTesterProps) {
     super(props)
     this.parser = props.parser
+    this.parserName = props.parserName
     this.weaver = props.weaver
   }
 
@@ -50,11 +57,13 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
    * @param filepath
    */
   protected override _testCase(useCase: IYozoraUseCase<T>, filepath: string): void {
-    const { description, input, markupAnswer } = useCase
+    const { description, input } = useCase
 
     test(description, async () => {
+      const answer = resolveAnswer(useCase.answer, this.parserName)
+      expect(answer.markup, `Missing answer.${this.parserName}.markup in ${filepath}`).toBeDefined()
       const { markup, expectedAst, receivedAst } = this._weaveAndFormat(input, filepath)
-      expect(markup).toEqual(markupAnswer)
+      expect(markup).toEqual(answer.markup)
       if (!this._areSameAST(receivedAst, expectedAst)) {
         expect(receivedAst).toEqual(expectedAst)
       }
@@ -72,7 +81,12 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
     filepath: string,
   ): Partial<IYozoraUseCase<T>> {
     const { markup } = this._weaveAndFormat(useCase.input, filepath)
-    return { markupAnswer: markup }
+    return {
+      answer: {
+        ...useCase.answer,
+        [this.parserName]: { ...useCase.answer[this.parserName], markup },
+      },
+    }
   }
 
   /**

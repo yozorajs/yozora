@@ -4,25 +4,12 @@
     {
       "description": "Here is an empty ordered list item",
       "input": "1. foo\n2.\n3. bar",
-      "markupAnswer": "1. foo\n2. \n3. bar",
-      "htmlAnswer": "<ol>\n<li>foo</li>\n<li></li>\n<li>bar</li>\n</ol>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 7,
-            "offset": 16
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "1. foo\n2. \n3. bar",
+          "html": "<ol>\n<li>foo</li>\n<li></li>\n<li>bar</li>\n</ol>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,14 +22,9 @@
                 "offset": 16
               }
             },
-            "ordered": true,
-            "orderType": "1",
-            "start": 1,
-            "marker": 46,
-            "spread": false,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -50,68 +32,73 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 7
-                  }
-                },
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 4,
-                        "offset": 3
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
-                      }
-                    },
-                    "value": "foo"
-                  }
-                ]
-              },
-              {
-                "type": "listItem",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 7
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 10
-                  }
-                },
-                "children": []
-              },
-              {
-                "type": "listItem",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 10
-                  },
-                  "end": {
                     "line": 3,
                     "column": 7,
                     "offset": 16
                   }
                 },
+                "ordered": true,
+                "orderType": "1",
+                "start": 1,
+                "marker": 46,
+                "spread": false,
                 "children": [
                   {
-                    "type": "text",
+                    "type": "listItem",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 7
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 4,
+                            "offset": 3
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 7,
+                            "offset": 6
+                          }
+                        },
+                        "value": "foo"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listItem",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 7
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 10
+                      }
+                    },
+                    "children": []
+                  },
+                  {
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 3,
-                        "column": 4,
-                        "offset": 13
+                        "column": 1,
+                        "offset": 10
                       },
                       "end": {
                         "line": 3,
@@ -119,13 +106,30 @@
                         "offset": 16
                       }
                     },
-                    "value": "bar"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 3,
+                            "column": 4,
+                            "offset": 13
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 7,
+                            "offset": 16
+                          }
+                        },
+                        "value": "bar"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

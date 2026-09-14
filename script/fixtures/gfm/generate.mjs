@@ -45,6 +45,15 @@ function validateFixture(data, filepath, filename) {
   if (!isRecord(fixtureCase) || typeof fixtureCase.input !== 'string') {
     throw new TypeError(`Invalid GFM fixture case in ${filepath}`)
   }
+  if (
+    !isRecord(fixtureCase.answer) ||
+    !isRecord(fixtureCase.answer.gfm) ||
+    Object.entries(fixtureCase.answer).some(
+      ([name, answer]) => !['gfm', 'gfm-ex', 'yozora'].includes(name) || !isRecord(answer),
+    )
+  ) {
+    throw new TypeError(`Invalid GFM fixture answer in ${filepath}`)
+  }
   return { exampleNo, fixtureCase }
 }
 
@@ -191,9 +200,10 @@ function mapExampleToFixture(example, legacyCase) {
   const fixtureCase = {
     ...(example.description === undefined ? {} : { description: example.description }),
     input: example.content,
-    ...(hasOwn(legacyCase, 'markupAnswer') ? { markupAnswer: legacyCase.markupAnswer } : {}),
-    htmlAnswer: example.expectedHtml,
-    ...(hasOwn(legacyCase, 'parseAnswer') ? { parseAnswer: legacyCase.parseAnswer } : {}),
+    answer: {
+      ...legacyCase.answer,
+      gfm: { ...legacyCase.answer.gfm, html: example.expectedHtml },
+    },
   }
   return { title: example.title, cases: [fixtureCase] }
 }
@@ -205,7 +215,7 @@ function mapNewExampleToFixture(example) {
       {
         ...(example.description === undefined ? {} : { description: example.description }),
         input: example.content,
-        htmlAnswer: example.expectedHtml,
+        answer: { gfm: { html: example.expectedHtml } },
       },
     ],
   }
@@ -305,21 +315,35 @@ export function createGFMFixturePlan(
   if (main.meta == null) throw new Error(`Missing GFM metadata ${metadataPath}`)
   validateBaselineMetadata(main.meta, main.records, metadataPath)
   for (const record of main.records) {
-    if (!hasOwn(record.data.cases[0], 'parseAnswer')) {
-      throw new Error(`Cannot preserve parseAnswer from ${record.source}/${record.filename}`)
+    if (!hasOwn(record.data.cases[0].answer.gfm, 'ast')) {
+      throw new Error(`Cannot preserve answer.gfm.ast from ${record.source}/${record.filename}`)
     }
   }
   for (const record of currentNew.records) {
     const fixtureCase = record.data.cases[0]
-    if (hasOwn(fixtureCase, 'parseAnswer') || hasOwn(fixtureCase, 'markupAnswer')) {
+    if (
+      Object.values(fixtureCase.answer).some(
+        answer => hasOwn(answer, 'ast') || hasOwn(answer, 'markup'),
+      )
+    ) {
       throw new Error(`Answered fixture must not remain in gfm-new: ${record.filename}`)
     }
   }
 
   const currentExamples = validateExamples(examples)
   const partition = pairFixturesByInput(currentExamples, main.records)
-  if (partition.legacyOnly.length > 0) {
-    const orphanIds = partition.legacyOnly.map(record => formatFixtureId(record.exampleNo))
+  const newPartition = pairFixturesByInput(partition.currentOnly, currentNew.records)
+  // Parser HTML overrides are authored answers even when the fixture has no AST.
+  const orphanedFixtures = [
+    ...partition.legacyOnly,
+    ...newPartition.legacyOnly.filter(record =>
+      Object.entries(record.data.cases[0].answer).some(
+        ([name, answer]) => name !== 'gfm' && hasOwn(answer, 'html'),
+      ),
+    ),
+  ]
+  if (orphanedFixtures.length > 0) {
+    const orphanIds = orphanedFixtures.map(record => formatFixtureId(record.exampleNo))
     throw new Error(
       `Orphaned answered GFM fixtures no longer match upstream: ${orphanIds.join(', ')}. ` +
         `Delete the stale fixture(s) or correct the source, then rerun.`,
@@ -327,7 +351,9 @@ export function createGFMFixturePlan(
   }
   const plannedMain = new Map()
   const plannedNew = new Map()
-  const currentNewById = new Map(currentNew.records.map(record => [record.exampleNo, record]))
+  const matchedNewById = new Map(
+    newPartition.matches.map(({ current, legacy }) => [current.exampleNo, legacy]),
+  )
 
   for (const { current, legacy } of partition.matches) {
     const filename = `${formatFixtureId(current.exampleNo)}.json`
@@ -336,12 +362,12 @@ export function createGFMFixturePlan(
   }
   for (const current of partition.currentOnly) {
     const filename = `${formatFixtureId(current.exampleNo)}.json`
-    const data = mapNewExampleToFixture(current.example)
-    addPlannedFile(
-      plannedNew,
-      filename,
-      createPlannedFile(data, currentNewById.get(current.exampleNo)),
-    )
+    const legacy = matchedNewById.get(current.exampleNo)
+    const data =
+      legacy == null
+        ? mapNewExampleToFixture(current.example)
+        : mapExampleToFixture(current.example, legacy.data.cases[0])
+    addPlannedFile(plannedNew, filename, createPlannedFile(data, legacy))
   }
 
   const mainFixtureIds = new Set([...plannedMain.keys()].map(filename => filename.slice(0, -5)))
@@ -400,6 +426,9 @@ export function verifyGFMFixturePlan(rootDir, plan) {
 
 async function materializePlannedFile(plannedFile, filepath, prettierConfig) {
   if (plannedFile.raw != null) return plannedFile.raw
+  // Keep AST objects expanded instead of reflowing their positions into single lines.
+  if (path.basename(filepath) !== 'meta.json')
+    return JSON.stringify(plannedFile.data, null, 2) + '\n'
   return format(JSON.stringify(plannedFile.data), {
     ...prettierConfig,
     filepath,

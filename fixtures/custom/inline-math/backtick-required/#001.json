@@ -4,24 +4,11 @@
     {
       "description": "Backtick wrapping is required",
       "input": "`$x^2+y^2=z^2$`",
-      "markupAnswer": "$x^2+y^2=z^2$",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 16,
-            "offset": 15
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "$x^2+y^2=z^2$",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -36,7 +23,7 @@
             },
             "children": [
               {
-                "type": "inlineMath",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -49,11 +36,28 @@
                     "offset": 15
                   }
                 },
-                "value": "x^2+y^2=z^2"
+                "children": [
+                  {
+                    "type": "inlineMath",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 16,
+                        "offset": 15
+                      }
+                    },
+                    "value": "x^2+y^2=z^2"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

@@ -4,25 +4,12 @@
     {
       "description": "A block quote can be empty",
       "input": ">\n>  \n> ",
-      "markupAnswer": "> ",
-      "htmlAnswer": "<blockquote>\n</blockquote>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 3,
-            "offset": 8
-          }
-        },
-        "children": [
-          {
-            "type": "blockquote",
+      "answer": {
+        "gfm": {
+          "markup": "> ",
+          "html": "<blockquote>\n</blockquote>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,9 +22,26 @@
                 "offset": 8
               }
             },
-            "children": []
+            "children": [
+              {
+                "type": "blockquote",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 3,
+                    "offset": 8
+                  }
+                },
+                "children": []
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

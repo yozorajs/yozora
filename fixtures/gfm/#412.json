@@ -4,25 +4,12 @@
     {
       "description": "This is strong emphasis, even though the closing delimiter is both left- and right-flanking, because it is followed by punctuation",
       "input": "__(bar)__.",
-      "markupAnswer": "**(bar)**.",
-      "htmlAnswer": "<p><strong>(bar)</strong>.</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 11,
-            "offset": 10
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "**(bar)**.",
+          "html": "<p><strong>(bar)</strong>.</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "strong",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,48 +33,65 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 10,
-                    "offset": 9
+                    "column": 11,
+                    "offset": 10
                   }
                 },
                 "children": [
+                  {
+                    "type": "strong",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 10,
+                        "offset": 9
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 8,
+                            "offset": 7
+                          }
+                        },
+                        "value": "(bar)"
+                      }
+                    ]
+                  },
                   {
                     "type": "text",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 3,
-                        "offset": 2
+                        "column": 10,
+                        "offset": 9
                       },
                       "end": {
                         "line": 1,
-                        "column": 8,
-                        "offset": 7
+                        "column": 11,
+                        "offset": 10
                       }
                     },
-                    "value": "(bar)"
+                    "value": "."
                   }
                 ]
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 10,
-                    "offset": 9
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 11,
-                    "offset": 10
-                  }
-                },
-                "value": "."
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

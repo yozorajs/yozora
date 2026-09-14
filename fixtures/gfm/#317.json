@@ -4,25 +4,12 @@
     {
       "description": "Backslash escapes do not work in code blocks, code spans, autolinks, or raw HTML",
       "input": "<a href=\"/bar\\/)\">",
-      "markupAnswer": "<a href=\"/bar\\/)\">",
-      "htmlAnswer": "<a href=\"/bar\\/)\">",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 19,
-            "offset": 18
-          }
-        },
-        "children": [
-          {
-            "type": "html",
+      "answer": {
+        "gfm": {
+          "markup": "<a href=\"/bar\\/)\">",
+          "html": "<a href=\"/bar\\/)\">",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,9 +22,26 @@
                 "offset": 18
               }
             },
-            "value": "<a href=\"/bar\\/)\">"
+            "children": [
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 19,
+                    "offset": 18
+                  }
+                },
+                "value": "<a href=\"/bar\\/)\">"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

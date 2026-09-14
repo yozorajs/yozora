@@ -1,11 +1,11 @@
 import { createTokenizerTester, createTokenizerTesters } from '@yozora/test-util'
 import { parsers, scanGfmFixtures } from 'vitest.setup'
 
-scanGfmFixtures(createTokenizerTester(parsers.gfm), {
+scanGfmFixtures(createTokenizerTester('gfm', parsers.gfm), {
   includeGroups: ['autolink'],
 }).runTest()
 
-createTokenizerTesters(parsers.gfmEx, parsers.yozora).forEach(tester => {
+createTokenizerTesters(['gfm-ex', parsers.gfmEx], ['yozora', parsers.yozora]).forEach(tester => {
   scanGfmFixtures(tester, {
     includeGroups: ['autolink'],
     excludeExamples: ['#617', '#620', '#621'],

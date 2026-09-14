@@ -4,25 +4,12 @@
     {
       "description": "However, links may not contain other links, at any level of nesting.",
       "input": "![[[foo](uri1)](uri2)](uri3)",
-      "markupAnswer": "![\\[foo\\]\\(uri2\\)](uri3)",
-      "htmlAnswer": "<p><img src=\"uri3\" alt=\"[foo](uri2)\" /></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 29,
-            "offset": 28
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "![\\[foo\\]\\(uri2\\)](uri3)",
+          "html": "<p><img src=\"uri3\" alt=\"[foo](uri2)\" /></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "image",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -50,12 +37,29 @@
                     "offset": 28
                   }
                 },
-                "url": "uri3",
-                "alt": "[foo](uri2)"
+                "children": [
+                  {
+                    "type": "image",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 29,
+                        "offset": 28
+                      }
+                    },
+                    "url": "uri3",
+                    "alt": "[foo](uri2)"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

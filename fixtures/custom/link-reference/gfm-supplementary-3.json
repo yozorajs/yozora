@@ -4,24 +4,11 @@
     {
       "description": "A shortcut reference link could not followed by a [] or a link label",
       "input": "[foo][bar]\n\n[foo]: #alpha",
-      "markupAnswer": "[foo][bar]\n\n[foo]: #alpha",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 14,
-            "offset": 25
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "[foo][bar]\n\n[foo]: #alpha",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -29,14 +16,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 11
+                "line": 3,
+                "column": 14,
+                "offset": 25
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -44,34 +31,51 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 11,
-                    "offset": 10
+                    "line": 2,
+                    "column": 1,
+                    "offset": 11
                   }
                 },
-                "value": "[foo][bar]"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 11,
+                        "offset": 10
+                      }
+                    },
+                    "value": "[foo][bar]"
+                  }
+                ]
+              },
+              {
+                "type": "definition",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 12
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 14,
+                    "offset": 25
+                  }
+                },
+                "identifier": "foo",
+                "label": "foo",
+                "url": "#alpha"
               }
             ]
-          },
-          {
-            "type": "definition",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 12
-              },
-              "end": {
-                "line": 3,
-                "column": 14,
-                "offset": 25
-              }
-            },
-            "identifier": "foo",
-            "label": "foo",
-            "url": "#alpha"
           }
-        ]
+        }
       }
     }
   ]

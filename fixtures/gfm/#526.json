@@ -4,25 +4,12 @@
     {
       "description": "The link text may contain inline content",
       "input": "[![moon](moon.jpg)](/uri)",
-      "markupAnswer": "[![moon](moon.jpg)](/uri)",
-      "htmlAnswer": "<p><a href=\"/uri\"><img src=\"moon.jpg\" alt=\"moon\" /></a></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 26,
-            "offset": 25
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "[![moon](moon.jpg)](/uri)",
+          "html": "<p><a href=\"/uri\"><img src=\"moon.jpg\" alt=\"moon\" /></a></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "link",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -50,30 +37,47 @@
                     "offset": 25
                   }
                 },
-                "url": "/uri",
                 "children": [
                   {
-                    "type": "image",
+                    "type": "link",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 2,
-                        "offset": 1
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 1,
-                        "column": 19,
-                        "offset": 18
+                        "column": 26,
+                        "offset": 25
                       }
                     },
-                    "url": "moon.jpg",
-                    "alt": "moon"
+                    "url": "/uri",
+                    "children": [
+                      {
+                        "type": "image",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 2,
+                            "offset": 1
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 19,
+                            "offset": 18
+                          }
+                        },
+                        "url": "moon.jpg",
+                        "alt": "moon"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

@@ -4,25 +4,12 @@
     {
       "description": "ATX headings can be empty",
       "input": "## \n#\n### ###",
-      "markupAnswer": "## \n\n# \n\n### ",
-      "htmlAnswer": "<h2></h2>\n<h1></h1>\n<h3></h3>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 8,
-            "offset": 13
-          }
-        },
-        "children": [
-          {
-            "type": "heading",
+      "answer": {
+        "gfm": {
+          "markup": "## \n\n# \n\n### ",
+          "html": "<h2></h2>\n<h1></h1>\n<h3></h3>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -30,49 +17,66 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 4
-              }
-            },
-            "depth": 2,
-            "children": []
-          },
-          {
-            "type": "heading",
-            "position": {
-              "start": {
-                "line": 2,
-                "column": 1,
-                "offset": 4
-              },
-              "end": {
-                "line": 3,
-                "column": 1,
-                "offset": 6
-              }
-            },
-            "depth": 1,
-            "children": []
-          },
-          {
-            "type": "heading",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 6
-              },
-              "end": {
                 "line": 3,
                 "column": 8,
                 "offset": 13
               }
             },
-            "depth": 3,
-            "children": []
+            "children": [
+              {
+                "type": "heading",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 4
+                  }
+                },
+                "depth": 2,
+                "children": []
+              },
+              {
+                "type": "heading",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 4
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 6
+                  }
+                },
+                "depth": 1,
+                "children": []
+              },
+              {
+                "type": "heading",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 6
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 8,
+                    "offset": 13
+                  }
+                },
+                "depth": 3,
+                "children": []
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

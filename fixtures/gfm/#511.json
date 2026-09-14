@@ -4,25 +4,12 @@
     {
       "description": "Note that a backslash before a non-escapable character is just a backslash",
       "input": "[link](foo\\bar)",
-      "markupAnswer": "[link](foo%5Cbar)",
-      "htmlAnswer": "<p><a href=\"foo%5Cbar\">link</a></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 16,
-            "offset": 15
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "[link](foo%5Cbar)",
+          "html": "<p><a href=\"foo%5Cbar\">link</a></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "link",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -50,29 +37,46 @@
                     "offset": 15
                   }
                 },
-                "url": "foo%5Cbar",
                 "children": [
                   {
-                    "type": "text",
+                    "type": "link",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 2,
-                        "offset": 1
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 1,
-                        "column": 6,
-                        "offset": 5
+                        "column": 16,
+                        "offset": 15
                       }
                     },
-                    "value": "link"
+                    "url": "foo%5Cbar",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 2,
+                            "offset": 1
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 6,
+                            "offset": 5
+                          }
+                        },
+                        "value": "link"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

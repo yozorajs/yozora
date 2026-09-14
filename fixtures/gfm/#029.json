@@ -4,64 +4,17 @@
     {
       "description": "If a line of dashes that meets the above conditions for being a thematic break could also be interpreted as the underline of a setext heading, the interpretation as a setext heading takes precedence. Thus, for example, this is a setext heading, not a paragraph followed by a thematic break",
       "input": "Foo\n---\nbar",
-      "markupAnswer": "Foo\n---\n\nbar",
-      "htmlAnswer": "<h2>Foo</h2>\n<p>bar</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 4,
-            "offset": 11
-          }
-        },
-        "children": [
-          {
-            "type": "heading",
+      "answer": {
+        "gfm": {
+          "markup": "Foo\n---\n\nbar",
+          "html": "<h2>Foo</h2>\n<p>bar</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 3,
-                "column": 1,
-                "offset": 8
-              }
-            },
-            "depth": 2,
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 4,
-                    "offset": 3
-                  }
-                },
-                "value": "Foo"
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 8
               },
               "end": {
                 "line": 3,
@@ -71,7 +24,41 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "heading",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 8
+                  }
+                },
+                "depth": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      }
+                    },
+                    "value": "Foo"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 3,
@@ -84,11 +71,28 @@
                     "offset": 11
                   }
                 },
-                "value": "bar"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 8
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 4,
+                        "offset": 11
+                      }
+                    },
+                    "value": "bar"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

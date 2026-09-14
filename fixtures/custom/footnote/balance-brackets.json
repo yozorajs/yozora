@@ -4,24 +4,11 @@
     {
       "description": "#1",
       "input": "^[cat `[`]",
-      "markupAnswer": "^[cat `[`]",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 11,
-            "offset": 10
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "^[cat `[`]",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -36,7 +23,7 @@
             },
             "children": [
               {
-                "type": "footnote",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -51,65 +38,69 @@
                 },
                 "children": [
                   {
-                    "type": "text",
+                    "type": "footnote",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 3,
-                        "offset": 2
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 1,
-                        "column": 7,
-                        "offset": 6
+                        "column": 11,
+                        "offset": 10
                       }
                     },
-                    "value": "cat "
-                  },
-                  {
-                    "type": "inlineCode",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 7,
+                            "offset": 6
+                          }
+                        },
+                        "value": "cat "
                       },
-                      "end": {
-                        "line": 1,
-                        "column": 10,
-                        "offset": 9
+                      {
+                        "type": "inlineCode",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 7,
+                            "offset": 6
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 10,
+                            "offset": 9
+                          }
+                        },
+                        "value": "["
                       }
-                    },
-                    "value": "["
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     },
     {
       "description": "#1",
       "input": "^[cat `[` dog]",
-      "markupAnswer": "^[cat `[` dog]",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 15,
-            "offset": 14
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "^[cat `[` dog]",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -124,7 +115,7 @@
             },
             "children": [
               {
-                "type": "footnote",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -139,58 +130,75 @@
                 },
                 "children": [
                   {
-                    "type": "text",
+                    "type": "footnote",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 3,
-                        "offset": 2
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 1,
-                        "column": 7,
-                        "offset": 6
+                        "column": 15,
+                        "offset": 14
                       }
                     },
-                    "value": "cat "
-                  },
-                  {
-                    "type": "inlineCode",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 7,
+                            "offset": 6
+                          }
+                        },
+                        "value": "cat "
                       },
-                      "end": {
-                        "line": 1,
-                        "column": 10,
-                        "offset": 9
-                      }
-                    },
-                    "value": "["
-                  },
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 10,
-                        "offset": 9
+                      {
+                        "type": "inlineCode",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 7,
+                            "offset": 6
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 10,
+                            "offset": 9
+                          }
+                        },
+                        "value": "["
                       },
-                      "end": {
-                        "line": 1,
-                        "column": 14,
-                        "offset": 13
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 10,
+                            "offset": 9
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 14,
+                            "offset": 13
+                          }
+                        },
+                        "value": " dog"
                       }
-                    },
-                    "value": " dog"
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

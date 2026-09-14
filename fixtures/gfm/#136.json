@@ -4,25 +4,12 @@
     {
       "description": "These rules are designed to allow us to work with tags that can function as either block-level or inline-level tags. The <del> tag is a nice example. We can surround content with <del> tags in three different ways. In this case, we get a raw HTML block, because the <del> tag is on a line by itself",
       "input": "<del>\n*foo*\n</del>",
-      "markupAnswer": "<del>\n*foo*\n</del>",
-      "htmlAnswer": "<del>\n*foo*\n</del>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 7,
-            "offset": 18
-          }
-        },
-        "children": [
-          {
-            "type": "html",
+      "answer": {
+        "gfm": {
+          "markup": "<del>\n*foo*\n</del>",
+          "html": "<del>\n*foo*\n</del>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,9 +22,26 @@
                 "offset": 18
               }
             },
-            "value": "<del>\n*foo*\n</del>"
+            "children": [
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 7,
+                    "offset": 18
+                  }
+                },
+                "value": "<del>\n*foo*\n</del>"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

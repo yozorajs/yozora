@@ -4,25 +4,12 @@
     {
       "description": "Processing instructions",
       "input": "foo <?php echo $a; ?>",
-      "markupAnswer": "foo <?php echo $a; ?>",
-      "htmlAnswer": "<p>foo <?php echo $a; ?></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 22,
-            "offset": 21
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "foo <?php echo $a; ?>",
+          "html": "<p>foo <?php echo $a; ?></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,31 +33,48 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 5,
-                    "offset": 4
-                  }
-                },
-                "value": "foo "
-              },
-              {
-                "type": "html",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 5,
-                    "offset": 4
-                  },
-                  "end": {
-                    "line": 1,
                     "column": 22,
                     "offset": 21
                   }
                 },
-                "value": "<?php echo $a; ?>"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      }
+                    },
+                    "value": "foo "
+                  },
+                  {
+                    "type": "html",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 22,
+                        "offset": 21
+                      }
+                    },
+                    "value": "<?php echo $a; ?>"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

@@ -4,25 +4,12 @@
     {
       "description": "If there are several matching definitions, the first one takes precedence",
       "input": "[foo]\n\n[foo]: first\n[foo]: second",
-      "markupAnswer": "[foo][]\n\n[foo]: first\n\n[foo]: second",
-      "htmlAnswer": "<p><a href=\"first\">foo</a></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 14,
-            "offset": 33
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "[foo][]\n\n[foo]: first\n\n[foo]: second",
+          "html": "<p><a href=\"first\">foo</a></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -30,14 +17,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 6
+                "line": 4,
+                "column": 14,
+                "offset": 33
               }
             },
             "children": [
               {
-                "type": "linkReference",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,72 +32,89 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 6,
-                    "offset": 5
+                    "line": 2,
+                    "column": 1,
+                    "offset": 6
+                  }
+                },
+                "children": [
+                  {
+                    "type": "linkReference",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 6,
+                        "offset": 5
+                      }
+                    },
+                    "identifier": "foo",
+                    "label": "foo",
+                    "referenceType": "shortcut",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 2,
+                            "offset": 1
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 5,
+                            "offset": 4
+                          }
+                        },
+                        "value": "foo"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "definition",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 7
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 20
                   }
                 },
                 "identifier": "foo",
                 "label": "foo",
-                "referenceType": "shortcut",
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 2,
-                        "offset": 1
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 5,
-                        "offset": 4
-                      }
-                    },
-                    "value": "foo"
+                "url": "first"
+              },
+              {
+                "type": "definition",
+                "position": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 20
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 14,
+                    "offset": 33
                   }
-                ]
+                },
+                "identifier": "foo",
+                "label": "foo",
+                "url": "second"
               }
             ]
-          },
-          {
-            "type": "definition",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 7
-              },
-              "end": {
-                "line": 4,
-                "column": 1,
-                "offset": 20
-              }
-            },
-            "identifier": "foo",
-            "label": "foo",
-            "url": "first"
-          },
-          {
-            "type": "definition",
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 20
-              },
-              "end": {
-                "line": 4,
-                "column": 14,
-                "offset": 33
-              }
-            },
-            "identifier": "foo",
-            "label": "foo",
-            "url": "second"
           }
-        ]
+        }
       }
     }
   ]

@@ -4,25 +4,12 @@
     {
       "description": "The setext heading underline cannot be a lazy continuation line in a list item or block quote",
       "input": "> foo\nbar\n===",
-      "markupAnswer": "> foo\n> bar\n> \\===",
-      "htmlAnswer": "<blockquote>\n<p>foo\nbar\n===</p>\n</blockquote>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 4,
-            "offset": 13
-          }
-        },
-        "children": [
-          {
-            "type": "blockquote",
+      "answer": {
+        "gfm": {
+          "markup": "> foo\n> bar\n> \\===",
+          "html": "<blockquote>\n<p>foo\nbar\n===</p>\n</blockquote>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,12 +24,12 @@
             },
             "children": [
               {
-                "type": "paragraph",
+                "type": "blockquote",
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 3,
-                    "offset": 2
+                    "column": 1,
+                    "offset": 0
                   },
                   "end": {
                     "line": 3,
@@ -52,7 +39,7 @@
                 },
                 "children": [
                   {
-                    "type": "text",
+                    "type": "paragraph",
                     "position": {
                       "start": {
                         "line": 1,
@@ -65,13 +52,30 @@
                         "offset": 13
                       }
                     },
-                    "value": "foo\nbar\n==="
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 4,
+                            "offset": 13
+                          }
+                        },
+                        "value": "foo\nbar\n==="
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

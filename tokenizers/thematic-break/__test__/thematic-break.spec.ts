@@ -2,7 +2,11 @@ import { createTokenizerTesters } from '@yozora/test-util'
 import { expect, test } from 'vitest'
 import { parsers, scanGfmFixtures } from 'vitest.setup'
 
-createTokenizerTesters(parsers.gfm, parsers.gfmEx, parsers.yozora).forEach(tester => {
+createTokenizerTesters(
+  ['gfm', parsers.gfm],
+  ['gfm-ex', parsers.gfmEx],
+  ['yozora', parsers.yozora],
+).forEach(tester => {
   scanGfmFixtures(tester, { includeGroups: ['thematic-break'] }).runTest()
 })
 

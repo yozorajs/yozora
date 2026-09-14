@@ -4,25 +4,12 @@
     {
       "description": "Closing code fences cannot have info strings",
       "input": "```\n``` aaa\n```",
-      "markupAnswer": "````\n``` aaa\n````",
-      "htmlAnswer": "<pre><code>``` aaa\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 4,
-            "offset": 15
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "````\n``` aaa\n````",
+          "html": "<pre><code>``` aaa\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 15
               }
             },
-            "lang": null,
-            "meta": null,
-            "value": "``` aaa\n"
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 4,
+                    "offset": 15
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "``` aaa\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

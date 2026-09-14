@@ -4,25 +4,12 @@
     {
       "description": "Here are some examples showing how far content must be indented to be put under the list item",
       "input": " -    one\n\n     two",
-      "markupAnswer": "- one\n\n```\n two\n```",
-      "htmlAnswer": "<ul>\n<li>one</li>\n</ul>\n<pre><code> two\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 9,
-            "offset": 19
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "- one\n\n```\n two\n```",
+          "html": "<ul>\n<li>one</li>\n</ul>\n<pre><code> two\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -30,17 +17,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 10
+                "line": 3,
+                "column": 9,
+                "offset": 19
               }
             },
-            "ordered": false,
-            "marker": 45,
-            "spread": false,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -53,46 +37,66 @@
                     "offset": 10
                   }
                 },
+                "ordered": false,
+                "marker": 45,
+                "spread": false,
                 "children": [
                   {
-                    "type": "text",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 7,
-                        "offset": 6
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
-                        "line": 1,
-                        "column": 10,
-                        "offset": 9
+                        "line": 2,
+                        "column": 1,
+                        "offset": 10
                       }
                     },
-                    "value": "one"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 7,
+                            "offset": 6
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 10,
+                            "offset": 9
+                          }
+                        },
+                        "value": "one"
+                      }
+                    ]
                   }
                 ]
+              },
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 11
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 9,
+                    "offset": 19
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": " two\n"
               }
             ]
-          },
-          {
-            "type": "code",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 11
-              },
-              "end": {
-                "line": 3,
-                "column": 9,
-                "offset": 19
-              }
-            },
-            "lang": null,
-            "meta": null,
-            "value": " two\n"
           }
-        ]
+        }
       }
     }
   ]

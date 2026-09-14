@@ -4,25 +4,12 @@
     {
       "description": "The same condition ensures that the following cases are all strong emphasis nested inside emphasis, even when the interior spaces are omitted",
       "input": "*foo**bar***",
-      "markupAnswer": "*foo**bar***",
-      "htmlAnswer": "<p><em>foo<strong>bar</strong></em></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 13,
-            "offset": 12
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "*foo**bar***",
+          "html": "<p><em>foo<strong>bar</strong></em></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "emphasis",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -52,33 +39,17 @@
                 },
                 "children": [
                   {
-                    "type": "text",
+                    "type": "emphasis",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 2,
-                        "offset": 1
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 1,
-                        "column": 5,
-                        "offset": 4
-                      }
-                    },
-                    "value": "foo"
-                  },
-                  {
-                    "type": "strong",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 5,
-                        "offset": 4
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 12,
-                        "offset": 11
+                        "column": 13,
+                        "offset": 12
                       }
                     },
                     "children": [
@@ -87,16 +58,49 @@
                         "position": {
                           "start": {
                             "line": 1,
-                            "column": 7,
-                            "offset": 6
+                            "column": 2,
+                            "offset": 1
                           },
                           "end": {
                             "line": 1,
-                            "column": 10,
-                            "offset": 9
+                            "column": 5,
+                            "offset": 4
                           }
                         },
-                        "value": "bar"
+                        "value": "foo"
+                      },
+                      {
+                        "type": "strong",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 5,
+                            "offset": 4
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 12,
+                            "offset": 11
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 7,
+                                "offset": 6
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 10,
+                                "offset": 9
+                              }
+                            },
+                            "value": "bar"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -104,7 +108,7 @@
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

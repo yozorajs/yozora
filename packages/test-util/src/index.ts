@@ -5,7 +5,9 @@ import type { IParser } from '@yozora/core-parser'
 import type { IMarkupWeaver } from '@yozora/markup-weaver'
 import { MarkupTester } from './MarkupTester'
 import { TokenizerTester } from './TokenizerTester'
+import type { ParserName } from './types'
 
+export * from './answer'
 export * from './BaseTester'
 export * from './MarkupTester'
 export * from './TokenizerTester'
@@ -29,19 +31,27 @@ const findMonorepoRoot = (): string => {
 export const fixtureRootDirectory = path.join(findMonorepoRoot(), 'fixtures')
 
 // Create a tester with the specific parser
-export const createTokenizerTester = (parser: IParser): TokenizerTester =>
+export const createTokenizerTester = (parserName: ParserName, parser: IParser): TokenizerTester =>
   new TokenizerTester({
     caseRootDirectory: fixtureRootDirectory,
     parser,
+    parserName,
   })
 
 // Create testers with the specific parsers
-export const createTokenizerTesters = (...parsers: IParser[]): TokenizerTester[] =>
-  parsers.map(createTokenizerTester)
+export const createTokenizerTesters = (
+  ...parsers: readonly (readonly [ParserName, IParser])[]
+): TokenizerTester[] =>
+  parsers.map(([parserName, parser]) => createTokenizerTester(parserName, parser))
 
-export const createMarkupTester = (parser: IParser, weaver: IMarkupWeaver): MarkupTester =>
+export const createMarkupTester = (
+  parserName: ParserName,
+  parser: IParser,
+  weaver: IMarkupWeaver,
+): MarkupTester =>
   new MarkupTester({
     caseRootDirectory: fixtureRootDirectory,
     parser,
+    parserName,
     weaver,
   })

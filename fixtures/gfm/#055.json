@@ -4,25 +4,12 @@
     {
       "description": "Four spaces indent is too much",
       "input": "    Foo\n    ---\n\n    Foo\n---",
-      "markupAnswer": "```\nFoo\n---\n\nFoo\n```\n\n---",
-      "htmlAnswer": "<pre><code>Foo\n---\n\nFoo\n</code></pre>\n<hr />",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 5,
-            "column": 4,
-            "offset": 28
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "```\nFoo\n---\n\nFoo\n```\n\n---",
+          "html": "<pre><code>Foo\n---\n\nFoo\n</code></pre>\n<hr />",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -31,30 +18,47 @@
               },
               "end": {
                 "line": 5,
-                "column": 1,
-                "offset": 25
-              }
-            },
-            "lang": null,
-            "meta": null,
-            "value": "Foo\n---\n\nFoo\n"
-          },
-          {
-            "type": "thematicBreak",
-            "position": {
-              "start": {
-                "line": 5,
-                "column": 1,
-                "offset": 25
-              },
-              "end": {
-                "line": 5,
                 "column": 4,
                 "offset": 28
               }
-            }
+            },
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 25
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "Foo\n---\n\nFoo\n"
+              },
+              {
+                "type": "thematicBreak",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 25
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 4,
+                    "offset": 28
+                  }
+                }
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

@@ -4,25 +4,12 @@
     {
       "description": "Code span backticks have higher precedence than any other inline constructs except HTML tags and autolinks. Thus, for example, this is not parsed as emphasized text, since the second * is part of a code span",
       "input": "*foo`*`",
-      "markupAnswer": "*foo`*`",
-      "htmlAnswer": "<p>*foo<code>*</code></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 8,
-            "offset": 7
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "*foo`*`",
+          "html": "<p>*foo<code>*</code></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,31 +33,48 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 5,
-                    "offset": 4
-                  }
-                },
-                "value": "*foo"
-              },
-              {
-                "type": "inlineCode",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 5,
-                    "offset": 4
-                  },
-                  "end": {
-                    "line": 1,
                     "column": 8,
                     "offset": 7
                   }
                 },
-                "value": "*"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      }
+                    },
+                    "value": "*foo"
+                  },
+                  {
+                    "type": "inlineCode",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 8,
+                        "offset": 7
+                      }
+                    },
+                    "value": "*"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

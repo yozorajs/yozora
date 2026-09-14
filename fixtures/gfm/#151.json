@@ -4,46 +4,17 @@
     {
       "description": "CDATA (type 5)",
       "input": "<![CDATA[\nfunction matchwo(a,b)\n{\n  if (a < b && a < 0) then {\n    return 1;\n\n  } else {\n\n    return 0;\n  }\n}\n]]>\nokay",
-      "markupAnswer": "<![CDATA[\nfunction matchwo(a,b)\n{\n  if (a < b && a < 0) then {\n    return 1;\n\n  } else {\n\n    return 0;\n  }\n}\n]]>\n\nokay",
-      "htmlAnswer": "<![CDATA[\nfunction matchwo(a,b)\n{\n  if (a < b && a < 0) then {\n    return 1;\n\n  } else {\n\n    return 0;\n  }\n}\n]]>\n<p>okay</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 13,
-            "column": 5,
-            "offset": 118
-          }
-        },
-        "children": [
-          {
-            "type": "html",
+      "answer": {
+        "gfm": {
+          "markup": "<![CDATA[\nfunction matchwo(a,b)\n{\n  if (a < b && a < 0) then {\n    return 1;\n\n  } else {\n\n    return 0;\n  }\n}\n]]>\n\nokay",
+          "html": "<![CDATA[\nfunction matchwo(a,b)\n{\n  if (a < b && a < 0) then {\n    return 1;\n\n  } else {\n\n    return 0;\n  }\n}\n]]>\n<p>okay</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 13,
-                "column": 1,
-                "offset": 114
-              }
-            },
-            "value": "<![CDATA[\nfunction matchwo(a,b)\n{\n  if (a < b && a < 0) then {\n    return 1;\n\n  } else {\n\n    return 0;\n  }\n}\n]]>\n"
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 13,
-                "column": 1,
-                "offset": 114
               },
               "end": {
                 "line": 13,
@@ -53,7 +24,23 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 13,
+                    "column": 1,
+                    "offset": 114
+                  }
+                },
+                "value": "<![CDATA[\nfunction matchwo(a,b)\n{\n  if (a < b && a < 0) then {\n    return 1;\n\n  } else {\n\n    return 0;\n  }\n}\n]]>\n"
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 13,
@@ -66,11 +53,28 @@
                     "offset": 118
                   }
                 },
-                "value": "okay"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 13,
+                        "column": 1,
+                        "offset": 114
+                      },
+                      "end": {
+                        "line": 13,
+                        "column": 5,
+                        "offset": 118
+                      }
+                    },
+                    "value": "okay"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

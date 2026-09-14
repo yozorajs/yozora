@@ -4,25 +4,12 @@
     {
       "description": "This spec does not define how the checkbox elements are interacted with: in practice, implementors are free to render the checkboxes as disabled or inmutable elements, or they may dynamically handle dynamic interactions (i.e. checking, unchecking) in the final rendered document.",
       "input": "- [ ] foo\n- [x] bar",
-      "markupAnswer": "- [ ] foo\n- [x] bar",
-      "htmlAnswer": "<ul>\n<li><input disabled=\"\" type=\"checkbox\"> foo</li>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> bar</li>\n</ul>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 10,
-            "offset": 19
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "- [ ] foo\n- [x] bar",
+          "html": "<ul>\n<li><input disabled=\"\" type=\"checkbox\"> foo</li>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> bar</li>\n</ul>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,12 +22,9 @@
                 "offset": 19
               }
             },
-            "ordered": false,
-            "marker": 45,
-            "spread": false,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -49,53 +33,55 @@
                   },
                   "end": {
                     "line": 2,
-                    "column": 1,
-                    "offset": 10
-                  }
-                },
-                "status": "todo",
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 10,
-                        "offset": 9
-                      }
-                    },
-                    "value": "foo"
-                  }
-                ]
-              },
-              {
-                "type": "listItem",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 10
-                  },
-                  "end": {
-                    "line": 2,
                     "column": 10,
                     "offset": 19
                   }
                 },
-                "status": "done",
+                "ordered": false,
+                "marker": 45,
+                "spread": false,
                 "children": [
                   {
-                    "type": "text",
+                    "type": "listItem",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 10
+                      }
+                    },
+                    "status": "todo",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 7,
+                            "offset": 6
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 10,
+                            "offset": 9
+                          }
+                        },
+                        "value": "foo"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 2,
-                        "column": 7,
-                        "offset": 16
+                        "column": 1,
+                        "offset": 10
                       },
                       "end": {
                         "line": 2,
@@ -103,13 +89,31 @@
                         "offset": 19
                       }
                     },
-                    "value": "bar"
+                    "status": "done",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 2,
+                            "column": 7,
+                            "offset": 16
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 10,
+                            "offset": 19
+                          }
+                        },
+                        "value": "bar"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

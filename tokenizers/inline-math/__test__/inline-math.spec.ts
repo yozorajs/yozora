@@ -6,27 +6,39 @@ import { parsers } from 'vitest.setup'
 import InlineMathTokenizer from '../src'
 
 createTokenizerTesters(
-  parsers.gfm
-    .useTokenizer(new InlineMathTokenizer({ backtickRequired: true }), InlineCodeTokenizerName)
-    .useTokenizer(new InlineMathTokenizer({ backtickRequired: false })),
-  parsers.gfmEx
-    .useTokenizer(new InlineMathTokenizer({ backtickRequired: true }), InlineCodeTokenizerName)
-    .useTokenizer(new InlineMathTokenizer({ backtickRequired: false })),
-  parsers.yozora,
+  [
+    'gfm',
+    parsers.gfm
+      .useTokenizer(new InlineMathTokenizer({ backtickRequired: true }), InlineCodeTokenizerName)
+      .useTokenizer(new InlineMathTokenizer({ backtickRequired: false })),
+  ],
+  [
+    'gfm-ex',
+    parsers.gfmEx
+      .useTokenizer(new InlineMathTokenizer({ backtickRequired: true }), InlineCodeTokenizerName)
+      .useTokenizer(new InlineMathTokenizer({ backtickRequired: false })),
+  ],
+  ['yozora', parsers.yozora],
 ).forEach(tester => {
   tester.scan(['custom/inline-math', '!custom/inline-math/backtick-required']).runTest()
 })
 
 createTokenizerTesters(
-  parsers.gfm.useTokenizer(
-    new InlineMathTokenizer({ backtickRequired: true }),
-    InlineCodeTokenizerName,
-  ),
-  parsers.gfmEx.useTokenizer(
-    new InlineMathTokenizer({ backtickRequired: true }),
-    InlineCodeTokenizerName,
-  ),
-  parsers.yozora.unmountTokenizer(InlineMathTokenizerName),
+  [
+    'gfm',
+    parsers.gfm.useTokenizer(
+      new InlineMathTokenizer({ backtickRequired: true }),
+      InlineCodeTokenizerName,
+    ),
+  ],
+  [
+    'gfm-ex',
+    parsers.gfmEx.useTokenizer(
+      new InlineMathTokenizer({ backtickRequired: true }),
+      InlineCodeTokenizerName,
+    ),
+  ],
+  ['yozora', parsers.yozora.unmountTokenizer(InlineMathTokenizerName)],
 ).forEach(tester => {
   tester.scan('custom/inline-math/backtick-required').runTest()
 })

@@ -4,24 +4,11 @@
     {
       "description": "basic",
       "input": ":::note Hello, [guanghechen][]. Nice to meet you!\n\n[guanghechen]: https://github.com/guanghechen.com\n\n `include` **inline contents**\nsome content\n:::",
-      "markupAnswer": ":::note Hello, [guanghechen][]. Nice to meet you!\n[guanghechen]: https://github.com/guanghechen.com\n\n`include` **inline contents**\nsome content\n:::",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 7,
-            "column": 4,
-            "offset": 149
-          }
-        },
-        "children": [
-          {
-            "type": "admonition",
+      "answer": {
+        "gfm": {
+          "markup": ":::note Hello, [guanghechen][]. Nice to meet you!\n[guanghechen]: https://github.com/guanghechen.com\n\n`include` **inline contents**\nsome content\n:::",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -34,173 +21,72 @@
                 "offset": 149
               }
             },
-            "keyword": "note",
-            "title": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 9,
-                    "offset": 8
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 16,
-                    "offset": 15
-                  }
-                },
-                "value": "Hello, "
-              },
-              {
-                "type": "linkReference",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 16,
-                    "offset": 15
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 31,
-                    "offset": 30
-                  }
-                },
-                "identifier": "guanghechen",
-                "label": "guanghechen",
-                "referenceType": "collapsed",
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 17,
-                        "offset": 16
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 28,
-                        "offset": 27
-                      }
-                    },
-                    "value": "guanghechen"
-                  }
-                ]
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 31,
-                    "offset": 30
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 50,
-                    "offset": 49
-                  }
-                },
-                "value": ". Nice to meet you!"
-              }
-            ],
             "children": [
               {
-                "type": "definition",
+                "type": "admonition",
                 "position": {
                   "start": {
-                    "line": 3,
+                    "line": 1,
                     "column": 1,
-                    "offset": 51
-                  },
-                  "end": {
-                    "line": 4,
-                    "column": 1,
-                    "offset": 101
-                  }
-                },
-                "identifier": "guanghechen",
-                "label": "guanghechen",
-                "url": "https://github.com/guanghechen.com"
-              },
-              {
-                "type": "paragraph",
-                "position": {
-                  "start": {
-                    "line": 5,
-                    "column": 1,
-                    "offset": 102
+                    "offset": 0
                   },
                   "end": {
                     "line": 7,
-                    "column": 1,
-                    "offset": 146
+                    "column": 4,
+                    "offset": 149
                   }
                 },
-                "children": [
-                  {
-                    "type": "inlineCode",
-                    "position": {
-                      "start": {
-                        "line": 5,
-                        "column": 2,
-                        "offset": 103
-                      },
-                      "end": {
-                        "line": 5,
-                        "column": 11,
-                        "offset": 112
-                      }
-                    },
-                    "value": "include"
-                  },
+                "keyword": "note",
+                "title": [
                   {
                     "type": "text",
                     "position": {
                       "start": {
-                        "line": 5,
-                        "column": 11,
-                        "offset": 112
+                        "line": 1,
+                        "column": 9,
+                        "offset": 8
                       },
                       "end": {
-                        "line": 5,
-                        "column": 12,
-                        "offset": 113
+                        "line": 1,
+                        "column": 16,
+                        "offset": 15
                       }
                     },
-                    "value": " "
+                    "value": "Hello, "
                   },
                   {
-                    "type": "strong",
+                    "type": "linkReference",
                     "position": {
                       "start": {
-                        "line": 5,
-                        "column": 12,
-                        "offset": 113
+                        "line": 1,
+                        "column": 16,
+                        "offset": 15
                       },
                       "end": {
-                        "line": 5,
+                        "line": 1,
                         "column": 31,
-                        "offset": 132
+                        "offset": 30
                       }
                     },
+                    "identifier": "guanghechen",
+                    "label": "guanghechen",
+                    "referenceType": "collapsed",
                     "children": [
                       {
                         "type": "text",
                         "position": {
                           "start": {
-                            "line": 5,
-                            "column": 14,
-                            "offset": 115
+                            "line": 1,
+                            "column": 17,
+                            "offset": 16
                           },
                           "end": {
-                            "line": 5,
-                            "column": 29,
-                            "offset": 130
+                            "line": 1,
+                            "column": 28,
+                            "offset": 27
                           }
                         },
-                        "value": "inline contents"
+                        "value": "guanghechen"
                       }
                     ]
                   },
@@ -208,23 +94,141 @@
                     "type": "text",
                     "position": {
                       "start": {
-                        "line": 5,
+                        "line": 1,
                         "column": 31,
-                        "offset": 132
+                        "offset": 30
                       },
                       "end": {
-                        "line": 6,
-                        "column": 13,
-                        "offset": 145
+                        "line": 1,
+                        "column": 50,
+                        "offset": 49
                       }
                     },
-                    "value": "\nsome content"
+                    "value": ". Nice to meet you!"
+                  }
+                ],
+                "children": [
+                  {
+                    "type": "definition",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 51
+                      },
+                      "end": {
+                        "line": 4,
+                        "column": 1,
+                        "offset": 101
+                      }
+                    },
+                    "identifier": "guanghechen",
+                    "label": "guanghechen",
+                    "url": "https://github.com/guanghechen.com"
+                  },
+                  {
+                    "type": "paragraph",
+                    "position": {
+                      "start": {
+                        "line": 5,
+                        "column": 1,
+                        "offset": 102
+                      },
+                      "end": {
+                        "line": 7,
+                        "column": 1,
+                        "offset": 146
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "inlineCode",
+                        "position": {
+                          "start": {
+                            "line": 5,
+                            "column": 2,
+                            "offset": 103
+                          },
+                          "end": {
+                            "line": 5,
+                            "column": 11,
+                            "offset": 112
+                          }
+                        },
+                        "value": "include"
+                      },
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 5,
+                            "column": 11,
+                            "offset": 112
+                          },
+                          "end": {
+                            "line": 5,
+                            "column": 12,
+                            "offset": 113
+                          }
+                        },
+                        "value": " "
+                      },
+                      {
+                        "type": "strong",
+                        "position": {
+                          "start": {
+                            "line": 5,
+                            "column": 12,
+                            "offset": 113
+                          },
+                          "end": {
+                            "line": 5,
+                            "column": 31,
+                            "offset": 132
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 5,
+                                "column": 14,
+                                "offset": 115
+                              },
+                              "end": {
+                                "line": 5,
+                                "column": 29,
+                                "offset": 130
+                              }
+                            },
+                            "value": "inline contents"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 5,
+                            "column": 31,
+                            "offset": 132
+                          },
+                          "end": {
+                            "line": 6,
+                            "column": 13,
+                            "offset": 145
+                          }
+                        },
+                        "value": "\nsome content"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

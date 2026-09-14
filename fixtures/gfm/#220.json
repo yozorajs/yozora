@@ -4,80 +4,17 @@
     {
       "description": "A blank line always separates block quotes",
       "input": "> foo\n\n> bar",
-      "markupAnswer": "> foo\n\n> bar",
-      "htmlAnswer": "<blockquote>\n<p>foo</p>\n</blockquote>\n<blockquote>\n<p>bar</p>\n</blockquote>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 6,
-            "offset": 12
-          }
-        },
-        "children": [
-          {
-            "type": "blockquote",
+      "answer": {
+        "gfm": {
+          "markup": "> foo\n\n> bar",
+          "html": "<blockquote>\n<p>foo</p>\n</blockquote>\n<blockquote>\n<p>bar</p>\n</blockquote>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 6
-              }
-            },
-            "children": [
-              {
-                "type": "paragraph",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 3,
-                    "offset": 2
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 6
-                  }
-                },
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 3,
-                        "offset": 2
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 6,
-                        "offset": 5
-                      }
-                    },
-                    "value": "foo"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "blockquote",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 7
               },
               "end": {
                 "line": 3,
@@ -87,12 +24,62 @@
             },
             "children": [
               {
-                "type": "paragraph",
+                "type": "blockquote",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 6
+                  }
+                },
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 6
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 6,
+                            "offset": 5
+                          }
+                        },
+                        "value": "foo"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "blockquote",
                 "position": {
                   "start": {
                     "line": 3,
-                    "column": 3,
-                    "offset": 9
+                    "column": 1,
+                    "offset": 7
                   },
                   "end": {
                     "line": 3,
@@ -102,7 +89,7 @@
                 },
                 "children": [
                   {
-                    "type": "text",
+                    "type": "paragraph",
                     "position": {
                       "start": {
                         "line": 3,
@@ -115,13 +102,30 @@
                         "offset": 12
                       }
                     },
-                    "value": "bar"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 3,
+                            "column": 3,
+                            "offset": 9
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 6,
+                            "offset": 12
+                          }
+                        },
+                        "value": "bar"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

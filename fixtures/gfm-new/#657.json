@@ -4,7 +4,11 @@
     {
       "description": "All other HTML tags are left untouched.",
       "input": "<strong> <title> <style> <em>\n\n<blockquote>\n  <xmp> is disallowed.  <XMP> is also disallowed.\n</blockquote>",
-      "htmlAnswer": "<p><strong> &lt;title> &lt;style> <em></p>\n<blockquote>\n  &lt;xmp> is disallowed.  &lt;XMP> is also disallowed.\n</blockquote>"
+      "answer": {
+        "gfm": {
+          "html": "<p><strong> &lt;title> &lt;style> <em></p>\n<blockquote>\n  &lt;xmp> is disallowed.  &lt;XMP> is also disallowed.\n</blockquote>"
+        }
+      }
     }
   ]
 }

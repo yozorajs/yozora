@@ -4,25 +4,12 @@
     {
       "description": "If a backslash is itself escaped, the following character is not",
       "input": "\\\\*emphasis*",
-      "markupAnswer": "\\\\*emphasis*",
-      "htmlAnswer": "<p>\\<em>emphasis</em></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 13,
-            "offset": 12
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "\\\\*emphasis*",
+          "html": "<p>\\<em>emphasis</em></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,28 +24,12 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
                     "column": 1,
                     "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 3,
-                    "offset": 2
-                  }
-                },
-                "value": "\\"
-              },
-              {
-                "type": "emphasis",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 3,
-                    "offset": 2
                   },
                   "end": {
                     "line": 1,
@@ -72,22 +43,55 @@
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 4,
-                        "offset": 3
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 1,
-                        "column": 12,
-                        "offset": 11
+                        "column": 3,
+                        "offset": 2
                       }
                     },
-                    "value": "emphasis"
+                    "value": "\\"
+                  },
+                  {
+                    "type": "emphasis",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 13,
+                        "offset": 12
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 4,
+                            "offset": 3
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 12,
+                            "offset": 11
+                          }
+                        },
+                        "value": "emphasis"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

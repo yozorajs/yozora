@@ -4,48 +4,17 @@
     {
       "description": "This is not a link reference definition, because it occurs inside a code block",
       "input": "```\n[foo]: /url\n```\n\n[foo]",
-      "markupAnswer": "```\n[foo]: /url\n```\n\n[foo]",
-      "htmlAnswer": "<pre><code>[foo]: /url\n</code></pre>\n<p>[foo]</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 5,
-            "column": 6,
-            "offset": 26
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "```\n[foo]: /url\n```\n\n[foo]",
+          "html": "<pre><code>[foo]: /url\n</code></pre>\n<p>[foo]</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 4,
-                "column": 1,
-                "offset": 20
-              }
-            },
-            "lang": null,
-            "meta": null,
-            "value": "[foo]: /url\n"
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 5,
-                "column": 1,
-                "offset": 21
               },
               "end": {
                 "line": 5,
@@ -55,7 +24,25 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 20
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "[foo]: /url\n"
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 5,
@@ -68,11 +55,28 @@
                     "offset": 26
                   }
                 },
-                "value": "[foo]"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 5,
+                        "column": 1,
+                        "offset": 21
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 6,
+                        "offset": 26
+                      }
+                    },
+                    "value": "[foo]"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

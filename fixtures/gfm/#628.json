@@ -4,25 +4,12 @@
     {
       "description": "< immediately ends an autolink.",
       "input": "www.commonmark.org/he<lp",
-      "markupAnswer": "[www.commonmark.org/he](http://www.commonmark.org/he)<lp",
-      "htmlAnswer": "<p><a href=\"http://www.commonmark.org/he\">www.commonmark.org/he</a>&lt;lp</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 25,
-            "offset": 24
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "[www.commonmark.org/he](http://www.commonmark.org/he)<lp",
+          "html": "<p><a href=\"http://www.commonmark.org/he\">www.commonmark.org/he</a>&lt;lp</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "link",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,14 +33,13 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 22,
-                    "offset": 21
+                    "column": 25,
+                    "offset": 24
                   }
                 },
-                "url": "http://www.commonmark.org/he",
                 "children": [
                   {
-                    "type": "text",
+                    "type": "link",
                     "position": {
                       "start": {
                         "line": 1,
@@ -66,29 +52,47 @@
                         "offset": 21
                       }
                     },
-                    "value": "www.commonmark.org/he"
+                    "url": "http://www.commonmark.org/he",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 22,
+                            "offset": 21
+                          }
+                        },
+                        "value": "www.commonmark.org/he"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 22,
+                        "offset": 21
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 25,
+                        "offset": 24
+                      }
+                    },
+                    "value": "<lp"
                   }
                 ]
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 22,
-                    "offset": 21
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 25,
-                    "offset": 24
-                  }
-                },
-                "value": "<lp"
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

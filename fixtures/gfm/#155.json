@@ -4,25 +4,12 @@
     {
       "description": "However, a following blank line is needed, except at the end of a document, and except for blocks of types 1–5, above",
       "input": "<div>\nbar\n</div>\n*foo*",
-      "markupAnswer": "<div>\nbar\n</div>\n*foo*",
-      "htmlAnswer": "<div>\nbar\n</div>\n*foo*",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 6,
-            "offset": 22
-          }
-        },
-        "children": [
-          {
-            "type": "html",
+      "answer": {
+        "gfm": {
+          "markup": "<div>\nbar\n</div>\n*foo*",
+          "html": "<div>\nbar\n</div>\n*foo*",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,9 +22,26 @@
                 "offset": 22
               }
             },
-            "value": "<div>\nbar\n</div>\n*foo*"
+            "children": [
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 6,
+                    "offset": 22
+                  }
+                },
+                "value": "<div>\nbar\n</div>\n*foo*"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

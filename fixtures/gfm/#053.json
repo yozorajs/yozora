@@ -4,25 +4,12 @@
     {
       "description": "The underlining can be any length",
       "input": "Foo\n-------------------------\n\nFoo\n=",
-      "markupAnswer": "Foo\n---\n\nFoo\n===",
-      "htmlAnswer": "<h2>Foo</h2>\n<h1>Foo</h1>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 5,
-            "column": 2,
-            "offset": 36
-          }
-        },
-        "children": [
-          {
-            "type": "heading",
+      "answer": {
+        "gfm": {
+          "markup": "Foo\n---\n\nFoo\n===",
+          "html": "<h2>Foo</h2>\n<h1>Foo</h1>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -30,15 +17,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 3,
-                "column": 1,
-                "offset": 30
+                "line": 5,
+                "column": 2,
+                "offset": 36
               }
             },
-            "depth": 2,
             "children": [
               {
-                "type": "text",
+                "type": "heading",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,33 +32,33 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 4,
-                    "offset": 3
+                    "line": 3,
+                    "column": 1,
+                    "offset": 30
                   }
                 },
-                "value": "Foo"
-              }
-            ]
-          },
-          {
-            "type": "heading",
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 31
+                "depth": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      }
+                    },
+                    "value": "Foo"
+                  }
+                ]
               },
-              "end": {
-                "line": 5,
-                "column": 2,
-                "offset": 36
-              }
-            },
-            "depth": 1,
-            "children": [
               {
-                "type": "text",
+                "type": "heading",
                 "position": {
                   "start": {
                     "line": 4,
@@ -80,16 +66,34 @@
                     "offset": 31
                   },
                   "end": {
-                    "line": 4,
-                    "column": 4,
-                    "offset": 34
+                    "line": 5,
+                    "column": 2,
+                    "offset": 36
                   }
                 },
-                "value": "Foo"
+                "depth": 1,
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 4,
+                        "column": 1,
+                        "offset": 31
+                      },
+                      "end": {
+                        "line": 4,
+                        "column": 4,
+                        "offset": 34
+                      }
+                    },
+                    "value": "Foo"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

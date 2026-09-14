@@ -4,25 +4,12 @@
     {
       "description": "This is not strong emphasis, because the opening __ is preceded by an alphanumeric and followed by punctuation",
       "input": "a__\"foo\"__",
-      "markupAnswer": "a__\"foo\"__",
-      "htmlAnswer": "<p>a__&quot;foo&quot;__</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 11,
-            "offset": 10
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "a__\"foo\"__",
+          "html": "<p>a__&quot;foo&quot;__</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -50,11 +37,28 @@
                     "offset": 10
                   }
                 },
-                "value": "a__\"foo\"__"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 11,
+                        "offset": 10
+                      }
+                    },
+                    "value": "a__\"foo\"__"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

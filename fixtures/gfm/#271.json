@@ -4,25 +4,12 @@
     {
       "description": "These examples show how laziness can work in nested structures",
       "input": "> 1. > Blockquote\n> continued here.",
-      "markupAnswer": "> 1. > Blockquote\n>    > continued here.",
-      "htmlAnswer": "<blockquote>\n<ol>\n<li>\n<blockquote>\n<p>Blockquote\ncontinued here.</p>\n</blockquote>\n</li>\n</ol>\n</blockquote>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 18,
-            "offset": 35
-          }
-        },
-        "children": [
-          {
-            "type": "blockquote",
+      "answer": {
+        "gfm": {
+          "markup": "> 1. > Blockquote\n>    > continued here.",
+          "html": "<blockquote>\n<ol>\n<li>\n<blockquote>\n<p>Blockquote\ncontinued here.</p>\n</blockquote>\n</li>\n</ol>\n</blockquote>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,12 +24,12 @@
             },
             "children": [
               {
-                "type": "list",
+                "type": "blockquote",
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 3,
-                    "offset": 2
+                    "column": 1,
+                    "offset": 0
                   },
                   "end": {
                     "line": 2,
@@ -50,14 +37,9 @@
                     "offset": 35
                   }
                 },
-                "ordered": true,
-                "orderType": "1",
-                "start": 1,
-                "marker": 46,
-                "spread": false,
                 "children": [
                   {
-                    "type": "listItem",
+                    "type": "list",
                     "position": {
                       "start": {
                         "line": 1,
@@ -70,14 +52,19 @@
                         "offset": 35
                       }
                     },
+                    "ordered": true,
+                    "orderType": "1",
+                    "start": 1,
+                    "marker": 46,
+                    "spread": false,
                     "children": [
                       {
-                        "type": "blockquote",
+                        "type": "listItem",
                         "position": {
                           "start": {
                             "line": 1,
-                            "column": 6,
-                            "offset": 5
+                            "column": 3,
+                            "offset": 2
                           },
                           "end": {
                             "line": 2,
@@ -87,12 +74,12 @@
                         },
                         "children": [
                           {
-                            "type": "paragraph",
+                            "type": "blockquote",
                             "position": {
                               "start": {
                                 "line": 1,
-                                "column": 8,
-                                "offset": 7
+                                "column": 6,
+                                "offset": 5
                               },
                               "end": {
                                 "line": 2,
@@ -102,7 +89,7 @@
                             },
                             "children": [
                               {
-                                "type": "text",
+                                "type": "paragraph",
                                 "position": {
                                   "start": {
                                     "line": 1,
@@ -115,7 +102,24 @@
                                     "offset": 35
                                   }
                                 },
-                                "value": "Blockquote\ncontinued here."
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "position": {
+                                      "start": {
+                                        "line": 1,
+                                        "column": 8,
+                                        "offset": 7
+                                      },
+                                      "end": {
+                                        "line": 2,
+                                        "column": 18,
+                                        "offset": 35
+                                      }
+                                    },
+                                    "value": "Blockquote\ncontinued here."
+                                  }
+                                ]
                               }
                             ]
                           }
@@ -127,7 +131,7 @@
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

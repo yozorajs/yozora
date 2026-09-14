@@ -3,9 +3,9 @@ import { parsers } from 'vitest.setup'
 import { AdmonitionTokenizer } from '../src'
 
 createTokenizerTesters(
-  parsers.gfm.useTokenizer(new AdmonitionTokenizer()),
-  parsers.gfmEx.useTokenizer(new AdmonitionTokenizer()),
-  parsers.yozora,
+  ['gfm', parsers.gfm.useTokenizer(new AdmonitionTokenizer())],
+  ['gfm-ex', parsers.gfmEx.useTokenizer(new AdmonitionTokenizer())],
+  ['yozora', parsers.yozora],
 ).forEach(tester => {
   tester.scan('custom/admonition').runTest()
 })

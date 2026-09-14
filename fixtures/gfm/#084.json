@@ -4,48 +4,17 @@
     {
       "description": "However, any non-blank line with fewer than four leading spaces ends the code block immediately. So a paragraph may occur immediately after indented code",
       "input": "    foo\nbar",
-      "markupAnswer": "```\nfoo\n```\n\nbar",
-      "htmlAnswer": "<pre><code>foo\n</code></pre>\n<p>bar</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 4,
-            "offset": 11
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "```\nfoo\n```\n\nbar",
+          "html": "<pre><code>foo\n</code></pre>\n<p>bar</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 8
-              }
-            },
-            "lang": null,
-            "meta": null,
-            "value": "foo\n"
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 2,
-                "column": 1,
-                "offset": 8
               },
               "end": {
                 "line": 2,
@@ -55,7 +24,25 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 8
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "foo\n"
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 2,
@@ -68,11 +55,28 @@
                     "offset": 11
                   }
                 },
-                "value": "bar"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 8
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 4,
+                        "offset": 11
+                      }
+                    },
+                    "value": "bar"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

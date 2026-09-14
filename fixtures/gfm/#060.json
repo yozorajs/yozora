@@ -4,25 +4,12 @@
     {
       "description": "Nor does a backslash at the end",
       "input": "Foo\\\n----",
-      "markupAnswer": "Foo\\\\\n---",
-      "htmlAnswer": "<h2>Foo\\</h2>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 5,
-            "offset": 9
-          }
-        },
-        "children": [
-          {
-            "type": "heading",
+      "answer": {
+        "gfm": {
+          "markup": "Foo\\\\\n---",
+          "html": "<h2>Foo\\</h2>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,10 +22,9 @@
                 "offset": 9
               }
             },
-            "depth": 2,
             "children": [
               {
-                "type": "text",
+                "type": "heading",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,16 +32,34 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
+                    "line": 2,
                     "column": 5,
-                    "offset": 4
+                    "offset": 9
                   }
                 },
-                "value": "Foo\\"
+                "depth": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      }
+                    },
+                    "value": "Foo\\"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

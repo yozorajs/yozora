@@ -4,25 +4,12 @@
     {
       "description": "A list may be the first block in a list item",
       "input": "- - foo",
-      "markupAnswer": "- - foo",
-      "htmlAnswer": "<ul>\n<li>\n<ul>\n<li>foo</li>\n</ul>\n</li>\n</ul>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 8,
-            "offset": 7
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "- - foo",
+          "html": "<ul>\n<li>\n<ul>\n<li>foo</li>\n</ul>\n</li>\n</ul>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,12 +22,9 @@
                 "offset": 7
               }
             },
-            "ordered": false,
-            "marker": 45,
-            "spread": false,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -53,14 +37,17 @@
                     "offset": 7
                   }
                 },
+                "ordered": false,
+                "marker": 45,
+                "spread": false,
                 "children": [
                   {
-                    "type": "list",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 3,
-                        "offset": 2
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 1,
@@ -68,12 +55,9 @@
                         "offset": 7
                       }
                     },
-                    "ordered": false,
-                    "marker": 45,
-                    "spread": false,
                     "children": [
                       {
-                        "type": "listItem",
+                        "type": "list",
                         "position": {
                           "start": {
                             "line": 1,
@@ -86,14 +70,17 @@
                             "offset": 7
                           }
                         },
+                        "ordered": false,
+                        "marker": 45,
+                        "spread": false,
                         "children": [
                           {
-                            "type": "text",
+                            "type": "listItem",
                             "position": {
                               "start": {
                                 "line": 1,
-                                "column": 5,
-                                "offset": 4
+                                "column": 3,
+                                "offset": 2
                               },
                               "end": {
                                 "line": 1,
@@ -101,7 +88,24 @@
                                 "offset": 7
                               }
                             },
-                            "value": "foo"
+                            "children": [
+                              {
+                                "type": "text",
+                                "position": {
+                                  "start": {
+                                    "line": 1,
+                                    "column": 5,
+                                    "offset": 4
+                                  },
+                                  "end": {
+                                    "line": 1,
+                                    "column": 8,
+                                    "offset": 7
+                                  }
+                                },
+                                "value": "foo"
+                              }
+                            ]
                           }
                         ]
                       }
@@ -111,7 +115,7 @@
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

@@ -4,25 +4,12 @@
     {
       "description": "Finally, in this case, the <del> tags are interpreted as raw HTML inside the CommonMark paragraph. (Because the tag is not on a line by itself, we get inline HTML rather than an HTML block.)",
       "input": "<del>*foo*</del>",
-      "markupAnswer": "<del>*foo*</del>",
-      "htmlAnswer": "<p><del><em>foo</em></del></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 17,
-            "offset": 16
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "<del>*foo*</del>",
+          "html": "<p><del><em>foo</em></del></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "html",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,64 +33,81 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 6,
-                    "offset": 5
-                  }
-                },
-                "value": "<del>"
-              },
-              {
-                "type": "emphasis",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 6,
-                    "offset": 5
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 11,
-                    "offset": 10
-                  }
-                },
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 10,
-                        "offset": 9
-                      }
-                    },
-                    "value": "foo"
-                  }
-                ]
-              },
-              {
-                "type": "html",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 11,
-                    "offset": 10
-                  },
-                  "end": {
-                    "line": 1,
                     "column": 17,
                     "offset": 16
                   }
                 },
-                "value": "</del>"
+                "children": [
+                  {
+                    "type": "html",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 6,
+                        "offset": 5
+                      }
+                    },
+                    "value": "<del>"
+                  },
+                  {
+                    "type": "emphasis",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 6,
+                        "offset": 5
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 11,
+                        "offset": 10
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 7,
+                            "offset": 6
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 10,
+                            "offset": 9
+                          }
+                        },
+                        "value": "foo"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "html",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 11,
+                        "offset": 10
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 17,
+                        "offset": 16
+                      }
+                    },
+                    "value": "</del>"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

@@ -4,25 +4,12 @@
     {
       "description": "Here is a link reference definition with no corresponding link. It contributes nothing to the document.",
       "input": "[foo]: /url",
-      "markupAnswer": "[foo]: /url",
-      "htmlAnswer": "",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 12,
-            "offset": 11
-          }
-        },
-        "children": [
-          {
-            "type": "definition",
+      "answer": {
+        "gfm": {
+          "markup": "[foo]: /url",
+          "html": "",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 11
               }
             },
-            "identifier": "foo",
-            "label": "foo",
-            "url": "/url"
+            "children": [
+              {
+                "type": "definition",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 12,
+                    "offset": 11
+                  }
+                },
+                "identifier": "foo",
+                "label": "foo",
+                "url": "/url"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

@@ -4,63 +4,17 @@
     {
       "description": "Block quotes can interrupt paragraphs",
       "input": "foo\n> bar",
-      "markupAnswer": "foo\n\n> bar",
-      "htmlAnswer": "<p>foo</p>\n<blockquote>\n<p>bar</p>\n</blockquote>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 6,
-            "offset": 9
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "foo\n\n> bar",
+          "html": "<p>foo</p>\n<blockquote>\n<p>bar</p>\n</blockquote>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 4
-              }
-            },
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 4,
-                    "offset": 3
-                  }
-                },
-                "value": "foo"
-              }
-            ]
-          },
-          {
-            "type": "blockquote",
-            "position": {
-              "start": {
-                "line": 2,
-                "column": 1,
-                "offset": 4
               },
               "end": {
                 "line": 2,
@@ -73,9 +27,42 @@
                 "type": "paragraph",
                 "position": {
                   "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
                     "line": 2,
-                    "column": 3,
-                    "offset": 6
+                    "column": 1,
+                    "offset": 4
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      }
+                    },
+                    "value": "foo"
+                  }
+                ]
+              },
+              {
+                "type": "blockquote",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 4
                   },
                   "end": {
                     "line": 2,
@@ -85,7 +72,7 @@
                 },
                 "children": [
                   {
-                    "type": "text",
+                    "type": "paragraph",
                     "position": {
                       "start": {
                         "line": 2,
@@ -98,13 +85,30 @@
                         "offset": 9
                       }
                     },
-                    "value": "bar"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 2,
+                            "column": 3,
+                            "offset": 6
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 6,
+                            "offset": 9
+                          }
+                        },
+                        "value": "bar"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

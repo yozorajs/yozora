@@ -4,25 +4,12 @@
     {
       "description": "However, if you have unbalanced parentheses, you need to escape or use the <...> form",
       "input": "[link](<foo(and(bar)>)",
-      "markupAnswer": "[link](<foo(and(bar)>)",
-      "htmlAnswer": "<p><a href=\"foo(and(bar)\">link</a></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 23,
-            "offset": 22
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "[link](<foo(and(bar)>)",
+          "html": "<p><a href=\"foo(and(bar)\">link</a></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "link",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -50,29 +37,46 @@
                     "offset": 22
                   }
                 },
-                "url": "foo(and(bar)",
                 "children": [
                   {
-                    "type": "text",
+                    "type": "link",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 2,
-                        "offset": 1
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 1,
-                        "column": 6,
-                        "offset": 5
+                        "column": 23,
+                        "offset": 22
                       }
                     },
-                    "value": "link"
+                    "url": "foo(and(bar)",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 2,
+                            "offset": 1
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 6,
+                            "offset": 5
+                          }
+                        },
+                        "value": "link"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

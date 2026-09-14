@@ -4,25 +4,12 @@
     {
       "description": "This is a tight list, because the blank line is between two paragraphs of a sublist. So the sublist is loose while the outer list is tight",
       "input": "- a\n  - b\n\n    c\n- d",
-      "markupAnswer": "- a\n  - b\n    \n    c\n- d",
-      "htmlAnswer": "<ul>\n<li>a\n<ul>\n<li>\n<p>b</p>\n<p>c</p>\n</li>\n</ul>\n</li>\n<li>d</li>\n</ul>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 5,
-            "column": 4,
-            "offset": 20
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "- a\n  - b\n    \n    c\n- d",
+          "html": "<ul>\n<li>a\n<ul>\n<li>\n<p>b</p>\n<p>c</p>\n</li>\n</ul>\n</li>\n<li>d</li>\n</ul>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,12 +22,9 @@
                 "offset": 20
               }
             },
-            "ordered": false,
-            "marker": 45,
-            "spread": false,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -49,34 +33,21 @@
                   },
                   "end": {
                     "line": 5,
-                    "column": 1,
-                    "offset": 17
+                    "column": 4,
+                    "offset": 20
                   }
                 },
+                "ordered": false,
+                "marker": 45,
+                "spread": false,
                 "children": [
                   {
-                    "type": "text",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 3,
-                        "offset": 2
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 4,
-                        "offset": 3
-                      }
-                    },
-                    "value": "a"
-                  },
-                  {
-                    "type": "list",
-                    "position": {
-                      "start": {
-                        "line": 2,
-                        "column": 3,
-                        "offset": 6
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 5,
@@ -84,12 +55,25 @@
                         "offset": 17
                       }
                     },
-                    "ordered": false,
-                    "marker": 45,
-                    "spread": true,
                     "children": [
                       {
-                        "type": "listItem",
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 4,
+                            "offset": 3
+                          }
+                        },
+                        "value": "a"
+                      },
+                      {
+                        "type": "list",
                         "position": {
                           "start": {
                             "line": 2,
@@ -102,47 +86,17 @@
                             "offset": 17
                           }
                         },
+                        "ordered": false,
+                        "marker": 45,
+                        "spread": true,
                         "children": [
                           {
-                            "type": "paragraph",
+                            "type": "listItem",
                             "position": {
                               "start": {
                                 "line": 2,
-                                "column": 5,
-                                "offset": 8
-                              },
-                              "end": {
-                                "line": 3,
-                                "column": 1,
-                                "offset": 10
-                              }
-                            },
-                            "children": [
-                              {
-                                "type": "text",
-                                "position": {
-                                  "start": {
-                                    "line": 2,
-                                    "column": 5,
-                                    "offset": 8
-                                  },
-                                  "end": {
-                                    "line": 2,
-                                    "column": 6,
-                                    "offset": 9
-                                  }
-                                },
-                                "value": "b"
-                              }
-                            ]
-                          },
-                          {
-                            "type": "paragraph",
-                            "position": {
-                              "start": {
-                                "line": 4,
-                                "column": 5,
-                                "offset": 15
+                                "column": 3,
+                                "offset": 6
                               },
                               "end": {
                                 "line": 5,
@@ -152,7 +106,40 @@
                             },
                             "children": [
                               {
-                                "type": "text",
+                                "type": "paragraph",
+                                "position": {
+                                  "start": {
+                                    "line": 2,
+                                    "column": 5,
+                                    "offset": 8
+                                  },
+                                  "end": {
+                                    "line": 3,
+                                    "column": 1,
+                                    "offset": 10
+                                  }
+                                },
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "position": {
+                                      "start": {
+                                        "line": 2,
+                                        "column": 5,
+                                        "offset": 8
+                                      },
+                                      "end": {
+                                        "line": 2,
+                                        "column": 6,
+                                        "offset": 9
+                                      }
+                                    },
+                                    "value": "b"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "paragraph",
                                 "position": {
                                   "start": {
                                     "line": 4,
@@ -160,43 +147,43 @@
                                     "offset": 15
                                   },
                                   "end": {
-                                    "line": 4,
-                                    "column": 6,
-                                    "offset": 16
+                                    "line": 5,
+                                    "column": 1,
+                                    "offset": 17
                                   }
                                 },
-                                "value": "c"
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "position": {
+                                      "start": {
+                                        "line": 4,
+                                        "column": 5,
+                                        "offset": 15
+                                      },
+                                      "end": {
+                                        "line": 4,
+                                        "column": 6,
+                                        "offset": 16
+                                      }
+                                    },
+                                    "value": "c"
+                                  }
+                                ]
                               }
                             ]
                           }
                         ]
                       }
                     ]
-                  }
-                ]
-              },
-              {
-                "type": "listItem",
-                "position": {
-                  "start": {
-                    "line": 5,
-                    "column": 1,
-                    "offset": 17
                   },
-                  "end": {
-                    "line": 5,
-                    "column": 4,
-                    "offset": 20
-                  }
-                },
-                "children": [
                   {
-                    "type": "text",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 5,
-                        "column": 3,
-                        "offset": 19
+                        "column": 1,
+                        "offset": 17
                       },
                       "end": {
                         "line": 5,
@@ -204,13 +191,30 @@
                         "offset": 20
                       }
                     },
-                    "value": "d"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 5,
+                            "column": 3,
+                            "offset": 19
+                          },
+                          "end": {
+                            "line": 5,
+                            "column": 4,
+                            "offset": 20
+                          }
+                        },
+                        "value": "d"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

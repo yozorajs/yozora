@@ -4,46 +4,17 @@
     {
       "description": "A script tag (type 1)",
       "input": "<script type=\"text/javascript\">\n// JavaScript example\n\ndocument.getElementById(\"demo\").innerHTML = \"Hello JavaScript!\";\n</script>\nokay",
-      "markupAnswer": "<script type=\"text/javascript\">\n// JavaScript example\n\ndocument.getElementById(\"demo\").innerHTML = \"Hello JavaScript!\";\n</script>\n\nokay",
-      "htmlAnswer": "<script type=\"text/javascript\">\n// JavaScript example\n\ndocument.getElementById(\"demo\").innerHTML = \"Hello JavaScript!\";\n</script>\n<p>okay</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 6,
-            "column": 5,
-            "offset": 134
-          }
-        },
-        "children": [
-          {
-            "type": "html",
+      "answer": {
+        "gfm": {
+          "markup": "<script type=\"text/javascript\">\n// JavaScript example\n\ndocument.getElementById(\"demo\").innerHTML = \"Hello JavaScript!\";\n</script>\n\nokay",
+          "html": "<script type=\"text/javascript\">\n// JavaScript example\n\ndocument.getElementById(\"demo\").innerHTML = \"Hello JavaScript!\";\n</script>\n<p>okay</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 6,
-                "column": 1,
-                "offset": 130
-              }
-            },
-            "value": "<script type=\"text/javascript\">\n// JavaScript example\n\ndocument.getElementById(\"demo\").innerHTML = \"Hello JavaScript!\";\n</script>\n"
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 6,
-                "column": 1,
-                "offset": 130
               },
               "end": {
                 "line": 6,
@@ -53,7 +24,23 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 1,
+                    "offset": 130
+                  }
+                },
+                "value": "<script type=\"text/javascript\">\n// JavaScript example\n\ndocument.getElementById(\"demo\").innerHTML = \"Hello JavaScript!\";\n</script>\n"
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 6,
@@ -66,11 +53,28 @@
                     "offset": 134
                   }
                 },
-                "value": "okay"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 6,
+                        "column": 1,
+                        "offset": 130
+                      },
+                      "end": {
+                        "line": 6,
+                        "column": 5,
+                        "offset": 134
+                      }
+                    },
+                    "value": "okay"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

@@ -4,25 +4,12 @@
     {
       "description": "Comments",
       "input": "foo <!-- this is a\ncomment - with hyphen -->",
-      "markupAnswer": "foo <!-- this is a\ncomment - with hyphen -->",
-      "htmlAnswer": "<p>foo <!-- this is a\ncomment - with hyphen --></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 26,
-            "offset": 44
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "foo <!-- this is a\ncomment - with hyphen -->",
+          "html": "<p>foo <!-- this is a\ncomment - with hyphen --></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,32 +32,49 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 5,
-                    "offset": 4
-                  }
-                },
-                "value": "foo "
-              },
-              {
-                "type": "html",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 5,
-                    "offset": 4
-                  },
-                  "end": {
                     "line": 2,
                     "column": 26,
                     "offset": 44
                   }
                 },
-                "value": "<!-- this is a\ncomment - with hyphen -->"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      }
+                    },
+                    "value": "foo "
+                  },
+                  {
+                    "type": "html",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 26,
+                        "offset": 44
+                      }
+                    },
+                    "value": "<!-- this is a\ncomment - with hyphen -->"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

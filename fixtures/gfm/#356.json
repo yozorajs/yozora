@@ -4,25 +4,12 @@
     {
       "description": "But this is an autolink",
       "input": "<http://foo.bar.`baz>`",
-      "markupAnswer": "[http://foo.bar.\\`baz](http://foo.bar.%60baz)`",
-      "htmlAnswer": "<p><a href=\"http://foo.bar.%60baz\">http://foo.bar.`baz</a>`</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 23,
-            "offset": 22
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "[http://foo.bar.\\`baz](http://foo.bar.%60baz)`",
+          "html": "<p><a href=\"http://foo.bar.%60baz\">http://foo.bar.`baz</a>`</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "link",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,49 +33,66 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 22,
-                    "offset": 21
+                    "column": 23,
+                    "offset": 22
                   }
                 },
-                "url": "http://foo.bar.%60baz",
                 "children": [
+                  {
+                    "type": "link",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 22,
+                        "offset": 21
+                      }
+                    },
+                    "url": "http://foo.bar.%60baz",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 2,
+                            "offset": 1
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 21,
+                            "offset": 20
+                          }
+                        },
+                        "value": "http://foo.bar.`baz"
+                      }
+                    ]
+                  },
                   {
                     "type": "text",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 2,
-                        "offset": 1
+                        "column": 22,
+                        "offset": 21
                       },
                       "end": {
                         "line": 1,
-                        "column": 21,
-                        "offset": 20
+                        "column": 23,
+                        "offset": 22
                       }
                     },
-                    "value": "http://foo.bar.`baz"
+                    "value": "`"
                   }
                 ]
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 22,
-                    "offset": 21
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 23,
-                    "offset": 22
-                  }
-                },
-                "value": "`"
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

@@ -4,25 +4,12 @@
     {
       "description": "This is a loose list, because there is a blank line between two of the list items",
       "input": "- a\n- b\n\n- c",
-      "markupAnswer": "- a\n\n- b\n\n- c",
-      "htmlAnswer": "<ul>\n<li>\n<p>a</p>\n</li>\n<li>\n<p>b</p>\n</li>\n<li>\n<p>c</p>\n</li>\n</ul>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 4,
-            "offset": 12
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "- a\n\n- b\n\n- c",
+          "html": "<ul>\n<li>\n<p>a</p>\n</li>\n<li>\n<p>b</p>\n</li>\n<li>\n<p>c</p>\n</li>\n</ul>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,12 +22,9 @@
                 "offset": 12
               }
             },
-            "ordered": false,
-            "marker": 45,
-            "spread": true,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -48,19 +32,22 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 4
+                    "line": 4,
+                    "column": 4,
+                    "offset": 12
                   }
                 },
+                "ordered": false,
+                "marker": 45,
+                "spread": true,
                 "children": [
                   {
-                    "type": "paragraph",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 3,
-                        "offset": 2
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 2,
@@ -70,7 +57,7 @@
                     },
                     "children": [
                       {
-                        "type": "text",
+                        "type": "paragraph",
                         "position": {
                           "start": {
                             "line": 1,
@@ -78,39 +65,39 @@
                             "offset": 2
                           },
                           "end": {
-                            "line": 1,
-                            "column": 4,
-                            "offset": 3
+                            "line": 2,
+                            "column": 1,
+                            "offset": 4
                           }
                         },
-                        "value": "a"
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 3,
+                                "offset": 2
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 4,
+                                "offset": 3
+                              }
+                            },
+                            "value": "a"
+                          }
+                        ]
                       }
                     ]
-                  }
-                ]
-              },
-              {
-                "type": "listItem",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 4
                   },
-                  "end": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 8
-                  }
-                },
-                "children": [
                   {
-                    "type": "paragraph",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 2,
-                        "column": 3,
-                        "offset": 6
+                        "column": 1,
+                        "offset": 4
                       },
                       "end": {
                         "line": 3,
@@ -120,7 +107,7 @@
                     },
                     "children": [
                       {
-                        "type": "text",
+                        "type": "paragraph",
                         "position": {
                           "start": {
                             "line": 2,
@@ -128,39 +115,39 @@
                             "offset": 6
                           },
                           "end": {
-                            "line": 2,
-                            "column": 4,
-                            "offset": 7
+                            "line": 3,
+                            "column": 1,
+                            "offset": 8
                           }
                         },
-                        "value": "b"
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 2,
+                                "column": 3,
+                                "offset": 6
+                              },
+                              "end": {
+                                "line": 2,
+                                "column": 4,
+                                "offset": 7
+                              }
+                            },
+                            "value": "b"
+                          }
+                        ]
                       }
                     ]
-                  }
-                ]
-              },
-              {
-                "type": "listItem",
-                "position": {
-                  "start": {
-                    "line": 4,
-                    "column": 1,
-                    "offset": 9
                   },
-                  "end": {
-                    "line": 4,
-                    "column": 4,
-                    "offset": 12
-                  }
-                },
-                "children": [
                   {
-                    "type": "paragraph",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 4,
-                        "column": 3,
-                        "offset": 11
+                        "column": 1,
+                        "offset": 9
                       },
                       "end": {
                         "line": 4,
@@ -170,7 +157,7 @@
                     },
                     "children": [
                       {
-                        "type": "text",
+                        "type": "paragraph",
                         "position": {
                           "start": {
                             "line": 4,
@@ -183,7 +170,24 @@
                             "offset": 12
                           }
                         },
-                        "value": "c"
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 4,
+                                "column": 3,
+                                "offset": 11
+                              },
+                              "end": {
+                                "line": 4,
+                                "column": 4,
+                                "offset": 12
+                              }
+                            },
+                            "value": "c"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -191,7 +195,7 @@
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

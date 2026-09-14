@@ -3,12 +3,12 @@ import { createTokenizerTester, createTokenizerTesters } from '@yozora/test-util
 import { expect, test } from 'vitest'
 import { parsers, scanGfmFixtures } from 'vitest.setup'
 
-scanGfmFixtures(createTokenizerTester(parsers.gfm), {
+scanGfmFixtures(createTokenizerTester('gfm', parsers.gfm), {
   includeGroups: ['list', 'list-item'],
   excludeGroups: ['list-item/task list items(extension)'],
 }).runTest()
 
-createTokenizerTesters(parsers.gfmEx, parsers.yozora).forEach(tester => {
+createTokenizerTesters(['gfm-ex', parsers.gfmEx], ['yozora', parsers.yozora]).forEach(tester => {
   scanGfmFixtures(tester, { includeGroups: ['list', 'list-item'] })
     .scan('custom/list')
     .runTest()

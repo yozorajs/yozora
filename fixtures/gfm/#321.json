@@ -4,25 +4,12 @@
     {
       "description": "Entity references consist of & + any of the valid HTML5 entity names + ;. The document https://html.spec.whatwg.org/multipage/entities.json is used as an authoritative source for the valid entity references and their corresponding code points.",
       "input": "&nbsp; &amp; &copy; &AElig; &Dcaron;\n&frac34; &HilbertSpace; &DifferentialD;\n&ClockwiseContourIntegral; &ngE;",
-      "markupAnswer": "  & © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸",
-      "htmlAnswer": "<p>  &amp; © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 33,
-            "offset": 109
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "  & © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸",
+          "html": "<p>  &amp; © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -50,11 +37,28 @@
                     "offset": 109
                   }
                 },
-                "value": "  & © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 33,
+                        "offset": 109
+                      }
+                    },
+                    "value": "  & © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

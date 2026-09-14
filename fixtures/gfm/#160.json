@@ -4,25 +4,12 @@
     {
       "description": "There are problems, however, if the inner tags are indented and separated by spaces, as then they will be interpreted as an indented code block",
       "input": "<table>\n\n  <tr>\n\n    <td>\n      Hi\n    </td>\n\n  </tr>\n\n</table>",
-      "markupAnswer": "<table>\n\n  <tr>\n\n```\n<td>\n  Hi\n</td>\n```\n\n  </tr>\n\n</table>",
-      "htmlAnswer": "<table>\n  <tr>\n<pre><code>&lt;td&gt;\n  Hi\n&lt;/td&gt;\n</code></pre>\n  </tr>\n</table>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 11,
-            "column": 9,
-            "offset": 63
-          }
-        },
-        "children": [
-          {
-            "type": "html",
+      "answer": {
+        "gfm": {
+          "markup": "<table>\n\n  <tr>\n\n```\n<td>\n  Hi\n</td>\n```\n\n  </tr>\n\n</table>",
+          "html": "<table>\n  <tr>\n<pre><code>&lt;td&gt;\n  Hi\n&lt;/td&gt;\n</code></pre>\n  </tr>\n</table>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -30,80 +17,97 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 8
-              }
-            },
-            "value": "<table>\n"
-          },
-          {
-            "type": "html",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 9
-              },
-              "end": {
-                "line": 4,
-                "column": 1,
-                "offset": 16
-              }
-            },
-            "value": "  <tr>\n"
-          },
-          {
-            "type": "code",
-            "position": {
-              "start": {
-                "line": 5,
-                "column": 1,
-                "offset": 17
-              },
-              "end": {
-                "line": 9,
-                "column": 1,
-                "offset": 46
-              }
-            },
-            "lang": null,
-            "meta": null,
-            "value": "<td>\n  Hi\n</td>\n"
-          },
-          {
-            "type": "html",
-            "position": {
-              "start": {
-                "line": 9,
-                "column": 1,
-                "offset": 46
-              },
-              "end": {
-                "line": 10,
-                "column": 1,
-                "offset": 54
-              }
-            },
-            "value": "  </tr>\n"
-          },
-          {
-            "type": "html",
-            "position": {
-              "start": {
-                "line": 11,
-                "column": 1,
-                "offset": 55
-              },
-              "end": {
                 "line": 11,
                 "column": 9,
                 "offset": 63
               }
             },
-            "value": "</table>"
+            "children": [
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 8
+                  }
+                },
+                "value": "<table>\n"
+              },
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 9
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 16
+                  }
+                },
+                "value": "  <tr>\n"
+              },
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 17
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 46
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "<td>\n  Hi\n</td>\n"
+              },
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 46
+                  },
+                  "end": {
+                    "line": 10,
+                    "column": 1,
+                    "offset": 54
+                  }
+                },
+                "value": "  </tr>\n"
+              },
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 55
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 9,
+                    "offset": 63
+                  }
+                },
+                "value": "</table>"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

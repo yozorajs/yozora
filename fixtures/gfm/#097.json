@@ -4,25 +4,12 @@
     {
       "description": "Unclosed code blocks are closed by the end of the document (or the enclosing block quote or list item)",
       "input": "`````\n\n```\naaa",
-      "markupAnswer": "````\n\n```\naaa\n````",
-      "htmlAnswer": "<pre><code>\n```\naaa\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 4,
-            "offset": 14
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "````\n\n```\naaa\n````",
+          "html": "<pre><code>\n```\naaa\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 14
               }
             },
-            "lang": null,
-            "meta": null,
-            "value": "\n```\naaa\n"
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 4,
+                    "offset": 14
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "\n```\naaa\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

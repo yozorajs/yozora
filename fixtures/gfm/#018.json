@@ -4,25 +4,12 @@
     {
       "description": "Four spaces is too many",
       "input": "    ***",
-      "markupAnswer": "```\n***\n```",
-      "htmlAnswer": "<pre><code>***\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 8,
-            "offset": 7
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "```\n***\n```",
+          "html": "<pre><code>***\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 7
               }
             },
-            "lang": null,
-            "meta": null,
-            "value": "***\n"
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 8,
+                    "offset": 7
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "***\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

@@ -4,25 +4,12 @@
     {
       "description": "The contents of a code block are literal text, and do not get parsed as Markdown",
       "input": "    <a/>\n    *hi*\n\n    - one",
-      "markupAnswer": "```\n<a/>\n*hi*\n\n- one\n```",
-      "htmlAnswer": "<pre><code>&lt;a/&gt;\n*hi*\n\n- one\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 10,
-            "offset": 28
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "```\n<a/>\n*hi*\n\n- one\n```",
+          "html": "<pre><code>&lt;a/&gt;\n*hi*\n\n- one\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 28
               }
             },
-            "lang": null,
-            "meta": null,
-            "value": "<a/>\n*hi*\n\n- one\n"
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 10,
+                    "offset": 28
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "<a/>\n*hi*\n\n- one\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

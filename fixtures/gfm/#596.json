@@ -4,25 +4,12 @@
     {
       "description": "As with reference links, whitespace is not allowed between the two sets of brackets",
       "input": "![foo] \n[]\n\n[foo]: /url \"title\"",
-      "markupAnswer": "![foo][]\n[]\n\n[foo]: /url \"title\"",
-      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" />\n[]</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 20,
-            "offset": 31
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "![foo][]\n[]\n\n[foo]: /url \"title\"",
+          "html": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" />\n[]</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -30,14 +17,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 3,
-                "column": 1,
-                "offset": 11
+                "line": 4,
+                "column": 20,
+                "offset": 31
               }
             },
             "children": [
               {
-                "type": "imageReference",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,54 +32,71 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 7,
-                    "offset": 6
+                    "line": 3,
+                    "column": 1,
+                    "offset": 11
+                  }
+                },
+                "children": [
+                  {
+                    "type": "imageReference",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      }
+                    },
+                    "identifier": "foo",
+                    "label": "foo",
+                    "referenceType": "shortcut",
+                    "alt": "foo"
+                  },
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 3,
+                        "offset": 10
+                      }
+                    },
+                    "value": "\n[]"
+                  }
+                ]
+              },
+              {
+                "type": "definition",
+                "position": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 12
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 20,
+                    "offset": 31
                   }
                 },
                 "identifier": "foo",
                 "label": "foo",
-                "referenceType": "shortcut",
-                "alt": "foo"
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 7,
-                    "offset": 6
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 3,
-                    "offset": 10
-                  }
-                },
-                "value": "\n[]"
+                "url": "/url",
+                "title": "title"
               }
             ]
-          },
-          {
-            "type": "definition",
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 12
-              },
-              "end": {
-                "line": 4,
-                "column": 20,
-                "offset": 31
-              }
-            },
-            "identifier": "foo",
-            "label": "foo",
-            "url": "/url",
-            "title": "title"
           }
-        ]
+        }
       }
     }
   ]

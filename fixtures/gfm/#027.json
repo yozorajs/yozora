@@ -4,25 +4,12 @@
     {
       "description": "Thematic breaks do not need blank lines before or after",
       "input": "- foo\n***\n- bar",
-      "markupAnswer": "- foo\n\n---\n\n- bar",
-      "htmlAnswer": "<ul>\n<li>foo</li>\n</ul>\n<hr />\n<ul>\n<li>bar</li>\n</ul>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 6,
-            "offset": 15
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "- foo\n\n---\n\n- bar",
+          "html": "<ul>\n<li>foo</li>\n</ul>\n<hr />\n<ul>\n<li>bar</li>\n</ul>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -30,17 +17,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 6
+                "line": 3,
+                "column": 6,
+                "offset": 15
               }
             },
-            "ordered": false,
-            "marker": 45,
-            "spread": false,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -53,62 +37,62 @@
                     "offset": 6
                   }
                 },
+                "ordered": false,
+                "marker": 45,
+                "spread": false,
                 "children": [
                   {
-                    "type": "text",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 3,
-                        "offset": 2
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
-                        "line": 1,
-                        "column": 6,
-                        "offset": 5
+                        "line": 2,
+                        "column": 1,
+                        "offset": 6
                       }
                     },
-                    "value": "foo"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 6,
+                            "offset": 5
+                          }
+                        },
+                        "value": "foo"
+                      }
+                    ]
                   }
                 ]
-              }
-            ]
-          },
-          {
-            "type": "thematicBreak",
-            "position": {
-              "start": {
-                "line": 2,
-                "column": 1,
-                "offset": 6
               },
-              "end": {
-                "line": 3,
-                "column": 1,
-                "offset": 10
-              }
-            }
-          },
-          {
-            "type": "list",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 10
-              },
-              "end": {
-                "line": 3,
-                "column": 6,
-                "offset": 15
-              }
-            },
-            "ordered": false,
-            "marker": 45,
-            "spread": false,
-            "children": [
               {
-                "type": "listItem",
+                "type": "thematicBreak",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 6
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 10
+                  }
+                }
+              },
+              {
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 3,
@@ -121,14 +105,17 @@
                     "offset": 15
                   }
                 },
+                "ordered": false,
+                "marker": 45,
+                "spread": false,
                 "children": [
                   {
-                    "type": "text",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 3,
-                        "column": 3,
-                        "offset": 12
+                        "column": 1,
+                        "offset": 10
                       },
                       "end": {
                         "line": 3,
@@ -136,13 +123,30 @@
                         "offset": 15
                       }
                     },
-                    "value": "bar"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 3,
+                            "column": 3,
+                            "offset": 12
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 6,
+                            "offset": 15
+                          }
+                        },
+                        "value": "bar"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

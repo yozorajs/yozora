@@ -4,25 +4,12 @@
     {
       "description": "Here are some valid autolinks",
       "input": "<irc://foo.bar:2233/baz>",
-      "markupAnswer": "[irc://foo.bar:2233/baz](irc://foo.bar:2233/baz)",
-      "htmlAnswer": "<p><a href=\"irc://foo.bar:2233/baz\">irc://foo.bar:2233/baz</a></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 25,
-            "offset": 24
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "[irc://foo.bar:2233/baz](irc://foo.bar:2233/baz)",
+          "html": "<p><a href=\"irc://foo.bar:2233/baz\">irc://foo.bar:2233/baz</a></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "link",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -50,29 +37,46 @@
                     "offset": 24
                   }
                 },
-                "url": "irc://foo.bar:2233/baz",
                 "children": [
                   {
-                    "type": "text",
+                    "type": "link",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 2,
-                        "offset": 1
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 1,
-                        "column": 24,
-                        "offset": 23
+                        "column": 25,
+                        "offset": 24
                       }
                     },
-                    "value": "irc://foo.bar:2233/baz"
+                    "url": "irc://foo.bar:2233/baz",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 2,
+                            "offset": 1
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 24,
+                            "offset": 23
+                          }
+                        },
+                        "value": "irc://foo.bar:2233/baz"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

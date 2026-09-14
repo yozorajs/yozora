@@ -4,25 +4,12 @@
     {
       "description": "Rule 1",
       "input": "*foo bar*",
-      "markupAnswer": "*foo bar*",
-      "htmlAnswer": "<p><em>foo bar</em></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 10,
-            "offset": 9
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "*foo bar*",
+          "html": "<p><em>foo bar</em></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "emphasis",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -52,26 +39,43 @@
                 },
                 "children": [
                   {
-                    "type": "text",
+                    "type": "emphasis",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 2,
-                        "offset": 1
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 1,
-                        "column": 9,
-                        "offset": 8
+                        "column": 10,
+                        "offset": 9
                       }
                     },
-                    "value": "foo bar"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 2,
+                            "offset": 1
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 9,
+                            "offset": 8
+                          }
+                        },
+                        "value": "foo bar"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

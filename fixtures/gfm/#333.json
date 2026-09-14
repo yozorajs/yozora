@@ -4,24 +4,11 @@
     {
       "description": "Entity and numeric character references cannot be used in place of symbols indicating structure in CommonMark documents.",
       "input": "&#42;foo&#42;\n*foo*",
-      "htmlAnswer": "<p>*foo*\n<em>foo</em></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 6,
-            "offset": 19
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "html": "<p>*foo*\n<em>foo</em></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -36,28 +23,12 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
                     "column": 1,
                     "offset": 0
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 14
-                  }
-                },
-                "value": "*foo*\n"
-              },
-              {
-                "type": "emphasis",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 14
                   },
                   "end": {
                     "line": 2,
@@ -70,23 +41,56 @@
                     "type": "text",
                     "position": {
                       "start": {
-                        "line": 2,
-                        "column": 2,
-                        "offset": 15
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 2,
-                        "column": 5,
-                        "offset": 18
+                        "column": 1,
+                        "offset": 14
                       }
                     },
-                    "value": "foo"
+                    "value": "*foo*\n"
+                  },
+                  {
+                    "type": "emphasis",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 14
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 6,
+                        "offset": 19
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 2,
+                            "column": 2,
+                            "offset": 15
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 5,
+                            "offset": 18
+                          }
+                        },
+                        "value": "foo"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

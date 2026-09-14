@@ -4,25 +4,12 @@
     {
       "description": "Rule 13 implies that if you want emphasis nested directly inside emphasis, you must use different delimiters",
       "input": "**foo**",
-      "markupAnswer": "**foo**",
-      "htmlAnswer": "<p><strong>foo</strong></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 8,
-            "offset": 7
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "**foo**",
+          "html": "<p><strong>foo</strong></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "strong",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -52,26 +39,43 @@
                 },
                 "children": [
                   {
-                    "type": "text",
+                    "type": "strong",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 3,
-                        "offset": 2
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 1,
-                        "column": 6,
-                        "offset": 5
+                        "column": 8,
+                        "offset": 7
                       }
                     },
-                    "value": "foo"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 6,
+                            "offset": 5
+                          }
+                        },
+                        "value": "foo"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

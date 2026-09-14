@@ -7,7 +7,11 @@ import { expect, test } from 'vitest'
 import { parsers, scanGfmFixtures } from 'vitest.setup'
 import { eatLinkDestination } from '../src'
 
-createTokenizerTesters(parsers.gfm, parsers.gfmEx, parsers.yozora).forEach(tester => {
+createTokenizerTesters(
+  ['gfm', parsers.gfm],
+  ['gfm-ex', parsers.gfmEx],
+  ['yozora', parsers.yozora],
+).forEach(tester => {
   scanGfmFixtures(tester, { includeGroups: ['link'] }).runTest()
 })
 

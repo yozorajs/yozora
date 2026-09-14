@@ -4,25 +4,12 @@
     {
       "description": "Parentheses and other symbols can also be escaped, as usual in Markdown",
       "input": "[link](foo\\)\\:)",
-      "markupAnswer": "[link](<foo):>)",
-      "htmlAnswer": "<p><a href=\"foo):\">link</a></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 16,
-            "offset": 15
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "[link](<foo):>)",
+          "html": "<p><a href=\"foo):\">link</a></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "link",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -50,29 +37,46 @@
                     "offset": 15
                   }
                 },
-                "url": "foo):",
                 "children": [
                   {
-                    "type": "text",
+                    "type": "link",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 2,
-                        "offset": 1
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 1,
-                        "column": 6,
-                        "offset": 5
+                        "column": 16,
+                        "offset": 15
                       }
                     },
-                    "value": "link"
+                    "url": "foo):",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 2,
+                            "offset": 1
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 6,
+                            "offset": 5
+                          }
+                        },
+                        "value": "link"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

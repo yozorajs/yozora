@@ -4,25 +4,12 @@
     {
       "description": "With tildes",
       "input": "~~~\n<\n >\n~~~",
-      "markupAnswer": "```\n<\n >\n```",
-      "htmlAnswer": "<pre><code>&lt;\n &gt;\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 4,
-            "offset": 12
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "```\n<\n >\n```",
+          "html": "<pre><code>&lt;\n &gt;\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 12
               }
             },
-            "lang": null,
-            "meta": null,
-            "value": "<\n >\n"
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 4,
+                    "offset": 12
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "<\n >\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

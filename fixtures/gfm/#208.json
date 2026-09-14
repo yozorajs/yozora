@@ -4,25 +4,12 @@
     {
       "description": "The > characters can be indented 1-3 spaces",
       "input": "   > # Foo\n   > bar\n > baz",
-      "markupAnswer": "> # Foo\n> \n> bar\n> baz",
-      "htmlAnswer": "<blockquote>\n<h1>Foo</h1>\n<p>bar\nbaz</p>\n</blockquote>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 7,
-            "offset": 26
-          }
-        },
-        "children": [
-          {
-            "type": "blockquote",
+      "answer": {
+        "gfm": {
+          "markup": "> # Foo\n> \n> bar\n> baz",
+          "html": "<blockquote>\n<h1>Foo</h1>\n<p>bar\nbaz</p>\n</blockquote>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,46 +24,12 @@
             },
             "children": [
               {
-                "type": "heading",
+                "type": "blockquote",
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 6,
-                    "offset": 5
-                  },
-                  "end": {
-                    "line": 2,
                     "column": 1,
-                    "offset": 11
-                  }
-                },
-                "depth": 1,
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 8,
-                        "offset": 7
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 11,
-                        "offset": 10
-                      }
-                    },
-                    "value": "Foo"
-                  }
-                ]
-              },
-              {
-                "type": "paragraph",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 6,
-                    "offset": 16
+                    "offset": 0
                   },
                   "end": {
                     "line": 3,
@@ -86,7 +39,41 @@
                 },
                 "children": [
                   {
-                    "type": "text",
+                    "type": "heading",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 6,
+                        "offset": 5
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 11
+                      }
+                    },
+                    "depth": 1,
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 8,
+                            "offset": 7
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 11,
+                            "offset": 10
+                          }
+                        },
+                        "value": "Foo"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
                     "position": {
                       "start": {
                         "line": 2,
@@ -99,13 +86,30 @@
                         "offset": 26
                       }
                     },
-                    "value": "bar\nbaz"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 2,
+                            "column": 6,
+                            "offset": 16
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 7,
+                            "offset": 26
+                          }
+                        },
+                        "value": "bar\nbaz"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

@@ -4,25 +4,12 @@
     {
       "description": "When the list item starts with a blank line, the number of spaces following the list marker doesn’t change the required indentation",
       "input": "-   \n  foo",
-      "markupAnswer": "- foo",
-      "htmlAnswer": "<ul>\n<li>foo</li>\n</ul>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 6,
-            "offset": 10
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "- foo",
+          "html": "<ul>\n<li>foo</li>\n</ul>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,12 +22,9 @@
                 "offset": 10
               }
             },
-            "ordered": false,
-            "marker": 45,
-            "spread": false,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -53,14 +37,17 @@
                     "offset": 10
                   }
                 },
+                "ordered": false,
+                "marker": 45,
+                "spread": false,
                 "children": [
                   {
-                    "type": "text",
+                    "type": "listItem",
                     "position": {
                       "start": {
-                        "line": 2,
-                        "column": 3,
-                        "offset": 7
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 2,
@@ -68,13 +55,30 @@
                         "offset": 10
                       }
                     },
-                    "value": "foo"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 2,
+                            "column": 3,
+                            "offset": 7
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 6,
+                            "offset": 10
+                          }
+                        },
+                        "value": "foo"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

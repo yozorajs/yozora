@@ -4,25 +4,12 @@
     {
       "description": "This list is tight, because the consecutive block elements are not separated by blank lines",
       "input": "- a\n  > b\n  ```\n  c\n  ```\n- d",
-      "markupAnswer": "- a\n  > b\n  ```\n  c\n  ```\n- d",
-      "htmlAnswer": "<ul>\n<li>a\n<blockquote>\n<p>b</p>\n</blockquote>\n<pre><code>c\n</code></pre>\n</li>\n<li>d</li>\n</ul>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 6,
-            "column": 4,
-            "offset": 29
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "- a\n  > b\n  ```\n  c\n  ```\n- d",
+          "html": "<ul>\n<li>a\n<blockquote>\n<p>b</p>\n</blockquote>\n<pre><code>c\n</code></pre>\n</li>\n<li>d</li>\n</ul>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,12 +22,9 @@
                 "offset": 29
               }
             },
-            "ordered": false,
-            "marker": 45,
-            "spread": false,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -49,49 +33,52 @@
                   },
                   "end": {
                     "line": 6,
-                    "column": 1,
-                    "offset": 26
+                    "column": 4,
+                    "offset": 29
                   }
                 },
+                "ordered": false,
+                "marker": 45,
+                "spread": false,
                 "children": [
                   {
-                    "type": "text",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 3,
-                        "offset": 2
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 4,
-                        "offset": 3
-                      }
-                    },
-                    "value": "a"
-                  },
-                  {
-                    "type": "blockquote",
-                    "position": {
-                      "start": {
-                        "line": 2,
-                        "column": 3,
-                        "offset": 6
-                      },
-                      "end": {
-                        "line": 3,
                         "column": 1,
-                        "offset": 10
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 6,
+                        "column": 1,
+                        "offset": 26
                       }
                     },
                     "children": [
                       {
-                        "type": "paragraph",
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 4,
+                            "offset": 3
+                          }
+                        },
+                        "value": "a"
+                      },
+                      {
+                        "type": "blockquote",
                         "position": {
                           "start": {
                             "line": 2,
-                            "column": 5,
-                            "offset": 8
+                            "column": 3,
+                            "offset": 6
                           },
                           "end": {
                             "line": 3,
@@ -101,7 +88,7 @@
                         },
                         "children": [
                           {
-                            "type": "text",
+                            "type": "paragraph",
                             "position": {
                               "start": {
                                 "line": 2,
@@ -109,59 +96,59 @@
                                 "offset": 8
                               },
                               "end": {
-                                "line": 2,
-                                "column": 6,
-                                "offset": 9
+                                "line": 3,
+                                "column": 1,
+                                "offset": 10
                               }
                             },
-                            "value": "b"
+                            "children": [
+                              {
+                                "type": "text",
+                                "position": {
+                                  "start": {
+                                    "line": 2,
+                                    "column": 5,
+                                    "offset": 8
+                                  },
+                                  "end": {
+                                    "line": 2,
+                                    "column": 6,
+                                    "offset": 9
+                                  }
+                                },
+                                "value": "b"
+                              }
+                            ]
                           }
                         ]
+                      },
+                      {
+                        "type": "code",
+                        "position": {
+                          "start": {
+                            "line": 3,
+                            "column": 3,
+                            "offset": 12
+                          },
+                          "end": {
+                            "line": 6,
+                            "column": 1,
+                            "offset": 26
+                          }
+                        },
+                        "lang": null,
+                        "meta": null,
+                        "value": "c\n"
                       }
                     ]
                   },
                   {
-                    "type": "code",
+                    "type": "listItem",
                     "position": {
                       "start": {
-                        "line": 3,
-                        "column": 3,
-                        "offset": 12
-                      },
-                      "end": {
                         "line": 6,
                         "column": 1,
                         "offset": 26
-                      }
-                    },
-                    "lang": null,
-                    "meta": null,
-                    "value": "c\n"
-                  }
-                ]
-              },
-              {
-                "type": "listItem",
-                "position": {
-                  "start": {
-                    "line": 6,
-                    "column": 1,
-                    "offset": 26
-                  },
-                  "end": {
-                    "line": 6,
-                    "column": 4,
-                    "offset": 29
-                  }
-                },
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 6,
-                        "column": 3,
-                        "offset": 28
                       },
                       "end": {
                         "line": 6,
@@ -169,13 +156,30 @@
                         "offset": 29
                       }
                     },
-                    "value": "d"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 6,
+                            "column": 3,
+                            "offset": 28
+                          },
+                          "end": {
+                            "line": 6,
+                            "column": 4,
+                            "offset": 29
+                          }
+                        },
+                        "value": "d"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

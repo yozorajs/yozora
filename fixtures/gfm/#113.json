@@ -4,25 +4,12 @@
     {
       "description": "An info string can be provided after the opening code fence. Although this spec doesn’t mandate any particular treatment of the info string, the first word is typically used to specify the language of the code block. In HTML output, the language is normally indicated by adding a class to the code element consisting of language- followed by the language name.",
       "input": "~~~~    ruby startline=3 $%@#$\ndef foo(x)\n  return 3\nend\n~~~~~~~",
-      "markupAnswer": "```ruby startline=3 $%@#$\ndef foo(x)\n  return 3\nend\n```",
-      "htmlAnswer": "<pre><code class=\"language-ruby\">def foo(x)\n  return 3\nend\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 5,
-            "column": 8,
-            "offset": 64
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "```ruby startline=3 $%@#$\ndef foo(x)\n  return 3\nend\n```",
+          "html": "<pre><code class=\"language-ruby\">def foo(x)\n  return 3\nend\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 64
               }
             },
-            "lang": "ruby",
-            "meta": "startline=3 $%@#$",
-            "value": "def foo(x)\n  return 3\nend\n"
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 8,
+                    "offset": 64
+                  }
+                },
+                "lang": "ruby",
+                "meta": "startline=3 $%@#$",
+                "value": "def foo(x)\n  return 3\nend\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

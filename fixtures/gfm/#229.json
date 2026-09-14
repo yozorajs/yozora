@@ -4,25 +4,12 @@
     {
       "description": "It is a consequence of the Laziness rule that any number of initial >s may be omitted on a continuation line of a nested block quote",
       "input": ">>> foo\n> bar\n>>baz",
-      "markupAnswer": "> > > foo\n> > > bar\n> > > baz",
-      "htmlAnswer": "<blockquote>\n<blockquote>\n<blockquote>\n<p>foo\nbar\nbaz</p>\n</blockquote>\n</blockquote>\n</blockquote>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 6,
-            "offset": 19
-          }
-        },
-        "children": [
-          {
-            "type": "blockquote",
+      "answer": {
+        "gfm": {
+          "markup": "> > > foo\n> > > bar\n> > > baz",
+          "html": "<blockquote>\n<blockquote>\n<blockquote>\n<p>foo\nbar\nbaz</p>\n</blockquote>\n</blockquote>\n</blockquote>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -41,8 +28,8 @@
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 2,
-                    "offset": 1
+                    "column": 1,
+                    "offset": 0
                   },
                   "end": {
                     "line": 3,
@@ -56,8 +43,8 @@
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 3,
-                        "offset": 2
+                        "column": 2,
+                        "offset": 1
                       },
                       "end": {
                         "line": 3,
@@ -67,12 +54,12 @@
                     },
                     "children": [
                       {
-                        "type": "paragraph",
+                        "type": "blockquote",
                         "position": {
                           "start": {
                             "line": 1,
-                            "column": 5,
-                            "offset": 4
+                            "column": 3,
+                            "offset": 2
                           },
                           "end": {
                             "line": 3,
@@ -82,7 +69,7 @@
                         },
                         "children": [
                           {
-                            "type": "text",
+                            "type": "paragraph",
                             "position": {
                               "start": {
                                 "line": 1,
@@ -95,7 +82,24 @@
                                 "offset": 19
                               }
                             },
-                            "value": "foo\nbar\nbaz"
+                            "children": [
+                              {
+                                "type": "text",
+                                "position": {
+                                  "start": {
+                                    "line": 1,
+                                    "column": 5,
+                                    "offset": 4
+                                  },
+                                  "end": {
+                                    "line": 3,
+                                    "column": 6,
+                                    "offset": 19
+                                  }
+                                },
+                                "value": "foo\nbar\nbaz"
+                              }
+                            ]
                           }
                         ]
                       }
@@ -105,7 +109,7 @@
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

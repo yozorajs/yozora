@@ -4,25 +4,12 @@
     {
       "description": "This is not a closing fence, because it is indented 4 spaces",
       "input": "```\naaa\n    ```",
-      "markupAnswer": "```\naaa\n    ```\n```",
-      "htmlAnswer": "<pre><code>aaa\n    ```\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 8,
-            "offset": 15
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "```\naaa\n    ```\n```",
+          "html": "<pre><code>aaa\n    ```\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 15
               }
             },
-            "lang": null,
-            "meta": null,
-            "value": "aaa\n    ```\n"
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 8,
+                    "offset": 15
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "aaa\n    ```\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

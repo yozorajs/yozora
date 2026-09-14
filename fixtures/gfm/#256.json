@@ -4,25 +4,12 @@
     {
       "description": "Here are some list items that start with a blank line but are not empty",
       "input": "-\n  foo\n-\n  ```\n  bar\n  ```\n-\n      baz",
-      "markupAnswer": "- foo\n- ```\n  bar\n  ```\n- ```\n  baz\n  ```",
-      "htmlAnswer": "<ul>\n<li>foo</li>\n<li>\n<pre><code>bar\n</code></pre>\n</li>\n<li>\n<pre><code>baz\n</code></pre>\n</li>\n</ul>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 8,
-            "column": 10,
-            "offset": 39
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "- foo\n- ```\n  bar\n  ```\n- ```\n  baz\n  ```",
+          "html": "<ul>\n<li>foo</li>\n<li>\n<pre><code>bar\n</code></pre>\n</li>\n<li>\n<pre><code>baz\n</code></pre>\n</li>\n</ul>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,12 +22,9 @@
                 "offset": 39
               }
             },
-            "ordered": false,
-            "marker": 45,
-            "spread": false,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -48,52 +32,55 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 8
+                    "line": 8,
+                    "column": 10,
+                    "offset": 39
                   }
                 },
+                "ordered": false,
+                "marker": 45,
+                "spread": false,
                 "children": [
                   {
-                    "type": "text",
+                    "type": "listItem",
                     "position": {
                       "start": {
-                        "line": 2,
-                        "column": 3,
-                        "offset": 4
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
-                        "line": 2,
-                        "column": 6,
-                        "offset": 7
+                        "line": 3,
+                        "column": 1,
+                        "offset": 8
                       }
                     },
-                    "value": "foo"
-                  }
-                ]
-              },
-              {
-                "type": "listItem",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 8
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 2,
+                            "column": 3,
+                            "offset": 4
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 6,
+                            "offset": 7
+                          }
+                        },
+                        "value": "foo"
+                      }
+                    ]
                   },
-                  "end": {
-                    "line": 7,
-                    "column": 1,
-                    "offset": 28
-                  }
-                },
-                "children": [
                   {
-                    "type": "code",
+                    "type": "listItem",
                     "position": {
                       "start": {
-                        "line": 4,
-                        "column": 3,
-                        "offset": 12
+                        "line": 3,
+                        "column": 1,
+                        "offset": 8
                       },
                       "end": {
                         "line": 7,
@@ -101,34 +88,34 @@
                         "offset": 28
                       }
                     },
-                    "lang": null,
-                    "meta": null,
-                    "value": "bar\n"
-                  }
-                ]
-              },
-              {
-                "type": "listItem",
-                "position": {
-                  "start": {
-                    "line": 7,
-                    "column": 1,
-                    "offset": 28
+                    "children": [
+                      {
+                        "type": "code",
+                        "position": {
+                          "start": {
+                            "line": 4,
+                            "column": 3,
+                            "offset": 12
+                          },
+                          "end": {
+                            "line": 7,
+                            "column": 1,
+                            "offset": 28
+                          }
+                        },
+                        "lang": null,
+                        "meta": null,
+                        "value": "bar\n"
+                      }
+                    ]
                   },
-                  "end": {
-                    "line": 8,
-                    "column": 10,
-                    "offset": 39
-                  }
-                },
-                "children": [
                   {
-                    "type": "code",
+                    "type": "listItem",
                     "position": {
                       "start": {
-                        "line": 8,
-                        "column": 3,
-                        "offset": 32
+                        "line": 7,
+                        "column": 1,
+                        "offset": 28
                       },
                       "end": {
                         "line": 8,
@@ -136,15 +123,32 @@
                         "offset": 39
                       }
                     },
-                    "lang": null,
-                    "meta": null,
-                    "value": "baz\n"
+                    "children": [
+                      {
+                        "type": "code",
+                        "position": {
+                          "start": {
+                            "line": 8,
+                            "column": 3,
+                            "offset": 32
+                          },
+                          "end": {
+                            "line": 8,
+                            "column": 10,
+                            "offset": 39
+                          }
+                        },
+                        "lang": null,
+                        "meta": null,
+                        "value": "baz\n"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

@@ -1,7 +1,7 @@
 import { createMarkupTester } from '@yozora/test-util'
 import { parsers, scanGfmFixtures, weavers } from 'vitest.setup'
 
-void scanGfmFixtures(createMarkupTester(parsers.yozora, weavers.yozora), {
+void scanGfmFixtures(createMarkupTester('yozora', parsers.yozora, weavers.yozora), {
   excludeExamples: [
     '#036',
     '#310',

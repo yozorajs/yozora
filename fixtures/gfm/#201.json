@@ -4,221 +4,17 @@
     {
       "description": "The table is broken at the first empty line, or beginning of another block-level structure",
       "input": "| abc | def |\n| --- | --- |\n| bar | baz |\n> bar",
-      "markupAnswer": "abc | def\n----|-----\nbar | baz\n\n> bar",
-      "htmlAnswer": "<table>\n<thead>\n<tr>\n<th>abc</th>\n<th>def</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>bar</td>\n<td>baz</td>\n</tr>\n</tbody>\n</table>\n<blockquote>\n<p>bar</p>\n</blockquote>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 6,
-            "offset": 47
-          }
-        },
-        "children": [
-          {
-            "type": "table",
+      "answer": {
+        "gfm": {
+          "markup": "abc | def\n----|-----\nbar | baz\n\n> bar",
+          "html": "<table>\n<thead>\n<tr>\n<th>abc</th>\n<th>def</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>bar</td>\n<td>baz</td>\n</tr>\n</tbody>\n</table>\n<blockquote>\n<p>bar</p>\n</blockquote>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 4,
-                "column": 1,
-                "offset": 42
-              }
-            },
-            "columns": [
-              {
-                "align": null
-              },
-              {
-                "align": null
-              }
-            ],
-            "children": [
-              {
-                "type": "tableRow",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 14
-                  }
-                },
-                "children": [
-                  {
-                    "type": "tableCell",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 3,
-                        "offset": 2
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
-                      }
-                    },
-                    "children": [
-                      {
-                        "type": "text",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 3,
-                            "offset": 2
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 6,
-                            "offset": 5
-                          }
-                        },
-                        "value": "abc"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "tableCell",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 9,
-                        "offset": 8
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 13,
-                        "offset": 12
-                      }
-                    },
-                    "children": [
-                      {
-                        "type": "text",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 9,
-                            "offset": 8
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 12,
-                            "offset": 11
-                          }
-                        },
-                        "value": "def"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "tableRow",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 28
-                  },
-                  "end": {
-                    "line": 4,
-                    "column": 1,
-                    "offset": 42
-                  }
-                },
-                "children": [
-                  {
-                    "type": "tableCell",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 3,
-                        "offset": 30
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 7,
-                        "offset": 34
-                      }
-                    },
-                    "children": [
-                      {
-                        "type": "text",
-                        "position": {
-                          "start": {
-                            "line": 3,
-                            "column": 3,
-                            "offset": 30
-                          },
-                          "end": {
-                            "line": 3,
-                            "column": 6,
-                            "offset": 33
-                          }
-                        },
-                        "value": "bar"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "tableCell",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 9,
-                        "offset": 36
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 13,
-                        "offset": 40
-                      }
-                    },
-                    "children": [
-                      {
-                        "type": "text",
-                        "position": {
-                          "start": {
-                            "line": 3,
-                            "column": 9,
-                            "offset": 36
-                          },
-                          "end": {
-                            "line": 3,
-                            "column": 12,
-                            "offset": 39
-                          }
-                        },
-                        "value": "baz"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "blockquote",
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 42
               },
               "end": {
                 "line": 4,
@@ -228,12 +24,203 @@
             },
             "children": [
               {
-                "type": "paragraph",
+                "type": "table",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 42
+                  }
+                },
+                "columns": [
+                  {
+                    "align": null
+                  },
+                  {
+                    "align": null
+                  }
+                ],
+                "children": [
+                  {
+                    "type": "tableRow",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 14
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "tableCell",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 7,
+                            "offset": 6
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 3,
+                                "offset": 2
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 6,
+                                "offset": 5
+                              }
+                            },
+                            "value": "abc"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "tableCell",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 9,
+                            "offset": 8
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 13,
+                            "offset": 12
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 9,
+                                "offset": 8
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 12,
+                                "offset": 11
+                              }
+                            },
+                            "value": "def"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableRow",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 28
+                      },
+                      "end": {
+                        "line": 4,
+                        "column": 1,
+                        "offset": 42
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "tableCell",
+                        "position": {
+                          "start": {
+                            "line": 3,
+                            "column": 3,
+                            "offset": 30
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 7,
+                            "offset": 34
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 3,
+                                "column": 3,
+                                "offset": 30
+                              },
+                              "end": {
+                                "line": 3,
+                                "column": 6,
+                                "offset": 33
+                              }
+                            },
+                            "value": "bar"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "tableCell",
+                        "position": {
+                          "start": {
+                            "line": 3,
+                            "column": 9,
+                            "offset": 36
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 13,
+                            "offset": 40
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 3,
+                                "column": 9,
+                                "offset": 36
+                              },
+                              "end": {
+                                "line": 3,
+                                "column": 12,
+                                "offset": 39
+                              }
+                            },
+                            "value": "baz"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "blockquote",
                 "position": {
                   "start": {
                     "line": 4,
-                    "column": 3,
-                    "offset": 44
+                    "column": 1,
+                    "offset": 42
                   },
                   "end": {
                     "line": 4,
@@ -243,7 +230,7 @@
                 },
                 "children": [
                   {
-                    "type": "text",
+                    "type": "paragraph",
                     "position": {
                       "start": {
                         "line": 4,
@@ -256,13 +243,30 @@
                         "offset": 47
                       }
                     },
-                    "value": "bar"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 4,
+                            "column": 3,
+                            "offset": 44
+                          },
+                          "end": {
+                            "line": 4,
+                            "column": 6,
+                            "offset": 47
+                          }
+                        },
+                        "value": "bar"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

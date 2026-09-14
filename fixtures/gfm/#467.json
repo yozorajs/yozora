@@ -4,25 +4,12 @@
     {
       "description": "Note that when delimiters do not match evenly, Rule 12 determines that the excess literal _ characters will appear outside of the emphasis, rather than inside it",
       "input": "__foo___",
-      "markupAnswer": "**foo**_",
-      "htmlAnswer": "<p><strong>foo</strong>_</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 9,
-            "offset": 8
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "**foo**_",
+          "html": "<p><strong>foo</strong>_</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "strong",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,48 +33,65 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 8,
-                    "offset": 7
+                    "column": 9,
+                    "offset": 8
                   }
                 },
                 "children": [
+                  {
+                    "type": "strong",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 8,
+                        "offset": 7
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 6,
+                            "offset": 5
+                          }
+                        },
+                        "value": "foo"
+                      }
+                    ]
+                  },
                   {
                     "type": "text",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 3,
-                        "offset": 2
+                        "column": 8,
+                        "offset": 7
                       },
                       "end": {
                         "line": 1,
-                        "column": 6,
-                        "offset": 5
+                        "column": 9,
+                        "offset": 8
                       }
                     },
-                    "value": "foo"
+                    "value": "_"
                   }
                 ]
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 8,
-                    "offset": 7
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 9,
-                    "offset": 8
-                  }
-                },
-                "value": "_"
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

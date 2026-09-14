@@ -4,63 +4,17 @@
     {
       "description": "However, an empty list item cannot interrupt a paragraph",
       "input": "foo\n*\n\nfoo\n1.",
-      "markupAnswer": "foo\n*\n\nfoo\n1.",
-      "htmlAnswer": "<p>foo\n*</p>\n<p>foo\n1.</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 5,
-            "column": 3,
-            "offset": 13
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "foo\n*\n\nfoo\n1.",
+          "html": "<p>foo\n*</p>\n<p>foo\n1.</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 3,
-                "column": 1,
-                "offset": 6
-              }
-            },
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 2,
-                    "offset": 5
-                  }
-                },
-                "value": "foo\n*"
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 7
               },
               "end": {
                 "line": 5,
@@ -70,7 +24,40 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 6
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 2,
+                        "offset": 5
+                      }
+                    },
+                    "value": "foo\n*"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 4,
@@ -83,11 +70,28 @@
                     "offset": 13
                   }
                 },
-                "value": "foo\n1."
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 4,
+                        "column": 1,
+                        "offset": 7
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 3,
+                        "offset": 13
+                      }
+                    },
+                    "value": "foo\n1."
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

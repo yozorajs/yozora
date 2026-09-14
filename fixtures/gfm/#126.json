@@ -4,25 +4,12 @@
     {
       "description": "A partial tag need not even be completed (garbage in, garbage out)",
       "input": "<div id=\"foo\"\n*hi*",
-      "markupAnswer": "<div id=\"foo\"\n*hi*",
-      "htmlAnswer": "<div id=\"foo\"\n*hi*",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 5,
-            "offset": 18
-          }
-        },
-        "children": [
-          {
-            "type": "html",
+      "answer": {
+        "gfm": {
+          "markup": "<div id=\"foo\"\n*hi*",
+          "html": "<div id=\"foo\"\n*hi*",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,9 +22,26 @@
                 "offset": 18
               }
             },
-            "value": "<div id=\"foo\"\n*hi*"
+            "children": [
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 5,
+                    "offset": 18
+                  }
+                },
+                "value": "<div id=\"foo\"\n*hi*"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

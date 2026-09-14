@@ -4,25 +4,12 @@
     {
       "description": "It is tempting to think of this in terms of columns: the continuation blocks must be indented at least to the column of the first non-whitespace character after the list marker. However, that is not quite right. The spaces after the list marker determine how much relative indentation is needed. Which column this indentation reaches will depend on how the list item is embedded in other constructions, as shown by this example",
       "input": "   > > 1.  one\n>>\n>>     two",
-      "markupAnswer": "> > 1. one\n> >    \n> >    two",
-      "htmlAnswer": "<blockquote>\n<blockquote>\n<ol>\n<li>\n<p>one</p>\n<p>two</p>\n</li>\n</ol>\n</blockquote>\n</blockquote>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 11,
-            "offset": 28
-          }
-        },
-        "children": [
-          {
-            "type": "blockquote",
+      "answer": {
+        "gfm": {
+          "markup": "> > 1. one\n> >    \n> >    two",
+          "html": "<blockquote>\n<blockquote>\n<ol>\n<li>\n<p>one</p>\n<p>two</p>\n</li>\n</ol>\n</blockquote>\n</blockquote>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -41,8 +28,8 @@
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 6,
-                    "offset": 5
+                    "column": 1,
+                    "offset": 0
                   },
                   "end": {
                     "line": 3,
@@ -52,12 +39,12 @@
                 },
                 "children": [
                   {
-                    "type": "list",
+                    "type": "blockquote",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 8,
-                        "offset": 7
+                        "column": 6,
+                        "offset": 5
                       },
                       "end": {
                         "line": 3,
@@ -65,14 +52,9 @@
                         "offset": 28
                       }
                     },
-                    "ordered": true,
-                    "orderType": "1",
-                    "start": 1,
-                    "marker": 46,
-                    "spread": true,
                     "children": [
                       {
-                        "type": "listItem",
+                        "type": "list",
                         "position": {
                           "start": {
                             "line": 1,
@@ -85,47 +67,19 @@
                             "offset": 28
                           }
                         },
+                        "ordered": true,
+                        "orderType": "1",
+                        "start": 1,
+                        "marker": 46,
+                        "spread": true,
                         "children": [
                           {
-                            "type": "paragraph",
+                            "type": "listItem",
                             "position": {
                               "start": {
                                 "line": 1,
-                                "column": 12,
-                                "offset": 11
-                              },
-                              "end": {
-                                "line": 2,
-                                "column": 1,
-                                "offset": 15
-                              }
-                            },
-                            "children": [
-                              {
-                                "type": "text",
-                                "position": {
-                                  "start": {
-                                    "line": 1,
-                                    "column": 12,
-                                    "offset": 11
-                                  },
-                                  "end": {
-                                    "line": 1,
-                                    "column": 15,
-                                    "offset": 14
-                                  }
-                                },
-                                "value": "one"
-                              }
-                            ]
-                          },
-                          {
-                            "type": "paragraph",
-                            "position": {
-                              "start": {
-                                "line": 3,
                                 "column": 8,
-                                "offset": 25
+                                "offset": 7
                               },
                               "end": {
                                 "line": 3,
@@ -135,7 +89,40 @@
                             },
                             "children": [
                               {
-                                "type": "text",
+                                "type": "paragraph",
+                                "position": {
+                                  "start": {
+                                    "line": 1,
+                                    "column": 12,
+                                    "offset": 11
+                                  },
+                                  "end": {
+                                    "line": 2,
+                                    "column": 1,
+                                    "offset": 15
+                                  }
+                                },
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "position": {
+                                      "start": {
+                                        "line": 1,
+                                        "column": 12,
+                                        "offset": 11
+                                      },
+                                      "end": {
+                                        "line": 1,
+                                        "column": 15,
+                                        "offset": 14
+                                      }
+                                    },
+                                    "value": "one"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "paragraph",
                                 "position": {
                                   "start": {
                                     "line": 3,
@@ -148,7 +135,24 @@
                                     "offset": 28
                                   }
                                 },
-                                "value": "two"
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "position": {
+                                      "start": {
+                                        "line": 3,
+                                        "column": 8,
+                                        "offset": 25
+                                      },
+                                      "end": {
+                                        "line": 3,
+                                        "column": 11,
+                                        "offset": 28
+                                      }
+                                    },
+                                    "value": "two"
+                                  }
+                                ]
                               }
                             ]
                           }
@@ -160,7 +164,7 @@
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

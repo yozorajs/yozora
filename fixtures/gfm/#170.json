@@ -4,95 +4,17 @@
     {
       "description": "The title must be separated from the link destination by whitespace",
       "input": "[foo]: <bar>(baz)\n\n[foo]",
-      "markupAnswer": "[foo]: <bar>(baz)\n\n[foo]",
-      "htmlAnswer": "<p>[foo]: <bar>(baz)</p>\n<p>[foo]</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 6,
-            "offset": 24
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "[foo]: <bar>(baz)\n\n[foo]",
+          "html": "<p>[foo]: <bar>(baz)</p>\n<p>[foo]</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 18
-              }
-            },
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 8,
-                    "offset": 7
-                  }
-                },
-                "value": "[foo]: "
-              },
-              {
-                "type": "html",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 8,
-                    "offset": 7
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 13,
-                    "offset": 12
-                  }
-                },
-                "value": "<bar>"
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 13,
-                    "offset": 12
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 18,
-                    "offset": 17
-                  }
-                },
-                "value": "(baz)"
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 19
               },
               "end": {
                 "line": 3,
@@ -102,7 +24,72 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 18
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 8,
+                        "offset": 7
+                      }
+                    },
+                    "value": "[foo]: "
+                  },
+                  {
+                    "type": "html",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 8,
+                        "offset": 7
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 13,
+                        "offset": 12
+                      }
+                    },
+                    "value": "<bar>"
+                  },
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 13,
+                        "offset": 12
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 18,
+                        "offset": 17
+                      }
+                    },
+                    "value": "(baz)"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 3,
@@ -115,11 +102,28 @@
                     "offset": 24
                   }
                 },
-                "value": "[foo]"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 19
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 6,
+                        "offset": 24
+                      }
+                    },
+                    "value": "[foo]"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

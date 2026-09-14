@@ -4,25 +4,12 @@
     {
       "description": "These cases illustrate the precedence of HTML tags, code spans, and autolinks over link grouping",
       "input": "[foo`][ref]`\n\n[ref]: /uri",
-      "markupAnswer": "[foo`][ref]`\n\n[ref]: /uri",
-      "htmlAnswer": "<p>[foo<code>][ref]</code></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 12,
-            "offset": 25
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "[foo`][ref]`\n\n[ref]: /uri",
+          "html": "<p>[foo<code>][ref]</code></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -30,14 +17,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 13
+                "line": 3,
+                "column": 12,
+                "offset": 25
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,50 +32,67 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 5,
-                    "offset": 4
+                    "line": 2,
+                    "column": 1,
+                    "offset": 13
                   }
                 },
-                "value": "[foo"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      }
+                    },
+                    "value": "[foo"
+                  },
+                  {
+                    "type": "inlineCode",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 13,
+                        "offset": 12
+                      }
+                    },
+                    "value": "][ref]"
+                  }
+                ]
               },
               {
-                "type": "inlineCode",
+                "type": "definition",
                 "position": {
                   "start": {
-                    "line": 1,
-                    "column": 5,
-                    "offset": 4
+                    "line": 3,
+                    "column": 1,
+                    "offset": 14
                   },
                   "end": {
-                    "line": 1,
-                    "column": 13,
-                    "offset": 12
+                    "line": 3,
+                    "column": 12,
+                    "offset": 25
                   }
                 },
-                "value": "][ref]"
+                "identifier": "ref",
+                "label": "ref",
+                "url": "/uri"
               }
             ]
-          },
-          {
-            "type": "definition",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 14
-              },
-              "end": {
-                "line": 3,
-                "column": 12,
-                "offset": 25
-              }
-            },
-            "identifier": "ref",
-            "label": "ref",
-            "url": "/uri"
           }
-        ]
+        }
       }
     }
   ]

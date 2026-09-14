@@ -4,25 +4,12 @@
     {
       "description": "Some simple examples follow. Here are some basic HTML blocks of type 6",
       "input": " <div>\n  *hello*\n         <foo><a>",
-      "markupAnswer": " <div>\n  *hello*\n         <foo><a>",
-      "htmlAnswer": " <div>\n  *hello*\n         <foo><a>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 18,
-            "offset": 34
-          }
-        },
-        "children": [
-          {
-            "type": "html",
+      "answer": {
+        "gfm": {
+          "markup": " <div>\n  *hello*\n         <foo><a>",
+          "html": " <div>\n  *hello*\n         <foo><a>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,9 +22,26 @@
                 "offset": 34
               }
             },
-            "value": " <div>\n  *hello*\n         <foo><a>"
+            "children": [
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 18,
+                    "offset": 34
+                  }
+                },
+                "value": " <div>\n  *hello*\n         <foo><a>"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

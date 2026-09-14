@@ -4,25 +4,12 @@
     {
       "description": "Cells in one column don’t need to match length, though it’s easier to read if they are. Likewise, use of leading and trailing pipes may be inconsistent",
       "input": "| abc | defghi |\n:-: | -----------:\nbar | baz",
-      "markupAnswer": "abc | defghi\n:--:|--------:\nbar | baz",
-      "htmlAnswer": "<table>\n<thead>\n<tr>\n<th align=\"center\">abc</th>\n<th align=\"right\">defghi</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td align=\"center\">bar</td>\n<td align=\"right\">baz</td>\n</tr>\n</tbody>\n</table>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 10,
-            "offset": 45
-          }
-        },
-        "children": [
-          {
-            "type": "table",
+      "answer": {
+        "gfm": {
+          "markup": "abc | defghi\n:--:|--------:\nbar | baz",
+          "html": "<table>\n<thead>\n<tr>\n<th align=\"center\">abc</th>\n<th align=\"right\">defghi</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td align=\"center\">bar</td>\n<td align=\"right\">baz</td>\n</tr>\n</tbody>\n</table>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,17 +22,9 @@
                 "offset": 45
               }
             },
-            "columns": [
-              {
-                "align": "center"
-              },
-              {
-                "align": "right"
-              }
-            ],
             "children": [
               {
-                "type": "tableRow",
+                "type": "table",
                 "position": {
                   "start": {
                     "line": 1,
@@ -53,29 +32,37 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 17
+                    "line": 3,
+                    "column": 10,
+                    "offset": 45
                   }
                 },
+                "columns": [
+                  {
+                    "align": "center"
+                  },
+                  {
+                    "align": "right"
+                  }
+                ],
                 "children": [
                   {
-                    "type": "tableCell",
+                    "type": "tableRow",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 3,
-                        "offset": 2
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
+                        "line": 2,
+                        "column": 1,
+                        "offset": 17
                       }
                     },
                     "children": [
                       {
-                        "type": "text",
+                        "type": "tableCell",
                         "position": {
                           "start": {
                             "line": 1,
@@ -84,31 +71,31 @@
                           },
                           "end": {
                             "line": 1,
-                            "column": 6,
-                            "offset": 5
+                            "column": 7,
+                            "offset": 6
                           }
                         },
-                        "value": "abc"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "tableCell",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 9,
-                        "offset": 8
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 3,
+                                "offset": 2
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 6,
+                                "offset": 5
+                              }
+                            },
+                            "value": "abc"
+                          }
+                        ]
                       },
-                      "end": {
-                        "line": 1,
-                        "column": 16,
-                        "offset": 15
-                      }
-                    },
-                    "children": [
                       {
-                        "type": "text",
+                        "type": "tableCell",
                         "position": {
                           "start": {
                             "line": 1,
@@ -117,71 +104,38 @@
                           },
                           "end": {
                             "line": 1,
-                            "column": 15,
-                            "offset": 14
+                            "column": 16,
+                            "offset": 15
                           }
                         },
-                        "value": "defghi"
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 9,
+                                "offset": 8
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 15,
+                                "offset": 14
+                              }
+                            },
+                            "value": "defghi"
+                          }
+                        ]
                       }
                     ]
-                  }
-                ]
-              },
-              {
-                "type": "tableRow",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 36
                   },
-                  "end": {
-                    "line": 3,
-                    "column": 10,
-                    "offset": 45
-                  }
-                },
-                "children": [
                   {
-                    "type": "tableCell",
+                    "type": "tableRow",
                     "position": {
                       "start": {
                         "line": 3,
                         "column": 1,
                         "offset": 36
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 5,
-                        "offset": 40
-                      }
-                    },
-                    "children": [
-                      {
-                        "type": "text",
-                        "position": {
-                          "start": {
-                            "line": 3,
-                            "column": 1,
-                            "offset": 36
-                          },
-                          "end": {
-                            "line": 3,
-                            "column": 4,
-                            "offset": 39
-                          }
-                        },
-                        "value": "bar"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "tableCell",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 7,
-                        "offset": 42
                       },
                       "end": {
                         "line": 3,
@@ -191,7 +145,40 @@
                     },
                     "children": [
                       {
-                        "type": "text",
+                        "type": "tableCell",
+                        "position": {
+                          "start": {
+                            "line": 3,
+                            "column": 1,
+                            "offset": 36
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 5,
+                            "offset": 40
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 3,
+                                "column": 1,
+                                "offset": 36
+                              },
+                              "end": {
+                                "line": 3,
+                                "column": 4,
+                                "offset": 39
+                              }
+                            },
+                            "value": "bar"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "tableCell",
                         "position": {
                           "start": {
                             "line": 3,
@@ -204,7 +191,24 @@
                             "offset": 45
                           }
                         },
-                        "value": "baz"
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 3,
+                                "column": 7,
+                                "offset": 42
+                              },
+                              "end": {
+                                "line": 3,
+                                "column": 10,
+                                "offset": 45
+                              }
+                            },
+                            "value": "baz"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -212,7 +216,7 @@
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

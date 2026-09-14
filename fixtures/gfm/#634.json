@@ -4,25 +4,12 @@
     {
       "description": "A described in the specification xmpp offers an optional / followed by a resource. The resource can contain all alphanumeric characters, as well as @ and ..",
       "input": "xmpp:foo@bar.baz/txt\n\nxmpp:foo@bar.baz/txt@bin\n\nxmpp:foo@bar.baz/txt@bin.com",
-      "markupAnswer": "xmpp:foo@bar.baz/txt\n\nxmpp:foo@bar.baz/txt@bin\n\nxmpp:foo@bar.baz/txt@bin.com",
-      "htmlAnswer": "<p><a href=\"xmpp:foo@bar.baz/txt\">xmpp:foo@bar.baz/txt</a></p>\n<p><a href=\"xmpp:foo@bar.baz/txt@bin\">xmpp:foo@bar.baz/txt@bin</a></p>\n<p><a href=\"xmpp:foo@bar.baz/txt@bin.com\">xmpp:foo@bar.baz/txt@bin.com</a></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 5,
-            "column": 29,
-            "offset": 76
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "xmpp:foo@bar.baz/txt\n\nxmpp:foo@bar.baz/txt@bin\n\nxmpp:foo@bar.baz/txt@bin.com",
+          "html": "<p><a href=\"xmpp:foo@bar.baz/txt\">xmpp:foo@bar.baz/txt</a></p>\n<p><a href=\"xmpp:foo@bar.baz/txt@bin\">xmpp:foo@bar.baz/txt@bin</a></p>\n<p><a href=\"xmpp:foo@bar.baz/txt@bin.com\">xmpp:foo@bar.baz/txt@bin.com</a></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -30,14 +17,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 21
+                "line": 5,
+                "column": 29,
+                "offset": 76
               }
             },
             "children": [
               {
-                "type": "link",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,15 +32,14 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 21,
-                    "offset": 20
+                    "line": 2,
+                    "column": 1,
+                    "offset": 21
                   }
                 },
-                "url": "xmpp:foo@bar.baz/txt",
                 "children": [
                   {
-                    "type": "text",
+                    "type": "link",
                     "position": {
                       "start": {
                         "line": 1,
@@ -66,29 +52,30 @@
                         "offset": 20
                       }
                     },
-                    "value": "xmpp:foo@bar.baz/txt"
+                    "url": "xmpp:foo@bar.baz/txt",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 21,
+                            "offset": 20
+                          }
+                        },
+                        "value": "xmpp:foo@bar.baz/txt"
+                      }
+                    ]
                   }
                 ]
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 22
               },
-              "end": {
-                "line": 4,
-                "column": 1,
-                "offset": 47
-              }
-            },
-            "children": [
               {
-                "type": "link",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 3,
@@ -96,15 +83,14 @@
                     "offset": 22
                   },
                   "end": {
-                    "line": 3,
-                    "column": 25,
-                    "offset": 46
+                    "line": 4,
+                    "column": 1,
+                    "offset": 47
                   }
                 },
-                "url": "xmpp:foo@bar.baz/txt@bin",
                 "children": [
                   {
-                    "type": "text",
+                    "type": "link",
                     "position": {
                       "start": {
                         "line": 3,
@@ -117,29 +103,30 @@
                         "offset": 46
                       }
                     },
-                    "value": "xmpp:foo@bar.baz/txt@bin"
+                    "url": "xmpp:foo@bar.baz/txt@bin",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 3,
+                            "column": 1,
+                            "offset": 22
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 25,
+                            "offset": 46
+                          }
+                        },
+                        "value": "xmpp:foo@bar.baz/txt@bin"
+                      }
+                    ]
                   }
                 ]
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 5,
-                "column": 1,
-                "offset": 48
               },
-              "end": {
-                "line": 5,
-                "column": 29,
-                "offset": 76
-              }
-            },
-            "children": [
               {
-                "type": "link",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 5,
@@ -152,10 +139,9 @@
                     "offset": 76
                   }
                 },
-                "url": "xmpp:foo@bar.baz/txt@bin.com",
                 "children": [
                   {
-                    "type": "text",
+                    "type": "link",
                     "position": {
                       "start": {
                         "line": 5,
@@ -168,13 +154,31 @@
                         "offset": 76
                       }
                     },
-                    "value": "xmpp:foo@bar.baz/txt@bin.com"
+                    "url": "xmpp:foo@bar.baz/txt@bin.com",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 5,
+                            "column": 1,
+                            "offset": 48
+                          },
+                          "end": {
+                            "line": 5,
+                            "column": 29,
+                            "offset": 76
+                          }
+                        },
+                        "value": "xmpp:foo@bar.baz/txt@bin.com"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

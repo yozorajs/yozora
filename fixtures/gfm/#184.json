@@ -4,82 +4,17 @@
     {
       "description": "However, it can directly follow other block elements, such as headings and thematic breaks, and it need not be followed by a blank line.",
       "input": "[foo]: /url\nbar\n===\n[foo]",
-      "markupAnswer": "[foo]: /url\n\nbar\n===\n\n[foo][]",
-      "htmlAnswer": "<h1>bar</h1>\n<p><a href=\"/url\">foo</a></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 6,
-            "offset": 25
-          }
-        },
-        "children": [
-          {
-            "type": "definition",
+      "answer": {
+        "gfm": {
+          "markup": "[foo]: /url\n\nbar\n===\n\n[foo][]",
+          "html": "<h1>bar</h1>\n<p><a href=\"/url\">foo</a></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 12
-              }
-            },
-            "identifier": "foo",
-            "label": "foo",
-            "url": "/url"
-          },
-          {
-            "type": "heading",
-            "position": {
-              "start": {
-                "line": 2,
-                "column": 1,
-                "offset": 12
-              },
-              "end": {
-                "line": 4,
-                "column": 1,
-                "offset": 20
-              }
-            },
-            "depth": 1,
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 12
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 4,
-                    "offset": 15
-                  }
-                },
-                "value": "bar"
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 20
               },
               "end": {
                 "line": 4,
@@ -89,7 +24,59 @@
             },
             "children": [
               {
-                "type": "linkReference",
+                "type": "definition",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 12
+                  }
+                },
+                "identifier": "foo",
+                "label": "foo",
+                "url": "/url"
+              },
+              {
+                "type": "heading",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 12
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 20
+                  }
+                },
+                "depth": 1,
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 12
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 4,
+                        "offset": 15
+                      }
+                    },
+                    "value": "bar"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 4,
@@ -102,31 +89,48 @@
                     "offset": 25
                   }
                 },
-                "identifier": "foo",
-                "label": "foo",
-                "referenceType": "shortcut",
                 "children": [
                   {
-                    "type": "text",
+                    "type": "linkReference",
                     "position": {
                       "start": {
                         "line": 4,
-                        "column": 2,
-                        "offset": 21
+                        "column": 1,
+                        "offset": 20
                       },
                       "end": {
                         "line": 4,
-                        "column": 5,
-                        "offset": 24
+                        "column": 6,
+                        "offset": 25
                       }
                     },
-                    "value": "foo"
+                    "identifier": "foo",
+                    "label": "foo",
+                    "referenceType": "shortcut",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 4,
+                            "column": 2,
+                            "offset": 21
+                          },
+                          "end": {
+                            "line": 4,
+                            "column": 5,
+                            "offset": 24
+                          }
+                        },
+                        "value": "foo"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

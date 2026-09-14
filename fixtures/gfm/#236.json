@@ -4,25 +4,12 @@
     {
       "description": "Here are some examples showing how far content must be indented to be put under the list item",
       "input": " -    one\n\n      two",
-      "markupAnswer": "- one\n  \n  two",
-      "htmlAnswer": "<ul>\n<li>\n<p>one</p>\n<p>two</p>\n</li>\n</ul>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 10,
-            "offset": 20
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "- one\n  \n  two",
+          "html": "<ul>\n<li>\n<p>one</p>\n<p>two</p>\n</li>\n</ul>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,12 +22,9 @@
                 "offset": 20
               }
             },
-            "ordered": false,
-            "marker": 45,
-            "spread": true,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -53,47 +37,17 @@
                     "offset": 20
                   }
                 },
+                "ordered": false,
+                "marker": 45,
+                "spread": true,
                 "children": [
                   {
-                    "type": "paragraph",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 7,
-                        "offset": 6
-                      },
-                      "end": {
-                        "line": 2,
                         "column": 1,
-                        "offset": 10
-                      }
-                    },
-                    "children": [
-                      {
-                        "type": "text",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 7,
-                            "offset": 6
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 10,
-                            "offset": 9
-                          }
-                        },
-                        "value": "one"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "paragraph",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 7,
-                        "offset": 17
+                        "offset": 0
                       },
                       "end": {
                         "line": 3,
@@ -103,7 +57,40 @@
                     },
                     "children": [
                       {
-                        "type": "text",
+                        "type": "paragraph",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 7,
+                            "offset": 6
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 1,
+                            "offset": 10
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 7,
+                                "offset": 6
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 10,
+                                "offset": 9
+                              }
+                            },
+                            "value": "one"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "paragraph",
                         "position": {
                           "start": {
                             "line": 3,
@@ -116,7 +103,24 @@
                             "offset": 20
                           }
                         },
-                        "value": "two"
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 3,
+                                "column": 7,
+                                "offset": 17
+                              },
+                              "end": {
+                                "line": 3,
+                                "column": 10,
+                                "offset": 20
+                              }
+                            },
+                            "value": "two"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -124,7 +128,7 @@
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

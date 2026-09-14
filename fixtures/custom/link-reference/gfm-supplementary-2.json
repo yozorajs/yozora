@@ -4,24 +4,11 @@
     {
       "description": "A collapsed link also could include whitespaces",
       "input": "[foo][  \n\t ]\n\n[foo]: #alpha",
-      "markupAnswer": "[foo][]\n\n[foo]: #alpha",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 14,
-            "offset": 27
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "[foo][]\n\n[foo]: #alpha",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -29,14 +16,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 3,
-                "column": 1,
-                "offset": 13
+                "line": 4,
+                "column": 14,
+                "offset": 27
               }
             },
             "children": [
               {
-                "type": "linkReference",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -44,54 +31,71 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 2,
-                    "column": 4,
-                    "offset": 12
+                    "line": 3,
+                    "column": 1,
+                    "offset": 13
+                  }
+                },
+                "children": [
+                  {
+                    "type": "linkReference",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 4,
+                        "offset": 12
+                      }
+                    },
+                    "identifier": "foo",
+                    "label": "foo",
+                    "referenceType": "collapsed",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 2,
+                            "offset": 1
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 5,
+                            "offset": 4
+                          }
+                        },
+                        "value": "foo"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "definition",
+                "position": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 14
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 14,
+                    "offset": 27
                   }
                 },
                 "identifier": "foo",
                 "label": "foo",
-                "referenceType": "collapsed",
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 2,
-                        "offset": 1
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 5,
-                        "offset": 4
-                      }
-                    },
-                    "value": "foo"
-                  }
-                ]
+                "url": "#alpha"
               }
             ]
-          },
-          {
-            "type": "definition",
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 14
-              },
-              "end": {
-                "line": 4,
-                "column": 14,
-                "offset": 27
-              }
-            },
-            "identifier": "foo",
-            "label": "foo",
-            "url": "#alpha"
           }
-        ]
+        }
       }
     }
   ]

@@ -4,25 +4,12 @@
     {
       "description": "ATX headings need not be separated from surrounding content by blank lines, and they can interrupt paragraphs",
       "input": "****\n## foo\n****",
-      "markupAnswer": "---\n\n## foo\n\n---",
-      "htmlAnswer": "<hr />\n<h2>foo</h2>\n<hr />",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 5,
-            "offset": 16
-          }
-        },
-        "children": [
-          {
-            "type": "thematicBreak",
+      "answer": {
+        "gfm": {
+          "markup": "---\n\n## foo\n\n---",
+          "html": "<hr />\n<h2>foo</h2>\n<hr />",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -30,62 +17,79 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 5
-              }
-            }
-          },
-          {
-            "type": "heading",
-            "position": {
-              "start": {
-                "line": 2,
-                "column": 1,
-                "offset": 5
-              },
-              "end": {
-                "line": 3,
-                "column": 1,
-                "offset": 12
-              }
-            },
-            "depth": 2,
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 4,
-                    "offset": 8
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 7,
-                    "offset": 11
-                  }
-                },
-                "value": "foo"
-              }
-            ]
-          },
-          {
-            "type": "thematicBreak",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 12
-              },
-              "end": {
                 "line": 3,
                 "column": 5,
                 "offset": 16
               }
-            }
+            },
+            "children": [
+              {
+                "type": "thematicBreak",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 5
+                  }
+                }
+              },
+              {
+                "type": "heading",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 5
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 12
+                  }
+                },
+                "depth": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 4,
+                        "offset": 8
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 7,
+                        "offset": 11
+                      }
+                    },
+                    "value": "foo"
+                  }
+                ]
+              },
+              {
+                "type": "thematicBreak",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 12
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 5,
+                    "offset": 16
+                  }
+                }
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

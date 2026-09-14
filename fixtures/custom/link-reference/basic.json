@@ -4,82 +4,16 @@
     {
       "description": "mdast# https://github.com/syntax-tree/mdast#linkreference",
       "input": "[alpha][Bravo]\n\n[bravo]: #alpha",
-      "markupAnswer": "[alpha][Bravo]\n\n[bravo]: #alpha",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 16,
-            "offset": 31
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "[alpha][Bravo]\n\n[bravo]: #alpha",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 15
-              }
-            },
-            "children": [
-              {
-                "type": "linkReference",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 15,
-                    "offset": 14
-                  }
-                },
-                "identifier": "bravo",
-                "label": "Bravo",
-                "referenceType": "full",
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 2,
-                        "offset": 1
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
-                      }
-                    },
-                    "value": "alpha"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "definition",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 16
               },
               "end": {
                 "line": 3,
@@ -87,49 +21,9 @@
                 "offset": 31
               }
             },
-            "identifier": "bravo",
-            "label": "bravo",
-            "url": "#alpha"
-          }
-        ]
-      }
-    },
-    {
-      "description": "A full reference link could preceded by ]",
-      "input": "a][foo][bar]\n\n[foo]: #alpha\n[bar]: #beta",
-      "markupAnswer": "a][foo][bar]\n\n[foo]: #alpha\n\n[bar]: #beta",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 13,
-            "offset": 40
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 13
-              }
-            },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -137,76 +31,86 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 3,
-                    "offset": 2
+                    "line": 2,
+                    "column": 1,
+                    "offset": 15
                   }
                 },
-                "value": "a]"
-              },
-              {
-                "type": "linkReference",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 3,
-                    "offset": 2
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 13,
-                    "offset": 12
-                  }
-                },
-                "identifier": "bar",
-                "label": "bar",
-                "referenceType": "full",
                 "children": [
                   {
-                    "type": "text",
+                    "type": "linkReference",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 4,
-                        "offset": 3
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 1,
-                        "column": 7,
-                        "offset": 6
+                        "column": 15,
+                        "offset": 14
                       }
                     },
-                    "value": "foo"
+                    "identifier": "bravo",
+                    "label": "Bravo",
+                    "referenceType": "full",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 2,
+                            "offset": 1
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 7,
+                            "offset": 6
+                          }
+                        },
+                        "value": "alpha"
+                      }
+                    ]
                   }
                 ]
+              },
+              {
+                "type": "definition",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 16
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 16,
+                    "offset": 31
+                  }
+                },
+                "identifier": "bravo",
+                "label": "bravo",
+                "url": "#alpha"
               }
             ]
-          },
-          {
-            "type": "definition",
+          }
+        }
+      }
+    },
+    {
+      "description": "A full reference link could preceded by ]",
+      "input": "a][foo][bar]\n\n[foo]: #alpha\n[bar]: #beta",
+      "answer": {
+        "gfm": {
+          "markup": "a][foo][bar]\n\n[foo]: #alpha\n\n[bar]: #beta",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
-                "line": 3,
+                "line": 1,
                 "column": 1,
-                "offset": 14
-              },
-              "end": {
-                "line": 4,
-                "column": 1,
-                "offset": 28
-              }
-            },
-            "identifier": "foo",
-            "label": "foo",
-            "url": "#alpha"
-          },
-          {
-            "type": "definition",
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 28
+                "offset": 0
               },
               "end": {
                 "line": 4,
@@ -214,11 +118,115 @@
                 "offset": 40
               }
             },
-            "identifier": "bar",
-            "label": "bar",
-            "url": "#beta"
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 13
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      }
+                    },
+                    "value": "a]"
+                  },
+                  {
+                    "type": "linkReference",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 13,
+                        "offset": 12
+                      }
+                    },
+                    "identifier": "bar",
+                    "label": "bar",
+                    "referenceType": "full",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 4,
+                            "offset": 3
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 7,
+                            "offset": 6
+                          }
+                        },
+                        "value": "foo"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "definition",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 14
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 28
+                  }
+                },
+                "identifier": "foo",
+                "label": "foo",
+                "url": "#alpha"
+              },
+              {
+                "type": "definition",
+                "position": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 28
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 13,
+                    "offset": 40
+                  }
+                },
+                "identifier": "bar",
+                "label": "bar",
+                "url": "#beta"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

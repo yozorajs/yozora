@@ -4,25 +4,12 @@
     {
       "description": "Here we have three chunks separated by blank lines",
       "input": "    chunk1\n\n    chunk2\n  \n \n \n    chunk3",
-      "markupAnswer": "```\nchunk1\n\nchunk2\n\n\n\nchunk3\n```",
-      "htmlAnswer": "<pre><code>chunk1\n\nchunk2\n\n\n\nchunk3\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 7,
-            "column": 11,
-            "offset": 40
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "```\nchunk1\n\nchunk2\n\n\n\nchunk3\n```",
+          "html": "<pre><code>chunk1\n\nchunk2\n\n\n\nchunk3\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 40
               }
             },
-            "lang": null,
-            "meta": null,
-            "value": "chunk1\n\nchunk2\n\n\n\nchunk3\n"
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 11,
+                    "offset": 40
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "chunk1\n\nchunk2\n\n\n\nchunk3\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

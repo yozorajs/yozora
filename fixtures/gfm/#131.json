@@ -4,25 +4,12 @@
     {
       "description": "Everything until the next blank line or end of document gets included in the HTML block. So, in the following example, what looks like a Markdown code block is actually part of the HTML block, which continues until a blank line or the end of the document is reached",
       "input": "<div></div>\n``` c\nint x = 33;\n```",
-      "markupAnswer": "<div></div>\n``` c\nint x = 33;\n```",
-      "htmlAnswer": "<div></div>\n``` c\nint x = 33;\n```",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 4,
-            "offset": 33
-          }
-        },
-        "children": [
-          {
-            "type": "html",
+      "answer": {
+        "gfm": {
+          "markup": "<div></div>\n``` c\nint x = 33;\n```",
+          "html": "<div></div>\n``` c\nint x = 33;\n```",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,9 +22,26 @@
                 "offset": 33
               }
             },
-            "value": "<div></div>\n``` c\nint x = 33;\n```"
+            "children": [
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 4,
+                    "offset": 33
+                  }
+                },
+                "value": "<div></div>\n``` c\nint x = 33;\n```"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

@@ -4,24 +4,11 @@
     {
       "description": "Since the backticks are optional, the dollar synax should take lower priority than the inlineCode.",
       "input": "$x^2+y^2=z^2$ `inlineCode` $x^2 `y^2$ x`",
-      "markupAnswer": "$x^2+y^2=z^2$ `inlineCode` $x^2 `y^2$ x`",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 41,
-            "offset": 40
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "$x^2+y^2=z^2$ `inlineCode` $x^2 `y^2$ x`",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -36,7 +23,7 @@
             },
             "children": [
               {
-                "type": "inlineMath",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,79 +32,96 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 14,
-                    "offset": 13
-                  }
-                },
-                "value": "x^2+y^2=z^2"
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 14,
-                    "offset": 13
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 15,
-                    "offset": 14
-                  }
-                },
-                "value": " "
-              },
-              {
-                "type": "inlineCode",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 15,
-                    "offset": 14
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 27,
-                    "offset": 26
-                  }
-                },
-                "value": "inlineCode"
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 27,
-                    "offset": 26
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 33,
-                    "offset": 32
-                  }
-                },
-                "value": " $x^2 "
-              },
-              {
-                "type": "inlineCode",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 33,
-                    "offset": 32
-                  },
-                  "end": {
-                    "line": 1,
                     "column": 41,
                     "offset": 40
                   }
                 },
-                "value": "y^2$ x"
+                "children": [
+                  {
+                    "type": "inlineMath",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 14,
+                        "offset": 13
+                      }
+                    },
+                    "value": "x^2+y^2=z^2"
+                  },
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 14,
+                        "offset": 13
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 15,
+                        "offset": 14
+                      }
+                    },
+                    "value": " "
+                  },
+                  {
+                    "type": "inlineCode",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 15,
+                        "offset": 14
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 27,
+                        "offset": 26
+                      }
+                    },
+                    "value": "inlineCode"
+                  },
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 27,
+                        "offset": 26
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 33,
+                        "offset": 32
+                      }
+                    },
+                    "value": " $x^2 "
+                  },
+                  {
+                    "type": "inlineCode",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 33,
+                        "offset": 32
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 41,
+                        "offset": 40
+                      }
+                    },
+                    "value": "y^2$ x"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

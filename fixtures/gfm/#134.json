@@ -4,25 +4,12 @@
     {
       "description": "In type 7 blocks, the tag name can be anything",
       "input": "<i class=\"foo\">\n*bar*\n</i>",
-      "markupAnswer": "<i class=\"foo\">\n*bar*\n</i>",
-      "htmlAnswer": "<i class=\"foo\">\n*bar*\n</i>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 5,
-            "offset": 26
-          }
-        },
-        "children": [
-          {
-            "type": "html",
+      "answer": {
+        "gfm": {
+          "markup": "<i class=\"foo\">\n*bar*\n</i>",
+          "html": "<i class=\"foo\">\n*bar*\n</i>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,9 +22,26 @@
                 "offset": 26
               }
             },
-            "value": "<i class=\"foo\">\n*bar*\n</i>"
+            "children": [
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 5,
+                    "offset": 26
+                  }
+                },
+                "value": "<i class=\"foo\">\n*bar*\n</i>"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

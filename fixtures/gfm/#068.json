@@ -4,25 +4,12 @@
     {
       "description": "Setext heading text lines must not be interpretable as block constructs other than paragraphs. So, the line of dashes in these examples gets interpreted as a thematic break",
       "input": "---\n---",
-      "markupAnswer": "---\n\n---",
-      "htmlAnswer": "<hr />\n<hr />",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 4,
-            "offset": 7
-          }
-        },
-        "children": [
-          {
-            "type": "thematicBreak",
+      "answer": {
+        "gfm": {
+          "markup": "---\n\n---",
+          "html": "<hr />\n<hr />",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -31,27 +18,44 @@
               },
               "end": {
                 "line": 2,
-                "column": 1,
-                "offset": 4
-              }
-            }
-          },
-          {
-            "type": "thematicBreak",
-            "position": {
-              "start": {
-                "line": 2,
-                "column": 1,
-                "offset": 4
-              },
-              "end": {
-                "line": 2,
                 "column": 4,
                 "offset": 7
               }
-            }
+            },
+            "children": [
+              {
+                "type": "thematicBreak",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 4
+                  }
+                }
+              },
+              {
+                "type": "thematicBreak",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 4
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 4,
+                    "offset": 7
+                  }
+                }
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

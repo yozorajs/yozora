@@ -4,25 +4,12 @@
     {
       "description": "But they work in all other contexts, including URLs and link titles, link references, and info strings in fenced code blocks",
       "input": "``` foo\\+bar\nfoo\n```",
-      "markupAnswer": "```foo+bar\nfoo\n```",
-      "htmlAnswer": "<pre><code class=\"language-foo+bar\">foo\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 4,
-            "offset": 20
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "```foo+bar\nfoo\n```",
+          "html": "<pre><code class=\"language-foo+bar\">foo\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 20
               }
             },
-            "lang": "foo+bar",
-            "meta": null,
-            "value": "foo\n"
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 4,
+                    "offset": 20
+                  }
+                },
+                "lang": "foo+bar",
+                "meta": null,
+                "value": "foo\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

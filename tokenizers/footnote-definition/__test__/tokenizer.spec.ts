@@ -7,15 +7,21 @@ import { parsers } from 'vitest.setup'
 import FootnoteDefinitionTokenizer from '../src'
 
 createTokenizerTesters(
-  parsers.gfm
-    .useTokenizer(new FootnoteDefinitionTokenizer(), DefinitionTokenizerName)
-    .useTokenizer(new FootnoteTokenizer())
-    .useTokenizer(new FootnoteReferenceTokenizer()),
-  parsers.gfmEx
-    .useTokenizer(new FootnoteDefinitionTokenizer(), DefinitionTokenizerName)
-    .useTokenizer(new FootnoteTokenizer())
-    .useTokenizer(new FootnoteReferenceTokenizer()),
-  parsers.yozora,
+  [
+    'gfm',
+    parsers.gfm
+      .useTokenizer(new FootnoteDefinitionTokenizer(), DefinitionTokenizerName)
+      .useTokenizer(new FootnoteTokenizer())
+      .useTokenizer(new FootnoteReferenceTokenizer()),
+  ],
+  [
+    'gfm-ex',
+    parsers.gfmEx
+      .useTokenizer(new FootnoteDefinitionTokenizer(), DefinitionTokenizerName)
+      .useTokenizer(new FootnoteTokenizer())
+      .useTokenizer(new FootnoteReferenceTokenizer()),
+  ],
+  ['yozora', parsers.yozora],
 ).forEach(tester => {
   tester.scan(['custom/footnote', 'custom/footnote-definition']).runTest()
 })

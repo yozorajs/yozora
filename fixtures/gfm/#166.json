@@ -4,96 +4,17 @@
     {
       "description": "However, it may not contain a blank line",
       "input": "[foo]: /url 'title\n\nwith blank line'\n\n[foo]",
-      "markupAnswer": "[foo]: /url 'title\n\nwith blank line'\n\n[foo]",
-      "htmlAnswer": "<p>[foo]: /url 'title</p>\n<p>with blank line'</p>\n<p>[foo]</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 5,
-            "column": 6,
-            "offset": 43
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "[foo]: /url 'title\n\nwith blank line'\n\n[foo]",
+          "html": "<p>[foo]: /url 'title</p>\n<p>with blank line'</p>\n<p>[foo]</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 19
-              }
-            },
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 19,
-                    "offset": 18
-                  }
-                },
-                "value": "[foo]: /url 'title"
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 20
-              },
-              "end": {
-                "line": 4,
-                "column": 1,
-                "offset": 37
-              }
-            },
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 20
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 17,
-                    "offset": 36
-                  }
-                },
-                "value": "with blank line'"
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 5,
-                "column": 1,
-                "offset": 38
               },
               "end": {
                 "line": 5,
@@ -103,7 +24,73 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 19
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 19,
+                        "offset": 18
+                      }
+                    },
+                    "value": "[foo]: /url 'title"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 20
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 37
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 20
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 17,
+                        "offset": 36
+                      }
+                    },
+                    "value": "with blank line'"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 5,
@@ -116,11 +103,28 @@
                     "offset": 43
                   }
                 },
-                "value": "[foo]"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 5,
+                        "column": 1,
+                        "offset": 38
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 6,
+                        "offset": 43
+                      }
+                    },
+                    "value": "[foo]"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

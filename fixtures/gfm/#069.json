@@ -4,25 +4,12 @@
     {
       "description": "Setext heading text lines must not be interpretable as block constructs other than paragraphs. So, the line of dashes in these examples gets interpreted as a thematic break",
       "input": "- foo\n-----",
-      "markupAnswer": "- foo\n\n---",
-      "htmlAnswer": "<ul>\n<li>foo</li>\n</ul>\n<hr />",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 6,
-            "offset": 11
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "- foo\n\n---",
+          "html": "<ul>\n<li>foo</li>\n</ul>\n<hr />",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -31,16 +18,13 @@
               },
               "end": {
                 "line": 2,
-                "column": 1,
-                "offset": 6
+                "column": 6,
+                "offset": 11
               }
             },
-            "ordered": false,
-            "marker": 45,
-            "spread": false,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -53,43 +37,63 @@
                     "offset": 6
                   }
                 },
+                "ordered": false,
+                "marker": 45,
+                "spread": false,
                 "children": [
                   {
-                    "type": "text",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 3,
-                        "offset": 2
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
-                        "line": 1,
-                        "column": 6,
-                        "offset": 5
+                        "line": 2,
+                        "column": 1,
+                        "offset": 6
                       }
                     },
-                    "value": "foo"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 6,
+                            "offset": 5
+                          }
+                        },
+                        "value": "foo"
+                      }
+                    ]
                   }
                 ]
+              },
+              {
+                "type": "thematicBreak",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 6
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 6,
+                    "offset": 11
+                  }
+                }
               }
             ]
-          },
-          {
-            "type": "thematicBreak",
-            "position": {
-              "start": {
-                "line": 2,
-                "column": 1,
-                "offset": 6
-              },
-              "end": {
-                "line": 2,
-                "column": 6,
-                "offset": 11
-              }
-            }
           }
-        ]
+        }
       }
     }
   ]

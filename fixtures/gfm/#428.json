@@ -4,25 +4,12 @@
     {
       "description": "Indefinite levels of nesting are possible",
       "input": "*foo [*bar*](/url)*",
-      "markupAnswer": "*foo [*bar*](/url)*",
-      "htmlAnswer": "<p><em>foo <a href=\"/url\"><em>bar</em></a></em></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 20,
-            "offset": 19
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "*foo [*bar*](/url)*",
+          "html": "<p><em>foo <a href=\"/url\"><em>bar</em></a></em></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "emphasis",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -52,67 +39,84 @@
                 },
                 "children": [
                   {
-                    "type": "text",
+                    "type": "emphasis",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 2,
-                        "offset": 1
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 1,
-                        "column": 6,
-                        "offset": 5
+                        "column": 20,
+                        "offset": 19
                       }
                     },
-                    "value": "foo "
-                  },
-                  {
-                    "type": "link",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 6,
-                        "offset": 5
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 19,
-                        "offset": 18
-                      }
-                    },
-                    "url": "/url",
                     "children": [
                       {
-                        "type": "emphasis",
+                        "type": "text",
                         "position": {
                           "start": {
                             "line": 1,
-                            "column": 7,
-                            "offset": 6
+                            "column": 2,
+                            "offset": 1
                           },
                           "end": {
                             "line": 1,
-                            "column": 12,
-                            "offset": 11
+                            "column": 6,
+                            "offset": 5
                           }
                         },
+                        "value": "foo "
+                      },
+                      {
+                        "type": "link",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 6,
+                            "offset": 5
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 19,
+                            "offset": 18
+                          }
+                        },
+                        "url": "/url",
                         "children": [
                           {
-                            "type": "text",
+                            "type": "emphasis",
                             "position": {
                               "start": {
                                 "line": 1,
-                                "column": 8,
-                                "offset": 7
+                                "column": 7,
+                                "offset": 6
                               },
                               "end": {
                                 "line": 1,
-                                "column": 11,
-                                "offset": 10
+                                "column": 12,
+                                "offset": 11
                               }
                             },
-                            "value": "bar"
+                            "children": [
+                              {
+                                "type": "text",
+                                "position": {
+                                  "start": {
+                                    "line": 1,
+                                    "column": 8,
+                                    "offset": 7
+                                  },
+                                  "end": {
+                                    "line": 1,
+                                    "column": 11,
+                                    "offset": 10
+                                  }
+                                },
+                                "value": "bar"
+                              }
+                            ]
                           }
                         ]
                       }
@@ -122,7 +126,7 @@
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

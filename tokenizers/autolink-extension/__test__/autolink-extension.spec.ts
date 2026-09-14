@@ -4,9 +4,9 @@ import { parsers, scanGfmFixtures } from 'vitest.setup'
 import AutolinkExtensionTokenizer from '../src'
 
 createTokenizerTesters(
-  parsers.gfm.useTokenizer(new AutolinkExtensionTokenizer()),
-  parsers.gfmEx,
-  parsers.yozora,
+  ['gfm', parsers.gfm.useTokenizer(new AutolinkExtensionTokenizer())],
+  ['gfm-ex', parsers.gfmEx],
+  ['yozora', parsers.yozora],
 ).forEach(tester => {
   scanGfmFixtures(scanGfmFixtures(tester, { includeGroups: ['autolink-extension'] }), {
     includeGroups: ['autolink'],

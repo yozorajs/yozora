@@ -4,25 +4,12 @@
     {
       "description": "Rule 15",
       "input": "*foo _bar* baz_",
-      "markupAnswer": "*foo \\_bar* baz_",
-      "htmlAnswer": "<p><em>foo _bar</em> baz_</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 16,
-            "offset": 15
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "*foo \\_bar* baz_",
+          "html": "<p><em>foo _bar</em> baz_</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "emphasis",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,48 +33,65 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 11,
-                    "offset": 10
+                    "column": 16,
+                    "offset": 15
                   }
                 },
                 "children": [
+                  {
+                    "type": "emphasis",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 11,
+                        "offset": 10
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 2,
+                            "offset": 1
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 10,
+                            "offset": 9
+                          }
+                        },
+                        "value": "foo _bar"
+                      }
+                    ]
+                  },
                   {
                     "type": "text",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 2,
-                        "offset": 1
+                        "column": 11,
+                        "offset": 10
                       },
                       "end": {
                         "line": 1,
-                        "column": 10,
-                        "offset": 9
+                        "column": 16,
+                        "offset": 15
                       }
                     },
-                    "value": "foo _bar"
+                    "value": " baz_"
                   }
                 ]
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 11,
-                    "offset": 10
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 16,
-                    "offset": 15
-                  }
-                },
-                "value": " baz_"
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

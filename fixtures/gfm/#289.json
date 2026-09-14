@@ -4,25 +4,12 @@
     {
       "description": "To separate consecutive lists of the same type, or to separate a list from an indented code block that would otherwise be parsed as a subparagraph of the final list item, you can insert a blank HTML comment",
       "input": "-   foo\n\n    notcode\n\n-   foo\n\n<!-- -->\n\n    code",
-      "markupAnswer": "- foo\n  \n  notcode\n\n- foo\n\n<!-- -->\n\n```\ncode\n```",
-      "htmlAnswer": "<ul>\n<li>\n<p>foo</p>\n<p>notcode</p>\n</li>\n<li>\n<p>foo</p>\n</li>\n</ul>\n<!-- -->\n<pre><code>code\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 9,
-            "column": 9,
-            "offset": 49
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "- foo\n  \n  notcode\n\n- foo\n\n<!-- -->\n\n```\ncode\n```",
+          "html": "<ul>\n<li>\n<p>foo</p>\n<p>notcode</p>\n</li>\n<li>\n<p>foo</p>\n</li>\n</ul>\n<!-- -->\n<pre><code>code\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -30,17 +17,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 6,
-                "column": 1,
-                "offset": 30
+                "line": 9,
+                "column": 9,
+                "offset": 49
               }
             },
-            "ordered": false,
-            "marker": 45,
-            "spread": true,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -48,52 +32,22 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 4,
+                    "line": 6,
                     "column": 1,
-                    "offset": 21
+                    "offset": 30
                   }
                 },
+                "ordered": false,
+                "marker": 45,
+                "spread": true,
                 "children": [
                   {
-                    "type": "paragraph",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 5,
-                        "offset": 4
-                      },
-                      "end": {
-                        "line": 2,
                         "column": 1,
-                        "offset": 8
-                      }
-                    },
-                    "children": [
-                      {
-                        "type": "text",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 5,
-                            "offset": 4
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 8,
-                            "offset": 7
-                          }
-                        },
-                        "value": "foo"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "paragraph",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 5,
-                        "offset": 13
+                        "offset": 0
                       },
                       "end": {
                         "line": 4,
@@ -103,7 +57,40 @@
                     },
                     "children": [
                       {
-                        "type": "text",
+                        "type": "paragraph",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 5,
+                            "offset": 4
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 1,
+                            "offset": 8
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 5,
+                                "offset": 4
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 8,
+                                "offset": 7
+                              }
+                            },
+                            "value": "foo"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "paragraph",
                         "position": {
                           "start": {
                             "line": 3,
@@ -111,39 +98,39 @@
                             "offset": 13
                           },
                           "end": {
-                            "line": 3,
-                            "column": 12,
-                            "offset": 20
+                            "line": 4,
+                            "column": 1,
+                            "offset": 21
                           }
                         },
-                        "value": "notcode"
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 3,
+                                "column": 5,
+                                "offset": 13
+                              },
+                              "end": {
+                                "line": 3,
+                                "column": 12,
+                                "offset": 20
+                              }
+                            },
+                            "value": "notcode"
+                          }
+                        ]
                       }
                     ]
-                  }
-                ]
-              },
-              {
-                "type": "listItem",
-                "position": {
-                  "start": {
-                    "line": 5,
-                    "column": 1,
-                    "offset": 22
                   },
-                  "end": {
-                    "line": 6,
-                    "column": 1,
-                    "offset": 30
-                  }
-                },
-                "children": [
                   {
-                    "type": "paragraph",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 5,
-                        "column": 5,
-                        "offset": 26
+                        "column": 1,
+                        "offset": 22
                       },
                       "end": {
                         "line": 6,
@@ -153,7 +140,7 @@
                     },
                     "children": [
                       {
-                        "type": "text",
+                        "type": "paragraph",
                         "position": {
                           "start": {
                             "line": 5,
@@ -161,54 +148,71 @@
                             "offset": 26
                           },
                           "end": {
-                            "line": 5,
-                            "column": 8,
-                            "offset": 29
+                            "line": 6,
+                            "column": 1,
+                            "offset": 30
                           }
                         },
-                        "value": "foo"
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 5,
+                                "column": 5,
+                                "offset": 26
+                              },
+                              "end": {
+                                "line": 5,
+                                "column": 8,
+                                "offset": 29
+                              }
+                            },
+                            "value": "foo"
+                          }
+                        ]
                       }
                     ]
                   }
                 ]
+              },
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 31
+                  },
+                  "end": {
+                    "line": 8,
+                    "column": 1,
+                    "offset": 40
+                  }
+                },
+                "value": "<!-- -->\n"
+              },
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 41
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 9,
+                    "offset": 49
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "code\n"
               }
             ]
-          },
-          {
-            "type": "html",
-            "position": {
-              "start": {
-                "line": 7,
-                "column": 1,
-                "offset": 31
-              },
-              "end": {
-                "line": 8,
-                "column": 1,
-                "offset": 40
-              }
-            },
-            "value": "<!-- -->\n"
-          },
-          {
-            "type": "code",
-            "position": {
-              "start": {
-                "line": 9,
-                "column": 1,
-                "offset": 41
-              },
-              "end": {
-                "line": 9,
-                "column": 9,
-                "offset": 49
-              }
-            },
-            "lang": null,
-            "meta": null,
-            "value": "code\n"
           }
-        ]
+        }
       }
     }
   ]

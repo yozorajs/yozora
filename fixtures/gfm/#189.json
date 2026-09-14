@@ -4,63 +4,17 @@
     {
       "description": "A simple example with two paragraphs",
       "input": "aaa\n\nbbb",
-      "markupAnswer": "aaa\n\nbbb",
-      "htmlAnswer": "<p>aaa</p>\n<p>bbb</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 4,
-            "offset": 8
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "aaa\n\nbbb",
+          "html": "<p>aaa</p>\n<p>bbb</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 4
-              }
-            },
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 4,
-                    "offset": 3
-                  }
-                },
-                "value": "aaa"
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 5
               },
               "end": {
                 "line": 3,
@@ -70,7 +24,40 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 4
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      }
+                    },
+                    "value": "aaa"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 3,
@@ -83,11 +70,28 @@
                     "offset": 8
                   }
                 },
-                "value": "bbb"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 5
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 4,
+                        "offset": 8
+                      }
+                    },
+                    "value": "bbb"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

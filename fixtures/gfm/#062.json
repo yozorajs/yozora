@@ -4,25 +4,12 @@
     {
       "description": "The setext heading underline cannot be a lazy continuation line in a list item or block quote",
       "input": "> Foo\n---",
-      "markupAnswer": "> Foo\n\n---",
-      "htmlAnswer": "<blockquote>\n<p>Foo</p>\n</blockquote>\n<hr />",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 4,
-            "offset": 9
-          }
-        },
-        "children": [
-          {
-            "type": "blockquote",
+      "answer": {
+        "gfm": {
+          "markup": "> Foo\n\n---",
+          "html": "<blockquote>\n<p>Foo</p>\n</blockquote>\n<hr />",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -31,18 +18,18 @@
               },
               "end": {
                 "line": 2,
-                "column": 1,
-                "offset": 6
+                "column": 4,
+                "offset": 9
               }
             },
             "children": [
               {
-                "type": "paragraph",
+                "type": "blockquote",
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 3,
-                    "offset": 2
+                    "column": 1,
+                    "offset": 0
                   },
                   "end": {
                     "line": 2,
@@ -52,7 +39,7 @@
                 },
                 "children": [
                   {
-                    "type": "text",
+                    "type": "paragraph",
                     "position": {
                       "start": {
                         "line": 1,
@@ -60,33 +47,50 @@
                         "offset": 2
                       },
                       "end": {
-                        "line": 1,
-                        "column": 6,
-                        "offset": 5
+                        "line": 2,
+                        "column": 1,
+                        "offset": 6
                       }
                     },
-                    "value": "Foo"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 6,
+                            "offset": 5
+                          }
+                        },
+                        "value": "Foo"
+                      }
+                    ]
                   }
                 ]
+              },
+              {
+                "type": "thematicBreak",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 6
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 4,
+                    "offset": 9
+                  }
+                }
               }
             ]
-          },
-          {
-            "type": "thematicBreak",
-            "position": {
-              "start": {
-                "line": 2,
-                "column": 1,
-                "offset": 6
-              },
-              "end": {
-                "line": 2,
-                "column": 4,
-                "offset": 9
-              }
-            }
           }
-        ]
+        }
       }
     }
   ]

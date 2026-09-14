@@ -4,25 +4,12 @@
     {
       "description": "Note that many strings that count as absolute URIs for purposes of this spec are not valid URIs, because their schemes are not registered or because of other problems with their syntax",
       "input": "<made-up-scheme://foo,bar>",
-      "markupAnswer": "[made-up-scheme://foo,bar](made-up-scheme://foo,bar)",
-      "htmlAnswer": "<p><a href=\"made-up-scheme://foo,bar\">made-up-scheme://foo,bar</a></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 27,
-            "offset": 26
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "[made-up-scheme://foo,bar](made-up-scheme://foo,bar)",
+          "html": "<p><a href=\"made-up-scheme://foo,bar\">made-up-scheme://foo,bar</a></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "link",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -50,29 +37,46 @@
                     "offset": 26
                   }
                 },
-                "url": "made-up-scheme://foo,bar",
                 "children": [
                   {
-                    "type": "text",
+                    "type": "link",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 2,
-                        "offset": 1
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 1,
-                        "column": 26,
-                        "offset": 25
+                        "column": 27,
+                        "offset": 26
                       }
                     },
-                    "value": "made-up-scheme://foo,bar"
+                    "url": "made-up-scheme://foo,bar",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 2,
+                            "offset": 1
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 26,
+                            "offset": 25
+                          }
+                        },
+                        "value": "made-up-scheme://foo,bar"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

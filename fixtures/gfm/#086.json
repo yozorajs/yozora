@@ -4,25 +4,12 @@
     {
       "description": "The first line can be indented more than four spaces",
       "input": "        foo\n    bar",
-      "markupAnswer": "```\n    foo\nbar\n```",
-      "htmlAnswer": "<pre><code>    foo\nbar\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 8,
-            "offset": 19
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "```\n    foo\nbar\n```",
+          "html": "<pre><code>    foo\nbar\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 19
               }
             },
-            "lang": null,
-            "meta": null,
-            "value": "    foo\nbar\n"
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 8,
+                    "offset": 19
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "    foo\nbar\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

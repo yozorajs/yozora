@@ -4,25 +4,12 @@
     {
       "description": "If the first block in the list item is an indented code block, then by rule #2, the contents must be indented one space after the list marker",
       "input": "1.     indented code\n\n   paragraph\n\n       more code",
-      "markupAnswer": "1. ```\n   indented code\n   ```\n   \n   paragraph\n   \n   ```\n   more code\n   ```",
-      "htmlAnswer": "<ol>\n<li>\n<pre><code>indented code\n</code></pre>\n<p>paragraph</p>\n<pre><code>more code\n</code></pre>\n</li>\n</ol>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 5,
-            "column": 17,
-            "offset": 52
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "1. ```\n   indented code\n   ```\n   \n   paragraph\n   \n   ```\n   more code\n   ```",
+          "html": "<ol>\n<li>\n<pre><code>indented code\n</code></pre>\n<p>paragraph</p>\n<pre><code>more code\n</code></pre>\n</li>\n</ol>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,14 +22,9 @@
                 "offset": 52
               }
             },
-            "ordered": true,
-            "orderType": "1",
-            "start": 1,
-            "marker": 46,
-            "spread": true,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -55,65 +37,19 @@
                     "offset": 52
                   }
                 },
+                "ordered": true,
+                "orderType": "1",
+                "start": 1,
+                "marker": 46,
+                "spread": true,
                 "children": [
                   {
-                    "type": "code",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 4,
-                        "offset": 3
-                      },
-                      "end": {
-                        "line": 3,
                         "column": 1,
-                        "offset": 22
-                      }
-                    },
-                    "lang": null,
-                    "meta": null,
-                    "value": "indented code\n"
-                  },
-                  {
-                    "type": "paragraph",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 4,
-                        "offset": 25
-                      },
-                      "end": {
-                        "line": 4,
-                        "column": 1,
-                        "offset": 35
-                      }
-                    },
-                    "children": [
-                      {
-                        "type": "text",
-                        "position": {
-                          "start": {
-                            "line": 3,
-                            "column": 4,
-                            "offset": 25
-                          },
-                          "end": {
-                            "line": 3,
-                            "column": 13,
-                            "offset": 34
-                          }
-                        },
-                        "value": "paragraph"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "code",
-                    "position": {
-                      "start": {
-                        "line": 5,
-                        "column": 4,
-                        "offset": 39
+                        "offset": 0
                       },
                       "end": {
                         "line": 5,
@@ -121,15 +57,83 @@
                         "offset": 52
                       }
                     },
-                    "lang": null,
-                    "meta": null,
-                    "value": "more code\n"
+                    "children": [
+                      {
+                        "type": "code",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 4,
+                            "offset": 3
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 1,
+                            "offset": 22
+                          }
+                        },
+                        "lang": null,
+                        "meta": null,
+                        "value": "indented code\n"
+                      },
+                      {
+                        "type": "paragraph",
+                        "position": {
+                          "start": {
+                            "line": 3,
+                            "column": 4,
+                            "offset": 25
+                          },
+                          "end": {
+                            "line": 4,
+                            "column": 1,
+                            "offset": 35
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 3,
+                                "column": 4,
+                                "offset": 25
+                              },
+                              "end": {
+                                "line": 3,
+                                "column": 13,
+                                "offset": 34
+                              }
+                            },
+                            "value": "paragraph"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "code",
+                        "position": {
+                          "start": {
+                            "line": 5,
+                            "column": 4,
+                            "offset": 39
+                          },
+                          "end": {
+                            "line": 5,
+                            "column": 17,
+                            "offset": 52
+                          }
+                        },
+                        "lang": null,
+                        "meta": null,
+                        "value": "more code\n"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

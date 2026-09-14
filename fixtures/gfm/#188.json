@@ -4,25 +4,12 @@
     {
       "description": "Whether something is a link reference definition is independent of whether the link reference it defines is used in the document. Thus, for example, the following document contains just a link reference definition, and no visible content",
       "input": "[foo]: /url",
-      "markupAnswer": "[foo]: /url",
-      "htmlAnswer": "",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 12,
-            "offset": 11
-          }
-        },
-        "children": [
-          {
-            "type": "definition",
+      "answer": {
+        "gfm": {
+          "markup": "[foo]: /url",
+          "html": "",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 11
               }
             },
-            "identifier": "foo",
-            "label": "foo",
-            "url": "/url"
+            "children": [
+              {
+                "type": "definition",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 12,
+                    "offset": 11
+                  }
+                },
+                "identifier": "foo",
+                "label": "foo",
+                "url": "/url"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

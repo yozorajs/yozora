@@ -4,78 +4,17 @@
     {
       "description": "Thematic breaks can interrupt a paragraph",
       "input": "Foo\n***\nbar",
-      "markupAnswer": "Foo\n\n---\n\nbar",
-      "htmlAnswer": "<p>Foo</p>\n<hr />\n<p>bar</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 4,
-            "offset": 11
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "Foo\n\n---\n\nbar",
+          "html": "<p>Foo</p>\n<hr />\n<p>bar</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 4
-              }
-            },
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 4,
-                    "offset": 3
-                  }
-                },
-                "value": "Foo"
-              }
-            ]
-          },
-          {
-            "type": "thematicBreak",
-            "position": {
-              "start": {
-                "line": 2,
-                "column": 1,
-                "offset": 4
-              },
-              "end": {
-                "line": 3,
-                "column": 1,
-                "offset": 8
-              }
-            }
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 8
               },
               "end": {
                 "line": 3,
@@ -85,7 +24,55 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 4
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      }
+                    },
+                    "value": "Foo"
+                  }
+                ]
+              },
+              {
+                "type": "thematicBreak",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 4
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 8
+                  }
+                }
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 3,
@@ -98,11 +85,28 @@
                     "offset": 11
                   }
                 },
-                "value": "bar"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 8
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 4,
+                        "offset": 11
+                      }
+                    },
+                    "value": "bar"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

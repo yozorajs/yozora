@@ -4,25 +4,12 @@
     {
       "description": "In particular, emphasis and strong emphasis can be nested inside emphasis",
       "input": "__foo_ bar_",
-      "markupAnswer": "*_foo_ bar*",
-      "htmlAnswer": "<p><em><em>foo</em> bar</em></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 12,
-            "offset": 11
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "*_foo_ bar*",
+          "html": "<p><em><em>foo</em> bar</em></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "emphasis",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -56,55 +43,72 @@
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 2,
-                        "offset": 1
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 1,
-                        "column": 7,
-                        "offset": 6
+                        "column": 12,
+                        "offset": 11
                       }
                     },
                     "children": [
+                      {
+                        "type": "emphasis",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 2,
+                            "offset": 1
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 7,
+                            "offset": 6
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 3,
+                                "offset": 2
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 6,
+                                "offset": 5
+                              }
+                            },
+                            "value": "foo"
+                          }
+                        ]
+                      },
                       {
                         "type": "text",
                         "position": {
                           "start": {
                             "line": 1,
-                            "column": 3,
-                            "offset": 2
+                            "column": 7,
+                            "offset": 6
                           },
                           "end": {
                             "line": 1,
-                            "column": 6,
-                            "offset": 5
+                            "column": 11,
+                            "offset": 10
                           }
                         },
-                        "value": "foo"
+                        "value": " bar"
                       }
                     ]
-                  },
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 11,
-                        "offset": 10
-                      }
-                    },
-                    "value": " bar"
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

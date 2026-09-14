@@ -4,25 +4,12 @@
     {
       "description": "Four spaces indentation produces an indented code block",
       "input": "    ```\n    aaa\n    ```",
-      "markupAnswer": "````\n```\naaa\n```\n````",
-      "htmlAnswer": "<pre><code>```\naaa\n```\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 8,
-            "offset": 23
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "````\n```\naaa\n```\n````",
+          "html": "<pre><code>```\naaa\n```\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 23
               }
             },
-            "lang": null,
-            "meta": null,
-            "value": "```\naaa\n```\n"
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 8,
+                    "offset": 23
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "```\naaa\n```\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

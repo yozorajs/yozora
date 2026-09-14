@@ -4,25 +4,12 @@
     {
       "description": "The tag on the first line can be partial, as long as it is split where there would be whitespace",
       "input": "<div id=\"foo\"\n  class=\"bar\">\n</div>",
-      "markupAnswer": "<div id=\"foo\"\n  class=\"bar\">\n</div>",
-      "htmlAnswer": "<div id=\"foo\"\n  class=\"bar\">\n</div>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 7,
-            "offset": 35
-          }
-        },
-        "children": [
-          {
-            "type": "html",
+      "answer": {
+        "gfm": {
+          "markup": "<div id=\"foo\"\n  class=\"bar\">\n</div>",
+          "html": "<div id=\"foo\"\n  class=\"bar\">\n</div>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,9 +22,26 @@
                 "offset": 35
               }
             },
-            "value": "<div id=\"foo\"\n  class=\"bar\">\n</div>"
+            "children": [
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 7,
+                    "offset": 35
+                  }
+                },
+                "value": "<div id=\"foo\"\n  class=\"bar\">\n</div>"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

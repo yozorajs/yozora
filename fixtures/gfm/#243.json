@@ -4,25 +4,12 @@
     {
       "description": "Note that ordered list start numbers must be nine digits or less",
       "input": "123456789. ok",
-      "markupAnswer": "123456789. ok",
-      "htmlAnswer": "<ol start=\"123456789\">\n<li>ok</li>\n</ol>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 14,
-            "offset": 13
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "123456789. ok",
+          "html": "<ol start=\"123456789\">\n<li>ok</li>\n</ol>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,14 +22,9 @@
                 "offset": 13
               }
             },
-            "ordered": true,
-            "orderType": "1",
-            "start": 123456789,
-            "marker": 46,
-            "spread": false,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -55,14 +37,19 @@
                     "offset": 13
                   }
                 },
+                "ordered": true,
+                "orderType": "1",
+                "start": 123456789,
+                "marker": 46,
+                "spread": false,
                 "children": [
                   {
-                    "type": "text",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 12,
-                        "offset": 11
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 1,
@@ -70,13 +57,30 @@
                         "offset": 13
                       }
                     },
-                    "value": "ok"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 12,
+                            "offset": 11
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 14,
+                            "offset": 13
+                          }
+                        },
+                        "value": "ok"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

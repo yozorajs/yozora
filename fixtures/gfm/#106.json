@@ -4,25 +4,12 @@
     {
       "description": "Closing fences may be indented by 0-3 spaces, and their indentation need not match that of the opening fence",
       "input": "   ```\naaa\n  ```",
-      "markupAnswer": "```\naaa\n```",
-      "htmlAnswer": "<pre><code>aaa\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 6,
-            "offset": 16
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "```\naaa\n```",
+          "html": "<pre><code>aaa\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 16
               }
             },
-            "lang": null,
-            "meta": null,
-            "value": "aaa\n"
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 6,
+                    "offset": 16
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "aaa\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

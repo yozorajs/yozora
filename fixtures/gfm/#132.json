@@ -4,25 +4,12 @@
     {
       "description": "To start an HTML block with a tag that is not in the list of block-level tags in (6), you must put the tag by itself on the first line (and it must be complete)",
       "input": "<a href=\"foo\">\n*bar*\n</a>",
-      "markupAnswer": "<a href=\"foo\">\n*bar*\n</a>",
-      "htmlAnswer": "<a href=\"foo\">\n*bar*\n</a>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 5,
-            "offset": 25
-          }
-        },
-        "children": [
-          {
-            "type": "html",
+      "answer": {
+        "gfm": {
+          "markup": "<a href=\"foo\">\n*bar*\n</a>",
+          "html": "<a href=\"foo\">\n*bar*\n</a>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,9 +22,26 @@
                 "offset": 25
               }
             },
-            "value": "<a href=\"foo\">\n*bar*\n</a>"
+            "children": [
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 5,
+                    "offset": 25
+                  }
+                },
+                "value": "<a href=\"foo\">\n*bar*\n</a>"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

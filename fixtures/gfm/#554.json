@@ -4,24 +4,11 @@
     {
       "description": "Note that matching is performed on normalized strings, not parsed inline content. So the following does not match, even though the labels define equivalent inline content",
       "input": "[bar][foo\\!]\n\n[foo!]: /url",
-      "htmlAnswer": "<p>[bar][foo!]</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 13,
-            "offset": 26
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "html": "<p>[bar][foo!]</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -29,14 +16,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 13
+                "line": 3,
+                "column": 13,
+                "offset": 26
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -44,34 +31,51 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 13,
-                    "offset": 12
+                    "line": 2,
+                    "column": 1,
+                    "offset": 13
                   }
                 },
-                "value": "[bar][foo!]"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 13,
+                        "offset": 12
+                      }
+                    },
+                    "value": "[bar][foo!]"
+                  }
+                ]
+              },
+              {
+                "type": "definition",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 14
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 13,
+                    "offset": 26
+                  }
+                },
+                "identifier": "foo!",
+                "label": "foo!",
+                "url": "/url"
               }
             ]
-          },
-          {
-            "type": "definition",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 14
-              },
-              "end": {
-                "line": 3,
-                "column": 13,
-                "offset": 26
-              }
-            },
-            "identifier": "foo!",
-            "label": "foo!",
-            "url": "/url"
           }
-        ]
+        }
       }
     }
   ]

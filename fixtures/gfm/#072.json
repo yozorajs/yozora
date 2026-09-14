@@ -4,25 +4,12 @@
     {
       "description": "If you want a heading with > foo as its literal text, you can use backslash escapes",
       "input": "\\> foo\n------",
-      "markupAnswer": "\\> foo\n---",
-      "htmlAnswer": "<h2>&gt; foo</h2>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 7,
-            "offset": 13
-          }
-        },
-        "children": [
-          {
-            "type": "heading",
+      "answer": {
+        "gfm": {
+          "markup": "\\> foo\n---",
+          "html": "<h2>&gt; foo</h2>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,10 +22,9 @@
                 "offset": 13
               }
             },
-            "depth": 2,
             "children": [
               {
-                "type": "text",
+                "type": "heading",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,16 +32,34 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
+                    "line": 2,
                     "column": 7,
-                    "offset": 6
+                    "offset": 13
                   }
                 },
-                "value": "> foo"
+                "depth": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      }
+                    },
+                    "value": "> foo"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

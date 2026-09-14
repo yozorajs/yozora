@@ -4,25 +4,12 @@
     {
       "description": "Other blocks can also occur before and after fenced code blocks without an intervening blank line",
       "input": "foo\n---\n~~~\nbar\n~~~\n# baz",
-      "markupAnswer": "foo\n---\n\n```\nbar\n```\n\n# baz",
-      "htmlAnswer": "<h2>foo</h2>\n<pre><code>bar\n</code></pre>\n<h1>baz</h1>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 6,
-            "column": 6,
-            "offset": 25
-          }
-        },
-        "children": [
-          {
-            "type": "heading",
+      "answer": {
+        "gfm": {
+          "markup": "foo\n---\n\n```\nbar\n```\n\n# baz",
+          "html": "<h2>foo</h2>\n<pre><code>bar\n</code></pre>\n<h1>baz</h1>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -30,15 +17,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 3,
-                "column": 1,
-                "offset": 8
+                "line": 6,
+                "column": 6,
+                "offset": 25
               }
             },
-            "depth": 2,
             "children": [
               {
-                "type": "text",
+                "type": "heading",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,56 +32,56 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 4,
-                    "offset": 3
+                    "line": 3,
+                    "column": 1,
+                    "offset": 8
                   }
                 },
-                "value": "foo"
-              }
-            ]
-          },
-          {
-            "type": "code",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 8
+                "depth": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      }
+                    },
+                    "value": "foo"
+                  }
+                ]
               },
-              "end": {
-                "line": 6,
-                "column": 1,
-                "offset": 20
-              }
-            },
-            "lang": null,
-            "meta": null,
-            "value": "bar\n"
-          },
-          {
-            "type": "heading",
-            "position": {
-              "start": {
-                "line": 6,
-                "column": 1,
-                "offset": 20
-              },
-              "end": {
-                "line": 6,
-                "column": 6,
-                "offset": 25
-              }
-            },
-            "depth": 1,
-            "children": [
               {
-                "type": "text",
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 8
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 1,
+                    "offset": 20
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "bar\n"
+              },
+              {
+                "type": "heading",
                 "position": {
                   "start": {
                     "line": 6,
-                    "column": 3,
-                    "offset": 22
+                    "column": 1,
+                    "offset": 20
                   },
                   "end": {
                     "line": 6,
@@ -103,11 +89,29 @@
                     "offset": 25
                   }
                 },
-                "value": "baz"
+                "depth": 1,
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 6,
+                        "column": 3,
+                        "offset": 22
+                      },
+                      "end": {
+                        "line": 6,
+                        "column": 6,
+                        "offset": 25
+                      }
+                    },
+                    "value": "baz"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

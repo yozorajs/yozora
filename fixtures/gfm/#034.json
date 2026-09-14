@@ -4,63 +4,17 @@
     {
       "description": "At least one space is required between the # characters and the heading’s contents, unless the heading is empty. Note that many implementations currently do not require the space. However, the space was required by the original ATX implementation, and it helps prevent things like the following from being parsed as headings",
       "input": "#5 bolt\n\n#hashtag",
-      "markupAnswer": "#5 bolt\n\n#hashtag",
-      "htmlAnswer": "<p>#5 bolt</p>\n<p>#hashtag</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 9,
-            "offset": 17
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "#5 bolt\n\n#hashtag",
+          "html": "<p>#5 bolt</p>\n<p>#hashtag</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 8
-              }
-            },
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 8,
-                    "offset": 7
-                  }
-                },
-                "value": "#5 bolt"
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 9
               },
               "end": {
                 "line": 3,
@@ -70,7 +24,40 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 8
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 8,
+                        "offset": 7
+                      }
+                    },
+                    "value": "#5 bolt"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 3,
@@ -83,11 +70,28 @@
                     "offset": 17
                   }
                 },
-                "value": "#hashtag"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 9
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 9,
+                        "offset": 17
+                      }
+                    },
+                    "value": "#hashtag"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

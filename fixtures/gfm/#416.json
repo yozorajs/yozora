@@ -4,25 +4,12 @@
     {
       "description": "In particular, emphasis and strong emphasis can be nested inside emphasis",
       "input": "_foo _bar_ baz_",
-      "markupAnswer": "*foo _bar_ baz*",
-      "htmlAnswer": "<p><em>foo <em>bar</em> baz</em></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 16,
-            "offset": 15
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "*foo _bar_ baz*",
+          "html": "<p><em>foo <em>bar</em> baz</em></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "emphasis",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -52,33 +39,17 @@
                 },
                 "children": [
                   {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 2,
-                        "offset": 1
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 6,
-                        "offset": 5
-                      }
-                    },
-                    "value": "foo "
-                  },
-                  {
                     "type": "emphasis",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 6,
-                        "offset": 5
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 1,
-                        "column": 11,
-                        "offset": 10
+                        "column": 16,
+                        "offset": 15
                       }
                     },
                     "children": [
@@ -87,40 +58,73 @@
                         "position": {
                           "start": {
                             "line": 1,
-                            "column": 7,
-                            "offset": 6
+                            "column": 2,
+                            "offset": 1
                           },
                           "end": {
                             "line": 1,
-                            "column": 10,
-                            "offset": 9
+                            "column": 6,
+                            "offset": 5
                           }
                         },
-                        "value": "bar"
+                        "value": "foo "
+                      },
+                      {
+                        "type": "emphasis",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 6,
+                            "offset": 5
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 11,
+                            "offset": 10
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 7,
+                                "offset": 6
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 10,
+                                "offset": 9
+                              }
+                            },
+                            "value": "bar"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 11,
+                            "offset": 10
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 15,
+                            "offset": 14
+                          }
+                        },
+                        "value": " baz"
                       }
                     ]
-                  },
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 11,
-                        "offset": 10
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 15,
-                        "offset": 14
-                      }
-                    },
-                    "value": " baz"
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

@@ -4,25 +4,12 @@
     {
       "description": "In type 6 blocks, the initial tag need not be on a line by itself",
       "input": "<div><a href=\"bar\">*foo*</a></div>",
-      "markupAnswer": "<div><a href=\"bar\">*foo*</a></div>",
-      "htmlAnswer": "<div><a href=\"bar\">*foo*</a></div>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 35,
-            "offset": 34
-          }
-        },
-        "children": [
-          {
-            "type": "html",
+      "answer": {
+        "gfm": {
+          "markup": "<div><a href=\"bar\">*foo*</a></div>",
+          "html": "<div><a href=\"bar\">*foo*</a></div>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,9 +22,26 @@
                 "offset": 34
               }
             },
-            "value": "<div><a href=\"bar\">*foo*</a></div>"
+            "children": [
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 35,
+                    "offset": 34
+                  }
+                },
+                "value": "<div><a href=\"bar\">*foo*</a></div>"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

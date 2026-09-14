@@ -4,25 +4,12 @@
     {
       "description": "Entity and numeric character references are recognized in any context besides code spans or code blocks, including URLs, link titles, and fenced code block info strings",
       "input": "``` f&ouml;&ouml;\nfoo\n```",
-      "markupAnswer": "```föö\nfoo\n```",
-      "htmlAnswer": "<pre><code class=\"language-föö\">foo\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 4,
-            "offset": 25
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "```föö\nfoo\n```",
+          "html": "<pre><code class=\"language-föö\">foo\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 25
               }
             },
-            "lang": "föö",
-            "meta": null,
-            "value": "foo\n"
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 4,
+                    "offset": 25
+                  }
+                },
+                "lang": "föö",
+                "meta": null,
+                "value": "foo\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

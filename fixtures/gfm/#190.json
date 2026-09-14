@@ -4,63 +4,17 @@
     {
       "description": "Paragraphs can contain multiple lines, but no blank lines",
       "input": "aaa\nbbb\n\nccc\nddd",
-      "markupAnswer": "aaa\nbbb\n\nccc\nddd",
-      "htmlAnswer": "<p>aaa\nbbb</p>\n<p>ccc\nddd</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 5,
-            "column": 4,
-            "offset": 16
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "aaa\nbbb\n\nccc\nddd",
+          "html": "<p>aaa\nbbb</p>\n<p>ccc\nddd</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 3,
-                "column": 1,
-                "offset": 8
-              }
-            },
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 4,
-                    "offset": 7
-                  }
-                },
-                "value": "aaa\nbbb"
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 9
               },
               "end": {
                 "line": 5,
@@ -70,7 +24,40 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 8
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 4,
+                        "offset": 7
+                      }
+                    },
+                    "value": "aaa\nbbb"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 4,
@@ -83,11 +70,28 @@
                     "offset": 16
                   }
                 },
-                "value": "ccc\nddd"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 4,
+                        "column": 1,
+                        "offset": 9
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 4,
+                        "offset": 16
+                      }
+                    },
+                    "value": "ccc\nddd"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

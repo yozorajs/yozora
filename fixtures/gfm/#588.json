@@ -4,25 +4,12 @@
     {
       "description": "Though this spec is concerned with parsing, not rendering, it is recommended that in rendering to HTML, only the plain string content of the image description be used. Note that in the above example, the alt attribute’s value is foo bar, not foo [bar](/url) or foo <a href=\"/url\">bar</a>. Only the plain string content is rendered, without formatting.",
       "input": "My ![foo bar](/path/to/train.jpg  \"title\"   )",
-      "markupAnswer": "My ![foo bar](/path/to/train.jpg \"title\")",
-      "htmlAnswer": "<p>My <img src=\"/path/to/train.jpg\" alt=\"foo bar\" title=\"title\" /></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 46,
-            "offset": 45
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "My ![foo bar](/path/to/train.jpg \"title\")",
+          "html": "<p>My <img src=\"/path/to/train.jpg\" alt=\"foo bar\" title=\"title\" /></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,33 +33,50 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 4,
-                    "offset": 3
-                  }
-                },
-                "value": "My "
-              },
-              {
-                "type": "image",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 4,
-                    "offset": 3
-                  },
-                  "end": {
-                    "line": 1,
                     "column": 46,
                     "offset": 45
                   }
                 },
-                "url": "/path/to/train.jpg",
-                "alt": "foo bar",
-                "title": "title"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      }
+                    },
+                    "value": "My "
+                  },
+                  {
+                    "type": "image",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 46,
+                        "offset": 45
+                      }
+                    },
+                    "url": "/path/to/train.jpg",
+                    "alt": "foo bar",
+                    "title": "title"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

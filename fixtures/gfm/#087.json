@@ -4,30 +4,17 @@
     {
       "description": "Blank lines preceding or following an indented code block are not included in it",
       "input": "\n    \n    foo\n    ",
-      "markupAnswer": "```\nfoo\n```",
-      "htmlAnswer": "<pre><code>foo\n</code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 5,
-            "offset": 18
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "```\nfoo\n```",
+          "html": "<pre><code>foo\n</code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
-                "line": 2,
+                "line": 1,
                 "column": 1,
-                "offset": 1
+                "offset": 0
               },
               "end": {
                 "line": 4,
@@ -35,11 +22,28 @@
                 "offset": 18
               }
             },
-            "lang": null,
-            "meta": null,
-            "value": "foo\n"
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 1
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 5,
+                    "offset": 18
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "foo\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

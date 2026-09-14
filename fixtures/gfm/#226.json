@@ -4,80 +4,17 @@
     {
       "description": "However, because of laziness, a blank line is needed between a block quote and a following paragraph",
       "input": "> bar\n\nbaz",
-      "markupAnswer": "> bar\n\nbaz",
-      "htmlAnswer": "<blockquote>\n<p>bar</p>\n</blockquote>\n<p>baz</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 4,
-            "offset": 10
-          }
-        },
-        "children": [
-          {
-            "type": "blockquote",
+      "answer": {
+        "gfm": {
+          "markup": "> bar\n\nbaz",
+          "html": "<blockquote>\n<p>bar</p>\n</blockquote>\n<p>baz</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 6
-              }
-            },
-            "children": [
-              {
-                "type": "paragraph",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 3,
-                    "offset": 2
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 6
-                  }
-                },
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 3,
-                        "offset": 2
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 6,
-                        "offset": 5
-                      }
-                    },
-                    "value": "bar"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 7
               },
               "end": {
                 "line": 3,
@@ -87,7 +24,57 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "blockquote",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 6
+                  }
+                },
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 6
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 6,
+                            "offset": 5
+                          }
+                        },
+                        "value": "bar"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 3,
@@ -100,11 +87,28 @@
                     "offset": 10
                   }
                 },
-                "value": "baz"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 7
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 4,
+                        "offset": 10
+                      }
+                    },
+                    "value": "baz"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

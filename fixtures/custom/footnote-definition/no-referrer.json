@@ -4,62 +4,16 @@
     {
       "description": "Can't find referenced definition",
       "input": "This is not a valid footnote reference: [^1].\n\nThe empty label is also an invalid reference footnote: [^]",
-      "markupAnswer": "This is not a valid footnote reference: [^1].\n\nThe empty label is also an invalid reference footnote: [^]",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 59,
-            "offset": 105
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "This is not a valid footnote reference: [^1].\n\nThe empty label is also an invalid reference footnote: [^]",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 46
-              }
-            },
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 46,
-                    "offset": 45
-                  }
-                },
-                "value": "This is not a valid footnote reference: [^1]."
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 47
               },
               "end": {
                 "line": 3,
@@ -69,7 +23,40 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 46
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 46,
+                        "offset": 45
+                      }
+                    },
+                    "value": "This is not a valid footnote reference: [^1]."
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 3,
@@ -82,11 +69,28 @@
                     "offset": 105
                   }
                 },
-                "value": "The empty label is also an invalid reference footnote: [^]"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 47
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 59,
+                        "offset": 105
+                      }
+                    },
+                    "value": "The empty label is also an invalid reference footnote: [^]"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

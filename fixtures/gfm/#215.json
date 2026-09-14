@@ -4,25 +4,12 @@
     {
       "description": "For the same reason, we can’t omit the > in front of subsequent lines of an indented or fenced code block",
       "input": "> ```\nfoo\n```",
-      "markupAnswer": "> ```\n> \n> ```\n\nfoo\n\n```\n\n```",
-      "htmlAnswer": "<blockquote>\n<pre><code></code></pre>\n</blockquote>\n<p>foo</p>\n<pre><code></code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 4,
-            "offset": 13
-          }
-        },
-        "children": [
-          {
-            "type": "blockquote",
+      "answer": {
+        "gfm": {
+          "markup": "> ```\n> \n> ```\n\nfoo\n\n```\n\n```",
+          "html": "<blockquote>\n<pre><code></code></pre>\n</blockquote>\n<p>foo</p>\n<pre><code></code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -30,24 +17,92 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 6
+                "line": 3,
+                "column": 4,
+                "offset": 13
               }
             },
             "children": [
               {
-                "type": "code",
+                "type": "blockquote",
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 3,
-                    "offset": 2
+                    "column": 1,
+                    "offset": 0
                   },
                   "end": {
                     "line": 2,
                     "column": 1,
                     "offset": 6
+                  }
+                },
+                "children": [
+                  {
+                    "type": "code",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 6
+                      }
+                    },
+                    "lang": null,
+                    "meta": null,
+                    "value": "\n"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 6
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 10
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 6
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 4,
+                        "offset": 9
+                      }
+                    },
+                    "value": "foo"
+                  }
+                ]
+              },
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 10
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 4,
+                    "offset": 13
                   }
                 },
                 "lang": null,
@@ -55,59 +110,8 @@
                 "value": "\n"
               }
             ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 2,
-                "column": 1,
-                "offset": 6
-              },
-              "end": {
-                "line": 3,
-                "column": 1,
-                "offset": 10
-              }
-            },
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 6
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 4,
-                    "offset": 9
-                  }
-                },
-                "value": "foo"
-              }
-            ]
-          },
-          {
-            "type": "code",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 10
-              },
-              "end": {
-                "line": 3,
-                "column": 4,
-                "offset": 13
-              }
-            },
-            "lang": null,
-            "meta": null,
-            "value": "\n"
           }
-        ]
+        }
       }
     }
   ]

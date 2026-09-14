@@ -4,25 +4,12 @@
     {
       "description": "The setext heading underline cannot contain internal spaces",
       "input": "Foo\n= =\n\nFoo\n--- -",
-      "markupAnswer": "Foo\n= =\n\nFoo\n\n---",
-      "htmlAnswer": "<p>Foo\n= =</p>\n<p>Foo</p>\n<hr />",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 5,
-            "column": 6,
-            "offset": 18
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "Foo\n= =\n\nFoo\n\n---",
+          "html": "<p>Foo\n= =</p>\n<p>Foo</p>\n<hr />",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -30,14 +17,14 @@
                 "offset": 0
               },
               "end": {
-                "line": 3,
-                "column": 1,
-                "offset": 8
+                "line": 5,
+                "column": 6,
+                "offset": 18
               }
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,32 +32,32 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 2,
-                    "column": 4,
-                    "offset": 7
+                    "line": 3,
+                    "column": 1,
+                    "offset": 8
                   }
                 },
-                "value": "Foo\n= ="
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 9
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 4,
+                        "offset": 7
+                      }
+                    },
+                    "value": "Foo\n= ="
+                  }
+                ]
               },
-              "end": {
-                "line": 5,
-                "column": 1,
-                "offset": 13
-              }
-            },
-            "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 4,
@@ -78,31 +65,48 @@
                     "offset": 9
                   },
                   "end": {
-                    "line": 4,
-                    "column": 4,
-                    "offset": 12
+                    "line": 5,
+                    "column": 1,
+                    "offset": 13
                   }
                 },
-                "value": "Foo"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 4,
+                        "column": 1,
+                        "offset": 9
+                      },
+                      "end": {
+                        "line": 4,
+                        "column": 4,
+                        "offset": 12
+                      }
+                    },
+                    "value": "Foo"
+                  }
+                ]
+              },
+              {
+                "type": "thematicBreak",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 13
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 6,
+                    "offset": 18
+                  }
+                }
               }
             ]
-          },
-          {
-            "type": "thematicBreak",
-            "position": {
-              "start": {
-                "line": 5,
-                "column": 1,
-                "offset": 13
-              },
-              "end": {
-                "line": 5,
-                "column": 6,
-                "offset": 18
-              }
-            }
           }
-        ]
+        }
       }
     }
   ]

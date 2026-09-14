@@ -4,25 +4,12 @@
     {
       "description": "Any nonempty sequence of inline elements can be the contents of an emphasized span.",
       "input": "*foo\nbar*",
-      "markupAnswer": "*foo\nbar*",
-      "htmlAnswer": "<p><em>foo\nbar</em></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 5,
-            "offset": 9
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "*foo\nbar*",
+          "html": "<p><em>foo\nbar</em></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "emphasis",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -52,26 +39,43 @@
                 },
                 "children": [
                   {
-                    "type": "text",
+                    "type": "emphasis",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 2,
-                        "offset": 1
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 2,
-                        "column": 4,
-                        "offset": 8
+                        "column": 5,
+                        "offset": 9
                       }
                     },
-                    "value": "foo\nbar"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 2,
+                            "offset": 1
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 4,
+                            "offset": 8
+                          }
+                        },
+                        "value": "foo\nbar"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

@@ -4,25 +4,12 @@
     {
       "description": "Here are some simple open tags",
       "input": "<a><bab><c2c>",
-      "markupAnswer": "<a><bab><c2c>",
-      "htmlAnswer": "<p><a><bab><c2c></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 14,
-            "offset": 13
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "<a><bab><c2c>",
+          "html": "<p><a><bab><c2c></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "html",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,47 +33,64 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 4,
-                    "offset": 3
-                  }
-                },
-                "value": "<a>"
-              },
-              {
-                "type": "html",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 4,
-                    "offset": 3
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 9,
-                    "offset": 8
-                  }
-                },
-                "value": "<bab>"
-              },
-              {
-                "type": "html",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 9,
-                    "offset": 8
-                  },
-                  "end": {
-                    "line": 1,
                     "column": 14,
                     "offset": 13
                   }
                 },
-                "value": "<c2c>"
+                "children": [
+                  {
+                    "type": "html",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      }
+                    },
+                    "value": "<a>"
+                  },
+                  {
+                    "type": "html",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 9,
+                        "offset": 8
+                      }
+                    },
+                    "value": "<bab>"
+                  },
+                  {
+                    "type": "html",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 9,
+                        "offset": 8
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 14,
+                        "offset": 13
+                      }
+                    },
+                    "value": "<c2c>"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

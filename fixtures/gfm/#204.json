@@ -4,25 +4,12 @@
     {
       "description": "The remainder of the table’s rows may vary in the number of cells. If there are a number of cells fewer than the number of cells in the header row, empty cells are inserted. If there are greater, the excess is ignored",
       "input": "| abc | def |\n| --- | --- |\n| bar |\n| bar | baz | boo |",
-      "markupAnswer": "abc | def\n----|-----\nbar | \nbar | baz",
-      "htmlAnswer": "<table>\n<thead>\n<tr>\n<th>abc</th>\n<th>def</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>bar</td>\n<td></td>\n</tr>\n<tr>\n<td>bar</td>\n<td>baz</td>\n</tr>\n</tbody>\n</table>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 20,
-            "offset": 55
-          }
-        },
-        "children": [
-          {
-            "type": "table",
+      "answer": {
+        "gfm": {
+          "markup": "abc | def\n----|-----\nbar | \nbar | baz",
+          "html": "<table>\n<thead>\n<tr>\n<th>abc</th>\n<th>def</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>bar</td>\n<td></td>\n</tr>\n<tr>\n<td>bar</td>\n<td>baz</td>\n</tr>\n</tbody>\n</table>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,17 +22,9 @@
                 "offset": 55
               }
             },
-            "columns": [
-              {
-                "align": null
-              },
-              {
-                "align": null
-              }
-            ],
             "children": [
               {
-                "type": "tableRow",
+                "type": "table",
                 "position": {
                   "start": {
                     "line": 1,
@@ -53,29 +32,37 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 14
+                    "line": 4,
+                    "column": 20,
+                    "offset": 55
                   }
                 },
+                "columns": [
+                  {
+                    "align": null
+                  },
+                  {
+                    "align": null
+                  }
+                ],
                 "children": [
                   {
-                    "type": "tableCell",
+                    "type": "tableRow",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 3,
-                        "offset": 2
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
+                        "line": 2,
+                        "column": 1,
+                        "offset": 14
                       }
                     },
                     "children": [
                       {
-                        "type": "text",
+                        "type": "tableCell",
                         "position": {
                           "start": {
                             "line": 1,
@@ -84,31 +71,31 @@
                           },
                           "end": {
                             "line": 1,
-                            "column": 6,
-                            "offset": 5
+                            "column": 7,
+                            "offset": 6
                           }
                         },
-                        "value": "abc"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "tableCell",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 9,
-                        "offset": 8
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 3,
+                                "offset": 2
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 6,
+                                "offset": 5
+                              }
+                            },
+                            "value": "abc"
+                          }
+                        ]
                       },
-                      "end": {
-                        "line": 1,
-                        "column": 13,
-                        "offset": 12
-                      }
-                    },
-                    "children": [
                       {
-                        "type": "text",
+                        "type": "tableCell",
                         "position": {
                           "start": {
                             "line": 1,
@@ -117,48 +104,48 @@
                           },
                           "end": {
                             "line": 1,
-                            "column": 12,
-                            "offset": 11
+                            "column": 13,
+                            "offset": 12
                           }
                         },
-                        "value": "def"
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 9,
+                                "offset": 8
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 12,
+                                "offset": 11
+                              }
+                            },
+                            "value": "def"
+                          }
+                        ]
                       }
                     ]
-                  }
-                ]
-              },
-              {
-                "type": "tableRow",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 28
                   },
-                  "end": {
-                    "line": 4,
-                    "column": 1,
-                    "offset": 36
-                  }
-                },
-                "children": [
                   {
-                    "type": "tableCell",
+                    "type": "tableRow",
                     "position": {
                       "start": {
                         "line": 3,
-                        "column": 3,
-                        "offset": 30
+                        "column": 1,
+                        "offset": 28
                       },
                       "end": {
-                        "line": 3,
-                        "column": 7,
-                        "offset": 34
+                        "line": 4,
+                        "column": 1,
+                        "offset": 36
                       }
                     },
                     "children": [
                       {
-                        "type": "text",
+                        "type": "tableCell",
                         "position": {
                           "start": {
                             "line": 3,
@@ -167,16 +154,49 @@
                           },
                           "end": {
                             "line": 3,
-                            "column": 6,
-                            "offset": 33
+                            "column": 7,
+                            "offset": 34
                           }
                         },
-                        "value": "bar"
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 3,
+                                "column": 3,
+                                "offset": 30
+                              },
+                              "end": {
+                                "line": 3,
+                                "column": 6,
+                                "offset": 33
+                              }
+                            },
+                            "value": "bar"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "tableCell",
+                        "position": {
+                          "start": {
+                            "line": 4,
+                            "column": 1,
+                            "offset": 36
+                          },
+                          "end": {
+                            "line": 4,
+                            "column": 1,
+                            "offset": 36
+                          }
+                        },
+                        "children": []
                       }
                     ]
                   },
                   {
-                    "type": "tableCell",
+                    "type": "tableRow",
                     "position": {
                       "start": {
                         "line": 4,
@@ -185,46 +205,13 @@
                       },
                       "end": {
                         "line": 4,
-                        "column": 1,
-                        "offset": 36
-                      }
-                    },
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "type": "tableRow",
-                "position": {
-                  "start": {
-                    "line": 4,
-                    "column": 1,
-                    "offset": 36
-                  },
-                  "end": {
-                    "line": 4,
-                    "column": 20,
-                    "offset": 55
-                  }
-                },
-                "children": [
-                  {
-                    "type": "tableCell",
-                    "position": {
-                      "start": {
-                        "line": 4,
-                        "column": 3,
-                        "offset": 38
-                      },
-                      "end": {
-                        "line": 4,
-                        "column": 7,
-                        "offset": 42
+                        "column": 20,
+                        "offset": 55
                       }
                     },
                     "children": [
                       {
-                        "type": "text",
+                        "type": "tableCell",
                         "position": {
                           "start": {
                             "line": 4,
@@ -233,31 +220,31 @@
                           },
                           "end": {
                             "line": 4,
-                            "column": 6,
-                            "offset": 41
+                            "column": 7,
+                            "offset": 42
                           }
                         },
-                        "value": "bar"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "tableCell",
-                    "position": {
-                      "start": {
-                        "line": 4,
-                        "column": 9,
-                        "offset": 44
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 4,
+                                "column": 3,
+                                "offset": 38
+                              },
+                              "end": {
+                                "line": 4,
+                                "column": 6,
+                                "offset": 41
+                              }
+                            },
+                            "value": "bar"
+                          }
+                        ]
                       },
-                      "end": {
-                        "line": 4,
-                        "column": 13,
-                        "offset": 48
-                      }
-                    },
-                    "children": [
                       {
-                        "type": "text",
+                        "type": "tableCell",
                         "position": {
                           "start": {
                             "line": 4,
@@ -266,11 +253,28 @@
                           },
                           "end": {
                             "line": 4,
-                            "column": 12,
-                            "offset": 47
+                            "column": 13,
+                            "offset": 48
                           }
                         },
-                        "value": "baz"
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 4,
+                                "column": 9,
+                                "offset": 44
+                              },
+                              "end": {
+                                "line": 4,
+                                "column": 12,
+                                "offset": 47
+                              }
+                            },
+                            "value": "baz"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -278,7 +282,7 @@
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

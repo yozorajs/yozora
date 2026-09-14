@@ -4,25 +4,12 @@
     {
       "description": "Task lists can be arbitrarily nested",
       "input": "- [x] foo\n  - [ ] bar\n  - [x] baz\n- [ ] bim",
-      "markupAnswer": "- [x] foo\n  - [ ] bar\n  - [x] baz\n- [ ] bim",
-      "htmlAnswer": "<ul>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> foo\n<ul>\n<li><input disabled=\"\" type=\"checkbox\"> bar</li>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> baz</li>\n</ul>\n</li>\n<li><input disabled=\"\" type=\"checkbox\"> bim</li>\n</ul>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 10,
-            "offset": 43
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "- [x] foo\n  - [ ] bar\n  - [x] baz\n- [ ] bim",
+          "html": "<ul>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> foo\n<ul>\n<li><input disabled=\"\" type=\"checkbox\"> bar</li>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> baz</li>\n</ul>\n</li>\n<li><input disabled=\"\" type=\"checkbox\"> bim</li>\n</ul>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,12 +22,9 @@
                 "offset": 43
               }
             },
-            "ordered": false,
-            "marker": 45,
-            "spread": false,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -49,35 +33,21 @@
                   },
                   "end": {
                     "line": 4,
-                    "column": 1,
-                    "offset": 34
+                    "column": 10,
+                    "offset": 43
                   }
                 },
-                "status": "done",
+                "ordered": false,
+                "marker": 45,
+                "spread": false,
                 "children": [
                   {
-                    "type": "text",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 7,
-                        "offset": 6
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 10,
-                        "offset": 9
-                      }
-                    },
-                    "value": "foo"
-                  },
-                  {
-                    "type": "list",
-                    "position": {
-                      "start": {
-                        "line": 2,
-                        "column": 3,
-                        "offset": 12
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
                         "line": 4,
@@ -85,12 +55,26 @@
                         "offset": 34
                       }
                     },
-                    "ordered": false,
-                    "marker": 45,
-                    "spread": false,
+                    "status": "done",
                     "children": [
                       {
-                        "type": "listItem",
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 7,
+                            "offset": 6
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 10,
+                            "offset": 9
+                          }
+                        },
+                        "value": "foo"
+                      },
+                      {
+                        "type": "list",
                         "position": {
                           "start": {
                             "line": 2,
@@ -98,92 +82,94 @@
                             "offset": 12
                           },
                           "end": {
-                            "line": 3,
-                            "column": 1,
-                            "offset": 22
-                          }
-                        },
-                        "status": "todo",
-                        "children": [
-                          {
-                            "type": "text",
-                            "position": {
-                              "start": {
-                                "line": 2,
-                                "column": 9,
-                                "offset": 18
-                              },
-                              "end": {
-                                "line": 2,
-                                "column": 12,
-                                "offset": 21
-                              }
-                            },
-                            "value": "bar"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "listItem",
-                        "position": {
-                          "start": {
-                            "line": 3,
-                            "column": 3,
-                            "offset": 24
-                          },
-                          "end": {
                             "line": 4,
                             "column": 1,
                             "offset": 34
                           }
                         },
-                        "status": "done",
+                        "ordered": false,
+                        "marker": 45,
+                        "spread": false,
                         "children": [
                           {
-                            "type": "text",
+                            "type": "listItem",
                             "position": {
                               "start": {
-                                "line": 3,
-                                "column": 9,
-                                "offset": 30
+                                "line": 2,
+                                "column": 3,
+                                "offset": 12
                               },
                               "end": {
                                 "line": 3,
-                                "column": 12,
-                                "offset": 33
+                                "column": 1,
+                                "offset": 22
                               }
                             },
-                            "value": "baz"
+                            "status": "todo",
+                            "children": [
+                              {
+                                "type": "text",
+                                "position": {
+                                  "start": {
+                                    "line": 2,
+                                    "column": 9,
+                                    "offset": 18
+                                  },
+                                  "end": {
+                                    "line": 2,
+                                    "column": 12,
+                                    "offset": 21
+                                  }
+                                },
+                                "value": "bar"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "listItem",
+                            "position": {
+                              "start": {
+                                "line": 3,
+                                "column": 3,
+                                "offset": 24
+                              },
+                              "end": {
+                                "line": 4,
+                                "column": 1,
+                                "offset": 34
+                              }
+                            },
+                            "status": "done",
+                            "children": [
+                              {
+                                "type": "text",
+                                "position": {
+                                  "start": {
+                                    "line": 3,
+                                    "column": 9,
+                                    "offset": 30
+                                  },
+                                  "end": {
+                                    "line": 3,
+                                    "column": 12,
+                                    "offset": 33
+                                  }
+                                },
+                                "value": "baz"
+                              }
+                            ]
                           }
                         ]
                       }
                     ]
-                  }
-                ]
-              },
-              {
-                "type": "listItem",
-                "position": {
-                  "start": {
-                    "line": 4,
-                    "column": 1,
-                    "offset": 34
                   },
-                  "end": {
-                    "line": 4,
-                    "column": 10,
-                    "offset": 43
-                  }
-                },
-                "status": "todo",
-                "children": [
                   {
-                    "type": "text",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 4,
-                        "column": 7,
-                        "offset": 40
+                        "column": 1,
+                        "offset": 34
                       },
                       "end": {
                         "line": 4,
@@ -191,13 +177,31 @@
                         "offset": 43
                       }
                     },
-                    "value": "bim"
+                    "status": "todo",
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 4,
+                            "column": 7,
+                            "offset": 40
+                          },
+                          "end": {
+                            "line": 4,
+                            "column": 10,
+                            "offset": 43
+                          }
+                        },
+                        "value": "bim"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

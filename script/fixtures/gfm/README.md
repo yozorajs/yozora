@@ -42,6 +42,10 @@ upstream revision by repeating its exact digest:
 node script/fixtures/gfm/sync.mjs --write --expected-sha256 <sha256>
 ```
 
-Write mode preserves `markupAnswer` and `parseAnswer` by exact input, prefers same-number matches for
-duplicate inputs, and fails before installation if the grouping does not cover the matched fixtures or
-if an answered fixture no longer matches upstream.
+Write mode updates `answer.gfm.html` from the upstream specification and preserves all other answer
+fields and parser overrides by exact input. It prefers same-number matches for duplicate inputs and
+fails before installation if the grouping does not cover the matched fixtures or if an answered
+fixture no longer matches upstream. A source-only fixture in `gfm-new` cannot have an `ast` or
+`markup` answer for any parser.
+
+See the [fixture format](../../../fixtures/README.md) for per-field answer inheritance.

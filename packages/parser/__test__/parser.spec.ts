@@ -9,13 +9,14 @@ import TextTokenizer from '@yozora/tokenizer-text'
 import { describe, expect, test } from 'vitest'
 import { loadFixtures, parsers, scanGfmFixtures } from 'vitest.setup'
 
-scanGfmFixtures(createTokenizerTester(parsers.yozora), {
+scanGfmFixtures(createTokenizerTester('yozora', parsers.yozora), {
   excludeExamples: ['#617', '#620', '#621'],
 })
   .scan(['custom/**/*.json', '!custom/inline-math/backtick-required'])
   .runTest()
 
 createTokenizerTester(
+  'yozora',
   parsers.yozora.replaceTokenizer(
     new InlineMathTokenizer({ backtickRequired: true }),
     InlineCodeTokenizerName,

@@ -4,25 +4,12 @@
     {
       "description": "Code fences (opening and closing) cannot contain internal spaces",
       "input": "``` ```\naaa",
-      "markupAnswer": "` `\naaa",
-      "htmlAnswer": "<p><code> </code>\naaa</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 4,
-            "offset": 11
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "` `\naaa",
+          "html": "<p><code> </code>\naaa</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "inlineCode",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,32 +32,49 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 8,
-                    "offset": 7
-                  }
-                },
-                "value": " "
-              },
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 8,
-                    "offset": 7
-                  },
-                  "end": {
                     "line": 2,
                     "column": 4,
                     "offset": 11
                   }
                 },
-                "value": "\naaa"
+                "children": [
+                  {
+                    "type": "inlineCode",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 8,
+                        "offset": 7
+                      }
+                    },
+                    "value": " "
+                  },
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 8,
+                        "offset": 7
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 4,
+                        "offset": 11
+                      }
+                    },
+                    "value": "\naaa"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

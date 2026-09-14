@@ -4,97 +4,17 @@
     {
       "description": "We find interpretation 4 most natural, and interpretation 4 increases the expressive power of CommonMark, by allowing multiline headings. Authors who want interpretation 1 can put a blank line after the first paragraph",
       "input": "Foo\n\nbar\n---\nbaz",
-      "markupAnswer": "Foo\n\nbar\n---\n\nbaz",
-      "htmlAnswer": "<p>Foo</p>\n<h2>bar</h2>\n<p>baz</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 5,
-            "column": 4,
-            "offset": 16
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "Foo\n\nbar\n---\n\nbaz",
+          "html": "<p>Foo</p>\n<h2>bar</h2>\n<p>baz</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 4
-              }
-            },
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 4,
-                    "offset": 3
-                  }
-                },
-                "value": "Foo"
-              }
-            ]
-          },
-          {
-            "type": "heading",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 5
-              },
-              "end": {
-                "line": 5,
-                "column": 1,
-                "offset": 13
-              }
-            },
-            "depth": 2,
-            "children": [
-              {
-                "type": "text",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 5
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 4,
-                    "offset": 8
-                  }
-                },
-                "value": "bar"
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 5,
-                "column": 1,
-                "offset": 13
               },
               "end": {
                 "line": 5,
@@ -104,7 +24,74 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 4
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      }
+                    },
+                    "value": "Foo"
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 5
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 13
+                  }
+                },
+                "depth": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 5
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 4,
+                        "offset": 8
+                      }
+                    },
+                    "value": "bar"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 5,
@@ -117,11 +104,28 @@
                     "offset": 16
                   }
                 },
-                "value": "baz"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 5,
+                        "column": 1,
+                        "offset": 13
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 4,
+                        "offset": 16
+                      }
+                    },
+                    "value": "baz"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

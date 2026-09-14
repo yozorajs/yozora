@@ -4,25 +4,12 @@
     {
       "description": "Indicators of block structure always take precedence over indicators of inline structure. So, for example, the following is a list with two items, not a list with one item containing a code span",
       "input": "- `one\n- two`",
-      "markupAnswer": "- `one\n- two`",
-      "htmlAnswer": "<ul>\n<li>`one</li>\n<li>two`</li>\n</ul>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 7,
-            "offset": 13
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "- `one\n- two`",
+          "html": "<ul>\n<li>`one</li>\n<li>two`</li>\n</ul>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,12 +22,9 @@
                 "offset": 13
               }
             },
-            "ordered": false,
-            "marker": 45,
-            "spread": false,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -49,51 +33,54 @@
                   },
                   "end": {
                     "line": 2,
-                    "column": 1,
-                    "offset": 7
-                  }
-                },
-                "children": [
-                  {
-                    "type": "text",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 3,
-                        "offset": 2
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
-                      }
-                    },
-                    "value": "`one"
-                  }
-                ]
-              },
-              {
-                "type": "listItem",
-                "position": {
-                  "start": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 7
-                  },
-                  "end": {
-                    "line": 2,
                     "column": 7,
                     "offset": 13
                   }
                 },
+                "ordered": false,
+                "marker": 45,
+                "spread": false,
                 "children": [
                   {
-                    "type": "text",
+                    "type": "listItem",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 7
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 7,
+                            "offset": 6
+                          }
+                        },
+                        "value": "`one"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 2,
-                        "column": 3,
-                        "offset": 9
+                        "column": 1,
+                        "offset": 7
                       },
                       "end": {
                         "line": 2,
@@ -101,13 +88,30 @@
                         "offset": 13
                       }
                     },
-                    "value": "two`"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 2,
+                            "column": 3,
+                            "offset": 9
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 7,
+                            "offset": 13
+                          }
+                        },
+                        "value": "two`"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

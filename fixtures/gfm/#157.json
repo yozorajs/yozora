@@ -4,25 +4,12 @@
     {
       "description": "Compare",
       "input": "<div>\n\n*Emphasized* text.\n\n</div>",
-      "markupAnswer": "<div>\n\n*Emphasized* text.\n\n</div>",
-      "htmlAnswer": "<div>\n<p><em>Emphasized</em> text.</p>\n</div>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 5,
-            "column": 7,
-            "offset": 33
-          }
-        },
-        "children": [
-          {
-            "type": "html",
+      "answer": {
+        "gfm": {
+          "markup": "<div>\n\n*Emphasized* text.\n\n</div>",
+          "html": "<div>\n<p><em>Emphasized</em> text.</p>\n</div>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -30,30 +17,30 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 6
-              }
-            },
-            "value": "<div>\n"
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 7
-              },
-              "end": {
-                "line": 4,
-                "column": 1,
-                "offset": 26
+                "line": 5,
+                "column": 7,
+                "offset": 33
               }
             },
             "children": [
               {
-                "type": "emphasis",
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 6
+                  }
+                },
+                "value": "<div>\n"
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 3,
@@ -61,65 +48,82 @@
                     "offset": 7
                   },
                   "end": {
-                    "line": 3,
-                    "column": 13,
-                    "offset": 19
+                    "line": 4,
+                    "column": 1,
+                    "offset": 26
                   }
                 },
                 "children": [
+                  {
+                    "type": "emphasis",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 7
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 13,
+                        "offset": 19
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 3,
+                            "column": 2,
+                            "offset": 8
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 12,
+                            "offset": 18
+                          }
+                        },
+                        "value": "Emphasized"
+                      }
+                    ]
+                  },
                   {
                     "type": "text",
                     "position": {
                       "start": {
                         "line": 3,
-                        "column": 2,
-                        "offset": 8
+                        "column": 13,
+                        "offset": 19
                       },
                       "end": {
                         "line": 3,
-                        "column": 12,
-                        "offset": 18
+                        "column": 19,
+                        "offset": 25
                       }
                     },
-                    "value": "Emphasized"
+                    "value": " text."
                   }
                 ]
               },
               {
-                "type": "text",
+                "type": "html",
                 "position": {
                   "start": {
-                    "line": 3,
-                    "column": 13,
-                    "offset": 19
+                    "line": 5,
+                    "column": 1,
+                    "offset": 27
                   },
                   "end": {
-                    "line": 3,
-                    "column": 19,
-                    "offset": 25
+                    "line": 5,
+                    "column": 7,
+                    "offset": 33
                   }
                 },
-                "value": " text."
+                "value": "</div>"
               }
             ]
-          },
-          {
-            "type": "html",
-            "position": {
-              "start": {
-                "line": 5,
-                "column": 1,
-                "offset": 27
-              },
-              "end": {
-                "line": 5,
-                "column": 7,
-                "offset": 33
-              }
-            },
-            "value": "</div>"
           }
-        ]
+        }
       }
     }
   ]

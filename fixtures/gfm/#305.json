@@ -4,25 +4,12 @@
     {
       "description": "Here the outer list is loose, the inner list tight",
       "input": "* foo\n  * bar\n\n  baz",
-      "markupAnswer": "* foo\n  \n  * bar\n  \n  baz",
-      "htmlAnswer": "<ul>\n<li>\n<p>foo</p>\n<ul>\n<li>bar</li>\n</ul>\n<p>baz</p>\n</li>\n</ul>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 6,
-            "offset": 20
-          }
-        },
-        "children": [
-          {
-            "type": "list",
+      "answer": {
+        "gfm": {
+          "markup": "* foo\n  \n  * bar\n  \n  baz",
+          "html": "<ul>\n<li>\n<p>foo</p>\n<ul>\n<li>bar</li>\n</ul>\n<p>baz</p>\n</li>\n</ul>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,12 +22,9 @@
                 "offset": 20
               }
             },
-            "ordered": false,
-            "marker": 42,
-            "spread": true,
             "children": [
               {
-                "type": "listItem",
+                "type": "list",
                 "position": {
                   "start": {
                     "line": 1,
@@ -53,24 +37,27 @@
                     "offset": 20
                   }
                 },
+                "ordered": false,
+                "marker": 42,
+                "spread": true,
                 "children": [
                   {
-                    "type": "paragraph",
+                    "type": "listItem",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 3,
-                        "offset": 2
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
-                        "line": 2,
-                        "column": 1,
-                        "offset": 6
+                        "line": 4,
+                        "column": 6,
+                        "offset": 20
                       }
                     },
                     "children": [
                       {
-                        "type": "text",
+                        "type": "paragraph",
                         "position": {
                           "start": {
                             "line": 1,
@@ -78,35 +65,32 @@
                             "offset": 2
                           },
                           "end": {
-                            "line": 1,
-                            "column": 6,
-                            "offset": 5
+                            "line": 2,
+                            "column": 1,
+                            "offset": 6
                           }
                         },
-                        "value": "foo"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "list",
-                    "position": {
-                      "start": {
-                        "line": 2,
-                        "column": 3,
-                        "offset": 8
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 3,
+                                "offset": 2
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 6,
+                                "offset": 5
+                              }
+                            },
+                            "value": "foo"
+                          }
+                        ]
                       },
-                      "end": {
-                        "line": 3,
-                        "column": 1,
-                        "offset": 14
-                      }
-                    },
-                    "ordered": false,
-                    "marker": 42,
-                    "spread": false,
-                    "children": [
                       {
-                        "type": "listItem",
+                        "type": "list",
                         "position": {
                           "start": {
                             "line": 2,
@@ -119,44 +103,47 @@
                             "offset": 14
                           }
                         },
+                        "ordered": false,
+                        "marker": 42,
+                        "spread": false,
                         "children": [
                           {
-                            "type": "text",
+                            "type": "listItem",
                             "position": {
                               "start": {
                                 "line": 2,
-                                "column": 5,
-                                "offset": 10
+                                "column": 3,
+                                "offset": 8
                               },
                               "end": {
-                                "line": 2,
-                                "column": 8,
-                                "offset": 13
+                                "line": 3,
+                                "column": 1,
+                                "offset": 14
                               }
                             },
-                            "value": "bar"
+                            "children": [
+                              {
+                                "type": "text",
+                                "position": {
+                                  "start": {
+                                    "line": 2,
+                                    "column": 5,
+                                    "offset": 10
+                                  },
+                                  "end": {
+                                    "line": 2,
+                                    "column": 8,
+                                    "offset": 13
+                                  }
+                                },
+                                "value": "bar"
+                              }
+                            ]
                           }
                         ]
-                      }
-                    ]
-                  },
-                  {
-                    "type": "paragraph",
-                    "position": {
-                      "start": {
-                        "line": 4,
-                        "column": 3,
-                        "offset": 17
                       },
-                      "end": {
-                        "line": 4,
-                        "column": 6,
-                        "offset": 20
-                      }
-                    },
-                    "children": [
                       {
-                        "type": "text",
+                        "type": "paragraph",
                         "position": {
                           "start": {
                             "line": 4,
@@ -169,7 +156,24 @@
                             "offset": 20
                           }
                         },
-                        "value": "baz"
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 4,
+                                "column": 3,
+                                "offset": 17
+                              },
+                              "end": {
+                                "line": 4,
+                                "column": 6,
+                                "offset": 20
+                              }
+                            },
+                            "value": "baz"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -177,7 +181,7 @@
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

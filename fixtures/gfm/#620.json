@@ -4,25 +4,12 @@
     {
       "description": "These are not autolinks",
       "input": "http://example.com",
-      "markupAnswer": "[http://example.com](http://example.com)",
-      "htmlAnswer": "<p>http://example.com</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 19,
-            "offset": 18
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "[http://example.com](http://example.com)",
+          "html": "<p>http://example.com</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -50,11 +37,28 @@
                     "offset": 18
                   }
                 },
-                "value": "http://example.com"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 19,
+                        "offset": 18
+                      }
+                    },
+                    "value": "http://example.com"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

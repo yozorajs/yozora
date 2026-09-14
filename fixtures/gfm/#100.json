@@ -4,25 +4,12 @@
     {
       "description": "A code block can be empty",
       "input": "```\n```",
-      "markupAnswer": "```\n\n```",
-      "htmlAnswer": "<pre><code></code></pre>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 4,
-            "offset": 7
-          }
-        },
-        "children": [
-          {
-            "type": "code",
+      "answer": {
+        "gfm": {
+          "markup": "```\n\n```",
+          "html": "<pre><code></code></pre>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,11 +22,28 @@
                 "offset": 7
               }
             },
-            "lang": null,
-            "meta": null,
-            "value": "\n"
+            "children": [
+              {
+                "type": "code",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 4,
+                    "offset": 7
+                  }
+                },
+                "lang": null,
+                "meta": null,
+                "value": "\n"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

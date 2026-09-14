@@ -4,24 +4,11 @@
     {
       "description": "The following case also illustrates the need for opening and closing backtick strings to be equal in length",
       "input": "`foo``bar``",
-      "htmlAnswer": "<p>`foo<code>bar</code></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 12,
-            "offset": 11
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "html": "<p>`foo<code>bar</code></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -36,7 +23,7 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,31 +32,48 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 5,
-                    "offset": 4
-                  }
-                },
-                "value": "`foo"
-              },
-              {
-                "type": "inlineCode",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 5,
-                    "offset": 4
-                  },
-                  "end": {
-                    "line": 1,
                     "column": 12,
                     "offset": 11
                   }
                 },
-                "value": "bar"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      }
+                    },
+                    "value": "`foo"
+                  },
+                  {
+                    "type": "inlineCode",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 12,
+                        "offset": 11
+                      }
+                    },
+                    "value": "bar"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

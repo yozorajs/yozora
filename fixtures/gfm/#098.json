@@ -4,65 +4,17 @@
     {
       "description": "Unclosed code blocks are closed by the end of the document (or the enclosing block quote or list item)",
       "input": "> ```\n> aaa\n\nbbb",
-      "markupAnswer": "> ```\n> aaa\n> ```\n\nbbb",
-      "htmlAnswer": "<blockquote>\n<pre><code>aaa\n</code></pre>\n</blockquote>\n<p>bbb</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 4,
-            "offset": 16
-          }
-        },
-        "children": [
-          {
-            "type": "blockquote",
+      "answer": {
+        "gfm": {
+          "markup": "> ```\n> aaa\n> ```\n\nbbb",
+          "html": "<blockquote>\n<pre><code>aaa\n</code></pre>\n</blockquote>\n<p>bbb</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 3,
-                "column": 1,
-                "offset": 12
-              }
-            },
-            "children": [
-              {
-                "type": "code",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 3,
-                    "offset": 2
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 12
-                  }
-                },
-                "lang": null,
-                "meta": null,
-                "value": "aaa\n"
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 13
               },
               "end": {
                 "line": 4,
@@ -72,7 +24,42 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "blockquote",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 12
+                  }
+                },
+                "children": [
+                  {
+                    "type": "code",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 12
+                      }
+                    },
+                    "lang": null,
+                    "meta": null,
+                    "value": "aaa\n"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 4,
@@ -85,11 +72,28 @@
                     "offset": 16
                   }
                 },
-                "value": "bbb"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 4,
+                        "column": 1,
+                        "offset": 13
+                      },
+                      "end": {
+                        "line": 4,
+                        "column": 4,
+                        "offset": 16
+                      }
+                    },
+                    "value": "bbb"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

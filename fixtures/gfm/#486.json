@@ -4,25 +4,12 @@
     {
       "description": "Rule 17",
       "input": "__<a href=\"__\">",
-      "markupAnswer": "__<a href=\"__\">",
-      "htmlAnswer": "<p>__<a href=\"__\"></p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 16,
-            "offset": 15
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "__<a href=\"__\">",
+          "html": "<p>__<a href=\"__\"></p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -46,31 +33,48 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 3,
-                    "offset": 2
-                  }
-                },
-                "value": "__"
-              },
-              {
-                "type": "html",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 3,
-                    "offset": 2
-                  },
-                  "end": {
-                    "line": 1,
                     "column": 16,
                     "offset": 15
                   }
                 },
-                "value": "<a href=\"__\">"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      }
+                    },
+                    "value": "__"
+                  },
+                  {
+                    "type": "html",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 16,
+                        "offset": 15
+                      }
+                    },
+                    "value": "<a href=\"__\">"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

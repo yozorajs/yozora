@@ -4,25 +4,12 @@
     {
       "description": "There can be no empty emphasis or strong emphasis",
       "input": "____ is not an empty strong emphasis",
-      "markupAnswer": "____ is not an empty strong emphasis",
-      "htmlAnswer": "<p>____ is not an empty strong emphasis</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 37,
-            "offset": 36
-          }
-        },
-        "children": [
-          {
-            "type": "paragraph",
+      "answer": {
+        "gfm": {
+          "markup": "____ is not an empty strong emphasis",
+          "html": "<p>____ is not an empty strong emphasis</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -37,7 +24,7 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 1,
@@ -50,11 +37,28 @@
                     "offset": 36
                   }
                 },
-                "value": "____ is not an empty strong emphasis"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 37,
+                        "offset": 36
+                      }
+                    },
+                    "value": "____ is not an empty strong emphasis"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

@@ -4,25 +4,12 @@
     {
       "description": "The delimiter row consists of cells whose only content are hyphens (-), and optionally, a leading or trailing colon (:), or both, to indicate left, right, or center alignment respectively.",
       "input": "| foo | bar |\n| --- | --- |\n| baz | bim |",
-      "markupAnswer": "foo | bar\n----|-----\nbaz | bim",
-      "htmlAnswer": "<table>\n<thead>\n<tr>\n<th>foo</th>\n<th>bar</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>baz</td>\n<td>bim</td>\n</tr>\n</tbody>\n</table>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 14,
-            "offset": 41
-          }
-        },
-        "children": [
-          {
-            "type": "table",
+      "answer": {
+        "gfm": {
+          "markup": "foo | bar\n----|-----\nbaz | bim",
+          "html": "<table>\n<thead>\n<tr>\n<th>foo</th>\n<th>bar</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>baz</td>\n<td>bim</td>\n</tr>\n</tbody>\n</table>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,17 +22,9 @@
                 "offset": 41
               }
             },
-            "columns": [
-              {
-                "align": null
-              },
-              {
-                "align": null
-              }
-            ],
             "children": [
               {
-                "type": "tableRow",
+                "type": "table",
                 "position": {
                   "start": {
                     "line": 1,
@@ -53,29 +32,37 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 14
+                    "line": 3,
+                    "column": 14,
+                    "offset": 41
                   }
                 },
+                "columns": [
+                  {
+                    "align": null
+                  },
+                  {
+                    "align": null
+                  }
+                ],
                 "children": [
                   {
-                    "type": "tableCell",
+                    "type": "tableRow",
                     "position": {
                       "start": {
                         "line": 1,
-                        "column": 3,
-                        "offset": 2
+                        "column": 1,
+                        "offset": 0
                       },
                       "end": {
-                        "line": 1,
-                        "column": 7,
-                        "offset": 6
+                        "line": 2,
+                        "column": 1,
+                        "offset": 14
                       }
                     },
                     "children": [
                       {
-                        "type": "text",
+                        "type": "tableCell",
                         "position": {
                           "start": {
                             "line": 1,
@@ -84,31 +71,31 @@
                           },
                           "end": {
                             "line": 1,
-                            "column": 6,
-                            "offset": 5
+                            "column": 7,
+                            "offset": 6
                           }
                         },
-                        "value": "foo"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "tableCell",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 9,
-                        "offset": 8
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 3,
+                                "offset": 2
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 6,
+                                "offset": 5
+                              }
+                            },
+                            "value": "foo"
+                          }
+                        ]
                       },
-                      "end": {
-                        "line": 1,
-                        "column": 13,
-                        "offset": 12
-                      }
-                    },
-                    "children": [
                       {
-                        "type": "text",
+                        "type": "tableCell",
                         "position": {
                           "start": {
                             "line": 1,
@@ -117,48 +104,48 @@
                           },
                           "end": {
                             "line": 1,
-                            "column": 12,
-                            "offset": 11
+                            "column": 13,
+                            "offset": 12
                           }
                         },
-                        "value": "bar"
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 9,
+                                "offset": 8
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 12,
+                                "offset": 11
+                              }
+                            },
+                            "value": "bar"
+                          }
+                        ]
                       }
                     ]
-                  }
-                ]
-              },
-              {
-                "type": "tableRow",
-                "position": {
-                  "start": {
-                    "line": 3,
-                    "column": 1,
-                    "offset": 28
                   },
-                  "end": {
-                    "line": 3,
-                    "column": 14,
-                    "offset": 41
-                  }
-                },
-                "children": [
                   {
-                    "type": "tableCell",
+                    "type": "tableRow",
                     "position": {
                       "start": {
                         "line": 3,
-                        "column": 3,
-                        "offset": 30
+                        "column": 1,
+                        "offset": 28
                       },
                       "end": {
                         "line": 3,
-                        "column": 7,
-                        "offset": 34
+                        "column": 14,
+                        "offset": 41
                       }
                     },
                     "children": [
                       {
-                        "type": "text",
+                        "type": "tableCell",
                         "position": {
                           "start": {
                             "line": 3,
@@ -167,31 +154,31 @@
                           },
                           "end": {
                             "line": 3,
-                            "column": 6,
-                            "offset": 33
+                            "column": 7,
+                            "offset": 34
                           }
                         },
-                        "value": "baz"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "tableCell",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 9,
-                        "offset": 36
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 3,
+                                "column": 3,
+                                "offset": 30
+                              },
+                              "end": {
+                                "line": 3,
+                                "column": 6,
+                                "offset": 33
+                              }
+                            },
+                            "value": "baz"
+                          }
+                        ]
                       },
-                      "end": {
-                        "line": 3,
-                        "column": 13,
-                        "offset": 40
-                      }
-                    },
-                    "children": [
                       {
-                        "type": "text",
+                        "type": "tableCell",
                         "position": {
                           "start": {
                             "line": 3,
@@ -200,11 +187,28 @@
                           },
                           "end": {
                             "line": 3,
-                            "column": 12,
-                            "offset": 39
+                            "column": 13,
+                            "offset": 40
                           }
                         },
-                        "value": "bim"
+                        "children": [
+                          {
+                            "type": "text",
+                            "position": {
+                              "start": {
+                                "line": 3,
+                                "column": 9,
+                                "offset": 36
+                              },
+                              "end": {
+                                "line": 3,
+                                "column": 12,
+                                "offset": 39
+                              }
+                            },
+                            "value": "bim"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -212,7 +216,7 @@
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

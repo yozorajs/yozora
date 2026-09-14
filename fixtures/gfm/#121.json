@@ -4,25 +4,12 @@
     {
       "description": "A block can also start with a closing tag",
       "input": "</div>\n*foo*",
-      "markupAnswer": "</div>\n*foo*",
-      "htmlAnswer": "</div>\n*foo*",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 6,
-            "offset": 12
-          }
-        },
-        "children": [
-          {
-            "type": "html",
+      "answer": {
+        "gfm": {
+          "markup": "</div>\n*foo*",
+          "html": "</div>\n*foo*",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
@@ -35,9 +22,26 @@
                 "offset": 12
               }
             },
-            "value": "</div>\n*foo*"
+            "children": [
+              {
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 6,
+                    "offset": 12
+                  }
+                },
+                "value": "</div>\n*foo*"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]

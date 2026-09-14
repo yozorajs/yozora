@@ -4,46 +4,17 @@
     {
       "description": "A comment (type 2)",
       "input": "<!-- Foo\n\nbar\n   baz -->\nokay",
-      "markupAnswer": "<!-- Foo\n\nbar\n   baz -->\n\nokay",
-      "htmlAnswer": "<!-- Foo\n\nbar\n   baz -->\n<p>okay</p>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 5,
-            "column": 5,
-            "offset": 29
-          }
-        },
-        "children": [
-          {
-            "type": "html",
+      "answer": {
+        "gfm": {
+          "markup": "<!-- Foo\n\nbar\n   baz -->\n\nokay",
+          "html": "<!-- Foo\n\nbar\n   baz -->\n<p>okay</p>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 5,
-                "column": 1,
-                "offset": 25
-              }
-            },
-            "value": "<!-- Foo\n\nbar\n   baz -->\n"
-          },
-          {
-            "type": "paragraph",
-            "position": {
-              "start": {
-                "line": 5,
-                "column": 1,
-                "offset": 25
               },
               "end": {
                 "line": 5,
@@ -53,7 +24,23 @@
             },
             "children": [
               {
-                "type": "text",
+                "type": "html",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 25
+                  }
+                },
+                "value": "<!-- Foo\n\nbar\n   baz -->\n"
+              },
+              {
+                "type": "paragraph",
                 "position": {
                   "start": {
                     "line": 5,
@@ -66,11 +53,28 @@
                     "offset": 29
                   }
                 },
-                "value": "okay"
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 5,
+                        "column": 1,
+                        "offset": 25
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 5,
+                        "offset": 29
+                      }
+                    },
+                    "value": "okay"
+                  }
+                ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]

@@ -4,65 +4,17 @@
     {
       "description": "When including an indented code block in a block quote, remember that the block quote marker includes both the > and a following space. So five spaces are needed after the >",
       "input": ">     code\n\n>    not code",
-      "markupAnswer": "> ```\n> code\n> ```\n\n> not code",
-      "htmlAnswer": "<blockquote>\n<pre><code>code\n</code></pre>\n</blockquote>\n<blockquote>\n<p>not code</p>\n</blockquote>",
-      "parseAnswer": {
-        "type": "root",
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 14,
-            "offset": 25
-          }
-        },
-        "children": [
-          {
-            "type": "blockquote",
+      "answer": {
+        "gfm": {
+          "markup": "> ```\n> code\n> ```\n\n> not code",
+          "html": "<blockquote>\n<pre><code>code\n</code></pre>\n</blockquote>\n<blockquote>\n<p>not code</p>\n</blockquote>",
+          "ast": {
+            "type": "root",
             "position": {
               "start": {
                 "line": 1,
                 "column": 1,
                 "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 1,
-                "offset": 11
-              }
-            },
-            "children": [
-              {
-                "type": "code",
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 3,
-                    "offset": 2
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 1,
-                    "offset": 11
-                  }
-                },
-                "lang": null,
-                "meta": null,
-                "value": "code\n"
-              }
-            ]
-          },
-          {
-            "type": "blockquote",
-            "position": {
-              "start": {
-                "line": 3,
-                "column": 1,
-                "offset": 12
               },
               "end": {
                 "line": 3,
@@ -72,12 +24,47 @@
             },
             "children": [
               {
-                "type": "paragraph",
+                "type": "blockquote",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 11
+                  }
+                },
+                "children": [
+                  {
+                    "type": "code",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 11
+                      }
+                    },
+                    "lang": null,
+                    "meta": null,
+                    "value": "code\n"
+                  }
+                ]
+              },
+              {
+                "type": "blockquote",
                 "position": {
                   "start": {
                     "line": 3,
-                    "column": 3,
-                    "offset": 14
+                    "column": 1,
+                    "offset": 12
                   },
                   "end": {
                     "line": 3,
@@ -87,12 +74,12 @@
                 },
                 "children": [
                   {
-                    "type": "text",
+                    "type": "paragraph",
                     "position": {
                       "start": {
                         "line": 3,
-                        "column": 6,
-                        "offset": 17
+                        "column": 3,
+                        "offset": 14
                       },
                       "end": {
                         "line": 3,
@@ -100,13 +87,30 @@
                         "offset": 25
                       }
                     },
-                    "value": "not code"
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 3,
+                            "column": 6,
+                            "offset": 17
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 14,
+                            "offset": 25
+                          }
+                        },
+                        "value": "not code"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
   ]
