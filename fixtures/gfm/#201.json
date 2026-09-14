@@ -24,6 +24,108 @@
             },
             "children": [
               {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 42
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 14,
+                        "offset": 41
+                      }
+                    },
+                    "value": "| abc | def |\n| --- | --- |\n| bar | baz |"
+                  }
+                ]
+              },
+              {
+                "type": "blockquote",
+                "position": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 42
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 6,
+                    "offset": 47
+                  }
+                },
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "position": {
+                      "start": {
+                        "line": 4,
+                        "column": 3,
+                        "offset": 44
+                      },
+                      "end": {
+                        "line": 4,
+                        "column": 6,
+                        "offset": 47
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 4,
+                            "column": 3,
+                            "offset": 44
+                          },
+                          "end": {
+                            "line": 4,
+                            "column": 6,
+                            "offset": 47
+                          }
+                        },
+                        "value": "bar"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "gfm-ex": {
+          "ast": {
+            "type": "root",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 4,
+                "column": 6,
+                "offset": 47
+              }
+            },
+            "children": [
+              {
                 "type": "table",
                 "position": {
                   "start": {

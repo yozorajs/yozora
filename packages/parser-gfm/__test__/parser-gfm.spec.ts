@@ -6,7 +6,7 @@ import BlockquoteTokenizer, { blockquoteMatch } from '@yozora/tokenizer-blockquo
 import ImageTokenizer from '@yozora/tokenizer-image'
 import { ImageReferenceTokenizerName } from '@yozora/tokenizer-image-reference'
 import { expect, test } from 'vitest'
-import { parsers, scanGfmFixtures } from 'vitest.setup'
+import { parsers } from 'vitest.setup'
 import GfmParser from '../src'
 
 class ShallowImageTokenizer extends ImageTokenizer {
@@ -140,9 +140,7 @@ class RecoveringBlockquoteTokenizer extends BlockquoteTokenizer {
   }
 }
 
-scanGfmFixtures(createTokenizerTester('gfm', parsers.gfm), {
-  excludeGroups: ['autolink-extension', 'delete', 'list-item/task list items(extension)', 'table'],
-}).runTest()
+createTokenizerTester('gfm', parsers.gfm).scan('**/*.json').runTest()
 
 test('parses chunked input independently of chunk boundaries', () => {
   const content = 'a\r\nb😀c'

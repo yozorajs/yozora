@@ -7,32 +7,32 @@ import InlineMathTokenizer from '../src'
 
 createTokenizerTesters(
   [
-    'gfm',
+    'yozora',
     parsers.gfm
       .useTokenizer(new InlineMathTokenizer({ backtickRequired: true }), InlineCodeTokenizerName)
       .useTokenizer(new InlineMathTokenizer({ backtickRequired: false })),
   ],
   [
-    'gfm-ex',
+    'yozora',
     parsers.gfmEx
       .useTokenizer(new InlineMathTokenizer({ backtickRequired: true }), InlineCodeTokenizerName)
       .useTokenizer(new InlineMathTokenizer({ backtickRequired: false })),
   ],
   ['yozora', parsers.yozora],
 ).forEach(tester => {
-  tester.scan(['custom/inline-math', '!custom/inline-math/backtick-required']).runTest()
+  tester.scan('custom/inline-math').runTest()
 })
 
 createTokenizerTesters(
   [
-    'gfm',
+    'yozora',
     parsers.gfm.useTokenizer(
       new InlineMathTokenizer({ backtickRequired: true }),
       InlineCodeTokenizerName,
     ),
   ],
   [
-    'gfm-ex',
+    'yozora',
     parsers.gfmEx.useTokenizer(
       new InlineMathTokenizer({ backtickRequired: true }),
       InlineCodeTokenizerName,

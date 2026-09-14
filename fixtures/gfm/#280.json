@@ -55,6 +55,197 @@
                         "offset": 34
                       }
                     },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 10,
+                            "offset": 9
+                          }
+                        },
+                        "value": "[x] foo"
+                      },
+                      {
+                        "type": "list",
+                        "position": {
+                          "start": {
+                            "line": 2,
+                            "column": 3,
+                            "offset": 12
+                          },
+                          "end": {
+                            "line": 4,
+                            "column": 1,
+                            "offset": 34
+                          }
+                        },
+                        "ordered": false,
+                        "marker": 45,
+                        "spread": false,
+                        "children": [
+                          {
+                            "type": "listItem",
+                            "position": {
+                              "start": {
+                                "line": 2,
+                                "column": 3,
+                                "offset": 12
+                              },
+                              "end": {
+                                "line": 3,
+                                "column": 1,
+                                "offset": 22
+                              }
+                            },
+                            "children": [
+                              {
+                                "type": "text",
+                                "position": {
+                                  "start": {
+                                    "line": 2,
+                                    "column": 5,
+                                    "offset": 14
+                                  },
+                                  "end": {
+                                    "line": 2,
+                                    "column": 12,
+                                    "offset": 21
+                                  }
+                                },
+                                "value": "[ ] bar"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "listItem",
+                            "position": {
+                              "start": {
+                                "line": 3,
+                                "column": 3,
+                                "offset": 24
+                              },
+                              "end": {
+                                "line": 4,
+                                "column": 1,
+                                "offset": 34
+                              }
+                            },
+                            "children": [
+                              {
+                                "type": "text",
+                                "position": {
+                                  "start": {
+                                    "line": 3,
+                                    "column": 5,
+                                    "offset": 26
+                                  },
+                                  "end": {
+                                    "line": 3,
+                                    "column": 12,
+                                    "offset": 33
+                                  }
+                                },
+                                "value": "[x] baz"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listItem",
+                    "position": {
+                      "start": {
+                        "line": 4,
+                        "column": 1,
+                        "offset": 34
+                      },
+                      "end": {
+                        "line": 4,
+                        "column": 10,
+                        "offset": 43
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 4,
+                            "column": 3,
+                            "offset": 36
+                          },
+                          "end": {
+                            "line": 4,
+                            "column": 10,
+                            "offset": 43
+                          }
+                        },
+                        "value": "[ ] bim"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "gfm-ex": {
+          "ast": {
+            "type": "root",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 4,
+                "column": 10,
+                "offset": 43
+              }
+            },
+            "children": [
+              {
+                "type": "list",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 10,
+                    "offset": 43
+                  }
+                },
+                "ordered": false,
+                "marker": 45,
+                "spread": false,
+                "children": [
+                  {
+                    "type": "listItem",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 4,
+                        "column": 1,
+                        "offset": 34
+                      }
+                    },
                     "status": "done",
                     "children": [
                       {

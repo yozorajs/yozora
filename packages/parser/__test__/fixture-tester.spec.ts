@@ -150,3 +150,84 @@ test('creates a partial parser override without copying inherited fields', async
     yozora: { ast },
   })
 })
+
+test.each(['ast', 'markup'] as const)(
+  'preserves grouping metadata when generating %s answers from full scans',
+  async representation => {
+    const caseRootDirectory = mkdtempSync(join(directory, 'metadata-'))
+    const filepath = join(caseRootDirectory, '#001.json')
+    const metadataPath = join(caseRootDirectory, 'meta.json')
+    const metadata =
+      JSON.stringify({ groups: { unclassified: {}, ast: { text: ['#001'] } } }, null, 4) + '\n\n'
+    const answer = { gfm: { html: '<p>content</p>' } }
+    writeFileSync(metadataPath, metadata)
+    writeFileSync(
+      filepath,
+      JSON.stringify({
+        title: 'writer',
+        cases: [{ description: 'content', input: 'content', answer }],
+      }),
+    )
+
+    const props = {
+      caseRootDirectory,
+      parser: new YozoraParser(),
+      parserName: 'yozora' as const,
+    }
+    const tester = (
+      representation === 'ast'
+        ? new TokenizerTester(props)
+        : new MarkupTester({ ...props, weaver: new DefaultMarkupWeaver() })
+    ).scan('**/*.json')
+    expect(tester.collect().map(group => group.filepath)).toEqual([filepath])
+
+    await tester.runAnswer()
+
+    expect(readFileSync(metadataPath, 'utf8')).toBe(metadata)
+    expect(JSON.parse(readFileSync(filepath, 'utf8')).cases[0].answer).toEqual({
+      ...answer,
+      yozora: { [representation]: representation === 'ast' ? ast : 'content' },
+    })
+  },
+)
+
+test('keeps fixtures named meta.json in full scans', async () => {
+  const caseRootDirectory = mkdtempSync(join(directory, 'named-metadata-'))
+  const filepath = join(caseRootDirectory, 'meta.json')
+  writeFileSync(filepath, JSON.stringify({ cases: [{ input: 'content', answer: { gfm: {} } }] }))
+
+  const tester = new TokenizerTester({
+    caseRootDirectory,
+    parser: new YozoraParser(),
+    parserName: 'gfm',
+  }).scan('**/*.json')
+  expect(tester.collect()).toHaveLength(1)
+
+  await tester.runAnswer()
+
+  expect(JSON.parse(readFileSync(filepath, 'utf8')).cases[0].answer.gfm.ast).toEqual(ast)
+})
+
+test.each([
+  ['missing cases', { title: 'fixture' }],
+  ['null cases', { cases: null }],
+  ['non-array cases', { cases: {} }],
+  ['invalid groups', { groups: [] }],
+  ['null document', null],
+])('rejects invalid fixture %s without caching failed scans', (_name, data) => {
+  const caseRootDirectory = mkdtempSync(join(directory, 'invalid-'))
+  const filepath = join(caseRootDirectory, 'fixture.json')
+  writeFileSync(filepath, JSON.stringify(data))
+
+  const tester = new TokenizerTester({
+    caseRootDirectory,
+    parser: new YozoraParser(),
+    parserName: 'gfm',
+  })
+  expect(() => tester.scan('**/*.json')).toThrowError(`Invalid fixture cases in ${filepath}`)
+  expect(tester.collect()).toHaveLength(0)
+
+  writeFileSync(filepath, JSON.stringify({ cases: [{ input: 'content', answer: { gfm: {} } }] }))
+  tester.scan('**/*.json')
+  expect(tester.collect()).toHaveLength(1)
+})

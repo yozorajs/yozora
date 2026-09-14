@@ -3,27 +3,12 @@ import YozoraParser from '@yozora/parser'
 import { createTokenizerTester } from '@yozora/test-util'
 import FencedCodeTokenizer, { FencedCodeTokenizerName } from '@yozora/tokenizer-fenced-code'
 import InlineCodeTokenizer, { InlineCodeTokenizerName } from '@yozora/tokenizer-inline-code'
-import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
 import ParagraphTokenizer from '@yozora/tokenizer-paragraph'
 import TextTokenizer from '@yozora/tokenizer-text'
 import { describe, expect, test } from 'vitest'
-import { loadFixtures, parsers, scanGfmFixtures } from 'vitest.setup'
+import { loadFixtures, parsers } from 'vitest.setup'
 
-scanGfmFixtures(createTokenizerTester('yozora', parsers.yozora), {
-  excludeExamples: ['#617', '#620', '#621'],
-})
-  .scan(['custom/**/*.json', '!custom/inline-math/backtick-required'])
-  .runTest()
-
-createTokenizerTester(
-  'yozora',
-  parsers.yozora.replaceTokenizer(
-    new InlineMathTokenizer({ backtickRequired: true }),
-    InlineCodeTokenizerName,
-  ),
-)
-  .scan(['custom/inline-math/backtick-required'])
-  .runTest()
+createTokenizerTester('yozora', parsers.yozora).scan('**/*.json').runTest()
 
 describe('snapshot', function () {
   test('basic', function () {

@@ -6,14 +6,14 @@ import MathTokenizer from '../src'
 
 createTokenizerTesters(
   [
-    'gfm',
+    'yozora',
     parsers.gfm
       .useTokenizer(new MathTokenizer())
       .useTokenizer(new InlineMathTokenizer({ backtickRequired: true }), InlineCodeTokenizerName)
       .useTokenizer(new InlineMathTokenizer({ backtickRequired: false }), InlineCodeTokenizerName),
   ],
   [
-    'gfm-ex',
+    'yozora',
     parsers.gfmEx
       .useTokenizer(new MathTokenizer())
       .useTokenizer(new InlineMathTokenizer({ backtickRequired: true }), InlineCodeTokenizerName)

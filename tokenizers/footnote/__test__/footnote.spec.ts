@@ -7,14 +7,14 @@ import FootnoteTokenizer from '../src'
 
 createTokenizerTesters(
   [
-    'gfm',
+    'yozora',
     parsers.gfm
       .useTokenizer(new FootnoteDefinitionTokenizer(), DefinitionTokenizerName)
       .useTokenizer(new FootnoteTokenizer())
       .useTokenizer(new FootnoteReferenceTokenizer()),
   ],
   [
-    'gfm-ex',
+    'yozora',
     parsers.gfmEx
       .useTokenizer(new FootnoteDefinitionTokenizer(), DefinitionTokenizerName)
       .useTokenizer(new FootnoteTokenizer())

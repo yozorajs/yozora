@@ -8,7 +8,6 @@ scanGfmFixtures(createTokenizerTester('gfm', parsers.gfm), {
 createTokenizerTesters(['gfm-ex', parsers.gfmEx], ['yozora', parsers.yozora]).forEach(tester => {
   scanGfmFixtures(tester, {
     includeGroups: ['autolink'],
-    excludeExamples: ['#617', '#620', '#621'],
   }).runTest()
 })
 

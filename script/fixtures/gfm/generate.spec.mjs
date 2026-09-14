@@ -65,9 +65,10 @@ test('is byte-idempotent and preserves all checked-in answers', async t => {
   mkdirSync(fixturesRoot)
 
   for (const directoryName of ['gfm', 'gfm-new']) {
-    cpSync(join(checkedInFixturesRoot, directoryName), join(fixturesRoot, directoryName), {
-      recursive: true,
-    })
+    const source = join(checkedInFixturesRoot, directoryName)
+    const target = join(fixturesRoot, directoryName)
+    if (fs.existsSync(source)) cpSync(source, target, { recursive: true })
+    else mkdirSync(target)
   }
   const before = Object.fromEntries(
     ['gfm', 'gfm-new'].map(directoryName => [
@@ -84,14 +85,14 @@ test('is byte-idempotent and preserves all checked-in answers', async t => {
     ]),
   )
 
-  assert.deepEqual(summary, { currentExamples: 677, matched: 676, new: 1 })
+  assert.deepEqual(summary, { currentExamples: 677, matched: 677, new: 0 })
   assert.deepEqual(after, before)
 
   const mainCases = Object.entries(after.gfm)
     .filter(([filename]) => /^#\d{3}[.]json$/.test(filename))
     .map(([, raw]) => JSON.parse(raw).cases[0])
-  assert.equal(mainCases.filter(fixtureCase => 'ast' in fixtureCase.answer.gfm).length, 676)
-  assert.equal(mainCases.filter(fixtureCase => 'markup' in fixtureCase.answer.gfm).length, 658)
+  assert.equal(mainCases.filter(fixtureCase => 'ast' in fixtureCase.answer.gfm).length, 677)
+  assert.equal(mainCases.filter(fixtureCase => 'markup' in fixtureCase.answer.gfm).length, 659)
 })
 
 test('partitions renumbered duplicate inputs and preserves answers', async t => {
@@ -422,13 +423,14 @@ test('validates the checked-in partition and pinned source metadata', () => {
   const examples = JSON.parse(readFileSync(new URL('./examples.json', import.meta.url), 'utf8'))
   const source = JSON.parse(readFileSync(new URL('./source.json', import.meta.url), 'utf8'))
   const currentIds = listFixtureIds(new URL('gfm/', new URL('../../../fixtures/', import.meta.url)))
-  const newIds = listFixtureIds(new URL('gfm-new/', new URL('../../../fixtures/', import.meta.url)))
+  const newDirectory = new URL('gfm-new/', new URL('../../../fixtures/', import.meta.url))
+  const newIds = fs.existsSync(newDirectory) ? listFixtureIds(newDirectory) : []
 
   assert.equal(source.url, 'https://github.github.com/gfm/')
   assert.equal(source.exampleCount, examples.length - 1)
   assert.match(source.sha256, /^[\da-f]{64}$/)
-  assert.equal(currentIds.length, 676)
-  assert.deepEqual(newIds, ['#657'])
+  assert.equal(currentIds.length, 677)
+  assert.deepEqual(newIds, [])
 
   for (const [directory, fixtureIds] of [
     ['gfm', currentIds],

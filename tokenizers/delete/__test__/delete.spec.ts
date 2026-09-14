@@ -4,7 +4,7 @@ import { parsers, scanGfmFixtures } from 'vitest.setup'
 import DeleteTokenizer from '../src'
 
 createTokenizerTesters(
-  ['gfm', parsers.gfm.useTokenizer(new DeleteTokenizer())],
+  ['gfm-ex', parsers.gfm.useTokenizer(new DeleteTokenizer())],
   ['gfm-ex', parsers.gfmEx],
   ['yozora', parsers.yozora],
 ).forEach(tester => {

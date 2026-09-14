@@ -371,18 +371,30 @@ export abstract class BaseTester<T = unknown> {
       console.warn(`[scan] ${filepath} has been scanned`)
       return
     }
-    this.visitedFilepathSet.add(filepath)
-
     const content = fs.readFileSync(filepath, { encoding: 'utf8' })
     const data = JSON.parse(content)
 
-    const cases: IYozoraUseCase<T>[] = (data.cases || []).map(
+    if (
+      data?.cases === undefined &&
+      data?.groups != null &&
+      typeof data.groups === 'object' &&
+      !Array.isArray(data.groups)
+    ) {
+      // Group metadata must stay out of caseGroups because runAnswer rewrites every group file.
+      return
+    }
+    if (!Array.isArray(data?.cases)) {
+      throw new TypeError(`Invalid fixture cases in ${filepath}`)
+    }
+
+    const cases: IYozoraUseCase<T>[] = data.cases.map(
       (c: IYozoraUseCase<T>, index: number): IYozoraUseCase<T> => ({
         description: c.description || 'case#' + index,
         input: c.input,
         answer: c.answer,
       }),
     )
+    this.visitedFilepathSet.add(filepath)
 
     const dirpath = this._formatDirpath(path.dirname(filepath))
     const createCaseGroup = (parentDirpath: string): IYozoraUseCaseGroup<T> => {

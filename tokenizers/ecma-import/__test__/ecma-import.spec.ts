@@ -5,8 +5,8 @@ import EcmaImportTokenizer from '../src'
 import { regex1, regex2, regex3 } from '../src/util'
 
 createTokenizerTesters(
-  ['gfm', parsers.gfm.useTokenizer(new EcmaImportTokenizer())],
-  ['gfm-ex', parsers.gfmEx.useTokenizer(new EcmaImportTokenizer())],
+  ['yozora', parsers.gfm.useTokenizer(new EcmaImportTokenizer())],
+  ['yozora', parsers.gfmEx.useTokenizer(new EcmaImportTokenizer())],
   ['yozora', parsers.yozora],
 ).forEach(tester => {
   tester.scan(['custom/ecma-import']).runTest()

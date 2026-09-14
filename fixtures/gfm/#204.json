@@ -24,6 +24,58 @@
             },
             "children": [
               {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 20,
+                    "offset": 55
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 4,
+                        "column": 20,
+                        "offset": 55
+                      }
+                    },
+                    "value": "| abc | def |\n| --- | --- |\n| bar |\n| bar | baz | boo |"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "gfm-ex": {
+          "ast": {
+            "type": "root",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 4,
+                "column": 20,
+                "offset": 55
+              }
+            },
+            "children": [
+              {
                 "type": "table",
                 "position": {
                   "start": {

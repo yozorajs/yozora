@@ -4,14 +4,11 @@ import { parsers, scanGfmFixtures } from 'vitest.setup'
 import AutolinkExtensionTokenizer from '../src'
 
 createTokenizerTesters(
-  ['gfm', parsers.gfm.useTokenizer(new AutolinkExtensionTokenizer())],
+  ['gfm-ex', parsers.gfm.useTokenizer(new AutolinkExtensionTokenizer())],
   ['gfm-ex', parsers.gfmEx],
   ['yozora', parsers.yozora],
 ).forEach(tester => {
-  scanGfmFixtures(scanGfmFixtures(tester, { includeGroups: ['autolink-extension'] }), {
-    includeGroups: ['autolink'],
-    excludeExamples: ['#617', '#620', '#621'],
-  }).runTest()
+  scanGfmFixtures(tester, { includeGroups: ['autolink', 'autolink-extension'] }).runTest()
 })
 
 describe('extended URL boundaries', () => {

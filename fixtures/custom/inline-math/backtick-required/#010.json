@@ -38,6 +38,58 @@
                 },
                 "children": [
                   {
+                    "type": "inlineCode",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 14,
+                        "offset": 13
+                      }
+                    },
+                    "value": "$x^2+y^2\\$$"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "yozora": {
+          "ast": {
+            "type": "root",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 14,
+                "offset": 13
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 14,
+                    "offset": 13
+                  }
+                },
+                "children": [
+                  {
                     "type": "inlineMath",
                     "position": {
                       "start": {

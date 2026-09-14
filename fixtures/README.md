@@ -40,6 +40,11 @@ entire answer inherited from an earlier parser:
 An empty string is an explicit answer. Source-only fixtures can omit `ast` and `markup`; a test
 requiring an unavailable representation fails with the fixture path.
 
+All three default parser suites scan every shared JSON fixture, using each parser's built-in
+tokenizers. AST expectations belong to the corresponding parser; overrides are only needed when
+they differ from the inherited AST. Source-only cases must receive AST expectations and move from
+`gfm-new` to `gfm`, with their grouping updated, before these suites pass.
+
 Test helpers take the parser name explicitly:
 
 ```typescript
@@ -47,6 +52,10 @@ createTokenizerTester('yozora', parser)
 createTokenizerTesters(['gfm', gfmParser], ['gfm-ex', gfmExParser], ['yozora', yozoraParser])
 createMarkupTester('yozora', parser, weaver)
 ```
+
+The parser name selects the expected syntax profile. Tokenizer tests that enable an extension on
+another parser select the profile matching that extension; for example, a GFM parser with the
+delete tokenizer uses the `gfm-ex` expectations.
 
 `runAnswer()` updates only the selected representation in the selected parser's answer. It
 preserves the other fields and parser answers, and does not materialize inherited values into

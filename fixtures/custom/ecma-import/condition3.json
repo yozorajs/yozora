@@ -23,6 +23,58 @@
             },
             "children": [
               {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 59,
+                    "offset": 58
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 59,
+                        "offset": 58
+                      }
+                    },
+                    "value": "import Parser, { a as b, x, c as d } from '@yozora/parser'"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "yozora": {
+          "ast": {
+            "type": "root",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 59,
+                "offset": 58
+              }
+            },
+            "children": [
+              {
                 "type": "ecmaImport",
                 "position": {
                   "start": {
@@ -123,6 +175,58 @@
       "answer": {
         "gfm": {
           "markup": "import Parser, { a as b } from \"@yozora/parser\";\n\nimport { x, c as d } from \"@yozora/parser\";",
+          "ast": {
+            "type": "root",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 44,
+                "offset": 91
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 44,
+                    "offset": 91
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 44,
+                        "offset": 91
+                      }
+                    },
+                    "value": "import Parser, { a as b } from '@yozora/parser'\nimport { x, c as d } from '@yozora/parser'"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "yozora": {
           "ast": {
             "type": "root",
             "position": {

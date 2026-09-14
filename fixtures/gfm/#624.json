@@ -48,6 +48,91 @@
                       },
                       "end": {
                         "line": 1,
+                        "column": 26,
+                        "offset": 25
+                      }
+                    },
+                    "value": "Visit www.commonmark.org."
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 27
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 30,
+                    "offset": 56
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 27
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 30,
+                        "offset": 56
+                      }
+                    },
+                    "value": "Visit www.commonmark.org/a.b."
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "gfm-ex": {
+          "ast": {
+            "type": "root",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 30,
+                "offset": 56
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 26
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
                         "column": 7,
                         "offset": 6
                       }

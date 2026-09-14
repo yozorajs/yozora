@@ -47,6 +47,140 @@
                       },
                       "end": {
                         "line": 1,
+                        "column": 256,
+                        "offset": 255
+                      }
+                    },
+                    "value": "** $$x^2 + y^2 = z^2$$ ** . This figure includes both debt held by the public and debt held by federal trust funds and other government accounts . The debt has been increasing steadily, with notable increments observed in recent months. For instance, in "
+                  },
+                  {
+                    "type": "strong",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 256,
+                        "offset": 255
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 271,
+                        "offset": 270
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 258,
+                            "offset": 257
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 269,
+                            "offset": 268
+                          }
+                        },
+                        "value": "August 2024"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 271,
+                        "offset": 270
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 300,
+                        "offset": 299
+                      }
+                    },
+                    "value": ", the public debt was around "
+                  },
+                  {
+                    "type": "strong",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 300,
+                        "offset": 299
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 319,
+                        "offset": 318
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 302,
+                            "offset": 301
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 317,
+                            "offset": 316
+                          }
+                        },
+                        "value": "$35.26 trillion"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "yozora": {
+          "ast": {
+            "type": "root",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 319,
+                "offset": 318
+              }
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 319,
+                    "offset": 318
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
                         "column": 5,
                         "offset": 4
                       }

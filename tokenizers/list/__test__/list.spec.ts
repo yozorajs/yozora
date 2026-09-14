@@ -5,7 +5,6 @@ import { parsers, scanGfmFixtures } from 'vitest.setup'
 
 scanGfmFixtures(createTokenizerTester('gfm', parsers.gfm), {
   includeGroups: ['list', 'list-item'],
-  excludeGroups: ['list-item/task list items(extension)'],
 }).runTest()
 
 createTokenizerTesters(['gfm-ex', parsers.gfmEx], ['yozora', parsers.yozora]).forEach(tester => {

@@ -23,6 +23,43 @@
             },
             "children": [
               {
+                "type": "definition",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 11,
+                    "offset": 10
+                  }
+                },
+                "identifier": "^1",
+                "label": "^1",
+                "url": "/url"
+              }
+            ]
+          }
+        },
+        "yozora": {
+          "ast": {
+            "type": "root",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 11,
+                "offset": 10
+              }
+            },
+            "children": [
+              {
                 "type": "footnoteDefinition",
                 "position": {
                   "start": {
