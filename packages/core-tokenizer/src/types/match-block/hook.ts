@@ -194,6 +194,8 @@ export type IResultOfOnClose =
       // Match failed, and the whole token should be destroyed and rollback.
       status: 'failedAndRollback'
       lines: IPhrasingContentLine[]
+      /** Already matched tokens to append after the rolled-back lines. */
+      remainingTokens?: readonly IBlockToken[]
     }
   | {
       // Match failed, but only the last lines should be rollback.

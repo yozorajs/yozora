@@ -102,9 +102,13 @@ export const createBlockContentProcessor = (
             case 'failedAndRollback': {
               parent.token.children!.pop()
               const processor = createRollbackProcessor(topState.hook, result.lines)
-              if (processor == null) break
-              const internalRoot = processor.done()
-              for (const child of internalRoot.children) parent.token.children!.push(child)
+              if (processor != null) {
+                const internalRoot = processor.done()
+                for (const child of internalRoot.children) parent.token.children!.push(child)
+              }
+              if (result.remainingTokens) {
+                for (const child of result.remainingTokens) parent.token.children!.push(child)
+              }
               break
             }
           }
