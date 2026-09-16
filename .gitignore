@@ -18,6 +18,7 @@ tmp/
 
 # Generated at publish time (copied from root LICENSE)
 packages/*/LICENSE
+parsers/*/LICENSE
 tokenizers/*/LICENSE
 
 # Log files

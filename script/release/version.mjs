@@ -50,7 +50,7 @@ const manifests = workspacePackages()
     pkg: pkg.manifest,
   }))
 
-if (manifests.length === 0) die('No publishable packages found under packages/ or tokenizers/.')
+if (manifests.length === 0) die('No publishable workspace packages found.')
 
 // ---- parse args (strict) ----
 const argv = process.argv.slice(2)

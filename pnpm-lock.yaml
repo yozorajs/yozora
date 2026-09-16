@@ -111,11 +111,174 @@ importers:
 
   packages/invariant: {}
 
-  packages/parser:
+  packages/test-util:
     dependencies:
+      '@yozora/ast':
+        specifier: workspace:^
+        version: link:../ast
+      '@yozora/ast-util':
+        specifier: workspace:^
+        version: link:../ast-util
+      '@yozora/invariant':
+        specifier: workspace:^
+        version: link:../invariant
+    devDependencies:
       '@yozora/core-parser':
         specifier: workspace:^
         version: link:../core-parser
+      '@yozora/markup-gfm':
+        specifier: workspace:^
+        version: link:../../markup/gfm
+      vitest:
+        specifier: ^4.1.10
+        version: 4.1.11(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.0(@types/node@24.13.3)(yaml@2.9.0))
+
+  parsers/parser-gfm:
+    dependencies:
+      '@yozora/core-parser':
+        specifier: workspace:^
+        version: link:../../packages/core-parser
+      '@yozora/tokenizer-autolink':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-autolink
+      '@yozora/tokenizer-blockquote':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-blockquote
+      '@yozora/tokenizer-break':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-break
+      '@yozora/tokenizer-definition':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-definition
+      '@yozora/tokenizer-emphasis':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-emphasis
+      '@yozora/tokenizer-fenced-code':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-fenced-code
+      '@yozora/tokenizer-heading':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-heading
+      '@yozora/tokenizer-html-block':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-html-block
+      '@yozora/tokenizer-html-inline':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-html-inline
+      '@yozora/tokenizer-image':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-image
+      '@yozora/tokenizer-image-reference':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-image-reference
+      '@yozora/tokenizer-indented-code':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-indented-code
+      '@yozora/tokenizer-inline-code':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-inline-code
+      '@yozora/tokenizer-link':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-link
+      '@yozora/tokenizer-link-reference':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-link-reference
+      '@yozora/tokenizer-list':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-list
+      '@yozora/tokenizer-paragraph':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-paragraph
+      '@yozora/tokenizer-setext-heading':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-setext-heading
+      '@yozora/tokenizer-text':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-text
+      '@yozora/tokenizer-thematic-break':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-thematic-break
+
+  parsers/parser-gfm-ex:
+    dependencies:
+      '@yozora/core-parser':
+        specifier: workspace:^
+        version: link:../../packages/core-parser
+      '@yozora/tokenizer-autolink':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-autolink
+      '@yozora/tokenizer-autolink-extension':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-autolink-extension
+      '@yozora/tokenizer-blockquote':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-blockquote
+      '@yozora/tokenizer-break':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-break
+      '@yozora/tokenizer-definition':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-definition
+      '@yozora/tokenizer-delete':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-delete
+      '@yozora/tokenizer-emphasis':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-emphasis
+      '@yozora/tokenizer-fenced-code':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-fenced-code
+      '@yozora/tokenizer-heading':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-heading
+      '@yozora/tokenizer-html-block':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-html-block
+      '@yozora/tokenizer-html-inline':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-html-inline
+      '@yozora/tokenizer-image':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-image
+      '@yozora/tokenizer-image-reference':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-image-reference
+      '@yozora/tokenizer-indented-code':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-indented-code
+      '@yozora/tokenizer-inline-code':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-inline-code
+      '@yozora/tokenizer-link':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-link
+      '@yozora/tokenizer-link-reference':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-link-reference
+      '@yozora/tokenizer-list':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-list
+      '@yozora/tokenizer-paragraph':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-paragraph
+      '@yozora/tokenizer-setext-heading':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-setext-heading
+      '@yozora/tokenizer-table':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-table
+      '@yozora/tokenizer-text':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-text
+      '@yozora/tokenizer-thematic-break':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer-thematic-break
+
+  parsers/parser-yozora:
+    dependencies:
+      '@yozora/core-parser':
+        specifier: workspace:^
+        version: link:../../packages/core-parser
       '@yozora/tokenizer-admonition':
         specifier: workspace:^
         version: link:../../tokenizers/tokenizer-admonition
@@ -206,169 +369,6 @@ importers:
       '@yozora/tokenizer-thematic-break':
         specifier: workspace:^
         version: link:../../tokenizers/tokenizer-thematic-break
-
-  packages/parser-gfm:
-    dependencies:
-      '@yozora/core-parser':
-        specifier: workspace:^
-        version: link:../core-parser
-      '@yozora/tokenizer-autolink':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-autolink
-      '@yozora/tokenizer-blockquote':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-blockquote
-      '@yozora/tokenizer-break':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-break
-      '@yozora/tokenizer-definition':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-definition
-      '@yozora/tokenizer-emphasis':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-emphasis
-      '@yozora/tokenizer-fenced-code':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-fenced-code
-      '@yozora/tokenizer-heading':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-heading
-      '@yozora/tokenizer-html-block':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-html-block
-      '@yozora/tokenizer-html-inline':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-html-inline
-      '@yozora/tokenizer-image':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-image
-      '@yozora/tokenizer-image-reference':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-image-reference
-      '@yozora/tokenizer-indented-code':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-indented-code
-      '@yozora/tokenizer-inline-code':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-inline-code
-      '@yozora/tokenizer-link':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-link
-      '@yozora/tokenizer-link-reference':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-link-reference
-      '@yozora/tokenizer-list':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-list
-      '@yozora/tokenizer-paragraph':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-paragraph
-      '@yozora/tokenizer-setext-heading':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-setext-heading
-      '@yozora/tokenizer-text':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-text
-      '@yozora/tokenizer-thematic-break':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-thematic-break
-
-  packages/parser-gfm-ex:
-    dependencies:
-      '@yozora/core-parser':
-        specifier: workspace:^
-        version: link:../core-parser
-      '@yozora/tokenizer-autolink':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-autolink
-      '@yozora/tokenizer-autolink-extension':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-autolink-extension
-      '@yozora/tokenizer-blockquote':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-blockquote
-      '@yozora/tokenizer-break':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-break
-      '@yozora/tokenizer-definition':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-definition
-      '@yozora/tokenizer-delete':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-delete
-      '@yozora/tokenizer-emphasis':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-emphasis
-      '@yozora/tokenizer-fenced-code':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-fenced-code
-      '@yozora/tokenizer-heading':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-heading
-      '@yozora/tokenizer-html-block':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-html-block
-      '@yozora/tokenizer-html-inline':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-html-inline
-      '@yozora/tokenizer-image':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-image
-      '@yozora/tokenizer-image-reference':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-image-reference
-      '@yozora/tokenizer-indented-code':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-indented-code
-      '@yozora/tokenizer-inline-code':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-inline-code
-      '@yozora/tokenizer-link':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-link
-      '@yozora/tokenizer-link-reference':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-link-reference
-      '@yozora/tokenizer-list':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-list
-      '@yozora/tokenizer-paragraph':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-paragraph
-      '@yozora/tokenizer-setext-heading':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-setext-heading
-      '@yozora/tokenizer-table':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-table
-      '@yozora/tokenizer-text':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-text
-      '@yozora/tokenizer-thematic-break':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer-thematic-break
-
-  packages/test-util:
-    dependencies:
-      '@yozora/ast':
-        specifier: workspace:^
-        version: link:../ast
-      '@yozora/ast-util':
-        specifier: workspace:^
-        version: link:../ast-util
-      '@yozora/invariant':
-        specifier: workspace:^
-        version: link:../invariant
-    devDependencies:
-      '@yozora/core-parser':
-        specifier: workspace:^
-        version: link:../core-parser
-      '@yozora/markup-gfm':
-        specifier: workspace:^
-        version: link:../../markup/gfm
-      vitest:
-        specifier: ^4.1.10
-        version: 4.1.11(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.0(@types/node@24.13.3)(yaml@2.9.0))
 
   tokenizers/tokenizer:
     dependencies:

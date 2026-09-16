@@ -1,7 +1,7 @@
 {
-  "name": "@yozora/parser-gfm",
+  "name": "@yozora/parser-gfm-ex",
   "version": "3.0.0-alpha",
-  "description": "A markdown parser with built-in tokenizers to fully support GFM (without GFM extensions)",
+  "description": "A markdown parser with built-in tokenizers to fully support GFM and GFM extensions",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -9,9 +9,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/yozorajs/yozora.git",
-    "directory": "packages/parser-gfm"
+    "directory": "parsers/parser-gfm-ex"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/parser-gfm#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm-ex#readme",
   "keywords": [
     "markdown",
     "markdown ast",
@@ -48,9 +48,11 @@
   "dependencies": {
     "@yozora/core-parser": "workspace:^",
     "@yozora/tokenizer-autolink": "workspace:^",
+    "@yozora/tokenizer-autolink-extension": "workspace:^",
     "@yozora/tokenizer-blockquote": "workspace:^",
     "@yozora/tokenizer-break": "workspace:^",
     "@yozora/tokenizer-definition": "workspace:^",
+    "@yozora/tokenizer-delete": "workspace:^",
     "@yozora/tokenizer-emphasis": "workspace:^",
     "@yozora/tokenizer-fenced-code": "workspace:^",
     "@yozora/tokenizer-heading": "workspace:^",
@@ -65,6 +67,7 @@
     "@yozora/tokenizer-list": "workspace:^",
     "@yozora/tokenizer-paragraph": "workspace:^",
     "@yozora/tokenizer-setext-heading": "workspace:^",
+    "@yozora/tokenizer-table": "workspace:^",
     "@yozora/tokenizer-text": "workspace:^",
     "@yozora/tokenizer-thematic-break": "workspace:^"
   }

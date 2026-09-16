@@ -2,7 +2,7 @@
 
 <header>
   <h1 align="center">
-    <a href="https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/parser#readme">@yozora/parser</a>
+    <a href="https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme">@yozora/parser</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/parser">
@@ -177,7 +177,7 @@ parser.parse(source())
 
 [live-examples]: https://yozora.guanghechen.com/docs/package/parser#live-examples
 [docpage]: https://yozora.guanghechen.com/docs/package/parser
-[homepage]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/parser#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme
 [gfm-spec]: https://github.github.com/gfm
 [mdast-homepage]: https://github.com/syntax-tree/mdast
 
@@ -189,9 +189,9 @@ parser.parse(source())
 [@yozora/markup]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/yozora#readme
 [@yozora/markup-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm#readme
 [@yozora/markup-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm-ex#readme
-[@yozora/parser]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/parser#readme
-[@yozora/parser-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/parser-gfm#readme
-[@yozora/parser-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/parser-gfm-ex#readme
+[@yozora/parser]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme
+[@yozora/parser-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm#readme
+[@yozora/parser-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm-ex#readme
 [@yozora/tokenizer]:                          https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer#readme
 [@yozora/tokenizer-admonition]:               https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer-admonition#readme
 [@yozora/tokenizer-autolink]:                 https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer-autolink#readme

@@ -12,7 +12,7 @@ export async function createDocumentationParser() {
     await build({
       config: false,
       cwd: repositoryRoot,
-      entry: { parser: 'packages/parser/src/index.ts' },
+      entry: { parser: 'parsers/parser-yozora/src/index.ts' },
       tsconfig: 'tsconfig.json',
       platform: 'node',
       target: 'node22.18',

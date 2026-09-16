@@ -1,6 +1,7 @@
 packages:
   - 'markup/*'
   - 'packages/*'
+  - 'parsers/*'
   - 'tokenizers/*'
 
 allowBuilds:
