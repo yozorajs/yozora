@@ -9,7 +9,7 @@ import type { INodeMarkup, INodeMarkupWeaveContext, INodeWeaver } from '../types
  * @see https://github.com/syntax-tree/mdast#thematicbreak
  * @see https://github.github.com/gfm/#thematic-break
  * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#thematicbreak
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/thematic-break
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-thematic-break
  */
 export class ThematicBreakWeaver implements INodeWeaver<ThematicBreak> {
   public readonly type = ThematicBreakType

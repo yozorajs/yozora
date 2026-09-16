@@ -8,7 +8,7 @@ import type { INodeMarkup, INodeWeaver } from '@yozora/markup-gfm'
  * @see https://github.com/syntax-tree/mdast#delete
  * @see https://github.github.com/gfm/#strikethrough-extension-
  * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#delete
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/delete
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-delete
  */
 export class DeleteWeaver implements INodeWeaver<Delete> {
   public readonly type = DeleteType

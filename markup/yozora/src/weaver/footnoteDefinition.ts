@@ -7,7 +7,7 @@ import type { INodeMarkup, INodeWeaver } from '@yozora/markup-gfm-ex'
  *
  * @see https://github.com/syntax-tree/mdast#footnotedefinition
  * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#footnotedefinition
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/footnote-definition
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-footnote-definition
  */
 export class FootnoteDefinitionWeaver implements INodeWeaver<FootnoteDefinition> {
   public readonly type = FootnoteDefinitionType

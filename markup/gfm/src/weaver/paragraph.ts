@@ -8,7 +8,7 @@ import type { INodeMarkup, INodeWeaver } from '../types'
  * @see https://github.com/syntax-tree/mdast#paragraph
  * @see https://github.github.com/gfm/#paragraphs
  * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#paragraph
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/paragraph
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-paragraph
  */
 export class ParagraphWeaver implements INodeWeaver<Paragraph> {
   public readonly type = ParagraphType

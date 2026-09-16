@@ -11,7 +11,7 @@ const _escapeTitle: IEscaper = createCharacterEscaper('"`'.split(''))
  * @see https://github.com/syntax-tree/mdast#image
  * @see https://github.github.com/gfm/#images
  * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#image
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/image
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-image
  */
 export class ImageWeaver implements INodeWeaver<Image> {
   public readonly type = ImageType

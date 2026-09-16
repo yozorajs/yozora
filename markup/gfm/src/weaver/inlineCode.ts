@@ -12,7 +12,7 @@ const symbolRegex = /([`]+)/g
  * @see https://github.com/syntax-tree/mdast#inline-code
  * @see https://github.github.com/gfm/#code-span
  * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#inlinecode
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/inline-code
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-inline-code
  */
 export class InlineCodeWeaver implements INodeWeaver<InlineCode> {
   public readonly type = InlineCodeType

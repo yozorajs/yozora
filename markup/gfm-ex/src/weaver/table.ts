@@ -34,7 +34,7 @@ const calcTableSeparateCell = (align: AlignType, w: number): string => {
  * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#table
  * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#tablerow
  * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#tablecell
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/table
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-table
  */
 export class TableWeaver implements INodeWeaver<Table> {
   public readonly type = TableType

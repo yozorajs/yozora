@@ -11,7 +11,7 @@ const _escapeContent: IEscaper = createCharacterEscaper(['*', '_'])
  * @see https://github.com/syntax-tree/mdast#emphasis
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#emphasis
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/emphasis
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-emphasis
  */
 export class EmphasisWeaver implements INodeWeaver<Emphasis> {
   public readonly type = EmphasisType

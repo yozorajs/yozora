@@ -1,0 +1,46 @@
+{
+  "name": "@yozora/tokenizer-html-inline",
+  "version": "2.4.1",
+  "author": {
+    "name": "guanghechen",
+    "url": "https://github.com/guanghechen/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yozorajs/yozora.git",
+    "directory": "tokenizers/tokenizer-html-inline"
+  },
+  "homepage": "https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-html-inline#readme",
+  "type": "module",
+  "scripts": {
+    "build": "tsdown --config ../../tsdown.config.mjs",
+    "clean": "rimraf lib",
+    "test": "vitest run --config ../../vitest.config.ts",
+    "test:coverage": "vitest run --config ../../vitest.config.ts --coverage",
+    "test:update": "vitest run --config ../../vitest.config.ts -u"
+  },
+  "exports": {
+    "types": "./lib/types/index.d.ts",
+    "import": "./lib/esm/index.mjs",
+    "require": "./lib/cjs/index.cjs"
+  },
+  "source": "./src/index.ts",
+  "types": "./lib/types/index.d.ts",
+  "main": "./lib/cjs/index.cjs",
+  "module": "./lib/esm/index.mjs",
+  "license": "MIT",
+  "files": [
+    "lib/",
+    "!lib/**/*.map",
+    "package.json",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
+  ],
+  "dependencies": {
+    "@yozora/ast": "workspace:^",
+    "@yozora/character": "workspace:^",
+    "@yozora/tokenizer": "workspace:^",
+    "@yozora/tokenizer-html-block": "workspace:^"
+  }
+}

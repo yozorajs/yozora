@@ -8,7 +8,7 @@ import type { INodeMarkup, INodeMarkupWeaveContext, INodeWeaver } from '@yozora/
  *
  * @see https://github.com/elviswolcott/remark-admonitions
  * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#admonition
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/admonition
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-admonition
  */
 export class AdmonitionWeaver implements INodeWeaver<Admonition> {
   public readonly type = AdmonitionType
