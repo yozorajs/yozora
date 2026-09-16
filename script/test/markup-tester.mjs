@@ -23,6 +23,31 @@ import { BaseTester } from './base-tester.mjs'
 
 /** @typedef {{ caseRootDirectory: string, parser: IParser, parserName: ParserName, weaver: IMarkupWeaver }} IMarkupTesterProps */
 
+/** Existing markup round-trip exclusions, retained during the package split. */
+export const markupFixtureSelection = {
+  excludeExamples: [
+    '#036',
+    '#310',
+    '#333',
+    '#334',
+    '#335',
+    '#336',
+    '#337',
+    '#359',
+    '#503',
+    '#535',
+    '#554',
+    '#572',
+    '#601',
+    '#602',
+    '#615',
+    '#625',
+    '#626',
+    '#629',
+    '#632',
+  ],
+}
+
 /**
  * @template [T=unknown]
  * @extends {BaseTester<T>}
@@ -191,5 +216,25 @@ export class MarkupTester extends BaseTester {
     const root = removePositions(ast)
     const content = JSON.stringify(root)
     return JSON.parse(content)
+  }
+}
+
+/**
+ * Compare each flavor's AST without imposing another flavor's markup spelling.
+ * @extends {MarkupTester<unknown>}
+ */
+export class RoundTripMarkupTester extends MarkupTester {
+  /**
+   * @protected
+   * @override
+   * @param {IYozoraUseCase} useCase
+   * @param {string} filepath
+   * @returns {void}
+   */
+  _testCase(useCase, filepath) {
+    test(useCase.description, () => {
+      const { expectedAst, receivedAst } = this._weaveAndFormat(useCase.input, filepath)
+      if (!this._areSameAST(receivedAst, expectedAst)) expect(receivedAst).toEqual(expectedAst)
+    })
   }
 }

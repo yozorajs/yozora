@@ -1,6 +1,9 @@
 import { parsers, scanGfmFixtures, weavers } from 'vitest.setup'
-import { fixtureRootDirectory } from '../../../script/test/index.mjs'
-import { RoundTripMarkupTester, markupFixtureSelection } from '../../test-util'
+import {
+  RoundTripMarkupTester,
+  fixtureRootDirectory,
+  markupFixtureSelection,
+} from '../../../script/test/index.mjs'
 
 scanGfmFixtures(
   new RoundTripMarkupTester({
