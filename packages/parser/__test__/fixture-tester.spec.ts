@@ -1,7 +1,7 @@
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { DefaultMarkupWeaver } from '@yozora/markup-weaver'
+import { DefaultMarkupWeaver } from '@yozora/markup'
 import YozoraParser from '@yozora/parser'
 import type { IYozoraUseCaseAnswers, ParserName } from '@yozora/test-util'
 import { MarkupTester, TokenizerTester } from '@yozora/test-util'

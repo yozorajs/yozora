@@ -63,6 +63,16 @@ try {
       assert.equal(esmAst.children[0].type, 'heading', `${ws.name} failed to parse a heading`)
       assert.deepEqual(cjsAst, esmAst, `${ws.name} has different CJS and ESM parsing behavior`)
     }
+    if (ws.name === '@yozora/markup' || ws.name.startsWith('@yozora/markup-')) {
+      const ast = {
+        type: 'root',
+        children: [{ type: 'paragraph', children: [{ type: 'text', value: 'text' }] }],
+      }
+      assert.equal(esm.default, esm.DefaultMarkupWeaver, `${ws.name} has inconsistent defaults`)
+      assert.equal(cjs.default, cjs.DefaultMarkupWeaver, `${ws.name} has inconsistent CJS defaults`)
+      assert.equal(new esm.default().weave(ast), 'text', `${ws.name} failed to weave text`)
+      assert.equal(new cjs.default().weave(ast), 'text', `${ws.name} failed to weave CJS text`)
+    }
 
     const exports = names.map((name, i) => `${name} as package${index}_${i}`).join(', ')
     declarations.push(`export { ${exports} } from ${JSON.stringify(ws.name)}`)

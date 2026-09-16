@@ -2,8 +2,10 @@ import fs from 'node:fs'
 import path from 'node:path'
 import url from 'node:url'
 import type { IParser } from '@yozora/core-parser'
-import type { IMarkupWeaver } from '@yozora/markup-weaver'
-import { DefaultMarkupWeaver } from '@yozora/markup-weaver'
+import YozoraMarkupWeaver from '@yozora/markup'
+import type { IMarkupWeaver } from '@yozora/markup-gfm'
+import GfmMarkupWeaver from '@yozora/markup-gfm'
+import GfmExMarkupWeaver from '@yozora/markup-gfm-ex'
 import YozoraParser from '@yozora/parser'
 import GfmParser from '@yozora/parser-gfm'
 import GfmExParser from '@yozora/parser-gfm-ex'
@@ -35,8 +37,14 @@ export const generateParseData = (filepath: string): void => {
 }
 
 export const weavers = {
+  get gfm(): IMarkupWeaver {
+    return new GfmMarkupWeaver()
+  },
+  get gfmEx(): IMarkupWeaver {
+    return new GfmExMarkupWeaver()
+  },
   get yozora(): IMarkupWeaver {
-    return new DefaultMarkupWeaver()
+    return new YozoraMarkupWeaver()
   },
 }
 

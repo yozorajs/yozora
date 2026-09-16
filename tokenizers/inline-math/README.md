@@ -164,7 +164,9 @@ parser.parse("`$x^2 + y^2 = z^2, x < 0$`")
 [@yozora/core-parser]:                        https://github.com/yozorajs/yozora/tree/v2.4.1/packages/core-parser#readme
 [@yozora/core-tokenizer]:                     https://github.com/yozorajs/yozora/tree/v2.4.1/packages/core-tokenizer#readme
 [@yozora/invariant]:                          https://github.com/yozorajs/yozora/tree/v2.4.1/packages/invariant#readme
-[@yozora/markup-weaver]:                      https://github.com/yozorajs/yozora/tree/v2.4.1/packages/markup-weaver#readme
+[@yozora/markup]:                             https://github.com/yozorajs/yozora/tree/v2.4.1/markup/yozora#readme
+[@yozora/markup-gfm]:                         https://github.com/yozorajs/yozora/tree/v2.4.1/markup/gfm#readme
+[@yozora/markup-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v2.4.1/markup/gfm-ex#readme
 [@yozora/parser]:                             https://github.com/yozorajs/yozora/tree/v2.4.1/packages/parser#readme
 [@yozora/parser-gfm]:                         https://github.com/yozorajs/yozora/tree/v2.4.1/packages/parser-gfm#readme
 [@yozora/parser-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v2.4.1/packages/parser-gfm-ex#readme
