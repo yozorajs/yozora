@@ -1,5 +1,5 @@
 import { DefaultParser } from '@yozora/core-parser'
-import YozoraParser from '@yozora/parser'
+import YozoraParser from '@yozora/parser-yozora'
 import { createTokenizerTester } from '@yozora/test-util'
 import FencedCodeTokenizer, { FencedCodeTokenizerName } from '@yozora/tokenizer-fenced-code'
 import InlineCodeTokenizer, { InlineCodeTokenizerName } from '@yozora/tokenizer-inline-code'

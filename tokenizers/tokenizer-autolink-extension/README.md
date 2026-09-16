@@ -68,7 +68,7 @@ npm install --save @yozora/tokenizer-autolink-extension
 
 ## Usage
 
-[@yozora/tokenizer-autolink-extension][] is built into [@yozora/parser][], [@yozora/parser-gfm-ex][].
+[@yozora/tokenizer-autolink-extension][] is built into [@yozora/parser-yozora][], [@yozora/parser-gfm-ex][].
 
 ### With `DefaultParser`
 
@@ -94,10 +94,10 @@ made-up-scheme://foo,bar
 `)
 ```
 
-### With [@yozora/parser][]
+### With [@yozora/parser-yozora][]
 
 ```typescript
-import YozoraParser from '@yozora/parser'
+import YozoraParser from '@yozora/parser-yozora'
 
 const parser = new YozoraParser()
 parser.parse(`
@@ -160,7 +160,7 @@ made-up-scheme://foo,bar
 ## Related
 
 - [@yozora/ast][]
-- [@yozora/parser][]
+- [@yozora/parser-yozora][]
 - [@yozora/parser-gfm][]
 - [@yozora/parser-gfm-ex][]
 - [@yozora/tokenizer-autolink][]
@@ -190,9 +190,9 @@ made-up-scheme://foo,bar
 [@yozora/markup]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/yozora#readme
 [@yozora/markup-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm#readme
 [@yozora/markup-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm-ex#readme
-[@yozora/parser]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme
 [@yozora/parser-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm#readme
 [@yozora/parser-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm-ex#readme
+[@yozora/parser-yozora]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme
 [@yozora/tokenizer-admonition]:               https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer-admonition#readme
 [@yozora/tokenizer-autolink]:                 https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer-autolink#readme
 [@yozora/tokenizer-autolink-extension]:       https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer-autolink-extension#readme
@@ -253,9 +253,9 @@ made-up-scheme://foo,bar
 [doc-@yozora/ast]:                            https://yozora.guanghechen.com/docs/package/ast
 [doc-@yozora/ast-util]:                       https://yozora.guanghechen.com/docs/package/ast-util
 [doc-@yozora/core-parser]:                    https://yozora.guanghechen.com/docs/package/core-parser
-[doc-@yozora/parser]:                         https://yozora.guanghechen.com/docs/package/parser
 [doc-@yozora/parser-gfm]:                     https://yozora.guanghechen.com/docs/package/parser-gfm
 [doc-@yozora/parser-gfm-ex]:                  https://yozora.guanghechen.com/docs/package/parser-gfm-ex
+[doc-@yozora/parser-yozora]:                  https://yozora.guanghechen.com/docs/package/parser-yozora
 [doc-@yozora/tokenizer]:                      https://yozora.guanghechen.com/docs/package/tokenizer
 [doc-@yozora/tokenizer-admonition]:           https://yozora.guanghechen.com/docs/package/tokenizer-admonition
 [doc-@yozora/tokenizer-autolink]:             https://yozora.guanghechen.com/docs/package/tokenizer-autolink

@@ -177,7 +177,7 @@ new paragraph~~.
     isInlineTokenizer: false,
     isBlockTokenizer: true,
     usageDemoSourceContent: `\`
-import { Parser } from '@yozora/parser'
+import { Parser } from '@yozora/parser-yozora'
 import { Button } from '@material-ui/core'
 import Markdown from '@yozora/react-markdown'
 \``,

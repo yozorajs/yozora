@@ -17,11 +17,11 @@ import { isBindingIdentifier, regex1, regex2, regex3, resolveNameImports } from 
 /**
  * Examples
  *
- *    import '@yozora/parser'
- *    import Parser from '@yozora/parser'
- *    import Parser, { YozoraParserProps } from '@yozora/parser'
- *    import { YozoraParserProps } from '@yozora/parser'
- *    import { YozoraParser, YozoraParser as Parser } from '@yozora/parser'
+ *    import '@yozora/parser-yozora'
+ *    import Parser from '@yozora/parser-yozora'
+ *    import Parser, { YozoraParserProps } from '@yozora/parser-yozora'
+ *    import { YozoraParserProps } from '@yozora/parser-yozora'
+ *    import { YozoraParser, YozoraParser as Parser } from '@yozora/parser-yozora'
  *
  * @see https://github.com/syntax-tree/mdast#strong
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis

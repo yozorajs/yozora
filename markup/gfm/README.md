@@ -162,7 +162,7 @@ npm install --save @yozora/markup-gfm
 ## Related
 
 - [@yozora/ast][]
-- [@yozora/parser][]
+- [@yozora/parser-yozora][]
 - [@yozora/parser-gfm][]
 - [GitHub Flavored Markdown Spec][gfm-spec]
 - [mdast][mdast-homepage]
@@ -177,9 +177,9 @@ npm install --save @yozora/markup-gfm
 [@yozora/markup]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/yozora#readme
 [@yozora/markup-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm#readme
 [@yozora/markup-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm-ex#readme
-[@yozora/parser]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme
 [@yozora/parser-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm#readme
 [@yozora/parser-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm-ex#readme
+[@yozora/parser-yozora]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme
 [@yozora/tokenizer-admonition]:               https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer-admonition#readme
 [@yozora/tokenizer-autolink]:                 https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer-autolink#readme
 [@yozora/tokenizer-autolink-extension]:       https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer-autolink-extension#readme
