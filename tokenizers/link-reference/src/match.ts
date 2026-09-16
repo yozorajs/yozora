@@ -7,8 +7,8 @@ import type {
   IResultOfIsDelimiterPair,
   IResultOfProcessDelimiterPair,
   IResultOfProcessSingleDelimiter,
-} from '@yozora/core-tokenizer'
-import { containsLinkToken, eatLinkLabel, genFindDelimiter } from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
+import { containsLinkToken, eatLinkLabel, genFindDelimiter } from '@yozora/tokenizer'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import type { IDelimiter, ILinkReferenceDelimiterBracket, IThis, IToken, T } from './types'
 

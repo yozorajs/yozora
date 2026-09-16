@@ -1,4 +1,4 @@
-import type { IMatchBlockHook, IMatchBlockHookCreator } from '@yozora/core-tokenizer'
+import type { IMatchBlockHook, IMatchBlockHookCreator } from '@yozora/tokenizer'
 import { fencedBlockMatch } from '@yozora/tokenizer-fenced-block'
 import type { IThis, IToken, T } from './types'
 

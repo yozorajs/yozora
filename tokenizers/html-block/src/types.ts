@@ -4,7 +4,7 @@ import type {
   IPartialBlockToken,
   IPhrasingContentLine,
   ITokenizer,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 
 export type T = HtmlType
 export type INode = Html

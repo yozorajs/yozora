@@ -5,8 +5,8 @@ import type {
   IMatchInlineHookCreator,
   IResultOfIsDelimiterPair,
   IResultOfProcessDelimiterPair,
-} from '@yozora/core-tokenizer'
-import { eatOptionalCharacters, genFindDelimiter } from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
+import { eatOptionalCharacters, genFindDelimiter } from '@yozora/tokenizer'
 import type { IDelimiter, IThis, IToken, T } from './types'
 
 export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = function (api) {

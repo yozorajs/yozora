@@ -6,8 +6,8 @@ import type {
   IPhrasingContentLine,
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatOpener,
-} from '@yozora/core-tokenizer'
-import { calcIndentWidth } from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
+import { calcIndentWidth } from '@yozora/tokenizer'
 import { fencedBlockMatch } from '@yozora/tokenizer-fenced-block'
 import type { IThis, IToken, T } from './types'
 

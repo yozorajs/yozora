@@ -1,6 +1,6 @@
 import type { Node } from '@yozora/ast'
 import { ImageReferenceType } from '@yozora/ast'
-import type { IParseInlineHookCreator } from '@yozora/core-tokenizer'
+import type { IParseInlineHookCreator } from '@yozora/tokenizer'
 import { calcImageAlt } from '@yozora/tokenizer-image'
 import type { INode, IThis, IToken, T } from './types'
 

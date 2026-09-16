@@ -1,6 +1,6 @@
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
-import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
+import { eatOptionalWhitespaces } from '@yozora/tokenizer'
 
 /**
  * The processing token of eatAndCollectLinkDestination, used to save

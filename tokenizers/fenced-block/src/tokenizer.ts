@@ -1,7 +1,7 @@
 import type { Node, NodeType } from '@yozora/ast'
 import type { ICodePoint } from '@yozora/character'
-import type { IBlockTokenizer, IMatchBlockHookCreator } from '@yozora/core-tokenizer'
-import { BaseBlockTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+import type { IBlockTokenizer, IMatchBlockHookCreator } from '@yozora/tokenizer'
+import { BaseBlockTokenizer, TokenizerPriority } from '@yozora/tokenizer'
 import { match } from './match'
 import type { IFencedBlockHookContext, IToken, ITokenizerProps } from './types'
 

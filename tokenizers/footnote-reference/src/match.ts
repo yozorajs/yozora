@@ -1,11 +1,8 @@
 import { FootnoteReferenceType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
-import type {
-  IMatchInlineHookCreator,
-  IResultOfProcessSingleDelimiter,
-} from '@yozora/core-tokenizer'
-import { genFindDelimiter, resolveLinkLabelAndIdentifier } from '@yozora/core-tokenizer'
+import type { IMatchInlineHookCreator, IResultOfProcessSingleDelimiter } from '@yozora/tokenizer'
+import { genFindDelimiter, resolveLinkLabelAndIdentifier } from '@yozora/tokenizer'
 import { eatFootnoteLabel } from '@yozora/tokenizer-footnote-definition'
 import type { IDelimiter, IThis, IToken, T } from './types'
 

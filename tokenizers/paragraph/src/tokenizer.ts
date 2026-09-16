@@ -4,13 +4,13 @@ import type {
   IMatchBlockHookCreator,
   IParseBlockHookCreator,
   IPhrasingContentLine,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 import {
   BaseBlockTokenizer,
   TokenizerPriority,
   calcPositionFromPhrasingContentLines,
   trimBlankLines,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 import { match } from './match'
 import { parse } from './parse'
 import type { INode, IThis, IToken, ITokenizerProps, T } from './types'

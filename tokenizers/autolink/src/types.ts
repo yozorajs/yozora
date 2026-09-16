@@ -6,7 +6,7 @@ import type {
   IResultOfRequiredEater,
   ITokenDelimiter,
   ITokenizer,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 
 // Content type of autolink
 export type AutolinkContentType = 'uri' | 'email'

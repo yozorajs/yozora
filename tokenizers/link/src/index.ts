@@ -1,4 +1,4 @@
-export { checkBalancedBracketsStatus } from '@yozora/core-tokenizer'
+export { checkBalancedBracketsStatus } from '@yozora/tokenizer'
 export { LinkTokenizer, LinkTokenizer as default } from './tokenizer'
 export type {
   IThis as ILinkHookContext,

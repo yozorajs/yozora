@@ -9,8 +9,8 @@ import type {
   IMatchBlockHookCreator,
   IPhrasingContentLine,
   IResultOfEatOpener,
-} from '@yozora/core-tokenizer'
-import { calcEndPoint, calcStartPoint } from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
+import { calcEndPoint, calcStartPoint } from '@yozora/tokenizer'
 import type { IThis, IToken, T } from './types'
 import { isBindingIdentifier, regex1, regex2, regex3, resolveNameImports } from './util'
 

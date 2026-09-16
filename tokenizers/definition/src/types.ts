@@ -4,7 +4,7 @@ import type {
   IPartialBlockToken,
   IPhrasingContentLine,
   ITokenizer,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 import type { ILinkDestinationCollectingState } from './util/link-destination'
 import type { ILinkLabelCollectingState } from './util/link-label'
 import type { ILinkTitleCollectingState } from './util/link-title'

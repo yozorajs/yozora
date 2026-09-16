@@ -4,8 +4,8 @@ import type {
   IBlockTokenizer,
   IMatchBlockHookCreator,
   IParseBlockHookCreator,
-} from '@yozora/core-tokenizer'
-import { BaseBlockTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
+import { BaseBlockTokenizer, TokenizerPriority } from '@yozora/tokenizer'
 import { match } from './match'
 import { parse } from './parse'
 import type { INode, IThis, IToken, ITokenizerProps, T } from './types'

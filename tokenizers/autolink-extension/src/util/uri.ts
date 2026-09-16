@@ -1,6 +1,6 @@
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, isAlphanumeric, isWhitespaceCharacter } from '@yozora/character'
-import type { IResultOfOptionalEater, IResultOfRequiredEater } from '@yozora/core-tokenizer'
+import type { IResultOfOptionalEater, IResultOfRequiredEater } from '@yozora/tokenizer'
 import { eatAutolinkSchema } from '@yozora/tokenizer-autolink'
 
 /**

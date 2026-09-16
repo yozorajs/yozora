@@ -6,8 +6,8 @@ import type {
   IResultOfFindDelimiters,
   IResultOfProcessSingleDelimiter,
   ITokenDelimiter,
-} from '@yozora/core-tokenizer'
-import { eatOptionalCharacters } from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
+import { eatOptionalCharacters } from '@yozora/tokenizer'
 import type { IDelimiter, IThis, IToken, T } from './types'
 
 /**

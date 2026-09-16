@@ -6,8 +6,8 @@ import type {
   IMatchInlineHookCreator,
   IResultOfIsDelimiterPair,
   IResultOfProcessDelimiterPair,
-} from '@yozora/core-tokenizer'
-import { eatLinkLabel, genFindDelimiter } from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
+import { eatLinkLabel, genFindDelimiter } from '@yozora/tokenizer'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import type { IDelimiter, IThis, IToken, T } from './types'
 

@@ -1,11 +1,8 @@
 import { HtmlType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, isAsciiUpperLetter } from '@yozora/character'
-import type {
-  IMatchInlineHookCreator,
-  IResultOfProcessSingleDelimiter,
-} from '@yozora/core-tokenizer'
-import { eatOptionalWhitespaces, genFindDelimiter } from '@yozora/core-tokenizer'
+import type { IMatchInlineHookCreator, IResultOfProcessSingleDelimiter } from '@yozora/tokenizer'
+import { eatOptionalWhitespaces, genFindDelimiter } from '@yozora/tokenizer'
 import type { IDelimiter, IThis, IToken, T } from './types'
 import { eatHtmlInlineCDataDelimiter } from './util/cdata'
 import { eatHtmlInlineClosingDelimiter } from './util/closing'

@@ -2,8 +2,8 @@ import type { Node } from '@yozora/ast'
 import { AdmonitionType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints, isUnicodeWhitespaceCharacter } from '@yozora/character'
-import type { IParseBlockHookCreator, IPhrasingContentLine } from '@yozora/core-tokenizer'
-import { eatOptionalWhitespaces, mergeAndStripContentLines } from '@yozora/core-tokenizer'
+import type { IParseBlockHookCreator, IPhrasingContentLine } from '@yozora/tokenizer'
+import { eatOptionalWhitespaces, mergeAndStripContentLines } from '@yozora/tokenizer'
 import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (api) {

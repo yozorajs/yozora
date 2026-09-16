@@ -1,6 +1,6 @@
 import { TextType } from '@yozora/ast'
-import type { IMatchInlineHookCreator } from '@yozora/core-tokenizer'
-import { genFindDelimiter } from '@yozora/core-tokenizer'
+import type { IMatchInlineHookCreator } from '@yozora/tokenizer'
+import { genFindDelimiter } from '@yozora/tokenizer'
 import type { IDelimiter, IThis, IToken, T } from './types'
 
 /**

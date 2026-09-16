@@ -5,7 +5,7 @@ import type {
   IBlockToken,
   IPartialBlockToken,
   ITokenizer,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 
 export type T = FootnoteDefinitionType
 export type INode = FootnoteDefinition

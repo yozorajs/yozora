@@ -4,7 +4,7 @@ import type {
   IResultOfProcessDelimiterPair,
   IResultOfProcessSingleDelimiter,
   ITokenDelimiter,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 
 /**
  * Processor for mapping phrasing contents to an array of IInlineToken.

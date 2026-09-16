@@ -6,7 +6,7 @@ import {
   isAsciiPunctuationCharacter,
   isWhitespaceCharacter,
 } from '@yozora/character'
-import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
+import { eatOptionalWhitespaces } from '@yozora/tokenizer'
 
 /**
  * The processing token of eatAndCollectLinkDestination, used to save

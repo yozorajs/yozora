@@ -30,7 +30,7 @@
     <a href="https://github.com/nodejs/node">
       <img
         alt="Node.js Version"
-        src="https://img.shields.io/node/v/@yozora/core-tokenizer"
+        src="https://img.shields.io/node/v/@yozora/tokenizer"
       />
     </a>
     <a href="https://github.com/yozorajs/yozora/actions/workflows/ci.yml">
@@ -250,7 +250,7 @@
   | [@yozora/ast-util][]       | 处理 AST 的工具函数库             |
   | [@yozora/character][]      | 处理字符编码的工具库              |
   | [@yozora/core-parser][]    | Yozora 解析器的核心算法           |
-  | [@yozora/core-tokenizer][] | Yozora 分词器相关的接口和工具函数 |
+  | [@yozora/tokenizer][]      | Yozora 分词器相关的接口和工具函数 |
   | [@yozora/invariant][]      | A simple invariant function       |
 
 ## 💡 FAQ
@@ -263,7 +263,7 @@
 
   - 复制 [tokenizers/][github-tokenizers] 下任意一个现有分词器作为起点；
 
-  - 参见 [@yozora/core-tokenizer][] 以获得分词器的生命周期函数细节；
+  - 参见 [@yozora/tokenizer][] 以获得分词器的生命周期函数细节；
 
   - 测试方面，可参考 `@yozora/test-util` 以及现有分词器的 `__test__` 目录；
 
@@ -310,7 +310,6 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/main/LICEN
 [@yozora/ast-util]:                           https://github.com/yozorajs/yozora/tree/v2.4.1/packages/ast-util#readme
 [@yozora/character]:                          https://github.com/yozorajs/yozora/tree/v2.4.1/packages/character#readme
 [@yozora/core-parser]:                        https://github.com/yozorajs/yozora/tree/v2.4.1/packages/core-parser#readme
-[@yozora/core-tokenizer]:                     https://github.com/yozorajs/yozora/tree/v2.4.1/packages/core-tokenizer#readme
 [@yozora/invariant]:                          https://github.com/yozorajs/yozora/tree/v2.4.1/packages/invariant#readme
 [@yozora/markup]:                             https://github.com/yozorajs/yozora/tree/v2.4.1/markup/yozora#readme
 [@yozora/markup-gfm]:                         https://github.com/yozorajs/yozora/tree/v2.4.1/markup/gfm#readme
@@ -318,6 +317,7 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/main/LICEN
 [@yozora/parser]:                             https://github.com/yozorajs/yozora/tree/v2.4.1/packages/parser#readme
 [@yozora/parser-gfm]:                         https://github.com/yozorajs/yozora/tree/v2.4.1/packages/parser-gfm#readme
 [@yozora/parser-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v2.4.1/packages/parser-gfm-ex#readme
+[@yozora/tokenizer]:                          https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer#readme
 [@yozora/tokenizer-admonition]:               https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/admonition#readme
 [@yozora/tokenizer-autolink]:                 https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/autolink#readme
 [@yozora/tokenizer-autolink-extension]:       https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/autolink-extension#readme
@@ -378,10 +378,10 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/main/LICEN
 [doc-@yozora/ast]:                            https://yozora.guanghechen.com/docs/package/ast
 [doc-@yozora/ast-util]:                       https://yozora.guanghechen.com/docs/package/ast-util
 [doc-@yozora/core-parser]:                    https://yozora.guanghechen.com/docs/package/core-parser
-[doc-@yozora/core-tokenizer]:                 https://yozora.guanghechen.com/docs/package/core-tokenizer
 [doc-@yozora/parser]:                         https://yozora.guanghechen.com/docs/package/parser
 [doc-@yozora/parser-gfm]:                     https://yozora.guanghechen.com/docs/package/parser-gfm
 [doc-@yozora/parser-gfm-ex]:                  https://yozora.guanghechen.com/docs/package/parser-gfm-ex
+[doc-@yozora/tokenizer]:                      https://yozora.guanghechen.com/docs/package/tokenizer
 [doc-@yozora/tokenizer-admonition]:           https://yozora.guanghechen.com/docs/package/tokenizer-admonition
 [doc-@yozora/tokenizer-autolink]:             https://yozora.guanghechen.com/docs/package/tokenizer-autolink
 [doc-@yozora/tokenizer-autolink-extension]:   https://yozora.guanghechen.com/docs/package/tokenizer-autolink-extension

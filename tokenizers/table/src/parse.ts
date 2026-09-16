@@ -2,8 +2,8 @@ import type { Node, TableCell, TableRow } from '@yozora/ast'
 import { TableCellType, TableRowType, TableType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
-import type { IParseBlockHookCreator } from '@yozora/core-tokenizer'
-import { mergeAndStripContentLines } from '@yozora/core-tokenizer'
+import type { IParseBlockHookCreator } from '@yozora/tokenizer'
+import { mergeAndStripContentLines } from '@yozora/tokenizer'
 import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = api => ({

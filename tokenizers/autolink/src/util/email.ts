@@ -5,7 +5,7 @@ import {
   isAsciiDigitCharacter,
   isAsciiLetter,
 } from '@yozora/character'
-import type { IResultOfOptionalEater, IResultOfRequiredEater } from '@yozora/core-tokenizer'
+import type { IResultOfOptionalEater, IResultOfRequiredEater } from '@yozora/tokenizer'
 
 /**
  * An email address, for these purposes, is anything that matches the
