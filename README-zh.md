@@ -63,7 +63,7 @@
 **_yozora_** 是日语「よぞら」的罗马音，意为“夜空”，取自*世界の終わり*乐队的『_花鳥風月_』中的歌词。
 
 此项目是一个 monorepo，目的是实现一个高度可扩展的、可插拔式 Markdown 解析器。它采用了中间件的思想，
-由核心算法 [@yozora/core-parser][] 调度分词器（如 [@yozora/tokenizer-autolink][]）完成解析工作。准确
+由核心算法 [@yozora/parser][] 调度分词器（如 [@yozora/tokenizer-autolink][]）完成解析工作。准确
 地说，_yozora_ 是一个将 Markdown 语法或其扩展语法编写的字符串解析成抽象语法树（AST）的算法。
 
 ## ✨ Features
@@ -246,7 +246,7 @@
   | [@yozora/ast][]            | Yozora 中所有的 AST 节点类型      |
   | [@yozora/ast-util][]       | 处理 AST 的工具函数库             |
   | [@yozora/character][]      | 处理字符编码的工具库              |
-  | [@yozora/core-parser][]    | Yozora 解析器的核心算法           |
+  | [@yozora/parser][]         | Yozora 解析器的核心算法           |
   | [@yozora/tokenizer][]      | Yozora 分词器相关的接口和工具函数 |
   | [@yozora/invariant][]      | A simple invariant function       |
 
@@ -264,7 +264,7 @@
 
   - 测试方面，可参考 `@yozora/test-util` 以及现有分词器的 `__test__` 目录；
 
-  - 参考 [@yozora/core-parser][] 和 [@yozora/parser-yozora][] 以获得如何使用自定义分词器的信息；
+  - 参考 [@yozora/parser][] 和 [@yozora/parser-yozora][] 以获得如何使用自定义分词器的信息；
 
   完整的步骤说明见 [CONTRIBUTING.md](./CONTRIBUTING.md)。另外，同样推荐参考现有的
   [分词器][github-tokenizers]，以实现一个自定义的版本。
@@ -306,11 +306,11 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/v3/LICENSE
 [@yozora/ast]:                                https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/ast#readme
 [@yozora/ast-util]:                           https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/ast-util#readme
 [@yozora/character]:                          https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/character#readme
-[@yozora/core-parser]:                        https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/core-parser#readme
 [@yozora/invariant]:                          https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/invariant#readme
 [@yozora/markup]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/yozora#readme
 [@yozora/markup-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm#readme
 [@yozora/markup-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm-ex#readme
+[@yozora/parser]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser#readme
 [@yozora/parser-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm#readme
 [@yozora/parser-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm-ex#readme
 [@yozora/parser-yozora]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme
@@ -374,7 +374,7 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/v3/LICENSE
 [doc-live-examples/gfm]:                      https://yozora.guanghechen.com/docs/example/gfm
 [doc-@yozora/ast]:                            https://yozora.guanghechen.com/docs/package/ast
 [doc-@yozora/ast-util]:                       https://yozora.guanghechen.com/docs/package/ast-util
-[doc-@yozora/core-parser]:                    https://yozora.guanghechen.com/docs/package/core-parser
+[doc-@yozora/parser]:                         https://yozora.guanghechen.com/docs/package/parser
 [doc-@yozora/parser-gfm]:                     https://yozora.guanghechen.com/docs/package/parser-gfm
 [doc-@yozora/parser-gfm-ex]:                  https://yozora.guanghechen.com/docs/package/parser-gfm-ex
 [doc-@yozora/parser-yozora]:                  https://yozora.guanghechen.com/docs/package/parser-yozora

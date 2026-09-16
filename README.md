@@ -66,7 +66,7 @@
 『_花鳥風月_』 by the band _世界の終わり_.
 
 This project is a monorepo that aims to implement a highly extensible, pluggable Markdown parser.
-Based on the idea of middleware, the core algorithm [@yozora/core-parser][] schedules tokenizers
+Based on the idea of middleware, the core algorithm [@yozora/parser][] schedules tokenizers
 (such as [@yozora/tokenizer-autolink][]) to complete the parsing tasks. More accurately, _Yozora_
 is an algorithm that parses Markdown or its extended syntax into an abstract syntax tree (AST).
 
@@ -260,7 +260,7 @@ is an algorithm that parses Markdown or its extended syntax into an abstract syn
   | [@yozora/ast][]            | Yozora Markdown AST types and constants                              |
   | [@yozora/ast-util][]       | Utility functions to handle Yozora Markdown AST                      |
   | [@yozora/character][]      | Utility functions to handle characters encoded in ASCII and Unicode. |
-  | [@yozora/core-parser][]    | Types and utility functions for building a Yozora parser.            |
+  | [@yozora/parser][]         | Types and utility functions for building a Yozora parser.            |
   | [@yozora/tokenizer][]      | Types and utility functions for building a Yozora tokenizer.         |
   | [@yozora/invariant][]      | A simple invariant function                                          |
 
@@ -278,7 +278,7 @@ is an algorithm that parses Markdown or its extended syntax into an abstract syn
 
   - For testing, refer to `@yozora/test-util` and an existing tokenizer's `__test__` directory.
 
-  - Check [@yozora/core-parser] and [@yozora/parser-yozora] for information on how to integrate a custom
+  - Check [@yozora/parser] and [@yozora/parser-yozora] for information on how to integrate a custom
     tokenizer.
 
   See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full step-by-step guide. It's also recommended to
@@ -321,11 +321,11 @@ Yozora is [MIT licensed](https://github.com/yozorajs/yozora/blob/v3/LICENSE).
 [@yozora/ast]:                                https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/ast#readme
 [@yozora/ast-util]:                           https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/ast-util#readme
 [@yozora/character]:                          https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/character#readme
-[@yozora/core-parser]:                        https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/core-parser#readme
 [@yozora/invariant]:                          https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/invariant#readme
 [@yozora/markup]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/yozora#readme
 [@yozora/markup-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm#readme
 [@yozora/markup-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm-ex#readme
+[@yozora/parser]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser#readme
 [@yozora/parser-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm#readme
 [@yozora/parser-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm-ex#readme
 [@yozora/parser-yozora]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme
@@ -389,7 +389,7 @@ Yozora is [MIT licensed](https://github.com/yozorajs/yozora/blob/v3/LICENSE).
 [doc-live-examples/gfm]:                      https://yozora.guanghechen.com/docs/example/gfm
 [doc-@yozora/ast]:                            https://yozora.guanghechen.com/docs/package/ast
 [doc-@yozora/ast-util]:                       https://yozora.guanghechen.com/docs/package/ast-util
-[doc-@yozora/core-parser]:                    https://yozora.guanghechen.com/docs/package/core-parser
+[doc-@yozora/parser]:                         https://yozora.guanghechen.com/docs/package/parser
 [doc-@yozora/parser-gfm]:                     https://yozora.guanghechen.com/docs/package/parser-gfm
 [doc-@yozora/parser-gfm-ex]:                  https://yozora.guanghechen.com/docs/package/parser-gfm-ex
 [doc-@yozora/parser-yozora]:                  https://yozora.guanghechen.com/docs/package/parser-yozora

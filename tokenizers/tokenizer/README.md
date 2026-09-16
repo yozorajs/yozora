@@ -97,7 +97,7 @@ first character in the original document line directly, but waits for its ancest
 the existing nested structure, such as the [Blockquote][@yozora/tokenizer-blockquote], to complete
 matching before it gets an opportunity to match. To make tokenizers work with each other
 transparently, the nested-structure parsing logic of the `match-block` phase is lifted into
-[@yozora/core-parser][], using `IPhrasingContentLine` as the actual parsing unit of a line:
+[@yozora/parser][], using `IPhrasingContentLine` as the actual parsing unit of a line:
 
 ```typescript
 export interface IPhrasingContentLine extends INodeInterval {
@@ -181,9 +181,9 @@ The parsing steps of the inline tokenizer are divided into two life cycles:
 After a block node closes, matching inline nodes can begin, so inline matching receives continuous
 text without the concept of lines. Inline nodes also have priorities; for example, links have a
 higher priority than emphasis (see https://github.github.com/gfm/#example-529). To make tokenizers
-work with each other transparently, priority-related logic is handled in [@yozora/core-parser][].
+work with each other transparently, priority-related logic is handled in [@yozora/parser][].
 Each tokenizer provides four types of delimiters: `opener`, `both`, `closer`, and `full`. The
-processor in [@yozora/core-parser][] completes the coordination work.
+processor in [@yozora/parser][] completes the coordination work.
 
 The lifecycle methods at this stage are subdivided into the following methods (see
 [match-inline][lifecycle-match-inline] for the complete type definitions):
@@ -225,7 +225,7 @@ the complete type definitions):
   https://github.com/yozorajs/yozora/blob/v3.0.0-alpha/tokenizers/tokenizer/src/types/parse-block/hook.ts
 [lifecycle-parse-inline]:
   https://github.com/yozorajs/yozora/blob/v3.0.0-alpha/tokenizers/tokenizer/src/types/parse-inline/hook.ts
-[@yozora/core-parser]: https://www.npmjs.com/package/@yozora/core-parser
+[@yozora/parser]:      https://www.npmjs.com/package/@yozora/parser
 [@yozora/tokenizer-blockquote]: https://www.npmjs.com/package/@yozora/tokenizer-blockquote
 [@yozora/tokenizer-emphasis]: https://www.npmjs.com/package/@yozora/tokenizer-emphasis
 [@yozora/tokenizer-list]: https://www.npmjs.com/package/@yozora/tokenizer-list

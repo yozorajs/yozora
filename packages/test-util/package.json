@@ -23,8 +23,8 @@
     "@yozora/invariant": "workspace:^"
   },
   "devDependencies": {
-    "@yozora/core-parser": "workspace:^",
     "@yozora/markup-gfm": "workspace:^",
+    "@yozora/parser": "workspace:^",
     "vitest": "^4.1.10"
   }
 }

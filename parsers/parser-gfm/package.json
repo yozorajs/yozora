@@ -46,7 +46,7 @@
     "README.md"
   ],
   "dependencies": {
-    "@yozora/core-parser": "workspace:^",
+    "@yozora/parser": "workspace:^",
     "@yozora/tokenizer-autolink": "workspace:^",
     "@yozora/tokenizer-blockquote": "workspace:^",
     "@yozora/tokenizer-break": "workspace:^",

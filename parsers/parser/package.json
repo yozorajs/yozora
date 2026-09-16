@@ -1,5 +1,5 @@
 {
-  "name": "@yozora/core-parser",
+  "name": "@yozora/parser",
   "version": "3.0.0-alpha",
   "author": {
     "name": "guanghechen",
@@ -8,9 +8,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/yozorajs/yozora.git",
-    "directory": "packages/core-parser"
+    "directory": "parsers/parser"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/core-parser#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser#readme",
   "type": "module",
   "scripts": {
     "build": "tsdown --config ../../tsdown.config.mjs",

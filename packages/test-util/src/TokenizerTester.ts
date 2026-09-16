@@ -1,4 +1,4 @@
-import type { IParser } from '@yozora/core-parser'
+import type { IParser } from '@yozora/parser'
 import { expect, test } from 'vitest'
 import { resolveAnswer } from './answer'
 import { BaseTester } from './BaseTester'
