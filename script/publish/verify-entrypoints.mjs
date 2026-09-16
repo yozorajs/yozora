@@ -55,7 +55,7 @@ try {
         `${ws.name} export ${name} has different types`,
       )
     }
-    if (ws.name.startsWith('@yozora/parser')) {
+    if (ws.name.startsWith('@yozora/parser-')) {
       const markdown = '# Heading\n\nText with **strong** and [link](https://example.com).\n'
       const options = { shouldReservePosition: false }
       const esmAst = new esm.default().parse(markdown, options)
@@ -80,7 +80,7 @@ try {
 
   declarations.push(
     '// @ts-expect-error Internal helper types must remain private.',
-    "import type { IDelimiterProcessorHook } from '@yozora/core-parser'",
+    "import type { IDelimiterProcessorHook } from '@yozora/parser'",
   )
   for (const extension of ['mts', 'cts']) {
     writeFileSync(path.join(consumerDir, `consumer.${extension}`), declarations.join('\n'))

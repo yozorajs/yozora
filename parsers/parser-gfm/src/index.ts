@@ -1,5 +1,5 @@
-import type { IDefaultParserProps } from '@yozora/core-parser'
-import { DefaultParser } from '@yozora/core-parser'
+import type { IDefaultParserProps } from '@yozora/parser'
+import { DefaultParser } from '@yozora/parser'
 import { AutolinkTokenizer } from '@yozora/tokenizer-autolink'
 import { BlockquoteTokenizer } from '@yozora/tokenizer-blockquote'
 import { BreakTokenizer } from '@yozora/tokenizer-break'

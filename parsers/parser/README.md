@@ -2,25 +2,25 @@
 
 <header>
   <h1 align="center">
-    <a href="https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/core-parser#readme">@yozora/core-parser</a>
+    <a href="https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser#readme">@yozora/parser</a>
   </h1>
   <div align="center">
-    <a href="https://www.npmjs.com/package/@yozora/core-parser">
+    <a href="https://www.npmjs.com/package/@yozora/parser">
       <img
         alt="npm version"
-        src="https://img.shields.io/npm/v/@yozora/core-parser.svg"
+        src="https://img.shields.io/npm/v/@yozora/parser.svg"
       />
     </a>
-    <a href="https://www.npmjs.com/package/@yozora/core-parser">
+    <a href="https://www.npmjs.com/package/@yozora/parser">
       <img
         alt="npm downloads"
-        src="https://img.shields.io/npm/dm/@yozora/core-parser.svg"
+        src="https://img.shields.io/npm/dm/@yozora/parser.svg"
       />
     </a>
-    <a href="https://www.npmjs.com/package/@yozora/core-parser">
+    <a href="https://www.npmjs.com/package/@yozora/parser">
       <img
         alt="npm license"
-        src="https://img.shields.io/npm/l/@yozora/core-parser.svg"
+        src="https://img.shields.io/npm/l/@yozora/parser.svg"
       />
     </a>
     <a href="#install">
@@ -32,7 +32,7 @@
     <a href="https://github.com/nodejs/node">
       <img
         alt="Node.js Version"
-        src="https://img.shields.io/node/v/@yozora/core-parser"
+        src="https://img.shields.io/node/v/@yozora/parser"
       />
     </a>
     <a href="https://github.com/vitest-dev/vitest">
@@ -59,13 +59,13 @@
 ## Install
 
 ```bash
-npm install --save @yozora/core-parser
+npm install --save @yozora/parser
 ```
 
 ## Usage
 
 ```typescript
-import { DefaultParser } from '@yozora/core-parser'
+import { DefaultParser } from '@yozora/parser'
 import IndentedCodeTokenizer from '@yozora/tokenizer-indented-code'
 import InlineCodeTokenizer from '@yozora/tokenizer-inline-code'
 import ParagraphTokenizer from '@yozora/tokenizer-paragraph'
@@ -117,13 +117,13 @@ parser.parse(['source ', 'chunks'])
 - [GitHub Flavored Markdown Spec][gfm-spec]
 - [mdast][mdast-homepage]
 
-[docpage]: https://yozora.guanghechen.com/docs/package/core-parser
-[homepage]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/core-parser#readme
+[docpage]: https://yozora.guanghechen.com/docs/package/parser
+[homepage]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser#readme
 
 <!-- yozora package link definitions -->
 
 [@yozora/ast]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/ast#readme
-[@yozora/core-parser]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/core-parser#readme
+[@yozora/parser]:      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser#readme
 [@yozora/parser-gfm]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm#readme
 [@yozora/parser-gfm-ex]:
 [@yozora/parser-yozora]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme

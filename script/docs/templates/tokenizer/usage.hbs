@@ -13,7 +13,7 @@ npm install --save {{packageName}}
 A tokenizer must be registered with an `IParser` before use.
 
 ```typescript{{#unless isFallbackTokenizer}} {4,9}{{/unless}}
-import { DefaultParser } from '@yozora/core-parser'
+import { DefaultParser } from '@yozora/parser'
 import ParagraphTokenizer from '@yozora/tokenizer-paragraph'
 import TextTokenizer from '@yozora/tokenizer-text'
 {{#unless isFallbackTokenizer}}

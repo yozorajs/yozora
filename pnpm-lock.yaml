@@ -94,21 +94,6 @@ importers:
 
   packages/character: {}
 
-  packages/core-parser:
-    dependencies:
-      '@yozora/ast':
-        specifier: workspace:^
-        version: link:../ast
-      '@yozora/character':
-        specifier: workspace:^
-        version: link:../character
-      '@yozora/invariant':
-        specifier: workspace:^
-        version: link:../invariant
-      '@yozora/tokenizer':
-        specifier: workspace:^
-        version: link:../../tokenizers/tokenizer
-
   packages/invariant: {}
 
   packages/test-util:
@@ -123,21 +108,36 @@ importers:
         specifier: workspace:^
         version: link:../invariant
     devDependencies:
-      '@yozora/core-parser':
-        specifier: workspace:^
-        version: link:../core-parser
       '@yozora/markup-gfm':
         specifier: workspace:^
         version: link:../../markup/gfm
+      '@yozora/parser':
+        specifier: workspace:^
+        version: link:../../parsers/parser
       vitest:
         specifier: ^4.1.10
         version: 4.1.11(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.0(@types/node@24.13.3)(yaml@2.9.0))
 
+  parsers/parser:
+    dependencies:
+      '@yozora/ast':
+        specifier: workspace:^
+        version: link:../../packages/ast
+      '@yozora/character':
+        specifier: workspace:^
+        version: link:../../packages/character
+      '@yozora/invariant':
+        specifier: workspace:^
+        version: link:../../packages/invariant
+      '@yozora/tokenizer':
+        specifier: workspace:^
+        version: link:../../tokenizers/tokenizer
+
   parsers/parser-gfm:
     dependencies:
-      '@yozora/core-parser':
+      '@yozora/parser':
         specifier: workspace:^
-        version: link:../../packages/core-parser
+        version: link:../parser
       '@yozora/tokenizer-autolink':
         specifier: workspace:^
         version: link:../../tokenizers/tokenizer-autolink
@@ -201,9 +201,9 @@ importers:
 
   parsers/parser-gfm-ex:
     dependencies:
-      '@yozora/core-parser':
+      '@yozora/parser':
         specifier: workspace:^
-        version: link:../../packages/core-parser
+        version: link:../parser
       '@yozora/tokenizer-autolink':
         specifier: workspace:^
         version: link:../../tokenizers/tokenizer-autolink
@@ -276,9 +276,9 @@ importers:
 
   parsers/parser-yozora:
     dependencies:
-      '@yozora/core-parser':
+      '@yozora/parser':
         specifier: workspace:^
-        version: link:../../packages/core-parser
+        version: link:../parser
       '@yozora/tokenizer-admonition':
         specifier: workspace:^
         version: link:../../tokenizers/tokenizer-admonition

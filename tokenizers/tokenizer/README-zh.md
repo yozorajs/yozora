@@ -89,7 +89,7 @@
 如上面代码第二行所示，在解析 [ListItem][@yozora/tokenizer-list] 时，并不能获取原文档行内的首字符，而
 是顺着已有的嵌套结构等待它的祖先元素（如上面的 [Blockquote][@yozora/tokenizer-blockquote]）完成匹配
 后才能获得匹配机会。为了使得分词器之间可以无感知地协调工作，在设计块级分词器在 `match-block` 阶段的
-生命周期函数时，将嵌套结构的解析逻辑放在 [@yozora/core-parser][] 中，并使用
+生命周期函数时，将嵌套结构的解析逻辑放在 [@yozora/parser][] 中，并使用
 `IPhrasingContentLine` 作为行的实际解析单元：
 
 ```typescript
@@ -162,9 +162,9 @@ export interface IPhrasingContentLine extends INodeInterval {
 在一个块节点闭合后可以开始匹配内联节点，因此匹配内联节点时得到的是一个连续的文本，没有“行”的概念。但
 是内联节点存在优先级，比如 link 比 emphasis 拥有更高的优先级（可参见
 https://github.github.com/gfm/#example-529）。为了使得分词器之间可以无感知地协调工作，在设计内联分词器
-在 `match-inline` 阶段的生命周期函数时，将优先级相关的逻辑放在 [@yozora/core-parser][] 中处理，每个
+在 `match-inline` 阶段的生命周期函数时，将优先级相关的逻辑放在 [@yozora/parser][] 中处理，每个
 分词器仅提供四种类型的分隔符：`opener`、`both`、`closer`、`full`，然后由
-[@yozora/core-parser][] 中的处理器完成协调工作。
+[@yozora/parser][] 中的处理器完成协调工作。
 
 此阶段的生命周期函数细分成下列函数（完整的类型定义见 [match-inline][lifecycle-match-inline]）：
 
@@ -201,7 +201,7 @@ https://github.github.com/gfm/#example-529）。为了使得分词器之间可�
   https://github.com/yozorajs/yozora/blob/v3.0.0-alpha/tokenizers/tokenizer/src/types/parse-block/hook.ts
 [lifecycle-parse-inline]:
   https://github.com/yozorajs/yozora/blob/v3.0.0-alpha/tokenizers/tokenizer/src/types/parse-inline/hook.ts
-[@yozora/core-parser]: https://www.npmjs.com/package/@yozora/core-parser
+[@yozora/parser]:      https://www.npmjs.com/package/@yozora/parser
 [@yozora/tokenizer-blockquote]: https://www.npmjs.com/package/@yozora/tokenizer-blockquote
 [@yozora/tokenizer-emphasis]: https://www.npmjs.com/package/@yozora/tokenizer-emphasis
 [@yozora/tokenizer-list]: https://www.npmjs.com/package/@yozora/tokenizer-list
