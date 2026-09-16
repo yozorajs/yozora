@@ -6,9 +6,9 @@ import YozoraMarkupWeaver from '@yozora/markup'
 import type { IMarkupWeaver } from '@yozora/markup-gfm'
 import GfmMarkupWeaver from '@yozora/markup-gfm'
 import GfmExMarkupWeaver from '@yozora/markup-gfm-ex'
-import YozoraParser from '@yozora/parser'
 import GfmParser from '@yozora/parser-gfm'
 import GfmExParser from '@yozora/parser-gfm-ex'
+import YozoraParser from '@yozora/parser-yozora'
 import type { BaseTester } from '@yozora/test-util'
 
 export const parsers = {

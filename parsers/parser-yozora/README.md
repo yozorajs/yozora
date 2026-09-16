@@ -2,25 +2,25 @@
 
 <header>
   <h1 align="center">
-    <a href="https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme">@yozora/parser</a>
+    <a href="https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme">@yozora/parser-yozora</a>
   </h1>
   <div align="center">
-    <a href="https://www.npmjs.com/package/@yozora/parser">
+    <a href="https://www.npmjs.com/package/@yozora/parser-yozora">
       <img
         alt="npm version"
-        src="https://img.shields.io/npm/v/@yozora/parser.svg"
+        src="https://img.shields.io/npm/v/@yozora/parser-yozora.svg"
       />
     </a>
-    <a href="https://www.npmjs.com/package/@yozora/parser">
+    <a href="https://www.npmjs.com/package/@yozora/parser-yozora">
       <img
         alt="npm downloads"
-        src="https://img.shields.io/npm/dm/@yozora/parser.svg"
+        src="https://img.shields.io/npm/dm/@yozora/parser-yozora.svg"
       />
     </a>
-    <a href="https://www.npmjs.com/package/@yozora/parser">
+    <a href="https://www.npmjs.com/package/@yozora/parser-yozora">
       <img
         alt="npm license"
-        src="https://img.shields.io/npm/l/@yozora/parser.svg"
+        src="https://img.shields.io/npm/l/@yozora/parser-yozora.svg"
       />
     </a>
     <a href="#install">
@@ -32,7 +32,7 @@
     <a href="https://github.com/nodejs/node">
       <img
         alt="Node.js Version"
-        src="https://img.shields.io/node/v/@yozora/parser"
+        src="https://img.shields.io/node/v/@yozora/parser-yozora"
       />
     </a>
     <a href="https://github.com/vitest-dev/vitest">
@@ -56,14 +56,14 @@
 
 A Markdown parser with rich built-in tokenizers.
 
-See [@yozora/parser documentation][docpage] for details.
+See [@yozora/parser-yozora documentation][docpage] for details.
 
 <!-- :begin use parser/usage -->
 
 ## Install
 
 ```bash
-npm install --save @yozora/parser
+npm install --save @yozora/parser-yozora
 ```
 
 ## Usage
@@ -71,7 +71,7 @@ npm install --save @yozora/parser
 ### Basic
 
 ```typescript
-import YozoraParser from '@yozora/parser'
+import YozoraParser from '@yozora/parser-yozora'
 
 const parser = new YozoraParser()
 
@@ -88,7 +88,7 @@ parser.parse(['source ', 'chunks'])
 ### Generator input
 
 ```typescript
-import YozoraParser from '@yozora/parser'
+import YozoraParser from '@yozora/parser-yozora'
 
 const parser = new YozoraParser()
 
@@ -175,8 +175,8 @@ parser.parse(source())
 
 <!-- :begin use tokenizer/definitions -->
 
-[live-examples]: https://yozora.guanghechen.com/docs/package/parser#live-examples
-[docpage]: https://yozora.guanghechen.com/docs/package/parser
+[live-examples]: https://yozora.guanghechen.com/docs/package/parser-yozora#live-examples
+[docpage]: https://yozora.guanghechen.com/docs/package/parser-yozora
 [homepage]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme
 [gfm-spec]: https://github.github.com/gfm
 [mdast-homepage]: https://github.com/syntax-tree/mdast
@@ -189,9 +189,9 @@ parser.parse(source())
 [@yozora/markup]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/yozora#readme
 [@yozora/markup-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm#readme
 [@yozora/markup-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm-ex#readme
-[@yozora/parser]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme
 [@yozora/parser-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm#readme
 [@yozora/parser-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm-ex#readme
+[@yozora/parser-yozora]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme
 [@yozora/tokenizer]:                          https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer#readme
 [@yozora/tokenizer-admonition]:               https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer-admonition#readme
 [@yozora/tokenizer-autolink]:                 https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer-autolink#readme
@@ -253,9 +253,9 @@ parser.parse(source())
 [doc-@yozora/ast]:                            https://yozora.guanghechen.com/docs/package/ast
 [doc-@yozora/ast-util]:                       https://yozora.guanghechen.com/docs/package/ast-util
 [doc-@yozora/core-parser]:                    https://yozora.guanghechen.com/docs/package/core-parser
-[doc-@yozora/parser]:                         https://yozora.guanghechen.com/docs/package/parser
 [doc-@yozora/parser-gfm]:                     https://yozora.guanghechen.com/docs/package/parser-gfm
 [doc-@yozora/parser-gfm-ex]:                  https://yozora.guanghechen.com/docs/package/parser-gfm-ex
+[doc-@yozora/parser-yozora]:                  https://yozora.guanghechen.com/docs/package/parser-yozora
 [doc-@yozora/tokenizer]:                      https://yozora.guanghechen.com/docs/package/tokenizer
 [doc-@yozora/tokenizer-admonition]:           https://yozora.guanghechen.com/docs/package/tokenizer-admonition
 [doc-@yozora/tokenizer-autolink]:             https://yozora.guanghechen.com/docs/package/tokenizer-autolink

@@ -106,14 +106,14 @@
 
   此项目中已实现了一些 [GFM][gfm-spec] 中未提到的数据类型的分词器，如
   [@yozora/tokenizer-admonition][], [@yozora/tokenizer-footnote][] 等，且均已默认内置于
-  [@yozora/parser][] 中。如果你不喜欢其中的某些，可以任意卸载它们。
+  [@yozora/parser-yozora][] 中。如果你不喜欢其中的某些，可以任意卸载它们。
 
 ## Usage
 
-- [@yozora/parser][]: （**推荐**）内置了所有分词器的 Markdown 解析器。
+- [@yozora/parser-yozora][]: （**推荐**）内置了所有分词器的 Markdown 解析器。
 
   ```typescript
-  import YozoraParser from '@yozora/parser'
+  import YozoraParser from '@yozora/parser-yozora'
 
   const parser = new YozoraParser()
   parser.parse('source content')
@@ -192,7 +192,7 @@
 
   | Parser                    | Description                                                                                                                 |
   | :------------------------ | :-------------------------------------------------------------------------------------------------------------------------- |
-  | [@yozora/parser][]        | 内置了本仓库所有分词器的 Markdown 解析器                                                                                    |
+  | [@yozora/parser-yozora][] | 内置了本仓库所有分词器的 Markdown 解析器                                                                                    |
   | [@yozora/parser-gfm][]    | 内置了支持 [GFM 规范][gfm-spec] 中提到的所有语法（不包含规范中提到的扩展语法，如 [table][@yozora/tokenizer-table]）的分词器 |
   | [@yozora/parser-gfm-ex][] | 内置了支持 [GFM 规范][gfm-spec] 中提到的所有语法（包括规范中提到的扩展语法，如 [table][@yozora/tokenizer-table]）的分词器   |
 
@@ -264,7 +264,7 @@
 
   - 测试方面，可参考 `@yozora/test-util` 以及现有分词器的 `__test__` 目录；
 
-  - 参考 [@yozora/core-parser][] 和 [@yozora/parser][] 以获得如何使用自定义分词器的信息；
+  - 参考 [@yozora/core-parser][] 和 [@yozora/parser-yozora][] 以获得如何使用自定义分词器的信息；
 
   完整的步骤说明见 [CONTRIBUTING.md](./CONTRIBUTING.md)。另外，同样推荐参考现有的
   [分词器][github-tokenizers]，以实现一个自定义的版本。
@@ -311,9 +311,9 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/v3/LICENSE
 [@yozora/markup]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/yozora#readme
 [@yozora/markup-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm#readme
 [@yozora/markup-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm-ex#readme
-[@yozora/parser]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme
 [@yozora/parser-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm#readme
 [@yozora/parser-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm-ex#readme
+[@yozora/parser-yozora]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme
 [@yozora/tokenizer]:                          https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer#readme
 [@yozora/tokenizer-admonition]:               https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer-admonition#readme
 [@yozora/tokenizer-autolink]:                 https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer-autolink#readme
@@ -375,9 +375,9 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/v3/LICENSE
 [doc-@yozora/ast]:                            https://yozora.guanghechen.com/docs/package/ast
 [doc-@yozora/ast-util]:                       https://yozora.guanghechen.com/docs/package/ast-util
 [doc-@yozora/core-parser]:                    https://yozora.guanghechen.com/docs/package/core-parser
-[doc-@yozora/parser]:                         https://yozora.guanghechen.com/docs/package/parser
 [doc-@yozora/parser-gfm]:                     https://yozora.guanghechen.com/docs/package/parser-gfm
 [doc-@yozora/parser-gfm-ex]:                  https://yozora.guanghechen.com/docs/package/parser-gfm-ex
+[doc-@yozora/parser-yozora]:                  https://yozora.guanghechen.com/docs/package/parser-yozora
 [doc-@yozora/tokenizer]:                      https://yozora.guanghechen.com/docs/package/tokenizer
 [doc-@yozora/tokenizer-admonition]:           https://yozora.guanghechen.com/docs/package/tokenizer-admonition
 [doc-@yozora/tokenizer-autolink]:             https://yozora.guanghechen.com/docs/package/tokenizer-autolink

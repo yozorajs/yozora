@@ -17,9 +17,9 @@ import { ensureLeadingTemplateRegion, renderMarkdown } from './render.mjs'
 
 /** @type {Readonly<Record<string, string>>} */
 const PARSER_NAMES = {
-  '@yozora/parser': 'YozoraParser',
   '@yozora/parser-gfm': 'GfmParser',
   '@yozora/parser-gfm-ex': 'GfmExParser',
+  '@yozora/parser-yozora': 'YozoraParser',
 }
 
 /** @type {HandlebarData[]} */

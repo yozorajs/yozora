@@ -6,7 +6,7 @@ npm install --save {{packageName}}
 
 ## Usage
 
-[{{{packageName}}}][] is built into [@yozora/parser][]{{#if inGfmEx}}, [@yozora/parser-gfm-ex][]{{/if}}{{#if inGfm}}, and [@yozora/parser-gfm][]{{/if}}.
+[{{{packageName}}}][] is built into [@yozora/parser-yozora][]{{#if inGfmEx}}, [@yozora/parser-gfm-ex][]{{/if}}{{#if inGfm}}, and [@yozora/parser-gfm][]{{/if}}.
 
 ### With `DefaultParser`
 
@@ -30,10 +30,10 @@ const parser = new DefaultParser()
 parser.parse({{{usageDemoSourceContent}}})
 ```
 
-### With [@yozora/parser][]
+### With [@yozora/parser-yozora][]
 
 ```typescript
-import YozoraParser from '@yozora/parser'
+import YozoraParser from '@yozora/parser-yozora'
 
 const parser = new YozoraParser()
 parser.parse({{{usageDemoSourceContent}}})

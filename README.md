@@ -117,15 +117,15 @@ is an algorithm that parses Markdown or its extended syntax into an abstract syn
 
     Some tokenizers for data types not mentioned in [GFM][gfm-spec] have been implemented in this
     repository, such as [@yozora/tokenizer-admonition][], [@yozora/tokenizer-footnote][], etc. All of
-    them are built into [@yozora/parser][] by default; you can uninstall them at will if you don't
+    them are built into [@yozora/parser-yozora][] by default; you can uninstall them at will if you don't
     like them.
 
 ## Usage
 
-- [@yozora/parser][]: (**Recommended**) A Markdown parser with rich built-in tokenizers.
+- [@yozora/parser-yozora][]: (**Recommended**) A Markdown parser with rich built-in tokenizers.
 
   ```typescript
-  import YozoraParser from '@yozora/parser'
+  import YozoraParser from '@yozora/parser-yozora'
 
   const parser = new YozoraParser()
   parser.parse('source content')
@@ -206,7 +206,7 @@ is an algorithm that parses Markdown or its extended syntax into an abstract syn
 
   | Parser                    | Description                                                                              |
   | :------------------------ | :--------------------------------------------------------------------------------------- |
-  | [@yozora/parser][]        | A Markdown parser with rich built-in tokenizers                                          |
+  | [@yozora/parser-yozora][] | A Markdown parser with rich built-in tokenizers                                          |
   | [@yozora/parser-gfm][]    | A Markdown parser with built-in tokenizers to fully support GFM (without GFM extensions) |
   | [@yozora/parser-gfm-ex][] | A Markdown parser with built-in tokenizers to fully support GFM and GFM extensions       |
 
@@ -278,7 +278,7 @@ is an algorithm that parses Markdown or its extended syntax into an abstract syn
 
   - For testing, refer to `@yozora/test-util` and an existing tokenizer's `__test__` directory.
 
-  - Check [@yozora/core-parser] and [@yozora/parser] for information on how to integrate a custom
+  - Check [@yozora/core-parser] and [@yozora/parser-yozora] for information on how to integrate a custom
     tokenizer.
 
   See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full step-by-step guide. It's also recommended to
@@ -326,9 +326,9 @@ Yozora is [MIT licensed](https://github.com/yozorajs/yozora/blob/v3/LICENSE).
 [@yozora/markup]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/yozora#readme
 [@yozora/markup-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm#readme
 [@yozora/markup-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm-ex#readme
-[@yozora/parser]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme
 [@yozora/parser-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm#readme
 [@yozora/parser-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm-ex#readme
+[@yozora/parser-yozora]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme
 [@yozora/tokenizer]:                          https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer#readme
 [@yozora/tokenizer-admonition]:               https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer-admonition#readme
 [@yozora/tokenizer-autolink]:                 https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer-autolink#readme
@@ -390,9 +390,9 @@ Yozora is [MIT licensed](https://github.com/yozorajs/yozora/blob/v3/LICENSE).
 [doc-@yozora/ast]:                            https://yozora.guanghechen.com/docs/package/ast
 [doc-@yozora/ast-util]:                       https://yozora.guanghechen.com/docs/package/ast-util
 [doc-@yozora/core-parser]:                    https://yozora.guanghechen.com/docs/package/core-parser
-[doc-@yozora/parser]:                         https://yozora.guanghechen.com/docs/package/parser
 [doc-@yozora/parser-gfm]:                     https://yozora.guanghechen.com/docs/package/parser-gfm
 [doc-@yozora/parser-gfm-ex]:                  https://yozora.guanghechen.com/docs/package/parser-gfm-ex
+[doc-@yozora/parser-yozora]:                  https://yozora.guanghechen.com/docs/package/parser-yozora
 [doc-@yozora/tokenizer]:                      https://yozora.guanghechen.com/docs/package/tokenizer
 [doc-@yozora/tokenizer-admonition]:           https://yozora.guanghechen.com/docs/package/tokenizer-admonition
 [doc-@yozora/tokenizer-autolink]:             https://yozora.guanghechen.com/docs/package/tokenizer-autolink

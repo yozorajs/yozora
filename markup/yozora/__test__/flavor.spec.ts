@@ -1,5 +1,5 @@
 import YozoraMarkupWeaver, { DefaultMarkupWeaver } from '@yozora/markup'
-import YozoraParser from '@yozora/parser'
+import YozoraParser from '@yozora/parser-yozora'
 import { expect, test } from 'vitest'
 
 test('exports the Yozora default under both import styles', () => {

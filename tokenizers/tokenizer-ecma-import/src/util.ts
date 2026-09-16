@@ -81,7 +81,7 @@ const endRegex = /\s*(?:;\s*)?$/u
 export const regex1 = new RegExp(/^import\s+(['"])([^'"]+)\1/.source + endRegex.source, 'u')
 
 /**
- * import Parser from '@yozora/parser'
+ * import Parser from '@yozora/parser-yozora'
  */
 export const regex2 = new RegExp(
   `^import\\s+(${identifierNamePattern})\\s+from\\s+(['"])([^'"]+)\\2${endRegex.source}`,
@@ -89,12 +89,12 @@ export const regex2 = new RegExp(
 )
 
 /**
- * import Parser, { YozoraParser } from '@yozora/parser'
- * import Parser, { YozoraParser as Parser } from '@yozora/parser'
- * import Parser, { YozoraParser, YozoraParser as Parser } from '@yozora/parser'
- * import { YozoraParser } from '@yozora/parser'
- * import { YozoraParser as Parser } from '@yozora/parser'
- * import { YozoraParser, YozoraParser as Parser } from '@yozora/parser'
+ * import Parser, { YozoraParser } from '@yozora/parser-yozora'
+ * import Parser, { YozoraParser as Parser } from '@yozora/parser-yozora'
+ * import Parser, { YozoraParser, YozoraParser as Parser } from '@yozora/parser-yozora'
+ * import { YozoraParser } from '@yozora/parser-yozora'
+ * import { YozoraParser as Parser } from '@yozora/parser-yozora'
+ * import { YozoraParser, YozoraParser as Parser } from '@yozora/parser-yozora'
  */
 export const regex3 = new RegExp(
   `^import\\s+(?:(${identifierNamePattern})\\s*,\\s*)?` +

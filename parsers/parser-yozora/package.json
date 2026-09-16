@@ -1,5 +1,5 @@
 {
-  "name": "@yozora/parser",
+  "name": "@yozora/parser-yozora",
   "version": "3.0.0-alpha",
   "description": "A markdown parser with rich built-in tokenizers",
   "author": {
