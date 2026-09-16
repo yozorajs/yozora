@@ -1,6 +1,6 @@
-import { createTokenizerTesters } from '@yozora/test-util'
 import { expect, test } from 'vitest'
 import { parsers, scanGfmFixtures } from 'vitest.setup'
+import { createTokenizerTesters } from '../../../script/test/index.mjs'
 
 createTokenizerTesters(
   ['gfm', parsers.gfm],

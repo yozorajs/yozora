@@ -1,5 +1,5 @@
-import { fixtureRootDirectory } from '@yozora/test-util'
 import { parsers, scanGfmFixtures, weavers } from 'vitest.setup'
+import { fixtureRootDirectory } from '../../../script/test/index.mjs'
 import { RoundTripMarkupTester, markupFixtureSelection } from '../../test-util'
 
 scanGfmFixtures(

@@ -1,13 +1,15 @@
-import type { IYozoraUseCaseAnswer, IYozoraUseCaseAnswers, ParserName } from './types'
+// @ts-check
+/** @import { IYozoraUseCaseAnswer, IYozoraUseCaseAnswers, ParserName } from './types.mjs' */
 
 /**
  * Resolve each representation separately so a partial override preserves the
  * inherited expectations for the other representations.
+ * @template T
+ * @param {IYozoraUseCaseAnswers<T>} answer
+ * @param {ParserName} parserName
+ * @returns {IYozoraUseCaseAnswer<T>}
  */
-export function resolveAnswer<T>(
-  answer: IYozoraUseCaseAnswers<T>,
-  parserName: ParserName,
-): IYozoraUseCaseAnswer<T> {
+export function resolveAnswer(answer, parserName) {
   const gfm = answer.gfm
   const gfmEx = parserName === 'gfm' ? undefined : answer['gfm-ex']
   const yozora = parserName === 'yozora' ? answer.yozora : undefined

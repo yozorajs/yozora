@@ -1,12 +1,12 @@
 import type { Blockquote } from '@yozora/ast'
 import { BlockquoteType, ImageType } from '@yozora/ast'
-import { createTokenizerTester } from '@yozora/test-util'
 import type { IBlockToken, IParseBlockGenerator } from '@yozora/tokenizer'
 import BlockquoteTokenizer, { blockquoteMatch } from '@yozora/tokenizer-blockquote'
 import ImageTokenizer from '@yozora/tokenizer-image'
 import { ImageReferenceTokenizerName } from '@yozora/tokenizer-image-reference'
 import { expect, test } from 'vitest'
 import { parsers } from 'vitest.setup'
+import { createTokenizerTester } from '../../../script/test/index.mjs'
 import GfmParser from '../src'
 
 class ShallowImageTokenizer extends ImageTokenizer {

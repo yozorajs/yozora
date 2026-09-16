@@ -96,28 +96,6 @@ importers:
 
   packages/invariant: {}
 
-  packages/test-util:
-    dependencies:
-      '@yozora/ast':
-        specifier: workspace:^
-        version: link:../ast
-      '@yozora/ast-util':
-        specifier: workspace:^
-        version: link:../ast-util
-      '@yozora/invariant':
-        specifier: workspace:^
-        version: link:../invariant
-    devDependencies:
-      '@yozora/markup-gfm':
-        specifier: workspace:^
-        version: link:../../markup/gfm
-      '@yozora/parser':
-        specifier: workspace:^
-        version: link:../../parsers/parser
-      vitest:
-        specifier: ^4.1.10
-        version: 4.1.11(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.0(@types/node@24.13.3)(yaml@2.9.0))
-
   parsers/parser:
     dependencies:
       '@yozora/ast':

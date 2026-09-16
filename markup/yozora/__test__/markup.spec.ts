@@ -1,5 +1,5 @@
-import { createMarkupTester } from '@yozora/test-util'
 import { parsers, scanGfmFixtures, weavers } from 'vitest.setup'
+import { createMarkupTester } from '../../../script/test/index.mjs'
 import { markupFixtureSelection } from '../../test-util'
 
 void scanGfmFixtures(

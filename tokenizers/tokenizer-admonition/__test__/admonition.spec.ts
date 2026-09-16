@@ -1,5 +1,5 @@
-import { createTokenizerTesters } from '@yozora/test-util'
 import { parsers } from 'vitest.setup'
+import { createTokenizerTesters } from '../../../script/test/index.mjs'
 import { AdmonitionTokenizer } from '../src'
 
 createTokenizerTesters(

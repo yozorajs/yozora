@@ -1,7 +1,7 @@
 import type { Table } from '@yozora/ast'
-import { createTokenizerTesters } from '@yozora/test-util'
 import { expect, test } from 'vitest'
 import { parsers, scanGfmFixtures } from 'vitest.setup'
+import { createTokenizerTesters } from '../../../script/test/index.mjs'
 
 createTokenizerTesters(['yozora', parsers.yozora]).forEach(tester => {
   scanGfmFixtures(tester, { includeGroups: ['table'] })

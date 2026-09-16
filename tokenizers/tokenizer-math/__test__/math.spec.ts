@@ -1,7 +1,7 @@
-import { createTokenizerTesters } from '@yozora/test-util'
 import { InlineCodeTokenizerName } from '@yozora/tokenizer-inline-code'
 import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
 import { parsers } from 'vitest.setup'
+import { createTokenizerTesters } from '../../../script/test/index.mjs'
 import MathTokenizer from '../src'
 
 createTokenizerTesters(

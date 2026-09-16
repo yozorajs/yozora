@@ -1,23 +1,38 @@
+// @ts-check
+
 import fs from 'node:fs'
 import path from 'node:path'
 import invariant from '@yozora/invariant'
 import { describe } from 'vitest'
-import type { IYozoraUseCase, IYozoraUseCaseGroup } from './types'
 
-type IPathMatcher = (relativeFilepath: string) => boolean
+/** @import { IYozoraUseCase, IYozoraUseCaseGroup } from './types.mjs' */
 
-function normalizeRelativePath(filepath: string): string {
+/** @typedef {(relativeFilepath: string) => boolean} IPathMatcher */
+
+/**
+ * @param {string} filepath
+ * @returns {string}
+ */
+function normalizeRelativePath(filepath) {
   return filepath
     .replace(/\\/g, '/')
     .replace(/^\.?\//, '')
     .replace(/\/+$/, '')
 }
 
-function normalizePatternPath(pattern: string): string {
+/**
+ * @param {string} pattern
+ * @returns {string}
+ */
+function normalizePatternPath(pattern) {
   return pattern.replace(/^\.?\//, '').replace(/\/+$/, '')
 }
 
-function hasGlobMagic(pattern: string): boolean {
+/**
+ * @param {string} pattern
+ * @returns {boolean}
+ */
+function hasGlobMagic(pattern) {
   let escaped = false
   for (const ch of pattern) {
     if (escaped) {
@@ -37,12 +52,20 @@ function hasGlobMagic(pattern: string): boolean {
   return false
 }
 
-function escapeRegExp(ch: string): string {
+/**
+ * @param {string} ch
+ * @returns {string}
+ */
+function escapeRegExp(ch) {
   return /[\\^$.*+?()[\]{}|]/.test(ch) ? `\\${ch}` : ch
 }
 
-function splitPatternSegments(pattern: string): string[] {
-  const segments: string[] = []
+/**
+ * @param {string} pattern
+ * @returns {string[]}
+ */
+function splitPatternSegments(pattern) {
+  const segments = []
   let segment = ''
   let escaped = false
 
@@ -72,7 +95,11 @@ function splitPatternSegments(pattern: string): string[] {
   return segments
 }
 
-function compileSegmentPattern(segmentPattern: string): RegExp {
+/**
+ * @param {string} segmentPattern
+ * @returns {RegExp}
+ */
+function compileSegmentPattern(segmentPattern) {
   let regex = ''
   let escaped = false
 
@@ -105,13 +132,23 @@ function compileSegmentPattern(segmentPattern: string): RegExp {
   return new RegExp(`^${regex}$`)
 }
 
-function compileGlobMatcher(pattern: string): IPathMatcher {
+/**
+ * @param {string} pattern
+ * @returns {IPathMatcher}
+ */
+function compileGlobMatcher(pattern) {
   const rawSegments = splitPatternSegments(pattern)
   const segmentMatchers = rawSegments.map(segment =>
     segment === '**' ? null : compileSegmentPattern(segment),
   )
 
-  const isMatch = (pathSegments: string[], patternIdx: number, pathIdx: number): boolean => {
+  /**
+   * @param {string[]} pathSegments
+   * @param {number} patternIdx
+   * @param {number} pathIdx
+   * @returns {boolean}
+   */
+  const isMatch = (pathSegments, patternIdx, pathIdx) => {
     if (patternIdx >= rawSegments.length) return pathIdx >= pathSegments.length
     if (pathIdx > pathSegments.length) return false
 
@@ -128,56 +165,81 @@ function compileGlobMatcher(pattern: string): IPathMatcher {
     return isMatch(pathSegments, patternIdx + 1, pathIdx + 1)
   }
 
-  return (relativeFilepath: string): boolean => {
+  return relativeFilepath => {
     const pathSegments = normalizeRelativePath(relativeFilepath).split('/')
     return isMatch(pathSegments, 0, 0)
   }
 }
 
-function createPathMatcher(rawPattern: string): IPathMatcher {
+/**
+ * @param {string} rawPattern
+ * @returns {IPathMatcher}
+ */
+function createPathMatcher(rawPattern) {
   const pattern = normalizePatternPath(rawPattern)
   if (pattern.length === 0) return () => false
 
   if (!hasGlobMagic(pattern)) {
-    return (relativeFilepath: string): boolean =>
+    return relativeFilepath =>
       relativeFilepath === pattern || relativeFilepath.startsWith(`${pattern}/`)
   }
 
   return compileGlobMatcher(pattern)
 }
 
+/** @typedef {{ caseRootDirectory: string }} IBaseTesterProps */
+
 /**
- * Params for construct BaseTester
+ * Abstract hooks are enforced by their runtime stubs, since JSDoc cannot
+ * require overrides during type checking.
+ *
+ * @abstract
+ * @template [T=unknown]
  */
-export interface IBaseTesterProps {
+export class BaseTester {
   /**
-   * Root directory of the use cases located
+   * @protected
+   * @readonly
+   * @type {string}
    */
-  caseRootDirectory: string
-}
+  caseRootDirectory
+  /**
+   * @protected
+   * @readonly
+   * @type {string}
+   */
+  formattedCaseRootDirectory
+  /**
+   * @protected
+   * @readonly
+   * @type {IYozoraUseCaseGroup<T>[]}
+   */
+  caseGroups
+  /**
+   * @protected
+   * @readonly
+   * @type {Set<string>}
+   */
+  visitedFilepathSet
 
-export abstract class BaseTester<T = unknown> {
-  protected readonly caseRootDirectory: string
-  protected readonly formattedCaseRootDirectory: string
-  protected readonly caseGroups: IYozoraUseCaseGroup<T>[]
-  protected readonly visitedFilepathSet: Set<string>
-
-  constructor(props: IBaseTesterProps) {
+  /** @param {IBaseTesterProps} props */
+  constructor(props) {
     const { caseRootDirectory } = props
     this.caseRootDirectory = path.normalize(caseRootDirectory)
     this.formattedCaseRootDirectory = this._formatDirpath(caseRootDirectory)
     this.caseGroups = []
-    this.visitedFilepathSet = new Set<string>()
+    this.visitedFilepathSet = new Set()
   }
 
   /**
    * Get the list of TestCaseGroup
+   * @returns {IYozoraUseCaseGroup<T>[]}
    */
-  public collect(): IYozoraUseCaseGroup<T>[] {
+  collect() {
     return this.caseGroups.slice()
   }
 
-  public reset(): this {
+  reset() {
     this.caseGroups.splice(0, this.caseGroups.length)
     this.visitedFilepathSet.clear()
     return this
@@ -186,16 +248,16 @@ export abstract class BaseTester<T = unknown> {
   /**
    * Scan filepath for generating use-case group
    *
-   * @param patterns          glob patterns
-   * @param isDesiredFilepath test whether a filepath is desired
+   * @param {string | string[]} patterns
+   * @param {string} [caseRootDirectory]
+   * @param {(filepath: string) => boolean} [isDesiredFilepath]
+   * @returns {this}
    */
-  public scan(
-    patterns: string | string[],
-    caseRootDirectory = this.caseRootDirectory,
-    isDesiredFilepath: (filepath: string) => boolean = () => true,
-  ): this {
-    const includeMatchers: IPathMatcher[] = []
-    const excludeMatchers: IPathMatcher[] = []
+  scan(patterns, caseRootDirectory = this.caseRootDirectory, isDesiredFilepath = () => true) {
+    /** @type {IPathMatcher[]} */
+    const includeMatchers = []
+    /** @type {IPathMatcher[]} */
+    const excludeMatchers = []
 
     for (const item of [patterns].flat()) {
       const isExclude = item.startsWith('!')
@@ -205,7 +267,7 @@ export abstract class BaseTester<T = unknown> {
     }
 
     const filepaths = this._collectFilepaths(caseRootDirectory)
-      .filter((filepath): boolean => {
+      .filter(filepath => {
         const relativeFilepath = normalizeRelativePath(path.relative(caseRootDirectory, filepath))
         const matchedByInclude =
           includeMatchers.length === 0 || includeMatchers.some(match => match(relativeFilepath))
@@ -224,12 +286,15 @@ export abstract class BaseTester<T = unknown> {
 
   /**
    * Create answers for all use cases
+   * @returns {Promise<void | void[]>}
    */
-  public runAnswer(): Promise<void | void[]> {
-    const answerUseCaseGroup = async (
-      parentDir: string,
-      caseGroup: IYozoraUseCaseGroup<T>,
-    ): Promise<void> => {
+  runAnswer() {
+    /**
+     * @param {string} parentDir
+     * @param {IYozoraUseCaseGroup<T>} caseGroup
+     * @returns {Promise<void>}
+     */
+    const answerUseCaseGroup = async (parentDir, caseGroup) => {
       if (caseGroup.dirpath === caseGroup.filepath) {
         // Test sub groups
         for (const subGroup of caseGroup.subGroups) {
@@ -253,7 +318,8 @@ export abstract class BaseTester<T = unknown> {
     }
 
     // Generate answers
-    const tasks: Promise<void>[] = []
+    /** @type {Promise<void>[]} */
+    const tasks = []
     for (const caseGroup of this.collect()) {
       const task = answerUseCaseGroup(this.formattedCaseRootDirectory, caseGroup)
       tasks.push(task)
@@ -266,8 +332,13 @@ export abstract class BaseTester<T = unknown> {
   /**
    * Run all use cases
    */
-  public runTest(): void {
-    const testUseCaseGroup = (parentDir: string, caseGroup: IYozoraUseCaseGroup<T>): void => {
+  runTest() {
+    /**
+     * @param {string} parentDir
+     * @param {IYozoraUseCaseGroup<T>} caseGroup
+     * @returns {void}
+     */
+    const testUseCaseGroup = (parentDir, caseGroup) => {
       const self = this
       const title = caseGroup.title || caseGroup.dirpath.slice(parentDir.length)
       describe(title, function () {
@@ -291,10 +362,17 @@ export abstract class BaseTester<T = unknown> {
 
   /**
    * Format result data before saved to file
-   * @param data
+   *
+   * @param {unknown} data
+   * @returns {string}
    */
-  public stringify(data: unknown): string {
-    const filter = (_key: string, value: unknown): unknown => {
+  stringify(data) {
+    /**
+     * @param {string} _key
+     * @param {unknown} value
+     * @returns {unknown}
+     */
+    const filter = (_key, value) => {
       if (value instanceof RegExp) return value.source
       return value
     }
@@ -303,10 +381,13 @@ export abstract class BaseTester<T = unknown> {
 
   /**
    * Format data
-   * @param data
+   *
+   * @template [U=unknown]
+   * @param {U} data
+   * @returns {Partial<U>}
    */
-  public format<T = unknown>(data: T): Partial<T> {
-    const stringified = JSON.stringify(data, (key: string, val: any) => {
+  format(data) {
+    const stringified = JSON.stringify(data, (key, val) => {
       if (val?.type && val.position) {
         const { type, position, ...restData } = val
         return { type, position, ...restData }
@@ -323,10 +404,12 @@ export abstract class BaseTester<T = unknown> {
   /**
    * Print filepath info when the handling failed
    *
-   * @param filepath
-   * @param fn
+   * @template [U=unknown]
+   * @param {string} filepath
+   * @param {() => U} fn
+   * @returns {U}
    */
-  public carefulProcess<T = unknown>(filepath: string, fn: () => T): T {
+  carefulProcess(filepath, fn) {
     try {
       const result = fn()
       return result
@@ -336,10 +419,15 @@ export abstract class BaseTester<T = unknown> {
     }
   }
 
-  protected _collectFilepaths(rootDir: string): string[] {
+  /**
+   * @protected
+   * @param {string} rootDir
+   * @returns {string[]}
+   */
+  _collectFilepaths(rootDir) {
     const normalizedRootDir = path.normalize(rootDir)
-    const queue: string[] = [normalizedRootDir]
-    const filepaths: string[] = []
+    const queue = [normalizedRootDir]
+    const filepaths = []
 
     while (queue.length > 0) {
       const currentDir = queue.pop()
@@ -363,9 +451,11 @@ export abstract class BaseTester<T = unknown> {
    * Extract ITokenizerUseCaseGroup from json file that holds the content of
    * the use case
    *
-   * @param filepath  absolute filepath of json file
+   * @protected
+   * @param {string} filepath
+   * @returns {void}
    */
-  protected _scanForUseCaseGroup(filepath: string): void {
+  _scanForUseCaseGroup(filepath) {
     // Avoid duplicated scan
     if (this.visitedFilepathSet.has(filepath)) {
       console.warn(`[scan] ${filepath} has been scanned`)
@@ -387,8 +477,10 @@ export abstract class BaseTester<T = unknown> {
       throw new TypeError(`Invalid fixture cases in ${filepath}`)
     }
 
-    const cases: IYozoraUseCase<T>[] = data.cases.map(
-      (c: IYozoraUseCase<T>, index: number): IYozoraUseCase<T> => ({
+    /** @type {IYozoraUseCase<T>[]} */
+    const cases = data.cases.map(
+      /** @param {IYozoraUseCase<T>} c @param {number} index */
+      (c, index) => ({
         description: c.description || 'case#' + index,
         input: c.input,
         answer: c.answer,
@@ -397,8 +489,13 @@ export abstract class BaseTester<T = unknown> {
     this.visitedFilepathSet.add(filepath)
 
     const dirpath = this._formatDirpath(path.dirname(filepath))
-    const createCaseGroup = (parentDirpath: string): IYozoraUseCaseGroup<T> => {
-      const caseGroup: IYozoraUseCaseGroup<T> = {
+    /**
+     * @param {string} parentDirpath
+     * @returns {IYozoraUseCaseGroup<T>}
+     */
+    const createCaseGroup = parentDirpath => {
+      /** @type {IYozoraUseCaseGroup<T>} */
+      const caseGroup = {
         dirpath,
         filepath,
         title: data.title,
@@ -408,7 +505,8 @@ export abstract class BaseTester<T = unknown> {
 
       if (caseGroup.dirpath === parentDirpath) return caseGroup
 
-      const wrapper: IYozoraUseCaseGroup<T> = {
+      /** @type {IYozoraUseCaseGroup<T>} */
+      const wrapper = {
         dirpath: caseGroup.dirpath,
         filepath: caseGroup.dirpath,
         title: undefined,
@@ -419,10 +517,12 @@ export abstract class BaseTester<T = unknown> {
     }
 
     // Try to merge `result` into existing caseGroup
-    const traverseCaseGroup = (
-      parentDirpath: string,
-      caseGroups: IYozoraUseCaseGroup<T>[],
-    ): boolean => {
+    /**
+     * @param {string} parentDirpath
+     * @param {IYozoraUseCaseGroup<T>[]} caseGroups
+     * @returns {boolean}
+     */
+    const traverseCaseGroup = (parentDirpath, caseGroups) => {
       for (const caseGroup of caseGroups) {
         if (caseGroup.dirpath !== caseGroup.filepath) continue
         if (!dirpath.startsWith(caseGroup.dirpath)) continue
@@ -435,7 +535,8 @@ export abstract class BaseTester<T = unknown> {
 
       // Find the caseGroup which has the longest common dirpath with `dirpath`
       let longestCommonDirpath = parentDirpath
-      let LCDIds: number[] = []
+      /** @type {number[]} */
+      let LCDIds = []
       for (let i = 0; i < caseGroups.length; ++i) {
         const caseGroup = caseGroups[i]
         const commonDirpath = this._calcCommonDirpath(caseGroup.dirpath, dirpath)
@@ -455,7 +556,8 @@ export abstract class BaseTester<T = unknown> {
       )
 
       // try to create a new common parent
-      const parentGroup: IYozoraUseCaseGroup<T> = {
+      /** @type {IYozoraUseCaseGroup<T>} */
+      const parentGroup = {
         dirpath: longestCommonDirpath,
         filepath: longestCommonDirpath,
         title: undefined,
@@ -477,9 +579,11 @@ export abstract class BaseTester<T = unknown> {
   /**
    * Format dir path
    *
-   * @param dirpath
+   * @protected
+   * @param {string} dirpath
+   * @returns {string}
    */
-  protected _formatDirpath(dirpath: string): string {
+  _formatDirpath(dirpath) {
     const result = path.normalize(dirpath).replace(/[\\/]$/, '') + path.sep
     return result
   }
@@ -487,13 +591,15 @@ export abstract class BaseTester<T = unknown> {
   /**
    * Calc common dirpath of two formatted dirpath
    *
-   * @param p1
-   * @param p2
+   * @protected
+   * @param {string} p1
+   * @param {string} p2
+   * @returns {string}
    */
-  protected _calcCommonDirpath(p1: string, p2: string): string {
-    const x: string[] = p1.split(/[\\/]+/g)
-    const y: string[] = p2.split(/[\\/]+/g)
-    const z: string[] = []
+  _calcCommonDirpath(p1, p2) {
+    const x = p1.split(/[\\/]+/g)
+    const y = p2.split(/[\\/]+/g)
+    const z = []
     for (let i = 0; i < x.length && i < y.length; ++i) {
       if (x[i] !== y[i]) break
       z.push(x[i])
@@ -504,19 +610,26 @@ export abstract class BaseTester<T = unknown> {
   /**
    * Create test for a single use case
    *
-   * @param useCase
-   * @param filepath
+   * @abstract
+   * @protected
+   * @param {IYozoraUseCase<T>} _useCase
+   * @param {string} _filepath
+   * @returns {void}
    */
-  protected abstract _testCase(useCase: IYozoraUseCase<T>, filepath: string): void
+  _testCase(_useCase, _filepath) {
+    throw new Error('_testCase must be implemented by a subclass')
+  }
 
   /**
    * Create an answer for a single use case
    *
-   * @param useCase
-   * @param filepath
+   * @abstract
+   * @protected
+   * @param {IYozoraUseCase<T>} _useCase
+   * @param {string} _filepath
+   * @returns {Partial<IYozoraUseCase<T>>}
    */
-  protected abstract _answerCase(
-    useCase: IYozoraUseCase<T>,
-    filepath: string,
-  ): Partial<IYozoraUseCase<T>>
+  _answerCase(_useCase, _filepath) {
+    throw new Error('_answerCase must be implemented by a subclass')
+  }
 }

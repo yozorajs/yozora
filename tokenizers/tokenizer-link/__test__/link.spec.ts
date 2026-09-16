@@ -1,10 +1,10 @@
 import { FootnoteType, InlineCodeType, LinkReferenceType, LinkType } from '@yozora/ast'
 import { createNodePointGenerator } from '@yozora/character'
-import { createTokenizerTesters } from '@yozora/test-util'
 import type { IInlineToken } from '@yozora/tokenizer'
 import { encodeLinkDestination, isValidLinkText } from '@yozora/tokenizer'
 import { expect, test } from 'vitest'
 import { parsers, scanGfmFixtures } from 'vitest.setup'
+import { createTokenizerTesters } from '../../../script/test/index.mjs'
 import { eatLinkDestination } from '../src'
 
 createTokenizerTesters(

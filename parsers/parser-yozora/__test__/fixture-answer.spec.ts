@@ -1,6 +1,6 @@
-import type { IYozoraUseCaseAnswers } from '@yozora/test-util'
-import { resolveAnswer } from '@yozora/test-util'
 import { expect, test } from 'vitest'
+import type { IYozoraUseCaseAnswers } from '../../../script/test/index.mjs'
+import { resolveAnswer } from '../../../script/test/index.mjs'
 
 test('inherits each representation independently', () => {
   const answer: IYozoraUseCaseAnswers = {

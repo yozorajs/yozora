@@ -1,6 +1,6 @@
 import { createNodePointGenerator } from '@yozora/character'
-import { createTokenizerTesters } from '@yozora/test-util'
 import { parsers, scanGfmFixtures } from 'vitest.setup'
+import { createTokenizerTesters } from '../../../script/test/index.mjs'
 import AutolinkExtensionTokenizer from '../src'
 
 createTokenizerTesters(
