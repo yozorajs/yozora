@@ -63,7 +63,21 @@ try {
       assert.equal(esmAst.children[0].type, 'heading', `${ws.name} failed to parse a heading`)
       assert.deepEqual(cjsAst, esmAst, `${ws.name} has different CJS and ESM parsing behavior`)
     }
-    if (ws.name === '@yozora/markup' || ws.name.startsWith('@yozora/markup-')) {
+    if (ws.name === '@yozora/markup') {
+      const ast = {
+        type: 'root',
+        children: [{ type: 'paragraph', children: [{ type: 'text', value: 'text' }] }],
+      }
+      for (const module of [esm, cjs]) {
+        assert.equal(module.default, undefined, `${ws.name} must not have a default preset`)
+        const weaver = new module.MarkupWeaver()
+          .useWeaver(new module.RootWeaver())
+          .useWeaver(new module.ParagraphWeaver())
+          .useWeaver(new module.TextWeaver())
+        assert.equal(weaver.weave(ast), 'text', `${ws.name} failed to weave registered nodes`)
+      }
+    }
+    if (ws.name.startsWith('@yozora/markup-')) {
       const ast = {
         type: 'root',
         children: [{ type: 'paragraph', children: [{ type: 'text', value: 'text' }] }],

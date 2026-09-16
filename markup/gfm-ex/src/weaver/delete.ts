@@ -1,6 +1,6 @@
 import type { Delete } from '@yozora/ast'
 import { DeleteType } from '@yozora/ast'
-import type { INodeMarkup, INodeWeaver } from '@yozora/markup-gfm'
+import type { INodeMarkup, INodeWeaver } from '@yozora/markup'
 
 /**
  * Delete represents contents that are no longer accurate or no longer relevant.

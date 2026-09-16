@@ -1,7 +1,7 @@
 {
-  "name": "@yozora/markup-yozora",
+  "name": "@yozora/markup",
   "version": "3.0.0-alpha",
-  "description": "Serialize Yozora AST nodes into Markdown.",
+  "description": "Base classes and node weavers for Markdown serialization.",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -9,9 +9,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/yozorajs/yozora.git",
-    "directory": "markup/yozora"
+    "directory": "markup/markup"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/yozora#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/markup#readme",
   "type": "module",
   "scripts": {
     "build": "tsdown --config ../../tsdown.config.mjs",
@@ -39,8 +39,6 @@
     "README.md"
   ],
   "dependencies": {
-    "@yozora/ast": "workspace:^",
-    "@yozora/markup": "workspace:^",
-    "@yozora/markup-gfm-ex": "workspace:^"
+    "@yozora/ast": "workspace:^"
   }
 }

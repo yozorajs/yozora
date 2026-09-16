@@ -1,6 +1,6 @@
 import type { Admonition } from '@yozora/ast'
 import { AdmonitionType } from '@yozora/ast'
-import type { INodeMarkup, INodeMarkupWeaveContext, INodeWeaver } from '@yozora/markup-gfm-ex'
+import type { INodeMarkup, INodeMarkupWeaveContext, INodeWeaver } from '@yozora/markup'
 
 /**
  * Admonitions are block elements. The titles can include inline markdown and

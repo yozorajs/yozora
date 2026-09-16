@@ -1,23 +1,25 @@
-import { MarkupWeaver } from './MarkupWeaver'
-import { BlockquoteWeaver } from './weaver/blockquote'
-import { BreakWeaver } from './weaver/break'
-import { CodeWeaver } from './weaver/code'
-import { DefinitionWeaver } from './weaver/definition'
-import { EmphasisWeaver } from './weaver/emphasis'
-import { HeadingWeaver } from './weaver/heading'
-import { HtmlWeaver } from './weaver/html'
-import { ImageWeaver } from './weaver/image'
-import { ImageReferenceWeaver } from './weaver/imageReference'
-import { InlineCodeWeaver } from './weaver/inlineCode'
-import { LinkWeaver } from './weaver/link'
-import { LinkReferenceWeaver } from './weaver/linkReference'
-import { ListWeaver } from './weaver/list'
-import { ListItemWeaver } from './weaver/listItem'
-import { ParagraphWeaver } from './weaver/paragraph'
-import { RootWeaver } from './weaver/root'
-import { StrongWeaver } from './weaver/strong'
-import { TextWeaver } from './weaver/text'
-import { ThematicBreakWeaver } from './weaver/thematicBreak'
+import {
+  BlockquoteWeaver,
+  BreakWeaver,
+  CodeWeaver,
+  DefinitionWeaver,
+  EmphasisWeaver,
+  HeadingWeaver,
+  HtmlWeaver,
+  ImageReferenceWeaver,
+  ImageWeaver,
+  InlineCodeWeaver,
+  LinkReferenceWeaver,
+  LinkWeaver,
+  ListItemWeaver,
+  ListWeaver,
+  MarkupWeaver,
+  ParagraphWeaver,
+  RootWeaver,
+  StrongWeaver,
+  TextWeaver,
+  ThematicBreakWeaver,
+} from '@yozora/markup'
 
 export class GfmMarkupWeaver extends MarkupWeaver {
   constructor() {

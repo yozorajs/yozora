@@ -1,6 +1,6 @@
 import type { EcmaImport } from '@yozora/ast'
 import { EcmaImportType } from '@yozora/ast'
-import type { INodeMarkup, INodeWeaver } from '@yozora/markup-gfm-ex'
+import type { INodeMarkup, INodeWeaver } from '@yozora/markup'
 
 /**
  * ECMAScript import statement (single-line).

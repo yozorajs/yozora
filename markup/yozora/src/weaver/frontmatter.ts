@@ -1,6 +1,6 @@
 import type { Frontmatter } from '@yozora/ast'
 import { FrontmatterType } from '@yozora/ast'
-import type { INodeMarkup, INodeWeaver } from '@yozora/markup-gfm-ex'
+import type { INodeMarkup, INodeWeaver } from '@yozora/markup'
 
 /**
  * Frontmatter content represent out-of-band information about the document.

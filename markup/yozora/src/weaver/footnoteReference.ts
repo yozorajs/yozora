@@ -1,6 +1,6 @@
 import type { FootnoteReference } from '@yozora/ast'
 import { FootnoteReferenceType } from '@yozora/ast'
-import type { INodeMarkup, INodeWeaver } from '@yozora/markup-gfm-ex'
+import type { INodeMarkup, INodeWeaver } from '@yozora/markup'
 
 /**
  * FootnoteReference represents a marker through association.

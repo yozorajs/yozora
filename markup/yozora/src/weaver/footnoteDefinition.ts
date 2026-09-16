@@ -1,6 +1,6 @@
 import type { FootnoteDefinition } from '@yozora/ast'
 import { FootnoteDefinitionType } from '@yozora/ast'
-import type { INodeMarkup, INodeWeaver } from '@yozora/markup-gfm-ex'
+import type { INodeMarkup, INodeWeaver } from '@yozora/markup'
 
 /**
  * FootnoteDefinition represents content relating to the document that is outside its flow.

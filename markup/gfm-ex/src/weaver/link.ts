@@ -1,7 +1,7 @@
 import type { Link, Text } from '@yozora/ast'
 import { TextType } from '@yozora/ast'
-import type { INodeMarkup } from '@yozora/markup-gfm'
-import { LinkWeaver as GfmLinkWeaver } from '@yozora/markup-gfm'
+import type { INodeMarkup } from '@yozora/markup'
+import { LinkWeaver as GfmLinkWeaver } from '@yozora/markup'
 
 /** Links whose protocol text is recognized by GFM autolink extensions. */
 export class LinkWeaver extends GfmLinkWeaver {

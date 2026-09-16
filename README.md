@@ -158,7 +158,7 @@ is an algorithm that parses Markdown or its extended syntax into an abstract syn
 - Convert an AST into markup content
 
   ```typescript
-  import { DefaultMarkupWeaver } from '@yozora/markup'
+  import { DefaultMarkupWeaver } from '@yozora/markup-yozora'
 
   const weaver = new DefaultMarkupWeaver()
   weaver.weave({
@@ -212,11 +212,12 @@ is an algorithm that parses Markdown or its extended syntax into an abstract syn
 
 - Weavers
 
-  | Weaver                    | Description                                           |
-  | :------------------------ | :---------------------------------------------------- |
-  | [@yozora/markup-gfm][]    | Serialize GFM AST nodes into Markdown.                |
-  | [@yozora/markup-gfm-ex][] | Serialize GFM AST nodes and extensions into Markdown. |
-  | [@yozora/markup][]        | Serialize Yozora AST nodes into Markdown.             |
+  | Weaver                    | Description                                            |
+  | :------------------------ | :----------------------------------------------------- |
+  | [@yozora/markup][]        | Base classes and node weavers for custom registration. |
+  | [@yozora/markup-gfm][]    | Serialize GFM AST nodes into Markdown.                 |
+  | [@yozora/markup-gfm-ex][] | Serialize GFM AST nodes and extensions into Markdown.  |
+  | [@yozora/markup-yozora][] | Serialize Yozora AST nodes into Markdown.              |
 
 - Tokenizers
 
@@ -322,9 +323,10 @@ Yozora is [MIT licensed](https://github.com/yozorajs/yozora/blob/v3/LICENSE).
 [@yozora/ast-util]:                           https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/ast-util#readme
 [@yozora/character]:                          https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/character#readme
 [@yozora/invariant]:                          https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/invariant#readme
-[@yozora/markup]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/yozora#readme
+[@yozora/markup]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/markup#readme
 [@yozora/markup-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm#readme
 [@yozora/markup-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm-ex#readme
+[@yozora/markup-yozora]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/yozora#readme
 [@yozora/parser]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser#readme
 [@yozora/parser-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm#readme
 [@yozora/parser-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm-ex#readme
