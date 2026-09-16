@@ -65,7 +65,8 @@ npm install --save @yozora/markup-gfm
 ## Usage
 
 - `GfmMarkupWeaver` is the default export. The named `DefaultMarkupWeaver` export refers to the same
-  implementation. `MarkupWeaver` remains the base class for custom registrations.
+  implementation. It registers the basic node weavers from [@yozora/markup][]. This package also
+  re-exports its base class, types, utilities, and node weavers.
 
   ```typescript
   import { DefaultMarkupWeaver } from '@yozora/markup-gfm'
@@ -174,9 +175,10 @@ npm install --save @yozora/markup-gfm
 <!-- yozora package link definitions -->
 
 [@yozora/ast]:                                https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/ast#readme
-[@yozora/markup]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/yozora#readme
+[@yozora/markup]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/markup#readme
 [@yozora/markup-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm#readme
 [@yozora/markup-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm-ex#readme
+[@yozora/markup-yozora]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/yozora#readme
 [@yozora/parser-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm#readme
 [@yozora/parser-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm-ex#readme
 [@yozora/parser-yozora]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme

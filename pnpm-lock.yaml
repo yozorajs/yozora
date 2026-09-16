@@ -59,24 +59,36 @@ importers:
 
   markup/gfm:
     dependencies:
-      '@yozora/ast':
+      '@yozora/markup':
         specifier: workspace:^
-        version: link:../../packages/ast
+        version: link:../markup
 
   markup/gfm-ex:
     dependencies:
       '@yozora/ast':
         specifier: workspace:^
         version: link:../../packages/ast
+      '@yozora/markup':
+        specifier: workspace:^
+        version: link:../markup
       '@yozora/markup-gfm':
         specifier: workspace:^
         version: link:../gfm
+
+  markup/markup:
+    dependencies:
+      '@yozora/ast':
+        specifier: workspace:^
+        version: link:../../packages/ast
 
   markup/yozora:
     dependencies:
       '@yozora/ast':
         specifier: workspace:^
         version: link:../../packages/ast
+      '@yozora/markup':
+        specifier: workspace:^
+        version: link:../markup
       '@yozora/markup-gfm-ex':
         specifier: workspace:^
         version: link:../gfm-ex

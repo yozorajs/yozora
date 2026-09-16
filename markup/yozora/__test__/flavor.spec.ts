@@ -1,4 +1,4 @@
-import YozoraMarkupWeaver, { DefaultMarkupWeaver } from '@yozora/markup'
+import YozoraMarkupWeaver, { DefaultMarkupWeaver } from '@yozora/markup-yozora'
 import YozoraParser from '@yozora/parser-yozora'
 import { expect, test } from 'vitest'
 

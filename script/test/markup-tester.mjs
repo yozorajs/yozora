@@ -17,7 +17,7 @@ import { BaseTester } from './base-tester.mjs'
  *   Text,
  * } from '@yozora/ast'
  */
-/** @import { IMarkupWeaver } from '@yozora/markup-gfm' */
+/** @import { IMarkupWeaver } from '@yozora/markup' */
 /** @import { IParser } from '@yozora/parser' */
 /** @import { IYozoraUseCase, ParserName } from './types.mjs' */
 

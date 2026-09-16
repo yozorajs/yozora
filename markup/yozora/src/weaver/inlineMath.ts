@@ -1,6 +1,6 @@
 import type { InlineMath } from '@yozora/ast'
 import { InlineMathType } from '@yozora/ast'
-import type { INodeMarkup, INodeWeaver } from '@yozora/markup-gfm-ex'
+import type { INodeMarkup, INodeWeaver } from '@yozora/markup'
 
 export interface IInlineMathMarkupWeaverOptions {
   readonly preferBacktick: boolean

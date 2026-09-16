@@ -5,7 +5,7 @@ import { repositoryRoot } from '../internal/repository.mjs'
 import { MarkupTester } from './markup-tester.mjs'
 import { TokenizerTester } from './tokenizer-tester.mjs'
 
-/** @import { IMarkupWeaver } from '@yozora/markup-gfm' */
+/** @import { IMarkupWeaver } from '@yozora/markup' */
 /** @import { IParser } from '@yozora/parser' */
 /** @import { ParserName } from './types.mjs' */
 

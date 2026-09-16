@@ -1,5 +1,5 @@
 {
-  "name": "@yozora/markup",
+  "name": "@yozora/markup-yozora",
   "version": "3.0.0-alpha",
   "description": "Serialize Yozora AST nodes into Markdown.",
   "author": {
@@ -40,6 +40,7 @@
   ],
   "dependencies": {
     "@yozora/ast": "workspace:^",
+    "@yozora/markup": "workspace:^",
     "@yozora/markup-gfm-ex": "workspace:^"
   }
 }

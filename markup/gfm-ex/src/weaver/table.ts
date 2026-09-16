@@ -1,12 +1,7 @@
 import type { AlignType, Table } from '@yozora/ast'
 import { TableType } from '@yozora/ast'
-import type {
-  IEscaper,
-  INodeMarkup,
-  INodeMarkupWeaveContext,
-  INodeWeaver,
-} from '@yozora/markup-gfm'
-import { createCharacterEscaper } from '@yozora/markup-gfm'
+import type { IEscaper, INodeMarkup, INodeMarkupWeaveContext, INodeWeaver } from '@yozora/markup'
+import { createCharacterEscaper } from '@yozora/markup'
 
 const escapeTableCell: IEscaper = createCharacterEscaper(['|'])
 const calcTableSeparateCell = (align: AlignType, w: number): string => {

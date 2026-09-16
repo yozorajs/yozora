@@ -17,6 +17,7 @@ node_modules/
 tmp/
 
 # Generated at publish time (copied from root LICENSE)
+markup/*/LICENSE
 packages/*/LICENSE
 parsers/*/LICENSE
 tokenizers/*/LICENSE

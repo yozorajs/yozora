@@ -1,7 +1,7 @@
 import type { Math as MathNode } from '@yozora/ast'
 import { MathType } from '@yozora/ast'
-import type { INodeMarkup, INodeWeaver } from '@yozora/markup-gfm-ex'
-import { findMaxContinuousSymbol, lineRegex } from '@yozora/markup-gfm-ex'
+import type { INodeMarkup, INodeWeaver } from '@yozora/markup'
+import { findMaxContinuousSymbol, lineRegex } from '@yozora/markup'
 
 const closerLikeSymbolRegex = /(\${1,})/g
 
