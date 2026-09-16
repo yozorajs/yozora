@@ -28,6 +28,7 @@ const packageItems = workspacePackages()
     pkg =>
       (pkg.dir.startsWith('packages/') ||
         pkg.dir.startsWith('markup/') ||
+        pkg.dir.startsWith('parsers/') ||
         pkg.name === '@yozora/tokenizer') &&
       pkg.manifest.private !== true,
   )

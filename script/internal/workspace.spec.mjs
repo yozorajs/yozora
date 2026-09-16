@@ -13,7 +13,7 @@ import { workspacePackages, yozoraWorkspacePackages } from './workspace.mjs'
 function makeRoot(t, entries) {
   const root = mkdtempSync(join(tmpdir(), 'yozora-workspace-'))
   t.after(() => rmSync(root, { recursive: true, force: true }))
-  for (const ws of ['markup', 'packages', 'tokenizers'])
+  for (const ws of ['markup', 'packages', 'parsers', 'tokenizers'])
     mkdirSync(join(root, ws), { recursive: true })
   for (const { ws, dir, json } of entries) {
     const target = join(root, ws, dir)
@@ -45,6 +45,11 @@ test('collects workspace packages once and derives @yozora aliases', t => {
       dir: 'other',
       json: JSON.stringify({ name: 'not-yozora', version: '1.0.0' }),
     },
+    {
+      ws: 'parsers',
+      dir: 'parser-gfm',
+      json: JSON.stringify({ name: '@yozora/parser-gfm', version: '1.0.0' }),
+    },
     { ws: 'tokenizers', dir: 'plain', json: null },
     {
       ws: 'tokenizers',
@@ -55,13 +60,21 @@ test('collects workspace packages once and derives @yozora aliases', t => {
   const packages = workspacePackages(root)
   assert.deepEqual(
     packages.map(pkg => pkg.name),
-    ['@yozora/ast', '@yozora/link', '@yozora/markup-gfm', '@yozora/table', 'not-yozora'],
+    [
+      '@yozora/ast',
+      '@yozora/link',
+      '@yozora/markup-gfm',
+      '@yozora/parser-gfm',
+      '@yozora/table',
+      'not-yozora',
+    ],
   )
   assert.equal(packages.find(pkg => pkg.name === '@yozora/link').dir, 'tokenizers/link')
   assert.equal(packages.find(pkg => pkg.name === '@yozora/markup-gfm').dir, 'markup/gfm')
+  assert.equal(packages.find(pkg => pkg.name === '@yozora/parser-gfm').dir, 'parsers/parser-gfm')
   assert.deepEqual(
     yozoraWorkspacePackages(root).map(pkg => pkg.name),
-    ['@yozora/ast', '@yozora/link', '@yozora/markup-gfm', '@yozora/table'],
+    ['@yozora/ast', '@yozora/link', '@yozora/markup-gfm', '@yozora/parser-gfm', '@yozora/table'],
   )
 })
 
@@ -111,7 +124,7 @@ test('propagates malformed package.json (JSON.parse throws)', t => {
 test('rethrows a non-ENOENT read error (package.json is a directory -> EISDIR)', t => {
   const root = mkdtempSync(join(tmpdir(), 'yozora-workspace-'))
   t.after(() => rmSync(root, { recursive: true, force: true }))
-  for (const ws of ['markup', 'packages', 'tokenizers'])
+  for (const ws of ['markup', 'packages', 'parsers', 'tokenizers'])
     mkdirSync(join(root, ws), { recursive: true })
   const pkgDir = join(root, 'packages', 'a')
   mkdirSync(pkgDir, { recursive: true })

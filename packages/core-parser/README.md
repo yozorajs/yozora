@@ -124,10 +124,10 @@ parser.parse(['source ', 'chunks'])
 
 [@yozora/ast]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/ast#readme
 [@yozora/core-parser]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/core-parser#readme
-[@yozora/parser]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/parser#readme
-[@yozora/parser-gfm]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/parser-gfm#readme
+[@yozora/parser]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme
+[@yozora/parser-gfm]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm#readme
 [@yozora/parser-gfm-ex]:
-  https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/parser-gfm-ex#readme
+  https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm-ex#readme
 [@yozora/tokenizer-admonition]:
   https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer-admonition#readme
 [@yozora/tokenizer-autolink]:

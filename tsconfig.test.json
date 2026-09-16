@@ -14,6 +14,8 @@
     "markup/*/__test__",
     "packages/*/src",
     "packages/*/__test__",
+    "parsers/*/src",
+    "parsers/*/__test__",
     "tokenizers/*/src",
     "tokenizers/*/__test__",
     "script/**/*.ts",

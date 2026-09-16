@@ -3,7 +3,7 @@ import { join } from 'node:path'
 import { readPackageJson } from './package-json.mjs'
 import { repositoryRoot } from './repository.mjs'
 
-const WORKSPACE_DIRECTORIES = ['markup', 'packages', 'tokenizers']
+const WORKSPACE_DIRECTORIES = ['markup', 'packages', 'parsers', 'tokenizers']
 
 /**
  * @typedef {object} WorkspacePackage

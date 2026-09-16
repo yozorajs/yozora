@@ -59,8 +59,8 @@ directory that is removed after loading, so they do not require a package build 
 2. Update its `package.json` (`name`, `description`, `repository.directory`, and dependencies).
 3. Implement the tokenizer in `src/` (`match.ts`, `parse.ts`, `tokenizer.ts`, `types.ts`,
    `index.ts`). See `@yozora/tokenizer` for the tokenizer API.
-4. Register it in the relevant parsers: `packages/parser/src/index.ts`,
-   `packages/parser-gfm/src/index.ts`, and/or `packages/parser-gfm-ex/src/index.ts`.
+4. Register it in the relevant parsers: `parsers/parser-yozora/src/index.ts`,
+   `parsers/parser-gfm/src/index.ts`, and/or `parsers/parser-gfm-ex/src/index.ts`.
 5. Run `pnpm sync:paths` to register the workspace alias in `tsconfig.json` (vitest resolves the
    `@yozora/*` aliases automatically at runtime from the workspace, so it needs no manual edit).
 6. Add fixtures and a spec under `__test__/`, then run `pnpm test`.

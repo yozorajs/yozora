@@ -9,9 +9,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/yozorajs/yozora.git",
-    "directory": "packages/parser"
+    "directory": "parsers/parser-yozora"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/parser#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme",
   "keywords": [
     "markdown",
     "markdown ast",
