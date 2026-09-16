@@ -2,25 +2,25 @@
 
 <header>
   <h1 align="center">
-    <a href="https://github.com/yozorajs/yozora/tree/v2.4.1/packages/core-tokenizer#readme">@yozora/core-tokenizer</a>
+    <a href="https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer#readme">@yozora/tokenizer</a>
   </h1>
   <div align="center">
-    <a href="https://www.npmjs.com/package/@yozora/core-tokenizer">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer">
       <img
         alt="npm version"
-        src="https://img.shields.io/npm/v/@yozora/core-tokenizer.svg"
+        src="https://img.shields.io/npm/v/@yozora/tokenizer.svg"
       />
     </a>
-    <a href="https://www.npmjs.com/package/@yozora/core-tokenizer">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer">
       <img
         alt="npm downloads"
-        src="https://img.shields.io/npm/dm/@yozora/core-tokenizer.svg"
+        src="https://img.shields.io/npm/dm/@yozora/tokenizer.svg"
       />
     </a>
-    <a href="https://www.npmjs.com/package/@yozora/core-tokenizer">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer">
       <img
         alt="npm license"
-        src="https://img.shields.io/npm/l/@yozora/core-tokenizer.svg"
+        src="https://img.shields.io/npm/l/@yozora/tokenizer.svg"
       />
     </a>
     <a href="#install">
@@ -32,7 +32,7 @@
     <a href="https://github.com/nodejs/node">
       <img
         alt="Node.js Version"
-        src="https://img.shields.io/node/v/@yozora/core-tokenizer"
+        src="https://img.shields.io/node/v/@yozora/tokenizer"
       />
     </a>
     <a href="https://github.com/vitest-dev/vitest">
@@ -61,7 +61,7 @@
 - npm
 
   ```bash
-  npm install --save @yozora/core-tokenizer
+  npm install --save @yozora/tokenizer
   ```
 
 ## Usage
@@ -192,15 +192,15 @@ https://github.github.com/gfm/#example-529）。为了使得分词器之间可�
   - [match-inline][lifecycle-match-inline]
   - [parse-inline][lifecycle-parse-inline]
 
-[homepage]: https://github.com/yozorajs/yozora/tree/v2.4.1/packages/core-tokenizer#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer#readme
 [lifecycle-match-block]:
-  https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/match-block/hook.ts
+  https://github.com/yozorajs/yozora/blob/main/tokenizers/tokenizer/src/types/match-block/hook.ts
 [lifecycle-match-inline]:
-  https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/match-inline/hook.ts
+  https://github.com/yozorajs/yozora/blob/main/tokenizers/tokenizer/src/types/match-inline/hook.ts
 [lifecycle-parse-block]:
-  https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/parse-block/hook.ts
+  https://github.com/yozorajs/yozora/blob/main/tokenizers/tokenizer/src/types/parse-block/hook.ts
 [lifecycle-parse-inline]:
-  https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer/src/types/parse-inline/hook.ts
+  https://github.com/yozorajs/yozora/blob/main/tokenizers/tokenizer/src/types/parse-inline/hook.ts
 [@yozora/core-parser]: https://www.npmjs.com/package/@yozora/core-parser
 [@yozora/tokenizer-blockquote]: https://www.npmjs.com/package/@yozora/tokenizer-blockquote
 [@yozora/tokenizer-emphasis]: https://www.npmjs.com/package/@yozora/tokenizer-emphasis

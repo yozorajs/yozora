@@ -5,8 +5,8 @@ import type {
   IMatchInlineHookCreator,
   IResultOfProcessSingleDelimiter,
   IResultOfRequiredEater,
-} from '@yozora/core-tokenizer'
-import { genFindDelimiter } from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
+import { genFindDelimiter } from '@yozora/tokenizer'
 import type { AutolinkExtensionContentType, IDelimiter, IThis, IToken, T } from './types'
 import { eatExtendEmailAddressFromLocalPartEnd, eatExtendEmailLocalPart } from './util/email'
 import { eatExtendedProtocolAutolink } from './util/protocol'

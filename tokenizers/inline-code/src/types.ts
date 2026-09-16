@@ -4,7 +4,7 @@ import type {
   IPartialInlineToken,
   ITokenDelimiter,
   ITokenizer,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 
 export type T = InlineCodeType
 export type INode = InlineCode

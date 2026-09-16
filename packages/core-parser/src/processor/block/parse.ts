@@ -1,11 +1,11 @@
 import type { Node } from '@yozora/ast'
+import { invariant } from '@yozora/invariant'
 import type {
   IBlockToken,
   IParseBlockGenerator,
   IParseBlockHook,
   IParseBlockTokensRequest,
-} from '@yozora/core-tokenizer'
-import { invariant } from '@yozora/invariant'
+} from '@yozora/tokenizer'
 
 /** Explicit replacement for one recursive block-token parse call. */
 interface IParseBlockFrame {

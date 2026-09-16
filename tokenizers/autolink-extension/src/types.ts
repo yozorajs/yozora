@@ -4,7 +4,7 @@ import type {
   IPartialInlineToken,
   ITokenDelimiter,
   ITokenizer,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 import type { AutolinkContentType } from '@yozora/tokenizer-autolink'
 
 export type T = LinkType

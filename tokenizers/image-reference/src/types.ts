@@ -4,7 +4,7 @@ import type {
   IPartialInlineToken,
   ITokenDelimiter,
   ITokenizer,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 import type { ILinkReferenceDelimiterBracket } from '@yozora/tokenizer-link-reference'
 
 export const uniqueName = '@yozora/tokenizer-image-reference'

@@ -1,7 +1,7 @@
 import type { INodePoint } from '@yozora/character'
 import { isLineEnding, isSpaceCharacter } from '@yozora/character'
-import type { IPhrasingContentLine } from '@yozora/core-tokenizer'
-import { calcIndentWidth } from '@yozora/core-tokenizer'
+import type { IPhrasingContentLine } from '@yozora/tokenizer'
+import { calcIndentWidth } from '@yozora/tokenizer'
 
 /**
  * Create a generator to produce PhrasingContentLines while consuming NodePoints.

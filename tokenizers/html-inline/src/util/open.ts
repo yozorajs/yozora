@@ -1,7 +1,7 @@
 import type { INodeInterval, INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
-import type { ITokenDelimiter } from '@yozora/core-tokenizer'
-import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
+import type { ITokenDelimiter } from '@yozora/tokenizer'
+import { eatOptionalWhitespaces } from '@yozora/tokenizer'
 import type { RawHTMLAttribute } from '@yozora/tokenizer-html-block'
 import { eatHTMLAttribute, eatHTMLTagName } from '@yozora/tokenizer-html-block'
 

@@ -9,13 +9,13 @@ import type {
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatContinuationText,
   IResultOfEatOpener,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 import {
   calcEndPoint,
   calcStartPoint,
   eatIndentation,
   eatOptionalCharacters,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 import type { IFencedBlockHookContext, IToken } from './types'
 
 export function match<

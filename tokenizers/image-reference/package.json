@@ -40,7 +40,7 @@
   "dependencies": {
     "@yozora/ast": "workspace:^",
     "@yozora/character": "workspace:^",
-    "@yozora/core-tokenizer": "workspace:^",
+    "@yozora/tokenizer": "workspace:^",
     "@yozora/tokenizer-image": "workspace:^",
     "@yozora/tokenizer-link": "workspace:^",
     "@yozora/tokenizer-link-reference": "workspace:^"

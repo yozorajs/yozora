@@ -1,5 +1,5 @@
 import type { Admonition, AdmonitionType } from '@yozora/ast'
-import type { IBaseBlockTokenizerProps, IBlockToken } from '@yozora/core-tokenizer'
+import type { IBaseBlockTokenizerProps, IBlockToken } from '@yozora/tokenizer'
 import type { IFencedBlockHookContext, IFencedBlockToken } from '@yozora/tokenizer-fenced-block'
 
 export type T = AdmonitionType

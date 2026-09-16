@@ -1,6 +1,6 @@
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
-import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
+import { eatOptionalWhitespaces } from '@yozora/tokenizer'
 import { eatHTMLAttribute } from '../util/eat-html-attribute'
 
 const excludedTags = ['pre', 'script', 'style']

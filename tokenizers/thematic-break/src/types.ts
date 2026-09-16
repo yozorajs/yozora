@@ -1,9 +1,5 @@
 import type { ThematicBreak, ThematicBreakType } from '@yozora/ast'
-import type {
-  IBaseBlockTokenizerProps,
-  IPartialBlockToken,
-  ITokenizer,
-} from '@yozora/core-tokenizer'
+import type { IBaseBlockTokenizerProps, IPartialBlockToken, ITokenizer } from '@yozora/tokenizer'
 
 export type T = ThematicBreakType
 export type INode = ThematicBreak

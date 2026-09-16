@@ -4,7 +4,7 @@ import type {
   IParseBlockGenerator,
   IParseBlockHookCreator,
   IParseBlockPhaseApi,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (api) {

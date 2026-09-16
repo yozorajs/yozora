@@ -5,8 +5,8 @@ import {
   calcStringFromNodePoints,
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
-import type { IParseBlockHookCreator } from '@yozora/core-tokenizer'
-import { eatOptionalWhitespaces, mergeContentLinesFaithfully } from '@yozora/core-tokenizer'
+import type { IParseBlockHookCreator } from '@yozora/tokenizer'
+import { eatOptionalWhitespaces, mergeContentLinesFaithfully } from '@yozora/tokenizer'
 import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (api) {

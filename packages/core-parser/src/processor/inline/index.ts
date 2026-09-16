@@ -4,7 +4,7 @@ import type {
   IMatchInlinePhaseApi,
   IResultOfFindDelimiters,
   ITokenDelimiter,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 import { createSinglePriorityDelimiterProcessor } from './single-priority'
 import type { IDelimiterItem, IDelimiterProcessorHook, IPhrasingContentProcessor } from './types'
 

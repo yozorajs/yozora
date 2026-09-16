@@ -6,13 +6,13 @@ import type {
   IMatchInlineHookCreator,
   IResultOfIsDelimiterPair,
   IResultOfProcessDelimiterPair,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 import {
   checkBalancedBracketsStatus,
   containsLinkToken,
   eatOptionalWhitespaces,
   genFindDelimiter,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 import type { IDelimiter, IThis, IToken, T } from './types'
 import { eatLinkDestination } from './util/link-destination'
 import { eatLinkTitle } from './util/link-title'

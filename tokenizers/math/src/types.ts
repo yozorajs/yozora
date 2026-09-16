@@ -1,5 +1,5 @@
 import type { Math as MathNode, MathType } from '@yozora/ast'
-import type { IBaseBlockTokenizerProps } from '@yozora/core-tokenizer'
+import type { IBaseBlockTokenizerProps } from '@yozora/tokenizer'
 import type { IFencedBlockHookContext, IFencedBlockToken } from '@yozora/tokenizer-fenced-block'
 
 export type T = MathType

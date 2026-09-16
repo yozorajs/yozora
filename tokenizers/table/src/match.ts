@@ -8,8 +8,8 @@ import type {
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatLazyContinuationText,
   IResultOfEatOpener,
-} from '@yozora/core-tokenizer'
-import { calcEndPoint, calcIndentWidth, calcStartPoint } from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
+import { calcEndPoint, calcIndentWidth, calcStartPoint } from '@yozora/tokenizer'
 import type { ITableCellToken, ITableRowToken, IThis, IToken, T } from './types'
 
 /**

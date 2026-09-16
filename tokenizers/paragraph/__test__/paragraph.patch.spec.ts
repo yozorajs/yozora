@@ -2,12 +2,12 @@ import type { Text } from '@yozora/ast'
 import { ParagraphType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { createNodePointGenerator } from '@yozora/character'
-import type { IParseBlockPhaseApi, IPhrasingContentLine } from '@yozora/core-tokenizer'
+import type { IParseBlockPhaseApi, IPhrasingContentLine } from '@yozora/tokenizer'
 import {
   calcEndPoint,
   calcPositionFromPhrasingContentLines,
   calcStartPoint,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 import type { IParagraphToken } from '../src'
 import { ParagraphTokenizer, ParagraphTokenizerName, paragraphParse } from '../src'
 

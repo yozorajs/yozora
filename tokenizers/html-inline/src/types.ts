@@ -1,9 +1,5 @@
 import type { Html, HtmlType } from '@yozora/ast'
-import type {
-  IBaseInlineTokenizerProps,
-  IPartialInlineToken,
-  ITokenizer,
-} from '@yozora/core-tokenizer'
+import type { IBaseInlineTokenizerProps, IPartialInlineToken, ITokenizer } from '@yozora/tokenizer'
 import type { IHtmlInlineCDataDelimiter, IHtmlInlineCDataTokenData } from './util/cdata'
 import type { IHtmlInlineClosingDelimiter, IHtmlInlineClosingTokenData } from './util/closing'
 import type { IHtmlInlineCommentDelimiter, IHtmlInlineCommentTokenData } from './util/comment'

@@ -1,6 +1,6 @@
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
-import type { ITokenDelimiter } from '@yozora/core-tokenizer'
+import type { ITokenDelimiter } from '@yozora/tokenizer'
 
 /**
  *

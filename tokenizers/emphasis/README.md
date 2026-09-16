@@ -54,6 +54,7 @@
 
 <!-- :end -->
 
+[@yozora/tokenizer]:                          https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer#readme
 [@yozora/tokenizer-emphasis] produces [Emphasis][node-type-emphasis] and
 [Strong][node-type-strong] nodes. See [documentation][docpage] for details.
 
@@ -207,7 +208,6 @@ __**__foo__**__
 [@yozora/ast-util]:                           https://github.com/yozorajs/yozora/tree/v2.4.1/packages/ast-util#readme
 [@yozora/character]:                          https://github.com/yozorajs/yozora/tree/v2.4.1/packages/character#readme
 [@yozora/core-parser]:                        https://github.com/yozorajs/yozora/tree/v2.4.1/packages/core-parser#readme
-[@yozora/core-tokenizer]:                     https://github.com/yozorajs/yozora/tree/v2.4.1/packages/core-tokenizer#readme
 [@yozora/invariant]:                          https://github.com/yozorajs/yozora/tree/v2.4.1/packages/invariant#readme
 [@yozora/markup]:                             https://github.com/yozorajs/yozora/tree/v2.4.1/markup/yozora#readme
 [@yozora/markup-gfm]:                         https://github.com/yozorajs/yozora/tree/v2.4.1/markup/gfm#readme
@@ -275,10 +275,10 @@ __**__foo__**__
 [doc-@yozora/ast]:                            https://yozora.guanghechen.com/docs/package/ast
 [doc-@yozora/ast-util]:                       https://yozora.guanghechen.com/docs/package/ast-util
 [doc-@yozora/core-parser]:                    https://yozora.guanghechen.com/docs/package/core-parser
-[doc-@yozora/core-tokenizer]:                 https://yozora.guanghechen.com/docs/package/core-tokenizer
 [doc-@yozora/parser]:                         https://yozora.guanghechen.com/docs/package/parser
 [doc-@yozora/parser-gfm]:                     https://yozora.guanghechen.com/docs/package/parser-gfm
 [doc-@yozora/parser-gfm-ex]:                  https://yozora.guanghechen.com/docs/package/parser-gfm-ex
+[doc-@yozora/tokenizer]:                      https://yozora.guanghechen.com/docs/package/tokenizer
 [doc-@yozora/tokenizer-admonition]:           https://yozora.guanghechen.com/docs/package/tokenizer-admonition
 [doc-@yozora/tokenizer-autolink]:             https://yozora.guanghechen.com/docs/package/tokenizer-autolink
 [doc-@yozora/tokenizer-autolink-extension]:   https://yozora.guanghechen.com/docs/package/tokenizer-autolink-extension

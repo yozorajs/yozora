@@ -9,7 +9,7 @@ import type {
   IParseBlockPhaseApi,
   IParseInlinePhaseApi,
   IPhrasingContentLine,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 
 /**
  * Options for constructing a processor.

@@ -2,8 +2,8 @@ import type {
   IInlineTokenizer,
   IMatchInlineHookCreator,
   IParseInlineHookCreator,
-} from '@yozora/core-tokenizer'
-import { BaseInlineTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
+import { BaseInlineTokenizer, TokenizerPriority } from '@yozora/tokenizer'
 import { match } from './match'
 import { parse } from './parse'
 import type { IDelimiter, INode, IThis, IToken, ITokenizerProps, T } from './types'

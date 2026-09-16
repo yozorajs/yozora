@@ -6,8 +6,8 @@ import type {
   IInlineFallbackTokenizer,
   IInlineTokenizer,
   ITokenizer,
-} from '@yozora/core-tokenizer'
-import { TokenizerType, encodeLinkDestination } from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
+import { TokenizerType, encodeLinkDestination } from '@yozora/tokenizer'
 import { createProcessor } from './processor'
 import type { IParseOptions, IParser } from './types'
 import { createPhrasingLineGenerator } from './util/phrasing-line'

@@ -3,7 +3,7 @@ import type {
   IMatchBlockHook,
   IPhrasingContentLine,
   ITokenizer,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 
 /**
  * Raw contents processor for generate BlockStateTree.

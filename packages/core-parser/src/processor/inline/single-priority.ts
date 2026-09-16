@@ -1,5 +1,5 @@
-import type { IInlineToken, ITokenDelimiter } from '@yozora/core-tokenizer'
 import { invariant } from '@yozora/invariant'
+import type { IInlineToken, ITokenDelimiter } from '@yozora/tokenizer'
 import type { IDelimiterItem, IDelimiterProcessor, IDelimiterProcessorHook } from './types'
 
 /**

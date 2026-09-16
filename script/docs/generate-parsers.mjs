@@ -26,7 +26,9 @@ const PARSER_NAMES = {
 const packageItems = workspacePackages()
   .filter(
     pkg =>
-      (pkg.dir.startsWith('packages/') || pkg.dir.startsWith('markup/')) &&
+      (pkg.dir.startsWith('packages/') ||
+        pkg.dir.startsWith('markup/') ||
+        pkg.name === '@yozora/tokenizer') &&
       pkg.manifest.private !== true,
   )
   .map(pkg => ({

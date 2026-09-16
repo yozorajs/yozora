@@ -4,7 +4,7 @@ import type {
   IBlockToken,
   IPartialBlockToken,
   ITokenizer,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 
 export type T = ListType
 export type INode = List

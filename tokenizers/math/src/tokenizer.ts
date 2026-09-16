@@ -4,8 +4,8 @@ import type {
   IBlockTokenizer,
   IMatchBlockHookCreator,
   IParseBlockHookCreator,
-} from '@yozora/core-tokenizer'
-import { TokenizerPriority } from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
+import { TokenizerPriority } from '@yozora/tokenizer'
 import { FencedBlockTokenizer } from '@yozora/tokenizer-fenced-block'
 import { match } from './match'
 import { parse } from './parse'

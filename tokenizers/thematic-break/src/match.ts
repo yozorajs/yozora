@@ -6,8 +6,8 @@ import type {
   IPhrasingContentLine,
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatOpener,
-} from '@yozora/core-tokenizer'
-import { calcEndPoint, calcStartPoint } from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
+import { calcEndPoint, calcStartPoint } from '@yozora/tokenizer'
 import type { IThis, IToken, T } from './types'
 
 /**

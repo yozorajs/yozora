@@ -6,13 +6,13 @@ import type {
   IResultOfEatContinuationText,
   IResultOfEatOpener,
   IResultOfOnClose,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 import {
   calcEndPoint,
   calcStartPoint,
   eatIndentation,
   resolveLabelToIdentifier,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 import type { IThis, IToken, T } from './types'
 import { eatFootnoteLabel } from './util'
 

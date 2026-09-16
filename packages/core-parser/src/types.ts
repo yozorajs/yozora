@@ -3,7 +3,7 @@ import type {
   IBlockFallbackTokenizer,
   IInlineFallbackTokenizer,
   ITokenizer,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 
 export interface IParseOptions {
   /**

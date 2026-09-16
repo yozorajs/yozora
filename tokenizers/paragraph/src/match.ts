@@ -5,8 +5,8 @@ import type {
   IResultOfEatContinuationText,
   IResultOfEatLazyContinuationText,
   IResultOfEatOpener,
-} from '@yozora/core-tokenizer'
-import { calcPositionFromPhrasingContentLines } from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
+import { calcPositionFromPhrasingContentLines } from '@yozora/tokenizer'
 import type { IThis, IToken, T } from './types'
 
 /**

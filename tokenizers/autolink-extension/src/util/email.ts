@@ -1,6 +1,6 @@
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, isAlphanumeric } from '@yozora/character'
-import type { IResultOfRequiredEater } from '@yozora/core-tokenizer'
+import type { IResultOfRequiredEater } from '@yozora/tokenizer'
 
 /**
  * An extended email autolink will be recognised when an email address is

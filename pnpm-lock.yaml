@@ -102,21 +102,12 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../character
-      '@yozora/core-tokenizer':
-        specifier: workspace:^
-        version: link:../core-tokenizer
       '@yozora/invariant':
         specifier: workspace:^
         version: link:../invariant
-
-  packages/core-tokenizer:
-    dependencies:
-      '@yozora/ast':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../ast
-      '@yozora/character':
-        specifier: workspace:^
-        version: link:../character
+        version: link:../../tokenizers/tokenizer
 
   packages/invariant: {}
 
@@ -387,9 +378,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
       '@yozora/tokenizer-fenced-block':
         specifier: workspace:^
         version: link:../fenced-block
@@ -402,9 +393,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
 
   tokenizers/autolink-extension:
     dependencies:
@@ -414,9 +405,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
       '@yozora/tokenizer-autolink':
         specifier: workspace:^
         version: link:../autolink
@@ -429,9 +420,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
 
   tokenizers/break:
     dependencies:
@@ -441,9 +432,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
 
   tokenizers/definition:
     dependencies:
@@ -453,9 +444,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
 
   tokenizers/delete:
     dependencies:
@@ -465,9 +456,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
 
   tokenizers/ecma-import:
     dependencies:
@@ -477,9 +468,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
 
   tokenizers/emphasis:
     dependencies:
@@ -489,9 +480,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
 
   tokenizers/fenced-block:
     dependencies:
@@ -501,9 +492,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
 
   tokenizers/fenced-code:
     dependencies:
@@ -513,9 +504,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
       '@yozora/tokenizer-fenced-block':
         specifier: workspace:^
         version: link:../fenced-block
@@ -528,9 +519,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
       '@yozora/tokenizer-link':
         specifier: workspace:^
         version: link:../link
@@ -543,9 +534,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
 
   tokenizers/footnote-reference:
     dependencies:
@@ -555,9 +546,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
       '@yozora/tokenizer-footnote-definition':
         specifier: workspace:^
         version: link:../footnote-definition
@@ -570,9 +561,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
 
   tokenizers/html-block:
     dependencies:
@@ -582,9 +573,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
 
   tokenizers/html-inline:
     dependencies:
@@ -594,9 +585,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
       '@yozora/tokenizer-html-block':
         specifier: workspace:^
         version: link:../html-block
@@ -609,9 +600,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
       '@yozora/tokenizer-link':
         specifier: workspace:^
         version: link:../link
@@ -624,9 +615,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
       '@yozora/tokenizer-image':
         specifier: workspace:^
         version: link:../image
@@ -645,9 +636,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
 
   tokenizers/inline-code:
     dependencies:
@@ -657,9 +648,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
 
   tokenizers/inline-math:
     dependencies:
@@ -669,9 +660,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
 
   tokenizers/link:
     dependencies:
@@ -681,9 +672,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
 
   tokenizers/link-reference:
     dependencies:
@@ -693,9 +684,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
       '@yozora/tokenizer-link':
         specifier: workspace:^
         version: link:../link
@@ -708,9 +699,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
 
   tokenizers/math:
     dependencies:
@@ -720,9 +711,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
       '@yozora/tokenizer-fenced-block':
         specifier: workspace:^
         version: link:../fenced-block
@@ -735,9 +726,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
 
   tokenizers/setext-heading:
     dependencies:
@@ -747,9 +738,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
 
   tokenizers/table:
     dependencies:
@@ -759,9 +750,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
 
   tokenizers/text:
     dependencies:
@@ -771,9 +762,9 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
 
   tokenizers/thematic-break:
     dependencies:
@@ -783,9 +774,18 @@ importers:
       '@yozora/character':
         specifier: workspace:^
         version: link:../../packages/character
-      '@yozora/core-tokenizer':
+      '@yozora/tokenizer':
         specifier: workspace:^
-        version: link:../../packages/core-tokenizer
+        version: link:../tokenizer
+
+  tokenizers/tokenizer:
+    dependencies:
+      '@yozora/ast':
+        specifier: workspace:^
+        version: link:../../packages/ast
+      '@yozora/character':
+        specifier: workspace:^
+        version: link:../../packages/character
 
 packages:
 

@@ -4,8 +4,8 @@ import type {
   IPhrasingContentLine,
   IResultOfEatContinuationText,
   IResultOfEatOpener,
-} from '@yozora/core-tokenizer'
-import { calcEndPoint, calcStartPoint, eatIndentation } from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
+import { calcEndPoint, calcStartPoint, eatIndentation } from '@yozora/tokenizer'
 import type { IThis, IToken, T } from './types'
 
 /**

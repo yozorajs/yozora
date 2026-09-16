@@ -8,8 +8,8 @@ import type {
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatContinuationText,
   IResultOfEatOpener,
-} from '@yozora/core-tokenizer'
-import { calcEndPoint, calcStartPoint, eatOptionalWhitespaces } from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
+import { calcEndPoint, calcStartPoint, eatOptionalWhitespaces } from '@yozora/tokenizer'
 import { eatEndCondition1, eatStartCondition1 } from './conditions/c1'
 import { eatEndCondition2, eatStartCondition2 } from './conditions/c2'
 import { eatEndCondition3, eatStartCondition3 } from './conditions/c3'

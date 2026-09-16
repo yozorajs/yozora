@@ -1,13 +1,13 @@
 import type { Point } from '@yozora/ast'
 import { isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
+import { invariant } from '@yozora/invariant'
 import type {
   IBlockToken,
   IPartialBlockToken,
   IPhrasingContentLine,
   IResultOfEatContinuationText,
-} from '@yozora/core-tokenizer'
-import { calcEndPoint, calcIndentWidth } from '@yozora/core-tokenizer'
-import { invariant } from '@yozora/invariant'
+} from '@yozora/tokenizer'
+import { calcEndPoint, calcIndentWidth } from '@yozora/tokenizer'
 import type {
   IBlockContentProcessor,
   IBlockTokenTree,

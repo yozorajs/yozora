@@ -6,8 +6,8 @@ import {
   calcTrimBoundaryOfCodePoints,
   isWhitespaceCharacter,
 } from '@yozora/character'
-import type { IParseBlockHookCreator, IPhrasingContentLine } from '@yozora/core-tokenizer'
-import { mergeAndStripContentLines } from '@yozora/core-tokenizer'
+import type { IParseBlockHookCreator, IPhrasingContentLine } from '@yozora/tokenizer'
+import { mergeAndStripContentLines } from '@yozora/tokenizer'
 import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (api) {

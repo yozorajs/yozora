@@ -1,6 +1,6 @@
 import type { Node } from '@yozora/ast'
 import { BlockquoteType } from '@yozora/ast'
-import type { IParseBlockHookCreator } from '@yozora/core-tokenizer'
+import type { IParseBlockHookCreator } from '@yozora/tokenizer'
 import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (api) {

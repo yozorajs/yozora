@@ -1,6 +1,6 @@
 import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, isAlphanumeric } from '@yozora/character'
-import type { IResultOfRequiredEater } from '@yozora/core-tokenizer'
+import type { IResultOfRequiredEater } from '@yozora/tokenizer'
 import { eatExtendEmailAddress } from './email'
 
 export interface IResultOfExtendedProtocolEater extends IResultOfRequiredEater {

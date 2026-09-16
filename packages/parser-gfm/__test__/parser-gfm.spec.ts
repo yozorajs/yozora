@@ -1,7 +1,7 @@
 import type { Blockquote } from '@yozora/ast'
 import { BlockquoteType, ImageType } from '@yozora/ast'
-import type { IBlockToken, IParseBlockGenerator } from '@yozora/core-tokenizer'
 import { createTokenizerTester } from '@yozora/test-util'
+import type { IBlockToken, IParseBlockGenerator } from '@yozora/tokenizer'
 import BlockquoteTokenizer, { blockquoteMatch } from '@yozora/tokenizer-blockquote'
 import ImageTokenizer from '@yozora/tokenizer-image'
 import { ImageReferenceTokenizerName } from '@yozora/tokenizer-image-reference'

@@ -1,14 +1,14 @@
 import type { Node, Root } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
+import { invariant } from '@yozora/invariant'
 import type {
   IBlockToken,
   IInlineToken,
   IParseBlockHook,
   IParseInlineHook,
   IPhrasingContentLine,
-} from '@yozora/core-tokenizer'
-import { calcEndPoint, calcStartPoint } from '@yozora/core-tokenizer'
-import { invariant } from '@yozora/invariant'
+} from '@yozora/tokenizer'
+import { calcEndPoint, calcStartPoint } from '@yozora/tokenizer'
 import { createBlockContentProcessor } from './block'
 import { parseBlockTokens } from './block/parse'
 import type { IBlockTokenTree, IMatchBlockPhaseHook } from './block/types'

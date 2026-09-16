@@ -7,13 +7,13 @@ import type {
   IResultOfEatContinuationText,
   IResultOfEatOpener,
   IResultOfOnClose,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 import {
   calcEndPoint,
   calcStartPoint,
   eatOptionalWhitespaces,
   resolveLabelToIdentifier,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 import type { IThis, IToken, T } from './types'
 import { eatAndCollectLinkDestination } from './util/link-destination'
 import { eatAndCollectLinkLabel } from './util/link-label'

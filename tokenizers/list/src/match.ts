@@ -16,14 +16,14 @@ import type {
   IResultOfEatAndInterruptPreviousSibling,
   IResultOfEatContinuationText,
   IResultOfEatOpener,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 import {
   calcEndPoint,
   calcIndentWidth,
   calcStartPoint,
   eatIndentation,
   isBlankRange,
-} from '@yozora/core-tokenizer'
+} from '@yozora/tokenizer'
 import type { IThis, IToken, T } from './types'
 
 /**

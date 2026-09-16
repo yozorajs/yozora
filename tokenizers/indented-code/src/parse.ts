@@ -1,8 +1,8 @@
 import { CodeType } from '@yozora/ast'
 import type { INodePoint } from '@yozora/character'
 import { calcStringFromNodePoints } from '@yozora/character'
-import type { IParseBlockHookCreator } from '@yozora/core-tokenizer'
-import { mergeContentLinesFaithfully } from '@yozora/core-tokenizer'
+import type { IParseBlockHookCreator } from '@yozora/tokenizer'
+import { mergeContentLinesFaithfully } from '@yozora/tokenizer'
 import type { INode, IThis, IToken, T } from './types'
 
 export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (api) {

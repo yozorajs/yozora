@@ -6,7 +6,7 @@ import {
   isAsciiLetter,
   isWhitespaceCharacter,
 } from '@yozora/character'
-import type { IResultOfRequiredEater } from '@yozora/core-tokenizer'
+import type { IResultOfRequiredEater } from '@yozora/tokenizer'
 
 /**
  * Try to find to autolink absolute uri strictly start from the give `startIndex`.
