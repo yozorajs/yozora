@@ -553,7 +553,7 @@ ___
 const workspacePackageByDirectory = new Map(workspacePackages().map(pkg => [pkg.dir, pkg]))
 items.forEach(item => {
   const data = item
-  data.packageDirectory ??= 'tokenizers/' + data.tokenizerName
+  data.packageDirectory ??= 'tokenizers/tokenizer-' + data.tokenizerName
   const pkg = workspacePackageByDirectory.get(data.packageDirectory)
   if (pkg == null || typeof pkg.manifest.version !== 'string') {
     throw new Error(`Cannot find a versioned workspace package at ${data.packageDirectory}`)

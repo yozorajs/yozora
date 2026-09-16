@@ -6,7 +6,7 @@ import type { INodeMarkup, INodeWeaver } from '@yozora/markup-gfm-ex'
  * ECMAScript import statement (single-line).
  *
  * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#ecmaimport
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/ecma-import
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-ecma-import
  */
 export class EcmaImportWeaver implements INodeWeaver<EcmaImport> {
   public readonly type = EcmaImportType

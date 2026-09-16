@@ -129,49 +129,49 @@ parser.parse(['source ', 'chunks'])
 [@yozora/parser-gfm-ex]:
   https://github.com/yozorajs/yozora/tree/v2.4.1/packages/parser-gfm-ex#readme
 [@yozora/tokenizer-admonition]:
-  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/admonition#readme
+  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-admonition#readme
 [@yozora/tokenizer-autolink]:
-  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/autolink#readme
+  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-autolink#readme
 [@yozora/tokenizer-autolink-extension]:
-  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/autolink-extension#readme
+  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-autolink-extension#readme
 [@yozora/tokenizer-blockquote]:
-  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/blockquote#readme
-[@yozora/tokenizer-break]: https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/break#readme
+  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-blockquote#readme
+[@yozora/tokenizer-break]: https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-break#readme
 [@yozora/tokenizer-definition]:
-  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/definition#readme
-[@yozora/tokenizer-delete]: https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/delete#readme
+  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-definition#readme
+[@yozora/tokenizer-delete]: https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-delete#readme
 [@yozora/tokenizer-emphasis]:
-  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/emphasis#readme
+  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-emphasis#readme
 [@yozora/tokenizer-fenced-code]:
-  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/fenced-code#readme
+  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-fenced-code#readme
 [@yozora/tokenizer-heading]:
-  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/heading#readme
+  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-heading#readme
 [@yozora/tokenizer-html-block]:
-  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/html-block#readme
+  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-html-block#readme
 [@yozora/tokenizer-html-inline]:
-  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/html-inline#readme
-[@yozora/tokenizer-image]: https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/image#readme
+  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-html-inline#readme
+[@yozora/tokenizer-image]: https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-image#readme
 [@yozora/tokenizer-image-reference]:
-  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/image-reference#readme
+  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-image-reference#readme
 [@yozora/tokenizer-indented-code]:
-  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/indented-code#readme
+  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-indented-code#readme
 [@yozora/tokenizer-inline-code]:
-  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/inline-code#readme
+  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-inline-code#readme
 [@yozora/tokenizer-inline-math]:
-  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/inline-math#readme
-[@yozora/tokenizer-link]: https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/link#readme
+  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-inline-math#readme
+[@yozora/tokenizer-link]: https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-link#readme
 [@yozora/tokenizer-link-reference]:
-  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/link-reference#readme
-[@yozora/tokenizer-list]: https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/list#readme
-[@yozora/tokenizer-math]: https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/math#readme
+  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-link-reference#readme
+[@yozora/tokenizer-list]: https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-list#readme
+[@yozora/tokenizer-math]: https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-math#readme
 [@yozora/tokenizer-paragraph]:
-  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/paragraph#readme
+  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-paragraph#readme
 [@yozora/tokenizer-setext-heading]:
-  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/setext-heading#readme
-[@yozora/tokenizer-table]: https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/table#readme
-[@yozora/tokenizer-text]: https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/text#readme
+  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-setext-heading#readme
+[@yozora/tokenizer-table]: https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-table#readme
+[@yozora/tokenizer-text]: https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-text#readme
 [@yozora/tokenizer-thematic-break]:
-  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/thematic-break#readme
+  https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer-thematic-break#readme
 
 <!-- gfm link definitions -->
 

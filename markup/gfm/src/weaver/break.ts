@@ -9,7 +9,7 @@ import type { INodeMarkup, INodeMarkupWeaveContext, INodeWeaver } from '../types
  * @see https://github.github.com/gfm/#hard-line-breaks
  * @see https://github.github.com/gfm/#soft-line-breaks
  * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#break
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/break
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-break
  */
 export class BreakWeaver implements INodeWeaver<Break> {
   public readonly type = BreakType

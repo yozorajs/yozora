@@ -54,8 +54,8 @@ directory that is removed after loading, so they do not require a package build 
 
 ## Adding a new tokenizer
 
-1. Copy an existing tokenizer directory under `tokenizers/` (e.g. `tokenizers/emphasis`) as a
-   starting point, and rename it to `tokenizers/<name>`.
+1. Copy an existing tokenizer directory under `tokenizers/` (e.g. `tokenizers/tokenizer-emphasis`)
+   as a starting point, and rename it to `tokenizers/tokenizer-<name>`.
 2. Update its `package.json` (`name`, `description`, `repository.directory`, and dependencies).
 3. Implement the tokenizer in `src/` (`match.ts`, `parse.ts`, `tokenizer.ts`, `types.ts`,
    `index.ts`). See `@yozora/tokenizer` for the tokenizer API.

@@ -9,8 +9,8 @@ import { calcLastSourceLine } from './position'
  * @see https://github.com/syntax-tree/mdast#heading
  * @see https://github.github.com/gfm/#atx-heading
  * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#heading
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/heading
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/setext-heading
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-heading
+ * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-setext-heading
  */
 export class HeadingWeaver implements INodeWeaver<Heading> {
   public readonly type = HeadingType
