@@ -9,11 +9,11 @@ import { calcLastSourceLine } from './position'
  * @see https://github.com/syntax-tree/mdast#html
  * @see https://github.github.com/gfm/#html-blocks
  * @see https://github.github.com/gfm/#raw-html
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#html
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-inline-code
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#html
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-html-block
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-html-inline
+ * @see https://github.com/yozorajs/yozora/tree/v3/packages/ast#html
+ * @see https://github.com/yozorajs/yozora/tree/v3/tokenizers/tokenizer-inline-code
+ * @see https://github.com/yozorajs/yozora/tree/v3/packages/ast#html
+ * @see https://github.com/yozorajs/yozora/tree/v3/tokenizers/tokenizer-html-block
+ * @see https://github.com/yozorajs/yozora/tree/v3/tokenizers/tokenizer-html-inline
  */
 export class HtmlWeaver implements INodeWeaver<Html> {
   public readonly type = HtmlType

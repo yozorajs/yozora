@@ -2,7 +2,7 @@
 
 <header>
   <h1 align="center">
-    <a href="https://github.com/yozorajs/yozora/tree/v2.4.1/packages/invariant#readme">@yozora/invariant</a>
+    <a href="https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/invariant#readme">@yozora/invariant</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/invariant">
@@ -86,4 +86,4 @@ npm install --save @yozora/invariant
 
 - [homepage][]
 
-[homepage]: https://github.com/yozorajs/yozora/tree/v2.4.1/packages/invariant#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/invariant#readme

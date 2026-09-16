@@ -2,7 +2,7 @@
 
 <header>
   <h1 align="center">
-    <a href="https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer#readme">@yozora/tokenizer</a>
+    <a href="https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer#readme">@yozora/tokenizer</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/tokenizer">
@@ -215,16 +215,16 @@ the complete type definitions):
   - [match-inline][lifecycle-match-inline]
   - [parse-inline][lifecycle-parse-inline]
 
-[homepage]: https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer#readme
 [homepage-zh]: ./README-zh.md
 [lifecycle-match-block]:
-  https://github.com/yozorajs/yozora/blob/main/tokenizers/tokenizer/src/types/match-block/hook.ts
+  https://github.com/yozorajs/yozora/blob/v3.0.0-alpha/tokenizers/tokenizer/src/types/match-block/hook.ts
 [lifecycle-match-inline]:
-  https://github.com/yozorajs/yozora/blob/main/tokenizers/tokenizer/src/types/match-inline/hook.ts
+  https://github.com/yozorajs/yozora/blob/v3.0.0-alpha/tokenizers/tokenizer/src/types/match-inline/hook.ts
 [lifecycle-parse-block]:
-  https://github.com/yozorajs/yozora/blob/main/tokenizers/tokenizer/src/types/parse-block/hook.ts
+  https://github.com/yozorajs/yozora/blob/v3.0.0-alpha/tokenizers/tokenizer/src/types/parse-block/hook.ts
 [lifecycle-parse-inline]:
-  https://github.com/yozorajs/yozora/blob/main/tokenizers/tokenizer/src/types/parse-inline/hook.ts
+  https://github.com/yozorajs/yozora/blob/v3.0.0-alpha/tokenizers/tokenizer/src/types/parse-inline/hook.ts
 [@yozora/core-parser]: https://www.npmjs.com/package/@yozora/core-parser
 [@yozora/tokenizer-blockquote]: https://www.npmjs.com/package/@yozora/tokenizer-blockquote
 [@yozora/tokenizer-emphasis]: https://www.npmjs.com/package/@yozora/tokenizer-emphasis
