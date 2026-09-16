@@ -1,49 +1,51 @@
-import type {
-  Admonition,
-  ImageReference,
-  LinkReference,
-  Node,
-  Parent,
-  Root,
-  Text,
-} from '@yozora/ast'
+// @ts-check
+
 import { AdmonitionType, ImageReferenceType, LinkReferenceType, TextType } from '@yozora/ast'
 import { removePositions } from '@yozora/ast-util'
-import type { IMarkupWeaver } from '@yozora/markup-gfm'
-import type { IParser } from '@yozora/parser'
 import { expect, test } from 'vitest'
-import { resolveAnswer } from './answer'
-import { BaseTester } from './BaseTester'
-import type { IYozoraUseCase, ParserName } from './types'
+import { resolveAnswer } from './answer.mjs'
+import { BaseTester } from './base-tester.mjs'
 
 /**
- * Params for construct TokenizerTester
+ * @import {
+ *   Admonition,
+ *   ImageReference,
+ *   LinkReference,
+ *   Node,
+ *   Parent,
+ *   Root,
+ *   Text,
+ * } from '@yozora/ast'
  */
-interface IMarkupTesterProps {
-  /**
-   * Root directory of the use cases located
-   */
-  caseRootDirectory: string
-  /**
-   * Parser
-   */
-  parser: IParser
-  /**
-   * Parser whose expected answers are selected and updated.
-   */
-  parserName: ParserName
-  /**
-   * Markup weaver
-   */
-  weaver: IMarkupWeaver
-}
+/** @import { IMarkupWeaver } from '@yozora/markup-gfm' */
+/** @import { IParser } from '@yozora/parser' */
+/** @import { IYozoraUseCase, ParserName } from './types.mjs' */
 
-export class MarkupTester<T = unknown> extends BaseTester<T> {
-  public readonly parser: IParser
-  public readonly parserName: ParserName
-  public readonly weaver: IMarkupWeaver
+/** @typedef {{ caseRootDirectory: string, parser: IParser, parserName: ParserName, weaver: IMarkupWeaver }} IMarkupTesterProps */
 
-  constructor(props: IMarkupTesterProps) {
+/**
+ * @template [T=unknown]
+ * @extends {BaseTester<T>}
+ */
+export class MarkupTester extends BaseTester {
+  /**
+   * @readonly
+   * @type {IParser}
+   */
+  parser
+  /**
+   * @readonly
+   * @type {ParserName}
+   */
+  parserName
+  /**
+   * @readonly
+   * @type {IMarkupWeaver}
+   */
+  weaver
+
+  /** @param {IMarkupTesterProps} props */
+  constructor(props) {
     super(props)
     this.parser = props.parser
     this.parserName = props.parserName
@@ -53,10 +55,13 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
   /**
    * Create test for a single use case
    *
-   * @param useCase
-   * @param filepath
+   * @protected
+   * @override
+   * @param {IYozoraUseCase<T>} useCase
+   * @param {string} filepath
+   * @returns {void}
    */
-  protected override _testCase(useCase: IYozoraUseCase<T>, filepath: string): void {
+  _testCase(useCase, filepath) {
     const { description, input } = useCase
 
     test(description, async () => {
@@ -73,13 +78,13 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
   /**
    * Create an answer for a single use case
    *
-   * @param useCase
-   * @param filepath
+   * @protected
+   * @override
+   * @param {IYozoraUseCase<T>} useCase
+   * @param {string} filepath
+   * @returns {Partial<IYozoraUseCase<T>>}
    */
-  protected override _answerCase(
-    useCase: IYozoraUseCase<T>,
-    filepath: string,
-  ): Partial<IYozoraUseCase<T>> {
+  _answerCase(useCase, filepath) {
     const { markup } = this._weaveAndFormat(useCase.input, filepath)
     return {
       answer: {
@@ -93,13 +98,12 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
    * Parse and format.
    * Print case filepath when it failed.
    *
-   * @param input
-   * @param filepath
+   * @protected
+   * @param {string} input
+   * @param {string} filepath
+   * @returns {{ markup: string, expectedAst: Root, receivedAst: Root }}
    */
-  protected _weaveAndFormat(
-    input: string,
-    filepath: string,
-  ): { markup: string; expectedAst: Root; receivedAst: Root } {
+  _weaveAndFormat(input, filepath) {
     return this.carefulProcess(filepath, () => {
       const expectedAst = this.parser.parse(input, { shouldReservePosition: true })
       const markup = this.weaver.weave(expectedAst)
@@ -112,15 +116,21 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
     })
   }
 
-  protected _areSameAST(node1: Node, node2: Node): boolean {
-    const { children: children1, ...data1 } = node1 as Parent
-    const { children: children2, ...data2 } = node2 as Parent
+  /**
+   * @protected
+   * @param {Node} node1
+   * @param {Node} node2
+   * @returns {boolean}
+   */
+  _areSameAST(node1, node2) {
+    const { children: children1, ...data1 } = /** @type {Parent} */ (node1)
+    const { children: children2, ...data2 } = /** @type {Parent} */ (node2)
 
     if (node1.type !== node2.type) return false
     switch (node1.type) {
       case AdmonitionType: {
-        const { title: title1, ...o1 } = data1 as Admonition
-        const { title: title2, ...o2 } = data2 as Admonition
+        const { title: title1, ...o1 } = /** @type {Admonition} */ (data1)
+        const { title: title2, ...o2 } = /** @type {Admonition} */ (data2)
         if (title1.length !== title2.length) return false
         for (let i = 0; i < title1.length; ++i) {
           if (!this._areSameAST(title1[i], title2[i])) return false
@@ -130,14 +140,14 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
       }
       case LinkReferenceType:
       case ImageReferenceType: {
-        const { referenceType: _r1, ...o1 } = data1 as LinkReference | ImageReference
-        const { referenceType: _r2, ...o2 } = data2 as LinkReference | ImageReference
+        const { referenceType: _r1, ...o1 } = /** @type {LinkReference | ImageReference} */ (data1)
+        const { referenceType: _r2, ...o2 } = /** @type {LinkReference | ImageReference} */ (data2)
         if (!this._areSomeObject(o1, o2)) return false
         break
       }
       case TextType: {
-        const { value: v1 } = node1 as Text
-        const { value: v2 } = node2 as Text
+        const { value: v1 } = /** @type {Text} */ (node1)
+        const { value: v2 } = /** @type {Text} */ (node2)
         if (v1 !== v2) return false
         break
       }
@@ -156,7 +166,13 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
     return true
   }
 
-  protected _areSomeObject(o1: Record<string, unknown>, o2: Record<string, unknown>): boolean {
+  /**
+   * @protected
+   * @param {Record<string, unknown>} o1
+   * @param {Record<string, unknown>} o2
+   * @returns {boolean}
+   */
+  _areSomeObject(o1, o2) {
     const keys1 = Object.keys(o1)
     const keys2 = Object.keys(o2)
     if (keys1.length !== keys2.length) return false
@@ -166,8 +182,13 @@ export class MarkupTester<T = unknown> extends BaseTester<T> {
     return true
   }
 
-  protected _normalizeAst(ast: Root): Root {
-    const root: Root = removePositions(ast)
+  /**
+   * @protected
+   * @param {Root} ast
+   * @returns {Root}
+   */
+  _normalizeAst(ast) {
+    const root = removePositions(ast)
     const content = JSON.stringify(root)
     return JSON.parse(content)
   }

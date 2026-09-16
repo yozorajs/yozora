@@ -1,7 +1,7 @@
 import type { List } from '@yozora/ast'
-import { createTokenizerTester, createTokenizerTesters } from '@yozora/test-util'
 import { expect, test } from 'vitest'
 import { parsers, scanGfmFixtures } from 'vitest.setup'
+import { createTokenizerTester, createTokenizerTesters } from '../../../script/test/index.mjs'
 
 scanGfmFixtures(createTokenizerTester('gfm', parsers.gfm), {
   includeGroups: ['list', 'list-item'],

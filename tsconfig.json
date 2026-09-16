@@ -13,7 +13,6 @@
       "@yozora/parser-gfm": ["./parsers/parser-gfm/src"],
       "@yozora/parser-gfm-ex": ["./parsers/parser-gfm-ex/src"],
       "@yozora/parser-yozora": ["./parsers/parser-yozora/src"],
-      "@yozora/test-util": ["./packages/test-util/src"],
       "@yozora/tokenizer": ["./tokenizers/tokenizer/src"],
       "@yozora/tokenizer-admonition": ["./tokenizers/tokenizer-admonition/src"],
       "@yozora/tokenizer-autolink": ["./tokenizers/tokenizer-autolink/src"],

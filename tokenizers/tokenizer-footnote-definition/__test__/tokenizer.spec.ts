@@ -1,9 +1,9 @@
-import { createTokenizerTesters } from '@yozora/test-util'
 import { DefinitionTokenizerName } from '@yozora/tokenizer-definition'
 import FootnoteTokenizer from '@yozora/tokenizer-footnote'
 import FootnoteReferenceTokenizer from '@yozora/tokenizer-footnote-reference'
 import { expect, test } from 'vitest'
 import { parsers } from 'vitest.setup'
+import { createTokenizerTesters } from '../../../script/test/index.mjs'
 import FootnoteDefinitionTokenizer from '../src'
 
 createTokenizerTesters(

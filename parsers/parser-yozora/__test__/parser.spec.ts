@@ -1,12 +1,12 @@
 import { DefaultParser } from '@yozora/parser'
 import YozoraParser from '@yozora/parser-yozora'
-import { createTokenizerTester } from '@yozora/test-util'
 import FencedCodeTokenizer, { FencedCodeTokenizerName } from '@yozora/tokenizer-fenced-code'
 import InlineCodeTokenizer, { InlineCodeTokenizerName } from '@yozora/tokenizer-inline-code'
 import ParagraphTokenizer from '@yozora/tokenizer-paragraph'
 import TextTokenizer from '@yozora/tokenizer-text'
 import { describe, expect, test } from 'vitest'
 import { loadFixtures, parsers } from 'vitest.setup'
+import { createTokenizerTester } from '../../../script/test/index.mjs'
 
 createTokenizerTester('yozora', parsers.yozora).scan('**/*.json').runTest()
 

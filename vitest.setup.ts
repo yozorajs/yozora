@@ -9,7 +9,7 @@ import type { IParser } from '@yozora/parser'
 import GfmParser from '@yozora/parser-gfm'
 import GfmExParser from '@yozora/parser-gfm-ex'
 import YozoraParser from '@yozora/parser-yozora'
-import type { BaseTester } from '@yozora/test-util'
+import type { BaseTester } from './script/test/index.mjs'
 
 export const parsers = {
   get gfm(): IParser {

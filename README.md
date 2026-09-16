@@ -276,7 +276,7 @@ is an algorithm that parses Markdown or its extended syntax into an abstract syn
 
   - Check [@yozora/tokenizer][] for implementation details of tokenizer.
 
-  - For testing, refer to `@yozora/test-util` and an existing tokenizer's `__test__` directory.
+  - For testing, refer to `script/test/` and an existing tokenizer's `__test__` directory.
 
   - Check [@yozora/parser] and [@yozora/parser-yozora] for information on how to integrate a custom
     tokenizer.

@@ -262,7 +262,7 @@
 
   - 参见 [@yozora/tokenizer][] 以获得分词器的生命周期函数细节；
 
-  - 测试方面，可参考 `@yozora/test-util` 以及现有分词器的 `__test__` 目录；
+  - 测试方面，可参考 `script/test/` 以及现有分词器的 `__test__` 目录；
 
   - 参考 [@yozora/parser][] 和 [@yozora/parser-yozora][] 以获得如何使用自定义分词器的信息；
 

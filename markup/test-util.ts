@@ -1,6 +1,6 @@
-import type { IYozoraUseCase } from '@yozora/test-util'
-import { MarkupTester } from '@yozora/test-util'
 import { expect, test } from 'vitest'
+import type { IYozoraUseCase } from '../script/test/index.mjs'
+import { MarkupTester } from '../script/test/index.mjs'
 
 /** Existing markup round-trip exclusions, retained during the package split. */
 export const markupFixtureSelection = {

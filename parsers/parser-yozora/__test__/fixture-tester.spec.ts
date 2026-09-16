@@ -3,9 +3,9 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { DefaultMarkupWeaver } from '@yozora/markup'
 import YozoraParser from '@yozora/parser-yozora'
-import type { IYozoraUseCaseAnswers, ParserName } from '@yozora/test-util'
-import { MarkupTester, TokenizerTester } from '@yozora/test-util'
 import { afterAll, expect, test } from 'vitest'
+import type { IYozoraUseCaseAnswers, ParserName } from '../../../script/test/index.mjs'
+import { MarkupTester, TokenizerTester } from '../../../script/test/index.mjs'
 
 const directory = mkdtempSync(join(tmpdir(), 'yozora-test-util-'))
 afterAll(() => rmSync(directory, { recursive: true, force: true }))
