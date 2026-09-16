@@ -11,10 +11,10 @@ const _escapeTitle: IEscaper = createCharacterEscaper('"`'.split(''))
  *
  * @see https://github.com/syntax-tree/mdast#link
  * @see https://github.github.com/gfm/#inline-link
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#link
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-autolink
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-autolink-extension
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-link
+ * @see https://github.com/yozorajs/yozora/tree/v3/packages/ast#link
+ * @see https://github.com/yozorajs/yozora/tree/v3/tokenizers/tokenizer-autolink
+ * @see https://github.com/yozorajs/yozora/tree/v3/tokenizers/tokenizer-autolink-extension
+ * @see https://github.com/yozorajs/yozora/tree/v3/tokenizers/tokenizer-link
  */
 export class LinkWeaver implements INodeWeaver<Link> {
   public readonly type = LinkType

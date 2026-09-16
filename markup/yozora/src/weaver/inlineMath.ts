@@ -9,8 +9,8 @@ export interface IInlineMathMarkupWeaverOptions {
 /**
  * Inline math content.
  *
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#inlinemath
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-inline-math
+ * @see https://github.com/yozorajs/yozora/tree/v3/packages/ast#inlinemath
+ * @see https://github.com/yozorajs/yozora/tree/v3/tokenizers/tokenizer-inline-math
  */
 export class InlineMathWeaver implements INodeWeaver<InlineMath> {
   public readonly type = InlineMathType

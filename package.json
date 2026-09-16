@@ -1,6 +1,6 @@
 {
   "name": "@yozora/yozora",
-  "version": "0.0.0",
+  "version": "3.0.0-alpha",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -9,7 +9,7 @@
     "type": "git",
     "url": "https://github.com/yozorajs/yozora.git"
   },
-  "homepage": "https://github.com/yozorajs/yozora/#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v3.0.0-alpha#readme",
   "license": "MIT",
   "private": true,
   "engines": {

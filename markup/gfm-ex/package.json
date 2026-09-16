@@ -1,6 +1,6 @@
 {
   "name": "@yozora/markup-gfm-ex",
-  "version": "2.4.1",
+  "version": "3.0.0-alpha",
   "description": "Serialize GFM AST nodes and extensions into Markdown.",
   "author": {
     "name": "guanghechen",
@@ -11,7 +11,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "markup/gfm-ex"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.4.1/markup/gfm-ex#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm-ex#readme",
   "type": "module",
   "scripts": {
     "build": "tsdown --config ../../tsdown.config.mjs",

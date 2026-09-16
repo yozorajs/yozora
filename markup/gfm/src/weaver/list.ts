@@ -7,8 +7,8 @@ import type { INodeMarkup, INodeWeaver } from '../types'
  *
  * @see https://github.com/syntax-tree/mdast#list
  * @see https://github.github.com/gfm/#list
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#list
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-list
+ * @see https://github.com/yozorajs/yozora/tree/v3/packages/ast#list
+ * @see https://github.com/yozorajs/yozora/tree/v3/tokenizers/tokenizer-list
  */
 export class ListWeaver implements INodeWeaver<List> {
   public readonly type = ListType

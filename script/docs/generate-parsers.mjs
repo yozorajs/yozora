@@ -38,12 +38,14 @@ const packageItems = workspacePackages()
     parserName: PARSER_NAMES[pkg.name],
   }))
 
+const rootManifest = JSON.parse(fs.readFileSync(path.join(repositoryRoot, 'package.json'), 'utf8'))
+
 /** @type {HandlebarData[]} */
 const items = [
   // Top README
   {
     packageName: '@yozora/root',
-    repositoryRef: 'release-2.x.x',
+    repositoryRef: `v${rootManifest.version}`,
     packageDirectory: '.',
   },
   ...packageItems,

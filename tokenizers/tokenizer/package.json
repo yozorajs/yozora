@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer",
-  "version": "2.4.1",
+  "version": "3.0.0-alpha",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -10,7 +10,7 @@
     "url": "https://github.com/yozorajs/yozora.git",
     "directory": "tokenizers/tokenizer"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v2.4.1/tokenizers/tokenizer#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/tokenizers/tokenizer#readme",
   "type": "module",
   "scripts": {
     "build": "tsdown --config ../../tsdown.config.mjs",

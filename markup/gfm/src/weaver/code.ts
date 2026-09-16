@@ -11,9 +11,9 @@ const tildeSymbolRegex = /(?:\n|^)([~]+)/g
  *
  * @see https://github.com/syntax-tree/mdast#code
  * @see https://github.github.com/gfm/#code-fence
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#code
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-fenced-code
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-indented-code
+ * @see https://github.com/yozorajs/yozora/tree/v3/packages/ast#code
+ * @see https://github.com/yozorajs/yozora/tree/v3/tokenizers/tokenizer-fenced-code
+ * @see https://github.com/yozorajs/yozora/tree/v3/tokenizers/tokenizer-indented-code
  */
 export class CodeWeaver implements INodeWeaver<Code> {
   public readonly type = CodeType

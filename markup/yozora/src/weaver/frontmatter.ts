@@ -8,8 +8,8 @@ import type { INodeMarkup, INodeWeaver } from '@yozora/markup-gfm-ex'
  * @see https://github.com/syntax-tree/mdast#frontmattercontent
  * @see https://github.com/syntax-tree/mdast#yaml
  * @see https://github.github.com/gfm/#code-fence
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#frontmatter
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/frontmatter
+ * @see https://github.com/yozorajs/yozora/tree/v3/packages/ast#frontmatter
+ * @see https://github.com/yozorajs/yozora/blob/v3/packages/ast/src/nodes/frontmatter.ts
  */
 export class FrontmatterWeaver implements INodeWeaver<Frontmatter> {
   public readonly type = FrontmatterType

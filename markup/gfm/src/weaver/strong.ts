@@ -10,8 +10,8 @@ const _escapeContent: IEscaper = createCharacterEscaper(['*'])
  *
  * @see https://github.com/syntax-tree/mdast#strong
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#strong
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/strong
+ * @see https://github.com/yozorajs/yozora/tree/v3/packages/ast#strong
+ * @see https://github.com/yozorajs/yozora/tree/v3/tokenizers/tokenizer-emphasis
  */
 export class StrongWeaver implements INodeWeaver<Strong> {
   public readonly type = StrongType

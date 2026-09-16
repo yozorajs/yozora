@@ -11,8 +11,8 @@ import type { INodeMarkup, INodeWeaver } from '@yozora/markup-gfm-ex'
  * @see https://github.com/syntax-tree/mdast#footnotereference
  * @see https://github.com/syntax-tree/mdast#imagereference
  * @see https://github.com/syntax-tree/mdast#linkreference
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/packages/ast#footnotereference
- * @see https://github.com/yozorajs/yozora/tree/release-2.x.x/tokenizers/tokenizer-footnote-reference
+ * @see https://github.com/yozorajs/yozora/tree/v3/packages/ast#footnotereference
+ * @see https://github.com/yozorajs/yozora/tree/v3/tokenizers/tokenizer-footnote-reference
  */
 export class FootnoteReferenceWeaver implements INodeWeaver<FootnoteReference> {
   public readonly type = FootnoteReferenceType
