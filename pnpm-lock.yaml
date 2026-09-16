@@ -57,6 +57,30 @@ importers:
         specifier: ^4.1.10
         version: 4.1.11(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.0(@types/node@24.13.3)(yaml@2.9.0))
 
+  markup/gfm:
+    dependencies:
+      '@yozora/ast':
+        specifier: workspace:^
+        version: link:../../packages/ast
+
+  markup/gfm-ex:
+    dependencies:
+      '@yozora/ast':
+        specifier: workspace:^
+        version: link:../../packages/ast
+      '@yozora/markup-gfm':
+        specifier: workspace:^
+        version: link:../gfm
+
+  markup/yozora:
+    dependencies:
+      '@yozora/ast':
+        specifier: workspace:^
+        version: link:../../packages/ast
+      '@yozora/markup-gfm-ex':
+        specifier: workspace:^
+        version: link:../gfm-ex
+
   packages/ast: {}
 
   packages/ast-util:
@@ -95,12 +119,6 @@ importers:
         version: link:../character
 
   packages/invariant: {}
-
-  packages/markup-weaver:
-    dependencies:
-      '@yozora/ast':
-        specifier: workspace:^
-        version: link:../ast
 
   packages/parser:
     dependencies:
@@ -354,9 +372,9 @@ importers:
       '@yozora/core-parser':
         specifier: workspace:^
         version: link:../core-parser
-      '@yozora/markup-weaver':
+      '@yozora/markup-gfm':
         specifier: workspace:^
-        version: link:../markup-weaver
+        version: link:../../markup/gfm
       vitest:
         specifier: ^4.1.10
         version: 4.1.11(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.0(@types/node@24.13.3)(yaml@2.9.0))

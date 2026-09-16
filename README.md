@@ -158,7 +158,7 @@ is an algorithm that parses Markdown or its extended syntax into an abstract syn
 - Convert an AST into markup content
 
   ```typescript
-  import { DefaultMarkupWeaver } from '@yozora/markup-weaver'
+  import { DefaultMarkupWeaver } from '@yozora/markup'
 
   const weaver = new DefaultMarkupWeaver()
   weaver.weave({
@@ -212,9 +212,11 @@ is an algorithm that parses Markdown or its extended syntax into an abstract syn
 
 - Weavers
 
-  | Weaver                    | Description                    |
-  | :------------------------ | :----------------------------- |
-  | [@yozora/markup-weaver][] | Weave AST into markup content. |
+  | Weaver                    | Description                                           |
+  | :------------------------ | :---------------------------------------------------- |
+  | [@yozora/markup-gfm][]    | Serialize GFM AST nodes into Markdown.                |
+  | [@yozora/markup-gfm-ex][] | Serialize GFM AST nodes and extensions into Markdown. |
+  | [@yozora/markup][]        | Serialize Yozora AST nodes into Markdown.             |
 
 - Tokenizers
 
@@ -322,7 +324,9 @@ Yozora is [MIT licensed](https://github.com/yozorajs/yozora/blob/main/LICENSE).
 [@yozora/core-parser]:                        https://github.com/yozorajs/yozora/tree/v2.4.1/packages/core-parser#readme
 [@yozora/core-tokenizer]:                     https://github.com/yozorajs/yozora/tree/v2.4.1/packages/core-tokenizer#readme
 [@yozora/invariant]:                          https://github.com/yozorajs/yozora/tree/v2.4.1/packages/invariant#readme
-[@yozora/markup-weaver]:                      https://github.com/yozorajs/yozora/tree/v2.4.1/packages/markup-weaver#readme
+[@yozora/markup]:                             https://github.com/yozorajs/yozora/tree/v2.4.1/markup/yozora#readme
+[@yozora/markup-gfm]:                         https://github.com/yozorajs/yozora/tree/v2.4.1/markup/gfm#readme
+[@yozora/markup-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v2.4.1/markup/gfm-ex#readme
 [@yozora/parser]:                             https://github.com/yozorajs/yozora/tree/v2.4.1/packages/parser#readme
 [@yozora/parser-gfm]:                         https://github.com/yozorajs/yozora/tree/v2.4.1/packages/parser-gfm#readme
 [@yozora/parser-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v2.4.1/packages/parser-gfm-ex#readme

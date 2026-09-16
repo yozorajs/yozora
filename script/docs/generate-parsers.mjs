@@ -24,7 +24,11 @@ const PARSER_NAMES = {
 
 /** @type {HandlebarData[]} */
 const packageItems = workspacePackages()
-  .filter(pkg => pkg.dir.startsWith('packages/') && pkg.manifest.private !== true)
+  .filter(
+    pkg =>
+      (pkg.dir.startsWith('packages/') || pkg.dir.startsWith('markup/')) &&
+      pkg.manifest.private !== true,
+  )
   .map(pkg => ({
     packageName: pkg.name,
     repositoryRef: `v${pkg.manifest.version}`,

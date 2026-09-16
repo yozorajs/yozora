@@ -60,7 +60,7 @@ describe('version.mjs CLI — release-safety guards', () => {
   test('valid dry-run with --first-release succeeds and previews a changelog block', () => {
     const r = run(['minor', '--first-release'])
     assert.equal(r.status, 0)
-    assert.match(r.stdout, /\(41 packages\)/)
+    assert.match(r.stdout, /\(43 packages\)/)
     assert.match(r.stdout, /CHANGELOG entries to prepend:/)
   })
 })

@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@yozora/core-parser": "workspace:^",
-    "@yozora/markup-weaver": "workspace:^",
+    "@yozora/markup-gfm": "workspace:^",
     "vitest": "^4.1.10"
   }
 }

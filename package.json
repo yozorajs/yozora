@@ -47,7 +47,7 @@
     "test:scripts": "node --test 'script/**/*.spec.mjs'",
     "test:parser": "pnpm -r --filter='@yozora/parser*' run test",
     "test:tokenizer": "pnpm -r --filter='@yozora/tokenizer-*' run test",
-    "test:other": "pnpm -r --filter='@yozora/ast' --filter='@yozora/ast-util' --filter='@yozora/character' --filter='@yozora/core-parser' --filter='@yozora/core-tokenizer' --filter='@yozora/invariant' --filter='@yozora/markup-weaver' run --if-present test",
+    "test:other": "pnpm -r --filter='@yozora/ast' --filter='@yozora/ast-util' --filter='@yozora/character' --filter='@yozora/core-parser' --filter='@yozora/core-tokenizer' --filter='@yozora/invariant' --filter='@yozora/markup*' run --if-present test",
     "test:update": "pnpm -r run --if-present test:update"
   },
   "devDependencies": {

@@ -10,6 +10,8 @@
     "types": ["vitest/globals", "node"]
   },
   "include": [
+    "markup/*/src",
+    "markup/*/__test__",
     "packages/*/src",
     "packages/*/__test__",
     "tokenizers/*/src",
