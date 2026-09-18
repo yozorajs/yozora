@@ -91,6 +91,7 @@
           }
         },
         "yozora": {
+          "markup": "^[cat `[`]",
           "ast": {
             "type": "root",
             "position": {
@@ -267,6 +268,7 @@
           }
         },
         "yozora": {
+          "markup": "^[cat `[` dog]",
           "ast": {
             "type": "root",
             "position": {

@@ -6,7 +6,7 @@
       "input": "import Parser from '@yozora/parser'",
       "answer": {
         "gfm": {
-          "markup": "import Parser from \"@yozora/parser\";",
+          "markup": "import Parser from '@yozora/parser'",
           "ast": {
             "type": "root",
             "position": {
@@ -59,6 +59,7 @@
           }
         },
         "yozora": {
+          "markup": "import Parser from '@yozora/parser';",
           "ast": {
             "type": "root",
             "position": {
@@ -89,6 +90,7 @@
                   }
                 },
                 "moduleName": "@yozora/parser",
+                "quote": "'",
                 "defaultImport": "Parser",
                 "namedImports": []
               }

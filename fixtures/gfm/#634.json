@@ -126,6 +126,7 @@
           }
         },
         "gfm-ex": {
+          "markup": "xmpp:foo@bar.baz/txt\n\nxmpp:foo@bar.baz/txt@bin\n\nxmpp:foo@bar.baz/txt@bin.com",
           "ast": {
             "type": "root",
             "position": {

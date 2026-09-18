@@ -404,6 +404,10 @@ export interface EcmaImport extends Node<EcmaImportType> {
    */
   moduleName: string
   /**
+   * Original module specifier quote. Omitted quotes default to double quotes when serialized.
+   */
+  quote?: "'" | '"'
+  /**
    * import Parser, { YozoraParserProps } from '@yozora/parser-yozora'
    * ==> { defaultImport: 'Parser' }
    */

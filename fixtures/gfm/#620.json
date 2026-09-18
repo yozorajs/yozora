@@ -6,7 +6,7 @@
       "input": "http://example.com",
       "answer": {
         "gfm": {
-          "markup": "[http://example.com](http://example.com)",
+          "markup": "http://example.com",
           "html": "<p>http://example.com</p>",
           "ast": {
             "type": "root",
@@ -60,6 +60,7 @@
           }
         },
         "gfm-ex": {
+          "markup": "[http://example.com](http://example.com)",
           "ast": {
             "type": "root",
             "position": {

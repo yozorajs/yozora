@@ -66,6 +66,9 @@ import { YozoraParserProps } from '@yozora/parser-yozora'
 import { YozoraParser, YozoraParser as Parser } from '@yozora/parser-yozora'
 ```
 
+The node's `quote` field preserves the module specifier's single or double quote so Markdown
+serialization can retain the original quote style, including when positions are omitted.
+
 Namespace, type-only, and multiline imports, identifiers containing escape sequences, and
 string-named imports are not supported:
 

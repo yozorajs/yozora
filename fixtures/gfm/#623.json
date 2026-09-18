@@ -6,7 +6,7 @@
       "input": "Visit www.commonmark.org/help for more information.",
       "answer": {
         "gfm": {
-          "markup": "Visit [www.commonmark.org/help](http://www.commonmark.org/help) for more information.",
+          "markup": "Visit www.commonmark.org/help for more information.",
           "html": "<p>Visit <a href=\"http://www.commonmark.org/help\">www.commonmark.org/help</a> for more information.</p>",
           "ast": {
             "type": "root",
@@ -60,6 +60,7 @@
           }
         },
         "gfm-ex": {
+          "markup": "Visit [www.commonmark.org/help](http://www.commonmark.org/help) for more information.",
           "ast": {
             "type": "root",
             "position": {

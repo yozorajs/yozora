@@ -561,7 +561,7 @@ export class BaseTester {
         dirpath: longestCommonDirpath,
         filepath: longestCommonDirpath,
         title: undefined,
-        cases,
+        cases: [],
         subGroups: [...LCDIds.map(i => caseGroups[i]), createCaseGroup(longestCommonDirpath)],
       }
       caseGroups.splice(LCDIds[0], LCDIds.length, parentGroup)

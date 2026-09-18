@@ -6,6 +6,7 @@
       "input": "\\`$x^2+y^2$`",
       "answer": {
         "gfm": {
+          "markup": "`$x^2+y^2$`",
           "ast": {
             "type": "root",
             "position": {

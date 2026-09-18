@@ -1,4 +1,4 @@
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { DefaultMarkupWeaver } from '@yozora/markup-yozora'
@@ -16,6 +16,32 @@ const ast = {
 }
 const correct = { ast, markup: 'content' }
 const incorrect = { ast: { type: 'root', children: [] }, markup: 'incorrect' }
+
+test('collects each fixture once when grouping sibling directories', () => {
+  const caseRootDirectory = mkdtempSync(join(directory, 'nested-'))
+  for (const name of ['first', 'second']) {
+    const groupDirectory = join(caseRootDirectory, 'group', name)
+    mkdirSync(groupDirectory, { recursive: true })
+    writeFileSync(
+      join(groupDirectory, 'case.json'),
+      JSON.stringify({ cases: [{ input: name, answer: { gfm: {} } }] }),
+    )
+  }
+
+  const groups = new TokenizerTester({
+    caseRootDirectory,
+    parser: new YozoraParser(),
+    parserName: 'yozora',
+  })
+    .scan('**/*.json')
+    .collect()
+  const inputs: string[] = []
+  for (const group of groups) {
+    inputs.push(...group.cases.map(kase => kase.input))
+    groups.push(...group.subGroups)
+  }
+  expect(inputs.sort()).toEqual(['first', 'second'])
+})
 
 const variants: readonly {
   name: string

@@ -92,7 +92,7 @@ test('is byte-idempotent and preserves all checked-in answers', async t => {
     .filter(([filename]) => /^#\d{3}[.]json$/.test(filename))
     .map(([, raw]) => JSON.parse(raw).cases[0])
   assert.equal(mainCases.filter(fixtureCase => 'ast' in fixtureCase.answer.gfm).length, 677)
-  assert.equal(mainCases.filter(fixtureCase => 'markup' in fixtureCase.answer.gfm).length, 659)
+  assert.equal(mainCases.filter(fixtureCase => 'markup' in fixtureCase.answer.gfm).length, 677)
 })
 
 test('partitions renumbered duplicate inputs and preserves answers', async t => {

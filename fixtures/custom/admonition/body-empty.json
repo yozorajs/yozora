@@ -6,7 +6,7 @@
       "input": ":::important\n:::",
       "answer": {
         "gfm": {
-          "markup": ":::important\n\n:::",
+          "markup": ":::important\n:::",
           "ast": {
             "type": "root",
             "position": {
@@ -59,6 +59,7 @@
           }
         },
         "yozora": {
+          "markup": ":::important\n\n:::",
           "ast": {
             "type": "root",
             "position": {

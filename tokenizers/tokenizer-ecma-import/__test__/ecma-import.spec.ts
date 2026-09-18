@@ -29,6 +29,23 @@ test('ecma import node should omit position when shouldReservePosition is false'
   expect(node.position).toBeUndefined()
 })
 
+test.each(["'", '"'])('preserves the module quote %s with and without positions', quote => {
+  const parser = parsers.gfm.useTokenizer(new EcmaImportTokenizer())
+  for (const prefix of [
+    'import ',
+    'import Foo from ',
+    'import { bar } from ',
+    'import Foo, { bar as baz } from ',
+  ]) {
+    for (const shouldReservePosition of [false, true]) {
+      const node = parser.parse(`${prefix}${quote}pkg${quote};`, { shouldReservePosition })
+        .children[0]
+      expect(node).toMatchObject({ type: 'ecmaImport', moduleName: 'pkg', quote })
+      expect(node.position !== undefined).toBe(shouldReservePosition)
+    }
+  }
+})
+
 describe('identifier validation', () => {
   const parseFirstNode = (source: string) =>
     parsers.gfm

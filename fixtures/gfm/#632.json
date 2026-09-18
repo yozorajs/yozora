@@ -7,6 +7,7 @@
       "answer": {
         "gfm": {
           "html": "<p><a href=\"mailto:a.b-c_d@a.b\">a.b-c_d@a.b</a></p>\n<p><a href=\"mailto:a.b-c_d@a.b\">a.b-c_d@a.b</a>.</p>\n<p>a.b-c_d@a.b-</p>\n<p>a.b-c_d@a.b_</p>",
+          "markup": "a.b-c_d@a.b\n\na.b-c_d@a.b.\n\na.b-c_d@a.b-\n\na.b-c_d@a.b_",
           "ast": {
             "type": "root",
             "position": {
@@ -158,6 +159,7 @@
           }
         },
         "gfm-ex": {
+          "markup": "[a.b-c_d@a.b](mailto:a.b-c_d@a.b)\n\n[a.b-c_d@a.b](mailto:a.b-c_d@a.b).\n\na.b-c_d@a.b-\n\na.b-c_d@a.b_",
           "ast": {
             "type": "root",
             "position": {

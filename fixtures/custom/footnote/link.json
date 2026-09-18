@@ -293,6 +293,7 @@
           }
         },
         "yozora": {
+          "markup": "[This is a short cut link reference][] ^[[google](https://www.google.com) `inline code` *emphasis* **strong** literal text.] additional thing.\n\n[This is a short cut link reference]: /url",
           "ast": {
             "type": "root",
             "position": {

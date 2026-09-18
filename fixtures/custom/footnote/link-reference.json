@@ -129,6 +129,7 @@
           }
         },
         "yozora": {
+          "markup": "^[a[foo][bar]]\n\n[bar]: /url",
           "ast": {
             "type": "root",
             "position": {
