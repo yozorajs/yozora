@@ -7,6 +7,7 @@
       "answer": {
         "gfm": {
           "html": "<h1>foo <em>bar</em> *baz*</h1>",
+          "markup": "# foo *bar* *baz*",
           "ast": {
             "type": "root",
             "position": {

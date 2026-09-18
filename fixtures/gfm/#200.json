@@ -6,7 +6,7 @@
       "input": "| f\\|oo  |\n| ------ |\n| b `\\|` az |\n| b **\\|** im |",
       "answer": {
         "gfm": {
-          "markup": "| f\\|oo       |\n|-------------|\n| b `\\|` az   |\n| b **\\|** im |",
+          "markup": "| f|oo  |\n| ------ |\n| b `\\|` az |\n| b **|** im |",
           "html": "<table>\n<thead>\n<tr>\n<th>f|oo</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>b <code>|</code> az</td>\n</tr>\n<tr>\n<td>b <strong>|</strong> im</td>\n</tr>\n</tbody>\n</table>",
           "ast": {
             "type": "root",
@@ -141,6 +141,7 @@
           }
         },
         "gfm-ex": {
+          "markup": "| f\\|oo       |\n|-------------|\n| b `\\|` az   |\n| b **\\|** im |",
           "ast": {
             "type": "root",
             "position": {

@@ -6,7 +6,7 @@
       "input": "| abc | defghi |\n:-: | -----------:\nbar | baz",
       "answer": {
         "gfm": {
-          "markup": "abc | defghi\n:--:|--------:\nbar | baz",
+          "markup": "| abc | defghi |\n:-: | -----------:\nbar | baz",
           "html": "<table>\n<thead>\n<tr>\n<th align=\"center\">abc</th>\n<th align=\"right\">defghi</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td align=\"center\">bar</td>\n<td align=\"right\">baz</td>\n</tr>\n</tbody>\n</table>",
           "ast": {
             "type": "root",
@@ -60,6 +60,7 @@
           }
         },
         "gfm-ex": {
+          "markup": "abc | defghi\n:--:|--------:\nbar | baz",
           "ast": {
             "type": "root",
             "position": {

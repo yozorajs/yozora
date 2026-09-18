@@ -6,7 +6,7 @@
       "input": "Visit www.commonmark.org.\n\nVisit www.commonmark.org/a.b.",
       "answer": {
         "gfm": {
-          "markup": "Visit [www.commonmark.org](http://www.commonmark.org).\n\nVisit [www.commonmark.org/a.b](http://www.commonmark.org/a.b).",
+          "markup": "Visit www.commonmark.org.\n\nVisit www.commonmark.org/a.b.",
           "html": "<p>Visit <a href=\"http://www.commonmark.org\">www.commonmark.org</a>.</p>\n<p>Visit <a href=\"http://www.commonmark.org/a.b\">www.commonmark.org/a.b</a>.</p>",
           "ast": {
             "type": "root",
@@ -93,6 +93,7 @@
           }
         },
         "gfm-ex": {
+          "markup": "Visit [www.commonmark.org](http://www.commonmark.org).\n\nVisit [www.commonmark.org/a.b](http://www.commonmark.org/a.b).",
           "ast": {
             "type": "root",
             "position": {

@@ -6,7 +6,7 @@
       "input": "$$$$x^2 + y^2=z^2$$$$",
       "answer": {
         "gfm": {
-          "markup": "$$x^2 + y^2=z^2$$",
+          "markup": "$$$$x^2 + y^2=z^2$$$$",
           "ast": {
             "type": "root",
             "position": {
@@ -59,6 +59,7 @@
           }
         },
         "yozora": {
+          "markup": "$$x^2 + y^2=z^2$$",
           "ast": {
             "type": "root",
             "position": {

@@ -13,6 +13,7 @@ export class EcmaImportWeaver implements INodeWeaver<EcmaImport> {
   public readonly isBlockLevel = (): boolean => true
 
   public weave(node: EcmaImport): INodeMarkup {
+    const quote = node.quote ?? '"'
     const namedImportStatement: string = node.namedImports
       .map(item => (item.alias ? `${item.src} as ${item.alias}` : item.src))
       .join(', ')
@@ -26,8 +27,8 @@ export class EcmaImportWeaver implements INodeWeaver<EcmaImport> {
 
     return {
       opener: importStatement
-        ? `import ${importStatement} from "${node.moduleName}";`
-        : `import "${node.moduleName}";`,
+        ? `import ${importStatement} from ${quote}${node.moduleName}${quote};`
+        : `import ${quote}${node.moduleName}${quote};`,
     }
   }
 }

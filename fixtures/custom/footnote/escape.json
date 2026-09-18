@@ -6,6 +6,7 @@
       "input": "\\^[This is not a footnote]\n\n^[This is also not a valid footnote]",
       "answer": {
         "gfm": {
+          "markup": "^[This is not a footnote]\n\n^[This is also not a valid footnote]",
           "ast": {
             "type": "root",
             "position": {
@@ -91,6 +92,7 @@
           }
         },
         "yozora": {
+          "markup": "^[This is not a footnote]\n\n^[This is also not a valid footnote]",
           "ast": {
             "type": "root",
             "position": {

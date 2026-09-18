@@ -60,6 +60,7 @@
           }
         },
         "gfm-ex": {
+          "markup": "xmpp:foo@bar.baz/txt/bin",
           "ast": {
             "type": "root",
             "position": {

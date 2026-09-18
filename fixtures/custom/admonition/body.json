@@ -6,7 +6,7 @@
       "input": ":::important\nsome content\n- list item\n- list item 2\n> blockquote\n## heading\n:::",
       "answer": {
         "gfm": {
-          "markup": ":::important\nsome content\n\n- list item\n- list item 2\n\n> blockquote\n\n## heading\n:::",
+          "markup": ":::important\nsome content\n\n- list item\n- list item 2\n\n> blockquote\n\n## heading\n\n:::",
           "ast": {
             "type": "root",
             "position": {
@@ -262,6 +262,7 @@
           }
         },
         "yozora": {
+          "markup": ":::important\nsome content\n\n- list item\n- list item 2\n\n> blockquote\n\n## heading\n:::",
           "ast": {
             "type": "root",
             "position": {

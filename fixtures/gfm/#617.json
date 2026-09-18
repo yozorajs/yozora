@@ -6,7 +6,7 @@
       "input": "< http://foo.bar >",
       "answer": {
         "gfm": {
-          "markup": "< [http://foo.bar](http://foo.bar) \\>",
+          "markup": "< http://foo.bar >",
           "html": "<p>&lt; http://foo.bar &gt;</p>",
           "ast": {
             "type": "root",
@@ -60,6 +60,7 @@
           }
         },
         "gfm-ex": {
+          "markup": "< [http://foo.bar](http://foo.bar) \\>",
           "ast": {
             "type": "root",
             "position": {

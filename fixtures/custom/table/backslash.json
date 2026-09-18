@@ -6,7 +6,7 @@
       "input": "\\# | name  | age\n:-:|:-----:|:----------:\n1  | Alice | 18\n2  | Bob   | 20",
       "answer": {
         "gfm": {
-          "markup": "\\#  | name  | age\n:--:|:-----:|:---:\n1   | Alice | 18\n2   | Bob   | 20",
+          "markup": "\\# | name  | age\n:-:|:-----:|:----------:\n1  | Alice | 18\n2  | Bob   | 20",
           "ast": {
             "type": "root",
             "position": {
@@ -59,6 +59,7 @@
           }
         },
         "gfm-ex": {
+          "markup": "\\#  | name  | age\n:--:|:-----:|:---:\n1   | Alice | 18\n2   | Bob   | 20",
           "ast": {
             "type": "root",
             "position": {

@@ -6,7 +6,7 @@
       "input": "www.commonmark.org",
       "answer": {
         "gfm": {
-          "markup": "[www.commonmark.org](http://www.commonmark.org)",
+          "markup": "www.commonmark.org",
           "html": "<p><a href=\"http://www.commonmark.org\">www.commonmark.org</a></p>",
           "ast": {
             "type": "root",
@@ -60,6 +60,7 @@
           }
         },
         "gfm-ex": {
+          "markup": "[www.commonmark.org](http://www.commonmark.org)",
           "ast": {
             "type": "root",
             "position": {

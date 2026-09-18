@@ -59,6 +59,7 @@
           }
         },
         "yozora": {
+          "markup": "$x^2 + y^2=z^2$",
           "ast": {
             "type": "root",
             "position": {

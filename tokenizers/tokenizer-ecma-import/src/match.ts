@@ -70,6 +70,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
         nodeType: EcmaImportType,
         position: position(),
         moduleName: m[2],
+        quote: m[1] === "'" ? "'" : '"',
         defaultImport: null,
         namedImports: [],
       }
@@ -80,6 +81,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
         nodeType: EcmaImportType,
         position: position(),
         moduleName: m[3],
+        quote: m[2] === "'" ? "'" : '"',
         defaultImport: m[1],
         namedImports: [],
       }
@@ -103,6 +105,7 @@ export const match: IMatchBlockHookCreator<T, IToken, IThis> = function () {
         nodeType: EcmaImportType,
         position: position(),
         moduleName: m[4],
+        quote: m[3] === "'" ? "'" : '"',
         defaultImport,
         namedImports,
       }

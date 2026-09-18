@@ -11,12 +11,14 @@ export const parse: IParseBlockHookCreator<T, IToken, INode, IThis> = function (
               type: EcmaImportType,
               position: token.position,
               moduleName: token.moduleName,
+              quote: token.quote,
               defaultImport: token.defaultImport,
               namedImports: token.namedImports,
             }
           : {
               type: EcmaImportType,
               moduleName: token.moduleName,
+              quote: token.quote,
               defaultImport: token.defaultImport,
               namedImports: token.namedImports,
             }

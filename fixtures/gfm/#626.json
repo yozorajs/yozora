@@ -7,6 +7,7 @@
       "answer": {
         "gfm": {
           "html": "<p><a href=\"http://www.google.com/search?q=(business))+ok\">www.google.com/search?q=(business))+ok</a></p>",
+          "markup": "www.google.com/search?q=(business))+ok",
           "ast": {
             "type": "root",
             "position": {
@@ -59,6 +60,7 @@
           }
         },
         "gfm-ex": {
+          "markup": "[www.google.com/search?q=\\(business\\)\\)+ok](<http://www.google.com/search?q=(business))+ok>)",
           "ast": {
             "type": "root",
             "position": {

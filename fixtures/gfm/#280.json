@@ -199,6 +199,7 @@
           }
         },
         "gfm-ex": {
+          "markup": "- [x] foo\n  - [ ] bar\n  - [x] baz\n- [ ] bim",
           "ast": {
             "type": "root",
             "position": {

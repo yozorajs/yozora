@@ -291,6 +291,7 @@
           }
         },
         "gfm-ex": {
+          "markup": "mailto:foo@bar.baz\n\nmailto:a.b-c_d@a.b\n\nmailto:a.b-c_d@a.b.\n\nmailto:a.b-c_d@a.b/\n\nmailto:a.b-c_d@a.b-\n\nmailto:a.b-c_d@a.b_\n\nxmpp:foo@bar.baz\n\nxmpp:foo@bar.baz.",
           "ast": {
             "type": "root",
             "position": {

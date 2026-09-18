@@ -91,6 +91,7 @@
           }
         },
         "yozora": {
+          "markup": "^[`a` This is a footnote]",
           "ast": {
             "type": "root",
             "position": {

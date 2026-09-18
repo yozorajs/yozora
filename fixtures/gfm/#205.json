@@ -6,7 +6,7 @@
       "input": "| abc | def |\n| --- | --- |",
       "answer": {
         "gfm": {
-          "markup": "abc | def\n----|-----\n",
+          "markup": "| abc | def |\n| --- | --- |",
           "html": "<table>\n<thead>\n<tr>\n<th>abc</th>\n<th>def</th>\n</tr>\n</thead>\n</table>",
           "ast": {
             "type": "root",
@@ -60,6 +60,7 @@
           }
         },
         "gfm-ex": {
+          "markup": "abc | def\n----|-----\n",
           "ast": {
             "type": "root",
             "position": {

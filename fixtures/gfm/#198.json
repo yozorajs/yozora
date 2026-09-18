@@ -6,7 +6,7 @@
       "input": "| foo | bar |\n| --- | --- |\n| baz | bim |",
       "answer": {
         "gfm": {
-          "markup": "foo | bar\n----|-----\nbaz | bim",
+          "markup": "| foo | bar |\n| --- | --- |\n| baz | bim |",
           "html": "<table>\n<thead>\n<tr>\n<th>foo</th>\n<th>bar</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>baz</td>\n<td>bim</td>\n</tr>\n</tbody>\n</table>",
           "ast": {
             "type": "root",
@@ -60,6 +60,7 @@
           }
         },
         "gfm-ex": {
+          "markup": "foo | bar\n----|-----\nbaz | bim",
           "ast": {
             "type": "root",
             "position": {

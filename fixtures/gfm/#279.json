@@ -113,6 +113,7 @@
           }
         },
         "gfm-ex": {
+          "markup": "- [ ] foo\n- [x] bar",
           "ast": {
             "type": "root",
             "position": {

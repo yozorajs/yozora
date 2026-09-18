@@ -6,7 +6,7 @@
       "input": "hello@mail+xyz.example isn't valid, but hello+xyz@mail.example is.",
       "answer": {
         "gfm": {
-          "markup": "hello@mail+xyz.example isn't valid, but [hello+xyz@mail.example](mailto:hello+xyz@mail.example) is.",
+          "markup": "hello@mail+xyz.example isn't valid, but hello+xyz@mail.example is.",
           "html": "<p>hello@mail+xyz.example isn't valid, but <a href=\"mailto:hello+xyz@mail.example\">hello+xyz@mail.example</a> is.</p>",
           "ast": {
             "type": "root",
@@ -60,6 +60,7 @@
           }
         },
         "gfm-ex": {
+          "markup": "hello@mail+xyz.example isn't valid, but [hello+xyz@mail.example](mailto:hello+xyz@mail.example) is.",
           "ast": {
             "type": "root",
             "position": {

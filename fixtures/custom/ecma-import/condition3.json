@@ -6,7 +6,7 @@
       "input": "import Parser, { a as b, x, c as d } from '@yozora/parser'",
       "answer": {
         "gfm": {
-          "markup": "import Parser, { a as b, x, c as d } from \"@yozora/parser\";",
+          "markup": "import Parser, { a as b, x, c as d } from '@yozora/parser'",
           "ast": {
             "type": "root",
             "position": {
@@ -59,6 +59,7 @@
           }
         },
         "yozora": {
+          "markup": "import Parser, { a as b, x, c as d } from '@yozora/parser';",
           "ast": {
             "type": "root",
             "position": {
@@ -89,6 +90,7 @@
                   }
                 },
                 "moduleName": "@yozora/parser",
+                "quote": "'",
                 "defaultImport": "Parser",
                 "namedImports": [
                   {
@@ -174,7 +176,7 @@
       "input": "import Parser, { a as b } from '@yozora/parser'\n import { x, c as d } from '@yozora/parser'",
       "answer": {
         "gfm": {
-          "markup": "import Parser, { a as b } from \"@yozora/parser\";\n\nimport { x, c as d } from \"@yozora/parser\";",
+          "markup": "import Parser, { a as b } from '@yozora/parser'\nimport { x, c as d } from '@yozora/parser'",
           "ast": {
             "type": "root",
             "position": {
@@ -227,6 +229,7 @@
           }
         },
         "yozora": {
+          "markup": "import Parser, { a as b } from '@yozora/parser';\n\nimport { x, c as d } from '@yozora/parser';",
           "ast": {
             "type": "root",
             "position": {
@@ -257,6 +260,7 @@
                   }
                 },
                 "moduleName": "@yozora/parser",
+                "quote": "'",
                 "defaultImport": "Parser",
                 "namedImports": [
                   {
@@ -280,6 +284,7 @@
                   }
                 },
                 "moduleName": "@yozora/parser",
+                "quote": "'",
                 "defaultImport": null,
                 "namedImports": [
                   {

@@ -6,7 +6,7 @@
       "input": "~~Hi~~ Hello, ~there~ world!",
       "answer": {
         "gfm": {
-          "markup": "~~Hi~~ Hello, ~~there~~ world!",
+          "markup": "~~Hi~~ Hello, ~there~ world!",
           "html": "<p><del>Hi</del> Hello, <del>there</del> world!</p>",
           "ast": {
             "type": "root",
@@ -60,6 +60,7 @@
           }
         },
         "gfm-ex": {
+          "markup": "~~Hi~~ Hello, ~~there~~ world!",
           "ast": {
             "type": "root",
             "position": {
