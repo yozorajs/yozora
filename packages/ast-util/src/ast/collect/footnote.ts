@@ -236,13 +236,14 @@ function mutateFootnotesInPostorder(
   })
 
   const stack: IFootnoteMutationFrame[] = [createFrame(immutableRoot, -1)]
-  while (stack.length > 0) {
+  for (;;) {
     const frame = stack[stack.length - 1]
     if (frame.children == null) {
       if (frame.fieldIndex === 0) {
         frame.children = (frame.immutableNode as Admonition).title
       } else if (frame.fieldIndex === 1) {
         const children = (frame.immutableNode as Parent).children
+        // Keep accepting admonitions with a title but no body.
         if (children == null) {
           frame.fieldIndex += 1
           continue
@@ -306,5 +307,4 @@ function mutateFootnotesInPostorder(
     frame.nextChildren = null
     frame.collector1 = null
   }
-  return immutableRoot
 }

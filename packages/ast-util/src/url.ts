@@ -112,7 +112,15 @@ function normalizeUrlPath(path: string): string {
   }
 
   let normalizedPath = (absolute ? '/' : '') + segments.join('/')
-  if (preserveTrailingSlash && normalizedPath.length > 0 && !normalizedPath.endsWith('/')) {
+  /**
+   * Keep a directory reference distinct from an empty reference to the current document.
+   * Keep a colon in the first segment from being interpreted as a URI scheme.
+   */
+  if (!absolute && (segments.length === 0 || segments[0].includes(':'))) {
+    normalizedPath = `./${normalizedPath}`
+  }
+
+  if (preserveTrailingSlash && !normalizedPath.endsWith('/')) {
     normalizedPath += '/'
   }
   return prefix + normalizedPath

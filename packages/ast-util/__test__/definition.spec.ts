@@ -41,9 +41,51 @@ describe('collectDefinitions', function () {
     expect(result).toMatchSnapshot()
     expect(ast).toEqual(originalAst)
   })
+
+  test('keeps the first occurrence of a repeated identifier', function () {
+    const first: Definition = {
+      type: DefinitionType,
+      identifier: 'alpha',
+      label: 'first',
+      url: '/first',
+    }
+    const duplicate: Definition = { ...first, label: 'duplicate', url: '/duplicate' }
+    const ast: Root = { type: 'root', children: [first, duplicate] }
+
+    expect(collectDefinitions(ast)).toEqual([first])
+    expect(ast.children).toEqual([first, duplicate])
+  })
 })
 
 describe('calcDefinitionMap', function () {
+  test('preserves the first definition over duplicate nodes and conflicting presets', function () {
+    const first: Definition = {
+      type: DefinitionType,
+      identifier: 'alpha',
+      label: 'first',
+      url: '/first',
+    }
+    const duplicate: Definition = { ...first, url: '/duplicate' }
+    const conflict: Definition = { ...first, url: '/preset-conflict' }
+    const extra: Definition = { ...first, identifier: 'beta', url: '/extra' }
+    const repeatedPreset: Definition = { ...extra, url: '/repeated-preset' }
+    const ast: Root = { type: 'root', children: [first, duplicate] }
+    const original = structuredClone(ast)
+
+    const { root, definitionMap } = calcDefinitionMap(ast, undefined, [
+      conflict,
+      extra,
+      repeatedPreset,
+    ])
+
+    expect(definitionMap[first.identifier]).toBe(first)
+    expect(definitionMap[extra.identifier]).toBe(extra)
+    expect(Object.keys(definitionMap)).toEqual(['alpha', 'beta'])
+    expect(root.children).toEqual([first, duplicate, extra])
+    expect(root).not.toBe(ast)
+    expect(ast).toEqual(original)
+  })
+
   test('basic1', function () {
     const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
     const ast: Root = loadJSONFixture('basic1.ast.json')

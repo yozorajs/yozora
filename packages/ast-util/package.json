@@ -17,7 +17,7 @@
     "build": "tsdown --config ../../tsdown.config.mjs",
     "clean": "rimraf lib",
     "test": "vitest run --config ../../vitest.config.ts",
-    "test:coverage": "vitest run --config ../../vitest.config.ts --coverage",
+    "test:coverage": "vitest run --config ../../vitest.config.ts --coverage --coverage.thresholds.100",
     "test:update": "vitest run --config ../../vitest.config.ts -u"
   },
   "exports": {

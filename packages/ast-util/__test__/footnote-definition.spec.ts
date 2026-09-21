@@ -10,7 +10,49 @@ import type {
 } from '@yozora/ast'
 import { describe, expect, test } from 'vitest'
 import { loadJSONFixture } from 'vitest.setup'
-import { calcFootnoteDefinitionMap, collectFootnoteDefinitions } from '../src'
+import {
+  calcFootnoteDefinitionMap,
+  collectFootnoteDefinitions,
+  replaceFootnotesInReferences,
+} from '../src'
+
+describe('replaceFootnotesInReferences', function () {
+  test.each([
+    ['missing', {}],
+    ['null', { children: null }],
+    ['empty', { children: [] }],
+  ] as const)('converts footnotes in an admonition title with %s children', function (_name, body) {
+    const text: Text = { type: 'text', value: 'alpha' }
+    const footnote: Footnote = { type: 'footnote', children: [text] }
+    const admonition = {
+      type: 'admonition',
+      keyword: 'note',
+      title: [footnote],
+      ...body,
+    }
+    const ast: Root = { type: 'root', children: [admonition] }
+    const original = structuredClone(ast)
+    const footnoteDefinitionMap: Record<string, Readonly<FootnoteDefinition>> = Object.create(null)
+
+    const root = replaceFootnotesInReferences(ast, footnoteDefinitionMap)
+
+    expect(root.children).toStrictEqual([
+      {
+        ...admonition,
+        title: [{ type: 'footnoteReference', label: '1', identifier: 'footnote-1' }],
+      },
+      {
+        type: 'footnoteDefinition',
+        label: '1',
+        identifier: 'footnote-1',
+        children: [{ type: 'paragraph', children: [text] }],
+      },
+    ])
+    expect(Object.keys(footnoteDefinitionMap)).toEqual(['footnote-1'])
+    expect(footnoteDefinitionMap['footnote-1']).toBe(root.children[1])
+    expect(ast).toStrictEqual(original)
+  })
+})
 
 describe('collectFootnoteDefinitions', function () {
   test('basic1', function () {
@@ -21,9 +63,51 @@ describe('collectFootnoteDefinitions', function () {
     expect(result).toMatchSnapshot()
     expect(ast).toEqual(originalAst)
   })
+
+  test('keeps the first occurrence of a repeated identifier', function () {
+    const first: FootnoteDefinition = {
+      type: 'footnoteDefinition',
+      identifier: 'alpha',
+      label: 'first',
+      children: [],
+    }
+    const duplicate: FootnoteDefinition = { ...first, label: 'duplicate' }
+    const ast: Root = { type: 'root', children: [first, duplicate] }
+
+    expect(collectFootnoteDefinitions(ast)).toEqual([first])
+    expect(ast.children).toEqual([first, duplicate])
+  })
 })
 
 describe('calcFootnoteDefinitionMap', function () {
+  test('preserves the first definition over duplicate nodes and conflicting presets', function () {
+    const first: FootnoteDefinition = {
+      type: 'footnoteDefinition',
+      identifier: 'alpha',
+      label: 'first',
+      children: [],
+    }
+    const duplicate: FootnoteDefinition = { ...first, label: 'duplicate' }
+    const conflict: FootnoteDefinition = { ...first, label: 'preset conflict' }
+    const extra: FootnoteDefinition = { ...first, identifier: 'beta', label: 'extra' }
+    const repeatedPreset: FootnoteDefinition = { ...extra, label: 'repeated preset' }
+    const ast: Root = { type: 'root', children: [first, duplicate] }
+    const original = structuredClone(ast)
+
+    const { root, footnoteDefinitionMap } = calcFootnoteDefinitionMap(ast, undefined, [
+      conflict,
+      extra,
+      repeatedPreset,
+    ])
+
+    expect(footnoteDefinitionMap[first.identifier]).toBe(first)
+    expect(footnoteDefinitionMap[extra.identifier]).toBe(extra)
+    expect(Object.keys(footnoteDefinitionMap)).toEqual(['alpha', 'beta'])
+    expect(root.children).toEqual([first, duplicate, extra])
+    expect(root).not.toBe(ast)
+    expect(ast).toEqual(original)
+  })
+
   describe('basic1', function () {
     const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
     const ast: Root = loadJSONFixture('basic1.ast.json')
