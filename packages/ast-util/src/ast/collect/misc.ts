@@ -11,7 +11,7 @@ export function createNodeMatcher(
   aimTypesOrNodeMatcher: readonly NodeType[] | INodeMatcher | null,
 ): INodeMatcher {
   if (aimTypesOrNodeMatcher == null) return () => true
-  if (aimTypesOrNodeMatcher instanceof Function) return aimTypesOrNodeMatcher
+  if (typeof aimTypesOrNodeMatcher === 'function') return aimTypesOrNodeMatcher
 
   // Does not match any types of YAST node.
   if (aimTypesOrNodeMatcher.length === 0) return () => false

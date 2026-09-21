@@ -45,7 +45,7 @@ export function* createPreorderMutation(
   }
 
   const stack: IPreorderFrame[] = [createFrame(immutableRoot, -1)]
-  while (stack.length > 0) {
+  for (;;) {
     const frame = stack[stack.length - 1]
     if (frame.childIndex < frame.children.length) {
       const childIndex = frame.childIndex++
@@ -72,7 +72,6 @@ export function* createPreorderMutation(
     const originalNode = parentFrame.children[frame.parentChildIndex]
     parentFrame.collector.add(result, originalNode, frame.parentChildIndex)
   }
-  return immutableRoot
 }
 
 export function* createPostorderMutation(
@@ -94,7 +93,7 @@ export function* createPostorderMutation(
   }
 
   const stack: IPostorderFrame[] = [createFrame(immutableRoot, -1)]
-  while (stack.length > 0) {
+  for (;;) {
     const frame = stack[stack.length - 1]
     if (frame.nextChildren == null) {
       if (frame.childIndex < frame.children.length) {
@@ -133,5 +132,4 @@ export function* createPostorderMutation(
     const originalNode = parentFrame.children[frame.parentChildIndex]
     parentFrame.collector0.add(result, originalNode, frame.parentChildIndex)
   }
-  return immutableRoot
 }

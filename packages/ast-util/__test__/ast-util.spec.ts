@@ -1,7 +1,18 @@
+import { runInNewContext } from 'node:vm'
+import type { Root, Text } from '@yozora/ast'
 import { EmphasisType, ParagraphType, StrongType, TextType } from '@yozora/ast'
-import { createNodeMatcher, createShallowNodeCollector } from '../src'
+import type { INodeMatcher } from '../src'
+import { collectNodes, createNodeMatcher, createShallowNodeCollector } from '../src'
 
 describe('createNodeTypeMatcher', function () {
+  test('accepts a matcher from another realm', function () {
+    const matcher: INodeMatcher = runInNewContext('(node) => node.type === "text"')
+    const text: Text = { type: TextType, value: 'matched' }
+    const ast: Root = { type: 'root', children: [text] }
+
+    expect(collectNodes(ast, matcher)).toEqual([text])
+  })
+
   test('null', function () {
     const match = createNodeMatcher(null)
     expect(match({ type: TextType })).toBe(true)

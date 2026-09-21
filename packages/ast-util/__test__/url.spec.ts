@@ -4,6 +4,30 @@ import { loadJSONFixture } from 'vitest.setup'
 import { defaultUrlResolver, resolveUrlsForAst } from '../src'
 
 describe('defaultUrlResolver', function () {
+  test('ignores missing and blank path pieces while trimming nonempty pieces', function () {
+    expect(defaultUrlResolver(null, '', undefined, ' \t ')).toBe('')
+    expect(defaultUrlResolver(' https://x/a ', null, ' ', undefined, ' b ')).toBe('https://x/a/b')
+  })
+
+  test.each([
+    ['', ''],
+    ['?q=1', '?q=1'],
+    ['#part', '#part'],
+    ['.', './'],
+    ['./', './'],
+    ['a/..', './'],
+    ['a/../?q=1#part', './?q=1#part'],
+    ['./custom:chapter', './custom:chapter'],
+    ['a/../custom:chapter?q=1#part', './custom:chapter?q=1#part'],
+    ['./javascript:alert(1)', './javascript:alert(1)'],
+  ])('preserves the relative URL target of %s', (source, expected) => {
+    const base = 'https://example.test/docs/page.html'
+    const resolved = defaultUrlResolver(source)
+
+    expect(resolved).toBe(expected)
+    expect(new URL(resolved, base).href).toBe(new URL(source, base).href)
+  })
+
   test.each([
     ['relative path', 'guide', 'https://base.example/docs/guide'],
     ['absolute path', '/root', '/root'],
@@ -53,6 +77,35 @@ describe('defaultUrlResolver', function () {
 })
 
 describe('resolveUrlsForAst', function () {
+  test('preserves relative resource targets during default URL normalization', function () {
+    const parentLink: Link = { type: 'link', url: 'a/..', children: [] }
+    const colonLink: Link = { type: 'link', url: './custom:chapter', children: [] }
+    const paragraph: Paragraph = { type: 'paragraph', children: [parentLink, colonLink] }
+    const ast: Root = { type: 'root', children: [paragraph] }
+
+    resolveUrlsForAst(ast)
+
+    expect(parentLink.url).toBe('./')
+    expect(colonLink.url).toBe('./custom:chapter')
+  })
+
+  test('resolves an admonition body when its title is empty', function () {
+    const link: Link = { type: 'link', url: 'body', children: [] }
+    const paragraph: Paragraph = { type: 'paragraph', children: [link] }
+    const admonition: Admonition = {
+      type: 'admonition',
+      keyword: 'note',
+      title: [],
+      children: [paragraph],
+    }
+    const ast: Root = { type: 'root', children: [admonition] }
+
+    resolveUrlsForAst(ast, undefined, url => defaultUrlResolver('/base', url))
+
+    expect(link.url).toBe('/base/body')
+    expect(admonition.title).toEqual([])
+  })
+
   test('basic1', function () {
     const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
     const ast: Root = loadJSONFixture('basic1.ast.json')

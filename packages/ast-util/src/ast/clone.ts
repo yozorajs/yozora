@@ -21,7 +21,7 @@ export function shallowCloneAst(
   }> = [{ node: root, children: root.children, nextChildren: [], childIndex: 0 }]
   let terminated = false
 
-  while (stack.length > 0) {
+  for (;;) {
     const frame = stack[stack.length - 1]
     if (!terminated && frame.childIndex < frame.children.length) {
       const childIndex = frame.childIndex++
@@ -41,5 +41,4 @@ export function shallowCloneAst(
     if (stack.length <= 0) return nextNode as Root
     stack[stack.length - 1].nextChildren.push(nextNode)
   }
-  return root
 }

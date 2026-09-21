@@ -1,4 +1,4 @@
-import type { Literal, Parent, Root } from '@yozora/ast'
+import type { Literal, Paragraph, Parent, Root, Text } from '@yozora/ast'
 import { describe, expect, test } from 'vitest'
 import { loadJSONFixture } from 'vitest.setup'
 import { calcExcerptAst, getExcerptAst } from '../src'
@@ -100,9 +100,42 @@ describe('literal boundaries', function () {
   test('returns an empty root when the limit is zero', function () {
     expect(calcExcerptAst(createAst(), 0)).toEqual({ type: 'root', children: [] })
   })
+
+  test('reuses an empty root', function () {
+    const ast: Root = { type: 'root', children: [] }
+
+    expect(calcExcerptAst(ast, 10)).toBe(ast)
+  })
+
+  test('omits a literal when the remaining limit cannot hold its first code point', function () {
+    const first: Text = { type: 'text', value: 'ab' }
+    const next: Text = { type: 'text', value: '😀tail' }
+    const paragraph: Paragraph = { type: 'paragraph', children: [first, next] }
+    const ast: Root = { type: 'root', children: [paragraph] }
+    const original = structuredClone(ast)
+
+    expect(calcExcerptAst(ast, 3)).toEqual({
+      type: 'root',
+      children: [{ type: 'paragraph', children: [first] }],
+    })
+    expect(ast).toEqual(original)
+  })
 })
 
 describe('excerpt separator', function () {
+  test('falls back to the length limit when the separator is absent', function () {
+    const text: Text = { type: 'text', value: 'abcdef' }
+    const paragraph: Paragraph = { type: 'paragraph', children: [text] }
+    const ast: Root = { type: 'root', children: [paragraph] }
+    const original = structuredClone(ast)
+
+    expect(getExcerptAst(ast, 3, '<!-- more -->')).toEqual({
+      type: 'root',
+      children: [{ type: 'paragraph', children: [{ type: 'text', value: 'abc' }] }],
+    })
+    expect(ast).toEqual(original)
+  })
+
   test.each(['', '   '])('ignores empty separator %j', function (separator) {
     const ast: Root = {
       type: 'root',
