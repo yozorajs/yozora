@@ -11,14 +11,51 @@ import {
   asciiPunctuationCharacters,
   collectCodePointsFromEnum,
   controlCharacters,
+  createNodePointGenerator,
   isControlCharacter,
+  isLineEnding,
   isPunctuationCharacter,
   isSpaceCharacter,
+  isSpaceLike,
   isWhitespaceCharacter,
   punctuationCharacters,
   spaceCharacters,
   whitespaceCharacters,
 } from '../src'
+
+describe('Normalized spaces and line endings', function () {
+  test.each([
+    [VirtualCodePoint.LINE_END, true, true],
+    [VirtualCodePoint.SPACE, false, true],
+    [AsciiCodePoint.SPACE, false, true],
+    [AsciiCodePoint.NUL, false, false],
+    [AsciiCodePoint.HT, false, false],
+    [AsciiCodePoint.LF, false, false],
+    [AsciiCodePoint.CR, false, false],
+    [AsciiCodePoint.VT, false, false],
+    [AsciiCodePoint.FF, false, false],
+    [AsciiCodePoint.UPPERCASE_A, false, false],
+    [0xa0, false, false],
+    [0x2028, false, false],
+    [-3, false, false],
+  ] as const)('classifies code point %i', function (codePoint, lineEnding, spaceLike) {
+    expect(isLineEnding(codePoint)).toBe(lineEnding)
+    expect(isSpaceLike(codePoint)).toBe(spaceLike)
+  })
+
+  test('recognizes spaces and line endings after source normalization', function () {
+    const points = [...createNodePointGenerator('\t \r\nA\rB\n')].flat()
+    const lineEndOffsets = points
+      .filter(point => isLineEnding(point.codePoint))
+      .map(point => point.offset)
+    const spaceLikeOffsets = points
+      .filter(point => isSpaceLike(point.codePoint))
+      .map(point => point.offset)
+
+    expect(lineEndOffsets).toEqual([2, 5, 7])
+    expect(spaceLikeOffsets).toEqual([0, 0, 0, 0, 1, 2, 5, 7])
+  })
+})
 
 describe('Space', function () {
   const spaces = [...new Set([AsciiCodePoint.SPACE, VirtualCodePoint.SPACE])]

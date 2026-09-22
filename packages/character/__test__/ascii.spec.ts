@@ -1,14 +1,65 @@
 import {
   AsciiCodePoint,
+  VirtualCodePoint,
   asciiControlCharacters,
   asciiPunctuationCharacters,
   asciiWhitespaceCharacters,
   collectCodePointsFromEnum,
+  isAlphanumeric,
+  isAsciiCharacter,
   isAsciiControlCharacter,
   isAsciiDigitCharacter,
+  isAsciiLetter,
+  isAsciiLowerLetter,
   isAsciiPunctuationCharacter,
+  isAsciiUpperLetter,
   isAsciiWhitespaceCharacter,
 } from '../src'
+
+const nonAsciiCodePoints = [
+  VirtualCodePoint.SPACE,
+  VirtualCodePoint.LINE_END,
+  0x80,
+  0xe9,
+  0x0661,
+  0xff10,
+  0xff21,
+  0x1f600,
+]
+
+describe('Ascii letter and alphanumeric classifiers', function () {
+  const lowercase = 'abcdefghijklmnopqrstuvwxyz'
+  const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+  test.each([
+    ['isAsciiLowerLetter', isAsciiLowerLetter, lowercase],
+    ['isAsciiUpperLetter', isAsciiUpperLetter, uppercase],
+    ['isAsciiLetter', isAsciiLetter, `${lowercase}${uppercase}`],
+    ['isAlphanumeric', isAlphanumeric, `${lowercase}${uppercase}0123456789`],
+  ] as const)('%s matches its ASCII character set', function (_name, predicate, characters) {
+    for (let codePoint = 0; codePoint <= 0x7f; ++codePoint) {
+      expect(predicate(codePoint), `code point ${codePoint}`).toBe(
+        characters.includes(String.fromCodePoint(codePoint)),
+      )
+    }
+
+    for (const codePoint of nonAsciiCodePoints) {
+      expect(predicate(codePoint), `code point ${codePoint}`).toBe(false)
+    }
+  })
+})
+
+describe('isAsciiCharacter', function () {
+  test('accepts every ASCII code point, including NUL and DEL', function () {
+    for (let codePoint = 0; codePoint <= 0x7f; ++codePoint) {
+      expect(isAsciiCharacter(codePoint), `code point ${codePoint}`).toBe(true)
+    }
+  })
+
+  test.each(nonAsciiCodePoints)('rejects non-ASCII code point %i', function (codePoint) {
+    expect(isAsciiCharacter(codePoint)).toBe(false)
+  })
+})
 
 describe('Ascii White Spaces', function () {
   const whiteSpaces = [
