@@ -27,7 +27,7 @@ test('collects workspace packages once and derives @yozora aliases', t => {
   const root = makeRoot(t, [
     {
       ws: 'markup',
-      dir: 'gfm',
+      dir: 'markup-gfm',
       json: JSON.stringify({ name: '@yozora/markup-gfm', version: '1.0.0' }),
     },
     {
@@ -70,7 +70,7 @@ test('collects workspace packages once and derives @yozora aliases', t => {
     ],
   )
   assert.equal(packages.find(pkg => pkg.name === '@yozora/link').dir, 'tokenizers/link')
-  assert.equal(packages.find(pkg => pkg.name === '@yozora/markup-gfm').dir, 'markup/gfm')
+  assert.equal(packages.find(pkg => pkg.name === '@yozora/markup-gfm').dir, 'markup/markup-gfm')
   assert.equal(packages.find(pkg => pkg.name === '@yozora/parser-gfm').dir, 'parsers/parser-gfm')
   assert.deepEqual(
     yozoraWorkspacePackages(root).map(pkg => pkg.name),

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { afterEach, beforeEach, describe, test } from 'node:test'
@@ -112,6 +112,29 @@ describe('commitsForRelease (isolated git repo)', () => {
       ':bug: fix(pkg-b): fix b',
     ])
     assert.deepEqual(commitsForRelease(dir, '1.0.0', { pathSpec: 'packages/c' }), [])
+  })
+
+  test('includes old and new package paths once per commit within the release range', () => {
+    const oldPath = 'markup/gfm'
+    const newPath = 'markup/markup-gfm'
+    commitFile('chore: before-tag', `${oldPath}/index.ts`)
+    git('tag', 'v1.0.0')
+    commitFile('fix: escaping', `${oldPath}/index.ts`)
+
+    renameSync(join(dir, oldPath), join(dir, newPath))
+    git('add', '-A', '--', oldPath, newPath)
+    git('commit', '-q', '-m', 'refactor: rename package')
+    commitFile('fix: escaping', `${newPath}/weaver.ts`)
+    commitFile('feat: unrelated package', 'packages/other/index.ts')
+
+    const pathSpec = [newPath, oldPath]
+    const expected = ['fix: escaping', 'refactor: rename package', 'fix: escaping']
+    assert.deepEqual(commitsForRelease(dir, '1.0.0', { pathSpec }), expected)
+    assert.deepEqual(commitsForRelease(dir, '1.1.0', { firstRelease: true, pathSpec }), expected)
+
+    git('tag', 'v1.1.0')
+    commitFile('feat: next release', `${newPath}/index.ts`)
+    assert.deepEqual(commitsForRelease(dir, '1.1.0', { pathSpec }), ['feat: next release'])
   })
 
   test('missing previous-release tag throws', () => {

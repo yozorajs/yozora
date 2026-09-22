@@ -37,7 +37,7 @@
       "branches": 80,
       "functions": 91
     },
-    "markup/yozora": {
+    "markup/markup-yozora": {
       "functions": 90
     },
     "tokenizers/tokenizer-admonition": {

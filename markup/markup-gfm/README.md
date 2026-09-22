@@ -2,25 +2,25 @@
 
 <header>
   <h1 align="center">
-    <a href="https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/yozora#readme">@yozora/markup-yozora</a>
+    <a href="https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/markup-gfm#readme">@yozora/markup-gfm</a>
   </h1>
   <div align="center">
-    <a href="https://www.npmjs.com/package/@yozora/markup-yozora">
+    <a href="https://www.npmjs.com/package/@yozora/markup-gfm">
       <img
         alt="npm version"
-        src="https://img.shields.io/npm/v/@yozora/markup-yozora.svg"
+        src="https://img.shields.io/npm/v/@yozora/markup-gfm.svg"
       />
     </a>
-    <a href="https://www.npmjs.com/package/@yozora/markup-yozora">
+    <a href="https://www.npmjs.com/package/@yozora/markup-gfm">
       <img
         alt="npm downloads"
-        src="https://img.shields.io/npm/dm/@yozora/markup-yozora.svg"
+        src="https://img.shields.io/npm/dm/@yozora/markup-gfm.svg"
       />
     </a>
-    <a href="https://www.npmjs.com/package/@yozora/markup-yozora">
+    <a href="https://www.npmjs.com/package/@yozora/markup-gfm">
       <img
         alt="npm license"
-        src="https://img.shields.io/npm/l/@yozora/markup-yozora.svg"
+        src="https://img.shields.io/npm/l/@yozora/markup-gfm.svg"
       />
     </a>
     <a href="#install">
@@ -32,7 +32,7 @@
     <a href="https://github.com/nodejs/node">
       <img
         alt="Node.js Version"
-        src="https://img.shields.io/node/v/@yozora/markup-yozora"
+        src="https://img.shields.io/node/v/@yozora/markup-gfm"
       />
     </a>
     <a href="https://github.com/vitest-dev/vitest">
@@ -54,26 +54,22 @@
 
 <!-- :end -->
 
-Serialize the nodes produced by `YozoraParser`, including math, footnotes, admonitions, and ECMAScript imports. Frontmatter AST nodes are also supported.
+Serialize the nodes produced by `GfmParser` into Markdown.
 
 ## Install
 
 ```bash
-npm install --save @yozora/markup-yozora
+npm install --save @yozora/markup-gfm
 ```
-
-## Migration
-
-Replace imports from `@yozora/markup-weaver` with `@yozora/markup-yozora` to retain the full default
-weaver set. The named `DefaultMarkupWeaver` export remains available.
 
 ## Usage
 
-- `YozoraMarkupWeaver` is the default export. The named `DefaultMarkupWeaver` export refers to the same
-  implementation. `MarkupWeaver` remains the base class for custom registrations.
+- `GfmMarkupWeaver` is the default export. The named `DefaultMarkupWeaver` export refers to the same
+  implementation. It registers the basic node weavers from [@yozora/markup][]. This package also
+  re-exports its base class, types, utilities, and node weavers.
 
   ```typescript
-  import { DefaultMarkupWeaver } from '@yozora/markup-yozora'
+  import { DefaultMarkupWeaver } from '@yozora/markup-gfm'
 
   const weaver = new DefaultMarkupWeaver()
   weaver.weave({
@@ -132,8 +128,8 @@ weaver set. The named `DefaultMarkupWeaver` export remains available.
 
   ```typescript
   import type { Literal } from '@yozora/ast'
-  import type { INodeMarkup, INodeWeaver } from '@yozora/markup-yozora'
-  import { DefaultMarkupWeaver } from '@yozora/markup-yozora'
+  import type { INodeMarkup, INodeWeaver } from '@yozora/markup-gfm'
+  import { DefaultMarkupWeaver } from '@yozora/markup-gfm'
 
   type Mention = Literal<'mention'>
   class MentionWeaver implements INodeWeaver<Mention> {
@@ -164,8 +160,6 @@ weaver set. The named `DefaultMarkupWeaver` export remains available.
   // => @guanghechen
   ```
 
-Yozora extends [`@yozora/markup-gfm-ex`](../gfm-ex/README.md) with its additional node weavers.
-
 ## Related
 
 - [@yozora/ast][]
@@ -175,16 +169,16 @@ Yozora extends [`@yozora/markup-gfm-ex`](../gfm-ex/README.md) with its additiona
 - [mdast][mdast-homepage]
 
 [doc-yozora]: https://yozora.guanghechen.com
-[docpage]: https://yozora.guanghechen.com/docs/package/markup-yozora
-[homepage]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/yozora#readme
+[docpage]: https://yozora.guanghechen.com/docs/package/markup-gfm
+[homepage]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/markup-gfm#readme
 
 <!-- yozora package link definitions -->
 
 [@yozora/ast]:                                https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/ast#readme
 [@yozora/markup]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/markup#readme
-[@yozora/markup-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm#readme
-[@yozora/markup-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm-ex#readme
-[@yozora/markup-yozora]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/yozora#readme
+[@yozora/markup-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/markup-gfm#readme
+[@yozora/markup-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/markup-gfm-ex#readme
+[@yozora/markup-yozora]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/markup-yozora#readme
 [@yozora/parser-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm#readme
 [@yozora/parser-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm-ex#readme
 [@yozora/parser-yozora]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme

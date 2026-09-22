@@ -2,7 +2,7 @@
 
 <header>
   <h1 align="center">
-    <a href="https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm-ex#readme">@yozora/markup-gfm-ex</a>
+    <a href="https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/markup-gfm-ex#readme">@yozora/markup-gfm-ex</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/markup-gfm-ex">
@@ -159,7 +159,7 @@ npm install --save @yozora/markup-gfm-ex
   // => @guanghechen
   ```
 
-GFM Ex extends [`@yozora/markup-gfm`](../gfm/README.md) with its additional node weavers.
+GFM Ex extends [`@yozora/markup-gfm`](../markup-gfm/README.md) with its additional node weavers.
 
 ## Related
 
@@ -171,15 +171,15 @@ GFM Ex extends [`@yozora/markup-gfm`](../gfm/README.md) with its additional node
 
 [doc-yozora]: https://yozora.guanghechen.com
 [docpage]: https://yozora.guanghechen.com/docs/package/markup-gfm-ex
-[homepage]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm-ex#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/markup-gfm-ex#readme
 
 <!-- yozora package link definitions -->
 
 [@yozora/ast]:                                https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/ast#readme
 [@yozora/markup]:                             https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/markup#readme
-[@yozora/markup-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm#readme
-[@yozora/markup-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm-ex#readme
-[@yozora/markup-yozora]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/yozora#readme
+[@yozora/markup-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/markup-gfm#readme
+[@yozora/markup-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/markup-gfm-ex#readme
+[@yozora/markup-yozora]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/markup-yozora#readme
 [@yozora/parser-gfm]:                         https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm#readme
 [@yozora/parser-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-gfm-ex#readme
 [@yozora/parser-yozora]:                      https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/parsers/parser-yozora#readme
