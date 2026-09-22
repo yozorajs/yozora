@@ -1,4 +1,53 @@
-import { eatEntityReference, entityReferenceTrie, entityReferences } from '../src'
+import type { INodePoint } from '../src'
+import {
+  createEntityReferenceTrie,
+  eatEntityReference,
+  entityReferenceTrie,
+  entityReferences,
+} from '../src'
+
+function toNodePoints(source: string): Pick<INodePoint, 'codePoint'>[] {
+  return Array.from(source, character => ({ codePoint: character.codePointAt(0)! }))
+}
+
+describe('createEntityReferenceTrie', function () {
+  it('returns no match before any entities are inserted', function () {
+    const trie = createEntityReferenceTrie()
+    const points = toNodePoints('amp;')
+
+    expect(trie.search(points, 0, points.length)).toBeNull()
+  })
+
+  it('preserves lookups and rejects missing keys after unordered insertions', function () {
+    const trie = createEntityReferenceTrie()
+    const entries = [
+      ['notin;', '∉'],
+      ['zeta;', 'ζ'],
+      ['amp;', '&'],
+      ['not;', '¬'],
+      ['alpha;', 'α'],
+      ['lt;', '<'],
+      ['gt;', '>'],
+      ['beta;', 'β'],
+    ] as const
+
+    for (const [name, value] of entries) {
+      trie.insert(
+        Array.from(name, character => character.codePointAt(0)!),
+        value,
+      )
+    }
+
+    for (const [name, value] of entries) {
+      const points = toNodePoints(`${name}tail`)
+      expect(trie.search(points, 0, points.length)).toEqual({ nextIndex: name.length, value })
+    }
+    for (const name of ['zzzz;', 'unknown;', 'notin', 'beta']) {
+      const points = toNodePoints(name)
+      expect(trie.search(points, 0, points.length), name).toBeNull()
+    }
+  })
+})
 
 describe('entity', function () {
   it('Entity reference trie.', function () {
@@ -23,6 +72,55 @@ describe('entity', function () {
   })
 
   describe('eatEntityReference', function () {
+    it('rejects an empty range', function () {
+      expect(eatEntityReference([], 0, 0)).toBeNull()
+    })
+
+    it.each(['&', '&#', '&a', '&zzzz;', '&#12', '&#x41', '&#12x;', '&#x41g;'])(
+      'rejects an incomplete or invalid entity: %s',
+      source => {
+        const points = toNodePoints(source)
+
+        expect(eatEntityReference(points, 1, points.length)).toBeNull()
+      },
+    )
+
+    it.each(['&#00000065;', '&#x0000041;'])(
+      'rejects an overlong numeric entity even when its value is valid: %s',
+      source => {
+        const points = toNodePoints(source)
+
+        expect(eatEntityReference(points, 1, points.length)).toBeNull()
+      },
+    )
+
+    it.each(['&#0000065;', '&#x000041;', '&#X000041;'])(
+      'accepts the maximum digit count in %s',
+      source => {
+        const points = toNodePoints(source)
+
+        expect(eatEntityReference(points, 1, points.length)).toEqual({
+          nextIndex: points.length,
+          value: 'A',
+        })
+      },
+    )
+
+    it.each([
+      ['x&amp;y', 6, '&'],
+      ['x&#65;y', 6, 'A'],
+      ['x&#x41;y', 7, 'A'],
+    ])(
+      'respects the range boundary and preserves trailing text in %s',
+      (source, endIndex, value) => {
+        const points = toNodePoints(source)
+
+        expect(eatEntityReference(points, 2, endIndex - 1)).toBeNull()
+        expect(eatEntityReference(points, 2, endIndex)).toEqual({ nextIndex: endIndex, value })
+        expect(eatEntityReference(points, 2, points.length)).toEqual({ nextIndex: endIndex, value })
+      },
+    )
+
     it('html entity', function () {
       const nodePoints = '&nbsp;'.split('').map(c => ({ codePoint: c.codePointAt(0)! }))
 
