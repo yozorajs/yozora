@@ -37,3 +37,44 @@ describe('tightenChineseCharacters', function () {
     expect(tightenChineseCharacters('中 English 文')).toEqual('中 English 文')
   })
 })
+
+describe('Han fallback', function () {
+  let fallback: typeof import('../../src/util/han')
+
+  beforeAll(async function () {
+    vi.resetModules()
+    vi.stubGlobal(
+      'RegExp',
+      new Proxy(RegExp, {
+        construct(target, args, newTarget) {
+          const [pattern] = args
+          if (typeof pattern === 'string' && pattern.includes('\\p{Script=Han}')) {
+            throw new SyntaxError('Unicode property escapes are unavailable')
+          }
+          return Reflect.construct(target, args, newTarget)
+        },
+      }),
+    )
+
+    try {
+      fallback = await import('../../src/util/han')
+    } finally {
+      vi.unstubAllGlobals()
+      vi.resetModules()
+    }
+  })
+
+  test('strips line endings between Han characters while preserving spaces and other text', function () {
+    expect(fallback.stripChineseCharacters('中\n\n文\n字')).toBe('中文字')
+    expect(fallback.stripChineseCharacters(' 中 文\n字 ')).toBe(' 中 文字 ')
+    expect(fallback.stripChineseCharacters('English\n中文\nEnglish')).toBe('English\n中文\nEnglish')
+    expect(fallback.stripChineseCharacters('')).toBe('')
+  })
+
+  test('tightens Han whitespace while preserving outer whitespace and mixed languages', function () {
+    expect(fallback.tightenChineseCharacters('中 \t\n文\u3000字')).toBe('中文字')
+    expect(fallback.tightenChineseCharacters(' 中 文 ')).toBe(' 中文 ')
+    expect(fallback.tightenChineseCharacters('中 English 文')).toBe('中 English 文')
+    expect(fallback.tightenChineseCharacters('')).toBe('')
+  })
+})
