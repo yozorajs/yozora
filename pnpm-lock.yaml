@@ -57,13 +57,19 @@ importers:
         specifier: ^4.1.10
         version: 4.1.11(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.0(@types/node@24.13.3)(yaml@2.9.0))
 
-  markup/gfm:
+  markup/markup:
+    dependencies:
+      '@yozora/ast':
+        specifier: workspace:^
+        version: link:../../packages/ast
+
+  markup/markup-gfm:
     dependencies:
       '@yozora/markup':
         specifier: workspace:^
         version: link:../markup
 
-  markup/gfm-ex:
+  markup/markup-gfm-ex:
     dependencies:
       '@yozora/ast':
         specifier: workspace:^
@@ -73,15 +79,9 @@ importers:
         version: link:../markup
       '@yozora/markup-gfm':
         specifier: workspace:^
-        version: link:../gfm
+        version: link:../markup-gfm
 
-  markup/markup:
-    dependencies:
-      '@yozora/ast':
-        specifier: workspace:^
-        version: link:../../packages/ast
-
-  markup/yozora:
+  markup/markup-yozora:
     dependencies:
       '@yozora/ast':
         specifier: workspace:^
@@ -91,7 +91,7 @@ importers:
         version: link:../markup
       '@yozora/markup-gfm-ex':
         specifier: workspace:^
-        version: link:../gfm-ex
+        version: link:../markup-gfm-ex
 
   packages/ast: {}
 

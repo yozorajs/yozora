@@ -103,6 +103,6 @@ its own node weavers to GFM Ex.
 - [@yozora/markup-yozora][]
 
 [@yozora/ast]:           https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/packages/ast#readme
-[@yozora/markup-gfm]:    https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm#readme
-[@yozora/markup-gfm-ex]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm-ex#readme
-[@yozora/markup-yozora]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/yozora#readme
+[@yozora/markup-gfm]:    https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/markup-gfm#readme
+[@yozora/markup-gfm-ex]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/markup-gfm-ex#readme
+[@yozora/markup-yozora]: https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/markup-yozora#readme

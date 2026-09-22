@@ -19,7 +19,7 @@ function tagExists(rootDir, tag) {
 function gitSubjects(rootDir, range, pathSpec) {
   const args = ['log', '--pretty=%s', '--no-merges']
   if (range) args.push(range)
-  if (pathSpec) args.push('--', pathSpec)
+  if (pathSpec) args.push('--', ...(Array.isArray(pathSpec) ? pathSpec : [pathSpec]))
   const raw = execFileSync('git', args, { cwd: rootDir, encoding: 'utf8' }).trim()
   if (!raw) return []
   return raw.split('\n').filter(s => !/^:bookmark:/.test(s)) // drop release commits
@@ -54,8 +54,9 @@ function latestTag(rootDir) {
  * release tag `v<current>`. That tag must exist AND be an ancestor of HEAD
  * (enforces tag discipline so the `${tag}..HEAD` range is exact). When it is
  * missing, firstRelease falls back to the range since the most recent v* tag.
- * When a path filter is set, only commits touching that repository-relative path
- * are returned. Only a brand-new repo with no v* tag at all uses the full history.
+ * The path filter accepts one repository-relative path or an array of paths;
+ * each matching commit is returned once, even when it touches multiple paths.
+ * Only a brand-new repo with no v* tag at all uses the full history.
  * Throws when
  * the tag is missing / non-ancestor and firstRelease is not set.
  */

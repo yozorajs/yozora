@@ -9,9 +9,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/yozorajs/yozora.git",
-    "directory": "markup/gfm-ex"
+    "directory": "markup/markup-gfm-ex"
   },
-  "homepage": "https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/gfm-ex#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/v3.0.0-alpha/markup/markup-gfm-ex#readme",
   "type": "module",
   "scripts": {
     "build": "tsdown --config ../../tsdown.config.mjs",

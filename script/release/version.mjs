@@ -30,6 +30,13 @@ import { changelogBlock, commitsForRelease, prependChangelog } from './changelog
 const USAGE =
   'Usage: node script/release/version.mjs <patch|minor|major|x.y.z[-tag]> [--write] [--note "..."] [--allow-downgrade] [--first-release]'
 
+// Preserve unreleased history across the markup directory renames.
+const PREVIOUS_PACKAGE_DIRECTORIES = {
+  '@yozora/markup-gfm': 'markup/gfm',
+  '@yozora/markup-gfm-ex': 'markup/gfm-ex',
+  '@yozora/markup-yozora': 'markup/yozora',
+}
+
 function fail(msg) {
   console.error(msg)
   console.error(USAGE)
@@ -101,11 +108,14 @@ try {
           .filter(Boolean)
   const date = new Date().toISOString().slice(0, 10)
   releases = manifests.map(manifest => {
+    const pathSpec = [rel(manifest.dir)]
+    const previousDirectory = PREVIOUS_PACKAGE_DIRECTORIES[manifest.pkg.name]
+    if (previousDirectory) pathSpec.push(previousDirectory)
     const lines =
       noteLines ??
       commitsForRelease(repositoryRoot, current, {
         firstRelease,
-        pathSpec: rel(manifest.dir),
+        pathSpec,
       })
     return { ...manifest, lines, block: changelogBlock(next, date, lines) }
   })
