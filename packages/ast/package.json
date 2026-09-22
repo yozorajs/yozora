@@ -15,7 +15,9 @@
   "type": "module",
   "scripts": {
     "build": "tsdown --config ../../tsdown.config.mjs",
-    "clean": "rimraf lib"
+    "clean": "rimraf lib",
+    "test": "vitest run --config ../../vitest.config.ts",
+    "test:coverage": "vitest run --config ../../vitest.config.ts --coverage"
   },
   "exports": {
     "types": "./lib/types/index.d.ts",
