@@ -1,6 +1,14 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, rmSync, statSync, symlinkSync, writeFileSync } from 'node:fs'
+import {
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  statSync,
+  symlinkSync,
+  writeFileSync,
+} from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
@@ -93,6 +101,7 @@ try {
   }
 
   declarations.push(
+    readFileSync(path.join(repositoryRoot, 'packages/ast/__test__/types.ts'), 'utf8'),
     '// @ts-expect-error Internal helper types must remain private.',
     "import type { IDelimiterProcessorHook } from '@yozora/parser'",
   )
