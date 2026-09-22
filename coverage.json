@@ -1,0 +1,65 @@
+{
+  "provider": "v8",
+  "include": ["src/**"],
+  "exclude": ["**/node_modules/**", "**/__test__/**", "**/lib/**"],
+  "defaults": {
+    "branches": 85,
+    "functions": 100,
+    "lines": 90,
+    "statements": 90
+  },
+  "overrides": {
+    "packages/ast": {
+      "branches": 100,
+      "functions": 100,
+      "lines": 100,
+      "statements": 100
+    },
+    "packages/ast-util": {
+      "branches": 100,
+      "functions": 100,
+      "lines": 100,
+      "statements": 100
+    },
+    "packages/character": {
+      "branches": 100,
+      "functions": 100,
+      "lines": 100,
+      "statements": 100
+    },
+    "packages/invariant": {
+      "branches": 100,
+      "functions": 100,
+      "lines": 100,
+      "statements": 100
+    },
+    "markup/markup": {
+      "branches": 80,
+      "functions": 91
+    },
+    "markup/yozora": {
+      "functions": 90
+    },
+    "tokenizers/tokenizer-admonition": {
+      "branches": 83
+    },
+    "tokenizers/tokenizer-ecma-import": {
+      "branches": 82,
+      "statements": 87
+    },
+    "tokenizers/tokenizer-footnote-reference": {
+      "branches": 80
+    },
+    "tokenizers/tokenizer-html-block": {
+      "branches": 80,
+      "lines": 86,
+      "statements": 85
+    },
+    "tokenizers/tokenizer-html-inline": {
+      "branches": 83
+    },
+    "tokenizers/tokenizer-image": {
+      "branches": 83
+    }
+  }
+}
