@@ -6,7 +6,7 @@
       "input": "&nbsp; &amp; &copy; &AElig; &Dcaron;\n&frac34; &HilbertSpace; &DifferentialD;\n&ClockwiseContourIntegral; &ngE;",
       "answer": {
         "gfm": {
-          "markup": "  & © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸",
+          "markup": "  \\& © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸",
           "html": "<p>  &amp; © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸</p>",
           "ast": {
             "type": "root",

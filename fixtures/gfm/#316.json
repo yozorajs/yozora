@@ -6,7 +6,7 @@
       "input": "<http://example.com?find=\\*>",
       "answer": {
         "gfm": {
-          "markup": "[http://example.com?find=\\\\*](http://example.com?find=%5C*)",
+          "markup": "[http://example.com?find=\\\\\\*](http://example.com?find=%5C*)",
           "html": "<p><a href=\"http://example.com?find=%5C*\">http://example.com?find=\\*</a></p>",
           "ast": {
             "type": "root",

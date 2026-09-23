@@ -6,7 +6,7 @@
       "input": "<foo.bar.baz>",
       "answer": {
         "gfm": {
-          "markup": "<foo.bar.baz>",
+          "markup": "\\<foo.bar.baz>",
           "html": "<p>&lt;foo.bar.baz&gt;</p>",
           "ast": {
             "type": "root",

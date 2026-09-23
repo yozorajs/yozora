@@ -6,7 +6,7 @@
       "input": "<http://foo.bar.`baz>`",
       "answer": {
         "gfm": {
-          "markup": "[http://foo.bar.\\`baz](http://foo.bar.%60baz)`",
+          "markup": "[http://foo.bar.\\`baz](http://foo.bar.%60baz)\\`",
           "html": "<p><a href=\"http://foo.bar.%60baz\">http://foo.bar.`baz</a>`</p>",
           "ast": {
             "type": "root",

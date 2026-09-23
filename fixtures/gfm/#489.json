@@ -6,7 +6,7 @@
       "input": "**a<http://foo.bar/?q=**>",
       "answer": {
         "gfm": {
-          "markup": "**a[http://foo.bar/?q=**](http://foo.bar/?q=**)",
+          "markup": "\\*\\*a[http://foo.bar/?q=\\*\\*](http://foo.bar/?q=**)",
           "html": "<p>**a<a href=\"http://foo.bar/?q=**\">http://foo.bar/?q=**</a></p>",
           "ast": {
             "type": "root",

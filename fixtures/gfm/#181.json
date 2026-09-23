@@ -6,7 +6,7 @@
       "input": "```\n[foo]: /url\n```\n\n[foo]",
       "answer": {
         "gfm": {
-          "markup": "```\n[foo]: /url\n```\n\n[foo]",
+          "markup": "```\n[foo]: /url\n```\n\n\\[foo]",
           "html": "<pre><code>[foo]: /url\n</code></pre>\n<p>[foo]</p>",
           "ast": {
             "type": "root",

@@ -6,7 +6,7 @@
       "input": "< a><\nfoo><bar/ >\n<foo bar=baz\nbim!bop />",
       "answer": {
         "gfm": {
-          "markup": "< a><\nfoo><bar/ >\n<foo bar=baz\nbim!bop />",
+          "markup": "< a><\nfoo>\\<bar/ >\n\\<foo bar=baz\nbim\\!bop />",
           "html": "<p>&lt; a&gt;&lt;\nfoo&gt;&lt;bar/ &gt;\n&lt;foo bar=baz\nbim!bop /&gt;</p>",
           "ast": {
             "type": "root",

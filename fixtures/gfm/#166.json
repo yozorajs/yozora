@@ -6,7 +6,7 @@
       "input": "[foo]: /url 'title\n\nwith blank line'\n\n[foo]",
       "answer": {
         "gfm": {
-          "markup": "[foo]: /url 'title\n\nwith blank line'\n\n[foo]",
+          "markup": "\\[foo]: /url 'title\n\nwith blank line'\n\n\\[foo]",
           "html": "<p>[foo]: /url 'title</p>\n<p>with blank line'</p>\n<p>[foo]</p>",
           "ast": {
             "type": "root",

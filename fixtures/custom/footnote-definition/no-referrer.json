@@ -90,6 +90,9 @@
               }
             ]
           }
+        },
+        "yozora": {
+          "markup": "This is not a valid footnote reference: \\[^1].\n\nThe empty label is also an invalid reference footnote: \\[^]"
         }
       }
     }

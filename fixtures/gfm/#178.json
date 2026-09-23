@@ -6,7 +6,7 @@
       "input": "[foo]: /url \"title\" ok",
       "answer": {
         "gfm": {
-          "markup": "[foo]: /url \"title\" ok",
+          "markup": "\\[foo]: /url \"title\" ok",
           "html": "<p>[foo]: /url &quot;title&quot; ok</p>",
           "ast": {
             "type": "root",

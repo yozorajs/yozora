@@ -6,7 +6,7 @@
       "input": "`Foo\n----\n`\n\n<a title=\"a lot\n---\nof dashes\"/>",
       "answer": {
         "gfm": {
-          "markup": "`Foo\n---\n\n`\n\n<a title=\"a lot\n---\n\nof dashes\"/>",
+          "markup": "\\`Foo\n---\n\n\\`\n\n\\<a title=\"a lot\n---\n\nof dashes\"/>",
           "html": "<h2>`Foo</h2>\n<p>`</p>\n<h2>&lt;a title=&quot;a lot</h2>\n<p>of dashes&quot;/&gt;</p>",
           "ast": {
             "type": "root",

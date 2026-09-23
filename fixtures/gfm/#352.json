@@ -6,7 +6,7 @@
       "input": "[not a `link](/foo`)",
       "answer": {
         "gfm": {
-          "markup": "[not a `link](/foo`)",
+          "markup": "\\[not a `link](/foo`)",
           "html": "<p>[not a <code>link](/foo</code>)</p>",
           "ast": {
             "type": "root",

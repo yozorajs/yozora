@@ -6,7 +6,7 @@
       "input": "<foo+special@Bar.baz-bar0.com>",
       "answer": {
         "gfm": {
-          "markup": "[foo+special@Bar.baz-bar0.com](mailto:foo+special@Bar.baz-bar0.com)",
+          "markup": "[foo+special&#64;Bar.baz-bar0.com](mailto:foo+special@Bar.baz-bar0.com)",
           "html": "<p><a href=\"mailto:foo+special@Bar.baz-bar0.com\">foo+special@Bar.baz-bar0.com</a></p>",
           "ast": {
             "type": "root",

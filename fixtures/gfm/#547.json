@@ -6,7 +6,7 @@
       "input": "[foo<http://example.com/?search=][ref]>\n\n[ref]: /uri",
       "answer": {
         "gfm": {
-          "markup": "[foo[http://example.com/?search=\\]\\[ref\\]](http://example.com/?search=%5D%5Bref%5D)\n\n[ref]: /uri",
+          "markup": "\\[foo[http://example.com/?search=\\]\\[ref\\]](http://example.com/?search=%5D%5Bref%5D)\n\n[ref]: /uri",
           "html": "<p>[foo<a href=\"http://example.com/?search=%5D%5Bref%5D\">http://example.com/?search=][ref]</a></p>",
           "ast": {
             "type": "root",

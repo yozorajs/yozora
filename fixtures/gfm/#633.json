@@ -6,7 +6,7 @@
       "input": "mailto:foo@bar.baz\n\nmailto:a.b-c_d@a.b\n\nmailto:a.b-c_d@a.b.\n\nmailto:a.b-c_d@a.b/\n\nmailto:a.b-c_d@a.b-\n\nmailto:a.b-c_d@a.b_\n\nxmpp:foo@bar.baz\n\nxmpp:foo@bar.baz.",
       "answer": {
         "gfm": {
-          "markup": "mailto:foo@bar.baz\n\nmailto:a.b-c_d@a.b\n\nmailto:a.b-c_d@a.b.\n\nmailto:a.b-c_d@a.b/\n\nmailto:a.b-c_d@a.b-\n\nmailto:a.b-c_d@a.b_\n\nxmpp:foo@bar.baz\n\nxmpp:foo@bar.baz.",
+          "markup": "mailto:foo&#64;bar.baz\n\nmailto:a.b-c\\_d&#64;a.b\n\nmailto:a.b-c\\_d&#64;a.b.\n\nmailto:a.b-c\\_d&#64;a.b/\n\nmailto:a.b-c\\_d&#64;a.b-\n\nmailto:a.b-c\\_d&#64;a.b\\_\n\nxmpp:foo&#64;bar.baz\n\nxmpp:foo&#64;bar.baz.",
           "html": "<p><a href=\"mailto:foo@bar.baz\">mailto:foo@bar.baz</a></p>\n<p><a href=\"mailto:a.b-c_d@a.b\">mailto:a.b-c_d@a.b</a></p>\n<p><a href=\"mailto:a.b-c_d@a.b\">mailto:a.b-c_d@a.b</a>.</p>\n<p><a href=\"mailto:a.b-c_d@a.b\">mailto:a.b-c_d@a.b</a>/</p>\n<p>mailto:a.b-c_d@a.b-</p>\n<p>mailto:a.b-c_d@a.b_</p>\n<p><a href=\"xmpp:foo@bar.baz\">xmpp:foo@bar.baz</a></p>\n<p><a href=\"xmpp:foo@bar.baz\">xmpp:foo@bar.baz</a>.</p>",
           "ast": {
             "type": "root",
@@ -291,7 +291,7 @@
           }
         },
         "gfm-ex": {
-          "markup": "mailto:foo@bar.baz\n\nmailto:a.b-c_d@a.b\n\nmailto:a.b-c_d@a.b.\n\nmailto:a.b-c_d@a.b/\n\nmailto:a.b-c_d@a.b-\n\nmailto:a.b-c_d@a.b_\n\nxmpp:foo@bar.baz\n\nxmpp:foo@bar.baz.",
+          "markup": "mailto:foo@bar.baz\n\nmailto:a.b-c_d@a.b\n\nmailto:a.b-c_d@a.b.\n\nmailto:a.b-c_d@a.b/\n\nmailto:a.b-c\\_d&#64;a.b-\n\nmailto:a.b-c\\_d&#64;a.b\\_\n\nxmpp:foo@bar.baz\n\nxmpp:foo@bar.baz.",
           "ast": {
             "type": "root",
             "position": {

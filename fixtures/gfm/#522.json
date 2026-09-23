@@ -6,7 +6,7 @@
       "input": "[link] bar](/uri)",
       "answer": {
         "gfm": {
-          "markup": "[link] bar](/uri)",
+          "markup": "\\[link] bar](/uri)",
           "html": "<p>[link] bar](/uri)</p>",
           "ast": {
             "type": "root",

@@ -6,7 +6,7 @@
       "input": "foo <!-- not a comment -- two hyphens -->",
       "answer": {
         "gfm": {
-          "markup": "foo <!-- not a comment -- two hyphens -->",
+          "markup": "foo <\\!-- not a comment -- two hyphens -->",
           "html": "<p>foo &lt;!-- not a comment -- two hyphens --&gt;</p>",
           "ast": {
             "type": "root",

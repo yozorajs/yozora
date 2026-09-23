@@ -168,6 +168,9 @@
               }
             ]
           }
+        },
+        "yozora": {
+          "markup": "import Parser, { a as b,\nx, c as d } from '&#64;yozora/parser'"
         }
       }
     },

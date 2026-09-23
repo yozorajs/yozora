@@ -41,3 +41,27 @@ test('preserves backslashes in an autolink label', () => {
     ],
   })
 })
+
+describe('escaped autolink openers', () => {
+  test.each(['<foo:bar>', '<foo+@bar.example.com>'])(
+    'respects backslash parity before %s',
+    source => {
+      for (const count of [1, 2, 3, 4]) {
+        const ast = parsers.gfm.parse('\\'.repeat(count) + source, {
+          shouldReservePosition: false,
+        })
+        if (count % 2 === 1) {
+          expect(ast.children[0]).toEqual({
+            type: 'paragraph',
+            children: [{ type: 'text', value: '\\'.repeat((count - 1) / 2) + source }],
+          })
+        } else {
+          expect(ast.children[0]).toMatchObject({
+            type: 'paragraph',
+            children: [{ type: 'text', value: '\\'.repeat(count / 2) }, { type: 'link' }],
+          })
+        }
+      }
+    },
+  )
+})

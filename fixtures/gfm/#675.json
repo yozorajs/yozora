@@ -6,7 +6,7 @@
       "input": "hello $.;'there",
       "answer": {
         "gfm": {
-          "markup": "hello $.;'there",
+          "markup": "hello \\$.;'there",
           "html": "<p>hello $.;'there</p>",
           "ast": {
             "type": "root",

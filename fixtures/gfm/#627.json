@@ -6,7 +6,7 @@
       "input": "www.google.com/search?q=commonmark&hl=en\n\nwww.google.com/search?q=commonmark&hl;",
       "answer": {
         "gfm": {
-          "markup": "www.google.com/search?q=commonmark&hl=en\n\nwww.google.com/search?q=commonmark&hl;",
+          "markup": "www.google.com/search?q=commonmark\\&hl=en\n\nwww.google.com/search?q=commonmark\\&hl;",
           "html": "<p><a href=\"http://www.google.com/search?q=commonmark&amp;hl=en\">www.google.com/search?q=commonmark&amp;hl=en</a></p>\n<p><a href=\"http://www.google.com/search?q=commonmark\">www.google.com/search?q=commonmark</a>&amp;hl;</p>",
           "ast": {
             "type": "root",
@@ -93,7 +93,7 @@
           }
         },
         "gfm-ex": {
-          "markup": "[www.google.com/search?q=commonmark&hl=en](http://www.google.com/search?q=commonmark&hl=en)\n\n[www.google.com/search?q=commonmark](http://www.google.com/search?q=commonmark)&hl;",
+          "markup": "[www.google.com/search?q=commonmark\\&hl=en](http://www.google.com/search?q=commonmark&hl=en)\n\n[www.google.com/search?q=commonmark](http://www.google.com/search?q=commonmark)\\&hl;",
           "ast": {
             "type": "root",
             "position": {

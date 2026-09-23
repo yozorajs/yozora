@@ -81,8 +81,12 @@ const paragraph = {
 }
 
 weaver.weave({ type: 'root', children: [paragraph] })
-// => Hello, Markdown!
+// => Hello, Markdown\!
 ```
+
+`TextWeaver` preserves a standalone `<` and comparisons such as `1 < 2`, and uses Markdown
+backslash escapes when `<` could start HTML or an autolink. Character references protect email
+text, tabs, carriage returns, and blank lines so reparsing preserves the text.
 
 Implement `INodeWeaver` to support a custom node type and register it with `useWeaver`.
 

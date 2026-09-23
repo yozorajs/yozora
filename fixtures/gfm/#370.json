@@ -6,7 +6,7 @@
       "input": "5_6_78",
       "answer": {
         "gfm": {
-          "markup": "5_6_78",
+          "markup": "5\\_6\\_78",
           "html": "<p>5_6_78</p>",
           "ast": {
             "type": "root",

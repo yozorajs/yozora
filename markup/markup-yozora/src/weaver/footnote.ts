@@ -1,6 +1,7 @@
 import type { Footnote } from '@yozora/ast'
 import { FootnoteType } from '@yozora/ast'
-import type { INodeMarkup, INodeWeaver } from '@yozora/markup'
+import type { IEscaper, INodeMarkup, INodeWeaver } from '@yozora/markup'
+import { createCharacterEscaper } from '@yozora/markup'
 
 /**
  * Footnote represents content relating to the document that is outside its flow.
@@ -12,6 +13,7 @@ import type { INodeMarkup, INodeWeaver } from '@yozora/markup'
 export class FootnoteWeaver implements INodeWeaver<Footnote> {
   public readonly type = FootnoteType
   public readonly isBlockLevel = (): boolean => false
+  public readonly escapeContent: IEscaper = createCharacterEscaper(['[', ']'])
 
   public weave(): INodeMarkup {
     return {

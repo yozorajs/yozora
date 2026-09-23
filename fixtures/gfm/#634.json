@@ -6,7 +6,7 @@
       "input": "xmpp:foo@bar.baz/txt\n\nxmpp:foo@bar.baz/txt@bin\n\nxmpp:foo@bar.baz/txt@bin.com",
       "answer": {
         "gfm": {
-          "markup": "xmpp:foo@bar.baz/txt\n\nxmpp:foo@bar.baz/txt@bin\n\nxmpp:foo@bar.baz/txt@bin.com",
+          "markup": "xmpp:foo&#64;bar.baz/txt\n\nxmpp:foo&#64;bar.baz/txt&#64;bin\n\nxmpp:foo&#64;bar.baz/txt&#64;bin.com",
           "html": "<p><a href=\"xmpp:foo@bar.baz/txt\">xmpp:foo@bar.baz/txt</a></p>\n<p><a href=\"xmpp:foo@bar.baz/txt@bin\">xmpp:foo@bar.baz/txt@bin</a></p>\n<p><a href=\"xmpp:foo@bar.baz/txt@bin.com\">xmpp:foo@bar.baz/txt@bin.com</a></p>",
           "ast": {
             "type": "root",
