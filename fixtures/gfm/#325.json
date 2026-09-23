@@ -6,7 +6,7 @@
       "input": "&copy",
       "answer": {
         "gfm": {
-          "markup": "&copy",
+          "markup": "\\&copy",
           "html": "<p>&amp;copy</p>",
           "ast": {
             "type": "root",

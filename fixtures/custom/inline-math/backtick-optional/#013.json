@@ -141,7 +141,7 @@
           }
         },
         "yozora": {
-          "markup": "** $x^2 + y^2 = z^2$ ** . This figure includes both debt held by the public and debt held by federal trust funds and other government accounts . The debt has been increasing steadily, with notable increments observed in recent months. For instance, in **August 2024**, the public debt was around **$35.26 trillion**",
+          "markup": "\\*\\* $x^2 + y^2 = z^2$ \\*\\* . This figure includes both debt held by the public and debt held by federal trust funds and other government accounts . The debt has been increasing steadily, with notable increments observed in recent months. For instance, in **August 2024**, the public debt was around **\\$35.26 trillion**",
           "ast": {
             "type": "root",
             "position": {

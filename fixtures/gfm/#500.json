@@ -6,7 +6,7 @@
       "input": "[link](foo\nbar)",
       "answer": {
         "gfm": {
-          "markup": "[link](foo\nbar)",
+          "markup": "\\[link](foo\nbar)",
           "html": "<p>[link](foo\nbar)</p>",
           "ast": {
             "type": "root",

@@ -6,7 +6,7 @@
       "input": "[link](/url \"title \"and\" title\")",
       "answer": {
         "gfm": {
-          "markup": "[link](/url \"title \"and\" title\")",
+          "markup": "\\[link](/url \"title \"and\" title\")",
           "html": "<p>[link](/url &quot;title &quot;and&quot; title&quot;)</p>",
           "ast": {
             "type": "root",

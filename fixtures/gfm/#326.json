@@ -6,7 +6,7 @@
       "input": "&MadeUpEntity;",
       "answer": {
         "gfm": {
-          "markup": "&MadeUpEntity;",
+          "markup": "\\&MadeUpEntity;",
           "html": "<p>&amp;MadeUpEntity;</p>",
           "ast": {
             "type": "root",

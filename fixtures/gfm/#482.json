@@ -6,7 +6,7 @@
       "input": "*[bar*](/url)",
       "answer": {
         "gfm": {
-          "markup": "*[bar*](/url)",
+          "markup": "\\*[bar\\*](/url)",
           "html": "<p>*<a href=\"/url\">bar*</a></p>",
           "ast": {
             "type": "root",

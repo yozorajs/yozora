@@ -6,7 +6,7 @@
       "input": "[foo <bar attr=\"](baz)\">",
       "answer": {
         "gfm": {
-          "markup": "[foo <bar attr=\"](baz)\">",
+          "markup": "\\[foo <bar attr=\"](baz)\">",
           "html": "<p>[foo <bar attr=\"](baz)\"></p>",
           "ast": {
             "type": "root",

@@ -6,7 +6,7 @@
       "input": "__ foo bar__",
       "answer": {
         "gfm": {
-          "markup": "__ foo bar__",
+          "markup": "\\_\\_ foo bar\\_\\_",
           "html": "<p>__ foo bar__</p>",
           "ast": {
             "type": "root",

@@ -6,7 +6,7 @@
       "input": "- [ ] foo\n- [x] bar",
       "answer": {
         "gfm": {
-          "markup": "- [ ] foo\n- [x] bar",
+          "markup": "- \\[ ] foo\n- \\[x] bar",
           "html": "<ul>\n<li><input disabled=\"\" type=\"checkbox\"> foo</li>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> bar</li>\n</ul>",
           "ast": {
             "type": "root",

@@ -6,7 +6,7 @@
       "input": "foo <!--> foo -->\n\nfoo <!-- foo--->",
       "answer": {
         "gfm": {
-          "markup": "foo <!--> foo -->\n\nfoo <!-- foo--->",
+          "markup": "foo <\\!--> foo -->\n\nfoo <\\!-- foo--->",
           "html": "<p>foo &lt;!--&gt; foo --&gt;</p>\n<p>foo &lt;!-- foo---&gt;</p>",
           "ast": {
             "type": "root",

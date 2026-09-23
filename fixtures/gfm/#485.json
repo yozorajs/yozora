@@ -6,7 +6,7 @@
       "input": "**<a href=\"**\">",
       "answer": {
         "gfm": {
-          "markup": "**<a href=\"**\">",
+          "markup": "\\*\\*<a href=\"**\">",
           "html": "<p>**<a href=\"**\"></p>",
           "ast": {
             "type": "root",

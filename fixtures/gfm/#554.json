@@ -7,7 +7,7 @@
       "answer": {
         "gfm": {
           "html": "<p>[bar][foo!]</p>",
-          "markup": "[bar][foo!]\n\n[foo!]: /url",
+          "markup": "\\[bar]\\[foo\\!]\n\n[foo!]: /url",
           "ast": {
             "type": "root",
             "position": {

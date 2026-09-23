@@ -6,7 +6,7 @@
       "input": "The number of windows in my house is\n14.  The number of doors is 6.",
       "answer": {
         "gfm": {
-          "markup": "The number of windows in my house is\n14.  The number of doors is 6.",
+          "markup": "The number of windows in my house is\n14\\.  The number of doors is 6.",
           "html": "<p>The number of windows in my house is\n14.  The number of doors is 6.</p>",
           "ast": {
             "type": "root",

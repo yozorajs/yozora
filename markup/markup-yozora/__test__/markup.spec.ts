@@ -1,10 +1,7 @@
 import { parsers, scanGfmFixtures, weavers } from 'vitest.setup'
-import { createMarkupTester, markupFixtureSelection } from '../../../script/test/index.mjs'
+import { createMarkupTester } from '../../../script/test/index.mjs'
 
-void scanGfmFixtures(
-  createMarkupTester('yozora', parsers.yozora, weavers.yozora),
-  markupFixtureSelection,
-)
+void scanGfmFixtures(createMarkupTester('yozora', parsers.yozora, weavers.yozora))
   .scan([
     'custom/**/*.json',
 

@@ -6,7 +6,7 @@
       "input": "[\n ]\n\n[\n ]: /uri",
       "answer": {
         "gfm": {
-          "markup": "[\n]\n\n[\n]: /uri",
+          "markup": "\\[\n]\n\n\\[\n]: /uri",
           "html": "<p>[\n]</p>\n<p>[\n]: /uri</p>",
           "ast": {
             "type": "root",

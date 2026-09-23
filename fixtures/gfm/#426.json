@@ -6,7 +6,7 @@
       "input": "foo******bar*********baz",
       "answer": {
         "gfm": {
-          "markup": "foo******bar*********baz",
+          "markup": "foo******bar******\\*\\*\\*baz",
           "html": "<p>foo<strong><strong><strong>bar</strong></strong></strong>***baz</p>",
           "ast": {
             "type": "root",

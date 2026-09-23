@@ -57,6 +57,9 @@
               }
             ]
           }
+        },
+        "yozora": {
+          "markup": "^ \\[This is not a footnote]"
         }
       }
     }

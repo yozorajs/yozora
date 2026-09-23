@@ -6,7 +6,7 @@
       "input": "<http://foo.bar.baz/test?q=hello&id=22&boolean>",
       "answer": {
         "gfm": {
-          "markup": "[http://foo.bar.baz/test?q=hello&id=22&boolean](http://foo.bar.baz/test?q=hello&id=22&boolean)",
+          "markup": "[http://foo.bar.baz/test?q=hello\\&id=22\\&boolean](http://foo.bar.baz/test?q=hello&id=22&boolean)",
           "html": "<p><a href=\"http://foo.bar.baz/test?q=hello&amp;id=22&amp;boolean\">http://foo.bar.baz/test?q=hello&amp;id=22&amp;boolean</a></p>",
           "ast": {
             "type": "root",

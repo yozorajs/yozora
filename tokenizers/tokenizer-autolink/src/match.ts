@@ -28,6 +28,10 @@ export const match: IMatchInlineHookCreator<T, IDelimiter, IToken, IThis> = func
     const nodePoints: readonly INodePoint[] = api.getNodePoints()
 
     for (let i = startIndex; i < endIndex; ++i) {
+      if (nodePoints[i].codePoint === AsciiCodePoint.BACKSLASH) {
+        i += 1
+        continue
+      }
       if (nodePoints[i].codePoint !== AsciiCodePoint.OPEN_ANGLE) continue
 
       let nextIndex: number = endIndex

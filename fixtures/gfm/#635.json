@@ -6,7 +6,7 @@
       "input": "xmpp:foo@bar.baz/txt/bin",
       "answer": {
         "gfm": {
-          "markup": "xmpp:foo@bar.baz/txt/bin",
+          "markup": "xmpp:foo&#64;bar.baz/txt/bin",
           "html": "<p><a href=\"xmpp:foo@bar.baz/txt\">xmpp:foo@bar.baz/txt</a>/bin</p>",
           "ast": {
             "type": "root",

@@ -6,7 +6,7 @@
       "input": "[Foo*bar\\]]:my_(url) 'title (with parens)'\n\n[Foo*bar\\]]",
       "answer": {
         "gfm": {
-          "markup": "[Foo*bar\\]]: my_(url) \"title (with parens)\"\n\n[Foo*bar\\]][]",
+          "markup": "[Foo*bar\\]]: my_(url) \"title (with parens)\"\n\n[Foo\\*bar\\]][Foo*bar\\]]",
           "html": "<p><a href=\"my_(url)\" title=\"title (with parens)\">Foo*bar]</a></p>",
           "ast": {
             "type": "root",

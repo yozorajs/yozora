@@ -6,7 +6,7 @@
       "input": "** is not an empty emphasis",
       "answer": {
         "gfm": {
-          "markup": "** is not an empty emphasis",
+          "markup": "\\*\\* is not an empty emphasis",
           "html": "<p>** is not an empty emphasis</p>",
           "ast": {
             "type": "root",

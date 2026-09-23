@@ -7,7 +7,7 @@
       "answer": {
         "gfm": {
           "html": "<p>&lt;foo+@bar.example.com&gt;</p>",
-          "markup": "<foo+@bar.example.com>",
+          "markup": "\\<foo+&#64;bar.example.com>",
           "ast": {
             "type": "root",
             "position": {

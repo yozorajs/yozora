@@ -6,7 +6,7 @@
       "input": "- [x] foo\n  - [ ] bar\n  - [x] baz\n- [ ] bim",
       "answer": {
         "gfm": {
-          "markup": "- [x] foo\n  - [ ] bar\n  - [x] baz\n- [ ] bim",
+          "markup": "- \\[x] foo\n  - \\[ ] bar\n  - \\[x] baz\n- \\[ ] bim",
           "html": "<ul>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> foo\n<ul>\n<li><input disabled=\"\" type=\"checkbox\"> bar</li>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> baz</li>\n</ul>\n</li>\n<li><input disabled=\"\" type=\"checkbox\"> bim</li>\n</ul>",
           "ast": {
             "type": "root",

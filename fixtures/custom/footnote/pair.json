@@ -125,7 +125,7 @@
           }
         },
         "yozora": {
-          "markup": "^[invalid footnote []\n\n^[invalid footnote[[[]\n\n^[valid []footnote[]]",
+          "markup": "^\\[invalid footnote \\[]\n\n^\\[invalid footnote\\[\\[\\[]\n\n^[valid \\[\\]footnote\\[\\]]",
           "ast": {
             "type": "root",
             "position": {

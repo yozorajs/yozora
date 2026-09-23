@@ -75,6 +75,9 @@
               }
             ]
           }
+        },
+        "yozora": {
+          "markup": "\\[foo]\\[bar]\n\n[foo]: #alpha"
         }
       }
     }

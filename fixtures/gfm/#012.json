@@ -6,7 +6,7 @@
       "input": "- `one\n- two`",
       "answer": {
         "gfm": {
-          "markup": "- `one\n- two`",
+          "markup": "- \\`one\n- two\\`",
           "html": "<ul>\n<li>`one</li>\n<li>two`</li>\n</ul>",
           "ast": {
             "type": "root",

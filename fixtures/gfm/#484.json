@@ -6,7 +6,7 @@
       "input": "*<img src=\"foo\" title=\"*\"/>",
       "answer": {
         "gfm": {
-          "markup": "*<img src=\"foo\" title=\"*\"/>",
+          "markup": "\\*<img src=\"foo\" title=\"*\"/>",
           "html": "<p>*<img src=\"foo\" title=\"*\"/></p>",
           "ast": {
             "type": "root",

@@ -6,7 +6,7 @@
       "input": "<a href=\"hi'> <a href=hi'>",
       "answer": {
         "gfm": {
-          "markup": "<a href=\"hi'> <a href=hi'>",
+          "markup": "\\<a href=\"hi'> \\<a href=hi'>",
           "html": "<p>&lt;a href=&quot;hi'&gt; &lt;a href=hi'&gt;</p>",
           "ast": {
             "type": "root",

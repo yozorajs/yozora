@@ -6,7 +6,7 @@
       "input": "<33> <__>",
       "answer": {
         "gfm": {
-          "markup": "<33> <__>",
+          "markup": "<33> <\\_\\_>",
           "html": "<p>&lt;33&gt; &lt;__&gt;</p>",
           "ast": {
             "type": "root",

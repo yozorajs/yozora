@@ -227,7 +227,7 @@
           }
         },
         "yozora": {
-          "markup": ":::note Hello, [guanghechen][]. Nice to meet you!\n[guanghechen]: https://github.com/guanghechen.com\n\n`include` **inline contents**\nsome content\n:::",
+          "markup": ":::note Hello, [guanghechen][]. Nice to meet you\\!\n[guanghechen]: https://github.com/guanghechen.com\n\n`include` **inline contents**\nsome content\n:::",
           "ast": {
             "type": "root",
             "position": {

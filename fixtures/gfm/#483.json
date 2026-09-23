@@ -6,7 +6,7 @@
       "input": "_foo [bar_](/url)",
       "answer": {
         "gfm": {
-          "markup": "_foo [bar_](/url)",
+          "markup": "\\_foo [bar\\_](/url)",
           "html": "<p>_foo <a href=\"/url\">bar_</a></p>",
           "ast": {
             "type": "root",

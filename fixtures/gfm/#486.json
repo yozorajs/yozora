@@ -6,7 +6,7 @@
       "input": "__<a href=\"__\">",
       "answer": {
         "gfm": {
-          "markup": "__<a href=\"__\">",
+          "markup": "\\_\\_<a href=\"__\">",
           "html": "<p>__<a href=\"__\"></p>",
           "ast": {
             "type": "root",

@@ -6,7 +6,7 @@
       "input": "<a h*#ref=\"hi\">",
       "answer": {
         "gfm": {
-          "markup": "<a h*#ref=\"hi\">",
+          "markup": "\\<a h\\*#ref=\"hi\">",
           "html": "<p>&lt;a h*#ref=&quot;hi&quot;&gt;</p>",
           "ast": {
             "type": "root",

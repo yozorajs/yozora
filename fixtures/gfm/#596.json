@@ -6,7 +6,7 @@
       "input": "![foo] \n[]\n\n[foo]: /url \"title\"",
       "answer": {
         "gfm": {
-          "markup": "![foo][]\n[]\n\n[foo]: /url \"title\"",
+          "markup": "![foo][]\n\\[]\n\n[foo]: /url \"title\"",
           "html": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" />\n[]</p>",
           "ast": {
             "type": "root",

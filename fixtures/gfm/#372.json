@@ -6,7 +6,7 @@
       "input": "aa_\"bb\"_cc",
       "answer": {
         "gfm": {
-          "markup": "aa_\"bb\"_cc",
+          "markup": "aa\\_\"bb\"\\_cc",
           "html": "<p>aa_&quot;bb&quot;_cc</p>",
           "ast": {
             "type": "root",

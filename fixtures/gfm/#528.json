@@ -6,7 +6,7 @@
       "input": "[foo *[bar [baz](/uri)](/uri)*](/uri)",
       "answer": {
         "gfm": {
-          "markup": "[foo *[bar [baz](/uri)](/uri)*](/uri)",
+          "markup": "\\[foo *\\[bar [baz](/uri)](/uri)*](/uri)",
           "html": "<p>[foo <em>[bar <a href=\"/uri\">baz</a>](/uri)</em>](/uri)</p>",
           "ast": {
             "type": "root",

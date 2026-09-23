@@ -6,7 +6,7 @@
       "input": "Foo\n[bar]: /baz\n\n[bar]",
       "answer": {
         "gfm": {
-          "markup": "Foo\n[bar]: /baz\n\n[bar]",
+          "markup": "Foo\n\\[bar]: /baz\n\n\\[bar]",
           "html": "<p>Foo\n[bar]: /baz</p>\n<p>[bar]</p>",
           "ast": {
             "type": "root",

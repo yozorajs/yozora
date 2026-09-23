@@ -6,7 +6,7 @@
       "input": "[a](<b)c\n[a](<b)c>\n[a](<b>c)",
       "answer": {
         "gfm": {
-          "markup": "[a](<b)c\n[a](<b)c>\n[a](<b>c)",
+          "markup": "\\[a](\\<b)c\n\\[a](\\<b)c>\n\\[a](<b>c)",
           "html": "<p>[a](&lt;b)c\n[a](&lt;b)c&gt;\n[a](<b>c)</p>",
           "ast": {
             "type": "root",
