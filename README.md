@@ -2,7 +2,10 @@
   <h1 align="center">
     <a href="https://github.com/yozorajs/yozora#readme">Yozora</a>
     <div align="center">
-      <img alt="logo.png" src="./logo.png" width="400px" />
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="./logo-dark.svg" />
+        <img alt="Yozora logo" src="./logo.svg" width="400px" />
+      </picture>
     </div>
   </h1>
   <div align="center">
